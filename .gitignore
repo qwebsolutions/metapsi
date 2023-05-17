@@ -1,0 +1,10 @@
+bin
+obj
+dyn
+logs
+appSettings.json
+csproj.user
+launchSettings.json
+.vs
+publishScripts/publish/*
+publishScripts/*.zip
