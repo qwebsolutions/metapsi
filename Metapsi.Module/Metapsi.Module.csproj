@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Native.js" />
+	  <None Remove="uuid.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="js\native.js" LogicalName="native.js" />
+		<EmbeddedResource Include="js\uuid.js" LogicalName="uuid.js" />
+		<EmbeddedResource Include="js\linq.js" LogicalName="linq.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
+	  <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
+	</ItemGroup>
+
+</Project>
