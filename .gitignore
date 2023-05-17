@@ -6,5 +6,4 @@ appSettings.json
 csproj.user
 launchSettings.json
 .vs
-publishScripts/publish/*
-publishScripts/*.zip
+Scripts/nugets/*
