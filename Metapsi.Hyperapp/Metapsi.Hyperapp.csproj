@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="CSharpDynamicBuilder.cs" />
+	  <Compile Remove="CsLinqVisitor.cs" />
+	  <Compile Remove="GenerateCSharp.cs" />
+	  <Compile Remove="ServerSideInterpreter.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="embedded\Browser.js" />
+	  <None Remove="embedded\LocalStorage.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
+		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
+		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
+		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
+		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
+		<EmbeddedResource Include="embedded\choices.js" LogicalName="choices.js" />
+		<EmbeddedResource Include="embedded\choices.min.js" LogicalName="choices.min.js"/>
+		<EmbeddedResource Include="embedded\choices.min.css" LogicalName="choices.min.css" />
+		<EmbeddedResource Include="static\connect.js" LogicalName="connect.js" />
+		<EmbeddedResource Include="static\cy.js" LogicalName="cy.js" />
+		<EmbeddedResource Include="static\cytoscape.min.js" LogicalName="cytoscape.min.js" />
+		<EmbeddedResource Include="static\leader-line.min.js" LogicalName="leader-line.min.js" />
+		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
+		<EmbeddedResource Include="static\index.html" LogicalName="index.html" />
+		<EmbeddedResource Include="static\Poppins-Regular.ttf" LogicalName="Poppins-Regular.ttf" />
+		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
+	</ItemGroup>	
+
+</Project>

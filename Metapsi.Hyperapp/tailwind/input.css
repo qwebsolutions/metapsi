@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.button-primary{
+	@apply bg-sky-500;
+}
+
+@font-face {
+	font-family: 'poppins';
+	font-style: normal;
+	font-weight: normal;
+	src: url(/Poppins-Regular.ttf);
+}
+
+.vertical-text {
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+}
+
+body{
+	font-family: poppins;
+	@apply overflow-hidden;
+}
+
+@layer components {
+  .hyper-input {
+	@apply border border-gray-100 rounded p-2;
+  }
+  .toggle-pill {
+	  @apply bg-gray-300 w-10 h-6 rounded-full peer-checked:bg-sky-600;
+  }
+  .toggle-dot {
+	  @apply left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-full;
+  }
+}
