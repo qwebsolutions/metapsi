@@ -3,7 +3,7 @@ obj
 dyn
 logs
 appSettings.json
-csproj.user
+*csproj.user
 launchSettings.json
 .vs
 Scripts/nugets/*
