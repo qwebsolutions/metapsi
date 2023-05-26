@@ -7,3 +7,4 @@ appSettings.json
 launchSettings.json
 .vs
 Scripts/nugets/*
+push_nuget.sinapsi.ro.bat
