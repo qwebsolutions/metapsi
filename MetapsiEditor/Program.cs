@@ -6,10 +6,167 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Runtime.Loader;
+using Microsoft.CodeAnalysis.MSBuild;
+using System.Threading.Tasks;
+using Microsoft.Build.Locator;
+using System.Diagnostics;
+using Metapsi.Hyperapp;
+using Metapsi.JavaScript;
 
 public static class Program
 {
-    public static void Main()
+    public static async Task Main()
+    {
+        const string targetPath = @"d:\qweb\mes\Flex\FlexPortal\FlexPortal.sln";
+        var mainCsProj = "FlexPortal";
+
+        MSBuildLocator.RegisterDefaults();
+
+        var workspace = MSBuildWorkspace.Create();
+
+        var sln = await workspace.OpenSolutionAsync(targetPath);
+
+        foreach (var project in sln.Projects)
+        {
+            if (project.Name == mainCsProj)
+            {
+                var compilation = await project.GetCompilationAsync();
+                var sellers = compilation.GetSymbolsWithName("Seller");
+                var seller = sellers.First();
+                var declaration = seller.DeclaringSyntaxReferences;
+
+                var sellerDashboard = project.Documents.Single(x => x.FilePath.EndsWith(@"PrivateSeller\Dashboard.cs"));
+                var withoutDashboard = project.RemoveDocument(sellerDashboard.Id);
+                sln = withoutDashboard.Solution;
+
+                var withSelfReference = withoutDashboard.ProjectReferences.Append(new ProjectReference(withoutDashboard.Id));
+
+                var phantomProjectInfo = ProjectInfo.Create(
+                    ProjectId.CreateNewId(),
+                    VersionStamp.Default,
+                    "Dynamic" + mainCsProj,
+                    "Dynamic" + mainCsProj,
+                    "C#",
+                    projectReferences: withSelfReference,
+                    compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
+                    metadataReferences: project.MetadataReferences
+                    );
+
+                var updatedSln = sln.AddProject(phantomProjectInfo);
+
+                var phantomProject = updatedSln.GetProject(phantomProjectInfo.Id);
+                var classIndex = 0;
+                foreach (var partialClass in seller.DeclaringSyntaxReferences)
+                {
+                    classIndex++;
+                    var document = phantomProject.AddDocument($"_{classIndex}.cs", partialClass.SyntaxTree.GetRoot());
+                    phantomProject = document.Project;
+                }
+                
+                var sw = Stopwatch.StartNew();
+                var phantomCompilation = await phantomProject.GetCompilationAsync();
+                Console.WriteLine(sw.ElapsedMilliseconds);
+
+
+                //foreach (var diagnostic in phantomCompilation.GetDiagnostics())
+                //{
+                //    //Console.WriteLine(diagnostic.Severity);
+                //    if (diagnostic.Severity == DiagnosticSeverity.Error)
+                //    {
+                //        Console.WriteLine(diagnostic);
+                //    }
+                //}
+
+                var rendererBinary = phantomCompilation.EmitToArray();
+                var loadContext = new AssemblyLoadContext("Seller");
+                var assembly = LoadFromArray(loadContext, rendererBinary);
+
+                var parentProjectCompilation = await withoutDashboard.GetCompilationAsync();
+                var parentBinary = parentProjectCompilation.EmitToArray();
+                var parentAssembly = LoadFromArray(loadContext, parentBinary);
+
+                var flexContractsProject = updatedSln.Projects.Single(x => x.Name.Contains("FlexContracts"));
+                var flexContractsCompilation = await flexContractsProject.GetCompilationAsync();
+                var flexContractsBinary = flexContractsCompilation.EmitToArray();
+                var flexContractsAssembly = LoadFromArray(loadContext, flexContractsBinary);
+
+
+                // get the type Program from the assembly
+                Type programType = assembly.GetTypes().Single(x => x.Name.Contains("SellerPageRenderer"));
+
+                BuildJsModule(programType);
+
+                // Get the static Main() method info from the type
+                //MethodInfo method = programType.GetMethod("Render");
+
+                // invoke Program.Main() static method
+                //method.Invoke(null, null);
+
+                //var projectFiles = GetProjectFiles(phantomProject);
+
+                //WriteList(projectFiles);
+
+                //var recProjects = new HashSet<Project>();
+
+                //FillRecursiveProjectReferences(updatedSln, phantomProject, recProjects);
+
+                //foreach (var reference in recProjects)
+                //{
+                //    WriteList(GetProjectFiles(reference));
+                //}
+            }
+        }
+    }
+
+    public static string BuildJsModule(
+        Type rendererType)
+    {
+        Stopwatch sw = Stopwatch.StartNew();
+        IPageBuilder pageBuilder = Activator.CreateInstance(rendererType) as IPageBuilder;
+        var module = pageBuilder.GetModule();
+        var jsModule = PrettyBuilder.Generate(module, string.Empty);
+        var generateElapsed = sw.ElapsedMilliseconds;
+
+        Console.WriteLine(jsModule);
+        Console.WriteLine("Generate all pages " + generateElapsed + " ms");
+
+        return jsModule;
+    }
+
+    public static void WriteList(IEnumerable<string> list)
+    {
+        foreach (var item in list)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
+    private static List<string> GetProjectFiles(Project project)
+    {
+        List<string> projectFiles = new();
+        foreach (var doc in project.Documents)
+        {
+            projectFiles.Add(doc.FilePath);
+            //Console.WriteLine(doc.FilePath);
+        }
+
+        return projectFiles;
+    }
+
+    private static void FillRecursiveProjectReferences(Solution solution, Project project, HashSet<Project> recursiveProjects)
+    {
+        foreach (var reference in project.ProjectReferences)
+        {
+            var referencedProject = solution.GetProject(reference.ProjectId);
+            if (!recursiveProjects.Contains(referencedProject))
+            {
+                recursiveProjects.Add(referencedProject);
+                FillRecursiveProjectReferences(solution, project, recursiveProjects);
+            }
+        }
+    }
+
+    private static void TestCompilation()
     {
         try
         {
@@ -160,11 +317,6 @@ public static class Program
         }
     }
 
-    private static Module Assembly_ModuleResolve(object sender, ResolveEventArgs e)
-    {
-        return null;
-    }
-
     // a utility method that creates Roslyn compilation
     // for the passed code. 
     // The compilation references the collection of 
@@ -252,5 +404,13 @@ public static class Program
         stream.Seek(0, SeekOrigin.Begin);
         // get the byte array from a stream
         return stream.ToArray();
+    }
+
+    private static Assembly LoadFromArray(AssemblyLoadContext assemblyLoadContext, byte[] binaries)
+    {
+        var ms = new MemoryStream();
+        ms.Write(binaries);
+        ms.Seek(0, SeekOrigin.Begin);
+        return assemblyLoadContext.LoadFromStream(ms);
     }
 }
