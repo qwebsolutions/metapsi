@@ -12,110 +12,227 @@ using Microsoft.Build.Locator;
 using System.Diagnostics;
 using Metapsi.Hyperapp;
 using Metapsi.JavaScript;
+using Metapsi;
 
 public static class Program
 {
-    public static async Task Main()
+    public static class ReloadEnvironment
     {
-        const string targetPath = @"d:\qweb\mes\Flex\FlexPortal\FlexPortal.sln";
-        var mainCsProj = "FlexPortal";
-
-        MSBuildLocator.RegisterDefaults();
-
-        var workspace = MSBuildWorkspace.Create();
-
-        var sln = await workspace.OpenSolutionAsync(targetPath);
-
-        foreach (var project in sln.Projects)
+        public class State
         {
-            if (project.Name == mainCsProj)
+            public Solution OriginalSolution { get; set; }
+            public Solution DynamicSolution { get; set; }
+            public Project OriginalProject { get; set; } // Full project
+            public Compilation OriginalProjectCompilation { get; set; }
+            public Project BaseProject { get; set; } // Stripped of separate 'focus' class
+            public Project ChildProject { get; set; } // Temporary project for the 'focus' class
+            public string RendererName { get; set; }
+
+            // Just some tests
+
+            public byte[] ParentBinary { get; set; }
+            public byte[] FlexContractsBinary { get; set; }
+        }
+
+        public class ProjectLoaded : IData
+        {
+            public string ProjectName { get; set; }
+        }
+
+        public static async Task InitSolution(CommandContext commandContext, State state, string slnPath)
+        {
+            var sw = Stopwatch.StartNew();
+            var workspace = MSBuildWorkspace.Create();
+            state.OriginalSolution = await workspace.OpenSolutionAsync(slnPath);
+            Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
+        }
+
+        public static async Task SwitchProject(CommandContext commandContext, State state, string projectName)
+        {
+            var sw = Stopwatch.StartNew();
+
+            state.OriginalProject = state.OriginalSolution.Projects.SingleOrDefault(x => x.Name == projectName);
+            if (state.OriginalProject == null)
             {
-                var compilation = await project.GetCompilationAsync();
-                var sellers = compilation.GetSymbolsWithName("Seller");
-                var seller = sellers.First();
-                var declaration = seller.DeclaringSyntaxReferences;
+                Console.WriteLine("Project does not exist in the specified solution");
+                return;
+            }
 
-                var sellerDashboard = project.Documents.Single(x => x.FilePath.EndsWith(@"PrivateSeller\Dashboard.cs"));
-                var withoutDashboard = project.RemoveDocument(sellerDashboard.Id);
-                sln = withoutDashboard.Solution;
+            state.OriginalProjectCompilation = await state.OriginalProject.GetCompilationAsync();
 
-                var withSelfReference = withoutDashboard.ProjectReferences.Append(new ProjectReference(withoutDashboard.Id));
+            Console.WriteLine($"Project {sw.ElapsedMilliseconds} ms");
 
-                var phantomProjectInfo = ProjectInfo.Create(
-                    ProjectId.CreateNewId(),
-                    VersionStamp.Default,
-                    "Dynamic" + mainCsProj,
-                    "Dynamic" + mainCsProj,
-                    "C#",
-                    projectReferences: withSelfReference,
-                    compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                    metadataReferences: project.MetadataReferences
-                    );
+            // Get the static Main() method info from the type
+            //MethodInfo method = programType.GetMethod("Render");
 
-                var updatedSln = sln.AddProject(phantomProjectInfo);
+            // invoke Program.Main() static method
+            //method.Invoke(null, null);
 
-                var phantomProject = updatedSln.GetProject(phantomProjectInfo.Id);
-                var classIndex = 0;
-                foreach (var partialClass in seller.DeclaringSyntaxReferences)
-                {
-                    classIndex++;
-                    var document = phantomProject.AddDocument($"_{classIndex}.cs", partialClass.SyntaxTree.GetRoot());
-                    phantomProject = document.Project;
-                }
-                
-                var sw = Stopwatch.StartNew();
+            //var projectFiles = GetProjectFiles(phantomProject);
+
+            //WriteList(projectFiles);
+
+            //var recProjects = new HashSet<Project>();
+
+            //FillRecursiveProjectReferences(updatedSln, phantomProject, recProjects);
+
+            //foreach (var reference in recProjects)
+            //{
+            //    WriteList(GetProjectFiles(reference));
+            //}
+
+        }
+
+
+        public static async Task SwitchRenderer(CommandContext commandContext, State state, string rendererClass)
+        {
+            var projectStopwatch = Stopwatch.StartNew();
+
+            var rendererSymbol = state.OriginalProjectCompilation.GetSymbolsWithName(rendererClass).Single();
+            var declaration = rendererSymbol.DeclaringSyntaxReferences;
+
+            state.BaseProject = state.OriginalProject.RemoveDocument(state.OriginalProject.Documents.SingleOrDefault(x => x.FilePath.Contains(rendererClass)).Id);
+
+            //var baseProjectCompilation = state.OriginalProjectCompilation.RemoveSyntaxTrees(declaration.Select(x => x.SyntaxTree));
+            var baseProjectCompilation = await state.BaseProject.GetCompilationAsync();
+            //baseProjectCompilation = baseProjectCompilation.AddReferences(
+            //    AssemblyMetadata
+            //    .CreateFromFile(typeof(string).Assembly.Location)
+            //    .GetReference());
+
+            state.ParentBinary = baseProjectCompilation.EmitToArray();
+            
+            
+
+            //var sellerDashboard = project.Documents.Single(x => x.FilePath.EndsWith(@"PrivateSeller\Dashboard.cs"));
+            //var withoutDashboard = project.RemoveDocument(sellerDashboard.Id);
+            //state.DynamicSolution = withoutDashboard.Solution;
+            var phantomProjectId = ProjectId.CreateNewId();
+
+            var withOriginalProjectReference = state.OriginalProject.ProjectReferences;//.Append(new ProjectReference(state.OriginalProject.Id));
+
+            var phantomProjectInfo = ProjectInfo.Create(
+                phantomProjectId,
+                VersionStamp.Default,
+                "Dynamic" + state.OriginalProject.Name,
+                "Dynamic" + state.OriginalProject.Name,
+                "C#",
+                projectReferences: withOriginalProjectReference,
+                compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
+                metadataReferences: state.OriginalProject.MetadataReferences.Append(MetadataReference.CreateFromImage(state.ParentBinary)));
+
+            state.DynamicSolution = state.OriginalSolution.AddProject(phantomProjectInfo);
+
+            var phantomProject = state.DynamicSolution.GetProject(phantomProjectInfo.Id);
+            var classIndex = 0;
+            foreach (var partialClass in declaration)
+            {
+                phantomProject = state.DynamicSolution.GetProject(phantomProjectInfo.Id);
+                classIndex++;
+                var document = phantomProject.AddDocument($"_{classIndex}.cs", partialClass.SyntaxTree.GetRoot());
+                phantomProject = document.Project;
+                state.DynamicSolution = phantomProject.Solution;
+            }
+
+            var sw = Stopwatch.StartNew();
+            try
+            {
                 var phantomCompilation = await phantomProject.GetCompilationAsync();
+
+                foreach (var diagnostic in phantomCompilation.GetDiagnostics())
+                {
+                    Console.WriteLine(diagnostic);
+                }
+
                 Console.WriteLine(sw.ElapsedMilliseconds);
 
 
-                //foreach (var diagnostic in phantomCompilation.GetDiagnostics())
+
+
+                //if (state.ParentBinary == null)
                 //{
-                //    //Console.WriteLine(diagnostic.Severity);
-                //    if (diagnostic.Severity == DiagnosticSeverity.Error)
-                //    {
-                //        Console.WriteLine(diagnostic);
-                //    }
+                //    var parentProjectCompilation = await withoutDashboard.GetCompilationAsync();
+                //    state.ParentBinary = parentProjectCompilation.EmitToArray();
                 //}
 
-                var rendererBinary = phantomCompilation.EmitToArray();
-                var loadContext = new AssemblyLoadContext("Seller");
-                var assembly = LoadFromArray(loadContext, rendererBinary);
+                //if (state.FlexContractsBinary == null)
+                //{
+                //    var flexContractsProject = updatedSln.Projects.Single(x => x.Name.Contains("FlexContracts"));
+                //    var flexContractsCompilation = await flexContractsProject.GetCompilationAsync();
+                //    state.FlexContractsBinary = flexContractsCompilation.EmitToArray();
+                //}
 
-                var parentProjectCompilation = await withoutDashboard.GetCompilationAsync();
-                var parentBinary = parentProjectCompilation.EmitToArray();
-                var parentAssembly = LoadFromArray(loadContext, parentBinary);
-
-                var flexContractsProject = updatedSln.Projects.Single(x => x.Name.Contains("FlexContracts"));
+                var flexContractsProject = state.DynamicSolution.Projects.Single(x => x.Name.Contains("FlexContracts"));
                 var flexContractsCompilation = await flexContractsProject.GetCompilationAsync();
-                var flexContractsBinary = flexContractsCompilation.EmitToArray();
-                var flexContractsAssembly = LoadFromArray(loadContext, flexContractsBinary);
+                var flexContractsBinaries = flexContractsCompilation.EmitToArray();
 
+                var loadContext = new AssemblyLoadContext("Renderer_" + rendererClass);
+
+                LoadFromArray(loadContext, state.ParentBinary);
+                LoadFromArray(loadContext, flexContractsBinaries);
+                //LoadFromArray(state.AssemblyLoadContext, state.FlexContractsBinary);
+
+                var rendererBinary = phantomCompilation.EmitToArray();
+                var assembly = LoadFromArray(loadContext, rendererBinary);
 
                 // get the type Program from the assembly
                 Type programType = assembly.GetTypes().Single(x => x.Name.Contains("SellerPageRenderer"));
 
                 BuildJsModule(programType);
 
-                // Get the static Main() method info from the type
-                //MethodInfo method = programType.GetMethod("Render");
-
-                // invoke Program.Main() static method
-                //method.Invoke(null, null);
-
-                //var projectFiles = GetProjectFiles(phantomProject);
-
-                //WriteList(projectFiles);
-
-                //var recProjects = new HashSet<Project>();
-
-                //FillRecursiveProjectReferences(updatedSln, phantomProject, recProjects);
-
-                //foreach (var reference in recProjects)
-                //{
-                //    WriteList(GetProjectFiles(reference));
-                //}
+                Console.WriteLine($"Renderer {projectStopwatch.ElapsedMilliseconds} ms");
             }
+            catch (Exception ex)
+            {
+
+            }
+
+            //commandContext.PostEvent(new ProjectLoaded() { ProjectName = projectName });
         }
+    }
+
+    public static Command<string> InitSolution { get; set; } = new(nameof(InitSolution));
+
+    public class ProjectSelected : IData
+    {
+        public string ProjectName { get; set; }
+    }
+
+    public static async Task Main()
+    {
+        MSBuildLocator.RegisterDefaults();
+        System.Threading.ThreadPool.SetMinThreads(1200, 1200);
+
+        var setup = Metapsi.ApplicationSetup.New();
+
+        var reloadEnvironment = setup.AddBusinessState(new ReloadEnvironment.State());
+
+        var ig = setup.AddImplementationGroup();
+
+        ig.MapCommand(InitSolution, async (rc, slnPath) =>
+        {
+            await rc.Using(reloadEnvironment, ig).EnqueueCommand(ReloadEnvironment.InitSolution, slnPath);
+        });
+
+        const string targetPath = @"d:\qweb\mes\Flex\FlexPortal\FlexPortal.sln";
+        var mainCsProj = "FlexPortal";
+        var renderer = "SellerPageRenderer";
+
+        setup.MapEvent<ApplicationRevived>(e =>
+        {
+            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.InitSolution, targetPath);
+            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, mainCsProj);
+            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, renderer);
+        });
+
+        setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
+        {
+            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
+        });
+
+        var app = setup.Revive();
+
+        await app.SuspendComplete;
     }
 
     public static string BuildJsModule(
