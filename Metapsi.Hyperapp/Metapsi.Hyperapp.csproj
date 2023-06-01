@@ -44,6 +44,7 @@
 		<EmbeddedResource Include="static\index.html" LogicalName="index.html" />
 		<EmbeddedResource Include="static\Poppins-Regular.ttf" LogicalName="Poppins-Regular.ttf" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
-	</ItemGroup>	
+    <EmbeddedResource Include="static\tw_framework.css" LogicalName="tw_framework.css" />
+  </ItemGroup>	
 
 </Project>
