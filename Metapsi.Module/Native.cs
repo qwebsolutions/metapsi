@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Metapsi.Syntax;
-using Microsoft.AspNetCore.Http;
 
 namespace Metapsi.Syntax
 {
