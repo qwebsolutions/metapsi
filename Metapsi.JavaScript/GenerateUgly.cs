@@ -28,12 +28,12 @@ namespace Metapsi.JavaScript
             {
                 if (externalModule.Key == "linq")
                 {
-                    builder.Append($"import Enumerable from \"/{externalModule.Key}.js{PageDetailsExtensions.WithVersion(version)}\";");
+                    builder.Append($"import Enumerable from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
                 }
                 else
                 {
                     var symbolsList = string.Join(",", externalModule.Value);
-                    builder.Append($"import {{{symbolsList}}} from \"/{externalModule.Key}.js{PageDetailsExtensions.WithVersion(version)}\";");
+                    builder.Append($"import {{{symbolsList}}} from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
                 }
             }
 

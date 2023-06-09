@@ -230,23 +230,46 @@ namespace Metapsi.Syntax
             return a;
         }
 
-        public static Var<HyperNode> Link(
-            this BlockBuilder b,
-            Var<string> text,
-            Func<CommandContext, HttpContext, Task<IResponse>> page,
-            Var<string> parameter)
+        //public static Var<HyperNode> Link(
+        //    this BlockBuilder b,
+        //    Var<string> text,
+        //    Func<CommandContext, HttpContext, Task<IResponse>> page,
+        //    Var<string> parameter)
+        //{
+        //    Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"), parameter);
+        //    return b.Link(text, absoluteUrl);
+        //}
+
+        //public static Var<HyperNode> Link(
+        //    this BlockBuilder b,
+        //    Var<string> text,
+        //    Func<CommandContext, HttpContext, Task<IResponse>> page)
+        //{
+        //    Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"));
+        //    return b.Link(text, absoluteUrl);
+        //}
+
+        public static Var<string> Url(this BlockBuilder b, Delegate handler)
         {
-            Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"), parameter);
-            return b.Link(text, absoluteUrl);
+            var path = b.Const(Path(handler.Method));
+            return path;
         }
 
-        public static Var<HyperNode> Link(
-            this BlockBuilder b,
-            Var<string> text,
-            Func<CommandContext, HttpContext, Task<IResponse>> page)
+        public static Var<string> RootPath(this BlockBuilder b)
         {
-            Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"));
-            return b.Link(text, absoluteUrl);
+            throw new NotImplementedException();
+        }
+
+        private static string Path(System.Reflection.MethodInfo methodInfo, object parameter = null)
+        {
+            var methodPath = $"/{methodInfo.DeclaringType.Name.ToLowerInvariant()}/{methodInfo.Name.ToLowerInvariant()}";
+
+            if (parameter != null)
+            {
+                methodPath += $"/{parameter}";
+            }
+
+            return methodPath.Replace("//", "/");
         }
 
         public static Var<HyperNode> Link(this BlockBuilder b, string classes, Var<string> url, params Func<BlockBuilder, Var<HyperNode>>[] children)

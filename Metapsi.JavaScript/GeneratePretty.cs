@@ -32,12 +32,12 @@ namespace Metapsi.JavaScript
             {
                 if (externalModule.Key == "linq")
                 {
-                    builder.AppendLine($"import Enumerable from \"/{externalModule.Key}.js{PageDetailsExtensions.WithVersion(version)}\";");
+                    builder.AppendLine($"import Enumerable from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
                 }
                 else
                 {
                     var symbolsList = string.Join(", ", externalModule.Value);
-                    builder.AppendLine($"import {{ {symbolsList} }} from \"/{externalModule.Key}.js{PageDetailsExtensions.WithVersion(version)}\";");
+                    builder.AppendLine($"import {{ {symbolsList} }} from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
                 }
             }
 
@@ -95,23 +95,32 @@ namespace Metapsi.JavaScript
             {
                 switch (syntaxElement)
                 {
-                    case IObjectConstructor objectConstructor: builder.AppendLine(Generate(objectConstructor,indent));
+                    case IObjectConstructor objectConstructor:
+                        builder.AppendLine(Generate(objectConstructor, indent));
                         break;
-                    case ICollectionConstructor collectionConstructor: builder.AppendLine(Generate(collectionConstructor,indent));
+                    case ICollectionConstructor collectionConstructor:
+                        builder.AppendLine(Generate(collectionConstructor, indent));
                         break;
-                    case IPropertyAssignment propertyAssignment: builder.AppendLine(Generate(propertyAssignment,indent));
+                    case IPropertyAssignment propertyAssignment:
+                        builder.AppendLine(Generate(propertyAssignment, indent));
                         break;
-                    case IPropertyAccess propertyAccess: builder.AppendLine(Generate(propertyAccess,indent));
+                    case IPropertyAccess propertyAccess:
+                        builder.AppendLine(Generate(propertyAccess, indent));
                         break;
-                    case IForeachBlock foreachBlock: builder.AppendLine(Generate(foreachBlock,indent));
+                    case IForeachBlock foreachBlock:
+                        builder.AppendLine(Generate(foreachBlock, indent));
                         break;
-                    case IfBlock ifBlock: builder.AppendLine(Generate(ifBlock, indent));
+                    case IfBlock ifBlock:
+                        builder.AppendLine(Generate(ifBlock, indent));
                         break;
-                    case LineComment comment: builder.AppendLine(Generate(comment,indent));
+                    case LineComment comment:
+                        builder.AppendLine(Generate(comment, indent));
                         break;
-                    case IFunction lambda: builder.AppendLine(Generate(lambda,indent));
+                    case IFunction lambda:
+                        builder.AppendLine(Generate(lambda, indent));
                         break;
-                    case Metapsi.Syntax.FunctionCall functionCall: builder.AppendLine(Generate(functionCall,indent));
+                    case Metapsi.Syntax.FunctionCall functionCall:
+                        builder.AppendLine(Generate(functionCall, indent));
                         break;
 
                     default:
@@ -287,6 +296,17 @@ namespace Metapsi.JavaScript
                 writer.WriteRawValue(s);
             }
             writer.WriteEndObject();
+        }
+    }
+
+    public static class Version
+    {
+        public static string WithTag(string version)
+        {
+            if (string.IsNullOrEmpty(version))
+                return string.Empty;
+
+            return $"?v={version}";
         }
     }
 }

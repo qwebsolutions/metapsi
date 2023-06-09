@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,14 +9,12 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Metapsi
@@ -34,19 +31,7 @@ namespace Metapsi
             public string WebRootPath { get; set; }
             public int Port { get; set; }
             public Dictionary<string, byte[]> StaticFiles { get; set; } = new Dictionary<string, byte[]>();
-        }
-
-
-        public enum AuthType
-        {
-            Oidc,
-            Windows
-        }
-
-        public class User
-        {
-            public string Name { get; set; }
-            public AuthType AuthType { get; set; }
+            public Dictionary<Type, Delegate> Renderers { get; set; } = new();
         }
 
         public enum SwaggerTryout
@@ -89,9 +74,9 @@ namespace Metapsi
         }
 
         public static References AddWebServer(
-            this ApplicationSetup setup, 
-            ImplementationGroup ig, 
-            int port = 0, 
+            this ApplicationSetup setup,
+            ImplementationGroup ig,
+            int port = 0,
             string webRootPath = null,
             Action<WebApplicationBuilder> buildServices = null,
             Action<WebApplication> buildApp = null)
@@ -134,6 +119,12 @@ namespace Metapsi
                 buildServices(builder);
 
             var app = builder.Build();
+
+            app.Use(async (context, next) =>
+            {
+                context.Items["Metapsi.Renderers"] = references.Renderers;
+                await next(context);
+            });
 
             // some JS files need path updates
             app.Use(async (context, next) =>
@@ -252,138 +243,6 @@ namespace Metapsi
 
             references.WebApplication = app;
             return references;
-        }
-
-        private static RouteHandlerBuilder With(this RouteHandlerBuilder builder, Authorization authorization)
-        {
-            if (authorization == Authorization.Require)
-            {
-                return builder.RequireAuthorization();
-            }
-            else
-            {
-                return builder.AllowAnonymous();
-            }
-        }
-
-
-        // Command 0
-
-        public static void MapCommand(this IEndpointRouteBuilder app, Command command, Func<CommandContext, HttpContext, Task> task, Authorization authorization, SwaggerTryout allowSwaggerTryout = SwaggerTryout.Block)
-        {
-            app.MapGet($"/{command.Name}", async (CommandContext commandContext, HttpContext httpContext) =>
-            {
-                try
-                {
-                    ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                    await task(commandContext, httpContext);
-                    return Results.Ok();
-                }
-                catch (Exception ex)
-                {
-                    commandContext.Logger.LogException(ex);
-                    throw;
-                }
-            }).With(authorization);
-        }
-
-        // Request 0
-
-        public static void MapRequest<TOut>(this IEndpointRouteBuilder app, Request<TOut> request, Func<CommandContext, HttpContext, Task<TOut>> task, Authorization authorization, SwaggerTryout allowSwaggerTryout = SwaggerTryout.Block)
-        {
-            app.MapGet($"/{request.Name}", async (CommandContext commandContext, HttpContext httpContext) =>
-            {
-                try
-                {
-                    ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                    return await task(commandContext, httpContext);
-                }
-                catch (Exception ex)
-                {
-                    commandContext.Logger.LogException(ex);
-                    throw;
-                }
-            }).With(authorization);
-        }
-
-        // Command 1
-
-        public static void MapCommand<T1>(this IEndpointRouteBuilder app, Command<T1> command, Func<CommandContext, HttpContext, T1, Task> task, Authorization authorization, SwaggerTryout allowSwaggerTryout = SwaggerTryout.Block)
-        {
-            if (Api.AreScalarTypes(typeof(T1)))
-            {
-                app.MapGet($"/{command.Name}/{{p1}}", async (CommandContext commandContext, HttpContext httpContext, [FromRoute] T1 p1) =>
-                {
-                    try
-                    {
-                        ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                        await task(commandContext, httpContext, Unescape(p1));
-                        return Results.Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        commandContext.Logger.LogException(ex);
-                        throw;
-                    }
-                }).With(authorization);
-            }
-            else
-            {
-                app.MapPost($"/{command.Name}", async (CommandContext commandContext, HttpContext httpContext, [FromBody] Api.PostBody<T1> body) =>
-                {
-                    try
-                    {
-                        ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                        await task(commandContext, httpContext, body.P1);
-                        return Results.Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        commandContext.Logger.LogException(ex);
-                        throw;
-                    }
-                }).With(authorization);
-            }
-        }
-
-        // Request 1
-
-        public static void MapRequest<T1, TOut>(this IEndpointRouteBuilder app, Request<TOut, T1> request, Func<CommandContext, HttpContext, T1, Task<TOut>> task, Authorization authorization, SwaggerTryout allowSwaggerTryout = SwaggerTryout.Block)
-        {
-            if (Api.AreScalarTypes(typeof(T1)))
-            {
-                app.MapGet($"/{request.Name}/{{p1}}", async (CommandContext commandContext, HttpContext httpContext, [FromRoute] T1 p1) =>
-                {
-                    try
-                    {
-                        ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                        return await task(commandContext, httpContext, Unescape(p1));
-                    }
-                    catch (Exception ex)
-                    {
-                        commandContext.Logger.LogException(ex);
-                        throw;
-                    }
-                }).With(authorization);
-            }
-            else
-            {
-                app.MapPost($"/{request.Name}", async (CommandContext commandContext, HttpContext httpContext, [FromBody] Api.PostBody<T1> body) =>
-                {
-                    try
-                    {
-                        var p1 = body == null ? default(T1) : body.P1;
-
-                        ThrowSwaggerException(httpContext, allowSwaggerTryout);
-                        return await task(commandContext, httpContext, p1);
-                    }
-                    catch (Exception ex)
-                    {
-                        commandContext.Logger.LogException(ex);
-                        throw;
-                    }
-                }).With(authorization);
-            }
         }
 
         public static T Unescape<T>(T segment)
@@ -505,20 +364,22 @@ namespace Metapsi
 
             return contentType;
         }
-    }
 
-    public interface IResponse
-    {
+        public static void RegisterRouteHandler<THandler>(this IEndpointRouteBuilder routeBuilder)
+            where THandler : IRouteHandler, new()
+        {
+            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+            if (type != null)
+            {
+                var nestedTypeNames = type.NestedTypeNames();
+                string path = string.Join("/", nestedTypeNames);
+                routeBuilder.MapGet(path, new THandler().Get);
+            }
+        }
 
-    }
-
-    public class PageResponse : IResponse
-    {
-        public string PageContent { get; set; } = string.Empty;
-    }
-
-    public class RedirectResponse : IResponse
-    {
-        public string RedirectPath { get; set; }
+        public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
+        {
+            references.Renderers[typeof(TModel)] = builder;
+        }
     }
 }

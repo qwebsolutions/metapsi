@@ -7,17 +7,9 @@ namespace Metapsi.Hyperapp
 {
     public static class Menu
     {
-        public class Entry
-        {
-            public string Code { get; set; }
-            public string Label { get; set; }
-            public string Href { get; set; }
-            public string SvgIcon { get; set; } = String.Empty;
-        }
-
         public class Props
         {
-            public List<Entry> Entries { get; set; }
+            public List<Metapsi.Ui.Menu.Entry> Entries { get; set; }
             public string ActiveCode { get; set; }
         }
 

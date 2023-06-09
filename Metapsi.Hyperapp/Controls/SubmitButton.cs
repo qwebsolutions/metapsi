@@ -55,7 +55,8 @@ namespace Metapsi.Hyperapp
 
             b.If(b.Get(props, x => x.Enabled), b =>
             {
-                var href = b.Concat(b.RootPath(), b.Get(props, x => x.Href));
+                //var href = b.Concat(b.RootPath(), b.Get(props, x => x.Href));
+                var href = b.Get(props, x => x.Href);
 
                 b.SetAttr(form, Html.action, b.Get(props, command => command.Href));
                 b.SetAttr(form, Html.method, "POST");

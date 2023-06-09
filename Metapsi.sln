@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Hyperapp", "Metapsi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetapsiEditor", "MetapsiEditor\MetapsiEditor.csproj", "{87FC46F0-5984-4407-A16A-0C77BC529C11}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.JavaScript", "Metapsi.JavaScript\Metapsi.JavaScript.csproj", "{F5D59282-AB1B-4BDB-9C93-6B3522A78744}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

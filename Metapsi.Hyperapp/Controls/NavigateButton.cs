@@ -36,7 +36,8 @@ namespace Metapsi.Hyperapp
 
             b.If(b.Get(props, x => x.Enabled), b =>
             {
-                var href = b.Concat(b.RootPath(), b.Get(props, x => x.Href));
+                //var href = b.Concat(b.RootPath(), b.Get(props, x => x.Href));
+                var href = b.Get(props, x => x.Href);
                 b.SetAttr(link, Html.href, b.Get(props, x => x.Href));
 
                 var bgClass = b.Switch(

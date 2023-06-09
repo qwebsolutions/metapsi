@@ -1,6 +1,6 @@
 @echo off
 del nugets /s /q
-SET version=1.6.0
+SET version=1.6.1
 set outputFolder=nugets
 echo Output folder: %outputFolder%
 echo Version: %version%

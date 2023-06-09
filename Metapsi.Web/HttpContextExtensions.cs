@@ -13,9 +13,9 @@ namespace Metapsi
             return httpContext.Request.Path.Value.Split("/").Last();
         }
 
-        public static User User(this HttpContext httpContext)
+        public static Metapsi.Ui.User User(this HttpContext httpContext)
         {
-            User user = new User();
+            Metapsi.Ui.User user = new();
 
             if (!string.IsNullOrEmpty(httpContext.User.Identity.Name))
             {
@@ -53,10 +53,10 @@ namespace Metapsi
                     switch (httpContext.User.Identity.AuthenticationType.ToLower())
                     {
                         case "ldap":
-                            user.AuthType = AuthType.Windows;
+                            user.AuthType = Metapsi.Ui.AuthType.Windows;
                             break;
                         case "oidc":
-                            user.AuthType = AuthType.Oidc;
+                            user.AuthType = Metapsi.Ui.AuthType.Oidc;
                             break;
                     }
                 }
@@ -65,7 +65,7 @@ namespace Metapsi
             return user;
         }
 
-        public static bool IsSignedIn(this User user)
+        public static bool IsSignedIn(this Metapsi.Ui.User user)
         {
             return !string.IsNullOrEmpty(user.Name);
         }

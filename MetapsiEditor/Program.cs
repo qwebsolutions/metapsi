@@ -6,192 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Runtime.Loader;
-using Microsoft.CodeAnalysis.MSBuild;
 using System.Threading.Tasks;
 using Microsoft.Build.Locator;
 using System.Diagnostics;
-using Metapsi.Hyperapp;
-using Metapsi.JavaScript;
+//using Metapsi.Hyperapp;
+//using Metapsi.JavaScript;
 using Metapsi;
+//using Metapsi.Syntax;
+//using Microsoft.AspNetCore.Builder;
 
-public static class Program
+public static partial class Program
 {
-    public static class ReloadEnvironment
-    {
-        public class State
-        {
-            public Solution OriginalSolution { get; set; }
-            public Solution DynamicSolution { get; set; }
-            public Project OriginalProject { get; set; } // Full project
-            public Compilation OriginalProjectCompilation { get; set; }
-            public Project BaseProject { get; set; } // Stripped of separate 'focus' class
-            public Project ChildProject { get; set; } // Temporary project for the 'focus' class
-            public string RendererName { get; set; }
-
-            // Just some tests
-
-            public byte[] ParentBinary { get; set; }
-            public byte[] FlexContractsBinary { get; set; }
-        }
-
-        public class ProjectLoaded : IData
-        {
-            public string ProjectName { get; set; }
-        }
-
-        public static async Task InitSolution(CommandContext commandContext, State state, string slnPath)
-        {
-            var sw = Stopwatch.StartNew();
-            var workspace = MSBuildWorkspace.Create();
-            state.OriginalSolution = await workspace.OpenSolutionAsync(slnPath);
-            Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
-        }
-
-        public static async Task SwitchProject(CommandContext commandContext, State state, string projectName)
-        {
-            var sw = Stopwatch.StartNew();
-
-            state.OriginalProject = state.OriginalSolution.Projects.SingleOrDefault(x => x.Name == projectName);
-            if (state.OriginalProject == null)
-            {
-                Console.WriteLine("Project does not exist in the specified solution");
-                return;
-            }
-
-            state.OriginalProjectCompilation = await state.OriginalProject.GetCompilationAsync();
-
-            Console.WriteLine($"Project {sw.ElapsedMilliseconds} ms");
-
-            // Get the static Main() method info from the type
-            //MethodInfo method = programType.GetMethod("Render");
-
-            // invoke Program.Main() static method
-            //method.Invoke(null, null);
-
-            //var projectFiles = GetProjectFiles(phantomProject);
-
-            //WriteList(projectFiles);
-
-            //var recProjects = new HashSet<Project>();
-
-            //FillRecursiveProjectReferences(updatedSln, phantomProject, recProjects);
-
-            //foreach (var reference in recProjects)
-            //{
-            //    WriteList(GetProjectFiles(reference));
-            //}
-
-        }
-
-
-        public static async Task SwitchRenderer(CommandContext commandContext, State state, string rendererClass)
-        {
-            var projectStopwatch = Stopwatch.StartNew();
-
-            var rendererSymbol = state.OriginalProjectCompilation.GetSymbolsWithName(rendererClass).Single();
-            var declaration = rendererSymbol.DeclaringSyntaxReferences;
-
-            state.BaseProject = state.OriginalProject.RemoveDocument(state.OriginalProject.Documents.SingleOrDefault(x => x.FilePath.Contains(rendererClass)).Id);
-
-            //var baseProjectCompilation = state.OriginalProjectCompilation.RemoveSyntaxTrees(declaration.Select(x => x.SyntaxTree));
-            var baseProjectCompilation = await state.BaseProject.GetCompilationAsync();
-            //baseProjectCompilation = baseProjectCompilation.AddReferences(
-            //    AssemblyMetadata
-            //    .CreateFromFile(typeof(string).Assembly.Location)
-            //    .GetReference());
-
-            state.ParentBinary = baseProjectCompilation.EmitToArray();
-            
-            
-
-            //var sellerDashboard = project.Documents.Single(x => x.FilePath.EndsWith(@"PrivateSeller\Dashboard.cs"));
-            //var withoutDashboard = project.RemoveDocument(sellerDashboard.Id);
-            //state.DynamicSolution = withoutDashboard.Solution;
-            var phantomProjectId = ProjectId.CreateNewId();
-
-            var withOriginalProjectReference = state.OriginalProject.ProjectReferences;//.Append(new ProjectReference(state.OriginalProject.Id));
-
-            var phantomProjectInfo = ProjectInfo.Create(
-                phantomProjectId,
-                VersionStamp.Default,
-                "Dynamic" + state.OriginalProject.Name,
-                "Dynamic" + state.OriginalProject.Name,
-                "C#",
-                projectReferences: withOriginalProjectReference,
-                compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
-                metadataReferences: state.OriginalProject.MetadataReferences.Append(MetadataReference.CreateFromImage(state.ParentBinary)));
-
-            state.DynamicSolution = state.OriginalSolution.AddProject(phantomProjectInfo);
-
-            var phantomProject = state.DynamicSolution.GetProject(phantomProjectInfo.Id);
-            var classIndex = 0;
-            foreach (var partialClass in declaration)
-            {
-                phantomProject = state.DynamicSolution.GetProject(phantomProjectInfo.Id);
-                classIndex++;
-                var document = phantomProject.AddDocument($"_{classIndex}.cs", partialClass.SyntaxTree.GetRoot());
-                phantomProject = document.Project;
-                state.DynamicSolution = phantomProject.Solution;
-            }
-
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                var phantomCompilation = await phantomProject.GetCompilationAsync();
-
-                foreach (var diagnostic in phantomCompilation.GetDiagnostics())
-                {
-                    Console.WriteLine(diagnostic);
-                }
-
-                Console.WriteLine(sw.ElapsedMilliseconds);
-
-
-
-
-                //if (state.ParentBinary == null)
-                //{
-                //    var parentProjectCompilation = await withoutDashboard.GetCompilationAsync();
-                //    state.ParentBinary = parentProjectCompilation.EmitToArray();
-                //}
-
-                //if (state.FlexContractsBinary == null)
-                //{
-                //    var flexContractsProject = updatedSln.Projects.Single(x => x.Name.Contains("FlexContracts"));
-                //    var flexContractsCompilation = await flexContractsProject.GetCompilationAsync();
-                //    state.FlexContractsBinary = flexContractsCompilation.EmitToArray();
-                //}
-
-                var flexContractsProject = state.DynamicSolution.Projects.Single(x => x.Name.Contains("FlexContracts"));
-                var flexContractsCompilation = await flexContractsProject.GetCompilationAsync();
-                var flexContractsBinaries = flexContractsCompilation.EmitToArray();
-
-                var loadContext = new AssemblyLoadContext("Renderer_" + rendererClass);
-
-                LoadFromArray(loadContext, state.ParentBinary);
-                LoadFromArray(loadContext, flexContractsBinaries);
-                //LoadFromArray(state.AssemblyLoadContext, state.FlexContractsBinary);
-
-                var rendererBinary = phantomCompilation.EmitToArray();
-                var assembly = LoadFromArray(loadContext, rendererBinary);
-
-                // get the type Program from the assembly
-                Type programType = assembly.GetTypes().Single(x => x.Name.Contains("SellerPageRenderer"));
-
-                BuildJsModule(programType);
-
-                Console.WriteLine($"Renderer {projectStopwatch.ElapsedMilliseconds} ms");
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-            //commandContext.PostEvent(new ProjectLoaded() { ProjectName = projectName });
-        }
-    }
-
-    public static Command<string> InitSolution { get; set; } = new(nameof(InitSolution));
+    //public static Command<string> InitSolution { get; set; } = new(nameof(InitSolution));
 
     public class ProjectSelected : IData
     {
@@ -201,22 +27,23 @@ public static class Program
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
-        System.Threading.ThreadPool.SetMinThreads(1200, 1200);
+        //System.Threading.ThreadPool.SetMinThreads(1200, 1200);
 
         var setup = Metapsi.ApplicationSetup.New();
 
         var reloadEnvironment = setup.AddBusinessState(new ReloadEnvironment.State());
+        var visualEnvironment = setup.AddBusinessState(new VisualEnvironment.State());
 
         var ig = setup.AddImplementationGroup();
 
-        ig.MapCommand(InitSolution, async (rc, slnPath) =>
-        {
-            await rc.Using(reloadEnvironment, ig).EnqueueCommand(ReloadEnvironment.InitSolution, slnPath);
-        });
+        //ig.MapCommand(InitSolution, async (rc, slnPath) =>
+        //{
+        //    await rc.Using(reloadEnvironment, ig).EnqueueCommand(ReloadEnvironment.InitSolution, slnPath);
+        //});
 
-        const string targetPath = @"d:\qweb\mes\Flex\FlexPortal\FlexPortal.sln";
+        const string targetPath = @"d:\qweb\mes\Flex\Flex.sln";
         var mainCsProj = "FlexPortal";
-        var renderer = "SellerPageRenderer";
+        var renderer = "RenderListsRequestsPage";
 
         setup.MapEvent<ApplicationRevived>(e =>
         {
@@ -225,30 +52,173 @@ public static class Program
             e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, renderer);
         });
 
+        //setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
+        //{
+        //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
+        //});
+
+        setup.MapEvent<ReloadEnvironment.LoadingStarted>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, true);
+        });
+
+        setup.MapEvent<ReloadEnvironment.SolutionLoaded>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetProjects, e.EventData.Projects);
+        });
+
         setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetProjectRenderers, e.EventData.Renderers);
+        });
+
+        setup.MapEvent<ReloadEnvironment.RendererGenerated>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
+            e.Using(visualEnvironment).EnqueueCommand(async (cc, state, rendererJs) =>
+            {
+                state.RendererJs = rendererJs;
+            }, e.EventData.Js);
+        });
+
+        setup.MapEvent<VisualEnvironment.ProjectSelected>(e =>
         {
             e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
         });
+
+        setup.MapEvent<VisualEnvironment.RendererSelected>(e =>
+        {
+            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, e.EventData.RendererName);
+        });
+
+        //var webServer = setup.AddWebServer(ig, 7132);
+        //var hyperApp = webServer.AddHyperapp(MetapsiEditor);
+
+        //webServer.WebApplication.MapGroup("api").MapFrontend();
+
+
+        ig.MapRequest(Backend.GetProjects, async (rc) =>
+        {
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetProjects);
+        });
+
+        ig.MapRequest(Backend.GetRenderers, async (rc) =>
+        {
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetRenderers);
+        });
+
+        ig.MapRequest(Backend.GetRenderer, async (rc) =>
+        {
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetRenderer);
+        });
+        
+
+        //ig.MapRequest(ReloadEnvironment.GetProjectAssembly, async (rc) =>
+        //{
+        //    return await rc.Using(reloadEnvironment, ig).EnqueueRequest(ReloadEnvironment.GetBaseProjectAssembly);
+        //});
 
         var app = setup.Revive();
 
         await app.SuspendComplete;
     }
 
-    public static string BuildJsModule(
-        Type rendererType)
-    {
-        Stopwatch sw = Stopwatch.StartNew();
-        IPageBuilder pageBuilder = Activator.CreateInstance(rendererType) as IPageBuilder;
-        var module = pageBuilder.GetModule();
-        var jsModule = PrettyBuilder.Generate(module, string.Empty);
-        var generateElapsed = sw.ElapsedMilliseconds;
+    //public class EditorPageModel : IApiSupportState
+    //{
+    //    public List<string> AllProjects { get; set; } = new();
+    //    public string SelectedProject { get; set; } = string.Empty;
+    //    public List<string> AllRenderers { get; set; } = new();
+    //    public string SelectedRenderer { get; set; } = string.Empty;
+    //    public string RendererJs { get; set; } = string.Empty;
 
-        Console.WriteLine(jsModule);
-        Console.WriteLine("Generate all pages " + generateElapsed + " ms");
+    //    public ApiSupport ApiSupport { get; set; } = new();
+    //}
 
-        return jsModule;
-    }
+    //public static async Task<IResponse> MetapsiEditor(CommandContext commandContext)
+    //{
+    //    var projectsResponse = await commandContext.Do(Backend.GetProjects);
+    //    var renderersResponse = await commandContext.Do(Backend.GetRenderers);
+    //    var rendererResponse = await commandContext.Do(Backend.GetRenderer);
+
+    //    //var projectAssembly = await commandContext.Do(ReloadEnvironment.GetProjectAssembly);
+
+    //    if (projectsResponse.IsLoading || renderersResponse.IsLoading || rendererResponse.IsLoading)
+    //    {
+    //        return Page.Response<EditorPageModel>(new EditorPageModel(), (BlockBuilder b, Var<EditorPageModel> model) =>
+    //        {
+    //            return b.Div("", b => b.Text("Compiling..."));
+    //        });
+    //    }
+    //    else
+    //    {
+    //        var editorPageModel = new EditorPageModel();
+    //        editorPageModel.AllProjects = projectsResponse.Projects;
+    //        editorPageModel.AllRenderers = renderersResponse.Renderers;
+    //        editorPageModel.RendererJs = rendererResponse.Js;
+
+    //        return Page.Response<EditorPageModel>(editorPageModel, (BlockBuilder b, Var<EditorPageModel> model) =>
+    //        {
+    //            return b.Div(
+    //                "",
+    //                b => b.Text("Selected project:"),
+    //                b => b.If(
+    //                    b.HasValue(b.Get(model, x => x.SelectedProject)),
+    //                    b => b.Text(b.Get(model, x => x.SelectedProject)),
+    //                    b => b.Text("None")),
+    //                b => b.Div(
+    //                    "",
+    //                    b.Map(
+    //                        b.Get(model, x => x.AllProjects),
+    //                        (BlockBuilder b, Var<string> projectName) =>
+    //                        {
+    //                            var projectButton = b.Div("button", b => b.Text(projectName));
+
+    //                            b.SetOnClick(projectButton, b.MakeAction((BlockBuilder b, Var<EditorPageModel> model) =>
+    //                            {
+    //                                return b.AsyncResult(
+    //                                    b.Clone(model),
+    //                                    b.Request(
+    //                                        Frontend.SelectProject,
+    //                                        projectName,
+    //                                        b.MakeAction((BlockBuilder b, Var<EditorPageModel> model, Var<ApiResponse> response) =>
+    //                                        {
+    //                                            b.Set(model, x => x.SelectedProject, projectName);
+    //                                            return b.Clone(model);
+    //                                        })));
+    //                            }));
+
+    //                            return projectButton;
+    //                        })),
+    //                b => b.Div(
+    //                    "",
+    //                    b.Map(
+    //                        b.Get(model, x => x.AllRenderers),
+    //                        (BlockBuilder b, Var<string> renderer) =>
+    //                        {
+    //                            var rendererButton = b.Div("button", b => b.Text(renderer));
+
+    //                            b.SetOnClick(rendererButton, b.MakeAction((BlockBuilder b, Var<EditorPageModel> model) =>
+    //                            {
+    //                                return b.AsyncResult(
+    //                                    b.Clone(model),
+    //                                    b.Request(
+    //                                        Frontend.SelectRenderer,
+    //                                        renderer,
+    //                                        b.MakeAction((BlockBuilder b, Var<EditorPageModel> model, Var<ApiResponse> response) =>
+    //                                        {
+    //                                            b.Set(model, x => x.SelectedRenderer, renderer);
+    //                                            return b.Clone(model);
+    //                                        })));
+    //                            }));
+
+    //                            return rendererButton;
+    //                        })),
+    //                b => b.Node("pre", "", b => b.TextNode(b.Get(model, x => x.RendererJs))));
+    //        });
+    //    }
+    //}
 
     public static void WriteList(IEnumerable<string> list)
     {
@@ -492,42 +462,5 @@ public static class Program
         return compilation;
     }
 
-    // emit the compilation result into a byte array.
-    // throw an exception with corresponding message
-    // if there are errors
-    private static byte[] EmitToArray
-    (
-        this Compilation compilation
-    )
-    {
-        var stream = new MemoryStream();
-        // emit result into a stream
-        var emitResult = compilation.Emit(stream);
-
-        if (!emitResult.Success)
-        {
-            // if not successful, throw an exception
-            Diagnostic firstError =
-                emitResult
-                    .Diagnostics
-                    .FirstOrDefault
-                    (
-                        diagnostic =>
-                            diagnostic.Severity == DiagnosticSeverity.Error
-                    );
-
-            throw new Exception(firstError?.GetMessage());
-        }
-        stream.Seek(0, SeekOrigin.Begin);
-        // get the byte array from a stream
-        return stream.ToArray();
-    }
-
-    private static Assembly LoadFromArray(AssemblyLoadContext assemblyLoadContext, byte[] binaries)
-    {
-        var ms = new MemoryStream();
-        ms.Write(binaries);
-        ms.Seek(0, SeekOrigin.Begin);
-        return assemblyLoadContext.LoadFromStream(ms);
-    }
+    
 }

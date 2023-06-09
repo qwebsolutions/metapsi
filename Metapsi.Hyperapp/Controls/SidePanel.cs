@@ -3,14 +3,8 @@ using System.Linq;
 
 namespace Metapsi.Hyperapp
 {
-    public interface IHasSidePanel
-    {
-        bool ShowSidePanel { get; set; }
-    }
-
     public static class SidePanel
     {
-
         public class State
         {
             public string PanelName { get; set; } = string.Empty;
@@ -30,19 +24,19 @@ namespace Metapsi.Hyperapp
             var container = b.Add(verticalLayout, b.Div("w-full h-full overflow-auto"));
             b.Add(container, content);
 
-            var onClick = b.Def<IHasSidePanel, IHasSidePanel>((b, state) =>
+            var onClick = b.Def<Ui.IHasSidePanel, Ui.IHasSidePanel>((b, state) =>
             {
                 b.Set(state, x => x.ShowSidePanel, b.Const(false));
                 return b.Clone(state);
             });
 
-            b.SetAttr(close, new DynamicProperty<System.Func<IHasSidePanel, IHasSidePanel>>("onclick"), onClick);
+            b.SetAttr(close, new DynamicProperty<System.Func<Ui.IHasSidePanel, Ui.IHasSidePanel>>("onclick"), onClick);
 
             return panel;
         }
 
         public static Var<TPage> ShowSidePanel<TPage>(this BlockBuilder b, Var<TPage> page)
-            where TPage : IHasSidePanel
+            where TPage : Ui.IHasSidePanel
         {
             b.Set(page, x => x.ShowSidePanel, b.Const(true));
             return b.Clone(page);
@@ -65,7 +59,7 @@ namespace Metapsi.Hyperapp
             this BlockBuilder b,
             Var<TPage> page,
             System.Func<BlockBuilder, Var<HyperNode>> renderContent)
-             where TPage : IHasSidePanel
+             where TPage : Ui.IHasSidePanel
         {
             b.Log("b.Get(page, x => x.ShowSidePanel)", b.Get(page, x => x.ShowSidePanel));
             return b.If(
