@@ -1,20 +1,36 @@
 ﻿using Metapsi.Syntax;
 using Metapsi.Ui;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Metapsi.Hyperapp
 {
-    public abstract class HyperPage<TDataModel> : HtmlPage<TDataModel>
+    public abstract class MixedHyperPage<TDataModel, TServerData> : HtmlPage<TServerData>
     {
-        public abstract Var<HyperNode> OnRender(BlockBuilder b, Var<TDataModel> model);
+        /// <summary>
+        /// Extracts the serializable subset of actual data that is used as page model
+        /// </summary>
+        /// <param name="serverData"></param>
+        /// <returns></returns>
+        public abstract TDataModel ExtractDataModel(TServerData serverData);
+
+        public abstract Var<HyperNode> OnRender(BlockBuilder b, Var<TDataModel> clientModel, TServerData serverData);
         public virtual Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TDataModel> model)
         {
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtml(TDataModel dataModel)
+        public override IHtmlNode GetHtml(TServerData serverData)
         {
-            var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit);
+            var dataModel = ExtractDataModel(serverData);
+
+            var module = HyperBuilder.BuildModule<TDataModel>(
+                (b, clientModel) =>
+                {
+                    return OnRender(b, clientModel, serverData);
+                },
+                this.OnInit);
 
             var links = module.Consts.Where(x => x.Value is LinkTag).Select(x => x.Value as LinkTag);
             var scripts = module.Consts.Where(x => x.Value is ScriptTag).Select(x => x.Value as ScriptTag);
@@ -60,5 +76,6 @@ namespace Metapsi.Hyperapp
                     mainDiv.Attributes.Add("id", "app");
                 });
         }
+
     }
 }

@@ -47,6 +47,14 @@ public interface IHasUser
     User User { get; set; }
 }
 
+public static class UserExtensions
+{
+    public static bool IsSignedIn(this Metapsi.Ui.User user)
+    {
+        return !string.IsNullOrEmpty(user.Name);
+    }
+}
+
 public interface IHtmlNode { }
 
 public class HtmlTag : IHtmlNode

@@ -65,11 +65,6 @@ namespace Metapsi
             return user;
         }
 
-        public static bool IsSignedIn(this Metapsi.Ui.User user)
-        {
-            return !string.IsNullOrEmpty(user.Name);
-        }
-
         public static async Task<string> Payload(this HttpContext httpContext)
         {
             if (httpContext.Request.Method.ToLower() == "get")
