@@ -6,10 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Metapsi.Runtime" Version="1.6.0" />
     <PackageReference Include="Microsoft.Build" Version="17.6.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.6.3" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5"/>
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.6.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
@@ -18,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+    <ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
+    <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
   </ItemGroup>
 
 </Project>

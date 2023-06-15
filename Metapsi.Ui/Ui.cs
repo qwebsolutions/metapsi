@@ -1,16 +1,18 @@
-﻿namespace Metapsi.Ui;
+﻿using System.Collections.Generic;
 
-public interface IMetapsiRoute
-{
-}
+namespace Metapsi.Ui;
 
-public static class Route
-{
-    public static string Path<TRoute>() where TRoute : IMetapsiRoute
-    {
-        return typeof(TRoute).Name;
-    }
-}
+//public interface IMetapsiRoute
+//{
+//}
+
+//public static class Route
+//{
+//    public static string Path<TRoute>() where TRoute : IMetapsiRoute
+//    {
+//        return typeof(TRoute).Name;
+//    }
+//}
 
 public interface IHasSidePanel
 {
@@ -43,4 +45,45 @@ public class User
 public interface IHasUser
 {
     User User { get; set; }
+}
+
+public interface IHtmlNode { }
+
+public class HtmlTag : IHtmlNode
+{
+    public string Tag { get; set; } = string.Empty;
+    public Dictionary<string, string> Attributes { get; set; } = new();
+    public List<IHtmlNode> Children { get; set; } = new();
+
+    public HtmlTag() { }
+
+    public HtmlTag(string tag)
+    {
+        this.Tag = tag;
+    }
+
+    public TChild AddChild<TChild>(TChild child)
+        where TChild : IHtmlNode
+    {
+        this.Children.Add(child);
+        return child;
+    }
+
+    public HtmlTag AddAttribute(string name, string value)
+    {
+        this.Attributes.Add(name, value);
+        return this;
+    }
+}
+
+public class HtmlText : IHtmlNode
+{
+    public string Text { get; set; } = string.Empty;
+
+    public HtmlText() { }
+
+    public HtmlText(string text)
+    {
+        this.Text = text;
+    }
 }

@@ -257,7 +257,7 @@ namespace Metapsi.Syntax
 
         public static Var<string> RootPath(this BlockBuilder b)
         {
-            throw new NotImplementedException();
+            return b.Const(string.Empty);
         }
 
         private static string Path(System.Reflection.MethodInfo methodInfo, object parameter = null)
@@ -424,6 +424,16 @@ namespace Metapsi.Syntax
         {
             return b.ItalianFormat(dateString.As<DateTime>());
         }
+
+        public static void AddStylesheet(this BlockBuilder b, string href)
+        {
+            b.Const(new LinkTag("stylesheet", href));
+        }
+
+        public static void AddScript(this BlockBuilder b, string src)
+        {
+            b.Const(new ScriptTag(src));
+        }
     }
 
     public static class Html
@@ -449,4 +459,5 @@ namespace Metapsi.Syntax
         public static DynamicProperty<string> title = new(nameof(title));
 
     }
+
 }

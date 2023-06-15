@@ -409,42 +409,21 @@ namespace Metapsi.Syntax
             b.CallExternal(nameof(Native), nameof(FileToBase64), file, onResult, onError);
         }
 
-        public static void AddStylesheet(this BlockBuilder b, string href)
-        {
-            b.Const(new LinkTag("stylesheet", href));
-        }
+        //public static void SetPageTitle(this BlockBuilder b, string title)
+        //{
+        //    b.Const(new TitleTag(title));
+        //}
 
-        public static void AddManifest(this BlockBuilder b, string href)
-        {
-            b.Const(new LinkTag("manifest", href));
-        }
+        //public static void SetFavicon(this BlockBuilder b, string href)
+        //{
+        //    b.Const(new FaviconTag(href));
+        //}
 
-        public static void AddScript(this BlockBuilder b, string src)
-        {
-            b.Const(new ScriptTag(src));
-        }
-
-        public static void SetPageTitle(this BlockBuilder b, string title)
-        {
-            b.Const(new TitleTag(title));
-        }
-
-        public static void SetFavicon(this BlockBuilder b, string href)
-        {
-            b.Const(new FaviconTag(href));
-        }
-
-        public static void SetBodyClass(this BlockBuilder b, string css)
-        {
-            b.Const(new BodyTag(css));
-        }
+        //public static void SetBodyClass(this BlockBuilder b, string css)
+        //{
+        //    b.Const(new BodyTag(css));
+        //}
     }
-
-    public record LinkTag(string rel, string href) : IServerSideTag;
-    public record ScriptTag(string src) : IServerSideTag;
-    public record TitleTag(string title) : IServerSideTag;
-    public record FaviconTag(string href) : IServerSideTag;
-    public record BodyTag(string bodyCss) : IServerSideTag;
 
     public class DomElement
     {

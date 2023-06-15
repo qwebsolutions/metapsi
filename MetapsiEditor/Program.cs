@@ -12,27 +12,44 @@ using System.Diagnostics;
 //using Metapsi.Hyperapp;
 //using Metapsi.JavaScript;
 using Metapsi;
-//using Metapsi.Syntax;
-//using Microsoft.AspNetCore.Builder;
+using Metapsi.Ui;
+using System.Text;
+using Metapsi.Sqlite;
 
 public static partial class Program
 {
-    //public static Command<string> InitSolution { get; set; } = new(nameof(InitSolution));
 
     public class ProjectSelected : IData
     {
         public string ProjectName { get; set; }
     }
 
+    public class Arguments
+    {
+        public string DbPath { get; set; } = string.Empty;
+    }
+
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
+        Metapsi.Sqlite.Converters.RegisterAll();
         //System.Threading.ThreadPool.SetMinThreads(1200, 1200);
 
         var setup = Metapsi.ApplicationSetup.New();
 
-        var reloadEnvironment = setup.AddBusinessState(new ReloadEnvironment.State());
-        var visualEnvironment = setup.AddBusinessState(new VisualEnvironment.State());
+        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
+
+        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
+
+        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), arguments.DbPath);
+
+        var reloadEnvironment = setup.AddBusinessState(new CompileEnvironment.State());
+        var visualEnvironment = setup.AddBusinessState(
+            new PanelEnvironment.State()
+            {
+                FullDbPath = dbFullPath
+            });
+        var previewEnvironment = setup.AddBusinessState(new PreviewEnvironment.State());
 
         var ig = setup.AddImplementationGroup();
 
@@ -41,79 +58,123 @@ public static partial class Program
         //    await rc.Using(reloadEnvironment, ig).EnqueueCommand(ReloadEnvironment.InitSolution, slnPath);
         //});
 
-        const string targetPath = @"d:\qweb\mes\Flex\Flex.sln";
-        var mainCsProj = "FlexPortal";
-        var renderer = "RenderListsRequestsPage";
+        //const string targetPath = @"d:\qwebsolutions\mds\Mds.Direct.sln";
+        //var renderer = "RenderListsRequestsPage";
 
-        setup.MapEvent<ApplicationRevived>(e =>
-        {
-            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.InitSolution, targetPath);
-            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, mainCsProj);
-            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, renderer);
-        });
+        //setup.MapEvent<ApplicationRevived>(e =>
+        //{
+        //    e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.InitSolution, targetPath);
+        //    //e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, mainCsProj);
+        //    //e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, renderer);
+        //});
 
         //setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
         //{
         //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
         //});
 
-        setup.MapEvent<ReloadEnvironment.LoadingStarted>(e =>
+        setup.MapEvent<CompileEnvironment.SolutionSelected>(e =>
         {
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, true);
+            e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.InitSolution, e.EventData.Solution.Path);
         });
 
-        setup.MapEvent<ReloadEnvironment.SolutionLoaded>(e =>
+        setup.MapEvent<CompileEnvironment.LoadingStarted>(e =>
         {
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetProjects, e.EventData.Projects);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, true);
         });
 
-        setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
+        setup.MapEvent<CompileEnvironment.SolutionLoaded>(e =>
         {
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetProjectRenderers, e.EventData.Renderers);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetProjects, e.EventData.Projects);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetRoutes, e.EventData.Routes);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetRenderers, e.EventData.Renderers);
+            e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
         });
 
-        setup.MapEvent<ReloadEnvironment.RendererGenerated>(e =>
+        //setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
+        //{
+        //    e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
+        //    e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetRenderers, e.EventData.Renderers);
+        //});
+
+        setup.MapEvent<CompileEnvironment.RendererGenerated>(e =>
         {
-            e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
             e.Using(visualEnvironment).EnqueueCommand(async (cc, state, rendererJs) =>
             {
                 state.RendererJs = rendererJs;
             }, e.EventData.Js);
         });
 
-        setup.MapEvent<VisualEnvironment.ProjectSelected>(e =>
+        //setup.MapEvent<VisualEnvironment.ProjectSelected>(e =>
+        //{
+        //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
+        //});
+
+        setup.MapEvent<PanelEnvironment.RendererSelected>(e =>
         {
-            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
+            e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.SwitchRenderer, e.EventData.RendererName);
         });
 
-        setup.MapEvent<VisualEnvironment.RendererSelected>(e =>
+        var webServer = setup.AddWebServer(ig, 7132);
+        webServer.WebApplication.RegisterRouteHandler<Handler.Home, Metapsi.Live.Route.Home>();
+        webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
+
+        webServer.WebApplication.RegisterRouteHandler<Handler.Sln, Metapsi.Live.Route.Sln, Guid>();
+        webServer.RegisterPageBuilder((Handler.Sln.Model model) =>
         {
-            e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, e.EventData.RendererName);
+            return new Render.Sln().Render(model);
         });
 
-        //var webServer = setup.AddWebServer(ig, 7132);
-        //var hyperApp = webServer.AddHyperapp(MetapsiEditor);
+        webServer.WebApplication.RegisterRouteHandler<Handler.FocusRenderer, Metapsi.Live.Route.FocusRenderer, string>();
+        webServer.RegisterPageBuilder<Handler.FocusRenderer.Model>(new Render.FocusRenderer().Render);
+
+        //webServer.WebApplication.RegisterRouteHandler<PreviewHandler>();
+        //webServer.RegisterPageBuilder<PreviewHandler.Model>(m => m.Result);
 
         //webServer.WebApplication.MapGroup("api").MapFrontend();
 
+        ig.MapRequest(Backend.GetSolutions, async (rc) =>
+        {
+            return new Backend.SolutionsResponse()
+            {
+                Solutions = (await Db.Records<Metapsi.Live.Db.Solution>(dbFullPath)).ToList()
+            };
+        });
 
         ig.MapRequest(Backend.GetProjects, async (rc) =>
         {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetProjects);
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetProjects);
+        });
+
+        ig.MapRequest(Backend.GetRoutes, async (rc) =>
+        {
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRoutes);
         });
 
         ig.MapRequest(Backend.GetRenderers, async (rc) =>
         {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetRenderers);
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderers);
         });
 
-        ig.MapRequest(Backend.GetRenderer, async (rc) =>
+        ig.MapRequest(Backend.GetFocusedRenderer, async (rc) =>
         {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(VisualEnvironment.GetRenderer);
+            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
         });
-        
+
+        ig.MapCommand(Backend.SetFocusedRenderer, async (CommandRoutingContext rc, string name) =>
+        {
+            await rc.Using(visualEnvironment, ig).EnqueueCommand(PanelEnvironment.SetFocusedRenderer, name);
+        });
+
+        ig.MapRequest(Backend.PreviewFocusedRenderer, async (RequestRoutingContext rc) =>
+        {
+            var renderer = await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
+            var result = await rc.Using(reloadEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, string.Empty);
+            return result;
+        });
+
 
         //ig.MapRequest(ReloadEnvironment.GetProjectAssembly, async (rc) =>
         //{

@@ -278,8 +278,5 @@ namespace Metapsi.Syntax
         }
     }
 
-    public interface IServerSideTag
-    {
-    }
 }
 

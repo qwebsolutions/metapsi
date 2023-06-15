@@ -73,8 +73,8 @@ namespace Metapsi.JavaScript
             if (c.Value is Delegate)
                 return false;
 
-            if (c.Value is IServerSideTag)
-                return false;
+            //if (c.Value is IServerSideTag)
+            //    return false;
 
             if (c.Value is Import)
                 return false;

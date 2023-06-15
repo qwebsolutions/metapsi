@@ -365,21 +365,68 @@ namespace Metapsi
             return contentType;
         }
 
-        public static void RegisterRouteHandler<THandler>(this IEndpointRouteBuilder routeBuilder)
-            where THandler : IRouteHandler, new()
+        public static void RegisterRouteHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
+            where THandler : Http.Get<TRoute>, new()
+            where TRoute : Route.IGet
         {
             var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
             if (type != null)
             {
                 var nestedTypeNames = type.NestedTypeNames();
                 string path = string.Join("/", nestedTypeNames);
-                routeBuilder.MapGet(path, new THandler().Get);
+
+                var get = new THandler().OnGet;
+
+                routeBuilder.MapGet(path, new THandler().OnGet);
             }
+        }
+
+        public static void RegisterRouteHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
+            where THandler : Http.Get<TRoute, T1>, new()
+            where TRoute : Route.IGet<T1>
+        {
+            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+            if (type != null)
+            {
+                var nestedTypeNames = type.NestedTypeNames();
+                string nestedPath = string.Join("/", nestedTypeNames);
+
+                var get = new THandler().OnGet;
+
+                var requestPath = $"{nestedPath}/{{{DataParametersPath(get)}}}";
+
+                routeBuilder.MapGet(requestPath, get);
+            }
+        }
+
+        private static List<ParameterInfo> DataParameters(Delegate d)
+        {
+            var dataParameters = d.Method.GetParameters().Where(x => x.ParameterType != typeof(CommandContext) && x.ParameterType != typeof(HttpContext));
+            return dataParameters.ToList();
+        }
+
+        private static List<string> DataParameterNames(Delegate d)
+        {
+            return DataParameters(d).Select(x => x.Name).ToList();
+        }
+
+        private static string DataParametersPath(Delegate d)
+        {
+            return string.Join("/", DataParameterNames(d));
         }
 
         public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
         {
             references.Renderers[typeof(TModel)] = builder;
         }
+
+        public static void RegisterPageBuilder<TRenderer, TModel>(this References references, TRenderer renderer)
+            where TRenderer : IPageTemplate<TModel>, new()
+        {
+            references.Renderers[typeof(TModel)] = new TRenderer().Render;
+        }
     }
+
 }
+
+//}
