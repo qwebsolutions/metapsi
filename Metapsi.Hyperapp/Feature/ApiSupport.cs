@@ -17,7 +17,7 @@ namespace Metapsi.Hyperapp
 
     public class ApiResponse : IApiResponse
     {
-        public string ResultCode { get; set; }
+        public string ResultCode { get; set; } = ApiResultCode.Ok;
         public string ErrorMessage { get; set; }
     }
 

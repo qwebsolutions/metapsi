@@ -1,6 +1,14 @@
 ﻿using Metapsi;
+using Metapsi.Hyperapp;
 using Metapsi.Live.Db;
+using Metapsi.Sqlite;
+using System;
 using System.Collections.Generic;
+
+public class Storage
+{
+    public static Request<List<Metapsi.Live.Db.Input>, string> LoadRendererInputs { get; set; } = new(nameof(LoadRendererInputs));
+}
 
 public class Backend
 {
@@ -11,6 +19,9 @@ public class Backend
     public static Request<RenderersResponse> GetRenderers { get; set; } = new(nameof(GetRenderers));
     public static Command<string> SetFocusedRenderer { get; set; } = new(nameof(SetFocusedRenderer));
     public static Request<RendererResponse> GetFocusedRenderer { get; set; } = new(nameof(GetFocusedRenderer));
+    public static Command<Guid> SetInputId { get; set; } = new(nameof(SetInputId));
+    public static Request<Metapsi.Live.Db.Input> GetSelectedInput { get; set; } = new(nameof(GetSelectedInput));
+
     public static Request<string> PreviewFocusedRenderer { get; set; } = new(nameof(PreviewFocusedRenderer));
 
     public class SolutionsResponse
@@ -37,10 +48,9 @@ public class Backend
         public List<string> Renderers { get; set; } = new();
     }
 
-    public class RendererResponse
+    public class RendererResponse: ApiResponse
     {
-        public bool IsLoading { get; set; }
+        public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
         public string RendererName { get; set; } = string.Empty;
-        public string Js { get; set; } = string.Empty;
     }
 }

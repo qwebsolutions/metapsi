@@ -15,6 +15,10 @@ using Metapsi;
 using Metapsi.Ui;
 using System.Text;
 using Metapsi.Sqlite;
+using Metapsi.Syntax;
+using Microsoft.AspNetCore.Http;
+using Metapsi.Hyperapp;
+using Microsoft.AspNetCore.Builder;
 
 public static partial class Program
 {
@@ -103,7 +107,7 @@ public static partial class Program
             e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
             e.Using(visualEnvironment).EnqueueCommand(async (cc, state, rendererJs) =>
             {
-                state.RendererJs = rendererJs;
+
             }, e.EventData.Js);
         });
 
@@ -118,6 +122,56 @@ public static partial class Program
         });
 
         var webServer = setup.AddWebServer(ig, 7132);
+
+        var apiEndpoint = webServer.WebApplication.MapGroup("api");
+
+        apiEndpoint.MapRequest(Frontend.SelectSolution, async (CommandContext commandContext, HttpContext httpContext, Guid slnId) =>
+        {
+            var solutions = await commandContext.Do(Backend.GetSolutions);
+            var selectedSolution = solutions.Solutions.Single(x => x.Id == slnId);
+
+            commandContext.PostEvent(new CompileEnvironment.SolutionSelected()
+            {
+                Solution = selectedSolution
+            });
+
+            return new ApiResponse()
+            {
+                ResultCode = "Ok"
+            };
+        },
+        WebServer.Authorization.Public);
+
+        apiEndpoint.MapRequest(Frontend.GetRenderers, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
+        {
+            var renderers = await commandContext.Do(Backend.GetRenderers);
+
+            return new Frontend.RenderersResponse()
+            {
+                IsLoading = renderers.IsLoading,
+                Renderers = renderers.Renderers
+            };
+        },
+        WebServer.Authorization.Public);
+
+        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, string renderer) =>
+        {
+            await commandContext.Do(Backend.SetFocusedRenderer, renderer);
+            return await commandContext.Do(Backend.GetFocusedRenderer);
+        },
+        WebServer.Authorization.Public);
+
+        apiEndpoint.MapRequest(Frontend.SetInputId, async (CommandContext commandContext, HttpContext httpContext, Guid inputId) =>
+        {
+            await commandContext.Do(Backend.SetInputId, inputId);
+            return new ApiResponse();
+        },
+        WebServer.Authorization.Public);
+
+        webServer.RegisterStaticFiles(typeof(Program).Assembly);
+        webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
+        webServer.RegisterStaticFiles(typeof(HyperNode).Assembly);
+
         webServer.WebApplication.RegisterRouteHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
 
@@ -171,8 +225,45 @@ public static partial class Program
         ig.MapRequest(Backend.PreviewFocusedRenderer, async (RequestRoutingContext rc) =>
         {
             var renderer = await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
-            var result = await rc.Using(reloadEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, string.Empty);
+            
+            var input = visualEnvironment.SelectedInput;
+            if (input == null)
+                input = new Metapsi.Live.Db.Input();
+
+            var result = await rc.Using(reloadEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, input.Json);
             return result;
+        });
+
+        ig.MapRequest(Storage.LoadRendererInputs, async (rc, rendererName) =>
+        {
+            var allInputs = await Db.Records<Metapsi.Live.Db.Input>(dbFullPath);
+            return allInputs.Where(x => x.RendererName == rendererName).ToList();
+        });
+
+        ig.MapCommand(Backend.SetInputId, async (c, id) =>
+        {
+            var selectedInput = await Db.Record<Metapsi.Live.Db.Input>(dbFullPath, id);
+            visualEnvironment.SelectedInput = selectedInput;
+        });
+
+        ig.MapRequest(Backend.GetSelectedInput, async (rc) =>
+        {
+            return visualEnvironment.SelectedInput;
+        });
+
+        ig.MapRequest(PreviewEnvironment.GetPreviewParameters, async (cc) =>
+        {
+            var selectedInput = visualEnvironment.SelectedInput;
+            if(selectedInput == null)
+            {
+                selectedInput = new Metapsi.Live.Db.Input();
+            }
+
+            return new PreviewEnvironment.PreviewParameters()
+            {
+                InputName = selectedInput.InputName,
+                RendererName = visualEnvironment.FocusedRenderer
+            };
         });
 
 

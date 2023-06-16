@@ -11,10 +11,19 @@ namespace Metapsi.Live.Db
         public Guid Id { get; set; }
         public string Path { get; set; }
     }
+
+    public class Input : IRecord
+    {
+        public Guid Id { get; set; }
+        public string InputName { get; set; }
+        public string RendererName { get; set; }
+        public string Json { get; set; } = "{}";
+    }
 }
 
 public class PanelEnvironment
 {
+
     //public class ProjectSelected : IData
     //{
     //    public string ProjectName { get; set; } = string.Empty;
@@ -33,9 +42,7 @@ public class PanelEnvironment
         public List<string> AllRenderers { get; set; } = new();
         public List<string> AllRoutes { get; set; } = new();
         public string FocusedRenderer { get; set; } = string.Empty;
-        public string SelectedProjectName { get; set; }
-        public string SelectedRendererName { get; set; }
-        public string RendererJs { get; set; }
+        public Metapsi.Live.Db.Input SelectedInput { get; set; }
     }
 
     public static async Task SetLoading(CommandContext commandContext, State state, bool isLoading)
@@ -95,11 +102,12 @@ public class PanelEnvironment
 
     public static async Task<Backend.RendererResponse> GetRenderer(CommandContext commandContext, State state)
     {
+        var inputs = await commandContext.Do(Storage.LoadRendererInputs, state.FocusedRenderer);
+
         return new Backend.RendererResponse()
         {
-            IsLoading = state.IsLoading,
-            Js = state.RendererJs,
-            RendererName = state.FocusedRenderer
+            RendererName = state.FocusedRenderer,
+            Inputs = inputs
         };
     }
 }
