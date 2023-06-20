@@ -235,6 +235,9 @@ public static partial class Render
                 b => b.Text(rendererName),
                 b => b.Text(projectName, "text-sm text-gray-500"),
                 b => b.Div(
+                    "flex flex-col",
+                    b.Map(b.Get(model, x => x.SelectedRenderer.FileNames), (b, path) => b.Text(path))),
+                b => b.Div(
                     "flex flex-col gap-4 w-1/2",
                     b.Map(
                         b.Get(model, x => x.Inputs),

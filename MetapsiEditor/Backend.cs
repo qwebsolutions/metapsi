@@ -61,5 +61,8 @@ public class Backend
     {
         public string Name { get; set; }
         public string ProjectName { get; set; }
+        
+        // Could be partial classes
+        public List<string> FileNames { get; set; } = new();
     }
 }

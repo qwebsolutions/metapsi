@@ -174,15 +174,29 @@ public static class CompileEnvironment
             commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
         }
 
+        List<Backend.Renderer> renderers = new List<Backend.Renderer>();
+
+        foreach (var rendererReference in state.Renderers)
+        {
+            var rendererData = renderers.SingleOrDefault(x => x.Name == rendererReference.Symbol.Name);
+            if (rendererData == null)
+            {
+                rendererData = new Backend.Renderer()
+                {
+                    Name = rendererReference.Symbol.Name,
+                    ProjectName = rendererReference.Symbol.ContainingAssembly.Name
+                };
+                renderers.Add(rendererData);
+            }
+
+            rendererData.FileNames.Add(rendererReference.FilePath);
+        }
+
         commandContext.PostEvent(new SolutionLoaded()
         {
             Projects = state.OriginalSolution.Projects.Select(x => x.Name).ToList(),
             Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
-            Renderers = state.Renderers.Select(x => new Backend.Renderer()
-            {
-                Name = x.Symbol.Name,
-                ProjectName = x.Symbol.ContainingAssembly.Name
-            }).ToList(),
+            Renderers = renderers,
             EmbeddedResources = state.EmbeddedResources.ToList()
         });
     }
