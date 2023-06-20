@@ -45,12 +45,21 @@ public class Backend
     public class RenderersResponse
     {
         public bool IsLoading { get; set; }
-        public List<string> Renderers { get; set; } = new();
+        public List<Renderer> Renderers { get; set; } = new();
+
+        public HashSet<string> CompiledProjects { get; set; } = new();
+        public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
     public class RendererResponse: ApiResponse
     {
         public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
         public string RendererName { get; set; } = string.Empty;
+    }
+
+    public class Renderer
+    {
+        public string Name { get; set; }
+        public string ProjectName { get; set; }
     }
 }

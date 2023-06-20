@@ -96,12 +96,6 @@ public static partial class Program
             e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
         });
 
-        //setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
-        //{
-        //    e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetLoading, false);
-        //    e.Using(visualEnvironment).EnqueueCommand(VisualEnvironment.SetRenderers, e.EventData.Renderers);
-        //});
-
         setup.MapEvent<CompileEnvironment.RendererGenerated>(e =>
         {
             e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
@@ -111,10 +105,15 @@ public static partial class Program
             }, e.EventData.Js);
         });
 
-        //setup.MapEvent<VisualEnvironment.ProjectSelected>(e =>
-        //{
-        //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
-        //});
+        setup.MapEvent<CompileEnvironment.StartedProjectCompile>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.UpdateCompilationStatus, new List<string>(), e.EventData.ProjectName);
+        });
+
+        setup.MapEvent<CompileEnvironment.FinishedProjectCompile>(e =>
+        {
+            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.UpdateCompilationStatus, new List<string>() { e.EventData.ProjectName }, string.Empty);
+        });
 
         setup.MapEvent<PanelEnvironment.RendererSelected>(e =>
         {
@@ -149,14 +148,16 @@ public static partial class Program
             return new Frontend.RenderersResponse()
             {
                 IsLoading = renderers.IsLoading,
-                Renderers = renderers.Renderers
+                Renderers = renderers.Renderers,
+                CurrentlyCompiling = renderers.CurrentlyCompiling,
+                CompiledProjects = renderers.CompiledProjects.ToList()
             };
         },
         WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, string renderer) =>
+        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, Backend.Renderer renderer) =>
         {
-            await commandContext.Do(Backend.SetFocusedRenderer, renderer);
+            await commandContext.Do(Backend.SetFocusedRenderer, renderer.Name);
             return await commandContext.Do(Backend.GetFocusedRenderer);
         },
         WebServer.Authorization.Public);
@@ -175,19 +176,7 @@ public static partial class Program
         webServer.WebApplication.RegisterRouteHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
 
-        webServer.WebApplication.RegisterRouteHandler<Handler.Sln, Metapsi.Live.Route.Sln, Guid>();
-        webServer.RegisterPageBuilder((Handler.Sln.Model model) =>
-        {
-            return new Render.Sln().Render(model);
-        });
 
-        webServer.WebApplication.RegisterRouteHandler<Handler.FocusRenderer, Metapsi.Live.Route.FocusRenderer, string>();
-        webServer.RegisterPageBuilder<Handler.FocusRenderer.Model>(new Render.FocusRenderer().Render);
-
-        //webServer.WebApplication.RegisterRouteHandler<PreviewHandler>();
-        //webServer.RegisterPageBuilder<PreviewHandler.Model>(m => m.Result);
-
-        //webServer.WebApplication.MapGroup("api").MapFrontend();
 
         ig.MapRequest(Backend.GetSolutions, async (rc) =>
         {
@@ -228,7 +217,10 @@ public static partial class Program
             
             var input = visualEnvironment.SelectedInput;
             if (input == null)
-                input = new Metapsi.Live.Db.Input();
+                input = new Metapsi.Live.Db.Input()
+                {
+                    Json = string.Empty
+                };
 
             var result = await rc.Using(reloadEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, input.Json);
             return result;

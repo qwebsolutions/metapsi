@@ -26,13 +26,16 @@ public static partial class Handler
             public View CurrentView { get; set; } = View.ListSolutions;
             public List<Solution> Solutions { get; set; }
             public Guid SelectedSolutionId { get; set; }
-            public List<string> Renderers { get; set; } = new();
-            public string SelectedRenderer { get; set; }
+            public List<Backend.Renderer> Renderers { get; set; } = new();
+            public Backend.Renderer SelectedRenderer { get; set; }
 
             public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
-            public Guid SelectedInputId { get; set; } 
+            public Guid SelectedInputId { get; set; }
 
             public ApiSupport ApiSupport { get; set; } = new();
+
+            public List<string> CompiledProjects { get; set; } = new();
+            public string CurrentlyCompiling { get; set; } = string.Empty;
         }
 
         public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)

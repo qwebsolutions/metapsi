@@ -29,6 +29,16 @@ public class PanelEnvironment
     //    public string ProjectName { get; set; } = string.Empty;
     //}
 
+    public static async Task UpdateCompilationStatus(CommandContext commandContext, State state, List<string> compiledProjects, string currentlyCompiling)
+    {
+        foreach (var compiledProject in compiledProjects)
+        {
+            state.CompiledProjects.Add(compiledProject);
+        }
+
+        state.CurrentlyCompiling = currentlyCompiling;
+    }
+
     public class RendererSelected : IData
     {
         public string RendererName { get; set; } = string.Empty;
@@ -39,10 +49,13 @@ public class PanelEnvironment
         public bool IsLoading { get; set; } = true;
         public string FullDbPath { get; set; }
         public List<string> Projects { get; set; } = new();
-        public List<string> AllRenderers { get; set; } = new();
+        public List<Backend.Renderer> AllRenderers { get; set; } = new();
         public List<string> AllRoutes { get; set; } = new();
         public string FocusedRenderer { get; set; } = string.Empty;
         public Metapsi.Live.Db.Input SelectedInput { get; set; }
+
+        public HashSet<string> CompiledProjects { get; set; } = new();
+        public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
     public static async Task SetLoading(CommandContext commandContext, State state, bool isLoading)
@@ -62,7 +75,7 @@ public class PanelEnvironment
         state.IsLoading = false;
     }
 
-    public static async Task SetRenderers(CommandContext commandContext, State state, List<string> renderers)
+    public static async Task SetRenderers(CommandContext commandContext, State state, List<Backend.Renderer> renderers)
     {
         state.AllRenderers = renderers;
         state.IsLoading = false;
@@ -91,7 +104,9 @@ public class PanelEnvironment
         return new Backend.RenderersResponse()
         {
             IsLoading = state.IsLoading,
-            Renderers = state.AllRenderers
+            Renderers = state.AllRenderers,
+            CompiledProjects = state.CompiledProjects,
+            CurrentlyCompiling = state.CurrentlyCompiling
         };
     }
 

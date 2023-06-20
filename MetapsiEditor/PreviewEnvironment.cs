@@ -21,6 +21,7 @@ public class PreviewEnvironment
 
     public static Request<PreviewParameters> GetPreviewParameters { get; set; } = new(nameof(GetPreviewParameters));
 
+
     public class State
     {
 
@@ -74,9 +75,9 @@ public class PreviewEnvironment
 
         stringBuilder.AppendLine("function parametersChanged(newParameters) {return window.MetapsiPreviewParameters.RendererName != newParameters.RendererName || window.MetapsiPreviewParameters.InputName != newParameters.InputName}");
 
-        stringBuilder.AppendLine("function tryRefresh() {fetch('/api/GetPreviewParameters').then(r => r.json()).then(r=> {if(parametersChanged(r)) {location.reload()} })}");
+        stringBuilder.AppendLine("function tryRefresh() {fetch('/api/GetPreviewParameters').then(r => r.json()).then(r=> {if(parametersChanged(r)) {clearInterval(window.MetapsiRefreshInterval); location.reload();} })}");
 
-        stringBuilder.AppendLine("setInterval(tryRefresh, 1000);");
+        stringBuilder.AppendLine("window.MetapsiRefreshInterval = setInterval(tryRefresh, 1000);");
 
         stringBuilder.AppendLine("</script>");
 

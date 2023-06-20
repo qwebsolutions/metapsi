@@ -30,11 +30,21 @@ public static class CompileEnvironment
     {
     }
 
+    public class StartedProjectCompile : IData
+    {
+        public string ProjectName { get; set; }
+    }
+
+    public class FinishedProjectCompile : IData
+    {
+        public string ProjectName { get; set; }
+    }
+
     public class SolutionLoaded : IData
     {
         public List<string> Projects { get; set; }
         public List<string> Routes { get; set; }
-        public List<string> Renderers { get; set; }
+        public List<Backend.Renderer> Renderers { get; set; }
         public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
     }
 
@@ -103,6 +113,8 @@ public static class CompileEnvironment
         Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
         foreach (var project in state.OriginalSolution.Projects)
         {
+            commandContext.PostEvent(new StartedProjectCompile() { ProjectName = project.Name });
+
             state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
             state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
 
@@ -155,98 +167,22 @@ public static class CompileEnvironment
                                 Symbol = classSymbol
                             });
                         }
-                            //var references = await SymbolFinder.FindReferencesAsync(classSymbol, state.OriginalSolution);
-                            //foreach (var reference in references)
-                            //{
-                            //    Console.WriteLine(reference.Definition.Name);
-
-                            //    foreach (var location in reference.Locations)
-                            //    {
-                            //        var syntaxRoot = await location.Document.GetSyntaxRootAsync();
-                            //        var node = syntaxRoot.FindNode(location.Location.SourceSpan);
-
-                            //        var handlerClassDeclaration = node.Parent;
-
-                            //        while (true)
-                            //        {
-                            //            if (handlerClassDeclaration is ClassDeclarationSyntax)
-                            //                break;
-
-                            //            if (handlerClassDeclaration == null)
-                            //            {
-                            //                handlerClassDeclaration = null;
-                            //                break;
-                            //            }
-
-                            //            if (handlerClassDeclaration is NamespaceDeclarationSyntax)
-                            //            {
-                            //                handlerClassDeclaration = null;
-                            //                break;
-                            //            }
-
-                            //            handlerClassDeclaration = handlerClassDeclaration.Parent;
-
-                            //            handlerClassDeclaration = node.Parent.Parent.Parent.Parent.Parent.Parent;
-                            //        }
-
-
-                            //        if (handlerClassDeclaration == null)
-                            //            break;
-
-                            //        var compilation = await location.Document.Project.GetCompilationAsync();
-
-                            //        var locationSemanticModel = await location.Document.GetSemanticModelAsync();
-
-                            //        var handlerDeclarationSymbol = locationSemanticModel.GetDeclaredSymbol(handlerClassDeclaration);
-
-                            //        if (handlerDeclarationSymbol is INamedTypeSymbol)
-                            //        {
-                            //            INamedTypeSymbol routeHandlerSymbol = handlerDeclarationSymbol as INamedTypeSymbol;
-                            //            if (routeHandlerSymbol.AllInterfaces.Any(x => x.Name == "IRouteHandler"))
-                            //            {
-                            //                Console.WriteLine(routeHandlerSymbol.Name);
-                            //            }
-                            //        }
-                            //    }
-                            //}
-                        //}
                     }
                 }
             }
+
+            commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
         }
-
-        //foreach (var project in state.OriginalSolution.Projects)
-        //{
-        //    foreach (var document in project.Documents)
-        //    {
-        //        if (document.FilePath.EndsWith(".cs"))
-        //        {
-        //            SymbolFinder.FindReferencesAsync()
-        //            var syntaxTree = await document.GetSyntaxTreeAsync();
-
-        //            var semanticModel = await document.GetSemanticModelAsync();
-
-        //            var routesVisitor = new ClassVisitor();
-        //            routesVisitor.Visit(syntaxTree.GetRoot());
-        //            foreach (var classDeclaration in routesVisitor.ClassDeclarations)
-        //            {
-        //                var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
-        //                var allInterfaces = classSymbol.AllInterfaces;
-        //                if (allInterfaces.Any(x => x.Name == "IMetapsiRoute"))
-        //                {
-        //                    state.Routes.Add(classSymbol);
-
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
 
         commandContext.PostEvent(new SolutionLoaded()
         {
             Projects = state.OriginalSolution.Projects.Select(x => x.Name).ToList(),
             Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
-            Renderers = state.Renderers.Select(x => x.Symbol.Name).ToList(),
+            Renderers = state.Renderers.Select(x => new Backend.Renderer()
+            {
+                Name = x.Symbol.Name,
+                ProjectName = x.Symbol.ContainingAssembly.Name
+            }).ToList(),
             EmbeddedResources = state.EmbeddedResources.ToList()
         });
     }
@@ -275,9 +211,9 @@ public static class CompileEnvironment
         var sw = Stopwatch.StartNew();
 
         var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer);
-        if (focusedRenderer == null)
+        if (focusedRenderer == null || string.IsNullOrEmpty(inputJson))
         {
-            return "No page selected";
+            return "<html> <head> <title> Preview renderer</title> </head> <body style=\"width:100%;height:100%\"> No page selected </body> </html>";
         }
 
         try
@@ -326,7 +262,7 @@ public static class CompileEnvironment
         }
         catch (Exception ex)
         {
-            return ex.ToString();
+            return $"<html> <head> <title> Preview exception </title> </head> <body style=\"width:100%;height:100%\"> <pre>{ex.ToString()}</pre></body> </html>";
         }
     }
 
