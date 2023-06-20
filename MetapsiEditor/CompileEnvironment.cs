@@ -220,6 +220,56 @@ public static class CompileEnvironment
         return embeddedResources;
     }
 
+    public static async Task<string> CreateEmptyModel(CommandContext commandContext, State state, string renderer)
+    {
+        var sw = Stopwatch.StartNew();
+
+        var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer);
+        if (focusedRenderer == null)
+        {
+            throw new NotSupportedException("Renderer not available");
+        }
+
+
+        var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == focusedRenderer.ProjectName);
+
+        var originalDocument = originalProject.Documents.Single(x => x.FilePath == focusedRenderer.FilePath);
+        var updatedProject = originalProject.RemoveDocument(originalDocument.Id);
+        var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
+        updatedProject = newDocument.Project;
+
+        var updatedCompilation = await updatedProject.GetCompilationAsync();
+
+        var binary = updatedCompilation.EmitToArray();
+
+        var assemblyLoadContext = new AssemblyLoadContext("preview_" + focusedRenderer.ProjectName);
+        var reloadedBinary = LoadFromArray(assemblyLoadContext, binary);
+        var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != focusedRenderer.ProjectName);
+
+        foreach (var assembly in relatedAssemblies)
+        {
+            LoadFromArray(assemblyLoadContext, assembly.Value);
+        }
+
+        var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer).Single();
+        var renderMethod = rendererType.GetMethods().Single(x => x.Name == "Render" && x.ReturnType == typeof(string) && x.GetParameters().Count() == 1);
+
+        //var inputJson = await System.IO.File.ReadAllTextAsync("D:\\qwebsolutions\\metapsi\\MetapsiEditor\\input.json");
+
+        var modelType = renderMethod.GetParameters().First().ParameterType;
+
+
+        var emptyModel = Activator.CreateInstance(modelType);
+        var loadedMetapsiRuntime = assemblyLoadContext.Assemblies.Single(x => x.GetName().Name == "Metapsi.Runtime");
+        var metapsiRuntimeTypes = loadedMetapsiRuntime.GetTypes();
+        var serializerType = metapsiRuntimeTypes.Single(x => x.Name == "Serialize");
+        var serializerMethod = serializerType.GetMethods().Single(x => x.Name == "ToJson");
+
+        string serialized = serializerMethod.Invoke(null, new object[] { emptyModel }) as string;
+
+        return serialized;
+    }
+
     public static async Task<string> PreviewRenderer(CommandContext commandContext, State state, string renderer, string inputJson)
     {
         var sw = Stopwatch.StartNew();

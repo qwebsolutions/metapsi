@@ -162,6 +162,30 @@ public static partial class Program
         },
         WebServer.Authorization.Public);
 
+        apiEndpoint.MapRequest(Frontend.AddRendererInput, async (CommandContext commandContext, HttpContext httpContext, string rendererName) =>
+        {
+            var emptyModel = await CompileEnvironment.CreateEmptyModel(commandContext, reloadEnvironment, rendererName);
+
+            await Db.WithCommit(dbFullPath, async (t) =>
+            {
+                var rendererRecords = await t.Transaction.LoadRecords<Metapsi.Live.Db.Input, string>(x => x.RendererName, rendererName);
+
+                await t.Transaction.InsertRecord(new Metapsi.Live.Db.Input()
+                {
+                    Id = Guid.NewGuid(),
+                    InputName = "Input" + rendererRecords.Count(),
+                    Json = emptyModel,
+                    RendererName = rendererName
+                });
+            });
+
+            var renderer = await commandContext.Do(Backend.GetFocusedRenderer);
+
+            return renderer;
+
+        },
+        WebServer.Authorization.Public);
+
         apiEndpoint.MapRequest(Frontend.SetInputId, async (CommandContext commandContext, HttpContext httpContext, Guid inputId) =>
         {
             await commandContext.Do(Backend.SetInputId, inputId);

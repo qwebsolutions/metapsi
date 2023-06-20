@@ -237,6 +237,7 @@ public static partial class Render
                 b => b.Div(
                     "flex flex-col",
                     b.Map(b.Get(model, x => x.SelectedRenderer.FileNames), (b, path) => b.Text(path))),
+                b => AddInputButton(b, model),
                 b => b.Div(
                     "flex flex-col gap-4 w-1/2",
                     b.Map(
@@ -249,6 +250,27 @@ public static partial class Render
                                 model,
                                 b.Get(input, x => x.Id),
                                 (model, currentInputId) => model.SelectedInputId == currentInputId)))));
+        }
+
+        public Var<HyperNode> AddInputButton(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var addInputButton = b.Node("button", "w-10 h-10 flex flex-col items-center justify-center rounded bg-green-100 font-bold text-lg", b => b.Text("+"));
+
+            b.SetOnClick(addInputButton, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            {
+                return b.AsyncResult(
+                    model,
+                    b.Request(
+                        Frontend.AddRendererInput,
+                        b.Get(model, x => x.SelectedRenderer.Name),
+                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> response) =>
+                        {
+                            b.Set(model, x => x.Inputs, b.Get(response, x => x.Inputs));
+                            return b.Clone(model);
+                        })));
+            }));
+
+            return addInputButton;
         }
 
         public Var<HyperNode> SelectInputButton(BlockBuilder b, Var<Metapsi.Live.Db.Input> input, Var<bool> isSelected)

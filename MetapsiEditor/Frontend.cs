@@ -17,4 +17,5 @@ public static class Frontend
     public static Request<RenderersResponse, bool> GetRenderers { get; set; } = new(nameof(GetRenderers));
     public static Request<Backend.RendererResponse, Backend.Renderer> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
     public static Request<ApiResponse, Guid> SetInputId { get; set; } = new(nameof(SetInputId));
+    public static Request<Backend.RendererResponse, string> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
 }
