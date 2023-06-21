@@ -59,6 +59,7 @@ public static partial class Render
                 b => ListSolutions(b, model),
                 (Handler.View.WaitingCompile, b => WaitCompile(b, model)),
                 (Handler.View.ListRenderers, b => ListRenderers(b, model)),
+                (Handler.View.SolutionSummary, b=> SolutionSummary(b, model)),
                 (Handler.View.FocusRenderer, b => FocusRenderer(b, model)));
         }
 
@@ -82,11 +83,10 @@ public static partial class Render
                             },
                             b =>
                             {
-                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
+                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.SolutionSummary));
                                 b.Set(model, x => x.Renderers, b.Get(result, x => x.Renderers));
-
+                                b.Set(model, x => x.CompiledProjects, b.Get(result, x => x.CompiledProjects));
                                 b.Set(model, x => x.CurrentlyCompiling, b.Const(string.Empty));
-                                b.Set(model, x => x.CompiledProjects, b.NewCollection<string>());
 
                                 return b.Clone(model);
                             });
@@ -161,6 +161,39 @@ public static partial class Render
                         b.Map(
                             b.Get(model, x => x.Renderers),
                             SelectRendererButton))));
+        }
+
+        public Var<HyperNode> SolutionSummary(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return b.Div(
+                "flex flex-row flex-wrap gap-8",
+                b =>
+                {
+                    var card = FactCard(b, b.AsString(b.Get(model, x => x.CompiledProjects.Count())), b.Const("Projects"));
+
+                    var gotoProjects = b.Node("button", "", b => card);
+
+                    b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    {
+                        return b.Clone(model);
+                    }));
+
+                    return gotoProjects;
+                },
+                b => {
+                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Renderers.Count())), b.Const("Renderers"));
+
+                    var gotoRenderers = b.Node("button", "", b => card);
+
+                    b.SetOnClick(gotoRenderers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    {
+                        b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
+                        return b.Clone(model);
+                    }));
+
+                    return gotoRenderers;
+
+                });
         }
 
         public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<Backend.Renderer> renderer)
@@ -297,6 +330,14 @@ public static partial class Render
             }));
 
             return button;
+        }
+
+        public Var<HyperNode> FactCard(BlockBuilder b, Var<string> mainData, Var<string> subtitle)
+        {
+            return b.Div(
+                "flex flex-col gap-8 rounded p-8 bg-blue-100 border",
+                b => b.Text(mainData, "text-2xl text-gray-700"),
+                b => b.Text(subtitle, "text-gray-500"));
         }
     }
 

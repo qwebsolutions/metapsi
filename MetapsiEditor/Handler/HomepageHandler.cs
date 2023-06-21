@@ -14,6 +14,7 @@ public static partial class Handler
     {
         ListSolutions,
         WaitingCompile,
+        SolutionSummary,
         ListRenderers,
         FocusRenderer
     }
