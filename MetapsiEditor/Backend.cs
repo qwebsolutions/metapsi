@@ -2,27 +2,23 @@
 using Metapsi.Hyperapp;
 using Metapsi.Live.Db;
 using Metapsi.Sqlite;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 
-public class Storage
+public static class Backend
 {
-    public static Request<List<Metapsi.Live.Db.Input>, string> LoadRendererInputs { get; set; } = new(nameof(LoadRendererInputs));
-}
-
-public class Backend
-{
-    public static Request<SolutionsResponse> GetSolutions { get; set; } = new(nameof(GetSolutions));
-
     public static Request<ProjectsResponse> GetProjects { get; set; } = new(nameof(GetProjects));
     public static Request<RoutesResponse> GetRoutes { get; set; } = new(nameof(GetRoutes));
     public static Request<RenderersResponse> GetRenderers { get; set; } = new(nameof(GetRenderers));
+    public static Request<HandlersResponse> GetHandlers { get; set; } = new(nameof(GetHandlers));
     public static Command<string> SetFocusedRenderer { get; set; } = new(nameof(SetFocusedRenderer));
     public static Request<RendererResponse> GetFocusedRenderer { get; set; } = new(nameof(GetFocusedRenderer));
-    public static Command<Guid> SetInputId { get; set; } = new(nameof(SetInputId));
+    public static Command<Metapsi.Live.Db.Input> SetCurrentInput { get; set; } = new(nameof(SetCurrentInput));
     public static Request<Metapsi.Live.Db.Input> GetSelectedInput { get; set; } = new(nameof(GetSelectedInput));
 
     public static Request<string> PreviewFocusedRenderer { get; set; } = new(nameof(PreviewFocusedRenderer));
+    public static Request<string, string> CreateEmptyModel { get; set; } = new(nameof(CreateEmptyModel));
 
     public class SolutionsResponse
     {
@@ -33,7 +29,7 @@ public class Backend
     public class ProjectsResponse
     {
         public bool IsLoading { get; set; }
-        public List<string> Projects { get; set; }
+        public List<Backend.Project> Projects { get; set; } = new();
     }
 
     public class RoutesResponse
@@ -42,12 +38,19 @@ public class Backend
         public List<string> Routes { get; set; }
     }
 
+    public class HandlersResponse
+    {
+        public bool IsLoading { get; set; }
+        public List<string> Handlers { get; set; } = new();
+    }
+
     public class RenderersResponse
     {
         public bool IsLoading { get; set; }
         public List<Renderer> Renderers { get; set; } = new();
+        public List<string> Handlers { get; set; } = new();
 
-        public HashSet<string> CompiledProjects { get; set; } = new();
+        public List<string> CompiledProjects { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
@@ -64,5 +67,93 @@ public class Backend
         
         // Could be partial classes
         public List<string> FileNames { get; set; } = new();
+    }
+
+    public class Project
+    {
+        public string Name { get; set; } = string.Empty;
+        public List<string> UsedProjects { get; set; } = new();
+    }
+
+    public static void MapBackend(this ImplementationGroup ig, 
+        CompileEnvironment.State compileEnvironment,
+            PanelEnvironment.State panelEnvironment,
+            PreviewEnvironment.State previewEnvironment)
+    {
+        ig.MapRequest(Backend.GetProjects, async (rc) =>
+        {
+            return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetProjects);
+        });
+
+        ig.MapRequest(Backend.GetRoutes, async (rc) =>
+        {
+            return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRoutes);
+        });
+
+        ig.MapRequest(Backend.GetHandlers, async (rc) =>
+        {
+            return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetHandlers);
+        });
+
+        ig.MapRequest(Backend.GetRenderers, async (rc) =>
+        {
+            return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderers);
+        });
+
+        ig.MapRequest(Backend.GetFocusedRenderer, async (rc) =>
+        {
+            return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
+        });
+
+        ig.MapCommand(Backend.SetFocusedRenderer, async (CommandRoutingContext rc, string name) =>
+        {
+            await rc.Using(panelEnvironment, ig).EnqueueCommand(PanelEnvironment.SetFocusedRenderer, name);
+        });
+
+        ig.MapRequest(Backend.PreviewFocusedRenderer, async (RequestRoutingContext rc) =>
+        {
+            var renderer = await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
+
+            var input = panelEnvironment.SelectedInput;
+            if (input == null)
+                input = new Metapsi.Live.Db.Input()
+                {
+                    Json = string.Empty
+                };
+
+            var result = await rc.Using(compileEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, input.Json);
+            return result;
+        });
+
+
+        ig.MapRequest(Backend.GetSelectedInput, async (rc) =>
+        {
+            return panelEnvironment.SelectedInput;
+        });
+
+        ig.MapRequest(PreviewEnvironment.GetPreviewParameters, async (cc) =>
+        {
+            var selectedInput = panelEnvironment.SelectedInput;
+            if (selectedInput == null)
+            {
+                selectedInput = new Metapsi.Live.Db.Input();
+            }
+
+            return new PreviewEnvironment.PreviewParameters()
+            {
+                InputName = selectedInput.InputName,
+                RendererName = panelEnvironment.FocusedRenderer
+            };
+        });
+
+        ig.MapCommand(Backend.SetCurrentInput, async (c, selectedInput) =>
+        {
+            panelEnvironment.SelectedInput = selectedInput;
+        });
+
+        ig.MapRequest(Backend.CreateEmptyModel, async (RequestRoutingContext rc, string rendererName) =>
+        {
+            return await rc.Using(compileEnvironment, ig).EnqueueRequest(CompileEnvironment.CreateEmptyModel, rendererName);
+        });
     }
 }

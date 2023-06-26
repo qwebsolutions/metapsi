@@ -1,60 +1,37 @@
 ﻿using Metapsi;
+using Microsoft.Build.Evaluation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-
-
-namespace Metapsi.Live.Db
-{
-    public class Solution : IRecord
-    {
-        public Guid Id { get; set; }
-        public string Path { get; set; }
-    }
-
-    public class Input : IRecord
-    {
-        public Guid Id { get; set; }
-        public string InputName { get; set; }
-        public string RendererName { get; set; }
-        public string Json { get; set; } = "{}";
-    }
-}
 
 public class PanelEnvironment
 {
-
-    //public class ProjectSelected : IData
-    //{
-    //    public string ProjectName { get; set; } = string.Empty;
-    //}
-
-    public static async Task UpdateCompilationStatus(CommandContext commandContext, State state, List<string> compiledProjects, string currentlyCompiling)
+    public static async Task AddProject(CommandContext commandContext, State state, Backend.Project project)
     {
-        foreach (var compiledProject in compiledProjects)
-        {
-            state.CompiledProjects.Add(compiledProject);
-        }
+        if (state.Projects.Any(x => x.Name == project.Name))
+            return;
 
+        state.Projects.Add(project);
+    }
+
+    public static async Task SetCurrentlyCompiling(CommandContext commandContext, State state, string currentlyCompiling)
+    {
         state.CurrentlyCompiling = currentlyCompiling;
     }
 
-    public class RendererSelected : IData
-    {
-        public string RendererName { get; set; } = string.Empty;
-    }
+
 
     public class State
     {
         public bool IsLoading { get; set; } = true;
         public string FullDbPath { get; set; }
-        public List<string> Projects { get; set; } = new();
+        public List<Backend.Project> Projects { get; set; } = new();
         public List<Backend.Renderer> AllRenderers { get; set; } = new();
+        public List<string> Handlers { get; set; } = new();
         public List<string> AllRoutes { get; set; } = new();
         public string FocusedRenderer { get; set; } = string.Empty;
         public Metapsi.Live.Db.Input SelectedInput { get; set; }
-
-        public HashSet<string> CompiledProjects { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
@@ -63,15 +40,36 @@ public class PanelEnvironment
         state.IsLoading = isLoading;
     }
 
-    public static async Task SetProjects(CommandContext commandContext, State state, List<string> projects)
+    public static async Task AddRoute(CommandContext commandContext, State state, string routeName)
     {
-        state.Projects = projects;
-        state.IsLoading = false;
+        state.AllRoutes.Add(routeName);
     }
+
+    public static async Task AddHandler(CommandContext commandContext, State state, string handlerName)
+    {
+        state.Handlers.Add(handlerName);
+    }
+
+    public static async Task AddRenderer(CommandContext commandContext, State state, Backend.Renderer renderer)
+    {
+        state.AllRenderers.Add(renderer);
+    }
+
+    //public static async Task SetProjects(CommandContext commandContext, State state, List<Backend.Project> projects)
+    //{
+    //    state.Projects = projects;
+    //    state.IsLoading = false;
+    //}
 
     public static async Task SetRoutes(CommandContext commandContext, State state, List<string> routes)
     {
         state.AllRoutes = routes;
+        state.IsLoading = false;
+    }
+
+    public static async Task SetHandlers(CommandContext commandContext, State state, List<string> handlers)
+    {
+        state.Handlers = handlers;
         state.IsLoading = false;
     }
 
@@ -99,14 +97,24 @@ public class PanelEnvironment
         };
     }
 
+    public static async Task<Backend.HandlersResponse> GetHandlers(CommandContext commandContext, State state)
+    {
+        return new Backend.HandlersResponse()
+        {
+            IsLoading = state.IsLoading,
+            Handlers = state.Handlers
+        };
+    }
+
     public static async Task<Backend.RenderersResponse> GetRenderers(CommandContext commandContext, State state)
     {
         return new Backend.RenderersResponse()
         {
             IsLoading = state.IsLoading,
             Renderers = state.AllRenderers,
-            CompiledProjects = state.CompiledProjects,
-            CurrentlyCompiling = state.CurrentlyCompiling
+            CompiledProjects = state.Projects.Select(x => x.Name).ToList(),
+            CurrentlyCompiling = state.CurrentlyCompiling,
+            Handlers = state.Handlers
         };
     }
 

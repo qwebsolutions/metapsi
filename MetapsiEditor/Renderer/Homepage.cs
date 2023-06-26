@@ -10,31 +10,6 @@ public static partial class Render
 {
     public class Homepage : HyperPage<Handler.Home.Model>
     {
-        public override IHtmlNode GetHtml(Handler.Home.Model dataModel)
-        {
-            var html = base.GetHtml(dataModel);
-
-            var bodyNode = (html as HtmlTag).Children.Single(x => (x is HtmlTag) && (x as HtmlTag).Tag == "body");
-
-            if (bodyNode == null)
-            {
-                throw new ArgumentException("No body present!");
-            }
-
-            //var body = bodyNode as HtmlTag;
-
-            //var eachSecondScript = new HtmlTag("script");
-
-            //eachSecondScript.Children.Add(new HtmlText()
-            //{
-            //    Text = "setInterval(function () {dispatchEvent(new CustomEvent('metapsi.second.tick')}, 1000);"
-            //});
-
-            //body.Children.Add(eachSecondScript);
-
-            return html;
-        }
-
         public override Var<HyperNode> OnRender(BlockBuilder b, Var<Handler.Home.Model> model)
         {
             b.AddStylesheet("metapsi.live.css");
@@ -59,7 +34,9 @@ public static partial class Render
                 b => ListSolutions(b, model),
                 (Handler.View.WaitingCompile, b => WaitCompile(b, model)),
                 (Handler.View.ListRenderers, b => ListRenderers(b, model)),
-                (Handler.View.SolutionSummary, b=> SolutionSummary(b, model)),
+                (Handler.View.ListProjects, b => ListProjects(b, model)),
+                (Handler.View.ListRoutes, b => ListRoutes(b, model)),
+                (Handler.View.SolutionSummary, b => SolutionSummary(b, model)),
                 (Handler.View.FocusRenderer, b => FocusRenderer(b, model)));
         }
 
@@ -85,8 +62,10 @@ public static partial class Render
                             {
                                 b.Set(model, x => x.CurrentView, b.Const(Handler.View.SolutionSummary));
                                 b.Set(model, x => x.Renderers, b.Get(result, x => x.Renderers));
+                                b.Set(model, x => x.Routes, b.Get(result, x => x.Routes));
                                 b.Set(model, x => x.CompiledProjects, b.Get(result, x => x.CompiledProjects));
                                 b.Set(model, x => x.CurrentlyCompiling, b.Const(string.Empty));
+                                b.Set(model, x => x.Handlers, b.Get(result, x => x.Handlers));
 
                                 return b.Clone(model);
                             });
@@ -128,6 +107,31 @@ public static partial class Render
             }));
 
             return button;
+        }
+
+        public Var<HyperNode> ListProjects(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return b.Div("flex flex-col gap-8",
+                b.Map(
+                    b.Get(model, x => x.CompiledProjects),
+                    (b, project) => b.Div(
+                        "flex flex-col gap-2 p-4 rounded bg-blue-100",
+                        b => b.Text(b.Get(project, x => x.Name)),
+                        b => b.Div(
+                            "flex flex-col text-sm",
+                            b.Map(
+                                b.Get(project, x => x.UsedProjects),
+                                (b, related) => b.Text(related))))));
+        }
+
+        public Var<HyperNode> ListRoutes(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return b.Div("flex flex-col gap-8",
+                b.Map(
+                    b.Get(model, x => x.Routes),
+                    (b, route) => b.Div(
+                        "flex flex-col gap-2 p-4 rounded bg-blue-100",
+                        b => b.Text(b.Get(route, x => x)))));
         }
 
         public Var<HyperNode> ListRenderers(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -175,12 +179,28 @@ public static partial class Render
 
                     b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
                     {
+                        b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListProjects));
                         return b.Clone(model);
                     }));
 
                     return gotoProjects;
                 },
-                b => {
+                b =>
+                {
+                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Routes.Count())), b.Const("Routes"));
+
+                    var gotoRoutes = b.Node("button", "", b => card);
+
+                    b.SetOnClick(gotoRoutes, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    {
+                        b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRoutes));
+                        return b.Clone(model);
+                    }));
+
+                    return gotoRoutes;
+                },
+                b =>
+                {
                     var card = FactCard(b, b.AsString(b.Get(model, x => x.Renderers.Count())), b.Const("Renderers"));
 
                     var gotoRenderers = b.Node("button", "", b => card);
@@ -239,7 +259,7 @@ public static partial class Render
                         "flex flex-col gap-2",
                         b.Map(
                             b.Get(model, x => x.CompiledProjects),
-                            (b, projectName) => b.Text(projectName))),
+                            (b, project) => b.Text(b.Get(project, x => x.Name)))),
                     b => b.Text(b.Concat(b.Const("Compiling "), b.Get(model, x => x.CurrentlyCompiling), b.Const(" ... ")))));
         }
 

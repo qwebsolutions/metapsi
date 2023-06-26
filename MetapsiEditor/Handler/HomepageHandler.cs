@@ -15,7 +15,9 @@ public static partial class Handler
         ListSolutions,
         WaitingCompile,
         SolutionSummary,
+        ListProjects,
         ListRenderers,
+        ListRoutes,
         FocusRenderer
     }
 
@@ -28,6 +30,8 @@ public static partial class Handler
             public List<Solution> Solutions { get; set; }
             public Guid SelectedSolutionId { get; set; }
             public List<Backend.Renderer> Renderers { get; set; } = new();
+            public List<string> Routes { get; set; } = new();
+            public List<string> Handlers { get; set; } = new();
             public Backend.Renderer SelectedRenderer { get; set; }
 
             public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
@@ -35,13 +39,13 @@ public static partial class Handler
 
             public ApiSupport ApiSupport { get; set; } = new();
 
-            public List<string> CompiledProjects { get; set; } = new();
+            public List<Backend.Project> CompiledProjects { get; set; } = new();
             public string CurrentlyCompiling { get; set; } = string.Empty;
         }
 
         public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
         {
-            var solutions = await commandContext.Do(Backend.GetSolutions);
+            var solutions = await commandContext.Do(Storage.GetSolutions);
             return Page.Result(new Model()
             {
                 Solutions = solutions.Solutions

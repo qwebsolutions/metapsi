@@ -15,50 +15,20 @@ using System.Diagnostics.Contracts;
 using Microsoft.Build.Framework;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.AspNetCore.WebUtilities;
+using Metapsi.Live;
 
 public record EmbeddedResource(string Path, string LogicalName);
 
 public static class CompileEnvironment
 {
 
-    public class SolutionSelected : IData
+
+    public class HandlerSymbol
     {
-        public Metapsi.Live.Db.Solution Solution { get; set; }
+        public SymbolReference Symbol { get; set; }
+        public ITypeSymbol RouteType { get; set; }
     }
 
-    public class LoadingStarted : IData
-    {
-    }
-
-    public class StartedProjectCompile : IData
-    {
-        public string ProjectName { get; set; }
-    }
-
-    public class FinishedProjectCompile : IData
-    {
-        public string ProjectName { get; set; }
-    }
-
-    public class SolutionLoaded : IData
-    {
-        public List<string> Projects { get; set; }
-        public List<string> Routes { get; set; }
-        public List<Backend.Renderer> Renderers { get; set; }
-        public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
-    }
-
-    //public class ProjectLoaded : IData
-    //{
-    //    public List<string> Renderers { get; set; } = new();
-    //}
-
-    public class RendererGenerated: IData
-    {
-        public string RendererName { get; set; } = string.Empty;
-        public string Js { get; set; } = string.Empty;
-        public long Milliseconds { get; set; }
-    }
 
     public class SymbolReference
     {
@@ -82,7 +52,7 @@ public static class CompileEnvironment
         public List<string> OriginalRenderers { get; set; } = new();
         public Dictionary<string, byte[]> OriginalAssemblies = new();
         public List<SymbolReference> Routes { get; set; } = new();
-        public List<SymbolReference> Handlers { get; set; } = new();
+        public List<HandlerSymbol> Handlers { get; set; } = new();
         public List<SymbolReference> Renderers { get; set; } = new();
         public HashSet<EmbeddedResource> EmbeddedResources { get; set; } = new();
 
@@ -98,6 +68,13 @@ public static class CompileEnvironment
 
     public static async Task InitSolution(CommandContext commandContext, State state, string slnPath)
     {
+
+        List<string> routeInterfaceNames = new List<string>()
+        {
+            "IGet",
+            "IPost"
+        };
+
         if (state.OriginalSolution?.FilePath == slnPath)
         {
             Console.WriteLine("Solution already selected");
@@ -139,22 +116,38 @@ public static class CompileEnvironment
                     {
                         var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
                         var allInterfaces = classSymbol.AllInterfaces;
-                        if (allInterfaces.Any(x => x.Name == "IMetapsiRoute"))
+                        if (allInterfaces.Any(x => routeInterfaceNames.Contains(x.Name)))
                         {
+
                             state.Routes.Add(new SymbolReference()
                             {
                                 ProjectName = project.Name,
                                 FilePath = document.FilePath,
                                 Symbol = classSymbol
                             });
-                        }
-                        if (allInterfaces.Any(x => x.Name == "IRouteHandler"))
-                        {
-                            state.Handlers.Add(new SymbolReference()
+
+                            commandContext.PostEvent(new RouteAdded()
                             {
-                                ProjectName = project.Name,
-                                FilePath = document.FilePath,
-                                Symbol = classSymbol
+                                Route = RouteSymbolToPath(classSymbol)
+                            });
+                        }
+
+                        if (IsRouteHandler(classSymbol))
+                        {
+                            state.Handlers.Add(new HandlerSymbol()
+                            {
+                                Symbol = new SymbolReference()
+                                {
+                                    ProjectName = project.Name,
+                                    FilePath = document.FilePath,
+                                    Symbol = classSymbol
+                                },
+                                RouteType = classSymbol.BaseType.TypeArguments.First()
+                            });
+
+                            commandContext.PostEvent(new HandlerAdded()
+                            {
+                                Handler = classSymbol.Name
                             });
                         }
 
@@ -166,12 +159,28 @@ public static class CompileEnvironment
                                 FilePath = document.FilePath,
                                 Symbol = classSymbol
                             });
+
+                            commandContext.PostEvent(new RendererAdded()
+                            {
+                                Renderer = new Backend.Renderer()
+                                {
+                                    FileNames = new List<string>() { document.FilePath },
+                                    Name = classSymbol.Name,
+                                    ProjectName = project.Name
+                                }
+                            });
                         }
                     }
                 }
             }
 
-            commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
+            var compiledProjectData = new Backend.Project()
+            {
+                Name = project.Name,
+                UsedProjects = project.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList()
+            };
+
+            commandContext.PostEvent(new FinishedProjectCompile() { Project = compiledProjectData });
         }
 
         List<Backend.Renderer> renderers = new List<Backend.Renderer>();
@@ -194,11 +203,34 @@ public static class CompileEnvironment
 
         commandContext.PostEvent(new SolutionLoaded()
         {
-            Projects = state.OriginalSolution.Projects.Select(x => x.Name).ToList(),
-            Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
-            Renderers = renderers,
-            EmbeddedResources = state.EmbeddedResources.ToList()
+            //Projects = state.OriginalSolution.Projects.Select(
+            //    x => new Backend.Project()
+            //    {
+            //        Name = x.Name,
+            //        UsedProjects = x.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList()
+            //    }).ToList(),
+            //Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
+            //Renderers = renderers,
+            //Handlers = state.Handlers.Select(x => x.Symbol.Symbol.Name).ToList(),
+            //EmbeddedResources = state.EmbeddedResources.ToList()
         });
+    }
+
+    private static bool IsRouteHandler(INamedTypeSymbol symbol)
+    {
+        if (symbol.BaseType == null)
+            return false;
+
+        if (symbol.BaseType.ContainingType == null)
+            return false;
+
+        if (symbol.BaseType.ContainingType.Name != "Http")
+            return false;
+
+        if (symbol.BaseType.ContainingNamespace.Name != "Metapsi")
+            return false;
+
+        return true;
     }
 
     private static List<EmbeddedResource> GetEmbeddedResources(Project project)

@@ -106,8 +106,6 @@ public class PreviewEnvironment
     {
         WebApplicationBuilder builder = null;
 
-        //IdentityModelEventSource.ShowPII = true;
-
         if (string.IsNullOrWhiteSpace(webRootPath))
         {
             builder = WebApplication.CreateBuilder();
@@ -115,7 +113,6 @@ public class PreviewEnvironment
         else
         {
             builder = WebApplication.CreateBuilder(new WebApplicationOptions() { WebRootPath = webRootPath });
-            //builder = WebApplication.CreateBuilder();
         }
 
         builder.Services.ConfigureHttpJsonOptions(options =>
@@ -130,101 +127,7 @@ public class PreviewEnvironment
 
         var app = builder.Build();
 
-        //        // some JS files need path updates
-        //        app.Use(async (context, next) =>
-        //        {
-        //            if (!string.IsNullOrWhiteSpace(context.GetHostedRootPath()) && context.Request.Path.Value.EndsWith(".js"))
-        //            {
-        //                string fileWebPath = context.Request.Path.Value;
-        //                fileWebPath = fileWebPath.Replace(context.GetHostedRootPath() + "/", string.Empty);
-        //                var fileSegments = new List<string>();
-        //                fileSegments.Add(webRootPath);
-        //                fileSegments.AddRange(fileWebPath.Split("/", StringSplitOptions.RemoveEmptyEntries).ToArray());
-        //                string filePath = System.IO.Path.Combine(fileSegments.ToArray());
-        //                if (!File.Exists(filePath))
-        //                {
-        //                    context.Response.StatusCode = 404;
-        //                    return;
-        //                }
-        //                var allContent = await System.IO.File.ReadAllTextAsync(filePath);
-        //                allContent = allContent.Replace("/static/", context.GetHostedRootPath() + "/static/");
-        //                context.Response.ContentType = "text/javascript";
-        //                await context.Response.WriteAsync(allContent);
-        //                return;
-        //            }
-        //            // if not a js file served through proxy just move on
-        //            await next(context);
-        //        });
-
-        //        HashSet<string> staticFileExtensions = new HashSet<string>
-        //            {
-        //                ".js",
-        //                ".css",
-        //                ".ico"
-        //            };
-
-        //        // Embedded static files
-        //        app.Use(async (context, next) =>
-        //        {
-        //            var handled = false;
-
-        //            if (!string.IsNullOrEmpty(context.Request.Path))
-        //            {
-        //                var fileName = context.Request.Path.Value.ToLower().Trim('/');
-        //                if (references.StaticFiles.ContainsKey(fileName))
-        //                {
-        //                    var contentType = GetMimeTypeForFileExtension(fileName);
-
-        //                    switch (contentType)
-        //                    {
-        //                        case "text/html":
-        //                            {
-        //                                context.Response.StatusCode = StatusCodes.Status404NotFound;
-        //                                handled = true;
-        //                            }
-        //                            break;
-        //                        default:
-        //                            {
-        //                                byte[] bytes = references.StaticFiles[fileName];
-
-        //#if !DEBUG
-        //                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
-        //#endif
-        //                                context.Response.ContentType = contentType;
-        //                                await context.Response.BodyWriter.WriteAsync(bytes);
-        //                                handled = true;
-        //                            }
-        //                            break;
-        //                    }
-        //                }
-        //            }
-        //            if (!handled)
-        //                await next(context);
-        //        });
-
         app.UseStaticFiles();
-
-        //// If no static middleware found the file, stop now!
-        //app.Use(async (context, next) =>
-        //{
-        //    // Except if swagger file ...
-
-        //    if (!context.Request.Path.Value.ToLower().Contains("swagger"))
-        //    {
-        //        foreach (string extension in staticFileExtensions)
-        //        {
-        //            if (context.Request.Path.Value.EndsWith(extension))
-        //            {
-        //                context.Response.StatusCode = 404;
-        //                return;
-        //            }
-        //        }
-        //    }
-        //    await next(context);
-        //});
-
-        //app.UseForwardedHeaders();
-        //app.UseHttpLogging();
 
         if (buildApp != null)
             buildApp(app);

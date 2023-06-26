@@ -19,15 +19,10 @@ using Metapsi.Syntax;
 using Microsoft.AspNetCore.Http;
 using Metapsi.Hyperapp;
 using Microsoft.AspNetCore.Builder;
+using Metapsi.Live;
 
 public static partial class Program
 {
-
-    public class ProjectSelected : IData
-    {
-        public string ProjectName { get; set; }
-    }
-
     public class Arguments
     {
         public string DbPath { get; set; } = string.Empty;
@@ -47,8 +42,8 @@ public static partial class Program
 
         var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), arguments.DbPath);
 
-        var reloadEnvironment = setup.AddBusinessState(new CompileEnvironment.State());
-        var visualEnvironment = setup.AddBusinessState(
+        var compileEnvironment = setup.AddBusinessState(new CompileEnvironment.State());
+        var panelEnvironment = setup.AddBusinessState(
             new PanelEnvironment.State()
             {
                 FullDbPath = dbFullPath
@@ -77,121 +72,16 @@ public static partial class Program
         //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
         //});
 
-        setup.MapEvent<CompileEnvironment.SolutionSelected>(e =>
-        {
-            e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.InitSolution, e.EventData.Solution.Path);
-        });
+        setup.MapEvents(ig, compileEnvironment, panelEnvironment, previewEnvironment);
 
-        setup.MapEvent<CompileEnvironment.LoadingStarted>(e =>
-        {
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, true);
-        });
-
-        setup.MapEvent<CompileEnvironment.SolutionLoaded>(e =>
-        {
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetProjects, e.EventData.Projects);
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetRoutes, e.EventData.Routes);
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetRenderers, e.EventData.Renderers);
-            e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
-        });
-
-        setup.MapEvent<CompileEnvironment.RendererGenerated>(e =>
-        {
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
-            e.Using(visualEnvironment).EnqueueCommand(async (cc, state, rendererJs) =>
-            {
-
-            }, e.EventData.Js);
-        });
-
-        setup.MapEvent<CompileEnvironment.StartedProjectCompile>(e =>
-        {
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.UpdateCompilationStatus, new List<string>(), e.EventData.ProjectName);
-        });
-
-        setup.MapEvent<CompileEnvironment.FinishedProjectCompile>(e =>
-        {
-            e.Using(visualEnvironment).EnqueueCommand(PanelEnvironment.UpdateCompilationStatus, new List<string>() { e.EventData.ProjectName }, string.Empty);
-        });
-
-        setup.MapEvent<PanelEnvironment.RendererSelected>(e =>
-        {
-            e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.SwitchRenderer, e.EventData.RendererName);
-        });
+       
 
         var webServer = setup.AddWebServer(ig, 7132);
 
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
 
-        apiEndpoint.MapRequest(Frontend.SelectSolution, async (CommandContext commandContext, HttpContext httpContext, Guid slnId) =>
-        {
-            var solutions = await commandContext.Do(Backend.GetSolutions);
-            var selectedSolution = solutions.Solutions.Single(x => x.Id == slnId);
+        apiEndpoint.MapFrontend();
 
-            commandContext.PostEvent(new CompileEnvironment.SolutionSelected()
-            {
-                Solution = selectedSolution
-            });
-
-            return new ApiResponse()
-            {
-                ResultCode = "Ok"
-            };
-        },
-        WebServer.Authorization.Public);
-
-        apiEndpoint.MapRequest(Frontend.GetRenderers, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
-        {
-            var renderers = await commandContext.Do(Backend.GetRenderers);
-
-            return new Frontend.RenderersResponse()
-            {
-                IsLoading = renderers.IsLoading,
-                Renderers = renderers.Renderers,
-                CurrentlyCompiling = renderers.CurrentlyCompiling,
-                CompiledProjects = renderers.CompiledProjects.ToList()
-            };
-        },
-        WebServer.Authorization.Public);
-
-        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, Backend.Renderer renderer) =>
-        {
-            await commandContext.Do(Backend.SetFocusedRenderer, renderer.Name);
-            return await commandContext.Do(Backend.GetFocusedRenderer);
-        },
-        WebServer.Authorization.Public);
-
-        apiEndpoint.MapRequest(Frontend.AddRendererInput, async (CommandContext commandContext, HttpContext httpContext, string rendererName) =>
-        {
-            var emptyModel = await CompileEnvironment.CreateEmptyModel(commandContext, reloadEnvironment, rendererName);
-
-            await Db.WithCommit(dbFullPath, async (t) =>
-            {
-                var rendererRecords = await t.Transaction.LoadRecords<Metapsi.Live.Db.Input, string>(x => x.RendererName, rendererName);
-
-                await t.Transaction.InsertRecord(new Metapsi.Live.Db.Input()
-                {
-                    Id = Guid.NewGuid(),
-                    InputName = "Input" + rendererRecords.Count(),
-                    Json = emptyModel,
-                    RendererName = rendererName
-                });
-            });
-
-            var renderer = await commandContext.Do(Backend.GetFocusedRenderer);
-
-            return renderer;
-
-        },
-        WebServer.Authorization.Public);
-
-        apiEndpoint.MapRequest(Frontend.SetInputId, async (CommandContext commandContext, HttpContext httpContext, Guid inputId) =>
-        {
-            await commandContext.Do(Backend.SetInputId, inputId);
-            return new ApiResponse();
-        },
-        WebServer.Authorization.Public);
 
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
@@ -200,193 +90,14 @@ public static partial class Program
         webServer.WebApplication.RegisterRouteHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
 
+        ig.MapStorage(dbFullPath);
+        ig.MapBackend(compileEnvironment, panelEnvironment, previewEnvironment);
 
-
-        ig.MapRequest(Backend.GetSolutions, async (rc) =>
-        {
-            return new Backend.SolutionsResponse()
-            {
-                Solutions = (await Db.Records<Metapsi.Live.Db.Solution>(dbFullPath)).ToList()
-            };
-        });
-
-        ig.MapRequest(Backend.GetProjects, async (rc) =>
-        {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetProjects);
-        });
-
-        ig.MapRequest(Backend.GetRoutes, async (rc) =>
-        {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRoutes);
-        });
-
-        ig.MapRequest(Backend.GetRenderers, async (rc) =>
-        {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderers);
-        });
-
-        ig.MapRequest(Backend.GetFocusedRenderer, async (rc) =>
-        {
-            return await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
-        });
-
-        ig.MapCommand(Backend.SetFocusedRenderer, async (CommandRoutingContext rc, string name) =>
-        {
-            await rc.Using(visualEnvironment, ig).EnqueueCommand(PanelEnvironment.SetFocusedRenderer, name);
-        });
-
-        ig.MapRequest(Backend.PreviewFocusedRenderer, async (RequestRoutingContext rc) =>
-        {
-            var renderer = await rc.Using(visualEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
-            
-            var input = visualEnvironment.SelectedInput;
-            if (input == null)
-                input = new Metapsi.Live.Db.Input()
-                {
-                    Json = string.Empty
-                };
-
-            var result = await rc.Using(reloadEnvironment, ig).EnqueueRequest(CompileEnvironment.PreviewRenderer, renderer.RendererName, input.Json);
-            return result;
-        });
-
-        ig.MapRequest(Storage.LoadRendererInputs, async (rc, rendererName) =>
-        {
-            var allInputs = await Db.Records<Metapsi.Live.Db.Input>(dbFullPath);
-            return allInputs.Where(x => x.RendererName == rendererName).ToList();
-        });
-
-        ig.MapCommand(Backend.SetInputId, async (c, id) =>
-        {
-            var selectedInput = await Db.Record<Metapsi.Live.Db.Input>(dbFullPath, id);
-            visualEnvironment.SelectedInput = selectedInput;
-        });
-
-        ig.MapRequest(Backend.GetSelectedInput, async (rc) =>
-        {
-            return visualEnvironment.SelectedInput;
-        });
-
-        ig.MapRequest(PreviewEnvironment.GetPreviewParameters, async (cc) =>
-        {
-            var selectedInput = visualEnvironment.SelectedInput;
-            if(selectedInput == null)
-            {
-                selectedInput = new Metapsi.Live.Db.Input();
-            }
-
-            return new PreviewEnvironment.PreviewParameters()
-            {
-                InputName = selectedInput.InputName,
-                RendererName = visualEnvironment.FocusedRenderer
-            };
-        });
-
-
-        //ig.MapRequest(ReloadEnvironment.GetProjectAssembly, async (rc) =>
-        //{
-        //    return await rc.Using(reloadEnvironment, ig).EnqueueRequest(ReloadEnvironment.GetBaseProjectAssembly);
-        //});
 
         var app = setup.Revive();
 
         await app.SuspendComplete;
     }
-
-    //public class EditorPageModel : IApiSupportState
-    //{
-    //    public List<string> AllProjects { get; set; } = new();
-    //    public string SelectedProject { get; set; } = string.Empty;
-    //    public List<string> AllRenderers { get; set; } = new();
-    //    public string SelectedRenderer { get; set; } = string.Empty;
-    //    public string RendererJs { get; set; } = string.Empty;
-
-    //    public ApiSupport ApiSupport { get; set; } = new();
-    //}
-
-    //public static async Task<IResponse> MetapsiEditor(CommandContext commandContext)
-    //{
-    //    var projectsResponse = await commandContext.Do(Backend.GetProjects);
-    //    var renderersResponse = await commandContext.Do(Backend.GetRenderers);
-    //    var rendererResponse = await commandContext.Do(Backend.GetRenderer);
-
-    //    //var projectAssembly = await commandContext.Do(ReloadEnvironment.GetProjectAssembly);
-
-    //    if (projectsResponse.IsLoading || renderersResponse.IsLoading || rendererResponse.IsLoading)
-    //    {
-    //        return Page.Response<EditorPageModel>(new EditorPageModel(), (BlockBuilder b, Var<EditorPageModel> model) =>
-    //        {
-    //            return b.Div("", b => b.Text("Compiling..."));
-    //        });
-    //    }
-    //    else
-    //    {
-    //        var editorPageModel = new EditorPageModel();
-    //        editorPageModel.AllProjects = projectsResponse.Projects;
-    //        editorPageModel.AllRenderers = renderersResponse.Renderers;
-    //        editorPageModel.RendererJs = rendererResponse.Js;
-
-    //        return Page.Response<EditorPageModel>(editorPageModel, (BlockBuilder b, Var<EditorPageModel> model) =>
-    //        {
-    //            return b.Div(
-    //                "",
-    //                b => b.Text("Selected project:"),
-    //                b => b.If(
-    //                    b.HasValue(b.Get(model, x => x.SelectedProject)),
-    //                    b => b.Text(b.Get(model, x => x.SelectedProject)),
-    //                    b => b.Text("None")),
-    //                b => b.Div(
-    //                    "",
-    //                    b.Map(
-    //                        b.Get(model, x => x.AllProjects),
-    //                        (BlockBuilder b, Var<string> projectName) =>
-    //                        {
-    //                            var projectButton = b.Div("button", b => b.Text(projectName));
-
-    //                            b.SetOnClick(projectButton, b.MakeAction((BlockBuilder b, Var<EditorPageModel> model) =>
-    //                            {
-    //                                return b.AsyncResult(
-    //                                    b.Clone(model),
-    //                                    b.Request(
-    //                                        Frontend.SelectProject,
-    //                                        projectName,
-    //                                        b.MakeAction((BlockBuilder b, Var<EditorPageModel> model, Var<ApiResponse> response) =>
-    //                                        {
-    //                                            b.Set(model, x => x.SelectedProject, projectName);
-    //                                            return b.Clone(model);
-    //                                        })));
-    //                            }));
-
-    //                            return projectButton;
-    //                        })),
-    //                b => b.Div(
-    //                    "",
-    //                    b.Map(
-    //                        b.Get(model, x => x.AllRenderers),
-    //                        (BlockBuilder b, Var<string> renderer) =>
-    //                        {
-    //                            var rendererButton = b.Div("button", b => b.Text(renderer));
-
-    //                            b.SetOnClick(rendererButton, b.MakeAction((BlockBuilder b, Var<EditorPageModel> model) =>
-    //                            {
-    //                                return b.AsyncResult(
-    //                                    b.Clone(model),
-    //                                    b.Request(
-    //                                        Frontend.SelectRenderer,
-    //                                        renderer,
-    //                                        b.MakeAction((BlockBuilder b, Var<EditorPageModel> model, Var<ApiResponse> response) =>
-    //                                        {
-    //                                            b.Set(model, x => x.SelectedRenderer, renderer);
-    //                                            return b.Clone(model);
-    //                                        })));
-    //                            }));
-
-    //                            return rendererButton;
-    //                        })),
-    //                b => b.Node("pre", "", b => b.TextNode(b.Get(model, x => x.RendererJs))));
-    //        });
-    //    }
-    //}
 
     public static void WriteList(IEnumerable<string> list)
     {
@@ -402,7 +113,6 @@ public static partial class Program
         foreach (var doc in project.Documents)
         {
             projectFiles.Add(doc.FilePath);
-            //Console.WriteLine(doc.FilePath);
         }
 
         return projectFiles;
