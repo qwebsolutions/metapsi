@@ -42,7 +42,7 @@ namespace Metapsi.Live
         //public List<string> Routes { get; set; }
         //public List<Backend.Renderer> Renderers { get; set; }
         //public List<string> Handlers { get; set; } = new();
-        //public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
+        public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
     }
 
     public class RendererGenerated : IData
@@ -101,7 +101,7 @@ namespace Metapsi.Live
                 e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
                 //e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetRoutes, e.EventData.Routes);
                 //e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetRenderers, e.EventData.Renderers);
-                //e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
+                e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
             });
 
             setup.MapEvent<RendererGenerated>(e =>

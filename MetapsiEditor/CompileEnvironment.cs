@@ -212,7 +212,7 @@ public static class CompileEnvironment
             //Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
             //Renderers = renderers,
             //Handlers = state.Handlers.Select(x => x.Symbol.Symbol.Name).ToList(),
-            //EmbeddedResources = state.EmbeddedResources.ToList()
+            EmbeddedResources = state.EmbeddedResources.ToList()
         });
     }
 
