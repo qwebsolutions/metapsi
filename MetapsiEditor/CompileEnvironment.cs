@@ -134,7 +134,7 @@ public static class CompileEnvironment
 
                         if (IsRouteHandler(classSymbol))
                         {
-                            state.Handlers.Add(new HandlerSymbol()
+                            var compiledHandler = new HandlerSymbol()
                             {
                                 Symbol = new SymbolReference()
                                 {
@@ -143,32 +143,51 @@ public static class CompileEnvironment
                                     Symbol = classSymbol
                                 },
                                 RouteType = classSymbol.BaseType.TypeArguments.First()
-                            });
+                            };
+
+                            state.Handlers.Add(compiledHandler);
 
                             commandContext.PostEvent(new HandlerAdded()
                             {
-                                Handler = classSymbol.Name
+                                Handler = new HandlerReference()
+                                {
+                                    Handler = new Metapsi.Live.SymbolReference()
+                                    {
+                                        Name = classSymbol.Name,
+                                        ProjectName = project.Name,
+                                        FileNames = new List<string>() { document.FilePath }
+                                    },
+                                    Route = GetSymbolKey(compiledHandler.RouteType)
+                                }
                             });
                         }
 
                         if (allInterfaces.Any(x => x.Name == "IPageTemplate"))
                         {
-                            state.Renderers.Add(new SymbolReference()
+                            if (classSymbol.BaseType.TypeArguments.Count() == 1)
                             {
-                                ProjectName = project.Name,
-                                FilePath = document.FilePath,
-                                Symbol = classSymbol
-                            });
 
-                            commandContext.PostEvent(new RendererAdded()
-                            {
-                                Renderer = new Backend.Renderer()
+                                state.Renderers.Add(new SymbolReference()
                                 {
-                                    FileNames = new List<string>() { document.FilePath },
-                                    Name = classSymbol.Name,
-                                    ProjectName = project.Name
-                                }
-                            });
+                                    ProjectName = project.Name,
+                                    FilePath = document.FilePath,
+                                    Symbol = classSymbol
+                                });
+
+                                commandContext.PostEvent(new RendererAdded()
+                                {
+                                    Renderer = new RendererReference()
+                                    {
+                                        Renderer = new Metapsi.Live.SymbolReference()
+                                        {
+                                            FileNames = new List<string>() { document.FilePath },
+                                            Name = classSymbol.Name,
+                                            ProjectName = project.Name
+                                        },
+                                        Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -183,14 +202,14 @@ public static class CompileEnvironment
             commandContext.PostEvent(new FinishedProjectCompile() { Project = compiledProjectData });
         }
 
-        List<Backend.Renderer> renderers = new List<Backend.Renderer>();
+        List<Metapsi.Live.SymbolReference> renderers = new();
 
         foreach (var rendererReference in state.Renderers)
         {
             var rendererData = renderers.SingleOrDefault(x => x.Name == rendererReference.Symbol.Name);
             if (rendererData == null)
             {
-                rendererData = new Backend.Renderer()
+                rendererData = new Metapsi.Live.SymbolReference()
                 {
                     Name = rendererReference.Symbol.Name,
                     ProjectName = rendererReference.Symbol.ContainingAssembly.Name
@@ -214,6 +233,16 @@ public static class CompileEnvironment
             //Handlers = state.Handlers.Select(x => x.Symbol.Symbol.Name).ToList(),
             EmbeddedResources = state.EmbeddedResources.ToList()
         });
+    }
+
+    public static SymbolKey GetSymbolKey(ITypeSymbol symbol)
+    {
+        return new SymbolKey()
+        {
+            Name = symbol.Name,
+            Namespace = symbol.ContainingNamespace?.Name,
+            Project = symbol.ContainingAssembly?.Name
+        };
     }
 
     private static bool IsRouteHandler(INamedTypeSymbol symbol)

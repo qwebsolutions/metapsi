@@ -9,19 +9,19 @@ using System.Linq;
 
 public static class Frontend
 {
-    public class RenderersResponse : ApiResponse
+    public class SolutionEntities : ApiResponse
     {
         public bool IsLoading { get; set; }
-        public List<Backend.Renderer> Renderers { get; set; } = new();
+        public List<RendererReference> Renderers { get; set; } = new();
         public List<Backend.Project> CompiledProjects { get; set; } = new();
         public List<string> Routes { get; set; } = new();
-        public List<string> Handlers { get; set; } = new();
+        public List<HandlerReference> Handlers { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
     public static Request<ApiResponse, Guid> SelectSolution { get; set; } = new(nameof(SelectSolution));
-    public static Request<RenderersResponse, bool> GetRenderers { get; set; } = new(nameof(GetRenderers));
-    public static Request<Backend.RendererResponse, Backend.Renderer> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
+    public static Request<SolutionEntities, bool> GetSolutionSummary { get; set; } = new(nameof(GetSolutionSummary));
+    public static Request<Backend.RendererResponse, SymbolReference> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
     public static Request<ApiResponse, Guid> SetInputId { get; set; } = new(nameof(SetInputId));
     public static Request<Backend.RendererResponse, string> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
 
@@ -44,14 +44,14 @@ public static class Frontend
             };
         }, WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.GetRenderers, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
+        apiEndpoint.MapRequest(Frontend.GetSolutionSummary, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
         {
             var renderers = await commandContext.Do(Backend.GetRenderers);
             var projects = await commandContext.Do(Backend.GetProjects);
             var routes = await commandContext.Do(Backend.GetRoutes);
             var handlers = await commandContext.Do(Backend.GetHandlers);
 
-            return new Frontend.RenderersResponse()
+            return new Frontend.SolutionEntities()
             {
                 IsLoading = renderers.IsLoading,
                 Renderers = renderers.Renderers,
@@ -63,7 +63,7 @@ public static class Frontend
         },
         WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, Backend.Renderer renderer) =>
+        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, SymbolReference renderer) =>
         {
             await commandContext.Do(Backend.SetFocusedRenderer, renderer.Name);
             return await commandContext.Do(Backend.GetFocusedRenderer);

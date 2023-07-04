@@ -1,5 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Hyperapp;
+using Metapsi.Live;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Components.RenderTree;
@@ -44,10 +45,10 @@ public static partial class Render
         {
             return b.AsyncResult(
                 model,
-                b.Request<Handler.Home.Model, Frontend.RenderersResponse, bool>(
-                    Frontend.GetRenderers,
+                b.Request<Handler.Home.Model, Frontend.SolutionEntities, bool>(
+                    Frontend.GetSolutionSummary,
                     b.Const(true),
-                    b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.RenderersResponse> result) =>
+                    b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntities> result) =>
                     {
                         b.Log(result);
                         return b.If(
@@ -121,7 +122,26 @@ public static partial class Render
                             "flex flex-col text-sm",
                             b.Map(
                                 b.Get(project, x => x.UsedProjects),
-                                (b, related) => b.Text(related))))));
+                                (b, related) => b.Text(related))),
+                        b => b.Div(
+                            "flex flex-col gap-2",
+                            b.Map(
+                                b.Get(model, project, (model, project) => model.Renderers.Where(x => x.Renderer.ProjectName == project.Name).ToList()),
+                                (b, renderer) => b.Div(
+                                    "flex flex-row gap-2",
+                                    b => b.Text(b.Get(renderer, x => x.Renderer.Name), "text-green-500"),
+                                    b => b.Text(b.Get(renderer, x => x.Model.Name))))),
+                        b => b.Div(
+                            "flex flex-col gap-2",
+                            b.Map(
+                                b.Get(model, project, (model, project) => model.Handlers.Where(x => x.Handler.ProjectName == project.Name).ToList()),
+                                (b, handler) => b.Div(
+                                    "flex flex-row gap-2",
+                                    b => b.Text(
+                                        b.Get(handler, x => x.Handler.Name),
+                                        "text-blue-500"),
+                                    b => b.Text(b.Get(handler, x => x.Route.Name)))))
+                        )));
         }
 
         public Var<HyperNode> ListRoutes(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -163,7 +183,7 @@ public static partial class Render
                     b => b.Div(
                         "flex flex-col gap-4",
                         b.Map(
-                            b.Get(model, x => x.Renderers),
+                            b.Get(model, x => x.Renderers.Select(x => x.Renderer).ToList()),
                             SelectRendererButton))));
         }
 
@@ -216,7 +236,7 @@ public static partial class Render
                 });
         }
 
-        public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<Backend.Renderer> renderer)
+        public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolReference> renderer)
         {
             var button = b.Node(
                 "button",

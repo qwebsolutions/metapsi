@@ -1,4 +1,5 @@
 ﻿using Metapsi;
+using Metapsi.Live;
 using Microsoft.Build.Evaluation;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,8 @@ public class PanelEnvironment
         public bool IsLoading { get; set; } = true;
         public string FullDbPath { get; set; }
         public List<Backend.Project> Projects { get; set; } = new();
-        public List<Backend.Renderer> AllRenderers { get; set; } = new();
-        public List<string> Handlers { get; set; } = new();
+        public List<RendererReference> AllRenderers { get; set; } = new();
+        public List<HandlerReference> Handlers { get; set; } = new();
         public List<string> AllRoutes { get; set; } = new();
         public string FocusedRenderer { get; set; } = string.Empty;
         public Metapsi.Live.Db.Input SelectedInput { get; set; }
@@ -45,12 +46,12 @@ public class PanelEnvironment
         state.AllRoutes.Add(routeName);
     }
 
-    public static async Task AddHandler(CommandContext commandContext, State state, string handlerName)
+    public static async Task AddHandler(CommandContext commandContext, State state, HandlerReference handlerName)
     {
         state.Handlers.Add(handlerName);
     }
 
-    public static async Task AddRenderer(CommandContext commandContext, State state, Backend.Renderer renderer)
+    public static async Task AddRenderer(CommandContext commandContext, State state, RendererReference renderer)
     {
         state.AllRenderers.Add(renderer);
     }
@@ -67,13 +68,13 @@ public class PanelEnvironment
         state.IsLoading = false;
     }
 
-    public static async Task SetHandlers(CommandContext commandContext, State state, List<string> handlers)
+    public static async Task SetHandlers(CommandContext commandContext, State state, List<HandlerReference> handlers)
     {
         state.Handlers = handlers;
         state.IsLoading = false;
     }
 
-    public static async Task SetRenderers(CommandContext commandContext, State state, List<Backend.Renderer> renderers)
+    public static async Task SetRenderers(CommandContext commandContext, State state, List<RendererReference> renderers)
     {
         state.AllRenderers = renderers;
         state.IsLoading = false;

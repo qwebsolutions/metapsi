@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 //using Metapsi.JavaScript;
 using Metapsi;
 using Metapsi.Hyperapp;
+using Metapsi.Live;
 using Metapsi.Live.Db;
 using Microsoft.AspNetCore.Http;
 
@@ -29,10 +30,10 @@ public static partial class Handler
             public View CurrentView { get; set; } = View.ListSolutions;
             public List<Solution> Solutions { get; set; }
             public Guid SelectedSolutionId { get; set; }
-            public List<Backend.Renderer> Renderers { get; set; } = new();
+            public List<RendererReference> Renderers { get; set; } = new();
             public List<string> Routes { get; set; } = new();
-            public List<string> Handlers { get; set; } = new();
-            public Backend.Renderer SelectedRenderer { get; set; }
+            public List<HandlerReference> Handlers { get; set; } = new();
+            public SymbolReference SelectedRenderer { get; set; }
 
             public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
             public Guid SelectedInputId { get; set; }

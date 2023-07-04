@@ -28,12 +28,12 @@ namespace Metapsi.Live
 
     public class HandlerAdded : IData
     {
-        public string Handler { get; set; }
+        public HandlerReference Handler { get; set; }
     }
 
     public class RendererAdded : IData
     {
-        public Backend.Renderer Renderer { get; set; }
+        public RendererReference Renderer { get; set; }
     }
 
     public class SolutionLoaded : IData

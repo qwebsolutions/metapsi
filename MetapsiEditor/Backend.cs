@@ -1,5 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Hyperapp;
+using Metapsi.Live;
 using Metapsi.Live.Db;
 using Metapsi.Sqlite;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -41,14 +42,14 @@ public static class Backend
     public class HandlersResponse
     {
         public bool IsLoading { get; set; }
-        public List<string> Handlers { get; set; } = new();
+        public List<HandlerReference> Handlers { get; set; } = new();
     }
 
     public class RenderersResponse
     {
         public bool IsLoading { get; set; }
-        public List<Renderer> Renderers { get; set; } = new();
-        public List<string> Handlers { get; set; } = new();
+        public List<RendererReference> Renderers { get; set; } = new();
+        public List<HandlerReference> Handlers { get; set; } = new();
 
         public List<string> CompiledProjects { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
@@ -60,14 +61,14 @@ public static class Backend
         public string RendererName { get; set; } = string.Empty;
     }
 
-    public class Renderer
-    {
-        public string Name { get; set; }
-        public string ProjectName { get; set; }
+    //public class Renderer
+    //{
+    //    public string Name { get; set; }
+    //    public string ProjectName { get; set; }
         
-        // Could be partial classes
-        public List<string> FileNames { get; set; } = new();
-    }
+    //    // Could be partial classes
+    //    public List<string> FileNames { get; set; } = new();
+    //}
 
     public class Project
     {
