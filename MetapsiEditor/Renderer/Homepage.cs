@@ -5,6 +5,7 @@ using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Components.RenderTree;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public static partial class Render
@@ -36,6 +37,7 @@ public static partial class Render
                 (Handler.View.WaitingCompile, b => WaitCompile(b, model)),
                 (Handler.View.ListRenderers, b => ListRenderers(b, model)),
                 (Handler.View.ListProjects, b => ListProjects(b, model)),
+                (Handler.View.ListHandlers, b=> ListHandlers(b, model)),
                 (Handler.View.ListRoutes, b => ListRoutes(b, model)),
                 (Handler.View.SolutionSummary, b => SolutionSummary(b, model)),
                 (Handler.View.FocusRenderer, b => FocusRenderer(b, model)));
@@ -130,7 +132,7 @@ public static partial class Render
                                 (b, renderer) => b.Div(
                                     "flex flex-row gap-2",
                                     b => b.Text(b.Get(renderer, x => x.Renderer.Name), "text-green-500"),
-                                    b => b.Text(b.Get(renderer, x => x.Model.Name))))),
+                                    b => b.Text(ClassPathToNestedName(b, b.Get(renderer, x => x.Model)))))),
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
@@ -140,8 +142,20 @@ public static partial class Render
                                     b => b.Text(
                                         b.Get(handler, x => x.Handler.Name),
                                         "text-blue-500"),
-                                    b => b.Text(b.Get(handler, x => x.Route.Name)))))
+                                    b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route))))))
                         )));
+        }
+
+        public Var<string> ClassPathToUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
+        {
+            var classPath = b.Get(symbolKey, x => x.ClassPath);
+            return b.JoinStrings(b.Const("/"), classPath);
+        }
+
+        public Var<string> ClassPathToNestedName(BlockBuilder b, Var<SymbolKey> symbolKey)
+        {
+            var classPath = b.Get(symbolKey, x => x.ClassPath);
+            return b.Concat(b.Get(symbolKey, x => x.Namespace), b.Const("."), b.JoinStrings(b.Const("."), classPath));
         }
 
         public Var<HyperNode> ListRoutes(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -152,6 +166,17 @@ public static partial class Render
                     (b, route) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
                         b => b.Text(b.Get(route, x => x)))));
+        }
+
+        public Var<HyperNode> ListHandlers(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return b.Div("flex flex-col gap-8",
+                b.Map(
+                    b.Get(model, x => x.Handlers),
+                    (b, handler) => b.Div(
+                        "flex flex-col gap-2 p-4 rounded bg-blue-100",
+                        b => b.Text(b.Get(handler, x => x.Handler.Name)),
+                        b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route))))));
         }
 
         public Var<HyperNode> ListRenderers(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -232,6 +257,21 @@ public static partial class Render
                     }));
 
                     return gotoRenderers;
+
+                },
+                b =>
+                {
+                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Handlers.Count())), b.Const("Handlers"));
+
+                    var gotoHandlers = b.Node("button", "", b => card);
+
+                    b.SetOnClick(gotoHandlers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    {
+                        b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListHandlers));
+                        return b.Clone(model);
+                    }));
+
+                    return gotoHandlers;
 
                 });
         }

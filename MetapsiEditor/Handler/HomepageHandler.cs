@@ -19,6 +19,7 @@ public static partial class Handler
         ListProjects,
         ListRenderers,
         ListRoutes,
+        ListHandlers,
         FocusRenderer
     }
 

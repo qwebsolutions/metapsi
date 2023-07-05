@@ -239,10 +239,26 @@ public static class CompileEnvironment
     {
         return new SymbolKey()
         {
-            Name = symbol.Name,
+            ClassPath = GetClassPath(symbol),
             Namespace = symbol.ContainingNamespace?.Name,
             Project = symbol.ContainingAssembly?.Name
         };
+    }
+
+    public static List<string> GetClassPath(ITypeSymbol symbol)
+    {
+        List<string> classPath = new();
+
+        while (true)
+        {
+            if (symbol == null)
+                break;
+            classPath.Add(symbol.Name);
+            symbol = symbol.ContainingType;
+        }
+
+        classPath.Reverse();
+        return classPath;
     }
 
     private static bool IsRouteHandler(INamedTypeSymbol symbol)

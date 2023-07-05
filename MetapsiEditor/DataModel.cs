@@ -4,7 +4,7 @@ namespace Metapsi.Live
 {
     public class SymbolKey
     {
-        public string Name { get; set; } = string.Empty;
+        public List<string> ClassPath { get; set; } = new();
         public string Project { get; set; } = string.Empty;
         public string Namespace { get; set; } = string.Empty;
     }
