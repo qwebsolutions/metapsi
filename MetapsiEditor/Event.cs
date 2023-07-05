@@ -23,7 +23,7 @@ namespace Metapsi.Live
 
     public class RouteAdded : IData
     {
-        public string Route { get; set; }
+        public RouteReference Route { get; set; }
     }
 
     public class HandlerAdded : IData

@@ -30,7 +30,7 @@ public class PanelEnvironment
         public List<Backend.Project> Projects { get; set; } = new();
         public List<RendererReference> AllRenderers { get; set; } = new();
         public List<HandlerReference> Handlers { get; set; } = new();
-        public List<string> AllRoutes { get; set; } = new();
+        public List<RouteReference> AllRoutes { get; set; } = new();
         public string FocusedRenderer { get; set; } = string.Empty;
         public Metapsi.Live.Db.Input SelectedInput { get; set; }
         public string CurrentlyCompiling { get; set; } = string.Empty;
@@ -41,9 +41,9 @@ public class PanelEnvironment
         state.IsLoading = isLoading;
     }
 
-    public static async Task AddRoute(CommandContext commandContext, State state, string routeName)
+    public static async Task AddRoute(CommandContext commandContext, State state, RouteReference route)
     {
-        state.AllRoutes.Add(routeName);
+        state.AllRoutes.Add(route);
     }
 
     public static async Task AddHandler(CommandContext commandContext, State state, HandlerReference handlerName)
@@ -62,7 +62,7 @@ public class PanelEnvironment
     //    state.IsLoading = false;
     //}
 
-    public static async Task SetRoutes(CommandContext commandContext, State state, List<string> routes)
+    public static async Task SetRoutes(CommandContext commandContext, State state, List<RouteReference> routes)
     {
         state.AllRoutes = routes;
         state.IsLoading = false;

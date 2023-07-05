@@ -32,9 +32,9 @@ public static partial class Handler
             public List<Solution> Solutions { get; set; }
             public Guid SelectedSolutionId { get; set; }
             public List<RendererReference> Renderers { get; set; } = new();
-            public List<string> Routes { get; set; } = new();
+            public List<RouteReference> Routes { get; set; } = new();
             public List<HandlerReference> Handlers { get; set; } = new();
-            public SymbolReference SelectedRenderer { get; set; }
+            public SymbolKey SelectedRenderer { get; set; }
 
             public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
             public Guid SelectedInputId { get; set; }

@@ -14,16 +14,16 @@ public static class Frontend
         public bool IsLoading { get; set; }
         public List<RendererReference> Renderers { get; set; } = new();
         public List<Backend.Project> CompiledProjects { get; set; } = new();
-        public List<string> Routes { get; set; } = new();
+        public List<RouteReference> Routes { get; set; } = new();
         public List<HandlerReference> Handlers { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
     }
 
     public static Request<ApiResponse, Guid> SelectSolution { get; set; } = new(nameof(SelectSolution));
     public static Request<SolutionEntities, bool> GetSolutionSummary { get; set; } = new(nameof(GetSolutionSummary));
-    public static Request<Backend.RendererResponse, SymbolReference> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
+    public static Request<Backend.RendererResponse, SymbolKey> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
     public static Request<ApiResponse, Guid> SetInputId { get; set; } = new(nameof(SetInputId));
-    public static Request<Backend.RendererResponse, string> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
+    public static Request<Backend.RendererResponse, SymbolKey> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
 
 
     public static void MapFrontend(this RouteGroupBuilder apiEndpoint)
@@ -63,23 +63,22 @@ public static class Frontend
         },
         WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, SymbolReference renderer) =>
+        apiEndpoint.MapRequest(Frontend.SelectRenderer, async (CommandContext commandContext, HttpContext httpContext, SymbolKey renderer) =>
         {
-            await commandContext.Do(Backend.SetFocusedRenderer, renderer.Name);
+            await commandContext.Do(Backend.SetFocusedRenderer, renderer);
             return await commandContext.Do(Backend.GetFocusedRenderer);
         },
         WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.AddRendererInput, async (CommandContext commandContext, HttpContext httpContext, string rendererName) =>
+        apiEndpoint.MapRequest(Frontend.AddRendererInput, async (CommandContext commandContext, HttpContext httpContext, SymbolKey rendererKey) =>
         {
-            var emptyModel = await commandContext.Do(Backend.CreateEmptyModel, rendererName);
+            var emptyModel = await commandContext.Do(Backend.CreateEmptyModel, rendererKey);
             //var emptyModel = await CompileEnvironment.CreateEmptyModel(commandContext, compileEnvironment, rendererName);
 
-            await commandContext.Do(Storage.SaveInput, rendererName, emptyModel);
+            await commandContext.Do(Storage.SaveInput, rendererKey, emptyModel);
             var renderer = await commandContext.Do(Backend.GetFocusedRenderer);
 
             return renderer;
-
         },
         WebServer.Authorization.Public);
 

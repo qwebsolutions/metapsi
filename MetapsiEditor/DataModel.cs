@@ -11,8 +11,9 @@ namespace Metapsi.Live
 
     public class SymbolReference
     {
-        public string Name { get; set; } = string.Empty;
-        public string ProjectName { get; set; } = string.Empty;
+        public SymbolKey SymbolKey { get; set; }
+//        public string Name { get; set; } = string.Empty;
+//        public string ProjectName { get; set; } = string.Empty;
 
         // Could be partial classes
         public List<string> FileNames { get; set; } = new();
@@ -22,6 +23,12 @@ namespace Metapsi.Live
     {
         public SymbolReference Renderer { get; set; }
         public SymbolKey Model { get; set; }
+    }
+
+    public class RouteReference
+    {
+        public SymbolReference Route { get; set; }
+        public List<SymbolKey> Handlers { get; set; } = new();
     }
 
     public class HandlerReference

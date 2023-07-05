@@ -128,7 +128,14 @@ public static class CompileEnvironment
 
                             commandContext.PostEvent(new RouteAdded()
                             {
-                                Route = RouteSymbolToPath(classSymbol)
+                                Route = new RouteReference()
+                                {
+                                    Route = new Metapsi.Live.SymbolReference()
+                                    {
+                                        SymbolKey = GetSymbolKey(classSymbol),
+                                        FileNames = new List<string>() { document.FilePath }
+                                    }
+                                }
                             });
                         }
 
@@ -153,8 +160,7 @@ public static class CompileEnvironment
                                 {
                                     Handler = new Metapsi.Live.SymbolReference()
                                     {
-                                        Name = classSymbol.Name,
-                                        ProjectName = project.Name,
+                                        SymbolKey = GetSymbolKey(classSymbol),
                                         FileNames = new List<string>() { document.FilePath }
                                     },
                                     Route = GetSymbolKey(compiledHandler.RouteType)
@@ -181,8 +187,7 @@ public static class CompileEnvironment
                                         Renderer = new Metapsi.Live.SymbolReference()
                                         {
                                             FileNames = new List<string>() { document.FilePath },
-                                            Name = classSymbol.Name,
-                                            ProjectName = project.Name
+                                            SymbolKey = GetSymbolKey(classSymbol)
                                         },
                                         Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
                                     }
@@ -206,13 +211,12 @@ public static class CompileEnvironment
 
         foreach (var rendererReference in state.Renderers)
         {
-            var rendererData = renderers.SingleOrDefault(x => x.Name == rendererReference.Symbol.Name);
+            var rendererData = renderers.SingleOrDefault(x => x.SymbolKey.ClassPath.Last() == rendererReference.Symbol.Name);
             if (rendererData == null)
             {
                 rendererData = new Metapsi.Live.SymbolReference()
                 {
-                    Name = rendererReference.Symbol.Name,
-                    ProjectName = rendererReference.Symbol.ContainingAssembly.Name
+                    SymbolKey = GetSymbolKey(rendererReference.Symbol)
                 };
                 renderers.Add(rendererData);
             }
@@ -297,11 +301,11 @@ public static class CompileEnvironment
         return embeddedResources;
     }
 
-    public static async Task<string> CreateEmptyModel(CommandContext commandContext, State state, string renderer)
+    public static async Task<string> CreateEmptyModel(CommandContext commandContext, State state, SymbolKey renderer)
     {
         var sw = Stopwatch.StartNew();
 
-        var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer);
+        var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer.ClassPath.Last());
         if (focusedRenderer == null)
         {
             throw new NotSupportedException("Renderer not available");
@@ -328,7 +332,7 @@ public static class CompileEnvironment
             LoadFromArray(assemblyLoadContext, assembly.Value);
         }
 
-        var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer).Single();
+        var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer.ClassPath.Last()).Single();
         var renderMethod = rendererType.GetMethods().Single(x => x.Name == "Render" && x.ReturnType == typeof(string) && x.GetParameters().Count() == 1);
 
         //var inputJson = await System.IO.File.ReadAllTextAsync("D:\\qwebsolutions\\metapsi\\MetapsiEditor\\input.json");

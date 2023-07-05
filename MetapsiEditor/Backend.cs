@@ -6,6 +6,7 @@ using Metapsi.Sqlite;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class Backend
 {
@@ -13,13 +14,13 @@ public static class Backend
     public static Request<RoutesResponse> GetRoutes { get; set; } = new(nameof(GetRoutes));
     public static Request<RenderersResponse> GetRenderers { get; set; } = new(nameof(GetRenderers));
     public static Request<HandlersResponse> GetHandlers { get; set; } = new(nameof(GetHandlers));
-    public static Command<string> SetFocusedRenderer { get; set; } = new(nameof(SetFocusedRenderer));
+    public static Command<SymbolKey> SetFocusedRenderer { get; set; } = new(nameof(SetFocusedRenderer));
     public static Request<RendererResponse> GetFocusedRenderer { get; set; } = new(nameof(GetFocusedRenderer));
     public static Command<Metapsi.Live.Db.Input> SetCurrentInput { get; set; } = new(nameof(SetCurrentInput));
     public static Request<Metapsi.Live.Db.Input> GetSelectedInput { get; set; } = new(nameof(GetSelectedInput));
 
     public static Request<string> PreviewFocusedRenderer { get; set; } = new(nameof(PreviewFocusedRenderer));
-    public static Request<string, string> CreateEmptyModel { get; set; } = new(nameof(CreateEmptyModel));
+    public static Request<string, SymbolKey> CreateEmptyModel { get; set; } = new(nameof(CreateEmptyModel));
 
     public class SolutionsResponse
     {
@@ -36,7 +37,7 @@ public static class Backend
     public class RoutesResponse
     {
         public bool IsLoading { get; set; }
-        public List<string> Routes { get; set; }
+        public List<RouteReference> Routes { get; set; }
     }
 
     public class HandlersResponse
@@ -106,9 +107,9 @@ public static class Backend
             return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderer);
         });
 
-        ig.MapCommand(Backend.SetFocusedRenderer, async (CommandRoutingContext rc, string name) =>
+        ig.MapCommand(Backend.SetFocusedRenderer, async (CommandRoutingContext rc, SymbolKey renderer) =>
         {
-            await rc.Using(panelEnvironment, ig).EnqueueCommand(PanelEnvironment.SetFocusedRenderer, name);
+            await rc.Using(panelEnvironment, ig).EnqueueCommand(PanelEnvironment.SetFocusedRenderer, renderer.ClassPath.Last());
         });
 
         ig.MapRequest(Backend.PreviewFocusedRenderer, async (RequestRoutingContext rc) =>
@@ -152,9 +153,9 @@ public static class Backend
             panelEnvironment.SelectedInput = selectedInput;
         });
 
-        ig.MapRequest(Backend.CreateEmptyModel, async (RequestRoutingContext rc, string rendererName) =>
+        ig.MapRequest(Backend.CreateEmptyModel, async (RequestRoutingContext rc, SymbolKey renderer) =>
         {
-            return await rc.Using(compileEnvironment, ig).EnqueueRequest(CompileEnvironment.CreateEmptyModel, rendererName);
+            return await rc.Using(compileEnvironment, ig).EnqueueRequest(CompileEnvironment.CreateEmptyModel, renderer);
         });
     }
 }

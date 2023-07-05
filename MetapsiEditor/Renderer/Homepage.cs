@@ -128,19 +128,19 @@ public static partial class Render
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
-                                b.Get(model, project, (model, project) => model.Renderers.Where(x => x.Renderer.ProjectName == project.Name).ToList()),
+                                b.Get(model, project, (model, project) => model.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList()),
                                 (b, renderer) => b.Div(
                                     "flex flex-row gap-2",
-                                    b => b.Text(b.Get(renderer, x => x.Renderer.Name), "text-green-500"),
+                                    b => b.Text(ClassPathToNestedName(b, b.Get(renderer, x => x.Renderer.SymbolKey)), "text-green-500"),
                                     b => b.Text(ClassPathToNestedName(b, b.Get(renderer, x => x.Model)))))),
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
-                                b.Get(model, project, (model, project) => model.Handlers.Where(x => x.Handler.ProjectName == project.Name).ToList()),
+                                b.Get(model, project, (model, project) => model.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
                                 (b, handler) => b.Div(
                                     "flex flex-row gap-2",
                                     b => b.Text(
-                                        b.Get(handler, x => x.Handler.Name),
+                                        ClassPathToNestedName(b, b.Get(handler, x => x.Handler.SymbolKey)),
                                         "text-blue-500"),
                                     b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route))))))
                         )));
@@ -165,7 +165,7 @@ public static partial class Render
                     b.Get(model, x => x.Routes),
                     (b, route) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
-                        b => b.Text(b.Get(route, x => x)))));
+                        b => b.Text(ClassPathToUrl(b, b.Get(route, x => x.Route.SymbolKey))))));
         }
 
         public Var<HyperNode> ListHandlers(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -175,7 +175,7 @@ public static partial class Render
                     b.Get(model, x => x.Handlers),
                     (b, handler) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
-                        b => b.Text(b.Get(handler, x => x.Handler.Name)),
+                        b => b.Text(ClassPathToNestedName(b, b.Get(handler, x => x.Handler.SymbolKey))),
                         b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route))))));
         }
 
@@ -208,7 +208,7 @@ public static partial class Render
                     b => b.Div(
                         "flex flex-col gap-4",
                         b.Map(
-                            b.Get(model, x => x.Renderers.Select(x => x.Renderer).ToList()),
+                            b.Get(model, x => x.Renderers.Select(x => x.Renderer.SymbolKey).ToList()),
                             SelectRendererButton))));
         }
 
@@ -276,15 +276,15 @@ public static partial class Render
                 });
         }
 
-        public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolReference> renderer)
+        public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolKey> renderer)
         {
             var button = b.Node(
                 "button",
                 "bg-blue-100 p-4 rounded",
                 b => b.Div(
                     "flex flex-col items-center gap-2",
-                    b => b.Text(b.Get(renderer, x => x.Name)),
-                    b => b.Text(b.Get(renderer, x => x.ProjectName), "text-sm text-gray-600")));
+                    b => b.Text(ClassPathToNestedName(b, renderer)),
+                    b => b.Text(b.Get(renderer, x => x.Project), "text-sm text-gray-600")));
 
             b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
             {
@@ -328,8 +328,9 @@ public static partial class Render
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
 
-            var rendererName = b.Get(model, x => x.SelectedRenderer.Name);
-            var projectName = b.Get(model, x => x.SelectedRenderer.ProjectName);
+            var selectedRenderer = b.Get(model, model => model.Renderers.Single(x => x.Renderer.SymbolKey == model.SelectedRenderer));
+            var rendererName = ClassPathToNestedName(b, b.Get(model, x => x.SelectedRenderer));
+            var projectName = b.Get(model, x => x.SelectedRenderer.Project);
 
             return b.Div(
                 "flex flex-col items-center gap-8 p-8",
@@ -349,7 +350,7 @@ public static partial class Render
                 b => b.Text(projectName, "text-sm text-gray-500"),
                 b => b.Div(
                     "flex flex-col",
-                    b.Map(b.Get(model, x => x.SelectedRenderer.FileNames), (b, path) => b.Text(path))),
+                    b.Map(b.Get(selectedRenderer, x => x.Renderer.FileNames), (b, path) => b.Text(path))),
                 b => AddInputButton(b, model),
                 b => b.Div(
                     "flex flex-col gap-4 w-1/2",
@@ -375,7 +376,7 @@ public static partial class Render
                     model,
                     b.Request(
                         Frontend.AddRendererInput,
-                        b.Get(model, x => x.SelectedRenderer.Name),
+                        b.Get(model, x => x.SelectedRenderer),
                         b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> response) =>
                         {
                             b.Set(model, x => x.Inputs, b.Get(response, x => x.Inputs));
