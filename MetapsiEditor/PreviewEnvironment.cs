@@ -1,4 +1,5 @@
 ﻿using Metapsi;
+using Metapsi.Live;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
@@ -27,7 +28,7 @@ public class PreviewEnvironment
 
     }
 
-    public static async Task Start(CommandContext commandContext, State state, List<EmbeddedResource> embeddedResources)
+    public static async Task Start(CommandContext commandContext, State state, SolutionEntities solutionEntities)
     {
         var app = AddPreviewWebServer(9999, "d:\\qweb\\mes\\Metapsi.Hyperapp");
         app.MapGroup("api").MapGet("GetPreviewParameters", async (HttpContext httpContext) =>
@@ -47,9 +48,10 @@ public class PreviewEnvironment
             await httpContext.Response.WriteAsync(preview);
         });
 
-        var embeddedLogicalNames = embeddedResources.Select(x => x.LogicalName).Distinct();
+        var embeddedResources = solutionEntities.Projects.SelectMany(x => x.EmbeddedResources);
+        var distinctResourceNames = embeddedResources.Select(x => x.LogicalName).Distinct();
 
-        foreach (var embeddedResourceName in embeddedLogicalNames)
+        foreach (var embeddedResourceName in distinctResourceNames)
         {
             app.MapGet(embeddedResourceName, async (HttpContext httpContext) =>
             {

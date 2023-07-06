@@ -9,18 +9,16 @@ using System.Linq;
 
 public static class Frontend
 {
-    public class SolutionEntities : ApiResponse
+    public class SolutionEntitiesResponse : ApiResponse
     {
         public bool IsLoading { get; set; }
-        public List<RendererReference> Renderers { get; set; } = new();
-        public List<Backend.Project> CompiledProjects { get; set; } = new();
-        public List<RouteReference> Routes { get; set; } = new();
-        public List<HandlerReference> Handlers { get; set; } = new();
+        public Metapsi.Live.SolutionEntities SolutionEntities { get; set; } = new();
         public string CurrentlyCompiling { get; set; } = string.Empty;
+        public List<string> AlreadyCompiled { get; set; } = new List<string>();
     }
 
     public static Request<ApiResponse, Guid> SelectSolution { get; set; } = new(nameof(SelectSolution));
-    public static Request<SolutionEntities, bool> GetSolutionSummary { get; set; } = new(nameof(GetSolutionSummary));
+    public static Request<SolutionEntitiesResponse, bool> GetSolutionEntities { get; set; } = new(nameof(GetSolutionEntities));
     public static Request<Backend.RendererResponse, SymbolKey> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
     public static Request<ApiResponse, Guid> SetInputId { get; set; } = new(nameof(SetInputId));
     public static Request<Backend.RendererResponse, SymbolKey> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
@@ -44,21 +42,18 @@ public static class Frontend
             };
         }, WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.GetSolutionSummary, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
+        apiEndpoint.MapRequest(Frontend.GetSolutionEntities, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
         {
-            var renderers = await commandContext.Do(Backend.GetRenderers);
-            var projects = await commandContext.Do(Backend.GetProjects);
-            var routes = await commandContext.Do(Backend.GetRoutes);
-            var handlers = await commandContext.Do(Backend.GetHandlers);
+            var solutionEntities = await commandContext.Do(Backend.GetSolutionEntities);
+            var compilationStatus = await commandContext.Do(Backend.GetCompilationStatus);
 
-            return new Frontend.SolutionEntities()
+            return new Frontend.SolutionEntitiesResponse()
             {
-                IsLoading = renderers.IsLoading,
-                Renderers = renderers.Renderers,
-                CurrentlyCompiling = renderers.CurrentlyCompiling,
-                CompiledProjects = projects.Projects,
-                Routes = routes.Routes,
-                Handlers = handlers.Handlers
+                IsLoading = compilationStatus.IsCompiling,
+                AlreadyCompiled = compilationStatus.AlreadyCompiled,
+                CurrentlyCompiling = compilationStatus.CurrentlyCompiling,
+                SolutionEntities = solutionEntities,
+                ResultCode = "Ok"
             };
         },
         WebServer.Authorization.Public);

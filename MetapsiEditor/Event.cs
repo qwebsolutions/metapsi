@@ -18,31 +18,32 @@ namespace Metapsi.Live
 
     public class FinishedProjectCompile : IData
     {
-        public Backend.Project Project { get; set; }
+        public string ProjectName { get; set; }
     }
 
-    public class RouteAdded : IData
-    {
-        public RouteReference Route { get; set; }
-    }
+    //public class RouteAdded : IData
+    //{
+    //    public RouteReference Route { get; set; }
+    //}
 
-    public class HandlerAdded : IData
-    {
-        public HandlerReference Handler { get; set; }
-    }
+    //public class HandlerAdded : IData
+    //{
+    //    public HandlerReference Handler { get; set; }
+    //}
 
-    public class RendererAdded : IData
-    {
-        public RendererReference Renderer { get; set; }
-    }
+    //public class RendererAdded : IData
+    //{
+    //    public RendererReference Renderer { get; set; }
+    //}
 
     public class SolutionLoaded : IData
     {
+        public SolutionEntities SolutionEntities { get; set; }
         //public List<Backend.Project> Projects { get; set; }
         //public List<string> Routes { get; set; }
         //public List<Backend.Renderer> Renderers { get; set; }
         //public List<string> Handlers { get; set; } = new();
-        public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
+        //public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
     }
 
     public class RendererGenerated : IData
@@ -81,27 +82,26 @@ namespace Metapsi.Live
                 e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, true);
             });
 
-            setup.MapEvent<RouteAdded>(e =>
-            {
-                e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddRoute, e.EventData.Route);
-            });
+            //setup.MapEvent<RouteAdded>(e =>
+            //{
+            //    e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddRoute, e.EventData.Route);
+            //});
 
-            setup.MapEvent<HandlerAdded>(e =>
-            {
-                e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddHandler, e.EventData.Handler);
-            });
+            //setup.MapEvent<HandlerAdded>(e =>
+            //{
+            //    e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddHandler, e.EventData.Handler);
+            //});
 
-            setup.MapEvent<RendererAdded>(e =>
-            {
-                e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddRenderer, e.EventData.Renderer);
-            });
+            //setup.MapEvent<RendererAdded>(e =>
+            //{
+            //    e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddRenderer, e.EventData.Renderer);
+            //});
 
             setup.MapEvent<SolutionLoaded>(e =>
             {
                 e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
-                //e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetRoutes, e.EventData.Routes);
-                //e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetRenderers, e.EventData.Renderers);
-                e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.EmbeddedResources);
+                e.Using(panelEnvironment, ig).EnqueueCommand(PanelEnvironment.SetSolutionEntities, e.EventData.SolutionEntities);
+                e.Using(previewEnvironment, ig).EnqueueCommand(PreviewEnvironment.Start, e.EventData.SolutionEntities);
             });
 
             setup.MapEvent<RendererGenerated>(e =>
@@ -120,7 +120,7 @@ namespace Metapsi.Live
 
             setup.MapEvent<FinishedProjectCompile>(e =>
             {
-                e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddProject, e.EventData.Project);
+                e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddAlreadyCompiled, e.EventData.ProjectName);
             });
 
             setup.MapEvent<RendererSelected>(e =>

@@ -8,7 +8,7 @@ using System.Linq;
 public static class Storage
 {
     public static Request<Backend.SolutionsResponse> GetSolutions { get; set; } = new(nameof(GetSolutions));
-    public static Request<List<Metapsi.Live.Db.Input>, string> LoadRendererInputs { get; set; } = new(nameof(LoadRendererInputs));
+    public static Request<List<Metapsi.Live.Db.Input>, SymbolKey> LoadRendererInputs { get; set; } = new(nameof(LoadRendererInputs));
     public static Command<SymbolKey, string> SaveInput { get; set; } = new(nameof(SaveInput));
 
     public static void MapStorage(this ImplementationGroup ig, string dbFullPath)
@@ -39,10 +39,10 @@ public static class Storage
         });
 
 
-        ig.MapRequest(Storage.LoadRendererInputs, async (rc, rendererName) =>
+        ig.MapRequest(Storage.LoadRendererInputs, async (RequestRoutingContext rc, SymbolKey  renderer) =>
         {
             var allInputs = await Db.Records<Metapsi.Live.Db.Input>(dbFullPath);
-            return allInputs.Where(x => x.RendererName == rendererName).ToList();
+            return allInputs.Where(x => x.RendererName == renderer.ClassPath.Last()).ToList();
         });
     }
 }

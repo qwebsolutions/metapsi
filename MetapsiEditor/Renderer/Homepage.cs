@@ -47,10 +47,10 @@ public static partial class Render
         {
             return b.AsyncResult(
                 model,
-                b.Request<Handler.Home.Model, Frontend.SolutionEntities, bool>(
-                    Frontend.GetSolutionSummary,
+                b.Request<Handler.Home.Model, Frontend.SolutionEntitiesResponse, bool>(
+                    Frontend.GetSolutionEntities,
                     b.Const(true),
-                    b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntities> result) =>
+                    b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntitiesResponse> result) =>
                     {
                         b.Log(result);
                         return b.If(
@@ -58,17 +58,15 @@ public static partial class Render
                             b =>
                             {
                                 b.Set(model, x => x.CurrentlyCompiling, b.Get(result, x => x.CurrentlyCompiling));
-                                b.Set(model, x => x.CompiledProjects, b.Get(result, x => x.CompiledProjects));
+                                b.Set(model, x => x.AlreadyCompiled, b.Get(result, x => x.AlreadyCompiled));
                                 return b.Clone(model);
                             },
                             b =>
                             {
                                 b.Set(model, x => x.CurrentView, b.Const(Handler.View.SolutionSummary));
-                                b.Set(model, x => x.Renderers, b.Get(result, x => x.Renderers));
-                                b.Set(model, x => x.Routes, b.Get(result, x => x.Routes));
-                                b.Set(model, x => x.CompiledProjects, b.Get(result, x => x.CompiledProjects));
                                 b.Set(model, x => x.CurrentlyCompiling, b.Const(string.Empty));
-                                b.Set(model, x => x.Handlers, b.Get(result, x => x.Handlers));
+                                b.Set(model, x => x.AlreadyCompiled, b.NewCollection<string>());
+                                b.Set(model, x => x.SolutionEntities, b.Get(result, x => x.SolutionEntities));
 
                                 return b.Clone(model);
                             });
@@ -116,7 +114,7 @@ public static partial class Render
         {
             return b.Div("flex flex-col gap-8",
                 b.Map(
-                    b.Get(model, x => x.CompiledProjects),
+                    b.Get(model, x => x.SolutionEntities.Projects),
                     (b, project) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
                         b => b.Text(b.Get(project, x => x.Name)),
@@ -128,7 +126,7 @@ public static partial class Render
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
-                                b.Get(model, project, (model, project) => model.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList()),
+                                b.Get(model, project, (model, project) => model.SolutionEntities.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList()),
                                 (b, renderer) => b.Div(
                                     "flex flex-row gap-2",
                                     b => b.Text(ClassPathToNestedName(b, b.Get(renderer, x => x.Renderer.SymbolKey)), "text-green-500"),
@@ -136,7 +134,7 @@ public static partial class Render
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
-                                b.Get(model, project, (model, project) => model.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
+                                b.Get(model, project, (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
                                 (b, handler) => b.Div(
                                     "flex flex-row gap-2",
                                     b => b.Text(
@@ -162,7 +160,7 @@ public static partial class Render
         {
             return b.Div("flex flex-col gap-8",
                 b.Map(
-                    b.Get(model, x => x.Routes),
+                    b.Get(model, x => x.SolutionEntities.Routes),
                     (b, route) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
                         b => b.Text(ClassPathToUrl(b, b.Get(route, x => x.Route.SymbolKey))))));
@@ -172,7 +170,7 @@ public static partial class Render
         {
             return b.Div("flex flex-col gap-8",
                 b.Map(
-                    b.Get(model, x => x.Handlers),
+                    b.Get(model, x => x.SolutionEntities.Handlers),
                     (b, handler) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
                         b => b.Text(ClassPathToNestedName(b, b.Get(handler, x => x.Handler.SymbolKey))),
@@ -208,17 +206,19 @@ public static partial class Render
                     b => b.Div(
                         "flex flex-col gap-4",
                         b.Map(
-                            b.Get(model, x => x.Renderers.Select(x => x.Renderer.SymbolKey).ToList()),
+                            b.Get(model, x => x.SolutionEntities.Renderers.Select(x => x.Renderer.SymbolKey).ToList()),
                             SelectRendererButton))));
         }
 
         public Var<HyperNode> SolutionSummary(BlockBuilder b, Var<Handler.Home.Model> model)
         {
+            var entities = b.Get(model, x => x.SolutionEntities);
+
             return b.Div(
                 "flex flex-row flex-wrap gap-8",
                 b =>
                 {
-                    var card = FactCard(b, b.AsString(b.Get(model, x => x.CompiledProjects.Count())), b.Const("Projects"));
+                    var card = FactCard(b, b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const("Projects"));
 
                     var gotoProjects = b.Node("button", "", b => card);
 
@@ -232,7 +232,7 @@ public static partial class Render
                 },
                 b =>
                 {
-                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Routes.Count())), b.Const("Routes"));
+                    var card = FactCard(b, b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const("Routes"));
 
                     var gotoRoutes = b.Node("button", "", b => card);
 
@@ -246,7 +246,7 @@ public static partial class Render
                 },
                 b =>
                 {
-                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Renderers.Count())), b.Const("Renderers"));
+                    var card = FactCard(b, b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const("Renderers"));
 
                     var gotoRenderers = b.Node("button", "", b => card);
 
@@ -261,7 +261,7 @@ public static partial class Render
                 },
                 b =>
                 {
-                    var card = FactCard(b, b.AsString(b.Get(model, x => x.Handlers.Count())), b.Const("Handlers"));
+                    var card = FactCard(b, b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const("Handlers"));
 
                     var gotoHandlers = b.Node("button", "", b => card);
 
@@ -318,8 +318,8 @@ public static partial class Render
                     b => b.Div(
                         "flex flex-col gap-2",
                         b.Map(
-                            b.Get(model, x => x.CompiledProjects),
-                            (b, project) => b.Text(b.Get(project, x => x.Name)))),
+                            b.Get(model, x => x.AlreadyCompiled),
+                            (b, project) => b.Text(project))),
                     b => b.Text(b.Concat(b.Const("Compiling "), b.Get(model, x => x.CurrentlyCompiling), b.Const(" ... ")))));
         }
 
@@ -328,7 +328,7 @@ public static partial class Render
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
 
-            var selectedRenderer = b.Get(model, model => model.Renderers.Single(x => x.Renderer.SymbolKey == model.SelectedRenderer));
+            var selectedRenderer = b.Get(model, model => model.SolutionEntities.Renderers.Single(x => x.Renderer.SymbolKey == model.SelectedRenderer));
             var rendererName = ClassPathToNestedName(b, b.Get(model, x => x.SelectedRenderer));
             var projectName = b.Get(model, x => x.SelectedRenderer.Project);
 
@@ -350,7 +350,7 @@ public static partial class Render
                 b => b.Text(projectName, "text-sm text-gray-500"),
                 b => b.Div(
                     "flex flex-col",
-                    b.Map(b.Get(selectedRenderer, x => x.Renderer.FileNames), (b, path) => b.Text(path))),
+                    b.Map(b.Get(selectedRenderer, x => x.Renderer.FilePaths), (b, path) => b.Text(path))),
                 b => AddInputButton(b, model),
                 b => b.Div(
                     "flex flex-col gap-4 w-1/2",

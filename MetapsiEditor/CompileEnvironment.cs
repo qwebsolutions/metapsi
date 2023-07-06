@@ -21,21 +21,19 @@ public record EmbeddedResource(string Path, string LogicalName);
 
 public static class CompileEnvironment
 {
+    //public class HandlerSymbol
+    //{
+    //    public TypeReference Symbol { get; set; }
+    //    public ITypeSymbol RouteType { get; set; }
+    //}
 
 
-    public class HandlerSymbol
-    {
-        public SymbolReference Symbol { get; set; }
-        public ITypeSymbol RouteType { get; set; }
-    }
-
-
-    public class SymbolReference
-    {
-        public string ProjectName { get; set; }
-        public string FilePath { get; set; }
-        public INamedTypeSymbol Symbol { get; set; }
-    }
+    //public class TypeReference
+    //{
+    //    public string ProjectName { get; set; }
+    //    public string FilePath { get; set; }
+    //    public INamedTypeSymbol Symbol { get; set; }
+    //}
 
     public class State
     {
@@ -51,10 +49,10 @@ public static class CompileEnvironment
                                                      //public Assembly OriginalAssembly { get; set; }
         public List<string> OriginalRenderers { get; set; } = new();
         public Dictionary<string, byte[]> OriginalAssemblies = new();
-        public List<SymbolReference> Routes { get; set; } = new();
-        public List<HandlerSymbol> Handlers { get; set; } = new();
-        public List<SymbolReference> Renderers { get; set; } = new();
-        public HashSet<EmbeddedResource> EmbeddedResources { get; set; } = new();
+        //public List<TypeReference> Routes { get; set; } = new();
+        //public List<HandlerSymbol> Handlers { get; set; } = new();
+        //public List<TypeReference> Renderers { get; set; } = new();
+        //public HashSet<EmbeddedResource> EmbeddedResources { get; set; } = new();
 
         //public AssemblyLoadContext OriginalLoadContext = new("original");
 
@@ -64,10 +62,14 @@ public static class CompileEnvironment
         public byte[] ParentBinary { get; set; }
 
         public string InputModel { get; set; }
+
+        public SolutionEntities SolutionEntities { get; set; }
     }
 
     public static async Task InitSolution(CommandContext commandContext, State state, string slnPath)
     {
+
+        SolutionEntities solutionEntities = new();
 
         List<string> routeInterfaceNames = new List<string>()
         {
@@ -95,12 +97,12 @@ public static class CompileEnvironment
             state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
             state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
 
-            var embeddedResources = GetEmbeddedResources(project);
+            //var embeddedResources = GetEmbeddedResources(project);
 
-            foreach (var embeddedResource in embeddedResources)
-            {
-                state.EmbeddedResources.Add(embeddedResource);
-            }
+            //foreach (var embeddedResource in embeddedResources)
+            //{
+            //    state.EmbeddedResources.Add(embeddedResource);
+            //}
 
             foreach (var document in project.Documents)
             {
@@ -118,54 +120,49 @@ public static class CompileEnvironment
                         var allInterfaces = classSymbol.AllInterfaces;
                         if (allInterfaces.Any(x => routeInterfaceNames.Contains(x.Name)))
                         {
+                            var routeSymbolKey = GetSymbolKey(classSymbol);
 
-                            state.Routes.Add(new SymbolReference()
-                            {
-                                ProjectName = project.Name,
-                                FilePath = document.FilePath,
-                                Symbol = classSymbol
-                            });
+                            var partialRoute = solutionEntities.Routes.SingleOrDefault(x => SymbolKeysEqual(routeSymbolKey, x.Route.SymbolKey));
 
-                            commandContext.PostEvent(new RouteAdded()
+                            if (partialRoute != null)
                             {
-                                Route = new RouteReference()
+                                partialRoute.Route.FilePaths.Add(document.FilePath);
+                            }
+                            else
+                            {
+                                var route = new SymbolReference() { SymbolKey = routeSymbolKey };
+
+                                route.FilePaths.Add(document.FilePath);
+                                solutionEntities.Routes.Add(new RouteReference()
                                 {
-                                    Route = new Metapsi.Live.SymbolReference()
-                                    {
-                                        SymbolKey = GetSymbolKey(classSymbol),
-                                        FileNames = new List<string>() { document.FilePath }
-                                    }
-                                }
-                            });
+                                    Route = route
+                                });
+                            }
                         }
 
                         if (IsRouteHandler(classSymbol))
                         {
-                            var compiledHandler = new HandlerSymbol()
-                            {
-                                Symbol = new SymbolReference()
-                                {
-                                    ProjectName = project.Name,
-                                    FilePath = document.FilePath,
-                                    Symbol = classSymbol
-                                },
-                                RouteType = classSymbol.BaseType.TypeArguments.First()
-                            };
+                            var handlerSymbolKey = GetSymbolKey(classSymbol);
 
-                            state.Handlers.Add(compiledHandler);
+                            var partialHandler = solutionEntities.Handlers.SingleOrDefault(x => SymbolKeysEqual(handlerSymbolKey, x.Handler.SymbolKey));
 
-                            commandContext.PostEvent(new HandlerAdded()
+                            if (partialHandler != null)
                             {
-                                Handler = new HandlerReference()
+                                partialHandler.Handler.FilePaths.Add(document.FilePath);
+                            }
+                            else
+                            {
+                                var handler = new SymbolReference() { SymbolKey = handlerSymbolKey };
+                                handler.FilePaths.Add(document.FilePath);
+
+                                var handlerReference = new HandlerReference()
                                 {
-                                    Handler = new Metapsi.Live.SymbolReference()
-                                    {
-                                        SymbolKey = GetSymbolKey(classSymbol),
-                                        FileNames = new List<string>() { document.FilePath }
-                                    },
-                                    Route = GetSymbolKey(compiledHandler.RouteType)
-                                }
-                            });
+                                    Handler = handler,
+                                    Route = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
+                                };
+
+                                solutionEntities.Handlers.Add(handlerReference);
+                            }
                         }
 
                         if (allInterfaces.Any(x => x.Name == "IPageTemplate"))
@@ -173,69 +170,64 @@ public static class CompileEnvironment
                             if (classSymbol.BaseType.TypeArguments.Count() == 1)
                             {
 
-                                state.Renderers.Add(new SymbolReference()
-                                {
-                                    ProjectName = project.Name,
-                                    FilePath = document.FilePath,
-                                    Symbol = classSymbol
-                                });
+                                var rendererSymbolKey = GetSymbolKey(classSymbol);
 
-                                commandContext.PostEvent(new RendererAdded()
+                                var partialRenderer = solutionEntities.Renderers.SingleOrDefault(x => SymbolKeysEqual(rendererSymbolKey, x.Renderer.SymbolKey));
+
+                                if (partialRenderer != null)
                                 {
-                                    Renderer = new RendererReference()
+                                    partialRenderer.Renderer.FilePaths.Add(document.FilePath);
+                                }
+                                else
+                                {
+                                    var renderer = new SymbolReference() { SymbolKey = rendererSymbolKey };
+                                    renderer.FilePaths.Add(document.FilePath);
+
+                                    solutionEntities.Renderers.Add(new RendererReference()
                                     {
-                                        Renderer = new Metapsi.Live.SymbolReference()
-                                        {
-                                            FileNames = new List<string>() { document.FilePath },
-                                            SymbolKey = GetSymbolKey(classSymbol)
-                                        },
+                                        Renderer = renderer,
                                         Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
-                                    }
-                                });
+                                    });
+                                }
                             }
                         }
                     }
                 }
             }
 
-            var compiledProjectData = new Backend.Project()
+            solutionEntities.Projects.Add(new Metapsi.Live.ProjectReference()
             {
                 Name = project.Name,
-                UsedProjects = project.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList()
-            };
+                CsprojFilePath = project.FilePath,
+                UsedProjects = project.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList(),
+                EmbeddedResources = GetEmbeddedResources(project)
+            });
 
-            commandContext.PostEvent(new FinishedProjectCompile() { Project = compiledProjectData });
+            commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
         }
 
         List<Metapsi.Live.SymbolReference> renderers = new();
 
-        foreach (var rendererReference in state.Renderers)
-        {
-            var rendererData = renderers.SingleOrDefault(x => x.SymbolKey.ClassPath.Last() == rendererReference.Symbol.Name);
-            if (rendererData == null)
-            {
-                rendererData = new Metapsi.Live.SymbolReference()
-                {
-                    SymbolKey = GetSymbolKey(rendererReference.Symbol)
-                };
-                renderers.Add(rendererData);
-            }
+        //foreach (var rendererReference in state.Renderers)
+        //{
+        //    var rendererData = renderers.SingleOrDefault(x => x.SymbolKey.ClassPath.Last() == rendererReference.Symbol.Name);
+        //    if (rendererData == null)
+        //    {
+        //        rendererData = new Metapsi.Live.SymbolReference()
+        //        {
+        //            SymbolKey = GetSymbolKey(rendererReference.Symbol)
+        //        };
+        //        renderers.Add(rendererData);
+        //    }
 
-            rendererData.FileNames.Add(rendererReference.FilePath);
-        }
+        //    rendererData.FileNames.Add(rendererReference.FilePath);
+        //}
+
+        state.SolutionEntities = solutionEntities;
 
         commandContext.PostEvent(new SolutionLoaded()
         {
-            //Projects = state.OriginalSolution.Projects.Select(
-            //    x => new Backend.Project()
-            //    {
-            //        Name = x.Name,
-            //        UsedProjects = x.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList()
-            //    }).ToList(),
-            //Routes = state.Routes.Select(x => RouteSymbolToPath(x.Symbol)).ToList(),
-            //Renderers = renderers,
-            //Handlers = state.Handlers.Select(x => x.Symbol.Symbol.Name).ToList(),
-            EmbeddedResources = state.EmbeddedResources.ToList()
+            SolutionEntities = solutionEntities
         });
     }
 
@@ -247,6 +239,20 @@ public static class CompileEnvironment
             Namespace = symbol.ContainingNamespace?.Name,
             Project = symbol.ContainingAssembly?.Name
         };
+    }
+
+    public static bool SymbolKeysEqual(SymbolKey first, SymbolKey second)
+    {
+        if (first.Project != second.Project)
+            return false;
+
+        if (first.Namespace != second.Namespace)
+            return false;
+
+        if (string.Join(".", first.ClassPath) != string.Join(".", second.ClassPath))
+            return false;
+
+        return true;
     }
 
     public static List<string> GetClassPath(ITypeSymbol symbol)
@@ -305,27 +311,28 @@ public static class CompileEnvironment
     {
         var sw = Stopwatch.StartNew();
 
-        var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer.ClassPath.Last());
-        if (focusedRenderer == null)
+        var rendererReference = state.SolutionEntities.Renderers.Single(x => SymbolKeysEqual(renderer, x.Renderer.SymbolKey));
+
+        var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == renderer.Project);
+
+        var updatedProject = originalProject;
+
+        // Refresh files
+        foreach (var filePath in rendererReference.Renderer.FilePaths)
         {
-            throw new NotSupportedException("Renderer not available");
+            var originalDocument = originalProject.Documents.Single(x => x.FilePath == filePath);
+            updatedProject = originalProject.RemoveDocument(originalDocument.Id);
+            var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
+            updatedProject = newDocument.Project;
         }
-
-
-        var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == focusedRenderer.ProjectName);
-
-        var originalDocument = originalProject.Documents.Single(x => x.FilePath == focusedRenderer.FilePath);
-        var updatedProject = originalProject.RemoveDocument(originalDocument.Id);
-        var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
-        updatedProject = newDocument.Project;
 
         var updatedCompilation = await updatedProject.GetCompilationAsync();
 
         var binary = updatedCompilation.EmitToArray();
 
-        var assemblyLoadContext = new AssemblyLoadContext("preview_" + focusedRenderer.ProjectName);
+        var assemblyLoadContext = new AssemblyLoadContext("preview_" + renderer.Project);
         var reloadedBinary = LoadFromArray(assemblyLoadContext, binary);
-        var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != focusedRenderer.ProjectName);
+        var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != renderer.Project);
 
         foreach (var assembly in relatedAssemblies)
         {
@@ -351,39 +358,46 @@ public static class CompileEnvironment
         return serialized;
     }
 
-    public static async Task<string> PreviewRenderer(CommandContext commandContext, State state, string renderer, string inputJson)
+    public static async Task<string> PreviewRenderer(CommandContext commandContext, State state, SymbolKey renderer, string inputJson)
     {
         var sw = Stopwatch.StartNew();
 
-        var focusedRenderer = state.Renderers.SingleOrDefault(x => x.Symbol.Name == renderer);
-        if (focusedRenderer == null || string.IsNullOrEmpty(inputJson))
+        var rendererReference = state.SolutionEntities.Renderers.SingleOrDefault(x => SymbolKeysEqual(renderer, x.Renderer.SymbolKey));
+
+        if (rendererReference == null || string.IsNullOrEmpty(inputJson))
         {
             return "<html> <head> <title> Preview renderer</title> </head> <body style=\"width:100%;height:100%\"> No page selected </body> </html>";
         }
 
         try
         {
-            var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == focusedRenderer.ProjectName);
+            var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == renderer.Project);
 
-            var originalDocument = originalProject.Documents.Single(x => x.FilePath == focusedRenderer.FilePath);
-            var updatedProject = originalProject.RemoveDocument(originalDocument.Id);
-            var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
-            updatedProject = newDocument.Project;
+            var updatedProject = originalProject;
+
+            // Refresh files
+            foreach (var filePath in rendererReference.Renderer.FilePaths)
+            {
+                var originalDocument = originalProject.Documents.Single(x => x.FilePath == filePath);
+                updatedProject = originalProject.RemoveDocument(originalDocument.Id);
+                var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
+                updatedProject = newDocument.Project;
+            }
 
             var updatedCompilation = await updatedProject.GetCompilationAsync();
 
             var binary = updatedCompilation.EmitToArray();
 
-            var assemblyLoadContext = new AssemblyLoadContext("preview_" + focusedRenderer.ProjectName);
+            var assemblyLoadContext = new AssemblyLoadContext("preview_" + renderer.Project);
             var reloadedBinary = LoadFromArray(assemblyLoadContext, binary);
-            var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != focusedRenderer.ProjectName);
+            var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != renderer.Project);
 
             foreach (var assembly in relatedAssemblies)
             {
                 LoadFromArray(assemblyLoadContext, assembly.Value);
             }
 
-            var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer).Single();
+            var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer.ClassPath.Last()).Single();
             var renderMethod = rendererType.GetMethods().Single(x => x.Name == "Render" && x.ReturnType == typeof(string) && x.GetParameters().Count() == 1);
 
             //var inputJson = await System.IO.File.ReadAllTextAsync("D:\\qwebsolutions\\metapsi\\MetapsiEditor\\input.json");
