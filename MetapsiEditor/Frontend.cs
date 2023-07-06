@@ -18,7 +18,7 @@ public static class Frontend
     }
 
     public static Request<ApiResponse, Guid> SelectSolution { get; set; } = new(nameof(SelectSolution));
-    public static Request<SolutionEntitiesResponse, bool> GetSolutionEntities { get; set; } = new(nameof(GetSolutionEntities));
+    public static Request<SolutionEntitiesResponse> GetSolutionEntities { get; set; } = new(nameof(GetSolutionEntities));
     public static Request<Backend.RendererResponse, SymbolKey> SelectRenderer { get; set; } = new(nameof(SelectRenderer));
     public static Request<ApiResponse, Guid> SetInputId { get; set; } = new(nameof(SetInputId));
     public static Request<Backend.RendererResponse, SymbolKey> AddRendererInput { get; set; } = new(nameof(AddRendererInput));
@@ -42,7 +42,7 @@ public static class Frontend
             };
         }, WebServer.Authorization.Public);
 
-        apiEndpoint.MapRequest(Frontend.GetSolutionEntities, async (CommandContext commandContext, HttpContext httpContext, bool _) =>
+        apiEndpoint.MapRequest(Frontend.GetSolutionEntities, async (CommandContext commandContext, HttpContext httpContext) =>
         {
             var solutionEntities = await commandContext.Do(Backend.GetSolutionEntities);
             var compilationStatus = await commandContext.Do(Backend.GetCompilationStatus);
@@ -53,7 +53,7 @@ public static class Frontend
                 AlreadyCompiled = compilationStatus.AlreadyCompiled,
                 CurrentlyCompiling = compilationStatus.CurrentlyCompiling,
                 SolutionEntities = solutionEntities,
-                ResultCode = "Ok"
+                ResultCode = ApiResultCode.Ok
             };
         },
         WebServer.Authorization.Public);

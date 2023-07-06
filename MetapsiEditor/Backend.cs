@@ -26,80 +26,17 @@ public static class Backend
         public List<Solution> Solutions { get; set; } = new();
     }
 
-    //public class ProjectsResponse
-    //{
-    //    public bool IsLoading { get; set; }
-    //    public List<ProjectReference> Projects { get; set; } = new();
-    //}
-
-    //public class RoutesResponse
-    //{
-    //    public bool IsLoading { get; set; }
-    //    public List<RouteReference> Routes { get; set; }
-    //}
-
-    //public class HandlersResponse
-    //{
-    //    public bool IsLoading { get; set; }
-    //    public List<HandlerReference> Handlers { get; set; } = new();
-    //}
-
-    //public class RenderersResponse
-    //{
-    //    public bool IsLoading { get; set; }
-    //    public List<RendererReference> Renderers { get; set; } = new();
-    //    public List<HandlerReference> Handlers { get; set; } = new();
-
-    //    public List<string> CompiledProjects { get; set; } = new();
-    //    public string CurrentlyCompiling { get; set; } = string.Empty;
-    //}
-
     public class RendererResponse : ApiResponse
     {
         public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
         public SymbolKey Renderer { get; set; }
     }
 
-    //public class Renderer
-    //{
-    //    public string Name { get; set; }
-    //    public string ProjectName { get; set; }
-
-    //    // Could be partial classes
-    //    public List<string> FileNames { get; set; } = new();
-    //}
-
-    //public class Project
-    //{
-    //    public string Name { get; set; } = string.Empty;
-    //    public List<string> UsedProjects { get; set; } = new();
-    //}
-
     public static void MapBackend(this ImplementationGroup ig, 
         CompileEnvironment.State compileEnvironment,
             PanelEnvironment.State panelEnvironment,
             PreviewEnvironment.State previewEnvironment)
     {
-        //ig.MapRequest(Backend.GetProjects, async (rc) =>
-        //{
-        //    return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetProjects);
-        //});
-
-        //ig.MapRequest(Backend.GetRoutes, async (rc) =>
-        //{
-        //    return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRoutes);
-        //});
-
-        //ig.MapRequest(Backend.GetHandlers, async (rc) =>
-        //{
-        //    return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetHandlers);
-        //});
-
-        //ig.MapRequest(Backend.GetRenderers, async (rc) =>
-        //{
-        //    return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetRenderers);
-        //});
-
         ig.MapRequest(Backend.GetSolutionEntities, async (rc) =>
         {
             return await rc.Using(panelEnvironment, ig).EnqueueRequest(PanelEnvironment.GetSolutionEntities);

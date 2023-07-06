@@ -47,9 +47,8 @@ public static partial class Render
         {
             return b.AsyncResult(
                 model,
-                b.Request<Handler.Home.Model, Frontend.SolutionEntitiesResponse, bool>(
+                b.Request<Handler.Home.Model, Frontend.SolutionEntitiesResponse>(
                     Frontend.GetSolutionEntities,
-                    b.Const(true),
                     b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntitiesResponse> result) =>
                     {
                         b.Log(result);

@@ -76,6 +76,45 @@ namespace Metapsi.Hyperapp
                 }));
         }
 
+        public static Action<BlockBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult>(
+                    this BlockBuilder b,
+                    Request<TResult> request,
+                    Var<HyperType.Action<TState, TResult>> onResult)
+                    where TState : IApiSupportState
+                    where TResult : IApiResponse
+        {
+            return b.CallApi<TState, TResult>(
+                request,
+                b.MakeAction((BlockBuilder b, Var<TState> state, Var<TResult> result) =>
+                {
+                    // We can hide the panel even if it was not shown in the first place
+                    state = b.HidePanel(state);
+
+                    // Explicit API error
+                    return b.If<HyperType.ActionDescriptor<TState, TResult>>(
+                        b.Get(result, x => x.ResultCode == "Error"),
+                        b =>
+                        {
+                            var apiSupport = b.Get(state, x => x.ApiSupport);
+                            b.Set(apiSupport, x => x.ErrorMessage, b.Const("It seems there was an error. Try again, please"));
+                            b.Log(b.Get(result, x => x.ErrorMessage));
+
+                            return b.MakeActionDescriptor(
+                                b.MakeAction(
+                                    (BlockBuilder b, Var<TState> state, Var<TResult> result) => b.Clone(state)), result);
+                        },
+                        b => b.MakeActionDescriptor(onResult, result));
+                }),
+                b.MakeAction((BlockBuilder b, Var<TState> state, Var<ApiError> error) =>
+                {
+                    // Server/Network error
+                    var apiSupport = b.Get(state, x => x.ApiSupport);
+                    b.Set(apiSupport, x => x.ErrorMessage, b.Const("It seems there was an error. Try again, please"));
+                    b.Log(error);
+                    return b.HidePanel(state);
+                }));
+        }
+
         public static Var<TState> ShowPanel<TState>(this BlockBuilder b, Var<TState> page)
             where TState: IApiSupportState
         {
