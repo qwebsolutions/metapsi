@@ -20,6 +20,7 @@ public static partial class Handler
         ListRenderers,
         ListRoutes,
         ListHandlers,
+        FocusProject,
         FocusRenderer
     }
 
@@ -31,6 +32,7 @@ public static partial class Handler
             public View CurrentView { get; set; } = View.ListSolutions;
             public List<Solution> Solutions { get; set; }
             public Guid SelectedSolutionId { get; set; }
+            public string FocusedProjectName { get; set; } = string.Empty;
             public SymbolKey SelectedRenderer { get; set; }
 
             public List<Metapsi.Live.Db.Input> Inputs { get; set; } = new();
