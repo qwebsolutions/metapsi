@@ -41,6 +41,7 @@ namespace Metapsi.Live
     {
         public SymbolReference Handler { get; set; }
         public SymbolKey Route { get; set; }
+        public SymbolKey ReturnModelType { get; set; }
     }
 
     public class ModelReference

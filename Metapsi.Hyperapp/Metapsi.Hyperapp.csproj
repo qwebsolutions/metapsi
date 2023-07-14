@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
 		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
 		<ProjectReference Include="..\Metapsi.Ui\Metapsi.Ui.csproj" />
+		<ProjectReference Include="..\Metapsi.Web.DataModel\Metapsi.Web.DataModel.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

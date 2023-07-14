@@ -41,6 +41,9 @@ public static class Storage
 
         ig.MapRequest(Storage.LoadRendererInputs, async (RequestRoutingContext rc, SymbolKey  renderer) =>
         {
+            if (renderer == null)
+                return new List<Metapsi.Live.Db.Input>();
+
             var allInputs = await Db.Records<Metapsi.Live.Db.Input>(dbFullPath);
             return allInputs.Where(x => x.RendererName == renderer.ClassPath.Last()).ToList();
         });

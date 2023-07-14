@@ -86,6 +86,15 @@ public static class Backend
                 selectedInput = new Metapsi.Live.Db.Input();
             }
 
+            if (panelEnvironment.FocusedRenderer == null)
+            {
+                return new PreviewEnvironment.PreviewParameters()
+                {
+                    InputName = selectedInput.InputName,
+                    RendererName = string.Empty
+                };
+            }
+
             return new PreviewEnvironment.PreviewParameters()
             {
                 InputName = selectedInput.InputName,

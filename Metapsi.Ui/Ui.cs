@@ -19,6 +19,16 @@ public interface IHasSidePanel
     bool ShowSidePanel { get; set; }
 }
 
+public interface IHasValidationPanel
+{
+    string ValidationMessage { get; set; }
+}
+
+public interface IHasLoadingPanel
+{
+    bool IsLoading { get; set; }
+}
+
 public static class Menu
 {
     public class Entry
@@ -51,6 +61,9 @@ public static class UserExtensions
 {
     public static bool IsSignedIn(this Metapsi.Ui.User user)
     {
+        if (user == null)
+            return false;
+
         return !string.IsNullOrEmpty(user.Name);
     }
 }

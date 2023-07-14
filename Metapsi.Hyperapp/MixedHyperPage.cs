@@ -6,29 +6,29 @@ using System.Linq;
 
 namespace Metapsi.Hyperapp
 {
-    public abstract class MixedHyperPage<TDataModel, TServerData> : HtmlPage<TServerData>
+    public abstract class MixedHyperPage<TServerModel, TClientModel> : HtmlPage<TServerModel>
     {
         /// <summary>
         /// Extracts the serializable subset of actual data that is used as page model
         /// </summary>
-        /// <param name="serverData"></param>
+        /// <param name="serverModel"></param>
         /// <returns></returns>
-        public abstract TDataModel ExtractDataModel(TServerData serverData);
+        public abstract TClientModel ExtractClientModel(TServerModel serverModel);
 
-        public abstract Var<HyperNode> OnRender(BlockBuilder b, Var<TDataModel> clientModel, TServerData serverData);
-        public virtual Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TDataModel> model)
+        public abstract Var<HyperNode> OnRender(BlockBuilder b, TServerModel serverModel, Var<TClientModel> clientModel);
+        public virtual Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TClientModel> model)
         {
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtml(TServerData serverData)
+        public override IHtmlNode GetHtml(TServerModel serverModel)
         {
-            var dataModel = ExtractDataModel(serverData);
+            var dataModel = ExtractClientModel(serverModel);
 
-            var module = HyperBuilder.BuildModule<TDataModel>(
+            var module = HyperBuilder.BuildModule<TClientModel>(
                 (b, clientModel) =>
                 {
-                    return OnRender(b, clientModel, serverData);
+                    return OnRender(b, serverModel, clientModel);
                 },
                 this.OnInit);
 

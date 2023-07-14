@@ -1,13 +1,9 @@
 ﻿using Metapsi.Syntax;
 using System.Linq;
+using Metapsi.Ui;
 
 namespace Metapsi.Hyperapp
 {
-    public interface IHasLoadingPanel
-    {
-        bool IsLoading { get; set; }
-    }
-
     public static class LoadingPanelControl
     {
         public static Var<HyperNode> LoadingPanel<TPage>(this BlockBuilder b, Var<TPage> page)

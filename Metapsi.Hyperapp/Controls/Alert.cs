@@ -43,7 +43,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> ValidationPanel<TPage>(this BlockBuilder b, Var<TPage> page)
-            where TPage : IHasValidationPanel
+            where TPage : Metapsi.Ui.IHasValidationPanel
         {
             Var<string> validationMessage = b.Get(page, x => x.ValidationMessage);
             return b.If(
@@ -61,11 +61,6 @@ namespace Metapsi.Hyperapp
                     return validationDiv;
                 });
         }
-    }
-
-    public interface IHasValidationPanel
-    {
-        string ValidationMessage { get; set; }
     }
 }
 

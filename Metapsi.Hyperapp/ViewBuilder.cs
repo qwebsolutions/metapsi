@@ -255,6 +255,22 @@ namespace Metapsi.Syntax
             return path;
         }
 
+        public static Var<string> Url<TRoute>(this BlockBuilder b)
+            where TRoute : Route.IGet
+        {
+            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+            string path = string.Join("/", nestedTypeNames);
+            return b.Const(path);
+        }
+
+        public static Var<string> Url<TRoute, TParam>(this BlockBuilder b, Var<TParam> param)
+            where TRoute : Route.IGet<TParam>
+        {
+            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+            string path = string.Join("/", nestedTypeNames);
+            return b.Concat(b.Const(path), b.Const("/"), b.AsString(param));
+        }
+
         public static Var<string> RootPath(this BlockBuilder b)
         {
             return b.Const(string.Empty);

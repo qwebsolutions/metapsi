@@ -162,12 +162,35 @@ public static class CompileEnvironment
                                 };
 
                                 solutionEntities.Handlers.Add(handlerReference);
+
+                                var allDescendants = classDeclaration.DescendantNodes();
+                                var allMethods = allDescendants.OfType<MethodDeclarationSyntax>();
+                                var onGet = allMethods.Where(x => x.Identifier.Text == "OnGet");
+
+                                foreach (var getMethod in onGet)
+                                {
+                                    var pageResults = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsPageResultCall);
+                                    //var allInvocations = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+                                    foreach (var invocation in pageResults)
+                                    {
+                                        if (invocation.ArgumentList.Arguments.Count() == 1)
+                                        {
+                                            var pageModelType = semanticModel.GetTypeInfo(invocation.ArgumentList.Arguments.Single().Expression);
+
+                                            if (pageModelType.Type != null)
+                                            {
+                                                handlerReference.ReturnModelType = GetSymbolKey(pageModelType.Type);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         if (allInterfaces.Any(x => x.Name == "IPageTemplate"))
                         {
-                            if (classSymbol.BaseType.TypeArguments.Count() == 1)
+                            if (classSymbol.BaseType.TypeArguments.Count() >= 1)
                             {
 
                                 var rendererSymbolKey = GetSymbolKey(classSymbol);
@@ -231,18 +254,87 @@ public static class CompileEnvironment
         });
     }
 
+    public static bool IsPageResultCall(InvocationExpressionSyntax expressionSyntax)
+    {
+        if (!(expressionSyntax is InvocationExpressionSyntax))
+            return false;
+
+        if (!(expressionSyntax.Expression is MemberAccessExpressionSyntax))
+            return false;
+
+        var pageResultCall = expressionSyntax.Expression as MemberAccessExpressionSyntax;
+
+        if (pageResultCall.Expression.ToString() != "Page")
+            return false;
+
+        if (pageResultCall.Name.Identifier.Text != "Result")
+            return false;
+
+        return true;
+    }
+
     public static SymbolKey GetSymbolKey(ITypeSymbol symbol)
     {
+
+        //List<string> namespaces = new List<string>();
+
+        //var constituentNamespaces = symbol.ContainingNamespace.ConstituentNamespaces;
+
+        //INamespaceSymbol containingNamespace = symbol.ContainingNamespace;
+
+        //while (true)
+        //{
+        //    if (containingNamespace == null)
+        //        break;
+
+        //    if (string.IsNullOrEmpty(containingNamespace.Name))
+        //        break;
+
+        //    namespaces.Add(containingNamespace.Name);
+
+        //    containingNamespace = containingNamespace.ContainingNamespace;
+        //}
+
+        //namespaces.Reverse();
+
+        //var recursiveNamespace = string.Join(".", namespaces);
+
         return new SymbolKey()
         {
             ClassPath = GetClassPath(symbol),
-            Namespace = symbol.ContainingNamespace?.Name,
+            Namespace = symbol.ContainingNamespace?.ToString(),
             Project = symbol.ContainingAssembly?.Name
         };
     }
 
+    public static SymbolKey GetSymbolKey(System.Type type)
+    {
+        if (type == null)
+            return new SymbolKey();
+
+        if (type.AssemblyQualifiedName.Contains("List"))
+        {
+            Console.WriteLine(type);
+        }
+
+        var sk = new SymbolKey()
+        {
+            ClassPath = GetClassPath(type),
+            Namespace = type.Namespace,
+            Project = type.Assembly.GetName().Name
+        };
+
+        return sk;
+    }
+
     public static bool SymbolKeysEqual(SymbolKey first, SymbolKey second)
     {
+        if (first == null)
+            return false;
+
+        if (second == null)
+            return false;
+
         if (first.Project != second.Project)
             return false;
 
@@ -265,6 +357,22 @@ public static class CompileEnvironment
                 break;
             classPath.Add(symbol.Name);
             symbol = symbol.ContainingType;
+        }
+
+        classPath.Reverse();
+        return classPath;
+    }
+
+    public static List<string> GetClassPath(System.Type type)
+    {
+        List<string> classPath = new();
+
+        while (true)
+        {
+            if (type == null)
+                break;
+            classPath.Add(type.Name);
+            type = type.DeclaringType;
         }
 
         classPath.Reverse();
@@ -339,7 +447,7 @@ public static class CompileEnvironment
             LoadFromArray(assemblyLoadContext, assembly.Value);
         }
 
-        var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer.ClassPath.Last()).Single();
+        var rendererType = reloadedBinary.DefinedTypes.Where(x => SymbolKeysEqual(GetSymbolKey(x), renderer)).Single();
         var renderMethod = rendererType.GetMethods().Single(x => x.Name == "Render" && x.ReturnType == typeof(string) && x.GetParameters().Count() == 1);
 
         //var inputJson = await System.IO.File.ReadAllTextAsync("D:\\qwebsolutions\\metapsi\\MetapsiEditor\\input.json");
@@ -397,7 +505,7 @@ public static class CompileEnvironment
                 LoadFromArray(assemblyLoadContext, assembly.Value);
             }
 
-            var rendererType = reloadedBinary.DefinedTypes.Where(x => x.Name == renderer.ClassPath.Last()).Single();
+            var rendererType = reloadedBinary.DefinedTypes.Where(x => SymbolKeysEqual(GetSymbolKey(x.UnderlyingSystemType), renderer)).Single();
             var renderMethod = rendererType.GetMethods().Single(x => x.Name == "Render" && x.ReturnType == typeof(string) && x.GetParameters().Count() == 1);
 
             //var inputJson = await System.IO.File.ReadAllTextAsync("D:\\qwebsolutions\\metapsi\\MetapsiEditor\\input.json");

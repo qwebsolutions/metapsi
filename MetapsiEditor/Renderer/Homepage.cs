@@ -4,8 +4,10 @@ using Metapsi.Live;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 public static partial class Render
@@ -213,48 +215,46 @@ public static partial class Render
                                 b.Get(model, project, (model, project) => model.SolutionEntities.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList()),
                                 (b, renderer) => b.Div(
                                     "flex flex-row gap-2",
-                                    b => ClassPathToNestedName(b, b.Get(renderer, x => x.Renderer.SymbolKey)),
-                                    b => ClassPathToNestedName(b, b.Get(renderer, x => x.Model))))),
+                                    b => QualifiedSymbolClass(b, b.Get(renderer, x => x.Renderer.SymbolKey)),
+                                    b => QualifiedSymbolClass(b, b.Get(renderer, x => x.Model))))),
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
                                 b.Get(model, project, (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
                                 (b, handler) => b.Div(
                                     "flex flex-row gap-2",
-                                    b => ClassPathToNestedName(b, b.Get(handler, x => x.Handler.SymbolKey)),
-                                    b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route)))))),
+                                    b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
+                                    b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route))))),
                         b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
                                 GetProjectRoutes(b, model, project),
                                 (b, route) => b.Div(
                                     "flex flex-row gap-2",
-                                    b => b.Text(
-                                        ClassPathToUrl(b, b.Get(route, x => x.Route.SymbolKey)),
-                                        "text-yellow-500"))))
+                                    b => QualifiedSymbolUrl(b, b.Get(route, x => x.Route.SymbolKey)))))
                         );
 
             return b.Div("flex flex-row justify-center", b => projectPage);
         }
 
-        public Var<string> ClassPathToUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
-        {
-            var classPath = b.Get(symbolKey, x => x.ClassPath);
-            return b.JoinStrings(b.Const("/"), classPath);
-        }
+        //public Var<string> ClassPathToUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
+        //{
+        //    var classPath = b.Get(symbolKey, x => x.ClassPath);
+        //    return b.JoinStrings(b.Const("/"), classPath);
+        //}
 
-        public Var<HyperNode> ClassPathToNestedName(BlockBuilder b, Var<SymbolKey> symbolKey)
-        {
-            var classPath = b.Get(symbolKey, x => x.ClassPath);
-            var nestedClassName = b.JoinStrings(b.Const("."), classPath);
+        //public Var<HyperNode> ClassPathToNestedName(BlockBuilder b, Var<SymbolKey> symbolKey)
+        //{
+        //    var classPath = b.Get(symbolKey, x => x.ClassPath);
+        //    var nestedClassName = b.JoinStrings(b.Const("."), classPath);
 
-            return b.Span(
-                "",
-                b => b.Text(b.Get(symbolKey, x => x.Project), "text-sm text-gray-600"),
-                b => b.Text(b.Const(":"), "text-sm text-gray-600"),
-                b => b.Text(b.Get(symbolKey, x => x.Namespace), "text-gray-800"),
-                b => b.Text(nestedClassName, "text-gray-800"));
-        }
+        //    return b.Span(
+        //        "",
+        //        b => b.Text(b.Get(symbolKey, x => x.Project), "text-sm text-gray-600"),
+        //        b => b.Text(b.Const(":"), "text-sm text-gray-600"),
+        //        b => b.Text(b.Get(symbolKey, x => x.Namespace), "text-gray-800"),
+        //        b => b.Text(nestedClassName, "text-gray-800"));
+        //}
 
         public Var<HyperNode> ListRoutes(BlockBuilder b, Var<Handler.Home.Model> model)
         {
@@ -263,8 +263,8 @@ public static partial class Render
                     b.Get(model, x => x.SolutionEntities.Routes),
                     (b, route) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
-                        b => b.Text(ClassPathToUrl(b, b.Get(route, x => x.Route.SymbolKey))),
-                        b => ClassPathToNestedName(b, b.Get(route, x => x.Route.SymbolKey)))));
+                        b => QualifiedSymbolUrl(b, b.Get(route, x => x.Route.SymbolKey)),
+                        b => QualifiedSymbolClass(b, b.Get(route, x => x.Route.SymbolKey)))));
         }
 
         public Var<HyperNode> ListHandlers(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -274,8 +274,8 @@ public static partial class Render
                     b.Get(model, x => x.SolutionEntities.Handlers),
                     (b, handler) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
-                        b => ClassPathToNestedName(b, b.Get(handler, x => x.Handler.SymbolKey)),
-                        b => b.Text(ClassPathToUrl(b, b.Get(handler, x => x.Route))))));
+                        b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
+                        b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route)))));
         }
 
         public Var<HyperNode> ListRenderers(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -309,6 +309,223 @@ public static partial class Render
                         b.Map(
                             b.Get(model, x => x.SolutionEntities.Renderers.Select(x => x.Renderer.SymbolKey).ToList()),
                             SelectRendererButton))));
+        }
+
+        public class SummaryRow
+        {
+            public RouteReference Route { get; set; }
+            public HandlerReference Handler { get; set; }
+            public ModelReference Model { get; set; }
+            public RendererReference Renderer { get; set; }
+        }
+
+        public Var<string> GetQualifiedSymbolKey(BlockBuilder b, Var<SymbolKey> symbolKey)
+        {
+            return b.If(
+                b.HasObject(symbolKey),
+                b =>
+                {
+
+                    var classPath = b.JoinStrings(b.Const("."), b.Get(symbolKey, x => x.ClassPath));
+
+                    var qualified = b.Concat(
+                        b.Get(symbolKey, x => x.Project),
+                        b.Const(":"),
+                        b.Get(symbolKey, x => x.Namespace),
+                        b.Const(":"),
+                        classPath);
+
+                    return qualified;
+                },
+                b => b.Const(string.Empty));
+        }
+
+        public Var<HyperNode> QualifiedSymbolClass(BlockBuilder b, Var<SymbolKey> symbolKey)
+        {
+            return b.If(
+                b.HasObject(symbolKey),
+                b =>
+                {
+                    var classPath = b.JoinStrings(b.Const("."), b.Get(symbolKey, x => x.ClassPath));
+
+                    return b.Span(
+                        "",
+                        b => b.Text(b.Get(symbolKey, x => x.Project), "text-xs text-gray-400"),
+                        b => b.Text(": ", "text-xs text-gray-400"),
+                        b => b.Text(b.Get(symbolKey, x => x.Namespace), "text-sm text-gray-600"),
+                        b => b.Text(": ", "text-sm text-gray-600"),
+                        b => b.Text(classPath, "text-gray-800"));
+                },
+                b => b.Text("Not defined", "text-red-500"));
+        }
+
+        public Var<HyperNode> QualifiedSymbolUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
+        {
+            return b.If(
+                b.HasObject(symbolKey),
+                b =>
+                {
+                    var classPath = b.JoinStrings(b.Const("/"), b.Get(symbolKey, x => x.ClassPath));
+
+                    return b.Span(
+                        "",
+                        b => b.Text(b.Get(symbolKey, x => x.Project), "text-xs text-gray-400"),
+                        b => b.Text(": ", "text-xs text-gray-400"),
+                        b => b.Text(b.Get(symbolKey, x => x.Namespace), "text-sm text-gray-600"),
+                        b => b.Text(": ", "text-sm text-gray-600"),
+                        b => b.Text(classPath, "text-gray-800"));
+                },
+                b => b.Text("Not defined", "text-red-500"));
+        }
+
+        public Var<bool> SymbolKeyEquals(BlockBuilder b, Var<SymbolKey> first, Var<SymbolKey> second)
+        {
+            return b.AreEqual(GetQualifiedSymbolKey(b, first), GetQualifiedSymbolKey(b, second));
+        }
+
+        public Var<HyperNode> SolutionSummaryTable(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var summary = b.Get(model, x => x.SolutionEntities);
+
+            var tableProps = b.NewObj<DataTable.Props<SummaryRow>>();
+
+            var rows = b.NewCollection<SummaryRow>();
+
+            var eq = b.DefineFunc<SymbolKey, SymbolKey, bool>(SymbolKeyEquals);
+
+            b.Foreach(
+                b.Get(model, x => x.SolutionEntities.Routes),
+                (b, route) =>
+                {
+                    var routeHandlers = b.Get(
+                        summary,
+                        route,
+                        eq,
+                        (summary, route, eq) => summary.Handlers.Where(x => eq(x.Route, route.Route.SymbolKey)).ToList());
+
+                    b.If(
+                        b.Get(routeHandlers, x => !x.Any()),
+                        b =>
+                        {
+                            // if no handler exists we still need to display the route
+                            var row = b.NewObj<SummaryRow>();
+                            b.Set(row, x => x.Route, route);
+                            b.Push(rows, row);
+                        },
+                        b =>
+                        {
+                            b.Foreach(routeHandlers, (b, routeHandler) =>
+                            {
+                                b.If(
+                                    b.HasObject(b.Get(routeHandler, x => x.ReturnModelType)),
+                                    b =>
+                                    {
+                                        var returnModelType = b.Get(routeHandler, x => x.ReturnModelType);
+
+                                        var renderers = b.Get(summary, returnModelType, eq, (summary, returnModelType, eq) => summary.Renderers.Where(x => eq(x.Model, returnModelType)).ToList());
+
+                                        b.If(
+                                            b.Get(renderers, x => !x.Any()),
+                                            b =>
+                                            {
+                                                var row = b.NewObj<SummaryRow>();
+                                                b.Set(row, x => x.Route, route);
+                                                b.Set(row, x => x.Handler, routeHandler);
+                                                b.Push(rows, row);
+                                            },
+                                            b =>
+                                            {
+                                                b.Foreach(renderers, (b, renderer) =>
+                                                {
+                                                    var row = b.NewObj<SummaryRow>();
+                                                    b.Set(row, x => x.Route, route);
+                                                    b.Set(row, x => x.Handler, routeHandler);
+                                                    b.Set(row, x => x.Renderer, renderer);
+                                                    b.Push(rows, row);
+                                                });
+                                            });
+                                    },
+                                    b=>
+                                    {
+                                        // if no return model type is associated we still need to display the route & handler
+                                        var row = b.NewObj<SummaryRow>();
+                                        b.Set(row, x => x.Route, route);
+                                        b.Push(rows, row);
+                                    });
+                            });
+                        });
+                });
+
+            b.Set(tableProps, x => x.Rows, rows);
+            var columns = b.NewCollection<DataTable.Column>();
+            b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            {
+                b.Set(x => x.Name, b.Const("Route"));
+            }));
+
+            b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            {
+                b.Set(x => x.Name, b.Const("Handler"));
+            }));
+
+            b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            {
+                b.Set(x => x.Name, b.Const("Model"));
+            }));
+
+            b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            {
+                b.Set(x => x.Name, b.Const("Renderer"));
+            }));
+
+            b.Set(tableProps, x => x.Columns, columns);
+
+            b.Log(rows);
+
+            b.Set(tableProps, x => x.CreateCell, b.DefineFunc<SummaryRow, DataTable.Column, HyperNode>(RenderSummaryCell));
+
+            return b.DataTable<SummaryRow>(tableProps);
+        }
+
+        public Var<HyperNode> RenderSummaryCell(BlockBuilder b, Var<SummaryRow> row, Var<DataTable.Column> column)
+        {
+            return b.Switch(
+                b.Get(column, x => x.Name),
+                b => b.Text("Not defined", "text-red-500"),
+                ("Route", b => QualifiedSymbolUrl(b, b.Get(row, x => x.Route.Route.SymbolKey))),
+                ("Handler", b => GetHandlerCell(b, row)),
+                ("Model", b => GetModelCell(b, row)),
+                ("Renderer", b => GetRendererCell(b, row)));
+        }
+
+        public Var<HyperNode> GetRendererCell(BlockBuilder b, Var<SummaryRow> row)
+        {
+            var renderer = b.Get(row, x => x.Renderer);
+
+            return b.If(
+                b.HasObject(renderer),
+                b => QualifiedSymbolClass(b, b.Get(renderer, x => x.Renderer.SymbolKey)),
+                b => b.Text("Not defined", "text-red-500"));
+        }
+
+        public Var<HyperNode> GetHandlerCell(BlockBuilder b, Var<SummaryRow> row)
+        {
+            var handler = b.Get(row, x => x.Handler);
+
+            return b.If(
+                b.HasObject(handler),
+                b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
+                b => b.Text("Not defined", "text-red-500"));
+        }
+
+        public Var<HyperNode> GetModelCell(BlockBuilder b, Var<SummaryRow> row)
+        {
+            var handler = b.Get(row, x => x.Handler);
+
+            return b.If(
+                b.HasObject(handler),
+                b => QualifiedSymbolClass(b, b.Get(handler, x => x.ReturnModelType)),
+                b => b.Text("Not defined", "text-red-500"));
         }
 
         public Var<HyperNode> SolutionSummary(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -376,7 +593,8 @@ public static partial class Render
 
                         return gotoHandlers;
 
-                    }));
+                    }),
+                b => SolutionSummaryTable(b, model));
         }
 
         public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolKey> renderer)
@@ -386,8 +604,7 @@ public static partial class Render
                 "bg-blue-100 p-4 rounded",
                 b => b.Div(
                     "flex flex-col items-center gap-2",
-                    b => ClassPathToNestedName(b, renderer),
-                    b => b.Text(b.Get(renderer, x => x.Project), "text-sm text-gray-600")));
+                    b => QualifiedSymbolClass(b, renderer)));
 
             b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
             {
@@ -432,7 +649,7 @@ public static partial class Render
             var solutionPath = b.Get(selectedSolution, x => x.Path);
 
             var selectedRenderer = b.Get(model, model => model.SolutionEntities.Renderers.Single(x => x.Renderer.SymbolKey == model.SelectedRenderer));
-            var rendererName = ClassPathToNestedName(b, b.Get(model, x => x.SelectedRenderer));
+            var rendererName = QualifiedSymbolClass(b, b.Get(model, x => x.SelectedRenderer));
             var projectName = b.Get(model, x => x.SelectedRenderer.Project);
 
             return b.Div(
