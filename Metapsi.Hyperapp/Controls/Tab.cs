@@ -1,39 +1,25 @@
 ﻿using Metapsi.Syntax;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi.Hyperapp
 {
-    public interface IHasTabs
-    {
-        string FirstLevelSelectedTab { get; set; }
-        string SecondLevelSelectedTab { get; set; }
-    }
+    //public interface IHasTabs
+    //{
+    //    string FirstLevelSelectedTab { get; set; }
+    //    string SecondLevelSelectedTab { get; set; }
+    //}
 
     public static partial class Tab
     {
-        //public class TabPage
-        //{
-        //    public string Name { get; set; }
-        //    public string Label { get; set; }
-        //    public HyperNode TabContent { get; set; }
-        //}
+        private const string FeatureName = "Tabs";
+        //private const string SelectedTabKey = "SelectedTab";
 
-        //public class Props
+        //private static string GetTabKey(string tabName)
         //{
-        //    public string Name { get; set; }
-        //    public List<TabPage> Pages { get; set; } = new List<TabPage>();
-        //}
-
-        //internal class TabState
-        //{
-        //    public string TabName { get; set; } = string.Empty;
-        //    public string SelectedPageName { get; set; } = string.Empty;
-        //}
-
-        //internal class TabsState
-        //{
-        //    public List<TabState> AllTabs { get; set; } = new();
+        //    return $"{FeatureName}.{tabName}";
         //}
 
         internal static Var<HyperNode> RenderTab<TPage>(
@@ -41,113 +27,58 @@ namespace Metapsi.Hyperapp
             Var<TPage> page, 
             Var<string> tabName,
             Var<HyperNode> toolbar,
-            params Controls. TabRenderer[] tabPages)
-            where TPage: IHasTabs
+            params Controls.TabRenderer[] tabPages)
         {
-            //var defaultPageName = b.Get(props, x => x.Pages.First().Name);
-            //var selectedPageName = b.GetSelectedTabPage(tabName, defaultPageName);
+            var rootContainer = b.Div("bg-white rounded drop-shadow");
 
             if (tabPages.Any())
             {
-                var selectedTabPageCode = b.Get(page, x => x.FirstLevelSelectedTab);
+                var selectedTabPageCode = b.GetVar(page, FeatureName, tabName, b.Const(tabPages.First().TabPageCode));
 
-                var selectedTabIsValidCode = b.Get(
-                    selectedTabPageCode,
-                    b.Const(tabPages.Select(x => x.TabPageCode).ToList()),
-                    (selected, all) => all.Any(x => x == selected));
+                var topArea = b.Add(rootContainer, b.Div("flex flex-row justify-between p-4"));
 
-                b.If(
-                    b.Not(selectedTabIsValidCode),
-                    b => b.Set(page, x => x.FirstLevelSelectedTab, b.Const(tabPages.First().TabPageCode)));
-            }
+                var labels = b.Add(topArea, b.Div("flex flex-row gap-4"));
 
-            var rootContainer = b.Div("bg-white rounded drop-shadow");
+                var commands = b.Add(topArea, toolbar);
 
-            var topArea = b.Add(rootContainer, b.Div("flex flex-row justify-between p-4"));
+                var contentContainer = b.Add(rootContainer, b.Div("flex flex-column p-8"));
 
-            var labels = b.Add(topArea, b.Div("flex flex-row gap-4"));
+                foreach (var tab in tabPages)
+                {
+                    var tabLabel = b.Div("p-4 cursor-pointer border-b rounded-t bg-white");
+                    var tabCode = b.Const(tab.TabPageCode);
 
-            var commands = b.Add(topArea, toolbar);
+                    b.SetOnClick<TPage>(
+                        tabLabel,
+                        b.MakeAction((BlockBuilder b, Var<TPage> state) =>
+                        {
+                            b.SetSelectedTabPage(state, tabName, b.Const(tab.TabPageCode));
+                            return b.Clone(state);
+                        }));
 
-            //var commands = b.Add(topArea, b.Div("flex flex-row gap-4"));
-            //b.Add(commands, b.Text("Commands here"));
-            //b.Add(commands, b.Text("Commands here"));
+                    b.Add(tabLabel, b.Call(tab.TabHeader));
 
-            var contentContainer = b.Add(rootContainer, b.Div("flex flex-column p-8"));
+                    b.Add(labels, tabLabel);
 
-            //var tabs = b.Get(props, x => x.Pages);
+                    var isSelected = b.AreEqual<string>(tabCode, selectedTabPageCode);
 
-            foreach(var tab in tabPages)
-            {
-                var tabLabel = b.Div("p-4 cursor-pointer border-b rounded-t bg-white");
-                var tabCode = b.Const(tab.TabPageCode);
-
-                b.SetOnClick<TPage>(
-                    tabLabel, 
-                    b.MakeAction((BlockBuilder b, Var<TPage> state) =>
+                    b.If(isSelected, b =>
                     {
-                        b.Call(SetSelectedTabPage, state, tabCode);
-                        return b.Clone(state);
-                    }));
-
-                b.Add(tabLabel, b.Call(tab.TabHeader));
-
-                b.Add(labels, tabLabel);
-
-                var isSelected = b.AreEqual<string>(tabCode, b.Get(page, x => x.FirstLevelSelectedTab));
-
-                b.If(isSelected, b =>
-                {
-                    b.AddClass(tabLabel, "border-b-2 border-sky-400");
-                    b.Add(contentContainer, b.Call(tab.TabContent));
-                }, b =>
-                {
-                    b.AddClass(tabLabel, "border-white hover:border-sky-400 hover:border-b-2");
-                });
+                        b.AddClass(tabLabel, "border-b-2 border-sky-400");
+                        b.Add(contentContainer, b.Call(tab.TabContent));
+                    }, b =>
+                    {
+                        b.AddClass(tabLabel, "border-white hover:border-sky-400 hover:border-b-2");
+                    });
+                }
             }
-
             return rootContainer;
         }
 
-        public static void SetSelectedTabPage<TPage>(this BlockBuilder b, Var<TPage> page, Var<string> tabName)
-            where TPage: IHasTabs
+        public static void SetSelectedTabPage<TPage>(this BlockBuilder b, Var<TPage> page, Var<string> tabName, Var<string> tabPageCode)
         {
-            b.Set(page, x => x.FirstLevelSelectedTab, tabName);
+            b.SetVar(page, FeatureName, tabName, tabPageCode);
         }
-
-        //internal static Var<string> GetSelectedTabPage(this BlockBuilder b, Var<string> tabName, Var<string> defaultPageName)
-        //{
-        //    var tabState= b.GetControlState<TabState>(tabName, b=>
-        //    {
-        //        b.Set(x => x.TabName, tabName);
-        //        b.Set(x => x.SelectedPageName, defaultPageName);
-        //    });
-
-        //    return b.Get(tabState, x => x.SelectedPageName);
-
-        //    //return b.If<string>(
-        //    //    b.IsEmpty(selectedTabPage.As<object>()),
-        //    //    b => defaultPageName,
-        //    //    b => b.Get(selectedTabPage, x => x.SelectedPageName));
-        //}
-
-        //public static void AddTabPage(
-        //    this BlockBuilder b,
-        //    Var<Props> props,
-        //    string tabPageName,
-        //    string tabPageLabel,
-        //    Var<HyperNode> content)
-        //{
-        //    b.Modify<Props, List<TabPage>>(props, x => x.Pages, b =>
-        //    {
-        //        b.Add(b =>
-        //        {
-        //            b.Set(x => x.Name, b.Const(tabPageName));
-        //            b.Set(x => x.Label, b.Const(tabPageLabel));
-        //            b.Set(x => x.TabContent, content);
-        //        });
-        //    });
-        //}
     }
 }
 

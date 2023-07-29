@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.SQLite", "Metapsi.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Web.DataModel", "Metapsi.Web.DataModel\Metapsi.Web.DataModel.csproj", "{40C681E0-409F-49E3-BC7B-5E7EE304A1CB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Heroicons", "Metapsi.Heroicons\Metapsi.Heroicons.csproj", "{34F2064B-2012-4AB0-BC83-56697A8A984D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{40C681E0-409F-49E3-BC7B-5E7EE304A1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C681E0-409F-49E3-BC7B-5E7EE304A1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C681E0-409F-49E3-BC7B-5E7EE304A1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

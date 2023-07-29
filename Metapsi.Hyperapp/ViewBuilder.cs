@@ -260,7 +260,15 @@ namespace Metapsi.Syntax
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
             string path = string.Join("/", nestedTypeNames);
-            return b.Const(path);
+            return b.Const($"/{path}");
+        }
+
+        public static Var<string> Url<TRoute, TPayload>(this BlockBuilder b)
+            where TRoute : Route.IPost<TPayload>
+        {
+            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+            string path = string.Join("/", nestedTypeNames);
+            return b.Const($"/{path}");
         }
 
         public static Var<string> Url<TRoute, TParam>(this BlockBuilder b, Var<TParam> param)
@@ -268,7 +276,7 @@ namespace Metapsi.Syntax
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
             string path = string.Join("/", nestedTypeNames);
-            return b.Concat(b.Const(path), b.Const("/"), b.AsString(param));
+            return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
         }
 
         public static Var<string> RootPath(this BlockBuilder b)
@@ -443,6 +451,9 @@ namespace Metapsi.Syntax
 
         public static void AddStylesheet(this BlockBuilder b, string href)
         {
+            // If it is not absolute path, make it absolute
+            href = $"/{href}".Replace("//", "/");
+
             b.Const(new LinkTag("stylesheet", href));
         }
 

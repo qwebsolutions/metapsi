@@ -26,6 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="embedded\metapsi.hyperapp.css" LogicalName="metapsi.hyperapp.css" />
 		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
 		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />

@@ -1,0 +1,1 @@
+tailwindcss -i input.css -o ../embedded/metapsi.hyperapp.css

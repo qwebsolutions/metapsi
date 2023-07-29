@@ -34,7 +34,6 @@ namespace Metapsi.Hyperapp
             Var<string> tabName,
             Var<HyperNode> toolbar,
             params TabRenderer[] tabPages)
-            where TPage: IHasTabs
         {
             return b.RenderTab(page, tabName, toolbar, tabPages);
         }

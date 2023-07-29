@@ -14,7 +14,7 @@ public static class Route
     {
         var nestedTypeNames = typeof(TRoute).NestedTypeNames();
         string path = string.Join("/", nestedTypeNames);
-        return path;
+        return $"/{path}";
     }
 
     public static string Path<TRoute, T1>(T1 p1)

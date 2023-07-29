@@ -365,7 +365,7 @@ namespace Metapsi
             return contentType;
         }
 
-        public static void RegisterRouteHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
+        public static void RegisterGetHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
             where THandler : Http.Get<TRoute>, new()
             where TRoute : Route.IGet
         {
@@ -381,7 +381,7 @@ namespace Metapsi
             }
         }
 
-        public static void RegisterRouteHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
+        public static void RegisterGetHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
             where THandler : Http.Get<TRoute, T1>, new()
             where TRoute : Route.IGet<T1>
         {
@@ -396,6 +396,26 @@ namespace Metapsi
                 var requestPath = $"{nestedPath}/{{{DataParametersPath(get)}}}";
 
                 routeBuilder.MapGet(requestPath, get);
+            }
+        }
+
+        public static void RegisterPostHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
+            where THandler : Http.Post<TRoute, T1>, new()
+            where TRoute : Route.IPost<T1>
+        {
+            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+            if (type != null)
+            {
+                var nestedTypeNames = type.NestedTypeNames();
+                string nestedPath = string.Join("/", nestedTypeNames);
+
+                routeBuilder.MapPost(nestedPath, async (CommandContext commandContext, HttpContext httpContext) =>
+                {
+                    T1 payload = await httpContext.Payload<T1>();
+
+                    var post = new THandler().OnPost(commandContext, httpContext, payload);
+
+                });
             }
         }
 

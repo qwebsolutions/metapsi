@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Ui;
 
@@ -108,3 +109,25 @@ public class HtmlText : IHtmlNode
         this.Text = text;
     }
 }
+
+//public class ViewRenderer<TVarClientModel, TVarVNode>
+//{
+//    public string Name { get; set; }
+//    public Func<TVarClientModel, TVarVNode> RenderFunc { get; set; }
+//}
+
+//public class ViewEntry
+//{
+//    /// <summary>
+//    /// The name of the area where this view is applied. 
+//    /// There might be multiple view-based controls (multiple tabs, for example) in the same page,
+//    /// so this is used to differentiate between them
+//    /// </summary>
+//    public string AreaName { get; set; } = string.Empty;
+//    public string ViewRendererName { get; set; } = string.Empty;
+//}
+
+//public interface IHasViews
+//{
+//    List<ViewEntry> Views { get; set; }
+//}

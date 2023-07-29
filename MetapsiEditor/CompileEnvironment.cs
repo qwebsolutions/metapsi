@@ -404,12 +404,16 @@ public static class CompileEnvironment
 
         foreach (var resource in xmldoc.Descendants("EmbeddedResource"))
         {
-            string includePath = resource.Attribute("Include").Value;
-            string logicalName = resource.Attribute("LogicalName").Value;
+            var includeAttribute = resource.Attribute("Include");
+            if (includeAttribute != null)
+            {
+                string includePath = resource.Attribute("Include").Value;
+                string logicalName = resource.Attribute("LogicalName").Value;
 
-            var qualifiedIncludePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(project.FilePath), includePath);
+                var qualifiedIncludePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(project.FilePath), includePath);
 
-            embeddedResources.Add(new EmbeddedResource(qualifiedIncludePath, logicalName));
+                embeddedResources.Add(new EmbeddedResource(qualifiedIncludePath, logicalName));
+            }
         }
 
         return embeddedResources;
