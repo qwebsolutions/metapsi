@@ -6,6 +6,10 @@
 	@apply bg-sky-500;
 }
 
+button[type="button"], [type="reset"], [type="submit"].button-primary {
+	@apply bg-sky-500;
+}
+
 @font-face {
 	font-family: 'poppins';
 	font-style: normal;

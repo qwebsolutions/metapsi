@@ -1251,6 +1251,11 @@ video {
   background-color: rgb(14 165 233 / var(--tw-bg-opacity));
 }
 
+button[type="button"],  [type="reset"],  [type="submit"].button-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(14 165 233 / var(--tw-bg-opacity));
+}
+
 @font-face {
   font-family: 'poppins';
 

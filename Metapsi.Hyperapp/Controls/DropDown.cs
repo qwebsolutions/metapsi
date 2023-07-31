@@ -38,8 +38,9 @@ namespace Metapsi.Hyperapp
 
         internal static Var<HyperNode> Render(BlockBuilder b, Var<Props> props)
         {
-            b.AddScript("choices.min.js");
-            b.AddStylesheet("choices.min.css");
+            b.AddScript("/choices.min.js");
+            b.AddStylesheet("/choices.min.css");
+            b.AddStylesheet("/metapsi.hyperapp.css");
 
             const string import = "choices";
 

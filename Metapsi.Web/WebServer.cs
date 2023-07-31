@@ -440,7 +440,7 @@ namespace Metapsi
             references.Renderers[typeof(TModel)] = builder;
         }
 
-        public static void RegisterPageBuilder<TRenderer, TModel>(this References references, TRenderer renderer)
+        public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
             where TRenderer : IPageTemplate<TModel>, new()
         {
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
