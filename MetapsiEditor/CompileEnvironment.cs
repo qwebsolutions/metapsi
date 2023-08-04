@@ -117,6 +117,15 @@ public static class CompileEnvironment
                     foreach (var classDeclaration in routesVisitor.ClassDeclarations)
                     {
                         var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
+
+                        var apis = await GetApiDeclarations(classSymbol, state.OriginalSolution);
+
+                        foreach(var api in apis)
+                        {
+                            Console.WriteLine($"==== {Metapsi.Serialize.ToJson(api)}");
+                        }
+
+
                         var allInterfaces = classSymbol.AllInterfaces;
                         if (allInterfaces.Any(x => routeInterfaceNames.Contains(x.Name)))
                         {
@@ -165,11 +174,11 @@ public static class CompileEnvironment
 
                                 var allDescendants = classDeclaration.DescendantNodes();
                                 var allMethods = allDescendants.OfType<MethodDeclarationSyntax>();
-                                var onGet = allMethods.Where(x => x.Identifier.Text == "OnGet");
+                                var httpHandlerMethods = allMethods.Where(x => x.Identifier.Text == "OnGet" || x.Identifier.Text == "OnPost");
 
-                                foreach (var getMethod in onGet)
+                                foreach (var httpMethod in httpHandlerMethods)
                                 {
-                                    var pageResults = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsPageResultCall);
+                                    var pageResults = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsPageResultCall);
                                     //var allInvocations = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>();
 
                                     foreach (var invocation in pageResults)
@@ -183,6 +192,13 @@ public static class CompileEnvironment
                                                 handlerReference.ReturnModelType = GetSymbolKey(pageModelType.Type);
                                             }
                                         }
+                                    }
+
+                                    var contextCalls = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCommandContextCall);
+
+                                    foreach (var contextCall in contextCalls)
+                                    {
+                                        handlerReference.CommandContextCalls.Add(contextCall.ArgumentList.Arguments.First().Expression.ToString());
                                     }
                                 }
                             }
@@ -212,6 +228,14 @@ public static class CompileEnvironment
                                         Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
                                     });
                                 }
+
+                                await RecursiveCalls(classSymbol, document, state.OriginalSolution, si =>
+                                {
+                                    if (si.Symbol.Name == "Url")
+                                    {
+                                        Console.WriteLine("==============================");
+                                    }
+                                });
                             }
                         }
                     }
@@ -252,6 +276,214 @@ public static class CompileEnvironment
         {
             SolutionEntities = solutionEntities
         });
+    }
+
+    public static async Task RecursiveCalls(INamedTypeSymbol rendererClass, Document document, Solution solution, Action<SymbolInfo> onCall)
+    {
+        var syntaxTree = await document.GetSyntaxTreeAsync();
+        var semanticModel = await document.GetSemanticModelAsync();
+
+        var allMembers = rendererClass.GetMembers();
+
+        foreach (var member in allMembers)
+        {
+            if (member.Name == "OnRender")
+            {
+                var declaration = member.DeclaringSyntaxReferences.First();
+
+                var rendererClassDeclaration = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Where(x => x.Identifier.Text == rendererClass.Name);
+
+                if (rendererClassDeclaration.Count() == 1)
+                {
+                    var methods = rendererClassDeclaration.First().DescendantNodes().OfType<MethodDeclarationSyntax>();
+
+                    var onRender = methods.Where(sn => sn.Identifier.Text == "OnRender");
+
+                    if (onRender.Count() == 1)
+                    {
+                        var calls = onRender.First().DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+                        foreach (var call in calls)
+                        {
+                            if (call.Expression is MemberAccessExpressionSyntax)
+                            {
+                                var access = call.Expression as MemberAccessExpressionSyntax;
+                                if (access.Name.ToString().Contains("Url"))
+                                {
+                                    Console.WriteLine($"======== Renderer {rendererClass.Name} {call}");
+                                }
+                            }
+
+                            var callInfo = semanticModel.GetSymbolInfo(call);
+
+                            if (callInfo.Symbol != null)
+                            {
+                                if (!IsFrameworkNamespace(callInfo.Symbol.ContainingNamespace.ToString()))
+                                {
+                                    await RecursiveCalls(callInfo, solution, onCall);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    public static async Task RecursiveCalls(SymbolInfo call, Solution solution, Action<SymbolInfo> onCall)
+    {
+        if (call.Symbol.DeclaringSyntaxReferences.Count() == 1)
+        {
+            var document = solution.GetDocument(call.Symbol.DeclaringSyntaxReferences.Single().SyntaxTree);
+            var semanticModel = await document.GetSemanticModelAsync();
+            var methodSyntax = call.Symbol.DeclaringSyntaxReferences.Single().GetSyntax();
+            var calls = methodSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+            foreach (var innerCall in calls)
+            {
+                var innerCallSymbol = semanticModel.GetSymbolInfo(innerCall);
+
+                if (innerCallSymbol.Symbol != null)
+                {
+                    if (!IsFrameworkNamespace(innerCallSymbol.Symbol.ContainingNamespace.ToString()))
+                    {
+                        await RecursiveCalls(innerCallSymbol, solution, onCall);
+                    }
+                }
+            }
+        }
+    }
+
+    public static bool IsFrameworkNamespace(string ns)
+    {
+        if (ns.StartsWith("Metapsi"))
+            return true;
+
+        if (ns.StartsWith("System"))
+            return true;
+
+        return false;
+    }
+
+    public enum ApiType
+    {
+        Request,
+        Command
+    }
+
+    public class Api
+    {
+        public ApiType ApiType { get; set; }
+        public string Name { get; set; }
+        public List<string> Parameters { get; set; } = new();
+    }
+
+    private static async Task<List<Api>> GetApiDeclarations(INamedTypeSymbol classDeclaration, Solution sln)
+    {
+        List<Api> apis = new List<Api>();
+        var members = classDeclaration.GetMembers();
+        foreach(var member in members)
+        {
+            if(member is IPropertySymbol)
+            {
+                var property = member as IPropertySymbol;
+                if (property.Type.Name == "Request" && property.Type.ContainingNamespace.Name == "Metapsi")
+                {
+                    INamedTypeSymbol genericType = property.Type as INamedTypeSymbol;
+
+                    if (genericType != null)
+                    {
+
+                        var references = await SymbolFinder.FindReferencesAsync(property, sln);
+
+                        foreach (var reference in references)
+                        {
+                            foreach (var location in reference.Locations)
+                            {
+                                var syntaxTree = await location.Document.GetSyntaxTreeAsync();
+                                var syntaxNode = syntaxTree.GetRoot().FindNode(location.Location.SourceSpan);
+
+                                if (IsCommandContextCall(syntaxNode))
+                                {
+                                    Console.WriteLine(location.Document.FilePath);
+                                }
+
+                                //var something = location.Location.SourceTree.GetLineSpan(location.Location.SourceSpan);
+                                //var semanticDoc = await location.Document.GetSemanticModelAsync();
+                                //var syntaxNode = location.Location.SourceTree.GetRoot().FindNode(location.Location.SourceSpan);
+                                //semanticDoc.GetSymbolInfo( location.Location.SourceSpan);
+                            }
+                        }
+
+                        apis.Add(new Api()
+                        {
+                            ApiType = ApiType.Request,
+                            Name = property.Name,
+                            Parameters = genericType.TypeArguments.Select(x => x.Name).ToList()
+                        });
+                    }
+                }
+
+                if (property.Type.Name == "Command" && property.Type.ContainingNamespace.Name == "Metapsi")
+                {
+                    INamedTypeSymbol genericType = property.Type as INamedTypeSymbol;
+
+                    if (genericType != null)
+                    {
+                        apis.Add(new Api()
+                        {
+                            ApiType = ApiType.Command,
+                            Name = property.Name,
+                            Parameters = genericType.TypeArguments.Select(x => x.Name).ToList()
+                        });
+                    }
+                }
+            }
+        }
+
+        return apis;
+    }
+
+    public static bool IsCommandContextCall(SyntaxNode syntaxNode)
+    {
+        if (syntaxNode is IdentifierNameSyntax)
+        {
+            if(syntaxNode.Parent is MemberAccessExpressionSyntax)
+            {
+                if(syntaxNode.Parent.Parent is ArgumentSyntax)
+                {
+                    if(syntaxNode.Parent.Parent.Parent is ArgumentListSyntax)
+                    {
+                        if(syntaxNode.Parent.Parent.Parent.Parent is InvocationExpressionSyntax)
+                        {
+                            var invocation = syntaxNode.Parent.Parent.Parent.Parent as InvocationExpressionSyntax;
+                            var memberAccess = invocation.Expression as MemberAccessExpressionSyntax;
+                            if (memberAccess.Name.Identifier.Text == "Do")
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static bool IsCommandContextCall(InvocationExpressionSyntax invocation)
+    {
+        var memberAccess = invocation.Expression as MemberAccessExpressionSyntax;
+
+        if (memberAccess == null)
+            return false;
+
+        if (memberAccess.Name.Identifier.Text == "Do")
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public static bool IsPageResultCall(InvocationExpressionSyntax expressionSyntax)

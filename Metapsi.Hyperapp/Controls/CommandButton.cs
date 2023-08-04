@@ -53,7 +53,7 @@ namespace Metapsi.Hyperapp
             b.If(b.HasValue(b.Get(props, x => x.Label)), b =>
             {
                 b.Add(buttonContent, b.Text(b.Get(props, x => x.Label)));
-                b.AddClass(button, "text-white py-2 px-4 shadow");
+                b.AddClass(button, "py-2 px-4 shadow");
             },
             b =>
             {

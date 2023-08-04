@@ -275,7 +275,12 @@ public static partial class Render
                     (b, handler) => b.Div(
                         "flex flex-col gap-2 p-4 rounded bg-blue-100",
                         b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
-                        b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route)))));
+                        b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route)),
+                        b => b.Div(
+                            "flex flex-col gap-2",
+                            b.Map(
+                                b.Get(handler, x => x.CommandContextCalls),
+                                (b, call) => b.Text(call))))));
         }
 
         public Var<HyperNode> ListRenderers(BlockBuilder b, Var<Handler.Home.Model> model)

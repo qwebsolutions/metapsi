@@ -457,6 +457,15 @@ namespace Metapsi.Syntax
             b.Const(new LinkTag("stylesheet", href));
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        public static void AddModuleStylesheet(this BlockBuilder b)
+        {
+            var assembly = System.Reflection.Assembly.GetCallingAssembly();
+            var cssName = $"{assembly.GetName().Name}.css";
+
+            b.AddStylesheet(cssName);
+        }
+
         public static void AddScript(this BlockBuilder b, string src)
         {
             b.Const(new ScriptTag(src));

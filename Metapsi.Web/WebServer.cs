@@ -413,8 +413,8 @@ namespace Metapsi
                 {
                     T1 payload = await httpContext.Payload<T1>();
 
-                    var post = new THandler().OnPost(commandContext, httpContext, payload);
-
+                    var post = await new THandler().OnPost(commandContext, httpContext, payload);
+                    return post;
                 });
             }
         }
