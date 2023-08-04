@@ -21,6 +21,12 @@ public record EmbeddedResource(string Path, string LogicalName);
 
 public static class CompileEnvironment
 {
+    public record FileChanged : IData
+    {
+        public string FilePath { get; set; }
+        public string ProjectName { get; set; }
+    }
+
     //public class HandlerSymbol
     //{
     //    public TypeReference Symbol { get; set; }
@@ -45,10 +51,11 @@ public static class CompileEnvironment
         public Dictionary<string, Compilation> OriginalCompilations { get; set; } = new();
 
         //public Project OriginalProject { get; set; } // Full project
-                                                     //public Compilation OriginalProjectCompilation { get; set; }
-                                                     //public Assembly OriginalAssembly { get; set; }
+        //public Compilation OriginalProjectCompilation { get; set; }
+        //public Assembly OriginalAssembly { get; set; }
         public List<string> OriginalRenderers { get; set; } = new();
         public Dictionary<string, byte[]> OriginalAssemblies = new();
+        public Dictionary<string, byte[]> DynamicAssemblies = new();
         //public List<TypeReference> Routes { get; set; } = new();
         //public List<HandlerSymbol> Handlers { get; set; } = new();
         //public List<TypeReference> Renderers { get; set; } = new();
@@ -64,11 +71,14 @@ public static class CompileEnvironment
         public string InputModel { get; set; }
 
         public SolutionEntities SolutionEntities { get; set; }
+
+        public Dictionary<string, FileSystemWatcher> Watchers { get; set; } = new();
+        public HashSet<string> AllDocumentPaths { get; set; } = new();
+        public HashSet<FileChanged> ChangedSinceLastCompilation { get; set; } = new();
     }
 
     public static async Task InitSolution(CommandContext commandContext, State state, string slnPath)
     {
-
         SolutionEntities solutionEntities = new();
 
         List<string> routeInterfaceNames = new List<string>()
@@ -88,6 +98,7 @@ public static class CompileEnvironment
 
         var workspace = MSBuildWorkspace.Create();
         state.OriginalSolution = await workspace.OpenSolutionAsync(slnPath);
+        state.DynamicSolution = state.OriginalSolution;
         var deps = state.OriginalSolution.GetProjectDependencyGraph();
         Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
         foreach (var project in state.OriginalSolution.Projects)
@@ -96,6 +107,7 @@ public static class CompileEnvironment
 
             state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
             state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
+            state.DynamicAssemblies[project.Name] = state.OriginalAssemblies[project.Name];
 
             //var embeddedResources = GetEmbeddedResources(project);
 
@@ -120,7 +132,7 @@ public static class CompileEnvironment
 
                         var apis = await GetApiDeclarations(classSymbol, state.OriginalSolution);
 
-                        foreach(var api in apis)
+                        foreach (var api in apis)
                         {
                             Console.WriteLine($"==== {Metapsi.Serialize.ToJson(api)}");
                         }
@@ -240,6 +252,17 @@ public static class CompileEnvironment
                         }
                     }
                 }
+
+                state.AllDocumentPaths.Add(document.FilePath);
+
+
+                var dirName = System.IO.Path.GetDirectoryName(document.FilePath);
+
+                if (!state.Watchers.ContainsKey(dirName))
+                {
+
+                    AddWatcher(commandContext, state, project, dirName);
+                }
             }
 
             solutionEntities.Projects.Add(new Metapsi.Live.ProjectReference()
@@ -276,6 +299,51 @@ public static class CompileEnvironment
         {
             SolutionEntities = solutionEntities
         });
+    }
+
+    public static void AddWatcher(
+        CommandContext commandContext,
+        State state,
+        Project project,
+        string dirName)
+    {
+        var changed = (string filePath) =>
+        {
+            try
+            {
+                if (state.AllDocumentPaths.Contains(filePath))
+                {
+                    commandContext.PostEvent(new FileChanged()
+                    {
+                        FilePath = filePath,
+                        ProjectName = project.Name
+                    });
+                }
+            }
+            catch
+            {
+            }
+        };
+
+        if (!state.Watchers.ContainsKey(dirName))
+        {
+            var watcher = new FileSystemWatcher(dirName);
+            watcher.NotifyFilter = NotifyFilters.Attributes
+                     | NotifyFilters.CreationTime
+                     | NotifyFilters.DirectoryName
+                     | NotifyFilters.FileName
+                     | NotifyFilters.LastAccess
+                     | NotifyFilters.LastWrite
+                     | NotifyFilters.Security
+                     | NotifyFilters.Size;
+            watcher.IncludeSubdirectories = false;
+            watcher.Changed += (o, e) => changed(e.FullPath);
+            watcher.Renamed += (o, e) => changed(e.OldFullPath);
+            watcher.Created += (o, e) => changed(e.FullPath);
+            watcher.Deleted += (o, e) => changed(e.FullPath);
+            watcher.EnableRaisingEvents = true;
+            state.Watchers[dirName] = watcher;
+        }
     }
 
     public static async Task RecursiveCalls(INamedTypeSymbol rendererClass, Document document, Solution solution, Action<SymbolInfo> onCall)
@@ -715,26 +783,39 @@ public static class CompileEnvironment
 
         try
         {
-            var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == renderer.Project);
-
-            var updatedProject = originalProject;
-
             // Refresh files
-            foreach (var filePath in rendererReference.Renderer.FilePaths)
+            foreach (var change in state.ChangedSinceLastCompilation)
             {
-                var originalDocument = originalProject.Documents.Single(x => x.FilePath == filePath);
-                updatedProject = originalProject.RemoveDocument(originalDocument.Id);
-                var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
-                updatedProject = newDocument.Project;
+                var project = state.DynamicSolution.Projects.Single(x => x.Name == change.ProjectName);
+                var document = project.Documents.Single(x => x.FilePath == change.FilePath);
+                var updatedProject = project.RemoveDocument(document.Id);
+                var updatedDocument = updatedProject.AddDocument(
+                    document.Name,
+                    await System.IO.File.ReadAllTextAsync(document.FilePath),
+                    filePath: change.FilePath);
+                state.DynamicSolution = updatedDocument.Project.Solution;
+
+                //var originalDocument = originalProject.Documents.Single(x => x.FilePath == filePath);
+                //updatedProject = originalProject.RemoveDocument(originalDocument.Id);
+                //var newDocument = updatedProject.AddDocument(originalDocument.Name, await System.IO.File.ReadAllTextAsync(originalDocument.FilePath));
+                //updatedProject = newDocument.Project;
             }
 
-            var updatedCompilation = await updatedProject.GetCompilationAsync();
+            foreach (var changedProjectName in state.ChangedSinceLastCompilation.Select(x => x.ProjectName).Distinct())
+            {
+                var project = state.DynamicSolution.Projects.Single(x => x.Name == changedProjectName);
+                var projectCompilation = await project.GetCompilationAsync();
+                var projectBinary = projectCompilation.EmitToArray();
+                state.DynamicAssemblies[changedProjectName] = projectBinary;
+            }
 
-            var binary = updatedCompilation.EmitToArray();
+            //var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == renderer.Project);
+
+            //var updatedProject = originalProject;
 
             var assemblyLoadContext = new AssemblyLoadContext("preview_" + renderer.Project);
-            var reloadedBinary = LoadFromArray(assemblyLoadContext, binary);
-            var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != renderer.Project);
+            var reloadedBinary = LoadFromArray(assemblyLoadContext, state.DynamicAssemblies[renderer.Project]);
+            var relatedAssemblies = state.DynamicAssemblies.Where(x => x.Key != renderer.Project);
 
             foreach (var assembly in relatedAssemblies)
             {
@@ -760,6 +841,8 @@ public static class CompileEnvironment
             var result = renderMethod.Invoke(Activator.CreateInstance(rendererType), new object[] { inputObject });
 
             Console.WriteLine($"Recompiled in {sw.ElapsedMilliseconds} ms");
+
+            state.ChangedSinceLastCompilation = new();
 
             return result as string;
         }

@@ -127,6 +127,14 @@ namespace Metapsi.Live
             {
                 e.Using(compileEnvironment).EnqueueCommand(CompileEnvironment.SwitchRenderer, e.EventData.RendererName);
             });
+
+            setup.MapEvent<CompileEnvironment.FileChanged>(e =>
+            {
+                e.Using(compileEnvironment).EnqueueCommand(async (commandContext, state) =>
+                {
+                    state.ChangedSinceLastCompilation.Add(e.EventData);
+                });
+            });
         }
     }
 }
