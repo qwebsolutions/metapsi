@@ -313,6 +313,13 @@ namespace Metapsi
             return Path(handler.Method);
         }
 
+        public static string Url<TRoute>() where TRoute : Route.IGet
+        {
+            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+            string path = string.Join("/", nestedTypeNames);
+            return $"/{path}";
+        }
+
         public static string Url<TResult, TArg>(Func<CommandContext, HttpContext, TArg, TResult> handler, TArg arg)
         {
             return Path(handler.Method, arg);
