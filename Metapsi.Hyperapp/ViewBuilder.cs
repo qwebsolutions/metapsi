@@ -468,6 +468,9 @@ namespace Metapsi.Syntax
 
         public static void AddScript(this BlockBuilder b, string src)
         {
+            // If it is not absolute path, make it absolute
+            src = $"/{src}".Replace("//", "/");
+
             b.Const(new ScriptTag(src));
         }
     }
