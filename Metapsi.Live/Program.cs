@@ -26,13 +26,13 @@ public static partial class Program
     public class Arguments
     {
         public string DbPath { get; set; } = string.Empty;
+        public int UiPort { get; set; }
     }
 
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
         Metapsi.Sqlite.Converters.RegisterAll();
-        //System.Threading.ThreadPool.SetMinThreads(1200, 1200);
 
         var setup = Metapsi.ApplicationSetup.New();
 
@@ -51,37 +51,13 @@ public static partial class Program
         var previewEnvironment = setup.AddBusinessState(new PreviewEnvironment.State());
 
         var ig = setup.AddImplementationGroup();
-
-        //ig.MapCommand(InitSolution, async (rc, slnPath) =>
-        //{
-        //    await rc.Using(reloadEnvironment, ig).EnqueueCommand(ReloadEnvironment.InitSolution, slnPath);
-        //});
-
-        //const string targetPath = @"d:\qwebsolutions\mds\Mds.Direct.sln";
-        //var renderer = "RenderListsRequestsPage";
-
-        //setup.MapEvent<ApplicationRevived>(e =>
-        //{
-        //    e.Using(reloadEnvironment).EnqueueCommand(CompileEnvironment.InitSolution, targetPath);
-        //    //e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, mainCsProj);
-        //    //e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchRenderer, renderer);
-        //});
-
-        //setup.MapEvent<ReloadEnvironment.ProjectLoaded>(e =>
-        //{
-        //    e.Using(reloadEnvironment).EnqueueCommand(ReloadEnvironment.SwitchProject, e.EventData.ProjectName);
-        //});
-
         setup.MapEvents(ig, compileEnvironment, panelEnvironment, previewEnvironment);
 
-       
-
-        var webServer = setup.AddWebServer(ig, 7132);
+        var webServer = setup.AddWebServer(ig, arguments.UiPort);
 
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
 
         apiEndpoint.MapFrontend();
-
 
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
@@ -89,6 +65,7 @@ public static partial class Program
 
         webServer.WebApplication.RegisterGetHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
+        webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Live.Route.Home>()));
 
         ig.MapStorage(dbFullPath);
         ig.MapBackend(compileEnvironment, panelEnvironment, previewEnvironment);

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Module", "Metapsi.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Hyperapp", "Metapsi.Hyperapp\Metapsi.Hyperapp.csproj", "{325D2766-C97D-419A-A467-026020482D2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetapsiEditor", "MetapsiEditor\MetapsiEditor.csproj", "{87FC46F0-5984-4407-A16A-0C77BC529C11}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.JavaScript", "Metapsi.JavaScript\Metapsi.JavaScript.csproj", "{F5D59282-AB1B-4BDB-9C93-6B3522A78744}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Ui", "Metapsi.Ui\Metapsi.Ui.csproj", "{5364AA51-D786-43A7-91DA-0B2F7F68321E}"
@@ -22,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Web.DataModel", "Metapsi.Web.DataModel\Metapsi.Web.DataModel.csproj", "{40C681E0-409F-49E3-BC7B-5E7EE304A1CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Heroicons", "Metapsi.Heroicons\Metapsi.Heroicons.csproj", "{34F2064B-2012-4AB0-BC83-56697A8A984D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Live", "Metapsi.Live\Metapsi.Live.csproj", "{7C04B3B8-21BC-4BD1-8B5B-5D08FD58C908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,6 @@ Global
 		{325D2766-C97D-419A-A467-026020482D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{325D2766-C97D-419A-A467-026020482D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{325D2766-C97D-419A-A467-026020482D2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87FC46F0-5984-4407-A16A-0C77BC529C11}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F2064B-2012-4AB0-BC83-56697A8A984D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C04B3B8-21BC-4BD1-8B5B-5D08FD58C908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C04B3B8-21BC-4BD1-8B5B-5D08FD58C908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C04B3B8-21BC-4BD1-8B5B-5D08FD58C908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C04B3B8-21BC-4BD1-8B5B-5D08FD58C908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
