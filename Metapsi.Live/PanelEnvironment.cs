@@ -36,6 +36,7 @@ public class PanelEnvironment
         public Metapsi.Live.Db.Input SelectedInput { get; set; }
         public string CurrentlyCompiling { get; set; } = string.Empty;
         public HashSet<string> AlreadyCompiled { get; set; } = new();
+        public int TotalProjects { get; set; }
     }
 
     public static async Task SetLoading(CommandContext commandContext, State state, bool isLoading)
@@ -66,7 +67,8 @@ public class PanelEnvironment
         {
             IsCompiling = state.IsCompiling,
             AlreadyCompiled = state.AlreadyCompiled.ToList(),
-            CurrentlyCompiling = state.CurrentlyCompiling
+            CurrentlyCompiling = state.CurrentlyCompiling,
+            TotalProjects = state.TotalProjects
         };
     }
 

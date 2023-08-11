@@ -29,7 +29,14 @@ namespace Metapsi.Hyperapp
 
                     foreach (var script in scripts)
                     {
-                        head.AddChild(new HtmlTag("script").AddAttribute("src", script.src));
+                        var scriptTag = new HtmlTag("script").AddAttribute("src", script.src);
+
+                        if (!string.IsNullOrEmpty(script.type))
+                        {
+                            scriptTag.AddAttribute("type", script.type);
+                        }
+
+                        head.AddChild(scriptTag);
                     }
                 },
                 buildBody: body =>

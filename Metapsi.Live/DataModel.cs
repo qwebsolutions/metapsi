@@ -58,6 +58,8 @@ namespace Metapsi.Live
         public List<ModelReference> Models { get; set; } = new();
         public List<RendererReference> Renderers { get; set; } = new();
         public List<RouteReference> Routes { get; set; } = new();
+
+        public List<CompilationError> Errors { get; set; } = new();
     }
 
     public class CompilationStatus
@@ -65,5 +67,6 @@ namespace Metapsi.Live
         public bool IsCompiling { get; set; }
         public string CurrentlyCompiling { get; set; } = string.Empty;
         public List<string> AlreadyCompiled { get; set; } = new();
+        public int TotalProjects { get; set; }
     }
 }

@@ -22,6 +22,11 @@ namespace Metapsi.Syntax
             }
         }
 
+        public static void AddChildren(this BlockBuilder b, Var<HyperNode> parent, Var<List<HyperNode>> children)
+        {
+            b.Foreach(children, (b, c) => b.Add(parent, c));
+        }
+
         public static Var<HyperNode> Node(this BlockBuilder b, string tag, string classNames = null)
         {
             //b.Const(new Import()
@@ -219,8 +224,8 @@ namespace Metapsi.Syntax
             b.Add(a, b.Text(text));
             return a;
         }
-     
-     
+
+
         public static Var<HyperNode> Link(this BlockBuilder b, Var<string> url, Var<HyperNode> content)
         {
             var a = b.Node("a", "");
@@ -357,6 +362,39 @@ namespace Metapsi.Syntax
         {
             return b.AddClass(node, b.Const(newClass));
         }
+
+        public static Var<HyperNode> AddStyle(
+            this BlockBuilder b,
+            Var<HyperNode> node,
+            string property,
+            Var<string> value)
+        {
+            var props = b.Get(node, x => x.props);
+            var style = b.Ref(b.Get(props, new DynamicProperty<DynamicObject>("style")));
+
+            b.If(
+                b.Not(b.HasObject(b.GetRef(style))),
+                b =>
+                {
+                    b.SetRef(style, b.NewObj<DynamicObject>());
+                });
+
+            b.Set(b.GetRef(style), new DynamicProperty<string>(property), value);
+
+            b.SetAttr(node, new DynamicProperty<DynamicObject>("style"), b.GetRef(style));
+
+            return node;
+        }
+
+        public static Var<HyperNode> AddStyle(
+          this BlockBuilder b,
+          Var<HyperNode> node,
+          string property,
+          string value)
+        {
+            return b.AddStyle(node, property, b.Const(value));
+        }
+
         public static Var<Guid> ToId(this BlockBuilder b, Var<string> value)
         {
             return b.If(b.HasValue(value), b => value.As<Guid>(), b => b.EmptyId());
@@ -451,10 +489,17 @@ namespace Metapsi.Syntax
 
         public static void AddStylesheet(this BlockBuilder b, string href)
         {
-            // If it is not absolute path, make it absolute
-            href = $"/{href}".Replace("//", "/");
+            if (href.StartsWith("http"))
+            {
+                b.Const(new LinkTag("stylesheet", href));
+            }
+            else
+            {
+                // If it is not absolute path, make it absolute
+                href = $"/{href}".Replace("//", "/");
 
-            b.Const(new LinkTag("stylesheet", href));
+                b.Const(new LinkTag("stylesheet", href));
+            }
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
@@ -466,12 +511,19 @@ namespace Metapsi.Syntax
             b.AddStylesheet(cssName);
         }
 
-        public static void AddScript(this BlockBuilder b, string src)
+        public static void AddScript(this BlockBuilder b, string src, string type = "")
         {
-            // If it is not absolute path, make it absolute
-            src = $"/{src}".Replace("//", "/");
+            if (src.StartsWith("http"))
+            {
+                b.Const(new ScriptTag(type, src));
+            }
+            else
+            {
+                // If it is not absolute path, make it absolute
+                src = $"/{src}".Replace("//", "/");
 
-            b.Const(new ScriptTag(src));
+                b.Const(new ScriptTag(type, src));
+            }
         }
     }
 

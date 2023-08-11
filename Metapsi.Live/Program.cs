@@ -62,6 +62,7 @@ public static partial class Program
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
         webServer.RegisterStaticFiles(typeof(HyperNode).Assembly);
+        webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.Event).Assembly);
 
         webServer.WebApplication.RegisterGetHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);

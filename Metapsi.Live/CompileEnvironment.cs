@@ -99,181 +99,197 @@ public static class CompileEnvironment
         var workspace = MSBuildWorkspace.Create();
         state.OriginalSolution = await workspace.OpenSolutionAsync(slnPath);
         state.DynamicSolution = state.OriginalSolution;
+
+        commandContext.PostEvent(new SolutionParsed() { TotalProjects = state.OriginalSolution.Projects.Count() });
+
         var deps = state.OriginalSolution.GetProjectDependencyGraph();
         Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
         foreach (var project in state.OriginalSolution.Projects)
         {
-            commandContext.PostEvent(new StartedProjectCompile() { ProjectName = project.Name });
-
-            state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
-            state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
-            state.DynamicAssemblies[project.Name] = state.OriginalAssemblies[project.Name];
-
-            //var embeddedResources = GetEmbeddedResources(project);
-
-            //foreach (var embeddedResource in embeddedResources)
-            //{
-            //    state.EmbeddedResources.Add(embeddedResource);
-            //}
-
-            foreach (var document in project.Documents)
+            try
             {
-                if (document.FilePath.EndsWith(".cs"))
+                commandContext.PostEvent(new StartedProjectCompile() { ProjectName = project.Name });
+
+                state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
+                state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
+                state.DynamicAssemblies[project.Name] = state.OriginalAssemblies[project.Name];
+
+                //var embeddedResources = GetEmbeddedResources(project);
+
+                //foreach (var embeddedResource in embeddedResources)
+                //{
+                //    state.EmbeddedResources.Add(embeddedResource);
+                //}
+
+                foreach (var document in project.Documents)
                 {
-                    var syntaxTree = await document.GetSyntaxTreeAsync();
-
-                    var semanticModel = await document.GetSemanticModelAsync();
-
-                    var routesVisitor = new ClassVisitor();
-                    routesVisitor.Visit(syntaxTree.GetRoot());
-                    foreach (var classDeclaration in routesVisitor.ClassDeclarations)
+                    if (document.FilePath.EndsWith(".cs"))
                     {
-                        var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
+                        var syntaxTree = await document.GetSyntaxTreeAsync();
 
-                        var apis = await GetApiDeclarations(classSymbol, state.OriginalSolution);
+                        var semanticModel = await document.GetSemanticModelAsync();
 
-                        foreach (var api in apis)
+                        var routesVisitor = new ClassVisitor();
+                        routesVisitor.Visit(syntaxTree.GetRoot());
+                        foreach (var classDeclaration in routesVisitor.ClassDeclarations)
                         {
-                            Console.WriteLine($"==== {Metapsi.Serialize.ToJson(api)}");
-                        }
+                            var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
 
+                            var apis = await GetApiDeclarations(classSymbol, state.OriginalSolution);
 
-                        var allInterfaces = classSymbol.AllInterfaces;
-                        if (allInterfaces.Any(x => routeInterfaceNames.Contains(x.Name)))
-                        {
-                            var routeSymbolKey = GetSymbolKey(classSymbol);
-
-                            var partialRoute = solutionEntities.Routes.SingleOrDefault(x => SymbolKeysEqual(routeSymbolKey, x.Route.SymbolKey));
-
-                            if (partialRoute != null)
+                            foreach (var api in apis)
                             {
-                                partialRoute.Route.FilePaths.Add(document.FilePath);
+                                Console.WriteLine($"==== {Metapsi.Serialize.ToJson(api)}");
                             }
-                            else
+
+
+                            var allInterfaces = classSymbol.AllInterfaces;
+                            if (allInterfaces.Any(x => routeInterfaceNames.Contains(x.Name)))
                             {
-                                var route = new SymbolReference() { SymbolKey = routeSymbolKey };
+                                var routeSymbolKey = GetSymbolKey(classSymbol);
 
-                                route.FilePaths.Add(document.FilePath);
-                                solutionEntities.Routes.Add(new RouteReference()
+                                var partialRoute = solutionEntities.Routes.SingleOrDefault(x => SymbolKeysEqual(routeSymbolKey, x.Route.SymbolKey));
+
+                                if (partialRoute != null)
                                 {
-                                    Route = route
-                                });
-                            }
-                        }
-
-                        if (IsRouteHandler(classSymbol))
-                        {
-                            var handlerSymbolKey = GetSymbolKey(classSymbol);
-
-                            var partialHandler = solutionEntities.Handlers.SingleOrDefault(x => SymbolKeysEqual(handlerSymbolKey, x.Handler.SymbolKey));
-
-                            if (partialHandler != null)
-                            {
-                                partialHandler.Handler.FilePaths.Add(document.FilePath);
-                            }
-                            else
-                            {
-                                var handler = new SymbolReference() { SymbolKey = handlerSymbolKey };
-                                handler.FilePaths.Add(document.FilePath);
-
-                                var handlerReference = new HandlerReference()
-                                {
-                                    Handler = handler,
-                                    Route = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
-                                };
-
-                                solutionEntities.Handlers.Add(handlerReference);
-
-                                var allDescendants = classDeclaration.DescendantNodes();
-                                var allMethods = allDescendants.OfType<MethodDeclarationSyntax>();
-                                var httpHandlerMethods = allMethods.Where(x => x.Identifier.Text == "OnGet" || x.Identifier.Text == "OnPost");
-
-                                foreach (var httpMethod in httpHandlerMethods)
-                                {
-                                    var pageResults = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsPageResultCall);
-                                    //var allInvocations = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>();
-
-                                    foreach (var invocation in pageResults)
-                                    {
-                                        if (invocation.ArgumentList.Arguments.Count() == 1)
-                                        {
-                                            var pageModelType = semanticModel.GetTypeInfo(invocation.ArgumentList.Arguments.Single().Expression);
-
-                                            if (pageModelType.Type != null)
-                                            {
-                                                handlerReference.ReturnModelType = GetSymbolKey(pageModelType.Type);
-                                            }
-                                        }
-                                    }
-
-                                    var contextCalls = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCommandContextCall);
-
-                                    foreach (var contextCall in contextCalls)
-                                    {
-                                        handlerReference.CommandContextCalls.Add(contextCall.ArgumentList.Arguments.First().Expression.ToString());
-                                    }
-                                }
-                            }
-                        }
-
-                        if (allInterfaces.Any(x => x.Name == "IPageTemplate"))
-                        {
-                            if (classSymbol.BaseType.TypeArguments.Count() >= 1)
-                            {
-
-                                var rendererSymbolKey = GetSymbolKey(classSymbol);
-
-                                var partialRenderer = solutionEntities.Renderers.SingleOrDefault(x => SymbolKeysEqual(rendererSymbolKey, x.Renderer.SymbolKey));
-
-                                if (partialRenderer != null)
-                                {
-                                    partialRenderer.Renderer.FilePaths.Add(document.FilePath);
+                                    partialRoute.Route.FilePaths.Add(document.FilePath);
                                 }
                                 else
                                 {
-                                    var renderer = new SymbolReference() { SymbolKey = rendererSymbolKey };
-                                    renderer.FilePaths.Add(document.FilePath);
+                                    var route = new SymbolReference() { SymbolKey = routeSymbolKey };
 
-                                    solutionEntities.Renderers.Add(new RendererReference()
+                                    route.FilePaths.Add(document.FilePath);
+                                    solutionEntities.Routes.Add(new RouteReference()
                                     {
-                                        Renderer = renderer,
-                                        Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
+                                        Route = route
                                     });
                                 }
+                            }
 
-                                await RecursiveCalls(classSymbol, document, state.OriginalSolution, si =>
+                            if (IsRouteHandler(classSymbol))
+                            {
+                                var handlerSymbolKey = GetSymbolKey(classSymbol);
+
+                                var partialHandler = solutionEntities.Handlers.SingleOrDefault(x => SymbolKeysEqual(handlerSymbolKey, x.Handler.SymbolKey));
+
+                                if (partialHandler != null)
                                 {
-                                    if (si.Symbol.Name == "Url")
+                                    partialHandler.Handler.FilePaths.Add(document.FilePath);
+                                }
+                                else
+                                {
+                                    var handler = new SymbolReference() { SymbolKey = handlerSymbolKey };
+                                    handler.FilePaths.Add(document.FilePath);
+
+                                    var handlerReference = new HandlerReference()
                                     {
-                                        Console.WriteLine("==============================");
+                                        Handler = handler,
+                                        Route = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
+                                    };
+
+                                    solutionEntities.Handlers.Add(handlerReference);
+
+                                    var allDescendants = classDeclaration.DescendantNodes();
+                                    var allMethods = allDescendants.OfType<MethodDeclarationSyntax>();
+                                    var httpHandlerMethods = allMethods.Where(x => x.Identifier.Text == "OnGet" || x.Identifier.Text == "OnPost");
+
+                                    foreach (var httpMethod in httpHandlerMethods)
+                                    {
+                                        var pageResults = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsPageResultCall);
+                                        //var allInvocations = getMethod.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+                                        foreach (var invocation in pageResults)
+                                        {
+                                            if (invocation.ArgumentList.Arguments.Count() == 1)
+                                            {
+                                                var pageModelType = semanticModel.GetTypeInfo(invocation.ArgumentList.Arguments.Single().Expression);
+
+                                                if (pageModelType.Type != null)
+                                                {
+                                                    handlerReference.ReturnModelType = GetSymbolKey(pageModelType.Type);
+                                                }
+                                            }
+                                        }
+
+                                        var contextCalls = httpMethod.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCommandContextCall);
+
+                                        foreach (var contextCall in contextCalls)
+                                        {
+                                            handlerReference.CommandContextCalls.Add(contextCall.ArgumentList.Arguments.First().Expression.ToString());
+                                        }
                                     }
-                                });
+                                }
+                            }
+
+                            if (allInterfaces.Any(x => x.Name == "IPageTemplate"))
+                            {
+                                if (classSymbol.BaseType.TypeArguments.Count() >= 1)
+                                {
+
+                                    var rendererSymbolKey = GetSymbolKey(classSymbol);
+
+                                    var partialRenderer = solutionEntities.Renderers.SingleOrDefault(x => SymbolKeysEqual(rendererSymbolKey, x.Renderer.SymbolKey));
+
+                                    if (partialRenderer != null)
+                                    {
+                                        partialRenderer.Renderer.FilePaths.Add(document.FilePath);
+                                    }
+                                    else
+                                    {
+                                        var renderer = new SymbolReference() { SymbolKey = rendererSymbolKey };
+                                        renderer.FilePaths.Add(document.FilePath);
+
+                                        solutionEntities.Renderers.Add(new RendererReference()
+                                        {
+                                            Renderer = renderer,
+                                            Model = GetSymbolKey(classSymbol.BaseType.TypeArguments.First())
+                                        });
+                                    }
+
+                                    await RecursiveCalls(classSymbol, document, state.OriginalSolution, si =>
+                                    {
+                                        if (si.Symbol.Name == "Url")
+                                        {
+                                            Console.WriteLine("==============================");
+                                        }
+                                    });
+                                }
                             }
                         }
                     }
+
+                    state.AllDocumentPaths.Add(document.FilePath);
+
+
+                    var dirName = System.IO.Path.GetDirectoryName(document.FilePath);
+
+                    if (!state.Watchers.ContainsKey(dirName))
+                    {
+
+                        AddWatcher(commandContext, state, project, dirName);
+                    }
                 }
 
-                state.AllDocumentPaths.Add(document.FilePath);
-
-
-                var dirName = System.IO.Path.GetDirectoryName(document.FilePath);
-
-                if (!state.Watchers.ContainsKey(dirName))
+                solutionEntities.Projects.Add(new Metapsi.Live.ProjectReference()
                 {
+                    Name = project.Name,
+                    CsprojFilePath = project.FilePath,
+                    UsedProjects = project.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList(),
+                    EmbeddedResources = GetEmbeddedResources(project)
+                });
 
-                    AddWatcher(commandContext, state, project, dirName);
-                }
+                commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
             }
-
-            solutionEntities.Projects.Add(new Metapsi.Live.ProjectReference()
+            catch (ProjectCompilationException ex)
             {
-                Name = project.Name,
-                CsprojFilePath = project.FilePath,
-                UsedProjects = project.ProjectReferences.Select(x => state.OriginalSolution.Projects.Single(p => p.Id == x.ProjectId).Name).ToList(),
-                EmbeddedResources = GetEmbeddedResources(project)
-            });
-
-            commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
+                solutionEntities.Errors.AddRange(ex.Errors.Select(x => new CompilationError()
+                {
+                    ErrorMessage = x.ToString(),
+                    ProjectName = project.Name,
+                    FileName = x.Location.SourceTree.FilePath
+                }));
+                commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
+            }
         }
 
         List<Metapsi.Live.SymbolReference> renderers = new();
@@ -295,7 +311,7 @@ public static class CompileEnvironment
 
         state.SolutionEntities = solutionEntities;
 
-        commandContext.PostEvent(new SolutionLoaded()
+        commandContext.PostEvent(new SolutionCompiled()
         {
             SolutionEntities = solutionEntities
         });
@@ -1198,17 +1214,10 @@ public static class CompileEnvironment
 
         if (!emitResult.Success)
         {
-            // if not successful, throw an exception
-            Diagnostic firstError =
-                emitResult
-                    .Diagnostics
-                    .FirstOrDefault
-                    (
-                        diagnostic =>
-                            diagnostic.Severity == DiagnosticSeverity.Error
-                    );
-
-            throw new Exception(firstError?.GetMessage());
+            throw new ProjectCompilationException()
+            {
+                Errors = emitResult.Diagnostics.Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToList()
+            };
         }
         stream.Seek(0, SeekOrigin.Begin);
         // get the byte array from a stream
@@ -1222,4 +1231,9 @@ public static class CompileEnvironment
         ms.Seek(0, SeekOrigin.Begin);
         return assemblyLoadContext.LoadFromStream(ms);
     }
+}
+
+public class ProjectCompilationException : System.Exception
+{
+    public List<Diagnostic> Errors { get; set; } = new();
 }

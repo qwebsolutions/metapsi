@@ -21,29 +21,21 @@ namespace Metapsi.Live
         public string ProjectName { get; set; }
     }
 
-    //public class RouteAdded : IData
-    //{
-    //    public RouteReference Route { get; set; }
-    //}
+    public class SolutionParsed : IData
+    {
+        public int TotalProjects { get; set; }
+    }
 
-    //public class HandlerAdded : IData
-    //{
-    //    public HandlerReference Handler { get; set; }
-    //}
+    public class CompilationError
+    {
+        public string ProjectName { get; set; } = string.Empty;
+        public string ErrorMessage { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+    }
 
-    //public class RendererAdded : IData
-    //{
-    //    public RendererReference Renderer { get; set; }
-    //}
-
-    public class SolutionLoaded : IData
+    public class SolutionCompiled : IData
     {
         public SolutionEntities SolutionEntities { get; set; }
-        //public List<Backend.Project> Projects { get; set; }
-        //public List<string> Routes { get; set; }
-        //public List<Backend.Renderer> Renderers { get; set; }
-        //public List<string> Handlers { get; set; } = new();
-        //public List<EmbeddedResource> EmbeddedResources { get; set; } = new();
     }
 
     public class RendererGenerated : IData
@@ -97,7 +89,12 @@ namespace Metapsi.Live
             //    e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.AddRenderer, e.EventData.Renderer);
             //});
 
-            setup.MapEvent<SolutionLoaded>(e =>
+            setup.MapEvent<SolutionParsed>(e =>
+            {
+                e.Using(panelEnvironment).EnqueueCommand(async (cc, state) => state.TotalProjects = e.EventData.TotalProjects);
+            });
+
+            setup.MapEvent<SolutionCompiled>(e =>
             {
                 e.Using(panelEnvironment).EnqueueCommand(PanelEnvironment.SetLoading, false);
                 e.Using(panelEnvironment, ig).EnqueueCommand(PanelEnvironment.SetSolutionEntities, e.EventData.SolutionEntities);

@@ -5,5 +5,5 @@
     }
 
     public record LinkTag(string rel, string href) : IServerSideTag;
-    public record ScriptTag(string src) : IServerSideTag;
+    public record ScriptTag(string type, string src) : IServerSideTag;
 }

@@ -1,14 +1,17 @@
 ﻿using Metapsi;
 using Metapsi.Hyperapp;
 using Metapsi.Live;
+using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.Build.Utilities;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Threading.Tasks;
 
 public static partial class Render
 {
@@ -46,6 +49,56 @@ public static partial class Render
                 (Handler.View.FocusRenderer, b => FocusRenderer(b, model)));
         }
 
+        public static Var<HyperNode> Layout(BlockBuilder b, Var<HyperNode> header, Var<HyperNode> content)
+        {
+            var mainDiv = b.Div();
+            b.Add(mainDiv, header);
+            b.Add(mainDiv, content);
+            return mainDiv;
+        }
+
+        public static Var<HyperNode> SolutionNameHeader(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var headerInfo = b.Div(
+                "px-8 flex flex-row w-full py-4 gap-2 text-gray-600 items-center",
+                b => b.Text("Solution"),
+                b => b.Text(b.Get(SelectedSolution(b, model), x => x.Path), "font-semibold"),
+                b => b.Optional(b.Get(model, x => x.TotalProjects == 0), b => b.Spinner()));
+
+            // Show progress bar with 0 percent instead of hiding it, because it affects the shadow
+
+            var showProgressBar = b.Get(model, x => x.CurrentView == Handler.View.WaitingCompile && x.TotalProjects != 0);
+
+            var progressValue = b.If(
+                showProgressBar,
+                b => b.Get(model, x => x.AlreadyCompiled.Count() / x.TotalProjects * 100),
+                b => b.Const(0));
+
+            var headerAndProgress = b.Div(
+                "flex flex-col gap-0 w-full bg-slate-50 shadow",
+                b => headerInfo,
+                b =>
+                {
+                    var bar = b.ProgressBar(progressValue);
+
+                    b.AddStyle(bar, "--height", b.Const("2px"));
+
+                    return bar;
+                });
+
+            return headerAndProgress;
+        }
+
+        public static Var<Metapsi.Live.Db.Solution> SelectedSolution(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var selectedSolution = b.Get(model, model => model.Solutions.SingleOrDefault(solution => solution.Id == model.SelectedSolutionId));
+
+            return b.If(
+                b.HasObject(selectedSolution),
+                b => selectedSolution,
+                b => b.NewObj<Metapsi.Live.Db.Solution>());
+        }
+
         public static Var<HyperType.StateWithEffects> PoolCompile(BlockBuilder b, Var<Handler.Home.Model> model)
         {
             return b.AsyncResult(
@@ -61,6 +114,7 @@ public static partial class Render
                             {
                                 b.Set(model, x => x.CurrentlyCompiling, b.Get(result, x => x.CurrentlyCompiling));
                                 b.Set(model, x => x.AlreadyCompiled, b.Get(result, x => x.AlreadyCompiled));
+                                b.Set(model, x => x.TotalProjects, b.Get(result, x => x.TotalProjects));
                                 return b.Clone(model);
                             },
                             b =>
@@ -69,19 +123,65 @@ public static partial class Render
                                 b.Set(model, x => x.CurrentlyCompiling, b.Const(string.Empty));
                                 b.Set(model, x => x.AlreadyCompiled, b.NewCollection<string>());
                                 b.Set(model, x => x.SolutionEntities, b.Get(result, x => x.SolutionEntities));
+                                b.Set(model, x => x.TotalProjects, b.Get(result, x => x.SolutionEntities.Projects.Count()));
+
+                                b.If(
+                                    b.Get(model, x => x.SolutionEntities.Errors.Any()),
+                                    b => b.Toast(
+                                        b.Const("Compilation error"),
+                                        b.Const(AlertVariant.Danger)));
 
                                 return b.Clone(model);
                             });
                     })));
         }
 
+        public Var<HyperNode> SelectSolutionDropDown(BlockBuilder b, Var<Handler.Home.Model> clientModel)
+        {
+            var select = b.Select(
+                new Select()
+                {
+                    Label = "Select solution",
+                    HelpText = "The solution will be loaded & compiled for live preview"
+                },
+                b.MapOptions(
+                    b.Get(clientModel, x => x.Solutions), 
+                    x => x.Id, 
+                    x => x.Path));
+
+            b.SetOnSlChange(
+                select, 
+                b.MakeServerAction<Handler.Home.Model, string>(
+                clientModel,
+                OnSolutionSelected));
+
+            return select;
+        }
+
+        public static async Task<Handler.Home.Model> OnSolutionSelected(CommandContext commandContext, Handler.Home.Model serverModel, string selectedValue)
+        {
+            serverModel.SelectedSolutionId = Guid.Parse(selectedValue);
+            var solutions = await commandContext.Do(Storage.GetSolutions);
+            var selectedSolution = solutions.Solutions.Single(x => x.Id == serverModel.SelectedSolutionId);
+
+            commandContext.PostEvent(new SolutionSelected()
+            {
+                Solution = selectedSolution
+            });
+
+            serverModel.CurrentView = Handler.View.WaitingCompile;
+            return serverModel;
+        }
+
         public Var<HyperNode> ListSolutions(BlockBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div(
-                "flex flex-col w-screen h-screen items-center justify-center",
+                "flex flex-col w-full h-full items-center justify-center",
                 b => b.Div(
                     "flex flex-col items-center gap-8 border rounded p-4",
                     b => b.Text("Select solution", "font-semibold"),
+                    b => SelectSolutionDropDown(b, model),
+                    //b=> b.Alert(b.NewObj<Metapsi.Shoelace.Alert>()),
                     b => b.Div(
                         "flex flex-col items-center gap-2",
                         b.Map(
@@ -537,69 +637,108 @@ public static partial class Render
         {
             var entities = b.Get(model, x => x.SolutionEntities);
 
-            return b.Div(
-                "flex flex-col w-screen h-screen items-center justify-center",
-                b => b.Div(
-                    "flex flex-row gap-8 items-center justify-center",
-                    b =>
-                    {
-                        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const("Projects"));
-
-                        var gotoProjects = b.Node("button", "", b => card);
-
-                        b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            return Layout(
+                b,
+                SolutionNameHeader(b, model),
+                b.Div(
+                    "p-4",
+                    b => CompileErrorsStack(b, model),
+                    b => b.Div(
+                        "flex flex-row gap-8 items-center justify-center",
+                        b =>
                         {
-                            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListProjects));
-                            return b.Clone(model);
-                        }));
+                            var card = FactCard(b, b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const("Projects"));
 
-                        return gotoProjects;
-                    },
-                    b =>
-                    {
-                        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const("Routes"));
+                            var gotoProjects = b.Node("button", "", b => card);
 
-                        var gotoRoutes = b.Node("button", "", b => card);
+                            b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            {
+                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListProjects));
+                                return b.Clone(model);
+                            }));
 
-                        b.SetOnClick(gotoRoutes, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            return gotoProjects;
+                        },
+                        b =>
                         {
-                            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRoutes));
-                            return b.Clone(model);
-                        }));
+                            var card = FactCard(b, b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const("Routes"));
 
-                        return gotoRoutes;
-                    },
-                    b =>
-                    {
-                        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const("Renderers"));
+                            var gotoRoutes = b.Node("button", "", b => card);
 
-                        var gotoRenderers = b.Node("button", "", b => card);
+                            b.SetOnClick(gotoRoutes, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            {
+                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRoutes));
+                                return b.Clone(model);
+                            }));
 
-                        b.SetOnClick(gotoRenderers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            return gotoRoutes;
+                        },
+                        b =>
                         {
-                            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
-                            return b.Clone(model);
-                        }));
+                            var card = FactCard(b, b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const("Renderers"));
 
-                        return gotoRenderers;
+                            var gotoRenderers = b.Node("button", "", b => card);
 
-                    },
-                    b =>
-                    {
-                        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const("Handlers"));
+                            b.SetOnClick(gotoRenderers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            {
+                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
+                                return b.Clone(model);
+                            }));
 
-                        var gotoHandlers = b.Node("button", "", b => card);
+                            return gotoRenderers;
 
-                        b.SetOnClick(gotoHandlers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                        },
+                        b =>
                         {
-                            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListHandlers));
-                            return b.Clone(model);
-                        }));
+                            var card = FactCard(b, b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const("Handlers"));
 
-                        return gotoHandlers;
+                            var gotoHandlers = b.Node("button", "", b => card);
 
-                    }),
-                b => SolutionSummaryTable(b, model));
+                            b.SetOnClick(gotoHandlers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            {
+                                b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListHandlers));
+                                return b.Clone(model);
+                            }));
+
+                            return gotoHandlers;
+
+                        }),
+                b => SolutionSummaryTable(b, model)));
+        }
+
+        public Var<HyperNode> CompileErrorsStack(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var container = b.Div("flex flex-col gap-2");
+
+            b.Foreach(
+                b.Get(model, x => x.SolutionEntities.Errors.Select(x => x.ProjectName).Distinct().ToList()),
+                (b, project) =>
+                {
+                    var projectErrors = b.Get(model, project, (model, project) => model.SolutionEntities.Errors.Where(x => x.ProjectName == project).ToList());
+
+                    var details = b.Add(
+                        container,
+                        b.Details(
+                            b.NewObj<Details>(),
+                            b =>
+                            {
+                                return b.Div(
+                                    "flex flex-col gap-2 text-sm text-gray-500",
+                                    b.Map(projectErrors, (b, e) => b.Text(b.Get(e, x => x.ErrorMessage))));
+                            }));
+
+                    var strongLabel = b.Text(
+                        b.Concat(
+                            project,
+                            b.Const(" - "),
+                            b.AsString(b.Get(projectErrors, x => x.Count())),
+                            b.Const(" errors")),
+                        "font-semibold text-red-600");
+                    b.SetAttr(strongLabel, new DynamicProperty<string>("slot"), "summary");
+                    b.Add(details, strongLabel);
+                });
+
+            return container;
         }
 
         public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolKey> renderer)
@@ -635,17 +774,22 @@ public static partial class Render
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
 
-            return b.Div(
+            var content = b.Div(
                 "flex flex-col w-screen h-screen items-center justify-center",
                 b => b.Div(
                     "flex flex-col gap-8",
-                    b => b.Text(solutionPath, "font-semibold"),
                     b => b.Div(
                         "flex flex-col gap-2",
                         b.Map(
                             b.Get(model, x => x.AlreadyCompiled),
                             (b, project) => b.Text(project))),
-                    b => b.Text(b.Concat(b.Const("Compiling "), b.Get(model, x => x.CurrentlyCompiling), b.Const(" ... ")))));
+                    b =>
+                    b.If(
+                        b.Not(b.HasValue(b.Get(model, x => x.CurrentlyCompiling))),
+                        b => b.Text(b.Const("Loading solution ...")),
+                        b => b.Text(b.Concat(b.Const("Compiling "), b.Get(model, x => x.CurrentlyCompiling), b.Const(" ... "))))));
+
+            return Layout(b, SolutionNameHeader(b, model), content);
         }
 
         public Var<HyperNode> FocusRenderer(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -763,4 +907,53 @@ public static partial class Render
     //        return html;
     //    }
     //}
+}
+
+public static class ServerExtensions
+{
+    public static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
+        this BlockBuilder b,
+        Var<TState> model,
+        Func<TState, TPayload, TState> onServerAction)
+        where TState : IApiSupportState
+    {
+        return MakeServerAction<TState, TPayload>(b, model, onServerAction.Method);
+    }
+
+    public static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
+        this BlockBuilder b,
+        Var<TState> model,
+        Func<CommandContext, TState, TPayload, System.Threading.Tasks.Task<TState>> onServerAction)
+        where TState : IApiSupportState
+    {
+        return MakeServerAction<TState, TPayload>(b, model, onServerAction.Method);
+    }
+
+    private static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
+            this BlockBuilder b,
+            Var<TState> model,
+            System.Reflection.MethodInfo method)
+            where TState : IApiSupportState
+    {
+        var clientAction = b.MakeAction((BlockBuilder b, Var<TState> state, Var<TPayload> payload) =>
+        {
+            var serverActionInput = b.NewObj<Frontend.ServerActionInput>();
+            b.Set(serverActionInput, x => x.SerializedModel, b.Serialize(state));
+            b.Set(serverActionInput, x => x.SerializedPayload, b.Serialize(payload));
+            b.Set(serverActionInput, x => x.HandlerMethod, b.Const(method.Name));
+            b.Set(serverActionInput, x => x.QualifiedHandlerClass, b.Const(method.DeclaringType.AssemblyQualifiedName));
+
+            return b.AsyncResult(
+                b.ShowPanel(model),
+                b.Request(
+                    Frontend.ServerAction,
+                    serverActionInput,
+                    b.MakeAction((BlockBuilder b, Var<TState> model, Var<Frontend.ServerActionResponse> result) =>
+                    {
+                        return b.Deserialize<TState>(b.Get(result, x => x.SerializedModel));
+                    })));
+        });
+
+        return clientAction;
+    }
 }

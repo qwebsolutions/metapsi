@@ -42,6 +42,7 @@ public static partial class Handler
             public string CurrentlyCompiling { get; set; } = string.Empty;
             public List<string> AlreadyCompiled { get; set; } = new();
             public SolutionEntities SolutionEntities { get; set; }
+            public int TotalProjects { get; set; }
         }
 
         public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
