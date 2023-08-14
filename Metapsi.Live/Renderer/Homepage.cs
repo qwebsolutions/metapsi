@@ -643,6 +643,36 @@ public static partial class Render
                 b.Div(
                     "p-4",
                     b => CompileErrorsStack(b, model),
+                    b =>
+                    {
+                        var tabGroup = b.TabGroup();
+
+                        b.TabPage(
+                            tabGroup,
+                            b.Const("projects"),
+                            b.Concat(b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const(" Projects")),
+                            b.Text("Project details here"));
+
+                        b.TabPage(
+                            tabGroup,
+                            b.Const("routes"),
+                            b.Concat(b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const(" Routes")),
+                            b.Text("Route details here"));
+
+                        b.TabPage(
+                            tabGroup,
+                            b.Const("renderers"),
+                            b.Concat(b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const(" Renderers")),
+                            b.Text("Renderer details here"));
+
+                        b.TabPage(
+                            tabGroup,
+                            b.Const("handlers"),
+                            b.Concat(b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const(" Handlers")),
+                            b.Text("Handler details here"));
+
+                        return tabGroup;
+                    },
                     b => b.Div(
                         "flex flex-row gap-8 items-center justify-center",
                         b =>
