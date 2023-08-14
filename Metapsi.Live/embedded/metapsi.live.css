@@ -604,6 +604,10 @@ video {
   width: 100vw;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -1495,6 +1499,11 @@ video {
 
 .bg-gray-400\/95 {
   background-color: rgb(156 163 175 / 0.95);
+}
+
+.bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .bg-gray-500 {
@@ -4750,6 +4759,10 @@ video {
 
 .bg-yellow-900\/95 {
   background-color: rgb(113 63 18 / 0.95);
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-4 {

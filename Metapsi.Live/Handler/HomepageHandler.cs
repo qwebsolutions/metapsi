@@ -43,6 +43,11 @@ public static partial class Handler
             public List<string> AlreadyCompiled { get; set; } = new();
             public SolutionEntities SolutionEntities { get; set; }
             public int TotalProjects { get; set; }
+
+            public bool ProjectsFilterIncludeRoutes { get; set; } = true;
+            public bool ProjectsFilterIncludeHandlers { get; set; } = true;
+            public bool ProjectsFilterIncludeRenderers { get; set; } = true;
+            public bool ProjectsFilterIncludeOther { get; set; } = false;
         }
 
         public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
