@@ -106,12 +106,26 @@ public static class CompileEnvironment
         Console.WriteLine($"Solution {sw.ElapsedMilliseconds} ms");
         foreach (var project in state.OriginalSolution.Projects)
         {
-            try
-            {
-                commandContext.PostEvent(new StartedProjectCompile() { ProjectName = project.Name });
+            commandContext.PostEvent(new StartedProjectCompile() { ProjectName = project.Name });
 
-                state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
-                state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray();
+            state.OriginalCompilations[project.Name] = await project.GetCompilationAsync();
+
+            var compilation = state.OriginalCompilations[project.Name].EmitToArray();
+
+            if (compilation.Errors.Any())
+            {
+                solutionEntities.Errors.AddRange(compilation.Errors.Select(x => new CompilationError()
+                {
+                    ErrorMessage = x.ToString(),
+                    ProjectName = project.Name,
+                    FileName = x.Location.SourceTree.FilePath
+                }));
+            }
+            else
+            {
+                commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
+
+                state.OriginalAssemblies[project.Name] = state.OriginalCompilations[project.Name].EmitToArray().Assembly;
                 state.DynamicAssemblies[project.Name] = state.OriginalAssemblies[project.Name];
 
                 //var embeddedResources = GetEmbeddedResources(project);
@@ -279,19 +293,9 @@ public static class CompileEnvironment
                 });
 
                 commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
-            }
-            catch (ProjectCompilationException ex)
-            {
-                solutionEntities.Errors.AddRange(ex.Errors.Select(x => new CompilationError()
-                {
-                    ErrorMessage = x.ToString(),
-                    ProjectName = project.Name,
-                    FileName = x.Location.SourceTree.FilePath
-                }));
-                commandContext.PostEvent(new FinishedProjectCompile() { ProjectName = project.Name });
+
             }
         }
-
         List<Metapsi.Live.SymbolReference> renderers = new();
 
         //foreach (var rendererReference in state.Renderers)
@@ -759,7 +763,7 @@ public static class CompileEnvironment
         var binary = updatedCompilation.EmitToArray();
 
         var assemblyLoadContext = new AssemblyLoadContext("preview_" + renderer.Project);
-        var reloadedBinary = LoadFromArray(assemblyLoadContext, binary);
+        var reloadedBinary = LoadFromArray(assemblyLoadContext, binary.Assembly);
         var relatedAssemblies = state.OriginalAssemblies.Where(x => x.Key != renderer.Project);
 
         foreach (var assembly in relatedAssemblies)
@@ -822,7 +826,7 @@ public static class CompileEnvironment
                 var project = state.DynamicSolution.Projects.Single(x => x.Name == changedProjectName);
                 var projectCompilation = await project.GetCompilationAsync();
                 var projectBinary = projectCompilation.EmitToArray();
-                state.DynamicAssemblies[changedProjectName] = projectBinary;
+                state.DynamicAssemblies[changedProjectName] = projectBinary.Assembly;
             }
 
             //var originalProject = state.OriginalSolution.Projects.Single(x => x.Name == renderer.Project);
@@ -1145,7 +1149,7 @@ public static class CompileEnvironment
                     var relatedProject = state.DynamicSolution.Projects.Single(x => x.Name == ex.FileName.Split(",").First());
                     var relatedCompilation = await relatedProject.GetCompilationAsync();
                     var relatedBinary = relatedCompilation.EmitToArray();
-                    LoadFromArray(loadContext, relatedBinary);
+                    LoadFromArray(loadContext, relatedBinary.Assembly);
                 }
             }
         }
@@ -1200,10 +1204,16 @@ public static class CompileEnvironment
         return ex.FileName.Split(",").First();
     }
 
+    public class EmitResult
+    {
+        public byte[] Assembly { get; set; }
+        public List<Diagnostic> Errors { get; set; } = new ();
+    }
+
     // emit the compilation result into a byte array.
     // throw an exception with corresponding message
     // if there are errors
-    public static byte[] EmitToArray
+    public static EmitResult EmitToArray
     (
         this Compilation compilation
     )
@@ -1214,14 +1224,17 @@ public static class CompileEnvironment
 
         if (!emitResult.Success)
         {
-            throw new ProjectCompilationException()
+            return new EmitResult()
             {
                 Errors = emitResult.Diagnostics.Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToList()
             };
         }
-        stream.Seek(0, SeekOrigin.Begin);
-        // get the byte array from a stream
-        return stream.ToArray();
+        else
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            // get the byte array from a stream
+            return new EmitResult() { Assembly = stream.ToArray() };
+        }
     }
 
     private static Assembly LoadFromArray(AssemblyLoadContext assemblyLoadContext, byte[] binaries)
