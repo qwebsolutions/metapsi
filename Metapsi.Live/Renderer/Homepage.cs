@@ -146,12 +146,12 @@ public static partial class Render
                     HelpText = "The solution will be loaded & compiled for live preview"
                 },
                 b.MapOptions(
-                    b.Get(clientModel, x => x.Solutions), 
-                    x => x.Id, 
+                    b.Get(clientModel, x => x.Solutions),
+                    x => x.Id,
                     x => x.Path));
 
             b.SetOnSlChange(
-                select, 
+                select,
                 b.MakeServerAction<Handler.Home.Model, string>(
                 clientModel,
                 OnSolutionSelected));
@@ -302,17 +302,13 @@ public static partial class Render
 
         public Var<HyperNode> FocusProject(BlockBuilder b, Var<Handler.Home.Model> model)
         {
-            var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
+            var project = b.GetFocusedProject(model);
 
             var projectPage = b.Div(
-                "flex flex-col gap-2 p-4 rounded bg-blue-100",
-                b => b.Text(b.Get(project, x => x.Name)),
+                "flex flex-col gap-2 p-4 rounded bg-blue-50 w-full",
+                b => RelatedProjectsList(b, model),
+                b => ProjectRoutesList(b, model),
                 b => b.Div(
-                    "flex flex-col text-sm",
-                    b.Map(
-                        b.Get(project, x => x.UsedProjects),
-                        (b, related) => b.Text(related))),
-                        b => b.Div(
                             "flex flex-col gap-2",
                             b.Map(
                                 b.Get(model, project, (model, project) => model.SolutionEntities.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList()),
@@ -320,24 +316,73 @@ public static partial class Render
                                     "flex flex-row gap-2",
                                     b => QualifiedSymbolClass(b, b.Get(renderer, x => x.Renderer.SymbolKey)),
                                     b => QualifiedSymbolClass(b, b.Get(renderer, x => x.Model))))),
-                        b => b.Div(
-                            "flex flex-col gap-2",
-                            b.Map(
-                                b.Get(model, project, (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
-                                (b, handler) => b.Div(
-                                    "flex flex-row gap-2",
-                                    b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
-                                    b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route))))),
-                        b => b.Div(
-                            "flex flex-col gap-2",
-                            b.Map(
-                                GetProjectRoutes(b, model, project),
-                                (b, route) => b.Div(
-                                    "flex flex-row gap-2",
-                                    b => QualifiedSymbolUrl(b, b.Get(route, x => x.Route.SymbolKey)))))
-                        );
+                b=> ProjectHandlersList(b, model));
 
             return b.Div("flex flex-row justify-center", b => projectPage);
+        }
+
+        public Var<HyperNode> RelatedProjectsList(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
+
+            var container = b.Div(
+                "flex flex-col gap-2",
+                b => b.Text("Based on"),
+                b => b.Div(
+                    "flex flex-col text-sm",
+                    b.Map(
+                        b.Get(project, x => x.UsedProjects),
+                        (b, related) =>
+                        {
+                            var selectProject = b.Node("button", "w-fit", b => b.Text(related));
+
+                            b.SetOnClick(selectProject, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            {
+                                b.Set(model, x => x.FocusedProjectName, related);
+                                return b.Clone(model);
+                            }));
+
+                            return selectProject;
+                        })));
+
+            return container;
+        }
+
+        public Var<HyperNode> ProjectRoutesList(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var container = b.Div(
+                "flex flex-col gap-2",
+                b => b.Text("Routes"),
+                b => b.Div(
+                    "flex flex-col gap-2",
+                    b.Map(
+                        GetProjectRoutes(b, model, b.GetFocusedProject(model)),
+                        (b, route) => b.Div(
+                            "flex flex-row gap-2",
+                            b =>
+                            {
+                                var routeBtn = QualifiedSymbolUrl(b, b.Get(route, x => x.Route.SymbolKey));
+                                return routeBtn;
+                            }))));
+
+            return container;
+        }
+
+        public Var<HyperNode> ProjectHandlersList(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            var container = b.Div(
+                "flex flex-col gap-2",
+                b => b.Text("Handlers"),
+                b => b.Div(
+                    "flex flex-col gap-2",
+                    b.Map(
+                        b.Get(model, b.GetFocusedProject(model), (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
+                        (b, handler) => b.Div(
+                            "flex flex-row gap-2",
+                            b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
+                            b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route))))));
+
+            return container;
         }
 
         //public Var<string> ClassPathToUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
@@ -553,7 +598,7 @@ public static partial class Render
                                                 });
                                             });
                                     },
-                                    b=>
+                                    b =>
                                     {
                                         // if no return model type is associated we still need to display the route & handler
                                         var row = b.NewObj<SummaryRow>();
@@ -676,89 +721,113 @@ public static partial class Render
 
                         return tabGroup;
                     },
-                    //b => b.Div(
-                    //    "flex flex-row gap-8 items-center justify-center",
-                    //    b =>
-                    //    {
-                    //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const("Projects"));
+                //b => b.Div(
+                //    "flex flex-row gap-8 items-center justify-center",
+                //    b =>
+                //    {
+                //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Projects.Count())), b.Const("Projects"));
 
-                    //        var gotoProjects = b.Node("button", "", b => card);
+                //        var gotoProjects = b.Node("button", "", b => card);
 
-                    //        b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
-                    //        {
-                    //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListProjects));
-                    //            return b.Clone(model);
-                    //        }));
+                //        b.SetOnClick(gotoProjects, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                //        {
+                //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListProjects));
+                //            return b.Clone(model);
+                //        }));
 
-                    //        return gotoProjects;
-                    //    },
-                    //    b =>
-                    //    {
-                    //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const("Routes"));
+                //        return gotoProjects;
+                //    },
+                //    b =>
+                //    {
+                //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const("Routes"));
 
-                    //        var gotoRoutes = b.Node("button", "", b => card);
+                //        var gotoRoutes = b.Node("button", "", b => card);
 
-                    //        b.SetOnClick(gotoRoutes, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
-                    //        {
-                    //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRoutes));
-                    //            return b.Clone(model);
-                    //        }));
+                //        b.SetOnClick(gotoRoutes, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                //        {
+                //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRoutes));
+                //            return b.Clone(model);
+                //        }));
 
-                    //        return gotoRoutes;
-                    //    },
-                    //    b =>
-                    //    {
-                    //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const("Renderers"));
+                //        return gotoRoutes;
+                //    },
+                //    b =>
+                //    {
+                //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const("Renderers"));
 
-                    //        var gotoRenderers = b.Node("button", "", b => card);
+                //        var gotoRenderers = b.Node("button", "", b => card);
 
-                    //        b.SetOnClick(gotoRenderers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
-                    //        {
-                    //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
-                    //            return b.Clone(model);
-                    //        }));
+                //        b.SetOnClick(gotoRenderers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                //        {
+                //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
+                //            return b.Clone(model);
+                //        }));
 
-                    //        return gotoRenderers;
+                //        return gotoRenderers;
 
-                    //    },
-                    //    b =>
-                    //    {
-                    //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const("Handlers"));
+                //    },
+                //    b =>
+                //    {
+                //        var card = FactCard(b, b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const("Handlers"));
 
-                    //        var gotoHandlers = b.Node("button", "", b => card);
+                //        var gotoHandlers = b.Node("button", "", b => card);
 
-                    //        b.SetOnClick(gotoHandlers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
-                    //        {
-                    //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListHandlers));
-                    //            return b.Clone(model);
-                    //        }));
+                //        b.SetOnClick(gotoHandlers, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                //        {
+                //            b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListHandlers));
+                //            return b.Clone(model);
+                //        }));
 
-                    //        return gotoHandlers;
+                //        return gotoHandlers;
 
-                    //    }),
+                //    }),
                 b => SolutionSummaryTable(b, model)));
         }
 
         public Var<HyperNode> ProjectsTab(BlockBuilder b, Var<Handler.Home.Model> model)
         {
-            return b.Div(
-                "flex flex-col gap-8 p-4",
-                b => b.Div(
-                    "flex flex-row gap-8 p-2 items-center",
-                    b => b.BoundCheckbox(b.Const("Routes"), model, x => x.ProjectsFilterIncludeRoutes),
-                    b => b.BoundCheckbox(b.Const("Handlers"), model, x => x.ProjectsFilterIncludeHandlers),
-                    b => b.BoundCheckbox(b.Const("Renderers"), model, x => x.ProjectsFilterIncludeRenderers),
-                    b => b.BoundCheckbox(b.Const("Other"), model, x => x.ProjectsFilterIncludeOther)),
-                b => ProjectsList(b, model));
+            return b.If(
+                b.Not(b.HasValue(b.Get(model, x => x.FocusedProjectName))),
+                b => ProjectsList(b, model),
+                b => FocusedProjectDetails(b, model));
         }
 
         public Var<HyperNode> ProjectsList(BlockBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div(
+                "flex flex-col gap-8 p-4",
+                b => b.Div(
+                    "flex flex-row gap-8 p-2 items-center",
+                b => b.BoundCheckbox(b.Const("Routes"), model, x => x.ProjectsFilterIncludeRoutes),
+                b => b.BoundCheckbox(b.Const("Handlers"), model, x => x.ProjectsFilterIncludeHandlers),
+                b => b.BoundCheckbox(b.Const("Renderers"), model, x => x.ProjectsFilterIncludeRenderers),
+                b => b.BoundCheckbox(b.Const("Other"), model, x => x.ProjectsFilterIncludeOther)),
+                b => b.Div(
                 "flex flex-col gap-8",
                 b.Map(
                     FilteredProjects(b, model),
-                    (b, project) => ProjectEntry(b, model, project)));
+                    (b, project) => ProjectEntry(b, model, project))));
+        }
+
+        public Var<HyperNode> FocusedProjectDetails(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return b.Div(
+                "flex flex-col gap-8 p-4",
+                b =>
+                {
+                    var breadcrumb = b.Breadcrumb();
+                    var projectsItem = b.BreadcrumbButtonItem(b.Const("Projects"));
+                    b.SetOnClick(projectsItem, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    {
+                        b.Set(model, x => x.FocusedProjectName, b.Const(string.Empty));
+                        return b.Clone(model);
+                    }));
+
+                    b.Add(breadcrumb, projectsItem);
+                    b.Add(breadcrumb, b.BreadcrumbButtonItemLast(b.Get(model, x => x.FocusedProjectName)));
+                    return breadcrumb;
+                },
+                b => FocusProject(b, model));
         }
 
         public Var<List<ProjectReference>> FilteredProjects(BlockBuilder b, Var<Handler.Home.Model> model)
@@ -801,7 +870,7 @@ public static partial class Render
             b.SetOnClick(entry, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
             {
                 b.Set(model, x => x.FocusedProjectName, b.Get(project, x => x.Name));
-                b.Set(model, x => x.CurrentView, b.Const(Handler.View.FocusProject));
+                //b.Set(model, x => x.CurrentView, b.Const(Handler.View.FocusProject));
                 return b.Clone(model);
             }));
 
@@ -1074,4 +1143,13 @@ public static class Filter
     public static System.Linq.Expressions.Expression<Func<Handler.Home.Model, List<ProjectReference>>> ProjectContainingRoutes = (Handler.Home.Model model) => model.SolutionEntities.Projects.Where(x => model.SolutionEntities.Routes.Select(x => x.Route.SymbolKey.Project).Any(projectName => x.Name == projectName)).ToList();
     public static System.Linq.Expressions.Expression<Func<Handler.Home.Model, List<ProjectReference>>> ProjectContainingHandlers = (Handler.Home.Model model) => model.SolutionEntities.Projects.Where(x => model.SolutionEntities.Handlers.Select(x => x.Handler.SymbolKey.Project).Any(projectName => x.Name == projectName)).ToList();
     public static System.Linq.Expressions.Expression<Func<Handler.Home.Model, List<ProjectReference>>> ProjectContainingRenderers = (Handler.Home.Model model) => model.SolutionEntities.Projects.Where(x => model.SolutionEntities.Renderers.Select(x => x.Renderer.SymbolKey.Project).Any(projectName => x.Name == projectName)).ToList();
+}
+
+public static class ModelExtensions
+{
+    public static Var<ProjectReference> GetFocusedProject(this BlockBuilder b, Var<Handler.Home.Model> model)
+    {
+        var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
+        return project;
+    }
 }

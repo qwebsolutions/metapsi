@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
 
@@ -46,6 +47,14 @@ public static partial class Control
     {
         var item = b.Node("sl-breadcrumb-item");
         b.Add(item, b.TextNode(label));
+        return item;
+    }
+
+    public static Var<HyperNode> BreadcrumbButtonItemLast(this BlockBuilder b, Var<string> label)
+    {
+        var item = b.BreadcrumbButtonItem(label);
+        b.AddClass(item, "cursor-default");
+
         return item;
     }
 }

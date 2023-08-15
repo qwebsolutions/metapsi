@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 using System.Collections.Generic;
 
 namespace Metapsi.Shoelace;

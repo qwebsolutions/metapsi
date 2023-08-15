@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Metapsi.Syntax
+namespace Metapsi.Hyperapp
 {
     public class HyperNode
     {

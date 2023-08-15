@@ -14,27 +14,23 @@ namespace Metapsi.Syntax
 {
     public static class ViewBuilder
     {
+        public const string VoidNodeTag = "--void--";
+
         public static void AddChildren(this BlockBuilder b, Var<HyperNode> parent, params Func<BlockBuilder, Var<HyperNode>>[] children)
         {
             foreach (var buildChild in children)
             {
-                b.Add(parent, b.Call(buildChild));
+                b.AddIfNotVoid(parent, b.Call(buildChild));
             }
         }
 
         public static void AddChildren(this BlockBuilder b, Var<HyperNode> parent, Var<List<HyperNode>> children)
         {
-            b.Foreach(children, (b, c) => b.Add(parent, c));
+            b.Foreach(children, (b, c) => b.AddIfNotVoid(parent, c));
         }
 
         public static Var<HyperNode> Node(this BlockBuilder b, string tag, string classNames = null)
         {
-            //b.Const(new Import()
-            //{
-            //    Module = "hyperapp",
-            //    Symbol = "app"
-            //});
-
             Var<List<HyperNode>> newNodeChildren = b.NewCollection<HyperNode>();
             var props = b.NewObj<DynamicObject>();
             var newNode = b.CallExternal<HyperNode>("hyperapp", "h", b.Const(tag), props, newNodeChildren);
@@ -67,15 +63,26 @@ namespace Metapsi.Syntax
             var node = b.Node(tag, classNames);
             foreach (var buildChild in children)
             {
-                b.Add(node, b.Call(buildChild));
+                b.AddIfNotVoid(node, b.Call(buildChild));
             }
             return node;
+        }
+
+        /// <summary>
+        /// Void nodes do not get added AT ALL to the DOM
+        /// They're not just invisible/hidden, they are markers for 'do not add the result of this builder'
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<HyperNode> VoidNode(this BlockBuilder b)
+        {
+            return b.Node(VoidNodeTag);
         }
 
         public static Var<HyperNode> Div(this BlockBuilder b, string classNames, Var<List<HyperNode>> children)
         {
             var container = b.Node("div", classNames);
-            b.Foreach(children, (b, c) => b.Add(container, c));
+            b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
             return container;
         }
 
@@ -89,7 +96,7 @@ namespace Metapsi.Syntax
             var container = b.Node("div", classNames);
             foreach (var buildChild in children)
             {
-                b.Add(container, b.Call(buildChild));
+                b.AddIfNotVoid(container, b.Call(buildChild));
             }
             return container;
         }
@@ -127,7 +134,7 @@ namespace Metapsi.Syntax
         public static Var<HyperNode> Span(this BlockBuilder b, string classNames, Var<List<HyperNode>> children)
         {
             var container = b.Node("span", classNames);
-            b.Foreach(children, (b, c) => b.Add(container, c));
+            b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
             return container;
         }
 
@@ -137,7 +144,7 @@ namespace Metapsi.Syntax
 
             foreach (var buildChild in children)
             {
-                b.Add(span, b.Call(buildChild));
+                b.AddIfNotVoid(span, b.Call(buildChild));
             }
             return span;
         }
@@ -216,43 +223,19 @@ namespace Metapsi.Syntax
             b.Push(children, child.As<HyperNode>());// <- this conversion makes no statical sense
         }
 
-        public static Var<HyperNode> Link(this BlockBuilder b, Var<string> text, Var<string> absoluteUrl)
+        public static void AddIfNotVoid(this BlockBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
         {
-            var a = b.Node("a", "underline text-sky-500");
-            var props = b.Get(a, x => x.props);
-            b.Set(props, Html.href, absoluteUrl);
-            b.Add(a, b.Text(text));
-            return a;
+            b.If(b.Not(b.AreEqual(b.Get(child, x => x.tag), b.Const(VoidNodeTag))),
+                b => b.Add(parent, child));
         }
 
-
-        public static Var<HyperNode> Link(this BlockBuilder b, Var<string> url, Var<HyperNode> content)
+        public static Var<HyperNode> Optional(this BlockBuilder b, Var<bool> ifValue, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
         {
-            var a = b.Node("a", "");
-            var props = b.Get(a, x => x.props);
-            b.Set(props, Html.href, url);
-            b.Add(a, content);
-            return a;
+            return b.If(
+                ifValue,
+                b => b.Call(buildControl),
+                b => b.VoidNode());
         }
-
-        //public static Var<HyperNode> Link(
-        //    this BlockBuilder b,
-        //    Var<string> text,
-        //    Func<CommandContext, HttpContext, Task<IResponse>> page,
-        //    Var<string> parameter)
-        //{
-        //    Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"), parameter);
-        //    return b.Link(text, absoluteUrl);
-        //}
-
-        //public static Var<HyperNode> Link(
-        //    this BlockBuilder b,
-        //    Var<string> text,
-        //    Func<CommandContext, HttpContext, Task<IResponse>> page)
-        //{
-        //    Var<string> absoluteUrl = b.Concat(b.RootPath(), b.Const($"/{page.Method.DeclaringType.Name}/{page.Method.Name}/"));
-        //    return b.Link(text, absoluteUrl);
-        //}
 
         public static Var<string> Url(this BlockBuilder b, Delegate handler)
         {
@@ -299,23 +282,6 @@ namespace Metapsi.Syntax
             }
 
             return methodPath.Replace("//", "/");
-        }
-
-        public static Var<HyperNode> Link(this BlockBuilder b, string classes, Var<string> url, params Func<BlockBuilder, Var<HyperNode>>[] children)
-        {
-            var a = b.Node("a", classes, children);
-            b.SetAttr(a, Html.href, url);
-            return a;
-        }
-
-        public static Var<HyperNode> Link<TState>(this BlockBuilder b, Var<string> text, Var<HyperType.Action<TState>> onClick)
-        {
-            var a = b.Node("a", "underline text-sky-500");
-            var props = b.Get(a, x => x.props);
-            b.Set(props, Html.href, b.Const("javascript:void(0);"));
-            b.SetOnClick(a, onClick);
-            b.Add(a, b.Text(text));
-            return a;
         }
 
         public static void Add(this BlockBuilder b, Var<HyperNode> parent, Var<string> text)
