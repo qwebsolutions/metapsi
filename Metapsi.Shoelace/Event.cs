@@ -3,15 +3,15 @@ using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
 
-public static class Event
+public static class EventExtensions
 {
     public static void SetOnSlChange<TState>(
        this BlockBuilder b,
        Var<HyperNode> control,
        Var<HyperType.Action<TState, string>> onChange)
     {
-        var onChangeEvent = b.MakeAction<TState, DomEvent<Hyperapp.Controls.ClickTarget>, string>(
-            (BlockBuilder b, Var<TState> state, Var<DomEvent<Hyperapp.Controls.ClickTarget>> @event) =>
+        var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, string>(
+            (BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.CallExternal(nameof(Native), "stopPropagation", @event);
                 b.Comment("SetOnSlChange");
@@ -23,7 +23,7 @@ public static class Event
                         new DynamicProperty<string>("value")));
             });
 
-        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<Hyperapp.Controls.ClickTarget>>>("onsl-change"), onChangeEvent);
+        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onsl-change"), onChangeEvent);
     }
 
     public static void SetOnSlChange<TState>(
@@ -31,8 +31,8 @@ public static class Event
        Var<HyperNode> control,
        Var<HyperType.Action<TState, bool>> onChange)
     {
-        var onChangeEvent = b.MakeAction<TState, DomEvent<Hyperapp.Controls.ClickTarget>, bool>(
-            (BlockBuilder b, Var<TState> state, Var<DomEvent<Hyperapp.Controls.ClickTarget>> @event) =>
+        var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, bool>(
+            (BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.CallExternal(nameof(Native), "stopPropagation", @event);
                 b.Comment("SetOnSlChange");
@@ -44,6 +44,6 @@ public static class Event
                         new DynamicProperty<bool>("checked")));
             });
 
-        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<Hyperapp.Controls.ClickTarget>>>("onsl-change"), onChangeEvent);
+        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onsl-change"), onChangeEvent);
     }
 }

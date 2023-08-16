@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Metapsi.Hyperapp.Input;
 
 namespace Metapsi.Hyperapp
 {
+    public class ClickTarget
+    {
+    }
+
     public class DomEvent<TTarget>
     {
         public TTarget target { get; set; }
@@ -29,7 +32,7 @@ namespace Metapsi.Hyperapp
         public TDetail detail { get; set; }
     }
 
-    public partial class Controls
+    public static class EventExtensions
     {
         public static void SetOnInput<TState>(this BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
         {
@@ -87,9 +90,7 @@ namespace Metapsi.Hyperapp
             return b.MakeAction((BlockBuilder b, Var<TState> state, Var<TPayload> payload) => state);
         }
 
-        public class ClickTarget
-        {
-        }
+
 
         public static void SetOnClick<TState, TPayload>(
             this BlockBuilder b,

@@ -53,8 +53,8 @@ public static partial class Render
         public static Var<HyperNode> Layout(BlockBuilder b, Var<HyperNode> header, Var<HyperNode> content)
         {
             var mainDiv = b.Div();
-            b.Add(mainDiv, header);
-            b.Add(mainDiv, content);
+            b.Add(mainDiv, b.AddClass(header, "fixed z-10"));
+            b.Add(mainDiv, b.AddClass(content, "p-4 pt-24 z-0"));
             return mainDiv;
         }
 
@@ -182,12 +182,6 @@ public static partial class Render
                     "flex flex-col items-center gap-8 border rounded p-4",
                     b => b.Text("Select solution", "font-semibold"),
                     b => SelectSolutionDropDown(b, model)
-                    //,
-                    //b => b.Div(
-                    //    "flex flex-col items-center gap-2",
-                    //    b.Map(
-                    //        b.Get(model, x => x.Solutions),
-                    //        SelectSolutionButton))
                     )
                 );
         }
@@ -325,13 +319,15 @@ public static partial class Render
         {
             var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
 
+            var usedProjects = b.Get(project, x => x.UsedProjects);
+
             var container = b.Div(
                 "flex flex-col gap-2",
                 b => b.Text("Based on"),
                 b => b.Div(
                     "flex flex-col text-sm",
                     b.Map(
-                        b.Get(project, x => x.UsedProjects),
+                        usedProjects,
                         (b, related) =>
                         {
                             var selectProject = b.Node("button", "w-fit", b => b.Text(related));
@@ -345,18 +341,19 @@ public static partial class Render
                             return selectProject;
                         })));
 
-            return container;
+            return b.ShowIfAny(usedProjects, b => container);
         }
 
         public Var<HyperNode> ProjectRoutesList(BlockBuilder b, Var<Handler.Home.Model> model)
         {
+            var projectRoutes = GetProjectRoutes(b, model, b.GetFocusedProject(model));
             var container = b.Div(
                 "flex flex-col gap-2",
                 b => b.Text("Routes"),
                 b => b.Div(
                     "flex flex-col gap-2",
                     b.Map(
-                        GetProjectRoutes(b, model, b.GetFocusedProject(model)),
+                        projectRoutes,
                         (b, route) => b.Div(
                             "flex flex-row gap-2",
                             b =>
@@ -365,24 +362,25 @@ public static partial class Render
                                 return routeBtn;
                             }))));
 
-            return container;
+            return b.ShowIfAny(projectRoutes, b => container);
         }
 
         public Var<HyperNode> ProjectHandlersList(BlockBuilder b, Var<Handler.Home.Model> model)
         {
+            var projectHandlers = b.Get(model, b.GetFocusedProject(model), (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList());
             var container = b.Div(
                 "flex flex-col gap-2",
                 b => b.Text("Handlers"),
                 b => b.Div(
                     "flex flex-col gap-2",
                     b.Map(
-                        b.Get(model, b.GetFocusedProject(model), (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList()),
+                        projectHandlers,
                         (b, handler) => b.Div(
                             "flex flex-row gap-2",
                             b => QualifiedSymbolClass(b, b.Get(handler, x => x.Handler.SymbolKey)),
                             b => QualifiedSymbolUrl(b, b.Get(handler, x => x.Route))))));
 
-            return container;
+            return b.ShowIfAny(projectHandlers, b => container);
         }
 
         //public Var<string> ClassPathToUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
@@ -443,17 +441,15 @@ public static partial class Render
                     b => b.Text(solutionPath, "font-semibold"),
                     b =>
                     {
-                        var icon = "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"w-6 h-6\">\r\n  <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25\" />\r\n</svg>\r\n";
-
                         var previewLink = b.Node("a", "flex flex-row items-center justify-center bg-red-100 rounded p-4");
                         b.SetAttr(previewLink, Html.href, "http://localhost:9999");
                         b.SetAttr(previewLink, new DynamicProperty<string>("target"), b.Const("_blank"));
 
                         b.Add(previewLink,
                             b.Div(
-                                "flex flex-row text-blue-500 gap-4",
+                                "flex flex-row text-blue-500 gap-4 items-center",
                                 b => b.TextNode("Preview"),
-                                b => b.Svg(icon)));
+                                b => b.Icon("box-arrow-up-right")));
 
                         return previewLink;
                     },
@@ -538,118 +534,120 @@ public static partial class Render
 
         public Var<HyperNode> SolutionSummaryTable(BlockBuilder b, Var<Handler.Home.Model> model)
         {
-            var summary = b.Get(model, x => x.SolutionEntities);
+            return b.VoidNode();
 
-            var tableProps = b.NewObj<DataTable.Props<SummaryRow>>();
+            //var summary = b.Get(model, x => x.SolutionEntities);
 
-            var rows = b.NewCollection<SummaryRow>();
+            //var tableProps = b.NewObj<DataTable.Props<SummaryRow>>();
 
-            var eq = b.DefineFunc<SymbolKey, SymbolKey, bool>(SymbolKeyEquals);
+            //var rows = b.NewCollection<SummaryRow>();
 
-            b.Foreach(
-                b.Get(model, x => x.SolutionEntities.Routes),
-                (b, route) =>
-                {
-                    var routeHandlers = b.Get(
-                        summary,
-                        route,
-                        eq,
-                        (summary, route, eq) => summary.Handlers.Where(x => eq(x.Route, route.Route.SymbolKey)).ToList());
+            //var eq = b.DefineFunc<SymbolKey, SymbolKey, bool>(SymbolKeyEquals);
 
-                    b.If(
-                        b.Get(routeHandlers, x => !x.Any()),
-                        b =>
-                        {
-                            // if no handler exists we still need to display the route
-                            var row = b.NewObj<SummaryRow>();
-                            b.Set(row, x => x.Route, route);
-                            b.Push(rows, row);
-                        },
-                        b =>
-                        {
-                            b.Foreach(routeHandlers, (b, routeHandler) =>
-                            {
-                                b.If(
-                                    b.HasObject(b.Get(routeHandler, x => x.ReturnModelType)),
-                                    b =>
-                                    {
-                                        var returnModelType = b.Get(routeHandler, x => x.ReturnModelType);
+            //b.Foreach(
+            //    b.Get(model, x => x.SolutionEntities.Routes),
+            //    (b, route) =>
+            //    {
+            //        var routeHandlers = b.Get(
+            //            summary,
+            //            route,
+            //            eq,
+            //            (summary, route, eq) => summary.Handlers.Where(x => eq(x.Route, route.Route.SymbolKey)).ToList());
 
-                                        var renderers = b.Get(summary, returnModelType, eq, (summary, returnModelType, eq) => summary.Renderers.Where(x => eq(x.Model, returnModelType)).ToList());
+            //        b.If(
+            //            b.Get(routeHandlers, x => !x.Any()),
+            //            b =>
+            //            {
+            //                // if no handler exists we still need to display the route
+            //                var row = b.NewObj<SummaryRow>();
+            //                b.Set(row, x => x.Route, route);
+            //                b.Push(rows, row);
+            //            },
+            //            b =>
+            //            {
+            //                b.Foreach(routeHandlers, (b, routeHandler) =>
+            //                {
+            //                    b.If(
+            //                        b.HasObject(b.Get(routeHandler, x => x.ReturnModelType)),
+            //                        b =>
+            //                        {
+            //                            var returnModelType = b.Get(routeHandler, x => x.ReturnModelType);
 
-                                        b.If(
-                                            b.Get(renderers, x => !x.Any()),
-                                            b =>
-                                            {
-                                                var row = b.NewObj<SummaryRow>();
-                                                b.Set(row, x => x.Route, route);
-                                                b.Set(row, x => x.Handler, routeHandler);
-                                                b.Push(rows, row);
-                                            },
-                                            b =>
-                                            {
-                                                b.Foreach(renderers, (b, renderer) =>
-                                                {
-                                                    var row = b.NewObj<SummaryRow>();
-                                                    b.Set(row, x => x.Route, route);
-                                                    b.Set(row, x => x.Handler, routeHandler);
-                                                    b.Set(row, x => x.Renderer, renderer);
-                                                    b.Push(rows, row);
-                                                });
-                                            });
-                                    },
-                                    b =>
-                                    {
-                                        // if no return model type is associated we still need to display the route & handler
-                                        var row = b.NewObj<SummaryRow>();
-                                        b.Set(row, x => x.Route, route);
-                                        b.Push(rows, row);
-                                    });
-                            });
-                        });
-                });
+            //                            var renderers = b.Get(summary, returnModelType, eq, (summary, returnModelType, eq) => summary.Renderers.Where(x => eq(x.Model, returnModelType)).ToList());
 
-            b.Set(tableProps, x => x.Rows, rows);
-            var columns = b.NewCollection<DataTable.Column>();
-            b.Push(columns, b.NewObj<DataTable.Column>(b =>
-            {
-                b.Set(x => x.Name, b.Const("Route"));
-            }));
+            //                            b.If(
+            //                                b.Get(renderers, x => !x.Any()),
+            //                                b =>
+            //                                {
+            //                                    var row = b.NewObj<SummaryRow>();
+            //                                    b.Set(row, x => x.Route, route);
+            //                                    b.Set(row, x => x.Handler, routeHandler);
+            //                                    b.Push(rows, row);
+            //                                },
+            //                                b =>
+            //                                {
+            //                                    b.Foreach(renderers, (b, renderer) =>
+            //                                    {
+            //                                        var row = b.NewObj<SummaryRow>();
+            //                                        b.Set(row, x => x.Route, route);
+            //                                        b.Set(row, x => x.Handler, routeHandler);
+            //                                        b.Set(row, x => x.Renderer, renderer);
+            //                                        b.Push(rows, row);
+            //                                    });
+            //                                });
+            //                        },
+            //                        b =>
+            //                        {
+            //                            // if no return model type is associated we still need to display the route & handler
+            //                            var row = b.NewObj<SummaryRow>();
+            //                            b.Set(row, x => x.Route, route);
+            //                            b.Push(rows, row);
+            //                        });
+            //                });
+            //            });
+            //    });
 
-            b.Push(columns, b.NewObj<DataTable.Column>(b =>
-            {
-                b.Set(x => x.Name, b.Const("Handler"));
-            }));
+            //b.Set(tableProps, x => x.Rows, rows);
+            //var columns = b.NewCollection<DataTable.Column>();
+            //b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            //{
+            //    b.Set(x => x.Name, b.Const("Route"));
+            //}));
 
-            b.Push(columns, b.NewObj<DataTable.Column>(b =>
-            {
-                b.Set(x => x.Name, b.Const("Model"));
-            }));
+            //b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            //{
+            //    b.Set(x => x.Name, b.Const("Handler"));
+            //}));
 
-            b.Push(columns, b.NewObj<DataTable.Column>(b =>
-            {
-                b.Set(x => x.Name, b.Const("Renderer"));
-            }));
+            //b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            //{
+            //    b.Set(x => x.Name, b.Const("Model"));
+            //}));
 
-            b.Set(tableProps, x => x.Columns, columns);
+            //b.Push(columns, b.NewObj<DataTable.Column>(b =>
+            //{
+            //    b.Set(x => x.Name, b.Const("Renderer"));
+            //}));
 
-            b.Log(rows);
+            //b.Set(tableProps, x => x.Columns, columns);
 
-            b.Set(tableProps, x => x.CreateCell, b.DefineFunc<SummaryRow, DataTable.Column, HyperNode>(RenderSummaryCell));
+            //b.Log(rows);
 
-            return b.DataTable<SummaryRow>(tableProps);
+            //b.Set(tableProps, x => x.CreateCell, b.DefineFunc<SummaryRow, DataTable.Column, HyperNode>(RenderSummaryCell));
+
+            //return b.DataTable<SummaryRow>(tableProps);
         }
 
-        public Var<HyperNode> RenderSummaryCell(BlockBuilder b, Var<SummaryRow> row, Var<DataTable.Column> column)
-        {
-            return b.Switch(
-                b.Get(column, x => x.Name),
-                b => b.Text("Not defined", "text-red-500"),
-                ("Route", b => QualifiedSymbolUrl(b, b.Get(row, x => x.Route.Route.SymbolKey))),
-                ("Handler", b => GetHandlerCell(b, row)),
-                ("Model", b => GetModelCell(b, row)),
-                ("Renderer", b => GetRendererCell(b, row)));
-        }
+        //public Var<HyperNode> RenderSummaryCell(BlockBuilder b, Var<SummaryRow> row, Var<DataTable.Column> column)
+        //{
+        //    return b.Switch(
+        //        b.Get(column, x => x.Name),
+        //        b => b.Text("Not defined", "text-red-500"),
+        //        ("Route", b => QualifiedSymbolUrl(b, b.Get(row, x => x.Route.Route.SymbolKey))),
+        //        ("Handler", b => GetHandlerCell(b, row)),
+        //        ("Model", b => GetModelCell(b, row)),
+        //        ("Renderer", b => GetRendererCell(b, row)));
+        //}
 
         public Var<HyperNode> GetRendererCell(BlockBuilder b, Var<SummaryRow> row)
         {
@@ -689,7 +687,7 @@ public static partial class Render
                 b,
                 SolutionNameHeader(b, model),
                 b.Div(
-                    "p-4",
+                    "",
                     b => CompileErrorsStack(b, model),
                     b =>
                     {
@@ -705,19 +703,19 @@ public static partial class Render
                             tabGroup,
                             b.Const("routes"),
                             b.Concat(b.AsString(b.Get(entities, x => x.Routes.Count())), b.Const(" Routes")),
-                            b.Text("Route details here"));
-
-                        b.TabPage(
-                            tabGroup,
-                            b.Const("renderers"),
-                            b.Concat(b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const(" Renderers")),
-                            b.Text("Renderer details here"));
+                            RoutesTab(b, model));
 
                         b.TabPage(
                             tabGroup,
                             b.Const("handlers"),
                             b.Concat(b.AsString(b.Get(entities, x => x.Handlers.Count())), b.Const(" Handlers")),
-                            b.Text("Handler details here"));
+                            ListHandlers(b, model));
+
+                        b.TabPage(
+                            tabGroup,
+                            b.Const("renderers"),
+                            b.Concat(b.AsString(b.Get(entities, x => x.Renderers.Count())), b.Const(" Renderers")),
+                            ListRenderers(b, model));
 
                         return tabGroup;
                     },
@@ -790,6 +788,11 @@ public static partial class Render
                 b.Not(b.HasValue(b.Get(model, x => x.FocusedProjectName))),
                 b => ProjectsList(b, model),
                 b => FocusedProjectDetails(b, model));
+        }
+
+        public Var<HyperNode> RoutesTab(BlockBuilder b, Var<Handler.Home.Model> model)
+        {
+            return ListRoutes(b, model);
         }
 
         public Var<HyperNode> ProjectsList(BlockBuilder b, Var<Handler.Home.Model> model)

@@ -237,6 +237,38 @@ namespace Metapsi.Syntax
                 b => b.VoidNode());
         }
 
+        public static Var<HyperNode> ShowIfAny<T>(this BlockBuilder b, Var<IEnumerable<T>> collection, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
+        {
+            return b.Optional(
+                b.Get(collection, x => x.Any()),
+                b => buildControl(b));
+        }
+
+        public static Var<HyperNode> ShowIfAny<T>(this BlockBuilder b, Var<List<T>> collection, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
+        {
+            return b.Optional(
+                b.Get(collection, x => x.Any()),
+                b => buildControl(b));
+        }
+
+        public static Var<HyperNode> ListIfAny<T>(
+            this BlockBuilder b,
+            Var<List<T>> collection,
+            System.Func<BlockBuilder, Var<HyperNode>> renderContainer,
+            System.Func<BlockBuilder, Var<T>, Var<HyperNode>> renderItem,
+            System.Func<BlockBuilder, Var<HyperNode>> renderEmpty)
+        {
+            return b.If(
+                b.Get(collection, x => x.Any()),
+                b =>
+                {
+                    var container = renderContainer(b);
+                    b.AddChildren(container, b.Map(collection, renderItem));
+                    return container;
+                },
+                b => renderEmpty(b));
+        }
+
         public static Var<string> Url(this BlockBuilder b, Delegate handler)
         {
             var path = b.Const(Path(handler.Method));

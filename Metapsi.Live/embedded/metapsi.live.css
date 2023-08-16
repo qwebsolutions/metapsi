@@ -560,6 +560,18 @@ video {
   position: static;
 }
 
+.fixed {
+  position: fixed;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
 .flex {
   display: flex;
 }
@@ -4791,6 +4803,10 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pt-24 {
+  padding-top: 6rem;
 }
 
 .text-left {
