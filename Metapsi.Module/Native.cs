@@ -154,6 +154,24 @@ namespace Metapsi.Syntax
         //    return b.CallExternal<string>(nameof(Native), nameof(ToString), variable);
         //}
 
+        public static Var<TScalar> ParseScalar<TScalar>(this BlockBuilder b, Var<string> value)
+        {
+            var r = b.Ref<TScalar>(b.Const(string.Empty).As<TScalar>());
+
+            if (typeof(TScalar) == typeof(int))
+                b.SetRef(r, b.ParseInt(value).As<TScalar>());
+            else if (typeof(TScalar) == typeof(string))
+                b.SetRef(r, value.As<TScalar>());
+            else if (typeof(TScalar) == typeof(Guid))
+                b.SetRef(r, b.ParseId(value).As<TScalar>());
+            else if (typeof(TScalar) == typeof(decimal))
+                b.SetRef(r, b.ParseDecimal(value).As<TScalar>());
+            else throw new NotSupportedException($"Cannot parse type {typeof(TScalar).Name}");
+
+            return b.GetRef(r);
+        }
+
+
         public static Var<string> JoinStrings(this BlockBuilder b, Var<string> separator, Var<List<string>> values)
         {
             var checkedValues = b.Get(values, x => x.Where( x=> x != null && x != "").ToList());

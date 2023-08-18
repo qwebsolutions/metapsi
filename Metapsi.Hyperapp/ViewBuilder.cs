@@ -340,6 +340,16 @@ namespace Metapsi.Syntax
         {
             b.SetAttr(node, property, b.Const(value));
         }
+
+        public static Var<TProp> GetAttr<TProp>(
+            this BlockBuilder b,
+            Var<HyperNode> node,
+            DynamicProperty<TProp> property)
+        {
+            var props = b.Get(node, x => x.props);
+            return b.Get(props, property);
+        }
+
         public static Var<HyperNode> AddClass(
             this BlockBuilder b,
             Var<HyperNode> node,
