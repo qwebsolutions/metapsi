@@ -3,6 +3,7 @@ using Metapsi.Hyperapp;
 using Metapsi.Live;
 using Metapsi.Live.Db;
 using Metapsi.Sqlite;
+using Metapsi.Ui;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;

@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Live", "Metapsi.Liv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Shoelace", "Metapsi.Shoelace\Metapsi.Shoelace.csproj", "{08CE0F9C-9A6D-4E9B-9201-F6772EE3F9E0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Tutorial", "Metapsi.Tutorial\Metapsi.Tutorial.csproj", "{0D1EB69F-E263-4D34-A37E-C6D2EBBB5053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{08CE0F9C-9A6D-4E9B-9201-F6772EE3F9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08CE0F9C-9A6D-4E9B-9201-F6772EE3F9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08CE0F9C-9A6D-4E9B-9201-F6772EE3F9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D1EB69F-E263-4D34-A37E-C6D2EBBB5053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1EB69F-E263-4D34-A37E-C6D2EBBB5053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1EB69F-E263-4D34-A37E-C6D2EBBB5053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1EB69F-E263-4D34-A37E-C6D2EBBB5053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

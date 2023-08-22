@@ -9,8 +9,12 @@ namespace Metapsi.Hyperapp
     {
         public static Module BuildModule<TDataModel>(
            Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render,
-           Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null)
+           Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
+           string mountDivId = null)
         {
+            if (mountDivId == null)
+                mountDivId = "app";
+
             ModuleBuilder b = new ModuleBuilder();
 
             b.Define("main", (BlockBuilder b, Var<TDataModel> model) =>
@@ -67,7 +71,7 @@ namespace Metapsi.Hyperapp
                     b.CallExternal(nameof(Native), "DispatchEvent", b.Const("afterRender"));
                     return rootNode;
                 }));
-                b.Set(app, x => x.node, b.GetElementById(b.Const("app")));
+                b.Set(app, x => x.node, b.GetElementById(b.Const(mountDivId)));
 
 
                 //var subFuncs2 = b.Module.Constants.Where(x => x.Value is IFunction);

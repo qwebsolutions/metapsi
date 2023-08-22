@@ -106,28 +106,45 @@ public class HtmlText : IHtmlNode
 
     public HtmlText(string text)
     {
-        this.Text = text;
+        this.Text = System.Web.HttpUtility.HtmlEncode(text);
     }
 }
 
-//public class ViewRenderer<TVarClientModel, TVarVNode>
-//{
-//    public string Name { get; set; }
-//    public Func<TVarClientModel, TVarVNode> RenderFunc { get; set; }
-//}
 
-//public class ViewEntry
-//{
-//    /// <summary>
-//    /// The name of the area where this view is applied. 
-//    /// There might be multiple view-based controls (multiple tabs, for example) in the same page,
-//    /// so this is used to differentiate between them
-//    /// </summary>
-//    public string AreaName { get; set; } = string.Empty;
-//    public string ViewRendererName { get; set; } = string.Empty;
-//}
+public interface IApiResponse
+{
+    public string ResultCode { get; set; }
+    public string ErrorMessage { get; set; }
+}
 
-//public interface IHasViews
-//{
-//    List<ViewEntry> Views { get; set; }
-//}
+public class ApiResponse : IApiResponse
+{
+    public string ResultCode { get; set; } = ApiResultCode.Ok;
+    public string ErrorMessage { get; set; }
+}
+
+public class ApiResultCode
+{
+    public const string Error = "Error";
+    public const string Ok = "Ok";
+}
+
+
+
+public class ServerActionInput
+{
+    public string SerializedModel { get; set; } = string.Empty;
+    public string SerializedPayload { get; set; } = string.Empty;
+    public string QualifiedHandlerClass { get; set; } = string.Empty;
+    public string HandlerMethod { get; set; } = string.Empty;
+}
+
+public class ServerActionResponse : ApiResponse
+{
+    public string SerializedModel { get; set; } = string.Empty;
+}
+
+public static class ServerActionEndpoint
+{
+    public static Request<ServerActionResponse, ServerActionInput> ServerAction { get; set; } = new(nameof(ServerAction));
+}

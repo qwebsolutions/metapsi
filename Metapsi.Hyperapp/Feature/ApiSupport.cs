@@ -1,5 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Syntax;
+using Metapsi.Ui;
 using System;
 
 namespace Metapsi.Hyperapp
@@ -7,24 +8,6 @@ namespace Metapsi.Hyperapp
     public interface IApiSupportState
     {
         ApiSupport ApiSupport { get; set; }
-    }
-
-    public interface IApiResponse
-    {
-        public string ResultCode { get; set; }
-        public string ErrorMessage { get; set; }
-    }
-
-    public class ApiResponse : IApiResponse
-    {
-        public string ResultCode { get; set; } = ApiResultCode.Ok;
-        public string ErrorMessage { get; set; }
-    }
-
-    public class ApiResultCode
-    {
-        public const string Error = "Error";
-        public const string Ok = "Ok";
     }
 
     public class ApiSupport
@@ -138,21 +121,6 @@ namespace Metapsi.Hyperapp
                 b.Get(page, x => x.ApiSupport.InProgress),
                 b => b.Div("bg-black opacity-50 fixed inset-0 z-40 items-center"));
         }
-
-        //public static Var<HyperNode> ErrorPanel<TState>(this BlockBuilder b, Var<TState> page)
-        //    where TState : IApiSupportState
-        //{
-        //    return b.Optional(
-        //        b.HasValue(b.Get(page, x => x.ApiSupport.ErrorMessage)),
-        //        b => b.Popup(
-        //            b.Div("bg-white p-24 text-red-500 font-semibold", b => b.Text(b.Get(page, x => x.ApiSupport.ErrorMessage))),
-        //            b.MakeAction((BlockBuilder b, Var<TState> page) =>
-        //            {
-        //                var apiSupport = b.Get(page, x => x.ApiSupport);
-        //                b.Set(apiSupport, x => x.ErrorMessage, b.Const(string.Empty));
-        //                return b.Clone(page);
-        //            })));
-        //}
 
         public static Var<bool> IsErrorResult<TResult>(this BlockBuilder b, Var<TResult> response)
             where TResult : IApiResponse

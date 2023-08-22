@@ -1,5 +1,6 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using System;
 
 namespace Metapsi.Shoelace;
 
@@ -82,7 +83,13 @@ public static partial class Control
         return tabPanel;
     }
 
-    public static void TabPage(this BlockBuilder b, Var<HyperNode> tabGroup, Var<string> name, Var<HyperNode> tab, Var<HyperNode> panel)
+    public static void TabPage(
+        this BlockBuilder b,
+        Var<HyperNode> tabGroup,
+        Var<string> name,
+        Var<HyperNode> tab,
+        Var<HyperNode> panel,
+        Var<bool> active = null)
     {
         var tabControl = b.Tab(b.NewObj<Tab>(b =>
         {
@@ -96,6 +103,11 @@ public static partial class Control
         {
             b.Set(x => x.Name, name);
         }));
+
+        if (active != null)
+        {
+            b.If(active, b => b.SetAttr(tabPanelControl, new DynamicProperty<string>("active"), b.Const(string.Empty)));
+        }
 
         b.Add(tabPanelControl, panel);
 

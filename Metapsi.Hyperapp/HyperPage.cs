@@ -14,7 +14,7 @@ namespace Metapsi.Hyperapp
 
         public override IHtmlNode GetHtml(TDataModel dataModel)
         {
-            var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit);
+            var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 
             var links = module.Consts.Where(x => x.Value is LinkTag).Select(x => x.Value as LinkTag);
             var scripts = module.Consts.Where(x => x.Value is ScriptTag).Select(x => x.Value as ScriptTag);
@@ -64,8 +64,13 @@ namespace Metapsi.Hyperapp
                     });
 
                     var mainDiv = body.AddChild(new HtmlTag("div"));
-                    mainDiv.Attributes.Add("id", "app");
+                    mainDiv.Attributes.Add("id", GetMountDivId());
                 });
+        }
+
+        public virtual string GetMountDivId()
+        {
+            return "app";
         }
     }
 }

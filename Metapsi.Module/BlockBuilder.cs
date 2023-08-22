@@ -171,6 +171,11 @@ namespace Metapsi.Syntax
             }, value);
         }
 
+        public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
+        {
+            Set<TItem, TProp>(var, access, Const(value));
+        }
+
         public void Set<TDynamicItem, TProp>(Var<TDynamicItem> item, DynamicProperty<TProp> property, Var<TProp> value)
             where TDynamicItem : IDynamicObject
         {

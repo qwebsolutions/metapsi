@@ -64,9 +64,11 @@ public static partial class Program
         webServer.RegisterStaticFiles(typeof(HyperNode).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.Control).Assembly);
 
+
+        webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Live.Route.Home>()));
+
         webServer.WebApplication.RegisterGetHandler<Handler.Home, Metapsi.Live.Route.Home>();
         webServer.RegisterPageBuilder<Handler.Home.Model>(new Render.Homepage().Render);
-        webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Live.Route.Home>()));
 
         ig.MapStorage(dbFullPath);
         ig.MapBackend(compileEnvironment, panelEnvironment, previewEnvironment);

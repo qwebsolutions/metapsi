@@ -1210,13 +1210,7 @@ public static class CompileEnvironment
         public List<Diagnostic> Errors { get; set; } = new ();
     }
 
-    // emit the compilation result into a byte array.
-    // throw an exception with corresponding message
-    // if there are errors
-    public static EmitResult EmitToArray
-    (
-        this Compilation compilation
-    )
+    public static EmitResult EmitToArray(this Compilation compilation)
     {
         var stream = new MemoryStream();
         // emit result into a stream

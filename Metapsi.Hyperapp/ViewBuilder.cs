@@ -332,6 +332,21 @@ namespace Metapsi.Syntax
             b.Set(props, property, value);
         }
 
+        public static void SetAttrIfNotEmptyString(
+            this BlockBuilder b,
+            Var<HyperNode> node,
+            DynamicProperty<string> property,
+            Var<string> value)
+        {
+            b.If(
+                b.HasValue(value),
+                b =>
+                {
+                    var props = b.Get(node, x => x.props);
+                    b.Set(props, property, value);
+                });
+        }
+
         public static void SetAttr<TProp>(
             this BlockBuilder b,
             Var<HyperNode> node,

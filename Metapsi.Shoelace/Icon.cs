@@ -16,4 +16,12 @@ public static partial class Control
     {
         return b.Icon(b.Const(iconName));
     }
+
+    public static Var<HyperNode> IconButton(this BlockBuilder b, string iconName)
+    {
+        var iconButton = b.Node("sl-icon-button");
+        b.SetAttr(iconButton, new DynamicProperty<string>("name"), iconName);
+
+        return iconButton;
+    }
 }
