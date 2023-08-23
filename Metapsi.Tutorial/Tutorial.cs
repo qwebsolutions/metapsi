@@ -46,14 +46,27 @@ public class TutorialModel : IApiSupportState
 
 public class TutorialRenderer : HyperPage<TutorialModel>
 {
+    public override IHtmlNode GetHtml(TutorialModel dataModel)
+    {
+        var baseHtml = base.GetHtml(dataModel);
+        var body = (baseHtml as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
+
+        var prismScript = new HtmlTag("script");
+        prismScript.AddAttribute("src", "/prism.js");
+        body.AddChild(prismScript);
+
+        return baseHtml;
+    }
+
     public override Var<HyperNode> OnRender(BlockBuilder b, Var<TutorialModel> model)
     {
         b.AddModuleStylesheet();
+        b.AddStylesheet("prism.css");
 
         var container = b.Div(
-            "flex flex-row gap-8 pt-16 text-gray-700",
-            b => b.Div("flex-1 basis-2/3 overflow-auto p-8", b => DocsPage(b, model)),
-            b => b.AddClass(Sandbox(b, model), "flex-1 basis-1/3 overflow-auto p-8"));
+            "pt-16 text-gray-700",
+            b => b.Div("w-2/3 overflow-auto p-8", b => DocsPage(b, model)),
+            b => b.AddClass(Sandbox(b, model), "bg-white fixed right-0 top-0 bottom-0 w-1/3 overflow-auto pt-24 px-8"));
 
         var breadcrumbs = b.Breadcrumb();
         b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Tutorial")));
@@ -100,14 +113,40 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         var tabGroup = b.Add(container, b.TabGroup(tabGroupProps));
         b.AddClass(tabGroup, "bg-white");
 
-        b.TabPage(tabGroup, b.Const("CSharpModel"), b.Const("Model"), b.Node("pre", "px-4", x => x.TextNode(b.Get(sample, x => x.CSharpModel))));
-        b.TabPage(tabGroup, b.Const("JsonData"), b.Const("JSON data"), b.Node("pre", "px-4", x => x.TextNode(b.Get(sample, x => x.JsonModel))));
+        b.TabPage(
+            tabGroup,
+            b.Const("CSharpModel"),
+            b.Const("Model"),
+            b.Node(
+                "pre",
+                "",
+                b => b.Node(
+                    "code",
+                    "language-csharp",
+                    b => b.TextNode(b.Get(sample, x => x.CSharpModel)))));
+        b.TabPage(
+            tabGroup,
+            b.Const("JsonData"),
+            b.Const("JSON data"),
+            b.Node(
+                "pre",
+                "",
+                b => b.Node(
+                    "code",
+                    "language-json",
+                    b => b.TextNode(b.Get(sample, x => x.JsonModel)))));
 
         b.TabPage(
             tabGroup,
             b.Const("CSharpView"),
             b.TextNode("View"),
-            b.Node("pre", "px-4", x => x.TextNode(b.Get(sample, x => x.CSharpCode))),
+            b.Node(
+                "pre",
+                "",
+                b => b.Node(
+                    "code",
+                    "language-csharp",
+                    b => b.TextNode(b.Get(sample, x => x.CSharpCode)))),
             b.Const(true));
 
         var footerToolbar = b.Add(container, b.Div("flex flex-row items-center justify-between p-4 bg-gray-100 text-lg"));

@@ -106,7 +106,14 @@ public static partial class Control
 
         if (active != null)
         {
-            b.If(active, b => b.SetAttr(tabPanelControl, new DynamicProperty<string>("active"), b.Const(string.Empty)));
+            b.If(active, b =>
+            {
+                b.SetAttr(tabControl, new DynamicProperty<string>("selected"), b.Const("true"));
+                b.SetAttr(tabControl, new DynamicProperty<string>("active"), b.Const("true"));
+
+                b.SetAttr(tabPanelControl, new DynamicProperty<string>("selected"), b.Const("true"));
+                b.SetAttr(tabPanelControl, new DynamicProperty<string>("active"), b.Const("true"));
+            });
         }
 
         b.Add(tabPanelControl, panel);

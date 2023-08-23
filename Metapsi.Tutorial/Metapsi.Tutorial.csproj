@@ -24,6 +24,8 @@
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\Metapsi.Tutorial.js" LogicalName="metapsi.tutorial.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\prism.js" LogicalName="prism.js"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\prism.css" LogicalName="prism.css"></EmbeddedResource>
 	</ItemGroup>
 
 </Project>
