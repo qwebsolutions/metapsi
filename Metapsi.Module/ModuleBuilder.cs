@@ -207,15 +207,21 @@ namespace Metapsi.Syntax
             return expressionsCache[s];
         }
 
-        public IVariable AddFunction(IFunction function)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns>True if added, false if already defined</returns>
+        public bool AddFunction(IFunction function)
         {
-            if(!functionsCache.ContainsKey(function.Name))
+            if (!functionsCache.ContainsKey(function.Name))
             {
                 Module.Functions.Add(function);
                 functionsCache[function.Name] = function;
+                return true;
             }
 
-            return new Var<object>(function.Name);
+            return false;
         }
 
         public Var<T> Const<T>(T value, string name)

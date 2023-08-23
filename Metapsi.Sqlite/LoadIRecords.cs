@@ -15,7 +15,7 @@ namespace Metapsi.Sqlite
         public SQLiteTransaction Transaction { get; set; }
     }
 
-    public static class Db
+    public static partial class Db
     {
         public static List<Type> SupportedScalarTypes = new List<Type>()
         {
@@ -74,24 +74,6 @@ namespace Metapsi.Sqlite
                 transaction.Commit();
             }
         }
-
-        //public static async Task<TDataStructure> Structure<TDataStructure>(string fileName, IEnumerable<Guid> ids)
-        //    where TDataStructure : class, IDataStructure, new()
-        //{
-        //    return await WithRollback(fileName, async c => await c.Transaction.LoadStructure<TDataStructure>(new List<Guid>(ids)));
-        //}
-
-        //public static async Task<TDataStructure> Structure<TDataStructure>(string fileName, Guid id)
-        //    where TDataStructure : class, IDataStructure, new()
-        //{
-        //    return await Structure<TDataStructure>(fileName, new List<Guid>() { id });
-        //}
-
-        //public static async Task<TDataStructure> Structure<TDataStructure>(string fileName)
-        //    where TDataStructure : class, IDataStructure, new()
-        //{
-        //    return await Structure<TDataStructure>(fileName, new List<Guid>());
-        //}
 
         public static async Task<IEnumerable<TRecord>> Records<TRecord>(string fileName, IEnumerable<Guid> ids)
         {

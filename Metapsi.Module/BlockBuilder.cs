@@ -233,19 +233,19 @@ namespace Metapsi.Syntax
             Block.Lines.Add(new LineComment() { Comment = comment });
         }
 
-        public IFunction PlaceDefinition<TFunc>(TFunc builder) where TFunc : Delegate
+        public (bool alreadyDefined, IFunction functionRef) PlaceDefinition<TFunc>(TFunc builder) where TFunc : Delegate
         {
             if (builder.Target != null)
             {
                 var func = new Function<TFunc>() { Name = NewName() };
                 this.Block.Lines.Add(func);
-                return func;
+                return (false, func);
             }
             else
             {
                 var func = new Function<TFunc>() { Name = ModuleBuilder.QualifiedName(builder.Method) };
-                this.ModuleBuilder.AddFunction(func);
-                return func;
+                var isNew = this.ModuleBuilder.AddFunction(func);
+                return (!isNew, func);
             }
         }
 
@@ -253,65 +253,92 @@ namespace Metapsi.Syntax
         public Var<Action> DefineAction(System.Action<BlockBuilder> builder)
         {
             var action = PlaceDefinition(builder);
-            ModuleBuilder.BuildActionBody(action, builder);
-            return new (action.Name);
+            if (!action.alreadyDefined)
+            {
+                ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new (action.functionRef.Name);
         }
 
-        public Var<Action<P1>> DefineAction<P1>(System.Action<BlockBuilder,Var<P1>> builder)
+        public Var<Action<P1>> DefineAction<P1>(System.Action<BlockBuilder, Var<P1>> builder)
         {
             var action = PlaceDefinition(builder);
-            ModuleBuilder.BuildActionBody(action, builder);
-            return new (action.Name);
+            if (!action.alreadyDefined)
+            {
+                ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
         }
 
-        public Var<Action<P1,P2>> DefineAction<P1, P2>(System.Action<BlockBuilder, Var<P1>,Var<P2>> builder)
+        public Var<Action<P1, P2>> DefineAction<P1, P2>(System.Action<BlockBuilder, Var<P1>, Var<P2>> builder)
         {
             var action = PlaceDefinition(builder);
-            ModuleBuilder.BuildActionBody(action, builder);
-            return new(action.Name);
+            if (!action.alreadyDefined)
+            {
+                ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
         }
 
         public Var<Action<P1, P2, P3>> DefineAction<P1, P2, P3>(System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
         {
             var action = PlaceDefinition(builder);
-            ModuleBuilder.BuildActionBody(action, builder);
-            return new(action.Name);
+            if (!action.alreadyDefined)
+            {
+                ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
         }
 
         public Var<Action<P1, P2, P3, P4>> DefineAction<P1, P2, P3, P4>(System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
         {
             var action = PlaceDefinition(builder);
-            ModuleBuilder.BuildActionBody(action, builder);
-            return new(action.Name);
+            if (!action.alreadyDefined)
+            {
+                ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
         }
 
 
         public Var<Func<P1, P2, P3, TOut>> DefineFunc<P1, P2, P3,TOut>(System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
         {
             var func = PlaceDefinition(builder);
-            ModuleBuilder.BuildFuncBody(func, builder);
-            return new(func.Name);
+            if (!func.alreadyDefined)
+            {
+                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
         }
 
         public Var<Func<P1, P2, TOut>> DefineFunc<P1, P2, TOut>(System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
         {
             var func = PlaceDefinition(builder);
-            ModuleBuilder.BuildFuncBody(func, builder);
-            return new(func.Name);
+            if (!func.alreadyDefined)
+            {
+                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
         }
 
         public Var<Func<P1, TOut>> DefineFunc<P1, TOut>(System.Func<BlockBuilder, Var<P1>, Var<TOut>> builder)
         {
             var func = PlaceDefinition(builder);
-            ModuleBuilder.BuildFuncBody(func, builder);
-            return new(func.Name);
+            if (!func.alreadyDefined)
+            {
+                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
         }
 
         public Var<Func<TOut>> DefineFunc<TOut>(System.Func<BlockBuilder, Var<TOut>> builder)
         {
             var func = PlaceDefinition(builder);
-            ModuleBuilder.BuildFuncBody(func, builder);
-            return new(func.Name);
+            if (!func.alreadyDefined)
+            {
+                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
         }
 
         //public IVariable Define<TFunc>(TFunc builder) where TFunc : Delegate

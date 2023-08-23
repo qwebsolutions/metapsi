@@ -15,6 +15,8 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
 
+namespace Metapsi.Tutorial;
+
 public static class CodeSampleId
 {
     public const string _001_HelloWorld = "HelloWorld";
@@ -27,23 +29,18 @@ public static class CodeSampleId
     public const string _008_HelloWorldIfExpression = "HelloWorldIfEExpression";
 }
 
-public class CodeSample
-{
-    public string SampleId { get; set; } = string.Empty;
-    public string SampleLabel { get; set; } = string.Empty;
-    public string CSharpModel { get; set; } = " ";
-    public string CSharpCode { get; set; } = " ";
-    public string JsonModel { get; set; } = "{}";
-}
-
 public class TutorialModel : IApiSupportState
 {
+    public List<Route> Routes { get; set; } = new();
+
     public List<CodeSample> Samples { get; set; } = new();
     public CodeSample LiveSample { get; set; } = new();
 
     public ApiSupport ApiSupport { get; set; } = new();
 
-    public string ResultHtml { get; set; } = "Run the example to see the result here";
+    public string ResultHtml { get; set; } = "<!DOCTYPE html> Run the example to see the result here";
+
+    public bool MenuIsExpanded { get; set; } = false;
 }
 
 public class TutorialRenderer : HyperPage<TutorialModel>
@@ -70,11 +67,43 @@ public class TutorialRenderer : HyperPage<TutorialModel>
             b => b.Div("w-2/3 overflow-auto p-8", b => DocsPage(b, model)),
             b => b.AddClass(Sandbox(b, model), "bg-white fixed right-0 top-0 bottom-0 w-1/3 overflow-auto pt-24 px-8"));
 
+
         var breadcrumbs = b.Breadcrumb();
         b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Tutorial")));
         b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Const("Hello world")));
 
-        b.Add(container, b.Div("flex flex-row items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50", x => breadcrumbs));
+        b.Add(
+            container, 
+            b.Div(
+                "flex flex-row items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50", 
+                b=>
+                {
+                    var showMenuButton = b.IconButton("list");
+                    b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+                    {
+                        b.Set(model, x => x.MenuIsExpanded, true);
+                        return b.Clone(model);
+                    }));
+
+                    return showMenuButton;
+                },
+                b => breadcrumbs));
+
+        var menuDrawerProps = b.NewObj<Drawer>();
+        b.Set(menuDrawerProps, x => x.Placement, DrawerPlacement.Start);
+        b.Set(menuDrawerProps, x => x.Open, b.Get(model, x => x.MenuIsExpanded));
+        b.Set(menuDrawerProps, x => x.Label, "Metapsi docs");
+
+        var drawer = b.Add(container, b.Drawer(menuDrawerProps, b => TreeMenu(b, model)));
+        b.SetOnDrawerHide(drawer, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+        {
+            b.Set(model, x => x.MenuIsExpanded, false);
+            return b.Clone(model);
+        }));
+
+        //b.If(
+        //    b.Get(model, x => x.MenuIsExpanded),
+        //    b => b.Add(container, b.Drawer(menuDrawerProps)));
 
         return container;
     }
@@ -98,6 +127,30 @@ public class TutorialRenderer : HyperPage<TutorialModel>
             b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._007_HelloWorldIfElse))),
             b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._008_HelloWorldIfExpression)))
             );
+    }
+
+    public static Var<HyperNode> TreeMenu(BlockBuilder b, Var<TutorialModel> model)
+    {
+        //var roots = b.Get(
+        //    model,
+        //    b.DefineFunc<string, bool>(Native.HasValue),
+        //    (model, hasValue) => model.Routes.Where(x => !hasValue(x.ParentCode)).ToList());
+
+        var tree = b.Tree();
+        b.Call(FillRecursiveRoute, model, b.Const(""), tree);
+        //b.AddChildren(tree, b.Map(roots, (b, item) => b.TreeItem(b => b.TextNode(b.Get(item, x => x.Title)))));
+
+        return tree;
+    }
+
+    public static void FillRecursiveRoute(BlockBuilder b, Var<TutorialModel> model, Var<string> currentRouteCode, Var<HyperNode> currentNode)
+    {
+        var childrenRoutes = b.Get(model, currentRouteCode, (model, current) => model.Routes.Where(x => x.ParentCode == current).ToList());
+        b.Foreach(childrenRoutes, (b, childRoute) =>
+        {
+            var treeItem = b.Add(currentNode, b.TreeItem(b => b.TextNode(b.Get(childRoute, x => x.Title))));
+            b.Call(FillRecursiveRoute, model, b.Get(childRoute, x => x.Code), treeItem);
+        });
     }
 
     public static Var<CodeSample> GetSample(BlockBuilder b, Var<TutorialModel> model, Var<string> sampleId)
@@ -159,6 +212,7 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         b.SetOnClick(sendToCompilePanelButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
         {
             b.Set(model, x => x.LiveSample, b.Clone(sample));
+            b.Set(model, x => x.ResultHtml, b.Const("<!DOCTYPE html> Run sample to see output here"));
             return b.Clone(model);
         }));
 
@@ -218,20 +272,25 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         var iframe = b.Add(container, b.Node("iframe", "w-full h-96 rounded border border-blue-500"));
         b.SetAttr(iframe, Html.id, "output-frame");
 
+        SetOutputHtml(b, b.Get(clientModel, x => x.ResultHtml));
+
+
+        return container;
+    }
+
+    public static void SetOutputHtml(BlockBuilder b, Var<string> content)
+    {
         var domFrame = b.GetElementById(b.Const("output-frame"));
         b.If(
             b.HasObject(domFrame),
             b =>
             {
-                b.CallExternal("Metapsi.Tutorial", "SetIframeContent", domFrame, b.Get(clientModel, x => x.ResultHtml));
+                b.CallExternal("Metapsi.Tutorial", "SetIframeContent", domFrame, content);
             },
             b =>
             {
                 b.Log("iframe not found!");
             });
-
-
-        return container;
     }
 
     public override Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TutorialModel> model)

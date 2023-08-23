@@ -18,6 +18,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
+		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
 		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
 	</ItemGroup>
 

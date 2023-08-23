@@ -130,6 +130,15 @@ namespace Metapsi.Sqlite
             return loaded;
         }
 
+        public static async Task<IEnumerable<TEntity>> LoadEntities<TEntity>(
+            this System.Data.Common.DbTransaction transaction)
+        {
+            string typeName = typeof(TEntity).Name;
+            string query = $"select * from [{typeName}]";
+            IEnumerable<TEntity> loaded = await transaction.Connection.QueryAsync<TEntity>(query, transaction: transaction);
+            return loaded;
+        }
+
         public static async Task<TRecord> LoadRecord<TRecord>(
             this System.Data.Common.DbTransaction transaction,
             System.Guid id)

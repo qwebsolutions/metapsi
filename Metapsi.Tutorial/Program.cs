@@ -29,6 +29,7 @@ public static partial class Program
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
+        Metapsi.Sqlite.Converters.RegisterAll();
 
         var setup = Metapsi.ApplicationSetup.New();
 
