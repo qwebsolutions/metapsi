@@ -75,7 +75,7 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         b.Add(
             container, 
             b.Div(
-                "flex flex-row items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50", 
+                "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl", 
                 b=>
                 {
                     var showMenuButton = b.IconButton("list");
@@ -131,24 +131,30 @@ public class TutorialRenderer : HyperPage<TutorialModel>
 
     public static Var<HyperNode> TreeMenu(BlockBuilder b, Var<TutorialModel> model)
     {
-        //var roots = b.Get(
-        //    model,
-        //    b.DefineFunc<string, bool>(Native.HasValue),
-        //    (model, hasValue) => model.Routes.Where(x => !hasValue(x.ParentCode)).ToList());
-
-        var tree = b.Tree();
+        var tree = b.Tree(b.Const(new Tree() { Selection = TreeSelection.Leaf }));
         b.Call(FillRecursiveRoute, model, b.Const(""), tree);
-        //b.AddChildren(tree, b.Map(roots, (b, item) => b.TreeItem(b => b.TextNode(b.Get(item, x => x.Title)))));
-
         return tree;
     }
 
     public static void FillRecursiveRoute(BlockBuilder b, Var<TutorialModel> model, Var<string> currentRouteCode, Var<HyperNode> currentNode)
     {
-        var childrenRoutes = b.Get(model, currentRouteCode, (model, current) => model.Routes.Where(x => x.ParentCode == current).ToList());
+        var childrenRoutes = b.Get(model, currentRouteCode, (model, current) => model.Routes.Where(x => x.ParentCode == current).OrderBy(x => x.OrderIndex).ToList());
         b.Foreach(childrenRoutes, (b, childRoute) =>
         {
-            var treeItem = b.Add(currentNode, b.TreeItem(b => b.TextNode(b.Get(childRoute, x => x.Title))));
+            var itemText = b.TextNode(b.Get(childRoute, x => x.Title));
+            var docCode = b.Get(childRoute, x => x.DocCode);
+
+            var itemContent = b.If(
+                b.HasValue(docCode),
+                b =>
+                {
+                    var link = b.Node("a", "", b => itemText);
+                    b.SetAttr(link, Html.href, b.Url<Metapsi.Tutorial.Routes.Docs, string>(docCode));
+                    return link;
+                },
+                b => itemText);
+
+            var treeItem = b.Add(currentNode, b.TreeItem(b => itemContent));
             b.Call(FillRecursiveRoute, model, b.Get(childRoute, x => x.Code), treeItem);
         });
     }

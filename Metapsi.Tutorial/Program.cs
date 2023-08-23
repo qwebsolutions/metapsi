@@ -53,6 +53,10 @@ public static partial class Program
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial.Step, int>();
         webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
 
+        webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
+        webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
+
+
         var app = setup.Revive();
 
         await app.SuspendComplete;

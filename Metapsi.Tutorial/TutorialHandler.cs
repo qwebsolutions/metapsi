@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
 
-
 public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, int>
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, int stepNumber)

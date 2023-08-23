@@ -4,7 +4,9 @@ public class Route
 {
     public string Code { get; set; } = string.Empty;
     public string ParentCode { get; set; } = string.Empty;
+    public int OrderIndex { get; set; }
     public string Title { get; set; } = string.Empty;
+    public string DocCode { get; set; } = string.Empty;
 }
 
 public class Doc
