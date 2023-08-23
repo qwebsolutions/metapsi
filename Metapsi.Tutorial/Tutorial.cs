@@ -4,6 +4,8 @@ using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using System;
 using System.Collections.Generic;
@@ -29,8 +31,8 @@ public class CodeSample
 {
     public string SampleId { get; set; } = string.Empty;
     public string SampleLabel { get; set; } = string.Empty;
-    public string CSharpModel { get; set; } = string.Empty;
-    public string CSharpCode { get; set; } = string.Empty;
+    public string CSharpModel { get; set; } = " ";
+    public string CSharpCode { get; set; } = " ";
     public string JsonModel { get; set; } = "{}";
 }
 
@@ -105,7 +107,7 @@ public class TutorialRenderer : HyperPage<TutorialModel>
 
     public static  Var<HyperNode> Sample(BlockBuilder b, Var<CodeSample> sample)
     {
-        var container = b.Div("flex flex-col gap-4 border rounded");
+        var container = b.Div("flex flex-col border rounded");
 
         var tabGroupProps = b.NewObj<TabGroup>();
         //b.Set(tabGroupProps, x => x.Placement, TabPlacement.Bottom);
@@ -252,6 +254,9 @@ public class TutorialRenderer : HyperPage<TutorialModel>
                         {
                             b.Log("iframe not found!");
                         });
+
+                    b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
+
                 }));
         })));
     }
@@ -271,7 +276,28 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         code = code.Replace("return null;", model.LiveSample.CSharpCode);
         csDoc = project.AddDocument(csDoc.Name, code);
 
+        var semanticModel = await csDoc.GetSemanticModelAsync();
+        var syntaxTree = await csDoc.GetSyntaxTreeAsync();
+        var syntaxRoot = await csDoc.GetSyntaxRootAsync();
+
+        var allMemberAccessExpressions = syntaxRoot.DescendantNodes().OfType<MemberAccessExpressionSyntax>();
+
+        foreach (var memberAccess in allMemberAccessExpressions)
+        {
+            var accessSymbol = semanticModel.GetSymbolInfo(memberAccess);
+            if (!IsMetapsiSymbol(accessSymbol))
+            {
+                var errorHtml = new ErrorPage().Render(new List<string>()
+                {
+                    "This sandbox can only be used for building Metapsi views"
+                });
+                model.ResultHtml = errorHtml;
+                return model;
+            }
+        }
+
         var compilation = await csDoc.Project.GetCompilationAsync();
+
         var binaries = compilation.EmitToArray();
 
         if (!binaries.Errors.Any())
@@ -291,16 +317,38 @@ public class TutorialRenderer : HyperPage<TutorialModel>
         }
         else
         {
-            var errorHtml = new ErrorPage().Render(binaries);
+            var errorHtml = new ErrorPage().Render(binaries.Errors.Select(x => x.ToString()).ToList());
             model.ResultHtml = errorHtml;
         }
         return model;
     }
+
+    public static bool IsDeserialize(SymbolInfo symbolInfo)
+    {
+        return symbolInfo.Symbol.ToString().Contains("Metapsi.Serialize");
+    }
+
+    public static bool IsMetapsiSymbol(SymbolInfo symbolInfo)
+    {
+        HashSet<string> whitelistedNamespaces = new HashSet<string>();
+        whitelistedNamespaces.Add("Metapsi.Hyperapp");
+        whitelistedNamespaces.Add("Metapsi.Syntax");
+        whitelistedNamespaces.Add("Metapsi.Tutorial.Template");
+
+        // Is syntax error, could be valid, move on
+        if (symbolInfo.Symbol == null)
+            return true;
+
+        if (IsDeserialize(symbolInfo))
+            return true;
+
+        return whitelistedNamespaces.Contains(symbolInfo.Symbol.ContainingNamespace.ToString());
+    }
 }
 
-public class ErrorPage : HtmlPage<EmitResult>
+public class ErrorPage : HtmlPage<List<string>>
 {
-    public override IHtmlNode GetHtml(EmitResult dataModel)
+    public override IHtmlNode GetHtml(List<string> dataModel)
     {
         return Template.BlankPage(head =>
         {
@@ -310,11 +358,11 @@ public class ErrorPage : HtmlPage<EmitResult>
         },
         body =>
         {
-            foreach (var error in dataModel.Errors)
+            foreach (var error in dataModel)
             {
                 var errorDiv = body.AddChild(new HtmlTag("div"));
                 errorDiv.AddAttribute("class", "text-red-500");
-                errorDiv.AddChild(new HtmlText(error.ToString()));
+                errorDiv.AddChild(new HtmlText(error));
             }
         });
     }

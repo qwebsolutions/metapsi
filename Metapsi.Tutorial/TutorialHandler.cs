@@ -63,7 +63,7 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, i
             SampleId = CodeSampleId._007_HelloWorldIfElse,
             SampleLabel = "If statement with else branch",
             CSharpModel = "public string Greeting { get; set; }",
-            CSharpCode = "var greeting = b.Get(model, x=>x.Greeting);\nvar container = b.Div();\nb.If(\n    b.HasValue(greeting),\n    b=>\n    {        b.Add(container, b.Text(greeting));\n    },\n    b=>\n    {        b.Add(container, b.Text(\"Greeting default!\"));\n    });\nreturn container;",
+            CSharpCode = "var greeting = b.Get(model, x=>x.Greeting);\nvar container = b.Div();\nb.If(\n    b.HasValue(greeting),\n    b=>\n    {\n        b.Add(container, b.Text(greeting));\n    },\n    b=>\n    {\n        b.Add(container, b.Text(\"Greeting default!\"));\n    });\nreturn container;",
             JsonModel = "{\"Greeting\" : \"\"}"
         });
 
