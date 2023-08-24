@@ -16,9 +16,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Textarea(this BlockBuilder b, Var<Textarea> props)
     {
-        Import.Shoelace(b);
-        var textarea = b.Node("sl-textarea");
-
+        var textarea = b.SlNode("sl-textarea");
 
         b.SetAttr(textarea, new DynamicProperty<string>("value"), b.Get(props, x => x.Value));
         b.SetAttr(textarea, new DynamicProperty<int>("rows"), b.Get(props, x => x.Rows));

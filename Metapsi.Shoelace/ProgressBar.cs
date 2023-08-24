@@ -12,7 +12,7 @@ public static partial class Control
 {
     public static Var<HyperNode> ProgressBar(this BlockBuilder b, Var<ProgressBar> props)
     {
-        var progressBar = b.Node("sl-progress-bar");
+        var progressBar = b.SlNode("sl-progress-bar");
         b.SetAttr(progressBar, new DynamicProperty<int>("value"), b.Get(props, x => x.Value));
         
         return progressBar;

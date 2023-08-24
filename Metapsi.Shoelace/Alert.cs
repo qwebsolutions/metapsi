@@ -22,7 +22,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Alert(this BlockBuilder b, Var<Alert> props)
     {
-        var control = b.Node("sl-alert");
+        var control = b.SlNode("sl-alert");
         b.Add(control, b.TextNode(b.Get(props, x => x.Text)));
         b.SetAttr(control, new DynamicProperty<string>("open"), "true");
         b.SetAttr(control, new DynamicProperty<string>("variant"), StringVariant(b, b.Get(props, x => x.Variant)));

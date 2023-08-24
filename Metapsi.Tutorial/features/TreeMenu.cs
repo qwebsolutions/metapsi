@@ -31,14 +31,14 @@ public static partial class Control
         b.Foreach(childrenRoutes, (b, childRoute) =>
         {
             var itemText = b.TextNode(b.Get(childRoute, x => x.Title));
-            var docCode = b.Get(childRoute, x => x.DocCode);
+            var url = b.Get(childRoute, x => x.Url);
 
             var itemContent = b.If(
-                b.HasValue(docCode),
+                b.HasValue(url),
                 b =>
                 {
                     var link = b.Node("a", "", b => itemText);
-                    b.SetAttr(link, Html.href, b.Url<Metapsi.Tutorial.Routes.Docs, string>(docCode));
+                    b.SetAttr(link, Html.href, url);
                     return link;
                 },
                 b => itemText);

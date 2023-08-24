@@ -7,7 +7,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Icon(this BlockBuilder b, Var<string> iconName)
     {
-        var icon = b.Node("sl-icon");
+        var icon = b.SlNode("sl-icon");
         b.SetAttr(icon, new DynamicProperty<string>("name"), iconName);
         return icon;
     }
@@ -19,7 +19,7 @@ public static partial class Control
 
     public static Var<HyperNode> IconButton(this BlockBuilder b, string iconName)
     {
-        var iconButton = b.Node("sl-icon-button");
+        var iconButton = b.SlNode("sl-icon-button");
         b.SetAttr(iconButton, new DynamicProperty<string>("name"), iconName);
 
         return iconButton;

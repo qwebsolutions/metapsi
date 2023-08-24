@@ -6,7 +6,7 @@ public class Route
     public string ParentCode { get; set; } = string.Empty;
     public int OrderIndex { get; set; }
     public string Title { get; set; } = string.Empty;
-    public string DocCode { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty;
 }
 
 public class Doc

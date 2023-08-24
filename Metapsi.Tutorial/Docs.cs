@@ -23,7 +23,7 @@ public class DocsHandler : Http.Get<Metapsi.Tutorial.Routes.Docs, string>
     }
 }
 
-public class DocsRenderer : HyperPage<DocsModel>
+public class DocsRenderer : ShoelaceHyperPage<DocsModel>
 {
     public override Var<HyperNode> OnRender(BlockBuilder b, Var<DocsModel> model)
     {

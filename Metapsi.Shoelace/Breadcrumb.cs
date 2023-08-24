@@ -19,12 +19,12 @@ public static partial class Control
 {
     public static Var<HyperNode> Breadcrumb(this BlockBuilder b)
     {
-        return b.Node("sl-breadcrumb");
+        return b.SlNode("sl-breadcrumb");
     }
 
     public static Var<HyperNode> BreadcrumbHrefItem(this BlockBuilder b, Var<BreadcrumbItem> props)
     {
-        var item = b.Node("sl-breadcrumb-item");
+        var item = b.SlNode("sl-breadcrumb-item");
 
         var href = b.Get(props, x => x.Href);
         var target = b.Get(props, x => x.Target);
@@ -45,7 +45,7 @@ public static partial class Control
 
     public static Var<HyperNode> BreadcrumbButtonItem(this BlockBuilder b, Var<string> label)
     {
-        var item = b.Node("sl-breadcrumb-item");
+        var item = b.SlNode("sl-breadcrumb-item");
         b.Add(item, b.TextNode(label));
         return item;
     }

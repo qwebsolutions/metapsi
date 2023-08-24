@@ -13,7 +13,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Details(this BlockBuilder b, Var<Details> props, Func<BlockBuilder, Var<HyperNode>> content = null)
     {
-        var details = b.Node("sl-details");
+        var details = b.SlNode("sl-details");
         var summary = b.Get(props, x => x.Summary);
 
         b.If(

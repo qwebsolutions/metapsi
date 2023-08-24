@@ -15,10 +15,9 @@ public static class Import
 
     public static Var<HyperNode> SlNode(this BlockBuilder b, string tag)
     {
-        var node = b.Node(tag);
         Import.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
-        return node;
+        return b.Node(tag);
     }
 }
 

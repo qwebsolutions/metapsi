@@ -17,9 +17,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Option(this BlockBuilder b, Var<Option> props)
     {
-        Import.Shoelace(b);
-
-        var option = b.Node("sl-option", "");
+        var option = b.SlNode("sl-option");
         b.SetAttr(option, Html.value, b.Get(props, x => x.Value));
 
         b.Add(option, b.TextNode(b.Get(props, x => x.Content)));

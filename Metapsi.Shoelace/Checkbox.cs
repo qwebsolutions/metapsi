@@ -33,7 +33,7 @@ public partial class Control
 {
     public static Var<HyperNode> Checkbox(this BlockBuilder b, Var<Checkbox> props)
     {
-        var checkbox = b.Node("sl-checkbox");
+        var checkbox = b.SlNode("sl-checkbox");
 
         b.SetAttr(checkbox, new DynamicProperty<bool>("checked"), b.Get(props, x => x.Checked));
         b.SetAttr(checkbox, new DynamicProperty<bool>("disabled"), b.Get(props, x => x.Disabled));

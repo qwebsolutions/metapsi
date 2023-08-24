@@ -45,7 +45,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Button(this BlockBuilder b, Var<Button> props)
     {
-        var button = b.Node("sl-button");
+        var button = b.SlNode("sl-button");
         b.SetAttrIfNotEmptyString(button, DynamicProperty.String("variant"), b.EnumToLowercase(b.Get(props, x => x.Variant)));
         b.SetAttrIfNotEmptyString(button, DynamicProperty.String("size"), b.EnumToLowercase(b.Get(props, x => x.Size)));
         b.SetAttr(button, DynamicProperty.Bool("disabled"), b.Get(props, x => x.Disabled));

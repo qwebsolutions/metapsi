@@ -43,18 +43,19 @@ public class TutorialModel : IApiSupportState, IHasTreeMenu
     public bool MenuIsExpanded { get; set; } = false;
 }
 
-public class TutorialRenderer : HyperPage<TutorialModel>
+public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 {
-    public override IHtmlNode GetHtml(TutorialModel dataModel)
+    public override IHtmlNode ModifyHtml(IHtmlNode root, Syntax.Module module)
     {
-        var baseHtml = base.GetHtml(dataModel);
-        var body = (baseHtml as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
+        root = base.ModifyHtml(root, module);
+
+        var body = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
 
         var prismScript = new HtmlTag("script");
         prismScript.AddAttribute("src", "/prism.js");
         body.AddChild(prismScript);
 
-        return baseHtml;
+        return root;
     }
 
     public override Var<HyperNode> OnRender(BlockBuilder b, Var<TutorialModel> model)

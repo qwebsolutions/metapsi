@@ -13,7 +13,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Tooltip(this BlockBuilder b, Var<Tooltip> props, Func<BlockBuilder, Var<HyperNode>> content = null)
     {
-        var tooltip = b.Node("sl-tooltip");
+        var tooltip = b.SlNode("sl-tooltip");
 
         b.SetAttrIfNotEmptyString(tooltip, DynamicProperty.String("content"), b.Get(props, x => x.Content));
 

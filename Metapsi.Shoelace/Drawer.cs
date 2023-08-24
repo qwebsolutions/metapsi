@@ -22,7 +22,7 @@ public static partial class Control
 {
     public static Var<HyperNode> Drawer(this BlockBuilder b, Var<Drawer> props)
     {
-        var drawer = b.Node("sl-drawer");
+        var drawer = b.SlNode("sl-drawer");
         b.SetAttr(drawer, new DynamicProperty<string>("label"), b.Get(props, x => x.Label));
         b.SetAttr(drawer, new DynamicProperty<string>("placement"), b.EnumToFirstLowercase(b.Get(props, x => x.Placement)));
         b.SetAttr(drawer, new DynamicProperty<bool>("open"), b.Get(props, x => x.Open));

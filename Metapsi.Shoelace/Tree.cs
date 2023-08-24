@@ -25,23 +25,25 @@ public static partial class Control
 {
     public static Var<HyperNode> Tree(this BlockBuilder b)
     {
-        return b.Node("sl-tree");
+        return b.SlNode("sl-tree");
     }
 
     public static Var<HyperNode> Tree(this BlockBuilder b, Var<Tree> props)
     {
-        var tree = b.Node("sl-tree");
+        var tree = b.SlNode("sl-tree");
         b.SetAttr(tree, new DynamicProperty<string>("selection"), b.EnumToLowercase(b.Get(props, x => x.Selection)));
         return tree;
     }
 
     public static Var<HyperNode> TreeItem(this BlockBuilder b)
     {
-        return b.Node("sl-tree-item");
+        return b.SlNode("sl-tree-item");
     }
 
     public static Var<HyperNode> TreeItem(this BlockBuilder b, System.Func<BlockBuilder, Var<HyperNode>> content)
     {
-        return b.Node("sl-tree-item", "", content);
+        var treeItem = b.SlNode("sl-tree-item");
+        b.Add(treeItem, b.Call(content));
+        return treeItem;
     }
 }

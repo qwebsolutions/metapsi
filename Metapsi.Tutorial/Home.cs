@@ -34,14 +34,12 @@ public class HomeRenderer : ShoelaceHyperPage<HomeModel>
         b.AddModuleStylesheet();
 
         var container = b.Div();
-        b.Add(container, b.Header(model, b => b.VoidNode()));
-        b.Add(container, b.DrawerTreeMenu(model));
 
         b.Add(
             container,
             b.Animation(b.Const(new Animation()
             {
-                Name = "fadeIn",
+                Name = "flip",
                 Iterations = 1,
                 Delay = 1500,
                 Play = true,
@@ -51,13 +49,15 @@ public class HomeRenderer : ShoelaceHyperPage<HomeModel>
                 "flex flex-col w-screen h-screen items-center justify-center",
                 b =>
                 {
-                    var text = b.Text("Metapsi - The fullstack C# framework");
+                    var text = b.Text("Metapsi - The full stack C# framework");
 
                     b.AddStyle(text, "font-size", "var(--sl-font-size-2x-large)");
 
                     return text;
                 })));
 
+        b.Add(container, b.Header(model, b => b.VoidNode()));
+        b.Add(container, b.DrawerTreeMenu(model));
 
         return container;
     }
