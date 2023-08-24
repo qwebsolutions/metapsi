@@ -14,9 +14,9 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, i
         var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
 
         TutorialModel model = new TutorialModel();
+        await model.LoadRoutes();
 
         var loadedSamples = await Sqlite.Db.Entities<CodeSample>(dbFullPath);
-        model.Routes.AddRange(await Sqlite.Db.Entities<Route>(dbFullPath));
 
         model.Samples.Add(new CodeSample()
         {

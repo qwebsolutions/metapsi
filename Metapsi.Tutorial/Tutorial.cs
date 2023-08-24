@@ -29,7 +29,7 @@ public static class CodeSampleId
     public const string _008_HelloWorldIfExpression = "HelloWorldIfEExpression";
 }
 
-public class TutorialModel : IApiSupportState
+public class TutorialModel : IApiSupportState, IHasTreeMenu
 {
     public List<Route> Routes { get; set; } = new();
 
@@ -67,39 +67,30 @@ public class TutorialRenderer : HyperPage<TutorialModel>
             b => b.Div("w-2/3 overflow-auto p-8", b => DocsPage(b, model)),
             b => b.AddClass(Sandbox(b, model), "bg-white fixed right-0 top-0 bottom-0 w-1/3 overflow-auto pt-24 px-8"));
 
-
         var breadcrumbs = b.Breadcrumb();
         b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Tutorial")));
         b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Const("Hello world")));
 
-        b.Add(
-            container, 
-            b.Div(
-                "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl", 
-                b=>
-                {
-                    var showMenuButton = b.IconButton("list");
-                    b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
-                    {
-                        b.Set(model, x => x.MenuIsExpanded, true);
-                        return b.Clone(model);
-                    }));
+        b.Add(container, b.Header(model, b => breadcrumbs));
 
-                    return showMenuButton;
-                },
-                b => breadcrumbs));
+        //b.Add(
+        //    container, 
+        //    b.Div(
+        //        "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl", 
+        //        b=>
+        //        {
+        //            var showMenuButton = b.IconButton("list");
+        //            b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+        //            {
+        //                b.Set(model, x => x.MenuIsExpanded, true);
+        //                return b.Clone(model);
+        //            }));
 
-        var menuDrawerProps = b.NewObj<Drawer>();
-        b.Set(menuDrawerProps, x => x.Placement, DrawerPlacement.Start);
-        b.Set(menuDrawerProps, x => x.Open, b.Get(model, x => x.MenuIsExpanded));
-        b.Set(menuDrawerProps, x => x.Label, "Metapsi docs");
+        //            return showMenuButton;
+        //        },
+        //        b => breadcrumbs));
 
-        var drawer = b.Add(container, b.Drawer(menuDrawerProps, b => TreeMenu(b, model)));
-        b.SetOnDrawerHide(drawer, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
-        {
-            b.Set(model, x => x.MenuIsExpanded, false);
-            return b.Clone(model);
-        }));
+        b.Add(container, b.DrawerTreeMenu(model));
 
         //b.If(
         //    b.Get(model, x => x.MenuIsExpanded),
@@ -129,35 +120,7 @@ public class TutorialRenderer : HyperPage<TutorialModel>
             );
     }
 
-    public static Var<HyperNode> TreeMenu(BlockBuilder b, Var<TutorialModel> model)
-    {
-        var tree = b.Tree(b.Const(new Tree() { Selection = TreeSelection.Leaf }));
-        b.Call(FillRecursiveRoute, model, b.Const(""), tree);
-        return tree;
-    }
 
-    public static void FillRecursiveRoute(BlockBuilder b, Var<TutorialModel> model, Var<string> currentRouteCode, Var<HyperNode> currentNode)
-    {
-        var childrenRoutes = b.Get(model, currentRouteCode, (model, current) => model.Routes.Where(x => x.ParentCode == current).OrderBy(x => x.OrderIndex).ToList());
-        b.Foreach(childrenRoutes, (b, childRoute) =>
-        {
-            var itemText = b.TextNode(b.Get(childRoute, x => x.Title));
-            var docCode = b.Get(childRoute, x => x.DocCode);
-
-            var itemContent = b.If(
-                b.HasValue(docCode),
-                b =>
-                {
-                    var link = b.Node("a", "", b => itemText);
-                    b.SetAttr(link, Html.href, b.Url<Metapsi.Tutorial.Routes.Docs, string>(docCode));
-                    return link;
-                },
-                b => itemText);
-
-            var treeItem = b.Add(currentNode, b.TreeItem(b => itemContent));
-            b.Call(FillRecursiveRoute, model, b.Get(childRoute, x => x.Code), treeItem);
-        });
-    }
 
     public static Var<CodeSample> GetSample(BlockBuilder b, Var<TutorialModel> model, Var<string> sampleId)
     {
@@ -214,7 +177,11 @@ public class TutorialRenderer : HyperPage<TutorialModel>
 
         b.Add(footerToolbar, b.Text(b.Get(sample, x => x.SampleLabel), "text-xs"));
         
-        var sendToCompilePanelButton = b.Add(footerToolbar, b.IconButton("arrow-right-square"));
+        var sendToCompilePanelButton = b.Add(
+            footerToolbar, 
+            b.Tooltip(
+                b.Const("Send to live panel"), 
+                b=>  b.IconButton("arrow-right-square")));
         b.SetOnClick(sendToCompilePanelButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
         {
             b.Set(model, x => x.LiveSample, b.Clone(sample));
@@ -271,7 +238,15 @@ public class TutorialRenderer : HyperPage<TutorialModel>
             return b.Clone(model);
         }));
 
-        var compile = b.Add(container, b.Node("button", "rounded p-4 bg-blue-500 text-white", b => b.TextNode("Run!")));
+        //var compile = b.Add(container, b.Node("button", "rounded p-4 bg-blue-500 text-white", b => b.TextNode("Run!")));
+
+        var compileButtonProps = b.NewObj<Button>();
+        b.Set(compileButtonProps, x => x.Text, "Run!");
+        b.Set(compileButtonProps, x => x.Variant, ButtonVariant.Primary);
+        b.Set(compileButtonProps, x => x.Loading, b.Get(clientModel, x => x.ApiSupport.InProgress));
+
+        var compile = b.Add(container, b.Button(compileButtonProps));
+
 
         b.SetOnClick(compile, b.MakeServerAction(clientModel, Compile));
 

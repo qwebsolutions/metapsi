@@ -13,6 +13,21 @@ namespace Metapsi
     {
         public Type Type { get; set; }
         public string PropertyName { get; set; }
+
+        public static DynamicProperty<string> String(string name)
+        {
+            return new DynamicProperty<string>(name);
+        }
+
+        public static DynamicProperty<bool> Bool(string name)
+        {
+            return new DynamicProperty<bool>(name);
+        }
+
+        public static DynamicProperty<int> Int(string name)
+        {
+            return new DynamicProperty<int>(name);
+        }
     }
 
     public class DynamicProperty<T> : IDynamicProperty

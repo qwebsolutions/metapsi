@@ -19,7 +19,7 @@ namespace Metapsi.Hyperapp
             var links = module.Consts.Where(x => x.Value is LinkTag).Select(x => x.Value as LinkTag);
             var scripts = module.Consts.Where(x => x.Value is ScriptTag).Select(x => x.Value as ScriptTag);
 
-            return Template.BlankPage(
+            var root = Template.BlankPage(
                 buildHead: head =>
                 {
                     foreach (var link in links)
@@ -66,11 +66,19 @@ namespace Metapsi.Hyperapp
                     var mainDiv = body.AddChild(new HtmlTag("div"));
                     mainDiv.Attributes.Add("id", GetMountDivId());
                 });
+
+            root = ModifyHtml(root, module);
+            return root;
         }
 
         public virtual string GetMountDivId()
         {
             return "app";
+        }
+
+        public virtual IHtmlNode ModifyHtml(IHtmlNode root, Module module)
+        {
+            return root;
         }
     }
 }

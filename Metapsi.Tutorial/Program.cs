@@ -48,13 +48,16 @@ public static partial class Program
         webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.Control).Assembly);
 
 
-        webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Tutorial.Step, int>(1)));
+        webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
 
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial.Step, int>();
         webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
 
         webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
         webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
+
+        webServer.WebApplication.RegisterGetHandler<HomeHandler, Metapsi.Tutorial.Routes.Home>();
+        webServer.RegisterPageBuilder<HomeModel>(new HomeRenderer().Render);
 
 
         var app = setup.Revive();
