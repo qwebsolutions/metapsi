@@ -21,7 +21,7 @@ namespace Metapsi.Tutorial;
 
 public class Arguments
 {
-    public int UiPort { get; set; }
+    public string UiPort { get; set; }
     public string DbPath { get; set; }
 
     public static async Task<Arguments> Load()
@@ -52,7 +52,7 @@ public static partial class Program
         var arguments = await Arguments.Load();
 
         var ig = setup.AddImplementationGroup();
-        var webServer = setup.AddWebServer(ig, arguments.UiPort);
+        var webServer = setup.AddWebServer(ig, Convert.ToInt32(arguments.UiPort));
 
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
 
