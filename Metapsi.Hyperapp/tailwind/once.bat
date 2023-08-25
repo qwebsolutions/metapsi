@@ -1,0 +1,1 @@
+tailwindcss -i input.css -o ../static/tw_framework.css
