@@ -112,8 +112,7 @@ public static class TreeMenuExtensions
 {
     public static async Task LoadRoutes(this IHasTreeMenu model)
     {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
+        var dbFullPath = await Arguments.FullDbPath();
         model.Routes.AddRange(await Sqlite.Db.Entities<Route>(dbFullPath));
         model.Docs.AddRange(await Sqlite.Db.Entities<Doc>(dbFullPath));
     }

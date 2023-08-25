@@ -20,8 +20,7 @@ public class DocsHandler : Http.Get<Metapsi.Tutorial.Routes.Docs, string>
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string docCode)
     {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
+        var dbFullPath = await Arguments.FullDbPath();
 
 
         DocsModel model = new DocsModel();

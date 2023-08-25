@@ -11,8 +11,7 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial, string
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string docCode)
     {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
+        var dbFullPath = await Arguments.FullDbPath();
 
         TutorialModel model = new TutorialModel();
         await model.LoadRoutes();

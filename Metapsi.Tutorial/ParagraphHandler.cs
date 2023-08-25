@@ -9,8 +9,7 @@ public class ParagraphHandler : Http.Get<Metapsi.Tutorial.Routes.Paragraph, stri
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string paragraphCode)
     {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
+        var dbFullPath = await Arguments.FullDbPath();
 
         var paragraphs = await Db.Entities<Paragraph, string>(dbFullPath, x => x.Code, paragraphCode);
 

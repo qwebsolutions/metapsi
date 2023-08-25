@@ -12,6 +12,7 @@ public class Animation
     public int Duration { get; set; } = 1000;
     public int Iterations { get; set; } = -1;
     public string Fill { get; set; } = "auto";
+    public string Easing { get; set; } = "linear";
 }
 
 public static partial class Control
@@ -25,6 +26,7 @@ public static partial class Control
         b.SetAttr(animation, DynamicProperty.Int("duration"), b.Get(props, x => x.Duration));
         b.SetAttr(animation, DynamicProperty.Int("delay"), b.Get(props, x => x.Delay));
         b.SetAttr(animation, DynamicProperty.String("fill"), b.Get(props, x => x.Fill));
+        b.SetAttr(animation, DynamicProperty.String("easing"), b.Get(props, x => x.Easing));
 
         var iterations = b.Get(props, x => x.Iterations);
         b.If(

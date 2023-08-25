@@ -19,23 +19,37 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Metapsi.Tutorial;
 
-public static partial class Program
+public class Arguments
 {
-    public class Arguments
+    public int UiPort { get; set; }
+    public string DbPath { get; set; }
+
+    public static async Task<Arguments> Load()
     {
-        public int UiPort { get; set; }
+        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
+        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
+
+        return arguments;
     }
 
+    public static async Task<string> FullDbPath()
+    {
+        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
+        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
+        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), arguments.DbPath);
+        return dbFullPath;
+    }
+}
+
+public static partial class Program
+{
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
         Metapsi.Sqlite.Converters.RegisterAll();
 
         var setup = Metapsi.ApplicationSetup.New();
-
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-
-        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
+        var arguments = await Arguments.Load();
 
         var ig = setup.AddImplementationGroup();
         var webServer = setup.AddWebServer(ig, arguments.UiPort);
