@@ -23,6 +23,7 @@ public class Arguments
 {
     public string UiPort { get; set; }
     public string DbPath { get; set; }
+    public string TemplateSlnPath { get; set; }
 
     public static async Task<Arguments> Load()
     {
@@ -38,6 +39,13 @@ public class Arguments
         var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
         var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), arguments.DbPath);
         return dbFullPath;
+    }
+
+    public static async Task<string> TemplateSlnFullPath()
+    {
+        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
+        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
+        return arguments.TemplateSlnPath;
     }
 }
 

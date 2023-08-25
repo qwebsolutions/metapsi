@@ -1,4 +1,5 @@
 {
-  "UiPort": 7133,
-  "DbPath": "Metapsi.Tutorial.db"
+  "UiPort": "7133",
+  "DbPath": "Metapsi.Tutorial.db",
+  "TemplateSlnPath": "D:\\qwebsolutions\\metapsi\\Metapsi.Tutorial.Template\\Metapsi.Tutorial.Template.sln"
 }

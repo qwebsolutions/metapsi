@@ -328,7 +328,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
     public static async Task<TutorialModel> Compile(CommandContext commandContext, TutorialModel model)
     {
         var workspace = MSBuildWorkspace.Create();
-        var sln = await workspace.OpenSolutionAsync("D:\\qwebsolutions\\metapsi\\Metapsi.Tutorial.Template\\Metapsi.Tutorial.Template.sln");
+        var sln = await workspace.OpenSolutionAsync(await Arguments.TemplateSlnFullPath());
 
         //var project = workspace.CurrentSolution.AddProject("temp", "temp", "C#");
         //var textDocument = project.AddDocument("Program.cs", "namespace Whatever { public static class Program {public static async Task Main() {Console.WriteLine(\"abc\");}}}");
