@@ -50,7 +50,7 @@ public static partial class Program
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
 
-        webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial.Step, int>();
+        webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
         webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
 
         webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
@@ -58,6 +58,8 @@ public static partial class Program
 
         webServer.WebApplication.RegisterGetHandler<HomeHandler, Metapsi.Tutorial.Routes.Home>();
         webServer.RegisterPageBuilder<HomeModel>(new HomeRenderer().Render);
+
+        webServer.WebApplication.RegisterGetHandler<ParagraphHandler, Metapsi.Tutorial.Routes.Paragraph, string>();
 
 
         var app = setup.Revive();

@@ -32,8 +32,12 @@ public static class CodeSampleId
 public class TutorialModel : IApiSupportState, IHasTreeMenu
 {
     public List<Route> Routes { get; set; } = new();
+    public List<Doc> Docs { get; set; } = new();
 
+    public Doc Doc { get; set; }
+    public List<DocSlice> Slices { get; set; } = new();
     public List<CodeSample> Samples { get; set; } = new();
+
     public CodeSample LiveSample { get; set; } = new();
 
     public ApiSupport ApiSupport { get; set; } = new();
@@ -70,7 +74,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 
         var breadcrumbs = b.Breadcrumb();
         b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Tutorial")));
-        b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Const("Hello world")));
+        b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Get(model, x => x.Doc.Title)));
 
         b.Add(container, b.Header(model, b => breadcrumbs));
 
@@ -102,23 +106,42 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 
     public static Var<HyperNode> DocsPage(BlockBuilder b, Var<TutorialModel> model)
     {
-        return b.Div(
-            "flex flex-col gap-4",
-            b => b.Text("Docs here"),
-            b => b.Text("Code samples can be sent to the side panel for edit & run"),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._001_HelloWorld))),
-            b => b.Text("So we just move along step by step"),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._002_HelloWorldColor))),
-            b => b.Text("Nested controls"),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._003_HelloWorldNestedArrow))),
-            b => b.Text("And if more complex ..."),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._004_HelloWorldNestedAdd))),
-            b => b.Text("Adding properties ..."),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._005_HelloWorldProperty))),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._006_HelloWorldIfValue))),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._007_HelloWorldIfElse))),
-            b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._008_HelloWorldIfExpression)))
-            );
+        var container = b.Div("flex flex-col gap-4");
+
+        b.Foreach(
+            b.Get(model, x => x.Slices.OrderBy(x => x.OrderIndex).ToList()),
+            (b, slice) =>
+            {
+                var sliceType = b.Get(slice, x => x.SliceType);
+                var sliceNode = b.Switch(
+                    sliceType,
+                    b => b.VoidNode(),
+                    (nameof(Paragraph), b => b.Include(b.Url<Metapsi.Tutorial.Routes.Paragraph, string>(b.Get(slice, x => x.SliceCode)))),
+                    (nameof(CodeSample), b => Sample(b, GetSample(b, model, b.Get(slice, x => x.SliceCode))))
+                    );
+
+                b.Add(container, sliceNode);
+            });
+
+        return container;
+
+        //return b.Div(
+        //    "flex flex-col gap-4",
+        //    b => b.Text("Docs here"),
+        //    b => b.Text("Code samples can be sent to the side panel for edit & run"),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._001_HelloWorld))),
+        //    b => b.Text("So we just move along step by step"),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._002_HelloWorldColor))),
+        //    b => b.Text("Nested controls"),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._003_HelloWorldNestedArrow))),
+        //    b => b.Text("And if more complex ..."),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._004_HelloWorldNestedAdd))),
+        //    b => b.Text("Adding properties ..."),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._005_HelloWorldProperty))),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._006_HelloWorldIfValue))),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._007_HelloWorldIfElse))),
+        //    b => Sample(b, GetSample(b, model, b.Const(CodeSampleId._008_HelloWorldIfExpression)))
+        //    );
     }
 
 

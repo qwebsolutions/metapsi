@@ -3,11 +3,10 @@ using System;
 
 namespace Metapsi.Tutorial.Routes;
 
+public class Paragraph : Metapsi.Route.IGet<string> { }
+
 public class Home : Metapsi.Route.IGet { }
 
 public class Docs : Metapsi.Route.IGet<string> { }
 
-public static class Tutorial
-{
-    public class Step : Metapsi.Route.IGet<int> { }
-}
+public class Tutorial : Metapsi.Route.IGet<string> { }

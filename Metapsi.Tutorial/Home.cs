@@ -13,6 +13,7 @@ namespace Metapsi.Tutorial;
 public class HomeModel : IHasTreeMenu
 {
     public List<Route> Routes { get; set; } = new();
+    public List<Doc> Docs { get; set; } = new();
     public bool MenuIsExpanded { get; set; }
 }
 
@@ -67,13 +68,21 @@ public abstract class ShoelaceHyperPage<TDataModel> : HyperPage<TDataModel>
 {
     public override IHtmlNode ModifyHtml(IHtmlNode root, Module module)
     {
-        var shoelaceTags = module.Consts.Where(x => x.Value is ShoelaceTag).Select(x => (x.Value as ShoelaceTag).tag).ToList();
+        // sl-tooltip crashes for some reason
+        var shoelaceTags = module.Consts.Where(x => x.Value is ShoelaceTag).Select(x => (x.Value as ShoelaceTag).tag).Where(x => x != "sl-tooltip").ToList();
 
         var head = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "head");
         var style = head.AddChild(new HtmlTag("style"));
         style.AddChild(new HtmlText() { Text = "\r\nbody {\r\n    opacity: 0;\r\n}\r\n\r\n    body.ready {\r\n        opacity: 1;\r\n        transition: .25s opacity;\r\n    }" });
 
         var body = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
+
+        var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
+        workaroundDiv.Attributes.Add("class", "hidden");
+        foreach (var shoelaceTag in shoelaceTags)
+        {
+            workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
+        }
 
         var scriptTag = body.AddChild(new HtmlTag("script"));
         scriptTag.AddAttribute("type", "module");
@@ -82,7 +91,7 @@ public abstract class ShoelaceHyperPage<TDataModel> : HyperPage<TDataModel>
 
         scriptTag.AddChild(new HtmlText()
         {
-            Text = $" await Promise.allSettled([{whenDefinedArray}]);document.body.classList.add('ready');"
+            Text = $" await Promise.allSettled([{whenDefinedArray}]);document.body.classList.add('ready');console.log('document ready');"
         });
 
         return root;

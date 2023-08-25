@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
 
-public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, int>
+public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial, string>
 {
-    public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, int stepNumber)
+    public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string docCode)
     {
         var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
         var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
@@ -16,6 +17,21 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, i
         TutorialModel model = new TutorialModel();
         await model.LoadRoutes();
 
+        model.Doc = (await Sqlite.Db.Entities<Doc, string>(dbFullPath, x => x.Code, docCode)).SingleOrDefault();
+
+        if (model.Doc != null)
+        {
+            model.Slices.AddRange(await Sqlite.Db.Entities<DocSlice, string>(dbFullPath, x => x.ParentDoc, model.Doc.Code));
+            var codeSampleCodes = model.Slices.Where(x => x.SliceType == nameof(CodeSample)).Select(x => x.SliceCode);
+            model.Samples.AddRange(await Sqlite.Db.Entities<CodeSample, string>(dbFullPath, x => x.SampleId, codeSampleCodes));
+
+            return Page.Result(model);
+        }
+        else
+        {
+            return Results.NotFound();
+        }
+        /*
         var loadedSamples = await Sqlite.Db.Entities<CodeSample>(dbFullPath);
 
         model.Samples.Add(new CodeSample()
@@ -87,6 +103,6 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial.Step, i
             JsonModel = "{\"Greeting\" : \"\"}"
         });
 
-        return Page.Result(model);
+        return Page.Result(model);*/
     }
 }

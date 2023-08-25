@@ -11,6 +11,7 @@ namespace Metapsi.Tutorial;
 public interface IHasTreeMenu
 {
     List<Route> Routes { get; set; }
+    List<Doc> Docs { get; set; }
     bool MenuIsExpanded { get; set; }
 }
 
@@ -31,7 +32,21 @@ public static partial class Control
         b.Foreach(childrenRoutes, (b, childRoute) =>
         {
             var itemText = b.TextNode(b.Get(childRoute, x => x.Title));
-            var url = b.Get(childRoute, x => x.Url);
+            var docCode = b.Get(childRoute, x => x.DocCode);
+
+            var doc = b.Get(model, docCode, (model, docCode) => model.Docs.SingleOrDefault(x => x.Code == docCode));
+
+            var url = b.If<string>(
+                b.HasObject(doc),
+                b =>
+                {
+                    return b.Switch<string, string>(
+                        b.Get(doc, x => x.Type),
+                        b => b.Concat(b.Const("/"), docCode),
+                        ("tutorial", (BlockBuilder b) => b.Url<Routes.Tutorial, string>(docCode)),
+                        ("docs", (BlockBuilder b) => b.Url<Routes.Docs, string>(docCode)));
+                },
+                b => b.Const(string.Empty));
 
             var itemContent = b.If(
                 b.HasValue(url),
@@ -100,5 +115,6 @@ public static class TreeMenuExtensions
         var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
         var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), "Metapsi.Tutorial.db");
         model.Routes.AddRange(await Sqlite.Db.Entities<Route>(dbFullPath));
+        model.Docs.AddRange(await Sqlite.Db.Entities<Doc>(dbFullPath));
     }
 }

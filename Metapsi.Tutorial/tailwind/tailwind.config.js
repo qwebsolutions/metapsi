@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["../*.cs"],
+  content: ["../*.cs", "../features/*.cs"],
   safelist: [
     {
       pattern: /bg-(gray|neutral|red|green|blue|orange|yellow|scc-cyan)-(100|200|300|400|500|600|700|800|900)/,
