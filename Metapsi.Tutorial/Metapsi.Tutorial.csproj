@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.33.0" />
 		<PackageReference Include="Microsoft.Build" Version="17.6.3" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.Build.Framework" Version="17.6.3" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />

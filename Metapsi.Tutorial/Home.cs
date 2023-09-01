@@ -201,7 +201,7 @@ public abstract class ShoelaceHyperPage<TDataModel> : HyperPage<TDataModel>
         var body = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
 
         var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
-        workaroundDiv.Attributes.Add("class", "hidden");
+        workaroundDiv.AddAttribute("class", "hidden");
         foreach (var shoelaceTag in shoelaceTags)
         {
             workaroundDiv.AddChild(new HtmlTag(shoelaceTag));

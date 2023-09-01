@@ -28,9 +28,15 @@ public class CodeSample
 {
     public string SampleId { get; set; } = string.Empty;
     public string SampleLabel { get; set; } = string.Empty;
-    public string CSharpModel { get; set; } = " ";
-    public string CSharpCode { get; set; } = " ";
+    public string CSharpModel { get; set; } = " "; // because model is not always mandatory & code sample span collapses if there is no text
+    public string CSharpCode { get; set; } = string.Empty; // because code is always mandatory & compile button is disabled if there's none
     public string JsonModel { get; set; } = "{}";
+}
+
+public class Header
+{
+    public string Code { get; set; }
+    public string Content { get; set; }
 }
 
 public class Paragraph

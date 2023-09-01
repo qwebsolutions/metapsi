@@ -908,6 +908,10 @@ video {
   width: 100%;
 }
 
+.max-w-prose {
+  max-width: 65ch;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -157468,6 +157472,10 @@ video {
 
 .pt-36 {
   padding-top: 9rem;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .text-3xl {

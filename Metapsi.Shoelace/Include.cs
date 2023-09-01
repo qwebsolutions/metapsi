@@ -34,6 +34,11 @@ public static partial class Control
         return b.Include(b.NewObj<Include>(b => b.Set(x => x.Src, src)));
     }
 
+    public static Var<HyperNode> Include(this BlockBuilder b, string src)
+    {
+        return b.Include(b.Const(src));
+    }
+
     public static Var<string> IncludeModeToString(BlockBuilder b, Var<IncludeMode> mode)
     {
         return b.Switch(

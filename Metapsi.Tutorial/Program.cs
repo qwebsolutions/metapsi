@@ -83,6 +83,8 @@ public static partial class Program
 
         webServer.WebApplication.RegisterGetHandler<ParagraphHandler, Metapsi.Tutorial.Routes.Paragraph, string>();
 
+        webServer.WebApplication.RegisterGetHandler<MarkdownHandler, Metapsi.Tutorial.Routes.MTutorial, string>();
+        webServer.RegisterPageBuilder<MarkdownPage>(new MarkdownRenderer().Render);
 
         var app = setup.Revive();
 

@@ -34,7 +34,6 @@ public class DocsRenderer : ShoelaceHyperPage<DocsModel>
 {
     public override Var<HyperNode> OnRender(BlockBuilder b, Var<DocsModel> model)
     {
-        Metapsi.Shoelace.Import.Shoelace(b);
         b.AddModuleStylesheet();
 
         var breadcrumbs = b.Breadcrumb();

@@ -37,6 +37,7 @@ public class TutorialModel : IApiSupportState, IHasTreeMenu
     public Doc Doc { get; set; }
     public List<DocSlice> Slices { get; set; } = new();
     public List<CodeSample> Samples { get; set; } = new();
+    public List<Header> Headers { get; set; } = new();
 
     public CodeSample LiveSample { get; set; } = new();
 
@@ -69,7 +70,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 
         var container = b.Div(
             "pt-16 text-gray-700",
-            b => b.Div("w-2/3 overflow-auto p-8", b => DocsPage(b, model)),
+            b => b.Div("w-2/3 overflow-auto p-8 flex flex-row justify-center", b => DocsPage(b, model)),
             b => b.AddClass(Sandbox(b, model), "bg-white fixed right-0 top-0 bottom-0 w-1/3 overflow-auto pt-24 px-8"));
 
         var breadcrumbs = b.Breadcrumb();
@@ -77,47 +78,28 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
         b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Get(model, x => x.Doc.Title)));
 
         b.Add(container, b.Header(model, b => breadcrumbs));
-
-        //b.Add(
-        //    container, 
-        //    b.Div(
-        //        "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl", 
-        //        b=>
-        //        {
-        //            var showMenuButton = b.IconButton("list");
-        //            b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
-        //            {
-        //                b.Set(model, x => x.MenuIsExpanded, true);
-        //                return b.Clone(model);
-        //            }));
-
-        //            return showMenuButton;
-        //        },
-        //        b => breadcrumbs));
-
         b.Add(container, b.DrawerTreeMenu(model));
 
-        //b.If(
-        //    b.Get(model, x => x.MenuIsExpanded),
-        //    b => b.Add(container, b.Drawer(menuDrawerProps)));
 
         return container;
     }
 
     public static Var<HyperNode> DocsPage(BlockBuilder b, Var<TutorialModel> model)
     {
-        var container = b.Div("flex flex-col gap-4");
+        var container = b.Div("flex flex-col gap-4 text-justify max-w-prose");
 
         b.Foreach(
             b.Get(model, x => x.Slices.OrderBy(x => x.OrderIndex).ToList()),
             (b, slice) =>
             {
                 var sliceType = b.Get(slice, x => x.SliceType);
+                var sliceCode = b.Get(slice, x => x.SliceCode);
                 var sliceNode = b.Switch(
                     sliceType,
                     b => b.VoidNode(),
-                    (nameof(Paragraph), b => b.Include(b.Url<Metapsi.Tutorial.Routes.Paragraph, string>(b.Get(slice, x => x.SliceCode)))),
-                    (nameof(CodeSample), b => Sample(b, GetSample(b, model, b.Get(slice, x => x.SliceCode))))
+                    (nameof(Paragraph), b => b.Include(b.Url<Metapsi.Tutorial.Routes.Paragraph, string>(sliceCode))),
+                    (nameof(CodeSample), b => Sample(b, GetSample(b, model, sliceCode))),
+                    (nameof(Header), b => b.Text(b.Get(model, sliceCode, (model, sliceCode) => model.Headers.SingleOrDefault(x => x.Code == sliceCode, new Header() { }).Content), "font-semibold"))
                     );
 
                 b.Add(container, sliceNode);
@@ -268,6 +250,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
         b.Set(compileButtonProps, x => x.Text, "Run!");
         b.Set(compileButtonProps, x => x.Variant, ButtonVariant.Primary);
         b.Set(compileButtonProps, x => x.Loading, b.Get(clientModel, x => x.ApiSupport.InProgress));
+        b.Set(compileButtonProps, x => x.Disabled, b.Not(b.HasValue(b.Get(liveSample, x => x.CSharpCode))));
 
         var compile = b.Add(container, b.Button(compileButtonProps));
 
