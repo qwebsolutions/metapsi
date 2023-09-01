@@ -1,4 +1,5 @@
 ﻿using Metapsi.Hyperapp;
+using Metapsi.Ui;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -512,17 +513,13 @@ namespace Metapsi.Syntax
 
         public static void AddStylesheet(this BlockBuilder b, string href)
         {
-            if (href.StartsWith("http"))
-            {
-                b.Const(new LinkTag("stylesheet", href));
-            }
-            else
+            if (!href.StartsWith("http"))
             {
                 // If it is not absolute path, make it absolute
                 href = $"/{href}".Replace("//", "/");
-
-                b.Const(new LinkTag("stylesheet", href));
             }
+
+            b.Const(new LinkTag("stylesheet", href));
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
@@ -536,17 +533,12 @@ namespace Metapsi.Syntax
 
         public static void AddScript(this BlockBuilder b, string src, string type = "")
         {
-            if (src.StartsWith("http"))
-            {
-                b.Const(new ScriptTag(type, src));
-            }
-            else
+            if (!src.StartsWith("http"))
             {
                 // If it is not absolute path, make it absolute
                 src = $"/{src}".Replace("//", "/");
-
-                b.Const(new ScriptTag(type, src));
             }
+            b.Const(new ScriptTag(src, type));
         }
     }
 

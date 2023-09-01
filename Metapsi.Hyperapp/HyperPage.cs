@@ -16,33 +16,20 @@ namespace Metapsi.Hyperapp
         {
             var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 
-            var links = module.Consts.Where(x => x.Value is LinkTag).Select(x => x.Value as LinkTag);
-            var scripts = module.Consts.Where(x => x.Value is ScriptTag).Select(x => x.Value as ScriptTag);
+            var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
 
             var root = Template.BlankPage(
                 buildHead: head =>
                 {
-                    foreach (var link in links)
+                    foreach (var requiredTag in moduleRequiredTags)
                     {
-                        head.AddChild(new HtmlTag("link").AddAttribute("rel", link.rel).AddAttribute("href", link.href));
-                    }
-
-                    foreach (var script in scripts)
-                    {
-                        var scriptTag = new HtmlTag("script").AddAttribute("src", script.src);
-
-                        if (!string.IsNullOrEmpty(script.type))
-                        {
-                            scriptTag.AddAttribute("type", script.type);
-                        }
-
-                        head.AddChild(scriptTag);
+                        head.AddChild(requiredTag.ToTag());
                     }
                 },
                 buildBody: body =>
                 {
                     var mainScript = body.AddChild(new HtmlTag("script"));
-                    mainScript.Attributes.Add("type", "module");
+                    mainScript.AddAttribute("type", "module");
 
                     var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
 
@@ -64,7 +51,7 @@ namespace Metapsi.Hyperapp
                     });
 
                     var mainDiv = body.AddChild(new HtmlTag("div"));
-                    mainDiv.Attributes.Add("id", GetMountDivId());
+                    mainDiv.AddAttribute("id", GetMountDivId());
                 });
 
             root = ModifyHtml(root, module);

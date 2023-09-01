@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Metapsi.Ui;
-
-//public interface IMetapsiRoute
-//{
-//}
-
-//public static class Route
-//{
-//    public static string Path<TRoute>() where TRoute : IMetapsiRoute
-//    {
-//        return typeof(TRoute).Name;
-//    }
-//}
 
 public interface IHasSidePanel
 {
@@ -71,7 +60,12 @@ public static class UserExtensions
 
 public interface IHtmlNode { }
 
-public class HtmlTag : IHtmlNode
+public interface IHtmlTag
+{
+    HtmlTag ToTag();
+}
+
+public class HtmlTag : IHtmlNode, IHtmlTag
 {
     public string Tag { get; set; } = string.Empty;
     public Dictionary<string, string> Attributes { get; set; } = new();
@@ -84,17 +78,22 @@ public class HtmlTag : IHtmlNode
         this.Tag = tag;
     }
 
-    public TChild AddChild<TChild>(TChild child)
-        where TChild : IHtmlNode
+    public HtmlTag ToTag()
     {
-        this.Children.Add(child);
-        return child;
+        return this;
     }
 
-    public HtmlTag AddAttribute(string name, string value)
+    public override string ToString()
     {
-        this.Attributes.Add(name, value);
-        return this;
+        StringBuilder builder = new StringBuilder();
+        HtmlWriters.HtmlTag(
+            builder,
+            this,
+            (b, c) =>
+            {
+                b.Append(c.ToString());
+            });
+        return builder.ToString();
     }
 }
 
@@ -106,10 +105,38 @@ public class HtmlText : IHtmlNode
 
     public HtmlText(string text)
     {
-        this.Text = System.Web.HttpUtility.HtmlEncode(text);
+        this.Text = text;
+    }
+
+    public override string ToString()
+    {
+        return this.Text;
     }
 }
 
+public static class HtmlNodeExtensions
+{
+    public static HtmlTag AddChild(this HtmlTag tag, IHtmlTag child)
+    {
+        return tag.AddChild(child.ToTag());
+    }
+
+    public static TChild AddChild<TChild>(this HtmlTag tag, TChild child)
+        where TChild : IHtmlNode
+    {
+        if (tag.Children == null)
+            tag.Children = new List<IHtmlNode>();
+
+        tag.Children.Add(child);
+        return child;
+    }
+
+    public static HtmlTag AddAttribute(this HtmlTag tag, string name, string value)
+    {
+        tag.Attributes[name] = value;
+        return tag;
+    }
+}
 
 public interface IApiResponse
 {

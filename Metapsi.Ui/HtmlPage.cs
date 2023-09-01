@@ -22,20 +22,10 @@ namespace Metapsi
             switch (htmlNode)
             {
                 case HtmlTag htmlTag:
-                    builder.Append($"<{htmlTag.Tag}");
-                    foreach (var attribute in htmlTag.Attributes)
-                    {
-                        builder.Append($" {attribute.Key}=\"{attribute.Value}\"");
-                    }
-                    builder.Append(">");
-                    foreach (var child in htmlTag.Children)
-                    {
-                        BuildHtml(builder, child);
-                    }
-                    builder.AppendLine($"</{htmlTag.Tag}>");
+                    HtmlWriters.HtmlTag(builder, htmlTag, BuildHtml);
                     break;
                 case HtmlText textNode:
-                    builder.Append(textNode.Text);
+                    HtmlWriters.HtmlText(builder, textNode);
                     break;
             }
         }
@@ -48,14 +38,14 @@ namespace Metapsi
             Action<HtmlTag> buildBody = null)
         {
             var html = new HtmlTag("html");
-            html.Attributes.Add("lang", "en");
+            html.AddAttribute("lang", "en");
             var head = html.AddChild(new HtmlTag("head"));
             var metaCharset = head.AddChild(new HtmlTag("meta"));
-            metaCharset.Attributes.Add("charset", "utf-8");
+            metaCharset.AddAttribute("charset", "utf-8");
 
             var metaViewport = head.AddChild(new HtmlTag("meta"));
-            metaViewport.Attributes.Add("name", "viewport");
-            metaViewport.Attributes.Add("content", "width=device-width,initial-scale=1");
+            metaViewport.AddAttribute("name", "viewport");
+            metaViewport.AddAttribute("content", "width=device-width,initial-scale=1");
 
             if (buildHead != null)
             {
