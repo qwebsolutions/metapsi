@@ -6,7 +6,7 @@ namespace Metapsi
 {
     public static class HtmlWriters
     {
-        public static void HtmlTag(StringBuilder builder, HtmlTag htmlTag, Action<StringBuilder, IHtmlNode> writeChild)
+        public static void HtmlTag(StringBuilder builder, HtmlTag htmlTag)
         {
             builder.Append($"<{htmlTag.Tag}");
             foreach (var attribute in htmlTag.Attributes)
@@ -16,7 +16,7 @@ namespace Metapsi
             builder.Append(">");
             foreach (var child in htmlTag.Children)
             {
-                writeChild(builder, child);
+                builder.AppendLine(child.ToHtml());
             }
             builder.AppendLine($"</{htmlTag.Tag}>");
         }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Metapsi.Ui;
 
@@ -58,85 +56,7 @@ public static class UserExtensions
     }
 }
 
-public interface IHtmlNode { }
 
-public interface IHtmlTag
-{
-    HtmlTag ToTag();
-}
-
-public class HtmlTag : IHtmlNode, IHtmlTag
-{
-    public string Tag { get; set; } = string.Empty;
-    public Dictionary<string, string> Attributes { get; set; } = new();
-    public List<IHtmlNode> Children { get; set; } = new();
-
-    public HtmlTag() { }
-
-    public HtmlTag(string tag)
-    {
-        this.Tag = tag;
-    }
-
-    public HtmlTag ToTag()
-    {
-        return this;
-    }
-
-    public override string ToString()
-    {
-        StringBuilder builder = new StringBuilder();
-        HtmlWriters.HtmlTag(
-            builder,
-            this,
-            (b, c) =>
-            {
-                b.Append(c.ToString());
-            });
-        return builder.ToString();
-    }
-}
-
-public class HtmlText : IHtmlNode
-{
-    public string Text { get; set; } = string.Empty;
-
-    public HtmlText() { }
-
-    public HtmlText(string text)
-    {
-        this.Text = text;
-    }
-
-    public override string ToString()
-    {
-        return this.Text;
-    }
-}
-
-public static class HtmlNodeExtensions
-{
-    public static HtmlTag AddChild(this HtmlTag tag, IHtmlTag child)
-    {
-        return tag.AddChild(child.ToTag());
-    }
-
-    public static TChild AddChild<TChild>(this HtmlTag tag, TChild child)
-        where TChild : IHtmlNode
-    {
-        if (tag.Children == null)
-            tag.Children = new List<IHtmlNode>();
-
-        tag.Children.Add(child);
-        return child;
-    }
-
-    public static HtmlTag AddAttribute(this HtmlTag tag, string name, string value)
-    {
-        tag.Attributes[name] = value;
-        return tag;
-    }
-}
 
 public interface IApiResponse
 {

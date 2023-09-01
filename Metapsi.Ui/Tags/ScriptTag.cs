@@ -1,8 +1,8 @@
 ﻿namespace Metapsi.Ui;
 
-public record ScriptTag(string src, string type) : IHtmlTag
+public record ExternalScriptTag(string src, string type) : DistinctTag
 {
-    public HtmlTag ToTag()
+    public override HtmlTag ToTag()
     {
         var tag = new HtmlTag("script").AddAttribute("src", src);
         if (!string.IsNullOrEmpty(type))

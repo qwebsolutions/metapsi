@@ -19,15 +19,13 @@ namespace Metapsi.Hyperapp
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
 
             var root = Template.BlankPage(
-                buildHead: head =>
+                (head, body) =>
                 {
                     foreach (var requiredTag in moduleRequiredTags)
                     {
                         head.AddChild(requiredTag.ToTag());
                     }
-                },
-                buildBody: body =>
-                {
+
                     var mainScript = body.AddChild(new HtmlTag("script"));
                     mainScript.AddAttribute("type", "module");
 

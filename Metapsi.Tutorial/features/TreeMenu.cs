@@ -73,7 +73,7 @@ public static partial class Control
         b.SetOnDrawerHide(drawer, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
         {
             b.Set(model, x => x.MenuIsExpanded, false);
-            return b.Clone(model);
+            return b.Broadcast(model);
         }));
 
         var drawerTitle =

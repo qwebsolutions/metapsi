@@ -538,7 +538,7 @@ namespace Metapsi.Syntax
                 // If it is not absolute path, make it absolute
                 src = $"/{src}".Replace("//", "/");
             }
-            b.Const(new ScriptTag(src, type));
+            b.Const(new ExternalScriptTag(src, type));
         }
     }
 

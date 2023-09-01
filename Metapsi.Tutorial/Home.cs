@@ -3,6 +3,8 @@ using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +28,116 @@ public class HomeHandler : Http.Get<Metapsi.Tutorial.Routes.Home>
         return Page.Result(model);
     }
 }
+
+
+public class HomeRenderer : HtmlPage<HomeModel>
+{
+
+    public IEnumerable<IHtmlNode> Descendants(IHtmlTag root)
+    {
+        List<IHtmlNode> descendants = new List<IHtmlNode>();
+        FillDescendants(root, descendants);
+        return descendants;
+    }
+
+    private void FillDescendants(IHtmlTag current, List<IHtmlNode> intoList)
+    {
+        intoList.Add(current);
+        var children = current.ToTag().Children;
+        foreach (var child in children)
+        {
+            IHtmlTag childTag = child as IHtmlTag;
+            if (childTag != null)
+            {
+                FillDescendants(childTag, intoList);
+            }
+        }
+    }
+
+    public override IHtmlNode GetHtml(HomeModel dataModel)
+    {
+        return Template.BlankPage(
+            (head, body) =>
+            {
+
+                head.AddModuleStylesheet();
+                var largeHeader = new DivTag().AddTextSpan("Metapsi").AddInlineStyle("font-size", "var(--sl-font-size-large)");
+                body.AddChild(Header(dataModel, largeHeader, head));
+
+                body.AddHyperapp(
+                    head,
+                    dataModel,
+                    (b, model) =>
+                    {
+                        return b.DrawerTreeMenu(model);
+                    });
+
+                var allNodes = Descendants(body);
+
+                var slTags = allNodes.Where(x => x is IHtmlTag).Where(x => (x as IHtmlTag).ToTag().Tag.StartsWith("sl-"));
+
+                if (slTags.Any())
+                {
+                    head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
+                    head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css");
+                }
+            });
+    }
+
+
+
+    public DivTag Header<TModel>(TModel model, IHtmlNode content, HeadTag headTag)
+        where TModel: IHasTreeMenu
+    {
+        var container = new DivTag()
+            .AddClass("flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl");
+
+        //var icon = container.AddChild(new HtmlTag("sl-icon").AddAttribute("name", "list"));
+
+        container.AddHyperapp(headTag, model,
+            (b, model) =>
+            {
+                var showMenuButton = b.IconButton("list");
+                b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+                {
+                    b.Set(model, x => x.MenuIsExpanded, true);
+                    return b.Broadcast(model);
+                }));
+
+                return showMenuButton;
+            });
+
+        if (content != null)
+        {
+            container.AddChild(content);
+        }
+
+        return container;
+    }
+
+
+    //public static Var<HyperNode> Header<TModel>(this BlockBuilder b, Var<TModel> model, Func<BlockBuilder, Var<HyperNode>> headerContent)
+    //{
+    //    var header = b.Div(
+    //        "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl",
+    //        b =>
+    //        {
+    //            var showMenuButton = b.IconButton("list");
+    //            b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+    //            {
+    //                b.Set(model, x => x.MenuIsExpanded, true);
+    //                return b.Clone(model);
+    //            }));
+
+    //            return showMenuButton;
+    //        },
+    //        headerContent);
+
+    //    return header;
+    //}
+}
+
+/*
 
 public class HomeRenderer : ShoelaceHyperPage<HomeModel>
 {
@@ -184,6 +296,17 @@ public class HomeRenderer : ShoelaceHyperPage<HomeModel>
                 b => b.Text(title, "text-large font-semibold"),
                 b => b.Optional(b.HasValue(subtitle), b => b.Text(subtitle, "text-sm")),
                 b => b.Optional(b.HasValue(details), b => b.Text(details, "text-sm"))));
+    }
+}
+*/
+
+public static class SharedStateExtensions
+{
+    public static Var<TModel> Broadcast<TModel>(this BlockBuilder b, Var<TModel> model)
+    {
+        var clone = b.Clone(model);
+        b.DispatchEvent(b.Const("sharedStateUpdate"), clone);
+        return clone;
     }
 }
 

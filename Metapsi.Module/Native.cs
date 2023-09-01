@@ -378,6 +378,11 @@ namespace Metapsi.Syntax
             b.CallExternal(nameof(Native), nameof(DispatchEvent), eventName);
         }
 
+        public static void DispatchEvent<TPayload>(this BlockBuilder b, Var<string> eventName, Var<TPayload> payload)
+        {
+            b.CallExternal(nameof(Native), nameof(DispatchEvent), eventName, payload);
+        }
+
         public static void RequestAnimationFrame(this BlockBuilder b, Var<Action> action)
         {
             b.CallExternal(nameof(Native), nameof(RequestAnimationFrame), action);

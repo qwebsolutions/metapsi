@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Metapsi.Ui;
 
-public class StyleTag : IHtmlTag
+public class StyleTag : BaseTag
 {
     public List<CssSelector> Selectors { get; set; } = new();
 
-    public HtmlTag ToTag()
+    public override HtmlTag ToTag()
     {
         var styleTag = new HtmlTag("style");
         styleTag.Children.Add(new HtmlText()

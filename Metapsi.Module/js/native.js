@@ -58,8 +58,8 @@ export const AppendChild = (parent, child) => parent.appendChild(child);
 export const RequestAnimationFrame = requestAnimationFrame;
 export const AddEventListener = addEventListener;
 export const RemoveEventListener = removeEventListener;
-export const DispatchEvent = (eventType) => {
-    dispatchEvent(new Event(eventType));
+export const DispatchEvent = (eventType, payload) => {
+    dispatchEvent(new CustomEvent(eventType, { detail: payload }));
 };
 
 export const SetInterval = setInterval;
