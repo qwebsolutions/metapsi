@@ -17,28 +17,4 @@ namespace Metapsi
             return builder.ToString();
         }
     }
-
-    public static class Template
-    {
-        public static IHtmlNode BlankPage(
-            Action<HeadTag, BodyTag> build)
-        {
-            var html = new HtmlTag("html");
-            html.AddAttribute("lang", "en");
-            var head = html.AddChild(new HeadTag());
-            var metaCharset = head.AddChild(new HtmlTag("meta"));
-            metaCharset.AddAttribute("charset", "utf-8");
-
-            var metaViewport = head.AddChild(new HtmlTag("meta"));
-            metaViewport.AddAttribute("name", "viewport");
-            metaViewport.AddAttribute("content", "width=device-width,initial-scale=1");
-
-
-            var body = html.AddChild(new BodyTag());
-
-            build(head, body);
-
-            return html;
-        }
-    }
 }

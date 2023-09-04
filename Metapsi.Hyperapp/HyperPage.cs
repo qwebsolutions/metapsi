@@ -18,41 +18,41 @@ namespace Metapsi.Hyperapp
 
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
 
-            var root = Template.BlankPage(
-                (head, body) =>
-                {
-                    foreach (var requiredTag in moduleRequiredTags)
-                    {
-                        head.AddChild(requiredTag.ToTag());
-                    }
+            var root = DocumentTag.Create();
+            var head = root.Head;
+            var body = root.Body;
 
-                    var mainScript = body.AddChild(new HtmlTag("script"));
-                    mainScript.AddAttribute("type", "module");
+            foreach (var requiredTag in moduleRequiredTags)
+            {
+                head.AddChild(requiredTag.ToTag());
+            }
 
-                    var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
+            var mainScript = body.AddChild(new HtmlTag("script"));
+            mainScript.AddAttribute("type", "module");
 
-                    mainScript.Children.Add(new HtmlText()
-                    {
-                        Text = moduleScript
-                    });
+            var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
 
-                    var model = Metapsi.JavaScript.PrettyBuilder.Serialize(dataModel);
+            mainScript.Children.Add(new HtmlText()
+            {
+                Text = moduleScript
+            });
 
-                    mainScript.Children.Add(new HtmlText()
-                    {
-                        Text = $"var model = {model}\n"
-                    });
+            var model = Metapsi.JavaScript.PrettyBuilder.Serialize(dataModel);
 
-                    mainScript.Children.Add(new HtmlText()
-                    {
-                        Text = "\nmain(model)"
-                    });
+            mainScript.Children.Add(new HtmlText()
+            {
+                Text = $"var model = {model}\n"
+            });
 
-                    var mainDiv = body.AddChild(new HtmlTag("div"));
-                    mainDiv.AddAttribute("id", GetMountDivId());
-                });
+            mainScript.Children.Add(new HtmlText()
+            {
+                Text = "\nmain(model)"
+            });
 
-            root = ModifyHtml(root, module);
+            var mainDiv = body.AddChild(new HtmlTag("div"));
+            mainDiv.AddAttribute("id", GetMountDivId());
+
+            ModifyHtml(root, module);
             return root;
         }
 

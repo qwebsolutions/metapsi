@@ -27,43 +27,28 @@ public class MarkdownRenderer : MarkdownHtmlPage<MarkdownPage>
 {
     public override IHtmlNode GetHtml(MarkdownPage dataModel)
     {
-        return Template.BlankPage(
-            (head, body) =>
-            {
-                head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
-                head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
+        var document = DocumentTag.Create();
+        var head = document.Head;
+        var body = document.Body;
+        head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
+        head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
 
-                head.AddChild(
-                    StyleTag.Create(
-                        CssSelector.Create("body").
-                        AddProperty("font-family", "var(--sl-font-sans)")
-                        .AddProperty("color", "var(--sl-color-gray-800)"),
+        head.AddChild(
+            StyleTag.Create(
+                CssSelector.Create("body").
+                AddProperty("font-family", "var(--sl-font-sans)")
+                .AddProperty("color", "var(--sl-color-gray-800)"),
 
-                        CssSelector.Create("strong")
-                        .AddProperty("font-weight", "var(--sl-font-weight-bold)")));
+                CssSelector.Create("strong")
+                .AddProperty("font-weight", "var(--sl-font-weight-bold)")));
 
 
-                body.AddChild(new MarkdownNode()
-                {
-                    Markdown = "### Heading level 3 \nI just love **bold text**."
-                });
+        body.AddChild(new MarkdownNode()
+        {
+            Markdown = "### Heading level 3 \nI just love **bold text**."
+        });
 
-                body.AddHyperapp(
-                    head,
-                    dataModel,
-                    (b, model) =>
-                    {
-                        return b.Text("WORKS!?!?!");
-                    });
-
-                body.AddHyperapp(
-                    head,
-                    dataModel,
-                    (b, model) =>
-                    {
-                        return b.Text("Twice?");
-                    });
-            });
+        return document;
     }
 }
 
@@ -154,7 +139,7 @@ public static class HyperappNodeExtensions
 
             return render(b, model);
         },
-        init, 
+        init,
         mountDivId);
 
         var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
@@ -190,6 +175,74 @@ public static class HyperappNodeExtensions
 
         mountPoint.AddChild(new HtmlTag("div").AddAttribute("id", mountDivId));
     }
+
+    //public static ClientControl ClientControl<TDataModel>(
+    //    TDataModel model,
+    //    System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render,
+    //    System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+    //{
+    //    ClientControl clientControl = new();
+
+    //    var mountDivId = $"id_{Guid.NewGuid()}";
+
+    //    if (init == null)
+    //    {
+    //        init = (b, model) => b.MakeStateWithEffects(model);
+    //    }
+
+    //    var module = HyperBuilder.BuildModule<TDataModel>((b, model) =>
+    //    {
+    //        b.AddSubscription<HomeModel>(
+    //            "SyncSharedModel",
+    //            (BlockBuilder b, Var<HomeModel> state) =>
+    //            {
+    //                return b.Listen<TDataModel, TDataModel>(
+    //                    b.Const("sharedStateUpdate"),
+    //                    b.MakeAction((BlockBuilder b, Var<TDataModel> oldModel, Var<TDataModel> newModel) =>
+    //                    {
+    //                        return newModel;
+    //                    }));
+    //            });
+
+    //        return render(b, model);
+    //    },
+    //    init,
+    //    mountDivId);
+
+    //    var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
+
+    //    foreach (var requiredTag in moduleRequiredTags)
+    //    {
+    //        clientControl.HeaderRequiredNodes.Add(requiredTag);
+    //    }
+
+    //    var mainScript = new HtmlTag("script");
+    //    mainScript.AddAttribute("type", "module");
+
+    //    var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
+
+    //    mainScript.Children.Add(new HtmlText()
+    //    {
+    //        Text = moduleScript
+    //    });
+
+    //    var jsonModel = Metapsi.JavaScript.PrettyBuilder.Serialize(model);
+
+    //    mainScript.Children.Add(new HtmlText()
+    //    {
+    //        Text = $"var model = {jsonModel}\n"
+    //    });
+
+    //    mainScript.Children.Add(new HtmlText()
+    //    {
+    //        Text = "\nmain(model)"
+    //    });
+
+    //    clientControl.HeaderRequiredNodes.Add(mainScript);
+    //    clientControl.MountPoint = new HtmlTag("div").AddAttribute("id", mountDivId);
+
+    //    return clientControl;
+    //}
 }
 
 public class MarkdownNode : IHtmlNode

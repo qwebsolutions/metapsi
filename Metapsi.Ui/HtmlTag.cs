@@ -54,14 +54,26 @@ public class HtmlTag : IHtmlNode, IHtmlTag
 
     public override string ToString()
     {
-        StringBuilder builder = new StringBuilder();
-        HtmlWriters.HtmlTag(builder, this);
-        return builder.ToString();
+        return this.ToHtml();
     }
 
     public string ToHtml()
     {
-        return this.ToString();
+        StringBuilder builder = new StringBuilder();
+
+        builder.Append($"<{this.Tag}");
+        foreach (var attribute in this.Attributes)
+        {
+            builder.Append($" {attribute.Key}=\"{attribute.Value}\"");
+        }
+        builder.Append(">");
+        foreach (var child in this.Children)
+        {
+            builder.AppendLine(child.ToHtml());
+        }
+        builder.AppendLine($"</{this.Tag}>");
+
+        return builder.ToString();
     }
 }
 

@@ -397,20 +397,22 @@ public class ErrorPage : HtmlPage<List<string>>
 {
     public override IHtmlNode GetHtml(List<string> dataModel)
     {
-        return Template.BlankPage(
-            (head, body) =>
-            {
-                var script = head.AddChild(new HtmlTag("link"));
-                script.AddAttribute("rel", "stylesheet");
-                script.AddAttribute("href", "/metapsi.tutorial.css");
+        var document = DocumentTag.Create();
+        var head = document.Head;
+        var body = document.Body;
 
-                foreach (var error in dataModel)
-                {
-                    var errorDiv = body.AddChild(new HtmlTag("div"));
-                    errorDiv.AddAttribute("class", "text-red-500");
-                    errorDiv.AddChild(new HtmlText(error));
-                }
-            });
+        var script = head.AddChild(new HtmlTag("link"));
+        script.AddAttribute("rel", "stylesheet");
+        script.AddAttribute("href", "/metapsi.tutorial.css");
+
+        foreach (var error in dataModel)
+        {
+            var errorDiv = body.AddChild(new HtmlTag("div"));
+            errorDiv.AddAttribute("class", "text-red-500");
+            errorDiv.AddChild(new HtmlText(error));
+        }
+
+        return document;
     }
 }
 

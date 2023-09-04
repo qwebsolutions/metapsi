@@ -56,32 +56,35 @@ public class HomeRenderer : HtmlPage<HomeModel>
 
     public override IHtmlNode GetHtml(HomeModel dataModel)
     {
-        return Template.BlankPage(
-            (head, body) =>
+        var htmlDocument = DocumentTag.Create();
+        var head = htmlDocument.Head;
+        var body = htmlDocument.Body;
+
+        head.AddModuleStylesheet();
+        var largeHeader = new DivTag().AddTextSpan("Metapsi").AddInlineStyle("font-size", "var(--sl-font-size-large)");
+        body.AddChild(Header(dataModel, largeHeader, head));
+
+        body.AddHyperapp(
+            head,
+            dataModel,
+            (b, model) =>
             {
-
-                head.AddModuleStylesheet();
-                var largeHeader = new DivTag().AddTextSpan("Metapsi").AddInlineStyle("font-size", "var(--sl-font-size-large)");
-                body.AddChild(Header(dataModel, largeHeader, head));
-
-                body.AddHyperapp(
-                    head,
-                    dataModel,
-                    (b, model) =>
-                    {
-                        return b.DrawerTreeMenu(model);
-                    });
-
-                var allNodes = Descendants(body);
-
-                var slTags = allNodes.Where(x => x is IHtmlTag).Where(x => (x as IHtmlTag).ToTag().Tag.StartsWith("sl-"));
-
-                if (slTags.Any())
-                {
-                    head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
-                    head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css");
-                }
+                return b.DrawerTreeMenu(model);
             });
+
+        var allNodes = Descendants(body);
+
+        var slTags = allNodes.Where(x => x is IHtmlTag).Where(x => (x as IHtmlTag).ToTag().Tag.StartsWith("sl-"));
+
+        if (slTags.Any())
+        {
+            head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
+            head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css");
+        }
+
+        //declare server-side shoelace with common props
+        //await slTags. Also include client-side tags
+        return htmlDocument;
     }
 
 
@@ -94,7 +97,10 @@ public class HomeRenderer : HtmlPage<HomeModel>
 
         //var icon = container.AddChild(new HtmlTag("sl-icon").AddAttribute("name", "list"));
 
-        container.AddHyperapp(headTag, model,
+         
+        container.AddHyperapp(
+            headTag,
+            model,
             (b, model) =>
             {
                 var showMenuButton = b.IconButton("list");
