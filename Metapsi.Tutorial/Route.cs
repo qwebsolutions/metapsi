@@ -11,3 +11,5 @@ public class Docs : Metapsi.Route.IGet<string> { }
 
 public class Tutorial : Metapsi.Route.IGet<string> { }
 public class MTutorial : Metapsi.Route.IGet<string> { }
+
+public class XXX : Metapsi.Route.IGet<string, string> { }

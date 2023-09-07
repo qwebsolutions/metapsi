@@ -395,7 +395,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 
 public class ErrorPage : HtmlPage<List<string>>
 {
-    public override IHtmlNode GetHtml(List<string> dataModel)
+    public override IHtmlNode GetHtmlTree(List<string> dataModel)
     {
         var document = DocumentTag.Create();
         var head = document.Head;

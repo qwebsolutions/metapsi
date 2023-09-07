@@ -21,7 +21,7 @@ namespace Metapsi.Hyperapp
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtml(TServerModel serverModel)
+        public override IHtmlNode GetHtmlTree(TServerModel serverModel)
         {
             var dataModel = ExtractClientModel(serverModel);
 

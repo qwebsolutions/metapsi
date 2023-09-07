@@ -6,6 +6,8 @@ namespace Metapsi.Ui;
 
 public class StyleTag : BaseTag
 {
+    public string StyleName { get; set; } = string.Empty;
+
     public List<CssSelector> Selectors { get; set; } = new();
 
     public override HtmlTag ToTag()

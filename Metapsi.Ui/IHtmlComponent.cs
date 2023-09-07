@@ -4,7 +4,7 @@ namespace Metapsi.Ui;
 
 public interface IHtmlComponent
 {
-    void OnMount(DocumentTag document);
+    void OnMount(DocumentTag document, IHtmlTag parentNode);
 }
 
 //public class ClientControl : IHtmlComponent

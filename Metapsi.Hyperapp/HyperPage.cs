@@ -12,7 +12,7 @@ namespace Metapsi.Hyperapp
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtml(TDataModel dataModel)
+        public override IHtmlNode GetHtmlTree(TDataModel dataModel)
         {
             var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 

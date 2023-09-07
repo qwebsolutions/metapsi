@@ -80,7 +80,9 @@ public static class ServerExtensions
                     serverActionInput,
                     b.MakeAction((BlockBuilder b, Var<TState> model, Var<Metapsi.Ui.ServerActionResponse> result) =>
                     {
-                        return b.Deserialize<TState>(b.Get(result, x => x.SerializedModel));
+                        var newModel = b.Deserialize<TState>(b.Get(result, x => x.SerializedModel));
+                        b.DispatchEvent(b.Const("sharedStateUpdate"), newModel);
+                        return newModel;
                     })));
         });
 

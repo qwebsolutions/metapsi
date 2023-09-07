@@ -79,6 +79,10 @@ public static partial class Program
         webServer.WebApplication.RegisterGetHandler<HomeHandler, Metapsi.Tutorial.Routes.Home>();
         webServer.RegisterPageBuilder<HomeModel>(new HomeRenderer().Render);
 
+        webServer.WebApplication.RegisterGetHandler<XXXHandler, Metapsi.Tutorial.Routes.XXX, string, string>();
+        webServer.RegisterPageBuilder<XXXModel>(new XXXRenderer().Render);
+
+
         webServer.WebApplication.RegisterGetHandler<ParagraphHandler, Metapsi.Tutorial.Routes.Paragraph, string>();
 
         webServer.WebApplication.RegisterGetHandler<MarkdownHandler, Metapsi.Tutorial.Routes.MTutorial, string>();

@@ -4,6 +4,7 @@ using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,160 @@ public class HomeModel : IHasTreeMenu
     public bool MenuIsExpanded { get; set; }
 }
 
+public class XXXModel : IApiSupportState
+{
+    public ApiSupport ApiSupport { get; set; } = new();
+
+    public string P1 { get; set; }
+    public string P2 { get; set; }
+
+    public int count { get; set; }
+}
+
+public class XXXHandler : Http.Get<Metapsi.Tutorial.Routes.XXX, string, string>
+{
+    public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string firstParam, string secondParam)
+    {
+        return Page.Result(new XXXModel() { P1 = firstParam, P2 = secondParam });
+    }
+}
+
+public static class VisibilityExtensions
+{
+    public static HyperAppNode<TModel> VisibleIf<TModel>(
+        this HyperAppNode<TModel> clientSideNode, 
+        TModel model, 
+        HeadTag head, 
+        System.Linq.Expressions.Expression<Func<TModel, bool>> byProperty)
+    {
+        var initialRender = clientSideNode.Render;
+
+        clientSideNode.Render = (b, model) =>
+        {
+            b.Log(model);
+            b.Log(b.Get(model, byProperty));
+
+            return b.If(
+                b.Get(model, byProperty),
+                b => initialRender(b, model),
+                b => b.Div());
+        };
+
+        return clientSideNode;
+
+        /*
+        mountNode.ToClientSide(model,
+            (b, model) =>
+            {
+                return b.If(
+                    b.Get(model, byProperty),
+                    b => b.ServerToClient(mountNode),
+                    b => b.Div());
+            });*/
+    }
+
+    public static Var<HyperNode> ServerToClient(this BlockBuilder b, IHtmlTag tag)
+    {
+        var node = b.Node(tag.ToTag().Tag);
+
+        foreach (var attribute in tag.ToTag().Attributes)
+        {
+            b.SetAttr(node, DynamicProperty.String(attribute.Key), attribute.Value);
+        }
+
+        foreach (var child in tag.ToTag().Children)
+        {
+            if(child is IHtmlTag)
+            {
+                b.Add(node, b.ServerToClient(child as IHtmlTag));
+            }
+            if(child is HtmlText)
+            {
+                b.Add(node, b.TextNode((child as HtmlText).Text));
+            }
+        }
+
+        return node;
+    }
+}
+
+public class XXXRenderer : HtmlPage<XXXModel>
+{
+    public override IHtmlNode GetHtmlTree(XXXModel dataModel)
+    {
+        var document = DocumentTag.Create("TITLU!");
+
+        var span = new SpanTag();
+        span.AddText("abc");
+
+        var maybeHidden1 = document.Body.AddChild(span.ToClientSide(dataModel));
+        maybeHidden1.VisibleIf(dataModel, document.Head, x => x.count > 5);
+        document.Body.AddTextSpan(dataModel.P2).AddAttribute("id", "removable").ToClientSide(dataModel).VisibleIf(dataModel, document.Head, x => x.count < 5);
+
+        
+        document.Body.AddHyperapp(
+            dataModel,
+            (b, model) =>
+            {
+                var container = b.Span();
+
+                //b.If(
+                //    b.Get(model, x => x.ApiSupport.InProgress),
+                //    b =>
+                //    {
+                //        var panel = b.Add(container, b.Div("flex flex-row w-screen h-screen bg-white fixed top-0 left-0 bottom-0 right-0 z-50"));
+                //        b.Add(panel, b.Text("In progress"));
+                //        b.Log("Render in progress");
+                //    });
+
+                var button = b.Add(container, b.Node("button"));
+                b.Add(button, b.TextNode("INCREMENT!"));
+
+                b.SetOnClick(button, b.MakeServerAction(model, async (cc, model) =>
+                {
+                    model.count++;
+                    return model;
+                }));
+
+                b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
+
+                return container;
+            });
+        
+        var div = document.Body.AddChild(new DivTag());
+
+        div.AddHyperapp(dataModel,
+            (b, model) =>
+            {
+                var container = b.Span();
+
+                var button = b.Add(container, b.Node("button"));
+                b.Add(button, b.TextNode(" +2 !"));
+
+                b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<XXXModel> model) =>
+                {
+                    b.Set(model, x => x.count, b.Get(model, x => x.count + 2));
+                    b.Log(model);
+                    return b.Broadcast(model);
+                }));
+
+                b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
+
+                return container;
+            });
+
+        document.AttachComponents();
+
+        //var components = document.Body.Descendants().OfType<IHtmlComponent>();
+        //foreach (var component in components)
+        //{
+        //    component.OnMount(document);
+        //}
+
+        return document;
+    }
+}
+
 public class HomeHandler : Http.Get<Metapsi.Tutorial.Routes.Home>
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
@@ -32,29 +187,7 @@ public class HomeHandler : Http.Get<Metapsi.Tutorial.Routes.Home>
 
 public class HomeRenderer : HtmlPage<HomeModel>
 {
-
-    public IEnumerable<IHtmlNode> Descendants(IHtmlTag root)
-    {
-        List<IHtmlNode> descendants = new List<IHtmlNode>();
-        FillDescendants(root, descendants);
-        return descendants;
-    }
-
-    private void FillDescendants(IHtmlTag current, List<IHtmlNode> intoList)
-    {
-        intoList.Add(current);
-        var children = current.ToTag().Children;
-        foreach (var child in children)
-        {
-            IHtmlTag childTag = child as IHtmlTag;
-            if (childTag != null)
-            {
-                FillDescendants(childTag, intoList);
-            }
-        }
-    }
-
-    public override IHtmlNode GetHtml(HomeModel dataModel)
+    public override IHtmlNode GetHtmlTree(HomeModel dataModel)
     {
         var htmlDocument = DocumentTag.Create();
         var head = htmlDocument.Head;
@@ -65,14 +198,13 @@ public class HomeRenderer : HtmlPage<HomeModel>
         body.AddChild(Header(dataModel, largeHeader, head));
 
         body.AddHyperapp(
-            head,
             dataModel,
             (b, model) =>
             {
                 return b.DrawerTreeMenu(model);
             });
 
-        var allNodes = Descendants(body);
+        var allNodes = body.Descendants();
 
         var slTags = allNodes.Where(x => x is IHtmlTag).Where(x => (x as IHtmlTag).ToTag().Tag.StartsWith("sl-"));
 
@@ -81,6 +213,14 @@ public class HomeRenderer : HtmlPage<HomeModel>
             head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
             head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css");
         }
+
+        htmlDocument.AttachComponents();
+
+        //var components = htmlDocument.Body.Descendants().OfType<IHtmlComponent>();
+        //foreach (var component in components)
+        //{
+        //    component.OnMount(htmlDocument);
+        //}
 
         //declare server-side shoelace with common props
         //await slTags. Also include client-side tags
@@ -97,9 +237,7 @@ public class HomeRenderer : HtmlPage<HomeModel>
 
         //var icon = container.AddChild(new HtmlTag("sl-icon").AddAttribute("name", "list"));
 
-         
         container.AddHyperapp(
-            headTag,
             model,
             (b, model) =>
             {

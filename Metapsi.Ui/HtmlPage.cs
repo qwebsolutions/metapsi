@@ -7,13 +7,13 @@ namespace Metapsi
 {
     public abstract class HtmlPage<TDataModel> : IPageTemplate<TDataModel>
     {
-        public abstract IHtmlNode GetHtml(TDataModel dataModel);
+        public abstract IHtmlNode GetHtmlTree(TDataModel dataModel);
 
         public string Render(TDataModel model)
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("<!DOCTYPE html>");
-            builder.AppendLine(GetHtml(model).ToHtml());
+            builder.AppendLine(GetHtmlTree(model).ToHtml());
             return builder.ToString();
         }
     }

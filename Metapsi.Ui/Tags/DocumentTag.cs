@@ -19,7 +19,7 @@ public class DocumentTag : HtmlTag
 
         if(!string.IsNullOrEmpty(title))
         {
-            var titleTag = documentTag.AddChild(new HtmlTag() { Tag = "title" });
+            var titleTag = documentTag.Head.AddChild(new HtmlTag() { Tag = "title" });
             titleTag.AddText(title);
         }
 
