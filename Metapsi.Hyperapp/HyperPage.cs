@@ -16,7 +16,7 @@ namespace Metapsi.Hyperapp
         {
             var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 
-            var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlTag).Select(x => x.Value as IHtmlTag);
+            var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 
             var root = DocumentTag.Create();
             var head = root.Head;
@@ -24,11 +24,11 @@ namespace Metapsi.Hyperapp
 
             foreach (var requiredTag in moduleRequiredTags)
             {
-                head.AddChild(requiredTag.ToTag());
+                head.AddChild(requiredTag.GetTag());
             }
 
             var mainScript = body.AddChild(new HtmlTag("script"));
-            mainScript.AddAttribute("type", "module");
+            mainScript.SetAttribute("type", "module");
 
             var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
 
@@ -50,7 +50,7 @@ namespace Metapsi.Hyperapp
             });
 
             var mainDiv = body.AddChild(new HtmlTag("div"));
-            mainDiv.AddAttribute("id", GetMountDivId());
+            mainDiv.SetAttribute("id", GetMountDivId());
 
             ModifyHtml(root, module);
             return root;

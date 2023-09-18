@@ -2,11 +2,11 @@
 
 public record LinkTag(string rel, string href) : DistinctTag
 {
-    public override HtmlTag ToTag()
+    public override HtmlTag GetTag()
     {
         return new HtmlTag("link")
-            .AddAttribute("rel", rel)
-            .AddAttribute("href", href);
+            .SetAttribute("rel", rel)
+            .SetAttribute("href", href);
     }
 }
 

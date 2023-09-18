@@ -11,7 +11,13 @@ public enum CheckboxSize
     Large
 }
 
-public class Checkbox
+public interface IHasCheckedProperty
+{
+    bool Checked { get; set; }
+}
+
+
+public class Checkbox : IHasCheckedProperty
 {
     /// <summary>
     /// Used in form data

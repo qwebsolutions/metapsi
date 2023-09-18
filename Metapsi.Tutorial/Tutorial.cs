@@ -57,7 +57,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
         var body = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
 
         var prismScript = new HtmlTag("script");
-        prismScript.AddAttribute("src", "/prism.js");
+        prismScript.SetAttribute("src", "/prism.js");
         body.AddChild(prismScript);
 
         return root;
@@ -402,13 +402,13 @@ public class ErrorPage : HtmlPage<List<string>>
         var body = document.Body;
 
         var script = head.AddChild(new HtmlTag("link"));
-        script.AddAttribute("rel", "stylesheet");
-        script.AddAttribute("href", "/metapsi.tutorial.css");
+        script.SetAttribute("rel", "stylesheet");
+        script.SetAttribute("href", "/metapsi.tutorial.css");
 
         foreach (var error in dataModel)
         {
             var errorDiv = body.AddChild(new HtmlTag("div"));
-            errorDiv.AddAttribute("class", "text-red-500");
+            errorDiv.SetAttribute("class", "text-red-500");
             errorDiv.AddChild(new HtmlText(error));
         }
 

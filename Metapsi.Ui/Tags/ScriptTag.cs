@@ -2,11 +2,11 @@
 
 public record ExternalScriptTag(string src, string type) : DistinctTag
 {
-    public override HtmlTag ToTag()
+    public override HtmlTag GetTag()
     {
-        var tag = new HtmlTag("script").AddAttribute("src", src);
+        var tag = new HtmlTag("script").SetAttribute("src", src);
         if (!string.IsNullOrEmpty(type))
-            tag.AddAttribute("type", type);
+            tag.SetAttribute("type", type);
 
         return tag;
     }

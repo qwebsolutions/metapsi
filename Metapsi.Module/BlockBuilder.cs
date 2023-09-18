@@ -171,6 +171,25 @@ namespace Metapsi.Syntax
             }, value);
         }
 
+        public void Set<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
+        {
+            if (!(access.Body is MemberExpression))
+            {
+                throw new Exception($"Expression {access} is not valid in setter. Setter can only be used on properties of accessor variable");
+            }
+            else if ((access.Body as MemberExpression).Expression is MemberExpression)
+            {
+                // If nested member expression
+                throw new Exception($"Expression {access} is not valid in setter. Setter can only be used on properties of accessor variable");
+            }
+
+            Set(var, new Property()
+            {
+                InterfaceType = typeof(TItem),
+                PropertyName = access.PropertyName()
+            }, value);
+        }
+
         public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
         {
             Set<TItem, TProp>(var, access, Const(value));

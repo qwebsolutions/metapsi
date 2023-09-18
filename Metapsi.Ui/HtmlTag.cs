@@ -11,32 +11,32 @@ public interface IHtmlNode
     public string ToHtml();
 }
 
-public interface IHtmlTag : IHtmlNode
+public interface IHtmlElement : IHtmlNode
 {
-    HtmlTag ToTag();
+    HtmlTag GetTag();
 }
 
-public abstract record DistinctTag : IHtmlTag
-{
-    public string ToHtml()
-    {
-        return this.ToTag().ToHtml();
-    }
-
-    public abstract HtmlTag ToTag();
-}
-
-public abstract class BaseTag : IHtmlTag
+public abstract record DistinctTag : IHtmlElement
 {
     public string ToHtml()
     {
-        return this.ToTag().ToHtml();
+        return this.GetTag().ToHtml();
     }
 
-    public abstract HtmlTag ToTag();
+    public abstract HtmlTag GetTag();
 }
 
-public class HtmlTag : IHtmlNode, IHtmlTag
+public abstract class BaseTag : IHtmlElement
+{
+    public string ToHtml()
+    {
+        return this.GetTag().ToHtml();
+    }
+
+    public abstract HtmlTag GetTag();
+}
+
+public class HtmlTag : IHtmlElement
 {
     public string Tag { get; set; } = string.Empty;
     public Dictionary<string, string> Attributes { get; set; } = new();
@@ -49,7 +49,7 @@ public class HtmlTag : IHtmlNode, IHtmlTag
         this.Tag = tag;
     }
 
-    public HtmlTag ToTag()
+    public HtmlTag GetTag()
     {
         return this;
     }
@@ -119,61 +119,73 @@ public class HtmlText : IHtmlNode
 
 public static class HtmlNodeExtensions
 {
-    public static TChild AddChild<TChild>(this HtmlTag tag, TChild child)
+    public static TChild AddChild<TChild>(this IHtmlElement parent, TChild child)
         where TChild : IHtmlNode
     {
-        if (!tag.Children.Contains(child))
+        if (!parent.GetTag().Children.Contains(child))
         {
-            tag.Children.Add(child);
+            parent.GetTag().Children.Add(child);
         }
 
         return child;
     }
 
-    public static HtmlTag AddAttribute(this HtmlTag tag, string name, string value)
+    public static void AddChildren(this IHtmlElement parent, IEnumerable<IHtmlNode> children)
     {
-        tag.Attributes[name] = value;
-        return tag;
+        foreach(var child in children)
+        {
+            parent.AddChild(child);
+        }
     }
 
-    public static HtmlTag AddDiv(this HtmlTag tag)
+    public static T SetAttribute<T>(this T element, string name, string value)
+        where T : IHtmlElement
     {
-        return tag.AddChild(new DivTag());
+        element.GetTag().Attributes[name] = value;
+        return element;
     }
 
-    public static HtmlTag AddSpan(this HtmlTag tag)
+    public static HtmlTag AddDiv(this IHtmlElement element)
     {
-        return tag.AddChild(new SpanTag());
+        return element.AddChild(new DivTag());
     }
 
-    public static void AddText(this HtmlTag tag, string text)
+    public static HtmlTag AddSpan(this IHtmlElement element)
     {
-        tag.AddChild(new HtmlText(text));
+        return element.AddChild(new SpanTag());
     }
 
-    public static HtmlTag AddTextSpan(this HtmlTag tag, string text, string cssClass = "")
+    public static void AddText(this IHtmlElement element, string text)
     {
-        var span = tag.AddSpan().AddClass(cssClass);
+        element.AddChild(new HtmlText(text));
+    }
+
+    public static HtmlTag AddTextSpan(this IHtmlElement element, string text, string cssClass = "")
+    {
+        var span = element.AddSpan().AddClass(cssClass);
         span.AddText(text);
         return span;
     }
 
-    public static HtmlTag AddInlineStyle(this HtmlTag tag, string property, string value)
+    public static T AddInlineStyle<T>(this T element, string property, string value)
+        where T: IHtmlElement
     {
         value = value.Trim().TrimEnd(';');
-        tag.AppendToAttribute("style", $" {property}: {value};");
-        return tag;
+        element.AppendToAttribute("style", $" {property}: {value};");
+        return element;
     }
 
-    public static T AddClass<T>(this T htmlTag, string className)
+    public static T AddClass<T>(this T element, string className)
         where T : HtmlTag
     {
-        htmlTag.AppendToAttribute("class", " " + className);
-        return htmlTag;
+        element.AppendToAttribute("class", " " + className);
+        return element;
     }
 
-    private static void AppendToAttribute(this HtmlTag htmlTag, string attributeName, string value)
+    private static void AppendToAttribute(this IHtmlElement element, string attributeName, string value)
     {
+        var htmlTag = element.GetTag();
+
         if (!htmlTag.Attributes.ContainsKey(attributeName))
         {
             htmlTag.Attributes.Add(attributeName, value);
@@ -184,7 +196,7 @@ public static class HtmlNodeExtensions
         }
     }
 
-    public static IEnumerable<IHtmlNode> Descendants(this IHtmlTag root)
+    public static IEnumerable<IHtmlNode> Descendants(this IHtmlElement root)
     {
         List<IHtmlNode> descendants = new List<IHtmlNode>();
 
@@ -202,7 +214,7 @@ public static class HtmlNodeExtensions
         {
             if (child is IHtmlComponent)
             {
-                (child as IHtmlComponent).OnMount(document, parent);
+                (child as IHtmlComponent).Attach(document, parent);
             }
         });
     }
@@ -229,15 +241,15 @@ public static class HtmlNodeExtensions
     //    }
     //}
 
-    public static void Traverse(this IHtmlTag current, Action<IHtmlTag, IHtmlNode> onNode)
+    public static void Traverse(this IHtmlElement current, Action<IHtmlElement, IHtmlNode> onNode)
     {
         // copy list because some operations could modify it
-        var children = new List<IHtmlNode>(current.ToTag().Children);
+        var children = new List<IHtmlNode>(current.GetTag().Children);
         foreach (var child in children)
         {
             switch (child)
             {
-                case IHtmlTag childTag:
+                case IHtmlElement childTag:
                     onNode(current, child);
                     Traverse(childTag, onNode);
                     break;
@@ -251,13 +263,13 @@ public static class HtmlNodeExtensions
         }
     }
 
-    public static IHtmlNode GetDescendantById(this IHtmlTag root, string id)
+    public static IHtmlNode GetDescendantById(this IHtmlElement root, string id)
     {
         var node = root.Descendants().Where(x => x is HtmlTag).Cast<HtmlTag>().Where(x => x != null).Where(x => x.Attributes.ContainsKey("id")).SingleOrDefault(x => x.Attributes["id"] == id);
         return node;
     }
 
-    public static void RemoveById(this IHtmlTag root, string id)
+    public static void RemoveById(this IHtmlElement root, string id)
     {
         var node = root.GetDescendantById(id);
         if (node != null)
@@ -267,7 +279,7 @@ public static class HtmlNodeExtensions
         }
     }
 
-    public static void ReplaceById(this IHtmlTag root, string id, IHtmlNode replacementNode)
+    public static void ReplaceById(this IHtmlElement root, string id, IHtmlNode replacementNode)
     {
         var node = root.GetDescendantById(id);
         if (node != null)

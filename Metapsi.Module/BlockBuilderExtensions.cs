@@ -9,6 +9,16 @@ namespace Metapsi.Syntax
         public static Var<TResult> Get<TInput, TResult>(
             this BlockBuilder b,
             Var<TInput> input,
+            LambdaExpression expression)
+        {
+            b.ModuleBuilder.AddImport("linq", "Enumerable");
+            var constExpr = b.ModuleBuilder.AddExpression(expression);
+            return b.CallFunction<TResult>(constExpr, input);
+        }
+
+        public static Var<TResult> Get<TInput, TResult>(
+            this BlockBuilder b,
+            Var<TInput> input,
             Expression<Func<TInput, TResult>> expression)
         {
             b.ModuleBuilder.AddImport("linq", "Enumerable");

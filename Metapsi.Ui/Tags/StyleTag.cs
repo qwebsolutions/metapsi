@@ -10,7 +10,7 @@ public class StyleTag : BaseTag
 
     public List<CssSelector> Selectors { get; set; } = new();
 
-    public override HtmlTag ToTag()
+    public override HtmlTag GetTag()
     {
         var styleTag = new HtmlTag("style");
         styleTag.Children.Add(new HtmlText()

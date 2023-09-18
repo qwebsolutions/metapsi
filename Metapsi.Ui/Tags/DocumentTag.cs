@@ -15,7 +15,7 @@ public class DocumentTag : HtmlTag
     public static DocumentTag Create(string title = "", string lang = "en", string charset = "utf-8")
     {
         var documentTag = new DocumentTag();
-        documentTag.AddAttribute("lang", "en");
+        documentTag.SetAttribute("lang", "en");
 
         if(!string.IsNullOrEmpty(title))
         {
@@ -24,11 +24,11 @@ public class DocumentTag : HtmlTag
         }
 
         var metaCharset = documentTag.Head.AddChild(new HtmlTag("meta"));
-        metaCharset.AddAttribute("charset", "utf-8");
+        metaCharset.SetAttribute("charset", "utf-8");
 
         var metaViewport = documentTag.Head.AddChild(new HtmlTag("meta"));
-        metaViewport.AddAttribute("name", "viewport");
-        metaViewport.AddAttribute("content", "width=device-width,initial-scale=1");
+        metaViewport.SetAttribute("name", "viewport");
+        metaViewport.SetAttribute("content", "width=device-width,initial-scale=1");
 
         return documentTag;
     }

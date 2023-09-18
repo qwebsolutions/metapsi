@@ -20,76 +20,165 @@ public class HomeModel : IHasTreeMenu
     public bool MenuIsExpanded { get; set; }
 }
 
-public class XXXModel : IApiSupportState
+public class ComponentModel
 {
-    public ApiSupport ApiSupport { get; set; } = new();
-
     public string P1 { get; set; }
     public string P2 { get; set; }
 
     public int count { get; set; }
+
+    public Nested Nested { get; set; } = new();
+
+    public bool SomeBool { get; set; }
+}
+
+public class XXXModel : IApiSupportState
+{
+    public ApiSupport ApiSupport { get; set; } = new();
+    public ComponentModel First { get; set; } = new();
+    public ComponentModel Second { get; set; } = new();
+
+    public List<ComponentModel> CompList { get; set; } = new();
+}
+
+public class Nested
+{
+    public bool ShowStuff { get; set; }
 }
 
 public class XXXHandler : Http.Get<Metapsi.Tutorial.Routes.XXX, string, string>
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string firstParam, string secondParam)
     {
-        return Page.Result(new XXXModel() { P1 = firstParam, P2 = secondParam });
+        return Page.Result(new XXXModel()
+        {
+            First = new()
+            {
+                P1 = firstParam + "_1",
+                P2 = secondParam + "_1"
+            },
+            Second = new()
+            {
+                P1 = firstParam + "_2",
+                P2 = secondParam + "_2"
+            },
+            CompList = new List<ComponentModel>()
+            {
+                new ComponentModel()
+                {
+                    P1 = "P1_1",
+                    P2 = "P2_1"
+                },
+                new ComponentModel()
+                {
+                    P1 = "P1_2",
+                    P2 = "P2_2"
+                }
+            }
+        });
     }
 }
 
 public static class VisibilityExtensions
 {
-    public static HyperAppNode<TModel> VisibleIf<TModel>(
-        this HyperAppNode<TModel> clientSideNode, 
-        TModel model, 
-        HeadTag head, 
-        System.Linq.Expressions.Expression<Func<TModel, bool>> byProperty)
+    //public static HyperAppNode<TModel> VisibleIf<TModel>(
+    //    this HyperAppNode<TModel> clientSideNode,
+    //    System.Linq.Expressions.Expression<Func<TModel, bool>> byProperty)
+    //{
+    //    var initialRender = clientSideNode.Render;
+
+    //    clientSideNode.Render = (b, model) =>
+    //    {
+    //        return b.If(
+    //            b.Get(model, byProperty),
+    //            b => initialRender(b, model),
+    //            b => b.Div());
+    //    };
+
+    //    return clientSideNode;
+    //}
+
+    public static HyperAppNode<TModel, TComponentModel, TControl> VisibleIf<TModel, TComponentModel, TControl>(
+        this HyperAppNode<TModel, TComponentModel, TControl> clientSideNode,
+        System.Linq.Expressions.Expression<Func<TModel, TComponentModel>> getComponentModel,
+        System.Linq.Expressions.Expression<Func<TComponentModel, bool>> byProperty)
+        where TControl : IHtmlElement
     {
         var initialRender = clientSideNode.Render;
 
         clientSideNode.Render = (b, model) =>
         {
+            var componentState = b.Get(model, getComponentModel);
+
             b.Log(model);
-            b.Log(b.Get(model, byProperty));
+            var v = b.Get(componentState, byProperty);
+            b.Log("v", v);
 
             return b.If(
-                b.Get(model, byProperty),
+                b.Get(componentState, byProperty),
                 b => initialRender(b, model),
                 b => b.Div());
         };
 
         return clientSideNode;
-
-        /*
-        mountNode.ToClientSide(model,
-            (b, model) =>
-            {
-                return b.If(
-                    b.Get(model, byProperty),
-                    b => b.ServerToClient(mountNode),
-                    b => b.Div());
-            });*/
     }
 
-    public static Var<HyperNode> ServerToClient(this BlockBuilder b, IHtmlTag tag)
-    {
-        var node = b.Node(tag.ToTag().Tag);
+    //public static Var<HyperNode> ServerToClient(this BlockBuilder b, IHtmlElement tag)
+    //{
+    //    var node = b.Node(tag.GetTag().Tag);
 
-        foreach (var attribute in tag.ToTag().Attributes)
+    //    foreach (var attribute in tag.GetTag().Attributes)
+    //    {
+    //        b.SetAttr(node, DynamicProperty.String(attribute.Key), attribute.Value);
+    //    }
+
+    //    foreach (var child in tag.GetTag().Children)
+    //    {
+    //        if(child is IHtmlElement)
+    //        {
+    //            b.Add(node, b.ServerToClient(child as IHtmlElement));
+    //        }
+    //        if(child is HtmlText)
+    //        {
+    //            b.Add(node, b.TextNode((child as HtmlText).Text));
+    //        }
+    //    }
+
+    //    return node;
+    //}
+
+    public static Var<HyperNode> ServerToClient<TModel>(this BlockBuilder b, IHtmlElement tag, Var<TModel> model)
+    {
+        var node = b.Node(tag.GetTag().Tag);
+
+        foreach (var attribute in tag.GetTag().Attributes)
         {
             b.SetAttr(node, DynamicProperty.String(attribute.Key), attribute.Value);
         }
 
-        foreach (var child in tag.ToTag().Children)
+        foreach (var child in tag.GetTag().Children)
         {
-            if(child is IHtmlTag)
+            if (child is IHtmlElement)
             {
-                b.Add(node, b.ServerToClient(child as IHtmlTag));
+                b.Add(node, b.ServerToClient<TModel>(child as IHtmlElement, model));
             }
-            if(child is HtmlText)
+            if (child is HtmlText)
             {
                 b.Add(node, b.TextNode((child as HtmlText).Text));
+            }
+
+            if (child is IClientSideNode<TModel>)
+            {
+                IClientSideNode<TModel> clientNode = child as IClientSideNode<TModel>;
+
+                if (!tag.HasAttribute("id", clientNode.TakeoverId))
+                {
+                    if (!clientNode.AlreadyRendered)
+                    {
+                        clientNode.AlreadyRendered = true;
+                        b.Add(node, clientNode.Render(b, model));
+                    }
+                }
             }
         }
 
@@ -97,70 +186,575 @@ public static class VisibilityExtensions
     }
 }
 
+public interface IMagicBuilder
+{
+    List<System.Linq.Expressions.LambdaExpression> ReferencesStack { get; set; }
+}
+
+public class MagicBuilder<TModel, TSubmodel> : IMagicBuilder
+{
+    public List<System.Linq.Expressions.LambdaExpression> ReferencesStack { get; set; } = new();
+}
+
+public class RootMagicBuilder<TModel> : IMagicBuilder
+{
+    public List<System.Linq.Expressions.LambdaExpression> ReferencesStack { get; set; } = new();
+}
+
+public class ClientControl
+{
+
+}
+
+public class WhatIsThis
+{
+
+}
+
+//public class DataContext
+//{
+//    public ClientControl Control()
+//    {
+
+//    }
+
+//    public WhatIsThis Code()
+//    {
+
+//    }
+
+//    public DataContext OnProperty()
+//    {
+
+//    }
+
+//    public DataContext OnList()
+//    {
+
+//    }
+//}
+
+//public static class MagicBuilder
+//{
+//    public static MagicBuilder<TRootModel, TSubmodel> OnSubmodel<TRootModel, TSubmodel>(
+//        this RootMagicBuilder<TRootModel> parentBuilder,
+//        System.Linq.Expressions.Expression<Func<TRootModel, TSubmodel>> selector)
+//    {
+//        var subBuilder = new MagicBuilder<TRootModel, TSubmodel>();
+//        subBuilder.ReferencesStack = new List<System.Linq.Expressions.LambdaExpression>(parentBuilder.ReferencesStack);
+//        subBuilder.ReferencesStack.Add(selector);
+//        return subBuilder;
+//    }
+
+//    public static MagicBuilder<TModel, TSubmodel> OnProperty<TModel, TParentModel, TSubmodel>(
+//        this MagicBuilder<TModel, TParentModel> parentBuilder,
+//        System.Linq.Expressions.Expression<Func<TParentModel, TSubmodel>> selector)
+//    {
+//        var subBuilder = new MagicBuilder<TModel, TSubmodel>();
+//        subBuilder.ReferencesStack = new List<System.Linq.Expressions.LambdaExpression>(parentBuilder.ReferencesStack);
+//        subBuilder.ReferencesStack.Add(selector);
+//        return subBuilder;
+//    }
+
+//    public static MagicBuilder<TModel, TItem> OnList<TModel, TParentModel, TItem>(
+//        this MagicBuilder<TModel, TParentModel> parentBuilder,
+//        System.Linq.Expressions.Expression<Func<TParentModel, List<TItem>>> selector)
+//    {
+//        var subBuilder = new MagicBuilder<TModel, TItem>();
+//        subBuilder.ReferencesStack = new List<System.Linq.Expressions.LambdaExpression>(parentBuilder.ReferencesStack);
+//        subBuilder.ReferencesStack.Add(selector);
+//        return subBuilder;
+//    }
+
+
+//    public static MagicBuilder<TModel, TModel> Root<TModel>()
+//    {
+//        var magicBuilder = new MagicBuilder<TModel, TModel>();
+//        System.Linq.Expressions.Expression<Func<TModel, TModel>> itself = x => x;
+//        magicBuilder.ReferencesStack.Add(itself);
+//        return magicBuilder;
+//    }
+//}
+
+public static class TestInputExtensions
+{
+    public static Var<HyperNode> TestInput<TData>(
+        this BlockBuilder b, 
+        Var<ItemModelContext<TData>> itemContext,
+        System.Linq.Expressions.Expression<Func<TData, string>> boundProperty)
+    {
+        var input = b.Node("input");
+        b.SetAttr(input, Html.type, "string");
+        b.SetAttr(input, Html.value, b.Get(b.Get(itemContext, x => x.Item), boundProperty));
+
+        b.SetOnInput(input, b.MakeAction((BlockBuilder b, Var<object> model, Var<string> newValue) =>
+        {
+            var currentItem = b.Call(b.Get(itemContext, x => x.GetItem), model);
+            b.Set(currentItem, boundProperty, newValue);
+            return b.Clone(model);
+        }));
+
+        return input;
+    }
+
+    //public static ClientObjectBuilder<TContext> With<TContext>(this BlockBuilder b, Var<ItemModelContext<TContext>> context)
+    //{
+    //    return new ClientObjectBuilder<TContext>(context);
+    //}
+
+    //public static Var<TResult> With<TContext, TResult>(
+    //    this BlockBuilder b,
+    //    Var<ItemModelContext<TContext>> context,
+    //    System.Func<ClientObjectBuilder<TContext>, ClientObjectBuilder<TContext, TResult>> build)
+    //    where TResult : new()
+    //{
+    //    var builder = build(new ClientObjectBuilder<TContext>(context));
+    //    var newObject = b.NewObj<TResult>();
+    //    foreach (var binding in builder.BindingFunctions)
+    //    {
+    //        b.Call(binding, newObject.As<object>());
+    //    }
+
+    //    return newObject;
+    //}
+}
+
+//public class ClientObjectBuilder<TContext>
+//{
+//    public Var<ItemModelContext<TContext>> Context { get; set; }
+
+//    public ClientObjectBuilder(Var<ItemModelContext<TContext>> context)
+//    {
+//        this.Context = context;
+//    }
+
+//    public ClientObjectBuilder<TContext, T> New<T>()
+//    {
+//        return new ClientObjectBuilder<TContext, T>(this.Context);
+//    }
+//}
+
+//public class ContextBinding
+//{
+//    public System.Linq.Expressions.LambdaExpression ObjectProperty { get; set; }
+//    public System.Linq.Expressions.LambdaExpression ContextProperty { get; set; }
+
+//    public Action<BlockBuilder, Var<object>> ApplyInputValue { get; set; }
+//    public Action<BlockBuilder, Var<object>> ApplyOutputEvent { get; set; }
+//}
+
+//public class ClientObjectBuilder<TContext, TObject>
+//{
+//    public ClientObjectBuilder(Var<ItemModelContext<TContext>> context)
+//    {
+//        this.Context = context;
+//    }
+
+//    public List<Action<BlockBuilder, Var<object>>> BindingFunctions { get; set; } = new();
+//    public List<ContextBinding> Bindings { get; set; } = new();
+//    public Var<ItemModelContext<TContext>> Context { get; set; } 
+
+//    /// <summary>
+//    /// One-way binding based on model data
+//    /// </summary>
+//    /// <typeparam name="TProp"></typeparam>
+//    /// <param name="objectProperty"></param>
+//    /// <param name="contextProperty"></param>
+//    /// <returns></returns>
+//    public ClientObjectBuilder<TContext, TObject> BindInput<TProp>(
+//        System.Linq.Expressions.Expression<Func<TObject, TProp>> objectProperty,
+//        System.Linq.Expressions.Expression<Func<TContext, TProp>> contextProperty)
+//    {
+//        Action<BlockBuilder, Var<object>> applyInputValue = (b, intoObject) =>
+//        {
+//            var dataItem = b.Get(this.Context, x => x.Item);
+
+//            var contextValue = b.Get<TContext, object>(dataItem, contextProperty);
+//            b.Set(intoObject, objectProperty, contextValue);
+//        };
+
+//        this.BindingFunctions.Add(applyInputValue);
+//        this.Bindings.Add(new ContextBinding()
+//        {
+//            ContextProperty = contextProperty,
+//            ObjectProperty = objectProperty
+//        });
+//        return this;
+//    }
+//}
+
+//public interface IHasCheckedBool
+//{
+//    bool Checked { get; set; }
+//}
+
+public class ContextControlBuilder<TContext, TProps>
+{
+    public ContextControlBuilder(Var<ItemModelContext<TContext>> context)
+    {
+        this.Context = context;
+    }
+
+    public Var<ItemModelContext<TContext>> Context { get; set; }
+
+    public List<Action<BlockBuilder, Var<TProps>>> PropsBuilderActions { get; set; } = new();
+    public List<Action<BlockBuilder, Var<HyperNode>>> ControlBuilderActions { get; set; } = new();
+}
+
+public static class CheckboxBindingExtensions
+{
+    //public static ClientObjectBuilder<TContext, TObject> BindChecked<TContext, TObject>(
+    //    this ClientObjectBuilder<TContext, TObject> builder,
+    //    System.Linq.Expressions.Expression<Func<TContext, bool>> contextProperty)
+    //    where TObject : IHasCheckedProperty
+    //{
+    //    builder.BindInput(x => x.Checked, contextProperty);
+
+    //    Action<BlockBuilder, Var<object>> applyEvent = (BlockBuilder b, Var<object> control) =>
+    //    {
+
+    //    };
+
+    //    builder.BindingFunctions.Add(applyEvent);
+    //    var plm = builder.Bindings.SingleOrDefault(x => x.ObjectProperty.PropertyName() == nameof(IHasCheckedProperty.Checked));
+
+    //    return builder;
+
+    //    //Action<BlockBuilder, Var<object>, Var<bool>> setter =
+    //    //    (BlockBuilder b, Var<object> modelRoot, Var<bool> newValue) =>
+    //    //    {
+    //    //        var contextEntity = b.Call(b.Get(builder.Context, x => x.GetItem), modelRoot);
+    //    //        b.Set(contextEntity, contextProperty, newValue);
+    //    //    };
+
+
+
+
+    //    //b.SetOnInput(input, b.MakeAction((BlockBuilder b, Var<object> model, Var<string> newValue) =>
+    //    //{
+    //    //    var currentItem = b.Call(b.Get(itemContext, x => x.GetItem), model);
+    //    //    b.Set(currentItem, boundProperty, newValue);
+    //    //    return b.Clone(model);
+    //    //}));
+
+    //    //return input;
+    //}
+
+    //public static ControlBuilder<TContext, TProps> BindChecked<TContext, TProps>(
+    //   this ControlBuilder<TContext, TProps> builder,
+    //   System.Linq.Expressions.Expression<Func<TContext, bool>> contextProperty)
+    //   where TProps : IHasCheckedProperty
+    //{
+    //    builder.BindInput(x => x.Checked, contextProperty);
+
+    //    Action<BlockBuilder, Var<object>> applyEvent = (BlockBuilder b, Var<object> control) =>
+    //    {
+
+    //    };
+
+    //    builder.BindingFunctions.Add(applyEvent);
+    //    var plm = builder.Bindings.SingleOrDefault(x => x.ObjectProperty.PropertyName() == nameof(IHasCheckedProperty.Checked));
+
+    //    return builder;
+
+    //    //Action<BlockBuilder, Var<object>, Var<bool>> setter =
+    //    //    (BlockBuilder b, Var<object> modelRoot, Var<bool> newValue) =>
+    //    //    {
+    //    //        var contextEntity = b.Call(b.Get(builder.Context, x => x.GetItem), modelRoot);
+    //    //        b.Set(contextEntity, contextProperty, newValue);
+    //    //    };
+
+
+
+
+    //    //b.SetOnInput(input, b.MakeAction((BlockBuilder b, Var<object> model, Var<string> newValue) =>
+    //    //{
+    //    //    var currentItem = b.Call(b.Get(itemContext, x => x.GetItem), model);
+    //    //    b.Set(currentItem, boundProperty, newValue);
+    //    //    return b.Clone(model);
+    //    //}));
+
+    //    //return input;
+    //}
+
+    public static Var<HyperNode> BuildControl<TDataModel, TControlProps>(
+        this BlockBuilder b,
+        Var<ItemModelContext<TDataModel>> dataContext,
+        Action<ContextControlBuilder<TDataModel, TControlProps>> builder,
+        Func<BlockBuilder, Var<TControlProps>, Var<HyperNode>> controlConstructor)
+        where TControlProps : new()
+    {
+        ContextControlBuilder<TDataModel, TControlProps> controlBuilder = new ContextControlBuilder<TDataModel, TControlProps>(dataContext);
+        builder(controlBuilder);
+
+        var props = b.NewObj<TControlProps>();
+        foreach (var propAction in controlBuilder.PropsBuilderActions)
+        {
+            propAction(b, props);
+        }
+
+        var control = controlConstructor(b, props);
+
+        foreach (var controlAction in controlBuilder.ControlBuilderActions)
+        {
+            controlAction(b, control);
+        }
+
+        return control;
+    }
+
+    public static Var<HyperNode> Checkbox<TItem>(
+        this BlockBuilder b,
+        Var<ItemModelContext<TItem>> dataContext,
+        Action<ContextControlBuilder<TItem, Checkbox>> builder)
+    {
+        return b.BuildControl(dataContext, builder, Shoelace.Control.Checkbox);
+    }
+
+    public static void BindInput<TContext, TControlProps, TProperty>(
+        this ContextControlBuilder<TContext, TControlProps> builder,
+        System.Linq.Expressions.Expression<Func<TControlProps, TProperty>> objectProperty,
+        System.Linq.Expressions.Expression<Func<TContext, TProperty>> contextProperty)
+    {
+        Action<BlockBuilder, Var<TControlProps>> propertyAction = (b, props) =>
+        {
+            var dataItem = b.Get(builder.Context, x => x.Item);
+            var propertyValue = b.Get(dataItem, contextProperty);
+            b.Set(props, objectProperty, propertyValue);
+        };
+        builder.PropsBuilderActions.Add(propertyAction);
+    }
+
+    public static Var<TItem> GetDataItem<TItem>(this BlockBuilder b, Var<ItemModelContext<TItem>> context, Var<object> pageModel)
+    {
+        var getter = b.Get(context, x => x.GetItem);
+        var contextData = b.Call(getter, pageModel);
+        return contextData;
+    }
+
+    public static void BindChecked<TContext, TControlProps>(
+        this ContextControlBuilder<TContext, TControlProps> builder,
+        System.Linq.Expressions.Expression<Func<TContext, bool>> contextProperty)
+        where TControlProps : IHasCheckedProperty
+    {
+        builder.BindInput(x => x.Checked, contextProperty);
+
+        Action<BlockBuilder, Var<HyperNode>> eventAction = (b, node) =>
+        {
+            b.SetOnSlChange(node, b.MakeAction(
+                (BlockBuilder b, Var<object> pageModel, Var<bool> isChecked) =>
+                {
+                    var dataItem = b.GetDataItem(builder.Context, pageModel);
+                    b.Set(dataItem, contextProperty, isChecked);
+                    return b.Broadcast(pageModel);
+                }));
+        };
+        builder.ControlBuilderActions.Add(eventAction);
+    }
+}
+
 public class XXXRenderer : HtmlPage<XXXModel>
 {
+    public static async Task<XXXModel> IncrementFirst(CommandContext commandContext, XXXModel model)
+    {
+        model.First.count++;
+        return model;
+    }
+
+    public static async Task<XXXModel> IncrementSecond(CommandContext commandContext, XXXModel model)
+    {
+        model.Second.count++;
+        return model;
+    }
+
+    public DivTag CreateMainContainer<TModel>(
+        TModel dataModel, 
+        System.Linq.Expressions.Expression<Func<TModel, ComponentModel>> getComponentModel,
+        Func<CommandContext, TModel, Task<TModel>> onClickServer)
+        where TModel: IApiSupportState
+    {
+        var mainContainer =
+            DivTag.Create(
+                "flex flex-col p-4 gap-4",
+                HyperApp.ClientNode(
+                    dataModel,
+                    getComponentModel,
+                    DivTag.Create(
+                        "",
+                        new HtmlText("This appears only if checkbox is checked"))).VisibleIf(getComponentModel, x => x.Nested.ShowStuff),
+                HyperApp.ClientNode(
+                    dataModel, 
+                    getComponentModel,
+                    SlCheckbox.Create(
+                    "",
+
+                    new HtmlText(
+                        "Show div. This checkbox only appears if count < 5 "))).BindChecked(getComponentModel, x => x.Nested.ShowStuff).VisibleIf(getComponentModel, x => x.count < 5),
+                DivTag.Create(
+                    "px-4 py-2 bg-blue-500 text-white rounded",
+                    HyperApp.ClientNode(
+                        dataModel,
+                        getComponentModel,
+                        DivTag.Create("", new HtmlText("RUN SERVEEEEER!!!")))
+                    .OnClickServer(onClickServer)));
+
+        return mainContainer;
+    }
+
     public override IHtmlNode GetHtmlTree(XXXModel dataModel)
     {
-        var document = DocumentTag.Create("TITLU!");
+        var document = DocumentTag.Create(dataModel.First.P1);
+        document.Head.AddModuleStylesheet();
 
-        var span = new SpanTag();
-        span.AddText("abc");
+        //document.AddChild(HyperApp.ClientNode(dataModel, (BlockBuilder b, Var<XXXModel> model) =>
+        //{
+        //    return b.TextNode("Whatever");
+        //}));
 
-        var maybeHidden1 = document.Body.AddChild(span.ToClientSide(dataModel));
-        maybeHidden1.VisibleIf(dataModel, document.Head, x => x.count > 5);
-        document.Body.AddTextSpan(dataModel.P2).AddAttribute("id", "removable").ToClientSide(dataModel).VisibleIf(dataModel, document.Head, x => x.count < 5);
 
-        
-        document.Body.AddHyperapp(
-            dataModel,
-            (b, model) =>
-            {
-                var container = b.Span();
+        document.Body.AddHyperapp(dataModel, (b, model) =>
+        {
+            var container = b.Div("");
 
-                //b.If(
-                //    b.Get(model, x => x.ApiSupport.InProgress),
-                //    b =>
-                //    {
-                //        var panel = b.Add(container, b.Div("flex flex-row w-screen h-screen bg-white fixed top-0 left-0 bottom-0 right-0 z-50"));
-                //        b.Add(panel, b.Text("In progress"));
-                //        b.Log("Render in progress");
-                //    });
-
-                var button = b.Add(container, b.Node("button"));
-                b.Add(button, b.TextNode("INCREMENT!"));
-
-                b.SetOnClick(button, b.MakeServerAction(model, async (cc, model) =>
+            var rootContext = ModelContext.Root(b, model);
+            rootContext.OnProperty(
+                x => x.First,
+                (b, model) =>
                 {
-                    model.count++;
-                    return model;
-                }));
+                    b.Add(container, b.Text(b.Get(model, x => x.P2)));
+                });
 
-                b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
-
-                return container;
-            });
-        
-        var div = document.Body.AddChild(new DivTag());
-
-        div.AddHyperapp(dataModel,
-            (b, model) =>
-            {
-                var container = b.Span();
-
-                var button = b.Add(container, b.Node("button"));
-                b.Add(button, b.TextNode(" +2 !"));
-
-                b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<XXXModel> model) =>
+            rootContext.OnProperty(x => x.Second,
+                (b, model) =>
                 {
-                    b.Set(model, x => x.count, b.Get(model, x => x.count + 2));
-                    b.Log(model);
-                    return b.Broadcast(model);
-                }));
+                    b.Add(container, b.Text(b.Get(model, x => x.P2)));
+                });
 
-                b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
+            rootContext.OnList(x=>x.CompList,
+                (b, itemContext) =>
+                {
+                    b.Add(container, b.Checkbox(itemContext, b =>
+                    {
+                        b.BindChecked(x => x.SomeBool);
+                    }));
 
-                return container;
-            });
+                    b.If(
+                        b.Get(itemContext, x => x.Item.P2 == "P2_2"),
+                        b =>
+                        {
+                            b.Add(container, b.Text("IS P2_2"));
+                        });
+                });
+
+            return container;
+        });
+
+        //var mainContainer = document.AddChild(
+        //    DivTag.Create(
+        //        "flex flex-col p-4 gap-4",
+        //        DivTag.Create(
+        //            "",
+        //            new HtmlText("This appears only if checkbox is checked")).ToClientSide(dataModel).VisibleIf(x => x.Nested.ShowStuff),
+        //        HyperApp.ToClientSide(dataModel, SlCheckbox.Create(
+        //            "",
+        //            new HtmlText(
+        //                "Show div. This checkbox only appears if count < 5 "))).BindChecked(x => x.Nested.ShowStuff).VisibleIf(x => x.count < 5),
+        //        DivTag.Create(
+        //            "px-4 py-2 bg-blue-500 text-white rounded",
+        //            new HtmlText("RUN SERVEEEEER!!!")).ToClientSide(dataModel)
+        //            .OnClickServer(async (cc, model) =>
+        //            {
+        //                model.count++;
+        //                return model;
+        //            })));
+
+        //MagicBuilder<XXXModel, XXXModel> rootBuilder = MagicBuilder.Root<XXXModel>();
+        //rootBuilder.OnProperty(x => x.First).OnProperty(x => x.Nested);
+
+        //document.Body.AddChild(HyperApp.ClientNode(
+        //    dataModel,
+        //    x => x.First,
+        //    CreateMainContainer(dataModel, x => x.First, IncrementFirst))).VisibleIf(x => x.First, x => x.P1 == "show");
+        //document.Body.AddChild(HyperApp.ClientNode(dataModel, CreateMainContainer(dataModel.Second, IncrementSecond)).VisibleIf(x => x.Second.P1 == "show"));
+
+        //document.AddChild(
+        //        HyperApp.ClientNode(dataModel, SlCheckbox.Create(
+        //            "",
+        //            new HtmlText(
+        //                "Show div. This checkbox only appears if count < 5 "))).BindChecked(x => x.Nested.ShowStuff).VisibleIf(x => x.count < 5));
+
+        //document.Body.AddChild(
+        //HyperApp.ClientNode(dataModel, SlCheckbox.Create(
+        //    "",
+        //    HyperApp.ClientNode(
+        //        dataModel, new ClientTextNode()).WithText(x => x.P1)))).BindChecked(x => x.Nested.ShowStuff);
+
+
+
+        //document.Body.AddChild(
+        //    HyperApp.ClientNode(
+        //        dataModel,
+        //        SlCheckbox.Create(
+        //            "",
+        //            HyperApp.ClientNode(
+        //                dataModel, new ClientTextNode()).WithText(x => x.P1))).BindChecked(x => x.Nested.ShowStuff));
+
+
+        //document.AddChild(HyperApp.ClientNode(dataModel, new ClientTextNode()).WithText(x => x.P1));
+
+        //var buttonRenderer = clientButton.Render;
+        //clientButton.Render = (BlockBuilder b, Var<XXXModel> model) =>
+        //{
+        //    var btn = buttonRenderer(b, model);
+        //    b.SetOnClick(btn, b.MakeServerAction(model, async (cc, model) =>
+        //    {
+        //        model.count++;
+        //        return model;
+        //    }));
+
+        //    return btn;
+        //};
+        //mainContainer.AddHyperapp(
+        //    dataModel,
+        //    (b, model) =>
+        //    {
+        //        var container = b.Span("flex flex-row gap-4 items-center");
+
+        //        var button = b.Add(container, b.Node("button", "px-4 py-2 bg-blue-500 text-white rounded"));
+        //        b.Add(button, b.TextNode("INCREMENT!"));
+
+        //        b.SetOnClick(button, b.MakeServerAction(model, async (cc, model) =>
+        //        {
+        //            model.count++;
+        //            return model;
+        //        }));
+
+        //        b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
+
+        //        return container;
+        //    });
+
+        //var div = document.Body.AddChild(new DivTag());
+
+        //div.AddHyperapp(dataModel,
+        //    (b, model) =>
+        //    {
+        //        var container = b.Span();
+
+        //        var button = b.Add(container, b.Node("button"));
+        //        b.Add(button, b.TextNode(" +2 !"));
+
+        //        b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<XXXModel> model) =>
+        //        {
+        //            b.Set(model, x => x.count, b.Get(model, x => x.count + 2));
+        //            b.Log(model);
+        //            return b.Broadcast(model);
+        //        }));
+
+        //        b.Add(container, b.Text(b.AsString(b.Get(model, x => x.count))));
+
+        //        return container;
+        //    });
 
         document.AttachComponents();
 
@@ -197,16 +791,16 @@ public class HomeRenderer : HtmlPage<HomeModel>
         var largeHeader = new DivTag().AddTextSpan("Metapsi").AddInlineStyle("font-size", "var(--sl-font-size-large)");
         body.AddChild(Header(dataModel, largeHeader, head));
 
-        body.AddHyperapp(
-            dataModel,
-            (b, model) =>
-            {
-                return b.DrawerTreeMenu(model);
-            });
+        //body.AddHyperapp(
+        //    dataModel,
+        //    (b, model) =>
+        //    {
+        //        return b.DrawerTreeMenu(model);
+        //    });
 
         var allNodes = body.Descendants();
 
-        var slTags = allNodes.Where(x => x is IHtmlTag).Where(x => (x as IHtmlTag).ToTag().Tag.StartsWith("sl-"));
+        var slTags = allNodes.Where(x => x is IHtmlElement).Where(x => (x as IHtmlElement).GetTag().Tag.StartsWith("sl-"));
 
         if (slTags.Any())
         {
@@ -237,19 +831,19 @@ public class HomeRenderer : HtmlPage<HomeModel>
 
         //var icon = container.AddChild(new HtmlTag("sl-icon").AddAttribute("name", "list"));
 
-        container.AddHyperapp(
-            model,
-            (b, model) =>
-            {
-                var showMenuButton = b.IconButton("list");
-                b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
-                {
-                    b.Set(model, x => x.MenuIsExpanded, true);
-                    return b.Broadcast(model);
-                }));
+        //container.AddHyperapp(
+        //    model,
+        //    (b, model) =>
+        //    {
+        //        var showMenuButton = b.IconButton("list");
+        //        b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+        //        {
+        //            b.Set(model, x => x.MenuIsExpanded, true);
+        //            return b.Broadcast(model);
+        //        }));
 
-                return showMenuButton;
-            });
+        //        return showMenuButton;
+        //    });
 
         if (content != null)
         {
@@ -452,6 +1046,22 @@ public static class SharedStateExtensions
         b.DispatchEvent(b.Const("sharedStateUpdate"), clone);
         return clone;
     }
+
+    public static HyperAppNode<TModel, TComponentModel, TControl> OnClickServer<TModel, TComponentModel, TControl>(
+        this HyperAppNode<TModel, TComponentModel, TControl> control,
+        Func<CommandContext, TModel, System.Threading.Tasks.Task<TModel>> onServerAction)
+        where TModel : IApiSupportState
+        where TControl: IHtmlElement
+    {
+        var buttonRenderer = control.Render;
+        control.Render = (BlockBuilder b, Var<TModel> model) =>
+        {
+            var btn = buttonRenderer(b, model);
+            b.SetOnClick(btn, b.MakeServerAction(model, onServerAction));
+            return btn;
+        };
+        return control;
+    }
 }
 
 public abstract class ShoelaceHyperPage<TDataModel> : HyperPage<TDataModel>
@@ -468,14 +1078,14 @@ public abstract class ShoelaceHyperPage<TDataModel> : HyperPage<TDataModel>
         var body = (root as HtmlTag).Children.Cast<HtmlTag>().Single(x => x.Tag == "body");
 
         var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
-        workaroundDiv.AddAttribute("class", "hidden");
+        workaroundDiv.SetAttribute("class", "hidden");
         foreach (var shoelaceTag in shoelaceTags)
         {
             workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
         }
 
         var scriptTag = body.AddChild(new HtmlTag("script"));
-        scriptTag.AddAttribute("type", "module");
+        scriptTag.SetAttribute("type", "module");
 
         var whenDefinedArray = string.Join(",\n", shoelaceTags.Select(x => $"customElements.whenDefined('{x}')"));
 
