@@ -424,6 +424,70 @@ public interface IClientSideNode<TDataModel>
     public string TakeoverId { get; }
 }
 
+public class ModelNavigator
+{
+    public List<object> NavigatorStack { get; set; } = new();// Func(parent) -> children
+}
+
+public static class ModelNavigatorExtensions
+{
+    public static Var<Func<TRoot, TChild>> MakeDrillDown<TRoot, TParent, TChild>(
+        this BlockBuilder b,
+        Var<Func<TRoot, TParent>> parentAccessor,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> drillFunc)
+    {
+        return b.DefineFunc((BlockBuilder b, Var<TRoot> root) =>
+        {
+            var parent = b.Call(parentAccessor, root);
+            var child = b.Call(drillFunc, parent);
+            return child;
+        });
+    }
+
+    public static Var<TContextData> GetContextData<TRootModel, TContextData>(this BlockBuilder b, Var<ModelNavigator> navigator, Var<TRootModel> model)
+    {
+        var currentData = b.Ref(model.As<object>());
+        
+        b.Foreach(
+            b.Get(navigator, x => x.NavigatorStack),
+            (b, item) =>
+            {
+                b.SetRef(currentData, b.Call(item.As<Func<object, object>>(), item));
+            });
+
+        return b.GetRef(currentData).As<TContextData>();
+    }
+
+    public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
+        this BlockBuilder b, 
+        Var<ModelNavigator> navigator, 
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> navigate,
+        Action<BlockBuilder, Var<ItemModelContext<TChild>>> contextAction)
+    {
+        var newNavigator = b.Clone(navigator);
+        var stack = b.Get(newNavigator, x => x.NavigatorStack);
+        b.Push(stack, b.Def(navigate).As<object>());
+
+        var dataAccesor = b.NewObj<ItemModelContext<TChild>>();
+        b.Set(dataAccesor, x => x.GetItem, b.Def((BlockBuilder b, Var<object> rootModel) =>
+        {
+            return b.Call(GetContextData<object, TChild>, newNavigator, rootModel);
+        }));
+
+        b.Call(contextAction, dataAccesor);
+
+        return newNavigator;
+    }
+
+    public static Var<ModelNavigator> NavigateToList<TParent, TChild>(this BlockBuilder b, Var<ModelNavigator> navigator, Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> navigate)
+    {
+        var newNavigator = b.Clone(navigator);
+        var stack = b.Get(newNavigator, x => x.NavigatorStack);
+        b.Push(stack, b.Def(navigate).As<object>());
+        return newNavigator;
+    }
+}
+
 
 public interface IDrill
 {
@@ -489,83 +553,102 @@ public static class Drill
     }
 }
 
+
 public class ItemModelContext<TItem>
 {
     public TItem Item { get; set; }
     public Func<object, TItem> GetItem { get; set; }
+
+    public Func<TItem> GetContextData { get; set; }
 }
 
-public class ModelContext<T>
-{
-    internal IDrill drill = Metapsi.Tutorial.Drill.Root<T>();
-    internal BlockBuilder b;
-    internal Var<T> contextReference;
+//public class ModelContext<T>
+//{
+//    internal IDrill drill = Metapsi.Tutorial.Drill.Root<T>();
+//    internal BlockBuilder b;
+//    internal Var<T> contextReference;
 
-    public ModelContext<TChild> OnProperty<TChild>(System.Linq.Expressions.Expression<Func<T, TChild>> drill, Action<BlockBuilder, Var<TChild>> action)
-    {
-        ModelContext<TChild> childContext = new ModelContext<TChild>();
-        childContext.drill = this.drill.Down<T, TChild>(drill);
-        childContext.b = b;
-        var childReference = b.Get<T, TChild>(contextReference, childContext.drill);
-        b.Call(action, childReference);
-        return childContext;
-    }
+//    public ModelContext<TChild> OnProperty<TChild>(System.Linq.Expressions.Expression<Func<T, TChild>> drill, Action<BlockBuilder, Var<ItemModelContext<TChild>>> action)
+//    {
+//        //var itemModelContext = b.NewObj<ItemModelContext<TChild>>();
+//        //var getItem = b.DefineFunc((BlockBuilder b, Var<object> rootModel) =>
+//        //{
+//        //    return b.Get<object, TChild>();
+//        //});
 
-    public ModelContext<TChild> OnList<TChild>(System.Linq.Expressions.Expression<Func<T, List<TChild>>> drill, Action<BlockBuilder, Var<ItemModelContext<TChild>>> action)
-    {
-        ModelContext<TChild> childContext = new ModelContext<TChild>();
-        childContext.drill = this.drill.Down<T, List<TChild>>(drill);
-        childContext.b = b;
-        var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
-        var indexRef = b.Ref(b.Const(0));
-        b.Foreach(childListReference, (b, item) =>
-        {
-            var itemIndex = b.GetRef(indexRef);
-            var getItem = b.DefineFunc((BlockBuilder b, Var<object> state) =>
-            {
-                b.Log("getItem itemIndex", itemIndex);
-                //var drillFunc = b.GetDrillFunc<object, List<TChild>>(childContext.drill);
-                var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
-                var innerIndex = b.Ref(b.Const(0));
-                var currentItem = b.Ref(b.Const(new object()));
-                b.Foreach(childListReference,
-                    (b, item) =>
-                    {
-                        b.If(b.AreEqual(itemIndex, b.GetRef(innerIndex)),
-                            b =>
-                            {
-                                //b.Log("item set for index", itemIndex);
-                                //b.Log("to value", item);
-                                b.SetRef(currentItem, item.As<object>());
-                            });
-                        b.SetRef(innerIndex, b.Get(b.GetRef(innerIndex), x => x + 1));
-                    });
+//        //b.Set(itemModelContext, x => x.Item, item);
+//        //b.Set(itemModelContext, x => x.GetItem, getItem);
 
-                return b.GetRef(currentItem).As<TChild>();
-            });
+//        //ItemModelContext<TChild> childContext = new ItemModelContext<TChild>();
+//        //childContext.Drill = this.drill.Down<T, TChild>(drill);
+//        //childContext.GetItem = b.DefineFunc((BlockBuilder b, Var<object> rootModel) =>
+//        //{
+//        //    return b.Get<object, TChild>(rootModel, childContext.Drill);
+//        //});
 
-            var itemModelContext = b.NewObj<ItemModelContext<TChild>>();
-            b.Set(itemModelContext, x => x.Item, item);
-            b.Set(itemModelContext, x => x.GetItem, getItem);
+//        //ModelContext<TChild> childContext = new ModelContext<TChild>();
+//        //childContext.drill = this.drill.Down<T, TChild>(drill);
+//        //childContext.b = b;
+//        //var childReference = b.Get<T, TChild>(contextReference, childContext.drill);
+//        //b.Call(action, childReference);
+//        //return childContext;
+//    }
 
-            b.Call(action, itemModelContext);
-            b.SetRef(indexRef, b.Get(b.GetRef(indexRef), x => x + 1));
-        });
-        return childContext;
-    }
-}
+//    public ModelContext<TChild> OnList<TChild>(System.Linq.Expressions.Expression<Func<T, List<TChild>>> drill, Action<BlockBuilder, Var<ItemModelContext<TChild>>> action)
+//    {
+//        ModelContext<TChild> childContext = new ModelContext<TChild>();
+//        childContext.drill = this.drill.Down<T, List<TChild>>(drill);
+//        childContext.b = b;
+//        var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
+//        var indexRef = b.Ref(b.Const(0));
+//        b.Foreach(childListReference, (b, item) =>
+//        {
+//            var itemIndex = b.GetRef(indexRef);
+//            var getItem = b.DefineFunc((BlockBuilder b, Var<object> state) =>
+//            {
+//                b.Log("getItem itemIndex", itemIndex);
+//                //var drillFunc = b.GetDrillFunc<object, List<TChild>>(childContext.drill);
+//                var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
+//                var innerIndex = b.Ref(b.Const(0));
+//                var currentItem = b.Ref(b.Const(new object()));
+//                b.Foreach(childListReference,
+//                    (b, item) =>
+//                    {
+//                        b.If(b.AreEqual(itemIndex, b.GetRef(innerIndex)),
+//                            b =>
+//                            {
+//                                //b.Log("item set for index", itemIndex);
+//                                //b.Log("to value", item);
+//                                b.SetRef(currentItem, item.As<object>());
+//                            });
+//                        b.SetRef(innerIndex, b.Get(b.GetRef(innerIndex), x => x + 1));
+//                    });
 
-public static class ModelContext
-{
-    public static ModelContext<T> Root<T>(this BlockBuilder b, Var<T> model)
-    {
-        ModelContext<T> root = new ModelContext<T>();
-        root.drill = Drill.Root<T>();
-        root.b = b;
-        root.contextReference = model;
-        return root;
-    }
-}
+//                return b.GetRef(currentItem).As<TChild>();
+//            });
+
+//            var itemModelContext = b.NewObj<ItemModelContext<TChild>>();
+//            b.Set(itemModelContext, x => x.Item, item);
+//            b.Set(itemModelContext, x => x.GetItem, getItem);
+
+//            b.Call(action, itemModelContext);
+//            b.SetRef(indexRef, b.Get(b.GetRef(indexRef), x => x + 1));
+//        });
+//        return childContext;
+//    }
+//}
+
+//public static class ModelContext
+//{
+//    public static ModelContext<T> Root<T>(this BlockBuilder b, Var<T> model)
+//    {
+//        ModelContext<T> root = new ModelContext<T>();
+//        root.drill = Drill.Root<T>();
+//        root.b = b;
+//        root.contextReference = model;
+//        return root;
+//    }
+//}
 
 public class HyperAppNode<TDataModel, TComponentModel, TControl> : IHtmlComponent, IHtmlNode, IClientSideNode<TDataModel>
     where TControl: IHtmlElement

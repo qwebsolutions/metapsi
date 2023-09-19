@@ -532,6 +532,11 @@ public static class CheckboxBindingExtensions
         return contextData;
     }
 
+    public static Var<T> GetData<T>(this BlockBuilder b, Var<ItemModelContext<T>> context)
+    {
+        return b.Call(b.Get(context, x => x.GetContextData));
+    }
+
     public static void BindChecked<TContext, TControlProps>(
         this ContextControlBuilder<TContext, TControlProps> builder,
         System.Linq.Expressions.Expression<Func<TContext, bool>> contextProperty)
@@ -550,6 +555,67 @@ public static class CheckboxBindingExtensions
                 }));
         };
         builder.ControlBuilderActions.Add(eventAction);
+    }
+}
+
+public static class ModelAccessor
+{
+    public static Var<TModel> Itself<TModel>(this BlockBuilder b, Var<TModel> model)
+    {
+        return model;
+    }
+
+    public static Var<Action<TModel>> InContext<TModel, TContextData>(
+        this BlockBuilder b,
+        Var<Func<TModel, TContextData>> accessFunc,
+        Action<BlockBuilder, Var<TContextData>> builder)
+    {
+        return b.DefineAction(
+            (BlockBuilder b, Var<TModel> model) =>
+            {
+                var submodel = b.Call(accessFunc, model);
+                b.Call(builder, submodel);
+            });
+    }
+
+    public static Var<Action<TModel>> InContext<TModel, TContextData>(
+        this BlockBuilder b,
+        Var<Func<TModel, TContextData>> accessFunc,
+        Action<BlockBuilder, Var<ItemModelContext<TContextData>>> builder)
+    {
+        return b.DefineAction(
+            (BlockBuilder b, Var<TModel> model) =>
+            {
+                var submodel = b.Call(accessFunc, model);
+
+                var itemModelContext = b.NewObj<ItemModelContext<TContextData>>();
+                b.Set(itemModelContext, x => x.GetItem, accessFunc.As<Func<object, TContextData>>());
+                b.Set(itemModelContext, x => x.Item, submodel);
+                b.Set(itemModelContext, x => x.GetContextData, b.DefineFunc((BlockBuilder b) =>
+                {
+                    return b.Call(accessFunc, model);
+                }));
+
+                b.Call(builder, itemModelContext);
+            });
+    }
+}
+
+public static class TestNestedAccess
+{
+    public static Var<HyperNode> ShowNestedData(this BlockBuilder b, Var<ItemModelContext<Nested>> dataContext)
+    {
+        var nested = b.GetData(dataContext);
+        var showStuff = b.Get(nested, x => x.ShowStuff);
+        var container = b.Div(
+            "flex flex-col",
+            b => b.Text(b.AsString(showStuff), "font-semibold text-red-400"),
+            b => b.Checkbox(dataContext, b =>
+            {
+                b.BindChecked(x => x.ShowStuff);
+            }));
+
+        return container;
     }
 }
 
@@ -611,43 +677,91 @@ public class XXXRenderer : HtmlPage<XXXModel>
         //    return b.TextNode("Whatever");
         //}));
 
-
         document.Body.AddHyperapp(dataModel, (b, model) =>
         {
-            var container = b.Div("");
+            var container = b.Div("flex flex-col");
 
-            var rootContext = ModelContext.Root(b, model);
-            rootContext.OnProperty(
-                x => x.First,
-                (b, model) =>
+            var rootAccess = b.MakeDrillDown<XXXModel, XXXModel, XXXModel>(
+                b.DefineFunc<XXXModel, XXXModel>(ModelAccessor.Itself<XXXModel>),
+                ModelAccessor.Itself<XXXModel>);
+
+            var firstAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
+            {
+                return b.Get(model, x => x.First);
+            });
+
+            var secondAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
+            {
+                return b.Get(model, x => x.Second);
+            });
+
+            var firstBuilder = b.InContext(firstAccessor, (b, data) =>
+            {
+                b.Add(container, b.Text(b.Get(data, x => x.P1)));
+                var itemModelContext = b.NewObj<ItemModelContext<ComponentModel>>();
+                b.Set(itemModelContext, x => x.GetItem, firstAccessor);
+                b.Set(itemModelContext, x => x.Item, data);
+
+                b.Add(container, b.Checkbox(itemModelContext, (b) =>
                 {
-                    b.Add(container, b.Text(b.Get(model, x => x.P2)));
+                    b.BindChecked(x => x.SomeBool);
+                }));
+
+                var nestedAccessor = b.MakeDrillDown(firstAccessor, (BlockBuilder b, Var<ComponentModel> compModel) =>
+                {
+                    return b.Get(compModel, x => x.Nested);
                 });
 
-            rootContext.OnProperty(x => x.Second,
-                (b, model) =>
+                var nestedShower = b.InContext(nestedAccessor, (b, nested) =>
                 {
-                    b.Add(container, b.Text(b.Get(model, x => x.P2)));
+                    b.Add(container, b.ShowNestedData(nested));
                 });
 
-            rootContext.OnList(x=>x.CompList,
-                (b, itemContext) =>
-                {
-                    b.Add(container, b.Checkbox(itemContext, b =>
-                    {
-                        b.BindChecked(x => x.SomeBool);
-                    }));
+                b.Log(data);
+            });
 
-                    b.If(
-                        b.Get(itemContext, x => x.Item.P2 == "P2_2"),
-                        b =>
-                        {
-                            b.Add(container, b.Text("IS P2_2"));
-                        });
-                });
+            b.Call(firstBuilder, model);
 
             return container;
         });
+
+
+        //document.Body.AddHyperapp(dataModel, (b, model) =>
+        //{
+        //    var container = b.Div("");
+
+        //    var rootContext = ModelContext.Root(b, model);
+        //    rootContext.OnProperty(
+        //        x => x.First,
+        //        (b, model) =>
+        //        {
+        //            b.Add(container, b.Text(b.Get(model, x => x.P2)));
+        //        });
+
+        //    rootContext.OnProperty(x => x.Second,
+        //        (b, model) =>
+        //        {
+        //            b.Add(container, b.Text(b.Get(model, x => x.P2)));
+        //        });
+
+        //    rootContext.OnList(x=>x.CompList,
+        //        (b, itemContext) =>
+        //        {
+        //            b.Add(container, b.Checkbox(itemContext, b =>
+        //            {
+        //                b.BindChecked(x => x.SomeBool);
+        //            }));
+
+        //            b.If(
+        //                b.Get(itemContext, x => x.Item.P2 == "P2_2"),
+        //                b =>
+        //                {
+        //                    b.Add(container, b.Text("IS P2_2"));
+        //                });
+        //        });
+
+        //    return container;
+        //});
 
         //var mainContainer = document.AddChild(
         //    DivTag.Create(
