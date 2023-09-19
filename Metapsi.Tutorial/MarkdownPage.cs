@@ -429,66 +429,6 @@ public class ModelNavigator
     public List<object> NavigatorStack { get; set; } = new();// Func(parent) -> children
 }
 
-public static class ModelNavigatorExtensions
-{
-    public static Var<Func<TRoot, TChild>> MakeDrillDown<TRoot, TParent, TChild>(
-        this BlockBuilder b,
-        Var<Func<TRoot, TParent>> parentAccessor,
-        Func<BlockBuilder, Var<TParent>, Var<TChild>> drillFunc)
-    {
-        return b.DefineFunc((BlockBuilder b, Var<TRoot> root) =>
-        {
-            var parent = b.Call(parentAccessor, root);
-            var child = b.Call(drillFunc, parent);
-            return child;
-        });
-    }
-
-    public static Var<TContextData> GetContextData<TRootModel, TContextData>(this BlockBuilder b, Var<ModelNavigator> navigator, Var<TRootModel> model)
-    {
-        var currentData = b.Ref(model.As<object>());
-        
-        b.Foreach(
-            b.Get(navigator, x => x.NavigatorStack),
-            (b, item) =>
-            {
-                b.SetRef(currentData, b.Call(item.As<Func<object, object>>(), item));
-            });
-
-        return b.GetRef(currentData).As<TContextData>();
-    }
-
-    public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
-        this BlockBuilder b, 
-        Var<ModelNavigator> navigator, 
-        Func<BlockBuilder, Var<TParent>, Var<TChild>> navigate,
-        Action<BlockBuilder, Var<ItemModelContext<TChild>>> contextAction)
-    {
-        var newNavigator = b.Clone(navigator);
-        var stack = b.Get(newNavigator, x => x.NavigatorStack);
-        b.Push(stack, b.Def(navigate).As<object>());
-
-        var dataAccesor = b.NewObj<ItemModelContext<TChild>>();
-        b.Set(dataAccesor, x => x.GetItem, b.Def((BlockBuilder b, Var<object> rootModel) =>
-        {
-            return b.Call(GetContextData<object, TChild>, newNavigator, rootModel);
-        }));
-
-        b.Call(contextAction, dataAccesor);
-
-        return newNavigator;
-    }
-
-    public static Var<ModelNavigator> NavigateToList<TParent, TChild>(this BlockBuilder b, Var<ModelNavigator> navigator, Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> navigate)
-    {
-        var newNavigator = b.Clone(navigator);
-        var stack = b.Get(newNavigator, x => x.NavigatorStack);
-        b.Push(stack, b.Def(navigate).As<object>());
-        return newNavigator;
-    }
-}
-
-
 public interface IDrill
 {
     List<System.Linq.Expressions.LambdaExpression> Stack { get; }

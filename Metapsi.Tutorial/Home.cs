@@ -3,6 +3,8 @@ using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
@@ -619,6 +621,305 @@ public static class TestNestedAccess
     }
 }
 
+public class ModelAccessor<TPageModel, TSubmodel>
+{
+    public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> Accessor { get; set; }
+
+    public Var<TSubmodel> GetData(BlockBuilder b, Var<TPageModel> pageModel)
+    {
+        return b.Call(Accessor, pageModel);
+    }
+}
+
+public class ClientSideDataContext<TDataContext>
+{
+    public Func<BlockBuilder, TDataContext> GetDataContext { get; set; }
+}
+
+public interface IModelBinder<TPageModel>
+{
+    //Action<BlockBuilder, Var<TPageModel>> GetRunner(BlockBuilder b);
+}
+
+public interface IBinderDoerIDontKnowWhatImDoing<TPageModel>
+{
+    Action<BlockBuilder, Var<TPageModel>> GetRunner(BlockBuilder b);
+    List<IBinderDoerIDontKnowWhatImDoing<TPageModel>> ChildrenDoers { get; set; }
+}
+
+public interface IAccessor<TPageModel, TSubmodel>
+{
+    Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodel { get; set; }
+}
+
+
+public class BinderDoerWhatever<TPageModel, TSubmodel>  : IBinderDoerIDontKnowWhatImDoing<TPageModel>, IAccessor<TPageModel, TSubmodel>
+{
+    public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodel { get; set; }
+    public Action<BlockBuilder, ModelBinder<TPageModel, TSubmodel>> DoStuffHere { get; set; }
+
+    public List<IBinderDoerIDontKnowWhatImDoing<TPageModel>> ChildrenDoers { get; set; } = new();
+
+    public Action<BlockBuilder, Var<TPageModel>> GetRunner(BlockBuilder b)
+    {
+        return (BlockBuilder b, Var<TPageModel> model) =>
+        {
+            ModelBinder<TPageModel, TSubmodel> binder = new ModelBinder<TPageModel, TSubmodel>();
+
+            var submodel = b.Call(GetSubmodel, model);
+            //b.Call(DoStuffHere, submodel);
+
+            foreach (var childDoer in ChildrenDoers)
+            {
+                var childRunner = childDoer.GetRunner(b);
+                childRunner(b, model);
+            }
+        };
+    }
+}
+
+public class AccessorNavigatorWhatever<TPageModel, TSubmodel>
+{
+    public Func<TPageModel, TSubmodel> AccessorFunc { get; set; }
+}
+
+public class NewModelAccessor<TPageModel, TSubmodel>
+{
+    public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodelFromModel { get; set; }
+    public Var<TSubmodel> InputSubmodel { get; set; }
+
+}
+
+
+public class AccessorAction<TPageModel, TSubmodel>
+{
+    //public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodelFromModel { get; set; }
+    //public Var<TSubmodel> InputSubmodel { get; set; }
+    public NewModelAccessor<TPageModel, TSubmodel> Accessor { get; set; }
+    public Action<BlockBuilder, Var<TSubmodel>, Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>>> DoStuff { get; set; }
+}
+
+public static class AccessorNavigatorWhateverExtensions
+{
+    //public static Func<BlockBuilder, Var<TPageModel>, Var<TChild>> On<TPageModel, TParent, TChild>(
+    //    this BlockBuilder b,
+    //    Func<BlockBuilder, Var<TPageModel>, Var<TParent>> parentAccessor,
+    //    Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild)
+    //{
+    //    return (BlockBuilder b, Var<TPageModel> pageModel) =>
+    //    {
+    //        var parent = b.Call(parentAccessor, pageModel);
+    //        var child = b.Call(onChild, parent);
+    //        return child;
+    //    };
+    //}
+
+    public static AccessorAction<TPageModel, TChild> On<TPageModel, TParent, TChild>(
+        this BlockBuilder b,
+        NewModelAccessor<TPageModel, TParent> parentAccessor,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild,
+        Action<BlockBuilder, Var<TChild>, Func<BlockBuilder, Var<TPageModel>, Var<TChild>>> doStuff)
+    {
+        var inputSubmodel = b.Call(onChild, parentAccessor.InputSubmodel);
+
+        var childAccessor = new NewModelAccessor<TPageModel, TChild>()
+        {
+            GetSubmodelFromModel = (BlockBuilder b, Var<TPageModel> pageModel) =>
+            {
+                var parent = b.Call(parentAccessor.GetSubmodelFromModel, pageModel);
+                var child = b.Call(onChild, parent);
+                return child;
+            },
+            InputSubmodel = inputSubmodel
+        };
+
+        return new AccessorAction<TPageModel, TChild>()
+        {
+            Accessor = childAccessor,
+            DoStuff = doStuff,
+        };
+    }
+}
+
+public class ModelBinder<TPageModel, TSubmodel> : IModelBinder<TPageModel>
+{
+    public BinderDoerWhatever<TPageModel, TSubmodel> doer;
+
+
+    //public Var<TPageModel> InputModel { get; set; }
+
+    //public ModelAccessor<TPageModel, TSubmodel> modelAccessor { get; set; }
+
+    //public Action<BlockBuilder, ModelBinder<TPageModel, TSubmodel>> Builder { get; set; }
+    //public Action<BlockBuilder, Var<TPageModel>> Builder { get; set; }
+
+    //public List<IModelBinder<TPageModel>> ChildrenBindings { get; set; } = new();
+
+    //internal Func<BlockBuilder, Var<TPageModel>> getPageModel;
+    //public ModelBinder(Func<BlockBuilder, Var<TPageModel>> getPageModel)
+    //{
+    //    this.getPageModel = getPageModel;
+    //}
+
+    //public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> Accessor { get; set; }
+    //public List<Action<BlockBuilder, Var<TPageModel>>> Builders { get; set; } = new();
+
+    //public Var<TSubmodel> GetData(BlockBuilder b)
+    //{
+    //    var pageModel = this.getPageModel(b);
+    //    return b.Call(Accessor, pageModel);
+    //}
+
+    //public Action<BlockBuilder, Var<TPageModel>> GetRunner(BlockBuilder b)
+    //{
+    //    return (BlockBuilder b, Var<TPageModel> model) =>
+    //    {
+    //        Builder(b, this);
+    //        foreach (var childContext in ChildrenBindings)
+    //        {
+    //            var childRunner = childContext.GetRunner(b);
+    //            childRunner(b, model);
+    //        }
+    //    };
+    //}
+}
+
+
+public static class ModelNavigatorExtensions
+{
+    public static void On<TPageModel, TParent, TChild>(
+        this BlockBuilder b, 
+        ModelBinder<TPageModel, TParent> parentBinder,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> accessChild,
+        Action<BlockBuilder, ModelBinder<TPageModel, TChild>> contextBuilder)
+    {
+        ModelBinder<TPageModel, TChild> childBinder = new ModelBinder<TPageModel, TChild>();
+        contextBuilder(b, childBinder);
+
+        parentBinder.doer.ChildrenDoers.Add(childBinder.doer);
+
+        BinderDoerWhatever<TPageModel, TChild> childDoer = new();
+        childDoer.GetSubmodel = (BlockBuilder b, Var<TPageModel> pageModel) =>
+        {
+            var parent = b.Call(parentBinder.doer.GetSubmodel, pageModel);
+            return b.Call(accessChild, parent);
+        };
+
+        //childDoer.DoStuffHere = 
+
+        //ModelAccessor<TPageModel, TChild> childAccessor = new ModelAccessor<TPageModel, TChild>();
+        //childAccessor.Accessor = (BlockBuilder b, Var<TPageModel> model) =>
+        //{
+        //    var parent = b.Call(parentBinder.modelAccessor.GetData, model);
+        //    var child = b.Call(accessChild, parent);
+        //    return child;
+        //};
+
+        //ModelBinder<TPageModel, TChild> childModelBinder = new ModelBinder<TPageModel, TChild>()
+        //{
+        //    modelAccessor = childAccessor,
+        //};
+        //childModelBinder.Builder = contextBuilder;
+
+        //parentBinder.ChildrenBindings.Add(childModelBinder);
+    }
+
+    public static Var<Func<TRoot, TChild>> MakeDrillDown<TRoot, TParent, TChild>(
+        this BlockBuilder b,
+        Var<Func<TRoot, TParent>> parentAccessor,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> drillFunc)
+    {
+        return b.DefineFunc((BlockBuilder b, Var<TRoot> root) =>
+        {
+            var parent = b.Call(parentAccessor, root);
+            var child = b.Call(drillFunc, parent);
+            return child;
+        });
+    }
+
+    public static Func<BlockBuilder, Var<TRoot>, Var<TChild>> MakeDrillDown<TRoot, TParent, TChild>(
+        this BlockBuilder b,
+        Func<BlockBuilder, Var<TRoot>, Var<TParent>> parentAccessor,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> drillFunc)
+    {
+        return (BlockBuilder b, Var<TRoot> root) =>
+        {
+            var parent = b.Call(parentAccessor, root);
+            var child = b.Call(drillFunc, parent);
+            return child;
+        };
+    }
+
+    public static Var<TContextData> GetContextData<TRootModel, TContextData>(this BlockBuilder b, Var<ModelNavigator> navigator, Var<TRootModel> model)
+    {
+        var currentData = b.Ref(model.As<object>());
+
+        b.Foreach(
+            b.Get(navigator, x => x.NavigatorStack),
+            (b, item) =>
+            {
+                b.SetRef(currentData, b.Call(item.As<Func<object, object>>(), item));
+            });
+
+        return b.GetRef(currentData).As<TContextData>();
+    }
+
+    public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
+        this BlockBuilder b,
+        Var<ModelNavigator> navigator,
+        Func<BlockBuilder, Var<TParent>, Var<TChild>> navigate,
+        Action<BlockBuilder, Var<ItemModelContext<TChild>>> contextAction)
+    {
+        var newNavigator = b.Clone(navigator);
+        var stack = b.Get(newNavigator, x => x.NavigatorStack);
+        b.Push(stack, b.Def(navigate).As<object>());
+
+        var dataAccesor = b.NewObj<ItemModelContext<TChild>>();
+        b.Set(dataAccesor, x => x.GetItem, b.Def((BlockBuilder b, Var<object> rootModel) =>
+        {
+            return b.Call(GetContextData<object, TChild>, newNavigator, rootModel);
+        }));
+
+        b.Call(contextAction, dataAccesor);
+
+        return newNavigator;
+    }
+
+    public static Var<ModelNavigator> NavigateToList<TParent, TChild>(this BlockBuilder b, Var<ModelNavigator> navigator, Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> navigate)
+    {
+        var newNavigator = b.Clone(navigator);
+        var stack = b.Get(newNavigator, x => x.NavigatorStack);
+        b.Push(stack, b.Def(navigate).As<object>());
+        return newNavigator;
+    }
+
+    public static Action<BlockBuilder, Var<TModel>> BindModel<TModel>(this BlockBuilder b, Action<BlockBuilder, ModelBinder<TModel, TModel>> action)
+    {
+        ModelBinder<TModel, TModel> modelBinder = new()
+        {
+            doer = new BinderDoerWhatever<TModel, TModel>()
+        };
+
+        return modelBinder.doer.GetRunner(b);
+
+        //BinderDoerWhatever<TModel, TModel> rootDoer = new BinderDoerWhatever<TModel, TModel>();
+        //rootDoer.DoStuffHere = modelBinder.CreateDoer().GetRunner();
+        //rootDoer.GetSubmodel = (b, model) => model;
+
+        ////ModelBinder<TModel, TModel> binder = new();
+
+        //binder.modelAccessor = new ModelAccessor<TModel, TModel>();
+        //binder.modelAccessor.Accessor = (b, model) => model;
+        //binder.Builder = (b, model) =>
+        //{
+        //    action(b, binder);
+        //};
+        //return binder.GetRunner(b);
+    }
+}
+
+
+
 public class XXXRenderer : HtmlPage<XXXModel>
 {
     public static async Task<XXXModel> IncrementFirst(CommandContext commandContext, XXXModel model)
@@ -681,46 +982,136 @@ public class XXXRenderer : HtmlPage<XXXModel>
         {
             var container = b.Div("flex flex-col");
 
-            var rootAccess = b.MakeDrillDown<XXXModel, XXXModel, XXXModel>(
-                b.DefineFunc<XXXModel, XXXModel>(ModelAccessor.Itself<XXXModel>),
-                ModelAccessor.Itself<XXXModel>);
+            //var firstAccessor = b.On<XXXModel, XXXModel, ComponentModel>((b, model) => model, (b, model) => b.Get(model, x => x.First));
 
-            var firstAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
+            //var secondAccessor = b.On<XXXModel, XXXModel, ComponentModel>((b, model) => model, (b, model) => b.Get(model, x => x.Second));
+
+            NewModelAccessor<XXXModel, XXXModel> root = new ()
             {
-                return b.Get(model, x => x.First);
-            });
+                InputSubmodel = model,
+                GetSubmodelFromModel = (b, model) => model
+            };
 
-            var secondAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
-            {
-                return b.Get(model, x => x.Second);
-            });
+            var first = b.On(root, (b, model) => b.Get(model, x => x.First), (b, model, access) => { });
 
-            var firstBuilder = b.InContext(firstAccessor, (b, data) =>
-            {
-                b.Add(container, b.Text(b.Get(data, x => x.P1)));
-                var itemModelContext = b.NewObj<ItemModelContext<ComponentModel>>();
-                b.Set(itemModelContext, x => x.GetItem, firstAccessor);
-                b.Set(itemModelContext, x => x.Item, data);
-
-                b.Add(container, b.Checkbox(itemModelContext, (b) =>
+            var firstAccessor = b.On(
+                first.Accessor,
+                (b, model) => b.Get(model, x => x.Nested),
+                (b, model, nestedAccessor) =>
                 {
-                    b.BindChecked(x => x.SomeBool);
-                }));
+                    //var nested = b.Call(nestedAccessor, model);
 
-                var nestedAccessor = b.MakeDrillDown(firstAccessor, (BlockBuilder b, Var<ComponentModel> compModel) =>
-                {
-                    return b.Get(compModel, x => x.Nested);
+                    var showStuff = b.Get(model, x => x.ShowStuff);
+
+                    var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
+                    {
+                        b.Set(x => x.Checked, showStuff);
+                    }));
+
+                    b.Log(showStuff);
+
+                    b.Add(container, checkbox);
+
+                    b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
+                    {
+                        var localModel = b.Call(nestedAccessor, model);
+                        b.Set(localModel, x => x.ShowStuff, isChecked);
+                        return b.Broadcast(model);
+                    }));
+
+                    NewModelAccessor<XXXModel, Nested> aa = new ()
+                    {
+                        InputSubmodel = model,
+                        GetSubmodelFromModel = nestedAccessor
+                    };
+
+                    var nestedBool = b.On<XXXModel, Nested, bool>(
+                        aa,
+                        (b, model) =>
+                        {
+                            return b.Get(model, x => x.ShowStuff);
+                        },
+                        (b, model, accessor) =>
+                        {
+                            b.Add(container, b.Text(b.AsString(model)));
+                        });
+
+                    nestedBool.DoStuff(b, nestedBool.Accessor.InputSubmodel, nestedBool.Accessor.GetSubmodelFromModel);
                 });
 
-                var nestedShower = b.InContext(nestedAccessor, (b, nested) =>
-                {
-                    b.Add(container, b.ShowNestedData(nested));
-                });
+            firstAccessor.DoStuff(b, firstAccessor.Accessor.InputSubmodel, firstAccessor.Accessor.GetSubmodelFromModel);
 
-                b.Log(data);
-            });
+            //var nested = b.Call(nestedAccessor, model);
 
-            b.Call(firstBuilder, model);
+            //var showStuff = b.Get(nested, x => x.ShowStuff);
+
+            //var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
+            //{
+            //    b.Set(x => x.Checked, showStuff);
+            //}));
+
+
+
+            //var pageRenderer = b.BindModel<XXXModel>((b, dataContext) =>
+            //{
+            //    b.Log("Page renderer started");
+            //    b.On(dataContext,
+            //        (b, model) => b.Get(model, x => x.First),
+            //        (b, dataContext) =>
+            //        {
+            //            b.Log("Page renderer nested");
+            //            //var model = dataContext.GetData(b);
+
+            //            //b.Log("Nested access to model", model);
+
+            //            //var innerContainer = b.Div("flex flex-col");
+            //            //b.Add(innerContainer, b.Text(b.Get(model, x => x.P1)));
+            //            //b.Add(container, innerContainer);
+            //        });
+            //});
+
+            //b.Call(pageRenderer, model);
+
+            //var rootAccess = b.MakeDrillDown<XXXModel, XXXModel, XXXModel>(
+            //    b.DefineFunc<XXXModel, XXXModel>(ModelAccessor.Itself<XXXModel>),
+            //    ModelAccessor.Itself<XXXModel>);
+
+            //var firstAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
+            //{
+            //    return b.Get(model, x => x.First);
+            //});
+
+            //var secondAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
+            //{
+            //    return b.Get(model, x => x.Second);
+            //});
+
+            //var firstBuilder = b.InContext(firstAccessor, (b, data) =>
+            //{
+            //    b.Add(container, b.Text(b.Get(data, x => x.P1)));
+            //    var itemModelContext = b.NewObj<ItemModelContext<ComponentModel>>();
+            //    b.Set(itemModelContext, x => x.GetItem, firstAccessor);
+            //    b.Set(itemModelContext, x => x.Item, data);
+
+            //    b.Add(container, b.Checkbox(itemModelContext, (b) =>
+            //    {
+            //        b.BindChecked(x => x.SomeBool);
+            //    }));
+
+            //    var nestedAccessor = b.MakeDrillDown(firstAccessor, (BlockBuilder b, Var<ComponentModel> compModel) =>
+            //    {
+            //        return b.Get(compModel, x => x.Nested);
+            //    });
+
+            //    var nestedShower = b.InContext(nestedAccessor, (b, nested) =>
+            //    {
+            //        b.Add(container, b.ShowNestedData(nested));
+            //    });
+
+            //    b.Log(data);
+            //});
+
+            //b.Call(firstBuilder, model);
 
             return container;
         });
