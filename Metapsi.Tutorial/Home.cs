@@ -696,7 +696,7 @@ public class AccessorAction<TPageModel, TSubmodel>
     //public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodelFromModel { get; set; }
     //public Var<TSubmodel> InputSubmodel { get; set; }
     public NewModelAccessor<TPageModel, TSubmodel> Accessor { get; set; }
-    public Action<BlockBuilder, Var<TSubmodel>, Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>>> DoStuff { get; set; }
+    public Action<BlockBuilder, NewModelAccessor<TPageModel, TSubmodel>> DoStuff { get; set; }
 }
 
 public static class AccessorNavigatorWhateverExtensions
@@ -718,7 +718,7 @@ public static class AccessorNavigatorWhateverExtensions
         this BlockBuilder b,
         NewModelAccessor<TPageModel, TParent> parentAccessor,
         Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild,
-        Action<BlockBuilder, Var<TChild>, Func<BlockBuilder, Var<TPageModel>, Var<TChild>>> doStuff)
+        Action<BlockBuilder, NewModelAccessor<TPageModel, TChild>> doStuff)
     {
         var inputSubmodel = b.Call(onChild, parentAccessor.InputSubmodel);
 
@@ -992,54 +992,60 @@ public class XXXRenderer : HtmlPage<XXXModel>
                 GetSubmodelFromModel = (b, model) => model
             };
 
-            var first = b.On(root, (b, model) => b.Get(model, x => x.First), (b, model, access) => { });
-
-            var firstAccessor = b.On(
-                first.Accessor,
-                (b, model) => b.Get(model, x => x.Nested),
-                (b, model, nestedAccessor) =>
+            var first = b.On(
+                root,
+                (b, model) => b.Get(model, x => x.First),
+                (b, access) =>
                 {
-                    //var nested = b.Call(nestedAccessor, model);
+                    b.Log("Entered!");
 
-                    var showStuff = b.Get(model, x => x.ShowStuff);
-
-                    var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
-                    {
-                        b.Set(x => x.Checked, showStuff);
-                    }));
-
-                    b.Log(showStuff);
-
-                    b.Add(container, checkbox);
-
-                    b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
-                    {
-                        var localModel = b.Call(nestedAccessor, model);
-                        b.Set(localModel, x => x.ShowStuff, isChecked);
-                        return b.Broadcast(model);
-                    }));
-
-                    NewModelAccessor<XXXModel, Nested> aa = new ()
-                    {
-                        InputSubmodel = model,
-                        GetSubmodelFromModel = nestedAccessor
-                    };
-
-                    var nestedBool = b.On<XXXModel, Nested, bool>(
-                        aa,
-                        (b, model) =>
+                    var nestedAccessor = b.On(
+                        access,
+                        (b, model) => b.Get(model, x => x.Nested),
+                        (b, access) =>
                         {
-                            return b.Get(model, x => x.ShowStuff);
-                        },
-                        (b, model, accessor) =>
-                        {
-                            b.Add(container, b.Text(b.AsString(model)));
-                        });
+                            //var nested = b.Call(nestedAccessor, model);
 
-                    nestedBool.DoStuff(b, nestedBool.Accessor.InputSubmodel, nestedBool.Accessor.GetSubmodelFromModel);
+                            var showStuff = b.Get(access.InputSubmodel, x => x.ShowStuff);
+
+                            var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
+                            {
+                                b.Set(x => x.Checked, showStuff);
+                            }));
+
+                            b.Log(showStuff);
+
+                            b.Add(container, checkbox);
+
+                            b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
+                            {
+                                var localModel = b.Call(access.GetSubmodelFromModel, model);
+                                b.Set(localModel, x => x.ShowStuff, isChecked);
+                                return b.Broadcast(model);
+                            }));
+
+                            var nestedBool = b.On(
+                                access,
+                                (b, model) =>
+                                {
+                                    return b.Get(model, x => x.ShowStuff);
+                                },
+                                (b, access) =>
+                                {
+                                    b.Add(container, b.Text(b.AsString(access.InputSubmodel)));
+                                });
+
+                            nestedBool.DoStuff(b, nestedBool.Accessor);
+                    });
+
+                    nestedAccessor.DoStuff(b, nestedAccessor.Accessor);
+
+
                 });
 
-            firstAccessor.DoStuff(b, firstAccessor.Accessor.InputSubmodel, firstAccessor.Accessor.GetSubmodelFromModel);
+            
+
+            first.DoStuff(b, first.Accessor);
 
             //var nested = b.Call(nestedAccessor, model);
 
