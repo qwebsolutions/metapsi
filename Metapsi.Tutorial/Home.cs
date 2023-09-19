@@ -392,12 +392,12 @@ public static class TestInputExtensions
 
 public class ContextControlBuilder<TPageModel, TContext, TProps>
 {
-    public ContextControlBuilder(NewModelAccessor<TPageModel, TContext> context)
+    public ContextControlBuilder(Var<DataContext<TPageModel, TContext>> context)
     {
         this.Context = context;
     }
 
-    public NewModelAccessor<TPageModel, TContext> Context { get; set; }
+    public Var<DataContext<TPageModel, TContext>> Context { get; set; }
 
     public List<Action<BlockBuilder, Var<TProps>>> PropsBuilderActions { get; set; } = new();
     public List<Action<BlockBuilder, Var<HyperNode>>> ControlBuilderActions { get; set; } = new();
@@ -481,7 +481,7 @@ public static class CheckboxBindingExtensions
 
     public static Var<HyperNode> BuildControl<TPageModel, TDataModel, TControlProps>(
         this BlockBuilder b,
-        NewModelAccessor<TPageModel , TDataModel> dataContext,
+        Var<DataContext<TPageModel , TDataModel>> dataContext,
         Action<ContextControlBuilder<TPageModel, TDataModel, TControlProps>> builder,
         Func<BlockBuilder, Var<TControlProps>, Var<HyperNode>> controlConstructor)
         where TControlProps : new()
@@ -507,7 +507,7 @@ public static class CheckboxBindingExtensions
 
     public static Var<HyperNode> Checkbox<TPageModel, TItem>(
         this BlockBuilder b,
-        NewModelAccessor<TPageModel, TItem> dataContext,
+        Var<DataContext<TPageModel, TItem>> dataContext,
         Action<ContextControlBuilder<TPageModel, TItem, Checkbox>> builder)
     {
         return b.BuildControl(dataContext, builder, Shoelace.Control.Checkbox);
@@ -520,7 +520,7 @@ public static class CheckboxBindingExtensions
     {
         Action<BlockBuilder, Var<TControlProps>> propertyAction = (b, props) =>
         {
-            var propertyValue = b.Get(builder.Context.InputSubmodel, contextProperty);
+            var propertyValue = b.Get(b.Get(builder.Context, x => x.InputData), contextProperty);
             b.Set(props, objectProperty, propertyValue);
         };
         builder.PropsBuilderActions.Add(propertyAction);
@@ -550,7 +550,7 @@ public static class CheckboxBindingExtensions
             b.SetOnSlChange(node, b.MakeAction(
                 (BlockBuilder b, Var<TPageModel> pageModel, Var<bool> isChecked) =>
                 {
-                    var dataItem = b.Call(builder.Context.GetSubmodelFromModel, pageModel);
+                    var dataItem = b.Call(b.Get(builder.Context, x => x.AccessData), pageModel);
                     b.Set(dataItem, contextProperty, isChecked);
                     return b.Broadcast(pageModel);
                 }));
@@ -677,25 +677,23 @@ public class BinderDoerWhatever<TPageModel, TSubmodel>  : IBinderDoerIDontKnowWh
     }
 }
 
-public class AccessorNavigatorWhatever<TPageModel, TSubmodel>
+//public class AccessorNavigatorWhatever<TPageModel, TSubmodel>
+//{
+//    public Func<TPageModel, TSubmodel> AccessorFunc { get; set; }
+//}
+
+public class DataContext<TPageModel, TSubmodel>
 {
-    public Func<TPageModel, TSubmodel> AccessorFunc { get; set; }
+    public Func<TPageModel, TSubmodel> AccessData { get; set; }
+    public TSubmodel InputData { get; set; }
 }
-
-public class NewModelAccessor<TPageModel, TSubmodel>
-{
-    public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodelFromModel { get; set; }
-    public Var<TSubmodel> InputSubmodel { get; set; }
-
-}
-
 
 public class AccessorAction<TPageModel, TSubmodel>
 {
     //public Func<BlockBuilder, Var<TPageModel>, Var<TSubmodel>> GetSubmodelFromModel { get; set; }
     //public Var<TSubmodel> InputSubmodel { get; set; }
-    public NewModelAccessor<TPageModel, TSubmodel> Accessor { get; set; }
-    public Action<BlockBuilder, NewModelAccessor<TPageModel, TSubmodel>> DoStuff { get; set; }
+    public DataContext<TPageModel, TSubmodel> Accessor { get; set; }
+    public Action<BlockBuilder, DataContext<TPageModel, TSubmodel>> DoStuff { get; set; }
 }
 
 public static class AccessorNavigatorWhateverExtensions
@@ -715,36 +713,148 @@ public static class AccessorNavigatorWhateverExtensions
 
     public static void On<TPageModel, TParent, TChild>(
         this BlockBuilder b,
-        NewModelAccessor<TPageModel, TParent> parentAccessor,
+        Var<DataContext<TPageModel, TParent>> parentAccessor,
         Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild,
-        Action<BlockBuilder, NewModelAccessor<TPageModel, TChild>> doStuff)
+        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
     {
-        var inputSubmodel = b.Call(onChild, parentAccessor.InputSubmodel);
+        var parentData = b.Get(parentAccessor, x => x.InputData);
+        var inputSubmodel = b.Call(onChild, parentData);
 
-        var childAccessor = new NewModelAccessor<TPageModel, TChild>()
-        {
-            GetSubmodelFromModel = (BlockBuilder b, Var<TPageModel> pageModel) =>
+        var childAccessor = b.NewObj<DataContext<TPageModel, TChild>>();
+        b.Set(childAccessor, x => x.InputData, inputSubmodel);
+        b.Set(childAccessor,
+            x => x.AccessData,
+            b.Def((BlockBuilder b, Var<TPageModel> pageModel) =>
             {
-                var parent = b.Call(parentAccessor.GetSubmodelFromModel, pageModel);
+                var parent = b.Call(b.Get(parentAccessor, x => x.AccessData), pageModel);
                 var child = b.Call(onChild, parent);
                 return child;
-            },
-            InputSubmodel = inputSubmodel
-        };
+            }));
 
         doStuff(b, childAccessor);
     }
 
     public static void OnProperty<TPageModel, TParent, TChild>(
         this BlockBuilder b,
-        NewModelAccessor<TPageModel, TParent> parentAccessor,
+        Var<DataContext<TPageModel, TParent>> parentAccessor,
         System.Linq.Expressions.Expression<Func<TParent, TChild>> property,
-        Action<BlockBuilder, NewModelAccessor<TPageModel, TChild>> doStuff)
+        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
     {
         var getProperty = (BlockBuilder b, Var<TParent> parent) => b.Get(parent, property);
         b.On(parentAccessor, getProperty, doStuff);
     }
 
+    public static void OnList<TPageModel, TParent, TChild>(
+        this BlockBuilder b,
+        Var<DataContext<TPageModel, TParent>> parentAccessor,
+        Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> onChild,
+        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+    {
+        var inputList = b.Call(onChild, b.Get(parentAccessor, x => x.InputData));
+
+        var indexRef = b.Ref(b.Const(0));
+
+        b.Foreach(inputList, (b, item) =>
+        {
+            var itemIndex = b.GetRef(indexRef);
+            var getItem = b.DefineFunc((BlockBuilder b, Var<TPageModel> state) =>
+            {
+                var parentData = b.Call(b.Get(parentAccessor, x => x.AccessData), state);
+                var childListReference = b.Call(onChild, parentData);
+
+                var innerIndex = b.Ref(b.Const(0));
+                var currentItem = b.Ref(b.Const(new object()));
+                b.Foreach(childListReference,
+                    (b, item) =>
+                    {
+                        b.If(b.AreEqual(itemIndex, b.GetRef(innerIndex)),
+                            b =>
+                            {
+                                //b.Log("item set for index", itemIndex);
+                                //b.Log("to value", item);
+                                b.SetRef(currentItem, item.As<object>());
+                            });
+                        b.SetRef(innerIndex, b.Get(b.GetRef(innerIndex), x => x + 1));
+                    });
+
+                return b.GetRef(currentItem).As<TChild>();
+            });
+
+            var childAccessor = b.NewObj<DataContext<TPageModel, TChild>>();
+            b.Set(childAccessor, x => x.InputData, item);
+            b.Set(childAccessor, x => x.AccessData, getItem);
+            doStuff(b, childAccessor);
+
+            b.SetRef(indexRef, b.Get(b.GetRef(indexRef), x => x + 1));
+        });
+    }
+
+    public static void OnList<TPageModel, TParent, TChild>(
+        this BlockBuilder b,
+        Var<DataContext<TPageModel, TParent>> parentAccessor,
+        System.Linq.Expressions.Expression<Func<TParent, List<TChild>>> onList,
+        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+    {
+        var getList = (BlockBuilder b, Var<TParent> parent) => b.Get(parent, onList);
+        b.OnList(parentAccessor, getList, doStuff);
+    }
+
+
+    //public ModelContext<TChild> OnList<TChild>(System.Linq.Expressions.Expression<Func<T, List<TChild>>> drill, Action<BlockBuilder, Var<ItemModelContext<TChild>>> action)
+    //{
+    //    ModelContext<TChild> childContext = new ModelContext<TChild>();
+    //    childContext.drill = this.drill.Down<T, List<TChild>>(drill);
+    //    childContext.b = b;
+    //    var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
+    //    var indexRef = b.Ref(b.Const(0));
+    //    b.Foreach(childListReference, (b, item) =>
+    //    {
+    //        var itemIndex = b.GetRef(indexRef);
+    //        var getItem = b.DefineFunc((BlockBuilder b, Var<object> state) =>
+    //        {
+    //            b.Log("getItem itemIndex", itemIndex);
+    //            //var drillFunc = b.GetDrillFunc<object, List<TChild>>(childContext.drill);
+    //            var childListReference = b.Get<T, List<TChild>>(contextReference, childContext.drill);
+    //            var innerIndex = b.Ref(b.Const(0));
+    //            var currentItem = b.Ref(b.Const(new object()));
+    //            b.Foreach(childListReference,
+    //                (b, item) =>
+    //                {
+    //                    b.If(b.AreEqual(itemIndex, b.GetRef(innerIndex)),
+    //                        b =>
+    //                        {
+    //                            //b.Log("item set for index", itemIndex);
+    //                            //b.Log("to value", item);
+    //                            b.SetRef(currentItem, item.As<object>());
+    //                        });
+    //                    b.SetRef(innerIndex, b.Get(b.GetRef(innerIndex), x => x + 1));
+    //                });
+
+    //            return b.GetRef(currentItem).As<TChild>();
+    //        });
+
+    //        var itemModelContext = b.NewObj<ItemModelContext<TChild>>();
+    //        b.Set(itemModelContext, x => x.Item, item);
+    //        b.Set(itemModelContext, x => x.GetItem, getItem);
+
+    //        b.Call(action, itemModelContext);
+    //        b.SetRef(indexRef, b.Get(b.GetRef(indexRef), x => x + 1));
+    //    });
+    //    return childContext;
+    //}
+    //}
+
+public static void OnModel<TPageModel>(
+        this BlockBuilder b,
+        Var<TPageModel> model,
+        Action<BlockBuilder, Var<DataContext<TPageModel, TPageModel>>> doStuff)
+    {
+        var clientModelContext = b.NewObj<DataContext<TPageModel, TPageModel>>();
+        b.Set(clientModelContext, x => x.InputData, model);
+        b.Set(clientModelContext, x => x.AccessData, b.Def((BlockBuilder b, Var<TPageModel> model) => model));
+
+        doStuff(b, clientModelContext);
+    }
 }
 
 public class ModelBinder<TPageModel, TSubmodel> : IModelBinder<TPageModel>
@@ -987,43 +1097,48 @@ public class XXXRenderer : HtmlPage<XXXModel>
         document.Body.AddDynamic(dataModel, (b, model) =>
         {
             var container = b.Div("flex flex-col");
-            NewModelAccessor<XXXModel, XXXModel> root = new()
-            {
-                InputSubmodel = model,
-                GetSubmodelFromModel = (b, model) => model
-            };
 
-            b.OnProperty(root, x => x.First.Nested,
+            b.OnModel(model,
                 (b, dataContext) =>
                 {
-                    var showStuff = b.Get(dataContext.InputSubmodel, x => x.ShowStuff);
-
-                    //var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
-                    //{
-                    //    b.Set(x => x.Checked, showStuff);
-                    //}));
-
-                    var checkbox = b.Checkbox(dataContext, b =>
-                    {
-                        b.BindChecked(x => x.ShowStuff);
-                    });
-
-
-                    b.Log(showStuff);
-
-                    b.Add(container, checkbox);
-
-                    //b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
-                    //{
-                    //    var localModel = b.Call(dataContext.GetSubmodelFromModel, model);
-                    //    b.Set(localModel, x => x.ShowStuff, isChecked);
-                    //    return b.Broadcast(model);
-                    //}));
-
-                    b.OnProperty(dataContext, x => x.ShowStuff,
+                    b.OnProperty(dataContext, x => x.First.Nested,
                         (b, dataContext) =>
                         {
-                            b.Add(container, b.Text(b.AsString(dataContext.InputSubmodel)));
+                            var data = b.Get(dataContext, x => x.InputData);
+
+                            var showStuff = b.Get(data, x => x.ShowStuff);
+
+                            b.Add(container, b.Checkbox(dataContext, b =>
+                            {
+                                b.BindChecked(x => x.ShowStuff);
+                            }));
+
+                            b.OnProperty(dataContext, x => x.ShowStuff,
+                                (b, dataContext) =>
+                                {
+                                    var data = b.Get(dataContext, x => x.InputData);
+
+                                    b.Add(container, b.Text(b.AsString(data)));
+                                });
+                        });
+
+                    b.OnList(dataContext, x => x.CompList,
+                        (b, dataContext) =>
+                        {
+                            b.Log(b.Get(dataContext, x => x.InputData));
+
+                            b.Add(container, b.Checkbox(dataContext, b =>
+                            {
+                                b.BindChecked(x => x.SomeBool);
+                            }));
+                        });
+
+                    b.OnList(
+                        dataContext, x => x.CompList.Where(x => x.SomeBool).ToList(),
+                        (b, dataContext) =>
+                        {
+                            var data = b.Get(dataContext, x => x.InputData);
+                            b.Add(container, b.Text(b.Get(data, x => x.P1)));
                         });
                 });
 
