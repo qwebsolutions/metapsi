@@ -280,24 +280,24 @@ public class WhatIsThis
 
 public static class TestInputExtensions
 {
-    public static Var<HyperNode> TestInput<TData>(
-        this BlockBuilder b, 
-        Var<ItemModelContext<TData>> itemContext,
-        System.Linq.Expressions.Expression<Func<TData, string>> boundProperty)
-    {
-        var input = b.Node("input");
-        b.SetAttr(input, Html.type, "string");
-        b.SetAttr(input, Html.value, b.Get(b.Get(itemContext, x => x.Item), boundProperty));
+    //public static Var<HyperNode> TestInput<TData>(
+    //    this BlockBuilder b, 
+    //    Var<ItemModelContext<TData>> itemContext,
+    //    System.Linq.Expressions.Expression<Func<TData, string>> boundProperty)
+    //{
+    //    var input = b.Node("input");
+    //    b.SetAttr(input, Html.type, "string");
+    //    b.SetAttr(input, Html.value, b.Get(b.Get(itemContext, x => x.Item), boundProperty));
 
-        b.SetOnInput(input, b.MakeAction((BlockBuilder b, Var<object> model, Var<string> newValue) =>
-        {
-            var currentItem = b.Call(b.Get(itemContext, x => x.GetItem), model);
-            b.Set(currentItem, boundProperty, newValue);
-            return b.Clone(model);
-        }));
+    //    b.SetOnInput(input, b.MakeAction((BlockBuilder b, Var<object> model, Var<string> newValue) =>
+    //    {
+    //        var currentItem = b.Call(b.Get(itemContext, x => x.GetItem), model);
+    //        b.Set(currentItem, boundProperty, newValue);
+    //        return b.Clone(model);
+    //    }));
 
-        return input;
-    }
+    //    return input;
+    //}
 
     //public static ClientObjectBuilder<TContext> With<TContext>(this BlockBuilder b, Var<ItemModelContext<TContext>> context)
     //{
@@ -390,14 +390,14 @@ public static class TestInputExtensions
 //    bool Checked { get; set; }
 //}
 
-public class ContextControlBuilder<TContext, TProps>
+public class ContextControlBuilder<TPageModel, TContext, TProps>
 {
-    public ContextControlBuilder(Var<ItemModelContext<TContext>> context)
+    public ContextControlBuilder(NewModelAccessor<TPageModel, TContext> context)
     {
         this.Context = context;
     }
 
-    public Var<ItemModelContext<TContext>> Context { get; set; }
+    public NewModelAccessor<TPageModel, TContext> Context { get; set; }
 
     public List<Action<BlockBuilder, Var<TProps>>> PropsBuilderActions { get; set; } = new();
     public List<Action<BlockBuilder, Var<HyperNode>>> ControlBuilderActions { get; set; } = new();
@@ -479,14 +479,14 @@ public static class CheckboxBindingExtensions
     //    //return input;
     //}
 
-    public static Var<HyperNode> BuildControl<TDataModel, TControlProps>(
+    public static Var<HyperNode> BuildControl<TPageModel, TDataModel, TControlProps>(
         this BlockBuilder b,
-        Var<ItemModelContext<TDataModel>> dataContext,
-        Action<ContextControlBuilder<TDataModel, TControlProps>> builder,
+        NewModelAccessor<TPageModel , TDataModel> dataContext,
+        Action<ContextControlBuilder<TPageModel, TDataModel, TControlProps>> builder,
         Func<BlockBuilder, Var<TControlProps>, Var<HyperNode>> controlConstructor)
         where TControlProps : new()
     {
-        ContextControlBuilder<TDataModel, TControlProps> controlBuilder = new ContextControlBuilder<TDataModel, TControlProps>(dataContext);
+        var controlBuilder = new ContextControlBuilder<TPageModel, TDataModel, TControlProps>(dataContext);
         builder(controlBuilder);
 
         var props = b.NewObj<TControlProps>();
@@ -505,42 +505,41 @@ public static class CheckboxBindingExtensions
         return control;
     }
 
-    public static Var<HyperNode> Checkbox<TItem>(
+    public static Var<HyperNode> Checkbox<TPageModel, TItem>(
         this BlockBuilder b,
-        Var<ItemModelContext<TItem>> dataContext,
-        Action<ContextControlBuilder<TItem, Checkbox>> builder)
+        NewModelAccessor<TPageModel, TItem> dataContext,
+        Action<ContextControlBuilder<TPageModel, TItem, Checkbox>> builder)
     {
         return b.BuildControl(dataContext, builder, Shoelace.Control.Checkbox);
     }
 
-    public static void BindInput<TContext, TControlProps, TProperty>(
-        this ContextControlBuilder<TContext, TControlProps> builder,
+    public static void BindInput<TPageModel, TContext, TControlProps, TProperty>(
+        this ContextControlBuilder<TPageModel, TContext, TControlProps> builder,
         System.Linq.Expressions.Expression<Func<TControlProps, TProperty>> objectProperty,
         System.Linq.Expressions.Expression<Func<TContext, TProperty>> contextProperty)
     {
         Action<BlockBuilder, Var<TControlProps>> propertyAction = (b, props) =>
         {
-            var dataItem = b.Get(builder.Context, x => x.Item);
-            var propertyValue = b.Get(dataItem, contextProperty);
+            var propertyValue = b.Get(builder.Context.InputSubmodel, contextProperty);
             b.Set(props, objectProperty, propertyValue);
         };
         builder.PropsBuilderActions.Add(propertyAction);
     }
 
-    public static Var<TItem> GetDataItem<TItem>(this BlockBuilder b, Var<ItemModelContext<TItem>> context, Var<object> pageModel)
-    {
-        var getter = b.Get(context, x => x.GetItem);
-        var contextData = b.Call(getter, pageModel);
-        return contextData;
-    }
+    //public static Var<TItem> GetDataItem<TItem>(this BlockBuilder b, Var<ItemModelContext<TItem>> context, Var<object> pageModel)
+    //{
+    //    var getter = b.Get(context, x => x.GetItem);
+    //    var contextData = b.Call(getter, pageModel);
+    //    return contextData;
+    //}
 
-    public static Var<T> GetData<T>(this BlockBuilder b, Var<ItemModelContext<T>> context)
-    {
-        return b.Call(b.Get(context, x => x.GetContextData));
-    }
+    //public static Var<T> GetData<T>(this BlockBuilder b, Var<ItemModelContext<T>> context)
+    //{
+    //    return b.Call(b.Get(context, x => x.GetContextData));
+    //}
 
-    public static void BindChecked<TContext, TControlProps>(
-        this ContextControlBuilder<TContext, TControlProps> builder,
+    public static void BindChecked<TPageModel, TContext, TControlProps>(
+        this ContextControlBuilder<TPageModel, TContext, TControlProps> builder,
         System.Linq.Expressions.Expression<Func<TContext, bool>> contextProperty)
         where TControlProps : IHasCheckedProperty
     {
@@ -549,9 +548,9 @@ public static class CheckboxBindingExtensions
         Action<BlockBuilder, Var<HyperNode>> eventAction = (b, node) =>
         {
             b.SetOnSlChange(node, b.MakeAction(
-                (BlockBuilder b, Var<object> pageModel, Var<bool> isChecked) =>
+                (BlockBuilder b, Var<TPageModel> pageModel, Var<bool> isChecked) =>
                 {
-                    var dataItem = b.GetDataItem(builder.Context, pageModel);
+                    var dataItem = b.Call(builder.Context.GetSubmodelFromModel, pageModel);
                     b.Set(dataItem, contextProperty, isChecked);
                     return b.Broadcast(pageModel);
                 }));
@@ -560,66 +559,66 @@ public static class CheckboxBindingExtensions
     }
 }
 
-public static class ModelAccessor
-{
-    public static Var<TModel> Itself<TModel>(this BlockBuilder b, Var<TModel> model)
-    {
-        return model;
-    }
+//public static class ModelAccessor
+//{
+//    public static Var<TModel> Itself<TModel>(this BlockBuilder b, Var<TModel> model)
+//    {
+//        return model;
+//    }
 
-    public static Var<Action<TModel>> InContext<TModel, TContextData>(
-        this BlockBuilder b,
-        Var<Func<TModel, TContextData>> accessFunc,
-        Action<BlockBuilder, Var<TContextData>> builder)
-    {
-        return b.DefineAction(
-            (BlockBuilder b, Var<TModel> model) =>
-            {
-                var submodel = b.Call(accessFunc, model);
-                b.Call(builder, submodel);
-            });
-    }
+//    public static Var<Action<TModel>> InContext<TModel, TContextData>(
+//        this BlockBuilder b,
+//        Var<Func<TModel, TContextData>> accessFunc,
+//        Action<BlockBuilder, Var<TContextData>> builder)
+//    {
+//        return b.DefineAction(
+//            (BlockBuilder b, Var<TModel> model) =>
+//            {
+//                var submodel = b.Call(accessFunc, model);
+//                b.Call(builder, submodel);
+//            });
+//    }
 
-    public static Var<Action<TModel>> InContext<TModel, TContextData>(
-        this BlockBuilder b,
-        Var<Func<TModel, TContextData>> accessFunc,
-        Action<BlockBuilder, Var<ItemModelContext<TContextData>>> builder)
-    {
-        return b.DefineAction(
-            (BlockBuilder b, Var<TModel> model) =>
-            {
-                var submodel = b.Call(accessFunc, model);
+//    public static Var<Action<TModel>> InContext<TModel, TContextData>(
+//        this BlockBuilder b,
+//        Var<Func<TModel, TContextData>> accessFunc,
+//        Action<BlockBuilder, Var<ItemModelContext<TContextData>>> builder)
+//    {
+//        return b.DefineAction(
+//            (BlockBuilder b, Var<TModel> model) =>
+//            {
+//                var submodel = b.Call(accessFunc, model);
 
-                var itemModelContext = b.NewObj<ItemModelContext<TContextData>>();
-                b.Set(itemModelContext, x => x.GetItem, accessFunc.As<Func<object, TContextData>>());
-                b.Set(itemModelContext, x => x.Item, submodel);
-                b.Set(itemModelContext, x => x.GetContextData, b.DefineFunc((BlockBuilder b) =>
-                {
-                    return b.Call(accessFunc, model);
-                }));
+//                var itemModelContext = b.NewObj<ItemModelContext<TContextData>>();
+//                b.Set(itemModelContext, x => x.GetItem, accessFunc.As<Func<object, TContextData>>());
+//                b.Set(itemModelContext, x => x.Item, submodel);
+//                b.Set(itemModelContext, x => x.GetContextData, b.DefineFunc((BlockBuilder b) =>
+//                {
+//                    return b.Call(accessFunc, model);
+//                }));
 
-                b.Call(builder, itemModelContext);
-            });
-    }
-}
+//                b.Call(builder, itemModelContext);
+//            });
+//    }
+//}
 
-public static class TestNestedAccess
-{
-    public static Var<HyperNode> ShowNestedData(this BlockBuilder b, Var<ItemModelContext<Nested>> dataContext)
-    {
-        var nested = b.GetData(dataContext);
-        var showStuff = b.Get(nested, x => x.ShowStuff);
-        var container = b.Div(
-            "flex flex-col",
-            b => b.Text(b.AsString(showStuff), "font-semibold text-red-400"),
-            b => b.Checkbox(dataContext, b =>
-            {
-                b.BindChecked(x => x.ShowStuff);
-            }));
+//public static class TestNestedAccess
+//{
+//    public static Var<HyperNode> ShowNestedData(this BlockBuilder b, Var<ItemModelContext<Nested>> dataContext)
+//    {
+//        var nested = b.GetData(dataContext);
+//        var showStuff = b.Get(nested, x => x.ShowStuff);
+//        var container = b.Div(
+//            "flex flex-col",
+//            b => b.Text(b.AsString(showStuff), "font-semibold text-red-400"),
+//            b => b.Checkbox(dataContext, b =>
+//            {
+//                b.BindChecked(x => x.ShowStuff);
+//            }));
 
-        return container;
-    }
-}
+//        return container;
+//    }
+//}
 
 public class ModelAccessor<TPageModel, TSubmodel>
 {
@@ -714,7 +713,7 @@ public static class AccessorNavigatorWhateverExtensions
     //    };
     //}
 
-    public static AccessorAction<TPageModel, TChild> On<TPageModel, TParent, TChild>(
+    public static void On<TPageModel, TParent, TChild>(
         this BlockBuilder b,
         NewModelAccessor<TPageModel, TParent> parentAccessor,
         Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild,
@@ -733,12 +732,19 @@ public static class AccessorNavigatorWhateverExtensions
             InputSubmodel = inputSubmodel
         };
 
-        return new AccessorAction<TPageModel, TChild>()
-        {
-            Accessor = childAccessor,
-            DoStuff = doStuff,
-        };
+        doStuff(b, childAccessor);
     }
+
+    public static void OnProperty<TPageModel, TParent, TChild>(
+        this BlockBuilder b,
+        NewModelAccessor<TPageModel, TParent> parentAccessor,
+        System.Linq.Expressions.Expression<Func<TParent, TChild>> property,
+        Action<BlockBuilder, NewModelAccessor<TPageModel, TChild>> doStuff)
+    {
+        var getProperty = (BlockBuilder b, Var<TParent> parent) => b.Get(parent, property);
+        b.On(parentAccessor, getProperty, doStuff);
+    }
+
 }
 
 public class ModelBinder<TPageModel, TSubmodel> : IModelBinder<TPageModel>
@@ -864,26 +870,26 @@ public static class ModelNavigatorExtensions
         return b.GetRef(currentData).As<TContextData>();
     }
 
-    public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
-        this BlockBuilder b,
-        Var<ModelNavigator> navigator,
-        Func<BlockBuilder, Var<TParent>, Var<TChild>> navigate,
-        Action<BlockBuilder, Var<ItemModelContext<TChild>>> contextAction)
-    {
-        var newNavigator = b.Clone(navigator);
-        var stack = b.Get(newNavigator, x => x.NavigatorStack);
-        b.Push(stack, b.Def(navigate).As<object>());
+    //public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
+    //    this BlockBuilder b,
+    //    Var<ModelNavigator> navigator,
+    //    Func<BlockBuilder, Var<TParent>, Var<TChild>> navigate,
+    //    Action<BlockBuilder, Var<ItemModelContext<TChild>>> contextAction)
+    //{
+    //    var newNavigator = b.Clone(navigator);
+    //    var stack = b.Get(newNavigator, x => x.NavigatorStack);
+    //    b.Push(stack, b.Def(navigate).As<object>());
 
-        var dataAccesor = b.NewObj<ItemModelContext<TChild>>();
-        b.Set(dataAccesor, x => x.GetItem, b.Def((BlockBuilder b, Var<object> rootModel) =>
-        {
-            return b.Call(GetContextData<object, TChild>, newNavigator, rootModel);
-        }));
+    //    var dataAccesor = b.NewObj<ItemModelContext<TChild>>();
+    //    b.Set(dataAccesor, x => x.GetItem, b.Def((BlockBuilder b, Var<object> rootModel) =>
+    //    {
+    //        return b.Call(GetContextData<object, TChild>, newNavigator, rootModel);
+    //    }));
 
-        b.Call(contextAction, dataAccesor);
+    //    b.Call(contextAction, dataAccesor);
 
-        return newNavigator;
-    }
+    //    return newNavigator;
+    //}
 
     public static Var<ModelNavigator> NavigateToList<TParent, TChild>(this BlockBuilder b, Var<ModelNavigator> navigator, Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> navigate)
     {
@@ -934,39 +940,39 @@ public class XXXRenderer : HtmlPage<XXXModel>
         return model;
     }
 
-    public DivTag CreateMainContainer<TModel>(
-        TModel dataModel, 
-        System.Linq.Expressions.Expression<Func<TModel, ComponentModel>> getComponentModel,
-        Func<CommandContext, TModel, Task<TModel>> onClickServer)
-        where TModel: IApiSupportState
-    {
-        var mainContainer =
-            DivTag.Create(
-                "flex flex-col p-4 gap-4",
-                HyperApp.ClientNode(
-                    dataModel,
-                    getComponentModel,
-                    DivTag.Create(
-                        "",
-                        new HtmlText("This appears only if checkbox is checked"))).VisibleIf(getComponentModel, x => x.Nested.ShowStuff),
-                HyperApp.ClientNode(
-                    dataModel, 
-                    getComponentModel,
-                    SlCheckbox.Create(
-                    "",
+    //public DivTag CreateMainContainer<TModel>(
+    //    TModel dataModel, 
+    //    System.Linq.Expressions.Expression<Func<TModel, ComponentModel>> getComponentModel,
+    //    Func<CommandContext, TModel, Task<TModel>> onClickServer)
+    //    where TModel: IApiSupportState
+    //{
+    //    var mainContainer =
+    //        DivTag.Create(
+    //            "flex flex-col p-4 gap-4",
+    //            HyperApp.ClientNode(
+    //                dataModel,
+    //                getComponentModel,
+    //                DivTag.Create(
+    //                    "",
+    //                    new HtmlText("This appears only if checkbox is checked"))).VisibleIf(getComponentModel, x => x.Nested.ShowStuff),
+    //            HyperApp.ClientNode(
+    //                dataModel, 
+    //                getComponentModel,
+    //                SlCheckbox.Create(
+    //                "",
 
-                    new HtmlText(
-                        "Show div. This checkbox only appears if count < 5 "))).BindChecked(getComponentModel, x => x.Nested.ShowStuff).VisibleIf(getComponentModel, x => x.count < 5),
-                DivTag.Create(
-                    "px-4 py-2 bg-blue-500 text-white rounded",
-                    HyperApp.ClientNode(
-                        dataModel,
-                        getComponentModel,
-                        DivTag.Create("", new HtmlText("RUN SERVEEEEER!!!")))
-                    .OnClickServer(onClickServer)));
+    //                new HtmlText(
+    //                    "Show div. This checkbox only appears if count < 5 "))).BindChecked(getComponentModel, x => x.Nested.ShowStuff).VisibleIf(getComponentModel, x => x.count < 5),
+    //            DivTag.Create(
+    //                "px-4 py-2 bg-blue-500 text-white rounded",
+    //                HyperApp.ClientNode(
+    //                    dataModel,
+    //                    getComponentModel,
+    //                    DivTag.Create("", new HtmlText("RUN SERVEEEEER!!!")))
+    //                .OnClickServer(onClickServer)));
 
-        return mainContainer;
-    }
+    //    return mainContainer;
+    //}
 
     public override IHtmlNode GetHtmlTree(XXXModel dataModel)
     {
@@ -978,146 +984,48 @@ public class XXXRenderer : HtmlPage<XXXModel>
         //    return b.TextNode("Whatever");
         //}));
 
-        document.Body.AddHyperapp(dataModel, (b, model) =>
+        document.Body.AddDynamic(dataModel, (b, model) =>
         {
             var container = b.Div("flex flex-col");
-
-            //var firstAccessor = b.On<XXXModel, XXXModel, ComponentModel>((b, model) => model, (b, model) => b.Get(model, x => x.First));
-
-            //var secondAccessor = b.On<XXXModel, XXXModel, ComponentModel>((b, model) => model, (b, model) => b.Get(model, x => x.Second));
-
-            NewModelAccessor<XXXModel, XXXModel> root = new ()
+            NewModelAccessor<XXXModel, XXXModel> root = new()
             {
                 InputSubmodel = model,
                 GetSubmodelFromModel = (b, model) => model
             };
 
-            var first = b.On(
-                root,
-                (b, model) => b.Get(model, x => x.First),
-                (b, access) =>
+            b.OnProperty(root, x => x.First.Nested,
+                (b, dataContext) =>
                 {
-                    b.Log("Entered!");
+                    var showStuff = b.Get(dataContext.InputSubmodel, x => x.ShowStuff);
 
-                    var nestedAccessor = b.On(
-                        access,
-                        (b, model) => b.Get(model, x => x.Nested),
-                        (b, access) =>
-                        {
-                            //var nested = b.Call(nestedAccessor, model);
+                    //var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
+                    //{
+                    //    b.Set(x => x.Checked, showStuff);
+                    //}));
 
-                            var showStuff = b.Get(access.InputSubmodel, x => x.ShowStuff);
-
-                            var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
-                            {
-                                b.Set(x => x.Checked, showStuff);
-                            }));
-
-                            b.Log(showStuff);
-
-                            b.Add(container, checkbox);
-
-                            b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
-                            {
-                                var localModel = b.Call(access.GetSubmodelFromModel, model);
-                                b.Set(localModel, x => x.ShowStuff, isChecked);
-                                return b.Broadcast(model);
-                            }));
-
-                            var nestedBool = b.On(
-                                access,
-                                (b, model) =>
-                                {
-                                    return b.Get(model, x => x.ShowStuff);
-                                },
-                                (b, access) =>
-                                {
-                                    b.Add(container, b.Text(b.AsString(access.InputSubmodel)));
-                                });
-
-                            nestedBool.DoStuff(b, nestedBool.Accessor);
+                    var checkbox = b.Checkbox(dataContext, b =>
+                    {
+                        b.BindChecked(x => x.ShowStuff);
                     });
 
-                    nestedAccessor.DoStuff(b, nestedAccessor.Accessor);
 
+                    b.Log(showStuff);
 
+                    b.Add(container, checkbox);
+
+                    //b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<XXXModel> model, Var<bool> isChecked) =>
+                    //{
+                    //    var localModel = b.Call(dataContext.GetSubmodelFromModel, model);
+                    //    b.Set(localModel, x => x.ShowStuff, isChecked);
+                    //    return b.Broadcast(model);
+                    //}));
+
+                    b.OnProperty(dataContext, x => x.ShowStuff,
+                        (b, dataContext) =>
+                        {
+                            b.Add(container, b.Text(b.AsString(dataContext.InputSubmodel)));
+                        });
                 });
-
-            
-
-            first.DoStuff(b, first.Accessor);
-
-            //var nested = b.Call(nestedAccessor, model);
-
-            //var showStuff = b.Get(nested, x => x.ShowStuff);
-
-            //var checkbox = b.Checkbox(b.NewObj<Checkbox>(b =>
-            //{
-            //    b.Set(x => x.Checked, showStuff);
-            //}));
-
-
-
-            //var pageRenderer = b.BindModel<XXXModel>((b, dataContext) =>
-            //{
-            //    b.Log("Page renderer started");
-            //    b.On(dataContext,
-            //        (b, model) => b.Get(model, x => x.First),
-            //        (b, dataContext) =>
-            //        {
-            //            b.Log("Page renderer nested");
-            //            //var model = dataContext.GetData(b);
-
-            //            //b.Log("Nested access to model", model);
-
-            //            //var innerContainer = b.Div("flex flex-col");
-            //            //b.Add(innerContainer, b.Text(b.Get(model, x => x.P1)));
-            //            //b.Add(container, innerContainer);
-            //        });
-            //});
-
-            //b.Call(pageRenderer, model);
-
-            //var rootAccess = b.MakeDrillDown<XXXModel, XXXModel, XXXModel>(
-            //    b.DefineFunc<XXXModel, XXXModel>(ModelAccessor.Itself<XXXModel>),
-            //    ModelAccessor.Itself<XXXModel>);
-
-            //var firstAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
-            //{
-            //    return b.Get(model, x => x.First);
-            //});
-
-            //var secondAccessor = b.MakeDrillDown(rootAccess, (BlockBuilder b, Var<XXXModel> model) =>
-            //{
-            //    return b.Get(model, x => x.Second);
-            //});
-
-            //var firstBuilder = b.InContext(firstAccessor, (b, data) =>
-            //{
-            //    b.Add(container, b.Text(b.Get(data, x => x.P1)));
-            //    var itemModelContext = b.NewObj<ItemModelContext<ComponentModel>>();
-            //    b.Set(itemModelContext, x => x.GetItem, firstAccessor);
-            //    b.Set(itemModelContext, x => x.Item, data);
-
-            //    b.Add(container, b.Checkbox(itemModelContext, (b) =>
-            //    {
-            //        b.BindChecked(x => x.SomeBool);
-            //    }));
-
-            //    var nestedAccessor = b.MakeDrillDown(firstAccessor, (BlockBuilder b, Var<ComponentModel> compModel) =>
-            //    {
-            //        return b.Get(compModel, x => x.Nested);
-            //    });
-
-            //    var nestedShower = b.InContext(nestedAccessor, (b, nested) =>
-            //    {
-            //        b.Add(container, b.ShowNestedData(nested));
-            //    });
-
-            //    b.Log(data);
-            //});
-
-            //b.Call(firstBuilder, model);
 
             return container;
         });

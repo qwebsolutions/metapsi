@@ -119,44 +119,44 @@ public class SlCheckbox : SlComponent, IHasCheckedProperty
 
 
 
-public static partial class ClientSideExtensions
-{
-    public static HyperAppNode<TModel, TComponentModel, TControl> BindChecked<TModel, TComponentModel, TControl>(
-        this HyperAppNode<TModel, TComponentModel, TControl> control,
-        Expression<Func<TModel, TComponentModel>> componentModel,
-        Expression<Func<TComponentModel, bool>> componentModelProperty)
-        where TControl: IHtmlElement, IHasCheckedProperty
-    {
-        var initialRender = control.Render;
+//public static partial class ClientSideExtensions
+//{
+//    public static HyperAppNode<TModel, TComponentModel, TControl> BindChecked<TModel, TComponentModel, TControl>(
+//        this HyperAppNode<TModel, TComponentModel, TControl> control,
+//        Expression<Func<TModel, TComponentModel>> componentModel,
+//        Expression<Func<TComponentModel, bool>> componentModelProperty)
+//        where TControl: IHtmlElement, IHasCheckedProperty
+//    {
+//        var initialRender = control.Render;
 
-        control.Render = (b, model) =>
-        {
-            var control = initialRender(b, model);
+//        control.Render = (b, model) =>
+//        {
+//            var control = initialRender(b, model);
 
-            var componentState = b.Get(model, componentModel);
+//            var componentState = b.Get(model, componentModel);
 
-            var value = b.Get(componentState, componentModelProperty);
+//            var value = b.Get(componentState, componentModelProperty);
 
-            b.SetAttr(control, DynamicProperty.Bool("checked"), value);
+//            b.SetAttr(control, DynamicProperty.Bool("checked"), value);
 
-            b.SetOnSlChange(control, b.MakeAction((BlockBuilder b, Var<TModel> model, Var<bool> newValue) =>
-            {
-                var componentState = b.Get(model, componentModel);
+//            b.SetOnSlChange(control, b.MakeAction((BlockBuilder b, Var<TModel> model, Var<bool> newValue) =>
+//            {
+//                var componentState = b.Get(model, componentModel);
 
-                var propertyName = componentModelProperty.PropertyName();
+//                var propertyName = componentModelProperty.PropertyName();
 
-                var nestedExpressions = componentModelProperty.GetMemberAccess();
-                var entityReference = b.Get<TComponentModel, object>(componentState, nestedExpressions.EntityReference);
-                b.Set(entityReference, nestedExpressions.EntityProperty, newValue);
-                return b.Broadcast(model);
-            }));
+//                var nestedExpressions = componentModelProperty.GetMemberAccess();
+//                var entityReference = b.Get<TComponentModel, object>(componentState, nestedExpressions.EntityReference);
+//                b.Set(entityReference, nestedExpressions.EntityProperty, newValue);
+//                return b.Broadcast(model);
+//            }));
 
-            return control;
-        };
+//            return control;
+//        };
 
-        return control;
-    }
-}
+//        return control;
+//    }
+//}
 
 public static class HyperApp
 {
@@ -494,13 +494,13 @@ public static class Drill
 }
 
 
-public class ItemModelContext<TItem>
-{
-    public TItem Item { get; set; }
-    public Func<object, TItem> GetItem { get; set; }
+//public class ItemModelContext<TItem>
+//{
+//    public TItem Item { get; set; }
+//    public Func<object, TItem> GetItem { get; set; }
 
-    public Func<TItem> GetContextData { get; set; }
-}
+//    public Func<TItem> GetContextData { get; set; }
+//}
 
 //public class ModelContext<T>
 //{
@@ -911,7 +911,7 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
 
 public static class HyperappNodeExtensions
 {
-    public static void AddHyperapp<TDataModel>(
+    public static void AddDynamic<TDataModel>(
         this HtmlTag mountPoint,
         TDataModel model,
         System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
