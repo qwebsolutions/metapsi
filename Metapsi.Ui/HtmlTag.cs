@@ -115,6 +115,16 @@ public class HtmlText : IHtmlNode
     {
         return this.Text;
     }
+
+    public static HtmlText CreateTextNode(string text)
+    {
+        return new HtmlText(text);
+    }
+
+    public static SpanTag Create(string text)
+    {
+        return SpanTag.Create(HtmlText.CreateTextNode(text));
+    }
 }
 
 public static class HtmlNodeExtensions
@@ -128,6 +138,18 @@ public static class HtmlNodeExtensions
         }
 
         return child;
+    }
+
+    public static TParent WithChild<TParent, TChild>(this TParent parent, TChild child)
+        where TParent: IHtmlElement
+        where TChild : IHtmlNode
+    {
+        if (!parent.GetTag().Children.Contains(child))
+        {
+            parent.GetTag().Children.Add(child);
+        }
+
+        return parent;
     }
 
     public static void AddChildren(this IHtmlElement parent, IEnumerable<IHtmlNode> children)
@@ -167,7 +189,7 @@ public static class HtmlNodeExtensions
         return span;
     }
 
-    public static T AddInlineStyle<T>(this T element, string property, string value)
+    public static T WithStyle<T>(this T element, string property, string value)
         where T: IHtmlElement
     {
         value = value.Trim().TrimEnd(';');
@@ -218,28 +240,6 @@ public static class HtmlNodeExtensions
             }
         });
     }
-
-    //private static void FillDescendants(IHtmlTag current, List<IHtmlNode> intoList)
-    //{
-    //    intoList.Add(current);
-    //    var children = current.ToTag().Children;
-    //    foreach (var child in children)
-    //    {
-    //        IHtmlTag childTag = child as IHtmlTag;
-    //        if (childTag != null)
-    //        {
-    //            FillDescendants(childTag, intoList);
-    //        }
-    //        else
-    //        {
-    //            IHtmlComponent htmlComponent = child as IHtmlComponent;
-    //            if (htmlComponent != null)
-    //            {
-    //                intoList.Add(child);
-    //            }
-    //        }
-    //    }
-    //}
 
     public static void Traverse(this IHtmlElement current, Action<IHtmlElement, IHtmlNode> onNode)
     {
@@ -305,9 +305,4 @@ public static class HtmlNodeExtensions
 
         return (node as HtmlTag).HasAttribute(attributeName, attributeValue);
     }
-
-    //public static IEnumerable<T> OfType<T>(this IEnumerable<IHtmlNode> nodes)
-    //{
-    //    return nodes.Where(x => x is T).Select(x => (T)x);
-    //}
 }

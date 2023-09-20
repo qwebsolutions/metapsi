@@ -6,4 +6,11 @@ public class SpanTag : HtmlTag
     {
         this.Tag = "span";
     }
+
+    public static SpanTag Create(params IHtmlNode[] children)
+    {
+        var span = new SpanTag();
+        span.AddChildren(children);
+        return span;
+    }
 }

@@ -7,9 +7,16 @@ public class DivTag : HtmlTag
         this.Tag = "div";
     }
 
-    public static DivTag Create(string css, params IHtmlNode[] nodes)
+    public static DivTag CreateStyled(string css, params IHtmlNode[] nodes)
     {
         var div = new DivTag().AddClass(css);
+        div.AddChildren(nodes);
+        return div;
+    }
+
+    public static DivTag Create(params IHtmlNode[] nodes)
+    {
+        var div = new DivTag();
         div.AddChildren(nodes);
         return div;
     }

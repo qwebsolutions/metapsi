@@ -1,6 +1,7 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Shoelace;
 using Metapsi.Syntax;
+using Metapsi.Ui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,10 +71,10 @@ public static partial class Control
         b.Set(menuDrawerProps, x => x.Placement, DrawerPlacement.Start);
         b.Set(menuDrawerProps, x => x.Open, b.Get(model, x => x.MenuIsExpanded));
         var drawer = b.Drawer(menuDrawerProps, b => b.TreeMenu(model));
-        b.SetOnDrawerHide(drawer, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+        b.SetOnDrawerHide(drawer, b.MakeAction((BlockBuilder b, Var<TModel> model) =>
         {
             b.Set(model, x => x.MenuIsExpanded, false);
-            return b.Broadcast(model);
+            return b.BroadcastModelUpdate(model);
         }));
 
         var drawerTitle =
@@ -88,16 +89,17 @@ public static partial class Control
     }
 
     public static Var<HyperNode> Header<TModel>(this BlockBuilder b, Var<TModel> model, Func<BlockBuilder, Var<HyperNode>> headerContent)
+        where TModel: IHasTreeMenu
     {
         var header = b.Div(
             "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl",
             b =>
             {
                 var showMenuButton = b.IconButton("list");
-                b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TutorialModel> model) =>
+                b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TModel> model) =>
                 {
                     b.Set(model, x => x.MenuIsExpanded, true);
-                    return b.Clone(model);
+                    return b.BroadcastModelUpdate(model);
                 }));
 
                 return showMenuButton;
@@ -105,6 +107,93 @@ public static partial class Control
             headerContent);
 
         return header;
+    }
+
+    public static HtmlTag Header<TModel>(TModel model, IHtmlElement headerContent)
+        where TModel: IHasTreeMenu
+    {
+        var header = DivTag.CreateStyled(
+            "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl",
+            Tutorial.ClientSide(
+                model,
+                (b, model) =>
+                {
+                    var showMenuButton = b.IconButton("list");
+                    b.SetOnClick(showMenuButton, b.MakeAction((BlockBuilder b, Var<TModel> model) =>
+                    {
+                        b.Set(model, x => x.MenuIsExpanded, true);
+                        return b.BroadcastModelUpdate(model);
+                    }));
+
+                    return showMenuButton;
+                }),
+            headerContent);
+
+        return header;
+    }
+}
+
+public static class Tutorial
+{
+    public static DocumentTag Layout<TPageModel>(
+        TPageModel model, 
+        string pageTitle,
+        IHtmlElement headerContent,
+        IHtmlElement pageContent)
+        where TPageModel : IHasTreeMenu
+
+    {
+        var document = DocumentTag.Create(pageTitle);
+        document.Head.AddModuleStylesheet();
+
+        document.Body.AddChild(pageContent);
+
+        document.Body.AddChild(Tutorial.ClientSide(model, (b, model) => b.DrawerTreeMenu(model)));
+        document.Body.AddChild(Control.Header(model, headerContent));
+
+        document.AttachComponents();
+
+        return document;
+    }
+
+    public static HtmlTag ClientSide<TDataModel>(
+        TDataModel model,
+        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
+        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+    {
+        return Metapsi.Hyperapp.ClientSide.Create(model, render, init, WaitClientSideShoelaceTags);
+    }
+
+    private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
+    {
+        // sl-tooltip crashes for some reason
+        var shoelaceTags = module.Consts.Where(x => x.Value is ShoelaceTag).Select(x => (x.Value as ShoelaceTag).tag).Where(x => x != "sl-tooltip").ToList();
+
+        var head = document.Head;
+        //var style = head.AddChild(new HtmlTag("style"));
+        //style.AddChild(new HtmlText() { Text = "\r\nbody {\r\n    opacity: 0;\r\n}\r\n\r\n    body.ready {\r\n        opacity: 1;\r\n        transition: .25s opacity;\r\n    }" });
+
+        var body = document.Body;
+
+        var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
+        workaroundDiv.SetAttribute("class", "hidden");
+
+        var slAwaitScript = document.Head.Children.OfType<SlAwaitScript>().SingleOrDefault();
+        if (slAwaitScript == null)
+        {
+            slAwaitScript = document.Head.AddChild(new SlAwaitScript());
+        }
+
+        foreach (var shoelaceTag in shoelaceTags)
+        {
+            workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
+            slAwaitScript.SlTags.Add(shoelaceTag);
+        }
+
+        document.StartHidden();
+
+        document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
+        document.Head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
     }
 }
 

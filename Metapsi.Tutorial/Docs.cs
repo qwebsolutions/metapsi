@@ -30,19 +30,19 @@ public class DocsHandler : Http.Get<Metapsi.Tutorial.Routes.Docs, string>
     }
 }
 
-public class DocsRenderer : ShoelaceHyperPage<DocsModel>
-{
-    public override Var<HyperNode> OnRender(BlockBuilder b, Var<DocsModel> model)
-    {
-        b.AddModuleStylesheet();
+//public class DocsRenderer : ShoelaceHyperPage<DocsModel>
+//{
+//    public override Var<HyperNode> OnRender(BlockBuilder b, Var<DocsModel> model)
+//    {
+//        b.AddModuleStylesheet();
 
-        var breadcrumbs = b.Breadcrumb();
-        b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Docs")));
-        b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Get(model, x => x.Doc.Title)));
+//        var breadcrumbs = b.Breadcrumb();
+//        b.Add(breadcrumbs, b.BreadcrumbButtonItem(b.Const("Docs")));
+//        b.Add(breadcrumbs, b.BreadcrumbButtonItemLast(b.Get(model, x => x.Doc.Title)));
 
-        var container = b.Div();
-        b.Add(container, b.Header(model, b => breadcrumbs));
-        b.Add(container, b.DrawerTreeMenu(model));
-        return container;
-    }
-}
+//        var container = b.Div();
+//        b.Add(container, b.Header(model, b => breadcrumbs));
+//        b.Add(container, b.DrawerTreeMenu(model));
+//        return container;
+//    }
+//}

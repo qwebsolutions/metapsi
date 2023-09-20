@@ -70,17 +70,17 @@ public static partial class Program
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
 
-        webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
-        webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
+        //webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
+        //webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
 
-        webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
-        webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
+        //webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
+        //webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
 
         webServer.WebApplication.RegisterGetHandler<HomeHandler, Metapsi.Tutorial.Routes.Home>();
-        webServer.RegisterPageBuilder<HomeModel>(new HomeRenderer().Render);
+        webServer.RegisterPageBuilder<HomeModel>(new Homepage().Render);
 
-        webServer.WebApplication.RegisterGetHandler<XXXHandler, Metapsi.Tutorial.Routes.XXX, string, string>();
-        webServer.RegisterPageBuilder<XXXModel>(new XXXRenderer().Render);
+        //webServer.WebApplication.RegisterGetHandler<XXXHandler, Metapsi.Tutorial.Routes.XXX, string, string>();
+        //webServer.RegisterPageBuilder<XXXModel>(new XXXRenderer().Render);
 
 
         webServer.WebApplication.RegisterGetHandler<ParagraphHandler, Metapsi.Tutorial.Routes.Paragraph, string>();

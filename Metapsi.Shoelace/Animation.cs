@@ -1,5 +1,6 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using Metapsi.Ui;
 using System;
 
 namespace Metapsi.Shoelace;
@@ -13,6 +14,17 @@ public class Animation
     public int Iterations { get; set; } = -1;
     public string Fill { get; set; } = "auto";
     public string Easing { get; set; } = "linear";
+
+    public static Component<Animation> Create(Animation props, IHtmlNode content = null)
+    {
+        var component = new Component<Animation>("sl-animation", props);
+        if(content!=null)
+        {
+            component.AddChild(content);
+        }
+
+        return component;
+    }
 }
 
 public static partial class Control

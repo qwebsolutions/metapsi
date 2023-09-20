@@ -47,7 +47,7 @@ public class TutorialModel : IApiSupportState, IHasTreeMenu
 
     public bool MenuIsExpanded { get; set; } = false;
 }
-
+/*
 public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
 {
     public override IHtmlNode ModifyHtml(IHtmlNode root, Syntax.Module module)
@@ -392,7 +392,7 @@ public class TutorialRenderer : ShoelaceHyperPage<TutorialModel>
         return whitelistedNamespaces.Contains(symbolInfo.Symbol.ContainingNamespace.ToString());
     }
 }
-
+*/
 public class ErrorPage : HtmlPage<List<string>>
 {
     public override IHtmlNode GetHtmlTree(List<string> dataModel)
