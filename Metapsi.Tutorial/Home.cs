@@ -800,6 +800,20 @@ public static class AccessorNavigatorWhateverExtensions
     }
 
 
+    public static void OnList<TPageModel, TParent, TChild>(
+        this BlockBuilder b,
+        Var<DataContext<TPageModel, TParent>> parentAccessor,
+        System.Linq.Expressions.Expression<Func<TParent, IEnumerable<TChild>>> onList,
+        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+    {
+        var getList = (BlockBuilder b, Var<TParent> parent) =>
+        {
+            var enumerable = b.Get(parent, onList);
+            return b.Get(enumerable, x => x.ToList());
+        };
+        b.OnList(parentAccessor, getList, doStuff);
+    }
+
     //public ModelContext<TChild> OnList<TChild>(System.Linq.Expressions.Expression<Func<T, List<TChild>>> drill, Action<BlockBuilder, Var<ItemModelContext<TChild>>> action)
     //{
     //    ModelContext<TChild> childContext = new ModelContext<TChild>();
@@ -844,7 +858,7 @@ public static class AccessorNavigatorWhateverExtensions
     //}
     //}
 
-public static void OnModel<TPageModel>(
+    public static void OnModel<TPageModel>(
         this BlockBuilder b,
         Var<TPageModel> model,
         Action<BlockBuilder, Var<DataContext<TPageModel, TPageModel>>> doStuff)
@@ -980,6 +994,11 @@ public static class ModelNavigatorExtensions
         return b.GetRef(currentData).As<TContextData>();
     }
 
+    public static Var<TContextData> Get<TPageModel, TContextData>(this BlockBuilder b, Var<DataContext<TPageModel, TContextData>> dataContext)
+    {
+        return b.Get(dataContext, x => x.InputData);
+    }
+
     //public static Var<ModelNavigator> NavigateTo<TParent, TChild>(
     //    this BlockBuilder b,
     //    Var<ModelNavigator> navigator,
@@ -1089,12 +1108,13 @@ public class XXXRenderer : HtmlPage<XXXModel>
         var document = DocumentTag.Create(dataModel.First.P1);
         document.Head.AddModuleStylesheet();
 
-        //document.AddChild(HyperApp.ClientNode(dataModel, (BlockBuilder b, Var<XXXModel> model) =>
-        //{
-        //    return b.TextNode("Whatever");
-        //}));
 
-        document.Body.AddDynamic(dataModel, (b, model) =>
+        //b.GetData(dataContext);
+        //OnList IEnumerable?
+        //    Separate nested code = controls
+
+
+        document.Body.ClientSide(dataModel, (b, model) =>
         {
             var container = b.Div("flex flex-col");
 
@@ -1104,7 +1124,7 @@ public class XXXRenderer : HtmlPage<XXXModel>
                     b.OnProperty(dataContext, x => x.First.Nested,
                         (b, dataContext) =>
                         {
-                            var data = b.Get(dataContext, x => x.InputData);
+                            var data = b.Get(dataContext);
 
                             var showStuff = b.Get(data, x => x.ShowStuff);
 
@@ -1134,7 +1154,7 @@ public class XXXRenderer : HtmlPage<XXXModel>
                         });
 
                     b.OnList(
-                        dataContext, x => x.CompList.Where(x => x.SomeBool).ToList(),
+                        dataContext, x => x.CompList.Where(x => x.SomeBool),
                         (b, dataContext) =>
                         {
                             var data = b.Get(dataContext, x => x.InputData);

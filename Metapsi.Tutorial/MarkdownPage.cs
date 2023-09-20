@@ -911,7 +911,7 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
 
 public static class HyperappNodeExtensions
 {
-    public static void AddDynamic<TDataModel>(
+    public static void ClientSide<TDataModel>(
         this HtmlTag mountPoint,
         TDataModel model,
         System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
