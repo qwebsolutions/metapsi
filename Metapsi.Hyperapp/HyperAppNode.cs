@@ -1,6 +1,7 @@
 ﻿using Metapsi.Syntax;
 using Metapsi.Ui;
 using System.Linq;
+using Metapsi.Dom;
 
 namespace Metapsi.Hyperapp;
 

@@ -56,7 +56,9 @@ export const GetElementById = (id) => document.getElementById(id);
 export const CreateElement = (tag) => document.createElement(tag);
 export const AppendChild = (parent, child) => parent.appendChild(child);
 export const RequestAnimationFrame = requestAnimationFrame;
-export const AddEventListener = addEventListener;
+export const AddEventListener = (domElement, eventName, handler) => { domElement.addEventListener(eventName, handler); }
+export const GetAttribute = (domElement, attributeName) => domElement.getAttribute(attributeName);
+export const SetAttribute = (domElement, attributeName, attributeValue) => { domElement.setAttribute(attributeName, attributeValue); }
 export const RemoveEventListener = removeEventListener;
 export const DispatchEvent = (eventType, payload) => {
     dispatchEvent(new CustomEvent(eventType, { detail: payload }));

@@ -100,7 +100,7 @@ namespace Metapsi.Hyperapp
         {
             var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
-                b.CallExternal(nameof(Native), "stopPropagation", @event);
+                b.CallExternal(nameof(Core), "stopPropagation", @event);
                 return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
             });
 
@@ -114,7 +114,7 @@ namespace Metapsi.Hyperapp
         {
             var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
-                b.CallExternal(nameof(Native), "stopPropagation", @event);
+                b.CallExternal(nameof(Core), "stopPropagation", @event);
                 return onClick;
             });
 
@@ -128,7 +128,7 @@ namespace Metapsi.Hyperapp
         {
             var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
-                b.CallExternal(nameof(Native), "stopPropagation", @event);
+                b.CallExternal(nameof(Core), "stopPropagation", @event);
                 return onBlur;
             });
 
@@ -146,15 +146,15 @@ namespace Metapsi.Hyperapp
         {
             var listener = b.Def((BlockBuilder b, Var<CustomEvent<TPayload>> @event) =>
             {
-                b.CallExternal(nameof(Native), "RequestAnimationFrame", b.Def((BlockBuilder b) =>
+                b.CallExternal(nameof(Core), "RequestAnimationFrame", b.Def((BlockBuilder b) =>
                 {
                     b.Dispatch(dispatch, b.Get(props, x => x.Action), b.Get(@event, x => x.detail));
                 }));
             });
 
-            b.CallExternal(nameof(Native), "AddEventListener", b.Get(props, x => x.EventType), listener);
+            b.CallExternal(nameof(Core), "AddEventListener", b.Get(props, x => x.EventType), listener);
 
-            return b.Def((BlockBuilder b) => b.CallExternal(nameof(Native), "RemoveEventListener", b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
+            return b.Def((BlockBuilder b) => b.CallExternal(nameof(Core), "RemoveEventListener", b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
         }
 
         public static Var<HyperType.Subscription> Listen<TState, TPayload>(this BlockBuilder b, Var<string> eventType, Var<HyperType.Action<TState, TPayload>> action)
@@ -180,7 +180,7 @@ namespace Metapsi.Hyperapp
         public static Var<HyperType.Cleanup> Interval<TState>(BlockBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<IntervalProps<TState>> props)
         {
             var id = b.CallExternal<int>(
-                nameof(Native),
+                nameof(Core),
                 "SetInterval",
                 b.Def((BlockBuilder b) =>
                 {
@@ -188,7 +188,7 @@ namespace Metapsi.Hyperapp
                 }),
                 b.Get(props, x => x.IntervalMilliseconds));
 
-            return b.Def((BlockBuilder b) => b.CallExternal(nameof(Native), "ClearInterval", id)).As<HyperType.Cleanup>();
+            return b.Def((BlockBuilder b) => b.CallExternal(nameof(Core), "ClearInterval", id)).As<HyperType.Cleanup>();
         }
 
         public static Var<HyperType.Subscription> Every<TState>(this BlockBuilder b, Var<int> intervalMilliseconds, Var<HyperType.Action<TState>> action)

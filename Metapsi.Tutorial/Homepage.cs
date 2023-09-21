@@ -33,7 +33,7 @@ public class Homepage : HtmlPage<HomeModel>
                     },
                     SpanTag.Create(
                         HtmlText.Create("The "),
-                        HtmlText.Create("full stack C#").AddClass("bg-blue-50"),
+                        HtmlText.Create("full stack C#").WithClass("bg-blue-50"),
                         HtmlText.Create(" framework"))),
                 Animation.Create(
                     new Animation()
@@ -53,7 +53,7 @@ public class Homepage : HtmlPage<HomeModel>
                             {
                                 Placement = TooltipPlacement.Bottom
                             },
-                            HtmlText.Create(" packs ").AddClass("underline decoration-dashed"),
+                            HtmlText.Create(" packs ").WithClass("underline decoration-dashed"),
                             Component.Create("sl-icon", new Icon() { Name = "box-seam" })),
                         HtmlText.Create("everything."))))
             .WithStyle("font-size", "var(--sl-font-size-2x-large)")
@@ -75,18 +75,6 @@ public class Homepage : HtmlPage<HomeModel>
                 HomeFeature("file-text", "Open source", "MIT licensed, just like the great projects we build upon")
             ));
 
-/* 
-
-
-
-        b.Add(featuresPanel, HomeFeature(
-            b,
-            b.Const("Open source"),
-            b.Const("MIT licensed, just like the great projects we build upon"),
-            b.Const(string.Empty),
-            b.Const("file-text")));
-*/
-
         return pageContainer;
     }
 
@@ -103,16 +91,16 @@ public class Homepage : HtmlPage<HomeModel>
     {
         var featureDetails = DivTag.CreateStyled(
                 "flex-1 basis-2/3 flex flex-col gap-4 text-gray-700",
-                HtmlText.Create(title).AddClass("text-large font-semibold"));
+                HtmlText.Create(title).WithClass("text-large font-semibold"));
 
         if (!string.IsNullOrEmpty(subtitle))
         {
-            featureDetails.AddChild(HtmlText.Create(subtitle).AddClass("text-sm"));
+            featureDetails.AddChild(HtmlText.Create(subtitle).WithClass("text-sm"));
         }
 
         if (!string.IsNullOrEmpty(details))
         {
-            featureDetails.AddChild(HtmlText.Create(details).AddClass("text-sm"));
+            featureDetails.AddChild(HtmlText.Create(details).WithClass("text-sm"));
         }
 
         return DivTag.CreateStyled(

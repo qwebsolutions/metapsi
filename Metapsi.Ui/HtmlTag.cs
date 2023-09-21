@@ -6,11 +6,17 @@ using System.Text;
 
 namespace Metapsi.Ui;
 
+/// <summary>
+/// A node is any html content on the page, both tags & text
+/// </summary>
 public interface IHtmlNode
 {
     public string ToHtml();
 }
 
+/// <summary>
+/// An element is a tag that can have descendants
+/// </summary>
 public interface IHtmlElement : IHtmlNode
 {
     HtmlTag GetTag();
@@ -184,7 +190,7 @@ public static class HtmlNodeExtensions
 
     public static HtmlTag AddTextSpan(this IHtmlElement element, string text, string cssClass = "")
     {
-        var span = element.AddSpan().AddClass(cssClass);
+        var span = element.AddSpan().WithClass(cssClass);
         span.AddText(text);
         return span;
     }
@@ -197,7 +203,7 @@ public static class HtmlNodeExtensions
         return element;
     }
 
-    public static T AddClass<T>(this T element, string className)
+    public static T WithClass<T>(this T element, string className)
         where T : HtmlTag
     {
         element.AppendToAttribute("class", " " + className);

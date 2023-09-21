@@ -13,7 +13,7 @@ public static class EventExtensions
         var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, string>(
             (BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
-                b.CallExternal(nameof(Native), "stopPropagation", @event);
+                b.CallExternal(nameof(Core), "stopPropagation", @event);
                 b.Comment("SetOnSlChange");
                 b.Log(@event);
                 return b.MakeActionDescriptor<TState, string>(
@@ -34,7 +34,7 @@ public static class EventExtensions
         var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, bool>(
             (BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
-                b.CallExternal(nameof(Native), "stopPropagation", @event);
+                b.CallExternal(nameof(Core), "stopPropagation", @event);
                 b.Comment("SetOnSlChange");
                 b.Log(@event);
                 return b.MakeActionDescriptor<TState, bool>(

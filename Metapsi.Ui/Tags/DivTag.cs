@@ -9,7 +9,7 @@ public class DivTag : HtmlTag
 
     public static DivTag CreateStyled(string css, params IHtmlNode[] nodes)
     {
-        var div = new DivTag().AddClass(css);
+        var div = new DivTag().WithClass(css);
         div.AddChildren(nodes);
         return div;
     }

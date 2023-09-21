@@ -2,6 +2,7 @@
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
+using Metapsi.Dom;
 
 public static class ServerExtensions
 {

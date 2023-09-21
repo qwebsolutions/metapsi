@@ -14,6 +14,7 @@ using Metapsi.Syntax;
 using Microsoft.AspNetCore.Http;
 using Metapsi.Hyperapp;
 using Microsoft.AspNetCore.Builder;
+using Metapsi.Dom;
 
 namespace Metapsi.Tutorial;
 
@@ -63,6 +64,7 @@ public static partial class Program
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
 
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
+        webServer.RegisterStaticFiles(typeof(DomElement).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
         webServer.RegisterStaticFiles(typeof(HyperNode).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.Control).Assembly);

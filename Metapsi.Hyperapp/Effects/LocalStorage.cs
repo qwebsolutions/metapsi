@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using Metapsi.Dom;
 
 namespace Metapsi.Hyperapp
 {

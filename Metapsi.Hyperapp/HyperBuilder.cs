@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using Metapsi.Dom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace Metapsi.Hyperapp
                         {
                             return b.Call(onRenderError, model, error);
                         }));
-                    b.CallExternal(nameof(Native), "DispatchEvent", b.Const("afterRender"));
+                    b.CallExternal(nameof(Core), "DispatchEvent", b.Const("afterRender"));
                     return rootNode;
                 }));
                 b.Set(app, x => x.node, b.GetElementById(b.Const(mountDivId)));

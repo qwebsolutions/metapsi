@@ -8,6 +8,11 @@ public class Icon
     public string Name { get; set; }
 }
 
+public class IconButton
+{
+    public string Name { get; set; }
+}
+
 public static partial class Control
 {
     public static Var<HyperNode> Icon(this BlockBuilder b, Var<string> iconName)
