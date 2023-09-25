@@ -358,7 +358,6 @@ namespace Metapsi
 
             foreach (var r in allResources)
             {
-                var info = assembly.GetManifestResourceInfo(r);
                 var stream = assembly.GetManifestResourceStream(r);
                 using (var ms = new MemoryStream())
                 {

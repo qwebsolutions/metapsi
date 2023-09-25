@@ -12,8 +12,11 @@ namespace Metapsi.Tutorial;
 
 public interface IHasTreeMenu
 {
-    List<Route> Routes { get; set; }
-    List<Doc> Docs { get; set; }
+    //List<Route> Routes { get; set; }
+    //List<Doc> Docs { get; set; }
+
+    MenuEntry CurrentEntry { get; set; }
+    List<MenuEntry> Menu { get; set; }
 }
 
 public static partial class Control
@@ -28,49 +31,69 @@ public static partial class Control
             "sl-tree",
             new Tree() { Selection = TreeSelection.Leaf });
 
-        FillRecursiveRoute(model, string.Empty, tree);
+        FillMenuEntries(model.Menu, tree);
+
+        //FillRecursiveRoute(model, string.Empty, tree);
 
         return tree;
     }
 
-    private static void FillRecursiveRoute<TModel>(TModel model, string currentRouteCode, IHtmlElement currentNode)
-        where TModel : IHasTreeMenu
+    private static void FillMenuEntries(List<MenuEntry> currentEntries, IHtmlElement currentNode)
     {
-        var childrenRoutes = model.Routes.Where(x => x.ParentCode == currentRouteCode).OrderBy(x => x.OrderIndex);
-        foreach (var childRoute in childrenRoutes)
+        foreach (var entry in currentEntries)
         {
-            string url = string.Empty;
-            var doc = model.Docs.SingleOrDefault(x => x.Code == childRoute.DocCode);
-            if (doc != null)
-            {
-                switch(doc.Type)
-                {
-                    case "tutorial":
-                        url = WebServer.Url<Routes.Tutorial, string>(childRoute.DocCode);
-                        break;
-                    case "docs":
-                        url = WebServer.Url<Routes.Docs, string>(childRoute.DocCode);
-                        break;
-                    default:
-                        url = "/" + childRoute.DocCode;
-                        break;
-
-                }
-            }
-
             IHtmlNode menuEntry =
-                !string.IsNullOrEmpty(url) ?
-                new HtmlTag("a").WithChild(HtmlText.CreateTextNode(childRoute.Title)).SetAttribute("href", url) :
-                new HtmlText(childRoute.Title);
+                !string.IsNullOrEmpty(entry.Url) ?
+                new HtmlTag("a").WithChild(HtmlText.CreateTextNode(entry.Title)).SetAttribute("href", entry.Url) :
+                new HtmlText(entry.Title);
 
             var treeItem = currentNode.AddChild(Component.Create<TreeItem>(
                 "sl-tree-item",
                 new TreeItem(),
                 menuEntry));
 
-            FillRecursiveRoute(model, childRoute.Code, treeItem);
+            FillMenuEntries(entry.Children, treeItem);
         }
     }
+
+    //private static void FillRecursiveRoute<TModel>(TModel model, string currentRouteCode, IHtmlElement currentNode)
+    //    where TModel : IHasTreeMenu
+    //{
+    //    var childrenRoutes = model.Routes.Where(x => x.ParentCode == currentRouteCode).OrderBy(x => x.OrderIndex);
+    //    foreach (var childRoute in childrenRoutes)
+    //    {
+    //        string url = string.Empty;
+    //        var doc = model.Docs.SingleOrDefault(x => x.Code == childRoute.DocCode);
+    //        if (doc != null)
+    //        {
+    //            switch(doc.Type)
+    //            {
+    //                case "tutorial":
+    //                    url = WebServer.Url<Routes.Tutorial, string>(childRoute.DocCode);
+    //                    break;
+    //                case "docs":
+    //                    url = WebServer.Url<Routes.Docs, string>(childRoute.DocCode);
+    //                    break;
+    //                default:
+    //                    url = "/" + childRoute.DocCode;
+    //                    break;
+
+    //            }
+    //        }
+
+    //        IHtmlNode menuEntry =
+    //            !string.IsNullOrEmpty(url) ?
+    //            new HtmlTag("a").WithChild(HtmlText.CreateTextNode(childRoute.Title)).SetAttribute("href", url) :
+    //            new HtmlText(childRoute.Title);
+
+    //        var treeItem = currentNode.AddChild(Component.Create<TreeItem>(
+    //            "sl-tree-item",
+    //            new TreeItem(),
+    //            menuEntry));
+
+    //        FillRecursiveRoute(model, childRoute.Code, treeItem);
+    //    }
+    //}
 
     public static IHtmlElement DrawerTreeMenu<TModel>(TModel model)
         where TModel: IHasTreeMenu
@@ -94,7 +117,7 @@ public static partial class Control
         return drawer;
     }
 
-    public static HtmlTag Header<TModel>(TModel model, IHtmlElement headerContent)
+    public static HtmlTag Header<TModel>(TModel model, IHtmlNode headerContent)
         where TModel : IHasTreeMenu
     {
         var onClickScript = new InlineModuleScript();
@@ -118,13 +141,8 @@ public static partial class Control
             Component.Create(
                 "sl-icon-button",
                 new IconButton() { Name = "list" })
-            .SetAttribute("id", BtnToggleTreeId)
-            //.SetAttribute("onclick", $"(()=>{{ var tree = getElementById('{TreeMenuId}'); console.log(tree.getAttribute('open')); }})()")
-
-            );
-
-
-        
+            .SetAttribute("id", BtnToggleTreeId),
+            headerContent);
 
         return header;
     }
@@ -135,15 +153,22 @@ public static class Tutorial
     public static DocumentTag Layout<TPageModel>(
         TPageModel model, 
         string pageTitle,
-        IHtmlElement headerContent,
-        IHtmlElement pageContent)
+        IHtmlNode headerContent,
+        IHtmlNode pageContent)
         where TPageModel : IHasTreeMenu
 
     {
+        var style = StyleTag.Create();
+        style.AddSelector("h1").AddProperty("font-size", "var(--sl-font-size-3x-large)");
+        style.AddSelector("h2").AddProperty("font-size", "var(--sl-font-size-2x-large)");
+        style.AddSelector("h3").AddProperty("font-size", "var(--sl-font-size-x-large)");
+        style.AddSelector("h4").AddProperty("font-size", "var(--sl-font-size-large)");
+
+
         var document = DocumentTag.Create(pageTitle);
         document.Head.AddModuleStylesheet();
-
-        document.Body.AddChild(pageContent);
+        document.Head.AddChild(style);
+        document.Body.AddChild(DivTag.CreateStyled("flex flex-col w-full h-full pt-24 ", pageContent));
 
         //document.Body.AddChild(Tutorial.ClientSide(model, (b, model) => b.DrawerTreeMenu(model)));
         //document.Body.AddChild(Control.Header(model, headerContent));
@@ -198,10 +223,29 @@ public static class Tutorial
 
 public static class TreeMenuExtensions
 {
-    public static async Task LoadRoutes(this IHasTreeMenu model)
+    public static async Task LoadMenu(this IHasTreeMenu model)
     {
-        var dbFullPath = await Arguments.FullDbPath();
-        model.Routes.AddRange(await Sqlite.Db.Entities<Route>(dbFullPath));
-        model.Docs.AddRange(await Sqlite.Db.Entities<Doc>(dbFullPath));
+        var menuJson = await System.Reflection.Assembly.GetAssembly(typeof(TutorialHandler)).GetEmbeddedTextFile("menu.json");
+        model.Menu = Metapsi.Serialize.FromJson<List<MenuEntry>>(menuJson);
+    }
+
+    public static void SetCurrentEntry(this IHasTreeMenu model, string requestPath)
+    {
+        TraverseMenu(model.Menu, (entry) =>
+        {
+            if (requestPath == entry.Url)
+            {
+                model.CurrentEntry = entry;
+            }
+        });
+    }
+
+    public static void TraverseMenu(List<MenuEntry> menuEntries, Action<MenuEntry> onEntry)
+    {
+        foreach(var menuEntry in menuEntries)
+        {
+            onEntry(menuEntry);
+            TraverseMenu(menuEntry.Children, onEntry);
+        }
     }
 }

@@ -1,0 +1,24 @@
+[
+  {
+    "Title": "Home",
+    "Url": "/"
+  },
+  {
+    "Title": "Tutorial",
+    "Children": [
+      {
+        "Title": "Overview",
+        "Url": "/tutorial/overview"
+      },
+      {
+        "Title": "Jump in",
+        "Children": [
+          {
+            "Title": "Hello world",
+            "Url": "/tutorial/hello-world"
+          }
+        ]
+      }
+    ]
+  }
+]

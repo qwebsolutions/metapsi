@@ -10,9 +10,13 @@ namespace Metapsi.Tutorial;
 
 public class DocsModel : IHasTreeMenu
 {
-    public List<Route> Routes { get; set; } = new();
-    public List<Doc> Docs { get; set; } = new();
-    public bool MenuIsExpanded { get; set; }
+    //public List<Route> Routes { get; set; } = new();
+    //public List<Doc> Docs { get; set; } = new();
+
+    public List<MenuEntry> Menu { get; set; } = new();
+    public MenuEntry CurrentEntry { get; set; } = new();
+
+    //public bool MenuIsExpanded { get; set; }
     public Doc Doc { get; set; }
 }
 
@@ -24,8 +28,8 @@ public class DocsHandler : Http.Get<Metapsi.Tutorial.Routes.Docs, string>
 
 
         DocsModel model = new DocsModel();
-        await model.LoadRoutes();
-        model.Doc = (await Sqlite.Db.Entities<Doc, string>(dbFullPath, x => x.Code, docCode)).SingleOrDefault();
+        await model.LoadMenu();
+        //model.Doc = (await Sqlite.Db.Entities<Doc, string>(dbFullPath, x => x.Code, docCode)).SingleOrDefault();
         return Page.Result(model);
     }
 }

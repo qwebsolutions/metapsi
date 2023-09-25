@@ -61,6 +61,8 @@ public static partial class Program
         var ig = setup.AddImplementationGroup();
         var webServer = setup.AddWebServer(ig, Convert.ToInt32(arguments.UiPort));
 
+        await CodeSampleRenderer.LoadAllCodeSamples();
+
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
 
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
@@ -72,8 +74,8 @@ public static partial class Program
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
 
-        //webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
-        //webServer.RegisterPageBuilder<TutorialModel>(new TutorialRenderer().Render);
+        webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
+        webServer.RegisterPageBuilder<TutorialModel>(new TutorialPage().Render);
 
         //webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
         //webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
@@ -89,6 +91,16 @@ public static partial class Program
 
         webServer.WebApplication.RegisterGetHandler<MarkdownHandler, Metapsi.Tutorial.Routes.MTutorial, string>();
         webServer.RegisterPageBuilder<MarkdownPage>(new MarkdownRenderer().Render);
+
+        webServer.WebApplication.UseExceptionHandler(
+            exceptionHandlerApp => exceptionHandlerApp.Run(
+                async context => await Results.Problem().ExecuteAsync(context)));
+
+
+        webServer.WebApplication.MapFallback((HttpContext context) =>
+        {
+            return "OOOPS!";
+        });
 
         var app = setup.Revive();
 

@@ -19,6 +19,10 @@ public class HomeModel : IHasTreeMenu
 {
     public List<Route> Routes { get; set; } = new();
     public List<Doc> Docs { get; set; } = new();
+
+    public List<MenuEntry> Menu { get; set; } = new List<MenuEntry>();
+    public MenuEntry CurrentEntry { get; set; } = new();
+
     public bool MenuIsExpanded { get; set; }
 }
 
@@ -278,7 +282,7 @@ public class HomeHandler : Http.Get<Metapsi.Tutorial.Routes.Home>
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
     {
         HomeModel model = new HomeModel();
-        await model.LoadRoutes();
+        await model.LoadMenu();
         return Page.Result(model);
     }
 }

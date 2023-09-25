@@ -100,15 +100,10 @@ public class Component<TProps> : IHtmlComponent, IHtmlElement
 
 public static class Component
 {
-    public static Component<TProps> Create<TProps>(string tag, TProps props, IHtmlNode child = null)
+    public static Component<TProps> Create<TProps>(string tag, TProps props, params IHtmlNode[] children)
     {
         var component = new Component<TProps>(tag, props);
-
-        if (child != null)
-        {
-            component.AddChild(child);
-        }
-
+        component.AddChildren(children);
         return component;
     }
 }

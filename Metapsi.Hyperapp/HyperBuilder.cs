@@ -69,7 +69,7 @@ namespace Metapsi.Hyperapp
                         {
                             return b.Call(onRenderError, model, error);
                         }));
-                    b.CallExternal(nameof(Core), "DispatchEvent", b.Const("afterRender"));
+                    b.DispatchEvent(b.Const("afterRender"));
                     return rootNode;
                 }));
                 b.Set(app, x => x.node, b.GetElementById(b.Const(mountDivId)));

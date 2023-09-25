@@ -1,4 +1,13 @@
-﻿namespace Metapsi.Tutorial;
+﻿using System.Collections.Generic;
+
+namespace Metapsi.Tutorial;
+
+public class MenuEntry
+{
+    public string Title { get; set; }
+    public string Url { get; set; }
+    public List<MenuEntry> Children { get; set; } = new();
+}
 
 public class Route
 {

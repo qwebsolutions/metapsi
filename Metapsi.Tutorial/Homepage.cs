@@ -18,7 +18,7 @@ public class Homepage : HtmlPage<HomeModel>
         var pageContainer = DivTag.CreateStyled(
             "flex flex-col",
             DivTag.CreateStyled(
-                "flex flex-col justify-center items-center pt-36 text-gray-800",
+                "flex flex-col justify-center items-center text-gray-800 pt-12",
                 Component.Create(
                     "sl-animation",
                     new Animation()

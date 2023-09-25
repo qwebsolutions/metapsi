@@ -1,4 +1,10 @@
 ﻿using Markdig;
+using Markdig.Helpers;
+using Markdig.Parsers;
+using Markdig.Renderers;
+using Markdig.Renderers.Html;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using Metapsi.Hyperapp;
 using Metapsi.Shoelace;
 using Metapsi.Syntax;
@@ -349,7 +355,7 @@ public class MarkdownRenderer : MarkdownHtmlPage<MarkdownPage>
                 .AddProperty("font-weight", "var(--sl-font-weight-bold)")));
 
 
-        body.AddChild(new MarkdownNode()
+        body.AddChild(new TutorialArticleNode()
         {
             Markdown = "### Heading level 3 \nI just love **bold text**."
         });
@@ -540,13 +546,17 @@ public interface IClientSideNode<TDataModel>
 //    }
 //}
 
-public class MarkdownNode : IHtmlNode
+
+public class TutorialArticleNode : IHtmlNode
 {
     public string Markdown { get; set; } = string.Empty;
+    public List<CodeSample> CodeSamples { get; set; } = new();
 
     public string ToHtml()
     {
-        return Markdig.Markdown.ToHtml(this.Markdown);
+        var pipeline = new MarkdownPipelineBuilder().Use<CodeSampleMarkdownExtension>().Build();
+        var markdown = Markdig.Markdown.ToHtml(this.Markdown, pipeline);
+        return markdown;
     }
 }
 

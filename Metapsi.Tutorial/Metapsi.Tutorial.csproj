@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
@@ -28,6 +28,20 @@
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.js" LogicalName="prism.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.css" LogicalName="prism.css"></EmbeddedResource>
+		<EmbeddedResource Include="docs\samples\*.cs" />
+		<EmbeddedResource Include="docs\articles\*.md" />
+		<EmbeddedResource Include="docs\menu.json" LogicalName="menu.json"></EmbeddedResource>
 	</ItemGroup>
 
+
+	<!--<ItemGroup>
+		<Content Include="docs\**" />
+		<Compile Remove="docs\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="docs\articles\hello-world.md" />
+	  <None Remove="docs\articles\Overview.md" />
+	  <None Remove="docs\menu.json" />
+	</ItemGroup>-->
 </Project>

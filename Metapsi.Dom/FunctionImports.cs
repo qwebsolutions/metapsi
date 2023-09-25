@@ -5,11 +5,45 @@ using Metapsi.Syntax;
 
 namespace Metapsi.Dom
 {
-    public class DomElement
+    public interface IDomElement
+    {
+    }
+
+    public class Window : IDomElement
+    {
+
+    }
+
+    public class DomElement : IDomElement
     {
         public string innerHTML { get; set; }
         public List<DomElement> children { get; set; }
     }
+
+    public class ClickTarget
+    {
+    }
+
+    public class DomEvent<TTarget>
+    {
+        public TTarget target { get; set; }
+    }
+
+    public class InputTarget
+    {
+        public string value { get; set; }
+    }
+
+    public class KeyboardEvent
+    {
+        public string key { get; set; }
+    }
+
+    public class CustomEvent<TDetail>
+    {
+        public TDetail detail { get; set; }
+    }
+
 
     public static class FunctionImports
     {
@@ -23,6 +57,11 @@ namespace Metapsi.Dom
         public static void CallDomFunction(this BlockBuilder b, string function, params IVariable[] arguments)
         {
             b.CallExternal(ModuleName, function, arguments);
+        }
+
+        public static Var<Window> Window(this BlockBuilder b)
+        {
+            return b.CallDomFunction<Window>(nameof(Window));
         }
 
         public static Var<DomElement> GetElementById(this BlockBuilder b, Var<string> id)
@@ -50,9 +89,28 @@ namespace Metapsi.Dom
             b.CallDomFunction(nameof(AppendChild), parent, child);
         }
 
-        public static void AddEventListener(this BlockBuilder b, Var<DomElement> element, Var<string> eventName, Var<Action> handler)
+        public static void AddEventListener<T>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action> handler)
+            where T: IDomElement
         {
             b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
+        }
+
+        public static void AddEventListener<T, TPayload>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
+            where T : IDomElement
+        {
+            b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
+        }
+
+        public static void RemoveEventListener<T>(this BlockBuilder b, Var<T> domElement, Var<Action> handler)
+               where T : IDomElement
+        {
+            b.CallDomFunction(nameof(RemoveEventListener), domElement, handler);
+        }
+
+        public static void RemoveEventListener<T, TPayload>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
+            where T : IDomElement
+        {
+            b.CallDomFunction(nameof(RemoveEventListener), element, eventName, handler);
         }
 
         public static void DispatchEvent(this BlockBuilder b, Var<string> eventName)
@@ -68,6 +126,11 @@ namespace Metapsi.Dom
         public static void RequestAnimationFrame(this BlockBuilder b, Var<Action> action)
         {
             b.CallDomFunction(nameof(RequestAnimationFrame), action);
+        }
+
+        public static void StopPropagation(this BlockBuilder b, Var<DomEvent<ClickTarget>> domElement)
+        {
+            b.CallDomFunction(nameof(StopPropagation), domElement);
         }
 
         public static void Focus(this BlockBuilder b, Var<DomElement> domElement, bool scroll)
@@ -98,6 +161,16 @@ namespace Metapsi.Dom
         public static void ScrollTo(this BlockBuilder b, Var<int> x, Var<int> y)
         {
             b.CallDomFunction(nameof(ScrollTo), x, y);
+        }
+
+        public static Var<int> SetInterval(this BlockBuilder b, Var<Action> action, Var<int> delay)
+        {
+            return b.CallDomFunction<int>(nameof(SetInterval), action, delay);
+        }
+
+        public static void ClearInterval(this BlockBuilder b, Var<int> intervalId)
+        {
+            b.CallDomFunction(nameof(ClearInterval), intervalId);
         }
     }
 }

@@ -16,6 +16,11 @@ namespace Metapsi.Hyperapp
         public bool InProgress { get; set; }
     }
 
+    public class ApiSupportModel : IApiSupportState
+    {
+        public ApiSupport ApiSupport { get; set; } = new();
+    }
+
     public static class ApiSupportExtensions
     {
         public static Action<BlockBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult, P1>(
