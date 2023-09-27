@@ -6,9 +6,9 @@ using System.Linq;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// If statement
+/// If statement with else branch
 /// </summary>
-public class IfStatement : TutorialSample<IfStatement.Model>
+public class IfElseStatement : TutorialSample<IfElseStatement.Model>
 {
     public class Model
     {
@@ -32,6 +32,10 @@ public class IfStatement : TutorialSample<IfStatement.Model>
                             b.Const("There are "),
                             b.AsString(loggedUsersCount),
                             b.Const(" logged users"))));
+            },
+            b=>
+            {
+                b.Add(container, b.Text("There are no logged users"));
             });
 
         return container;
@@ -41,7 +45,7 @@ public class IfStatement : TutorialSample<IfStatement.Model>
     {
         return new Model()
         {
-            LoggedUsers = new List<string> { "Mary", "Patricia", "Michael", "David", "Linda", "Elizabeth" }
+            LoggedUsers = new List<string> { }
         };
     }
 }

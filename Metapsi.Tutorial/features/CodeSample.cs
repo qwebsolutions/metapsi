@@ -4,14 +4,102 @@ using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax.Inlines;
+using Metapsi.Dom;
+using Metapsi.Shoelace;
+using Metapsi.Syntax;
+using Metapsi.Ui;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
+
+
+public class CodeSample
+{
+    public string SampleId { get; set; } = string.Empty;
+    public string SampleLabel { get; set; } = string.Empty;
+    public string CSharpModel { get; set; } = " "; // because model is not always mandatory & code sample span collapses if there is no text
+    public string CSharpCode { get; set; } = string.Empty; // because code is always mandatory & compile button is disabled if there's none
+    public string JsonModel { get; set; } = "{}";
+}
+
+public static partial class Control
+{
+
+    public static HtmlTag Sample(CodeSample sample, InlineSample inlineSample)
+    {
+        const string ModelTab = nameof(ModelTab);
+        const string JsonDataTab = nameof(JsonDataTab);
+        const string CSharpCodeTab = nameof(CSharpCodeTab);
+
+        var sendToPanelButtonId = "send_to_live_panel_" + sample.SampleId;
+
+        var modelTab = Component.Create("sl-tab", new Tab() { Panel = ModelTab }, HtmlText.CreateTextNode("Model")).SetAttribute("slot", "nav");
+        var jsonTab = Component.Create("sl-tab", new Tab() { Panel = JsonDataTab }, HtmlText.CreateTextNode("JSON data")).SetAttribute("slot", "nav");
+        var viewTab = Component.Create("sl-tab", new Tab() { Panel = CSharpCodeTab }, HtmlText.CreateTextNode("View")).SetAttribute("slot", "nav");
+
+        var modelPanel = Component.Create(
+                    "sl-tab-panel",
+                    new TabPanel() { Name = ModelTab },
+                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(sample.CSharpModel))));
+
+        var jsonPanel = Component.Create(
+                    "sl-tab-panel",
+                    new TabPanel() { Name = JsonDataTab },
+                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-javascript").WithChild(HtmlText.CreateTextNode(sample.JsonModel))));
+
+        var viewPanel = Component.Create("sl-tab-panel", new TabPanel() { Name = CSharpCodeTab },
+                new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(sample.CSharpCode))));
+
+        if (inlineSample.SelectedTab == SampleTab.Json)
+        {
+            jsonTab.SetAttribute("active", "true");
+            jsonPanel.SetAttribute("active", "true");
+        }
+
+        if (inlineSample.SelectedTab == SampleTab.View)
+        {
+            viewTab.SetAttribute("active", "true");
+            viewPanel.SetAttribute("active", "true");
+        }
+
+        var container = DivTag.CreateStyled(
+            "flex flex-col border rounded",
+            Component.Create(
+                "sl-tab-group",
+                new TabGroup(),
+                modelTab,
+                jsonTab,
+                viewTab,
+                modelPanel,
+                jsonPanel,
+                viewPanel),
+
+            DivTag.CreateStyled(
+                "flex flex-row items-center justify-between p-4 bg-gray-100 text-lg",
+                HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
+                Tooltip.Create(
+                    new Tooltip(),
+                    Component.Create("sl-icon-button", new IconButton() { Name = "arrow-right-square" }).SetAttribute("id", sendToPanelButtonId),
+                    HtmlText.Create("Send to live panel"))));
+
+        container.AddJs(b =>
+        {
+            var control = b.GetElementById(b.Const(sendToPanelButtonId));
+            b.Set(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.DefineAction((b) =>
+            {
+                b.DispatchEvent(b.Const("ExploreSample"), b.Const(sample));
+            }));
+        });
+
+        return container;
+    }
+}
 
 public class CodeSampleMarkdownExtension : IMarkdownExtension
 {
@@ -26,9 +114,17 @@ public class CodeSampleMarkdownExtension : IMarkdownExtension
     }
 }
 
+public enum SampleTab
+{
+    Class,
+    Json,
+    View
+}
+
 public class InlineSample : LeafInline
 {
     public string SampleId { get; set; }
+    public SampleTab SelectedTab { get; set; } = SampleTab.Class;
 }
 
 public class CodeSampleParser : Markdig.Parsers.InlineParser
@@ -37,7 +133,25 @@ public class CodeSampleParser : Markdig.Parsers.InlineParser
     {
         if (slice.ToString().StartsWith("CodeSample:"))
         {
-            var sampleId = slice.ToString().Split(":").Last();
+            var inlineSample = new InlineSample() {  };
+
+            var segments = slice.ToString().Split(":");
+
+            inlineSample.SampleId = segments[1];
+
+            if (segments.Count() == 3)
+            {
+                var selectedTab = segments.Last();
+                if(selectedTab == SampleTab.Json.ToString())
+                {
+                    inlineSample.SelectedTab = SampleTab.Json;
+                }
+
+                if(selectedTab == SampleTab.View.ToString())
+                {
+                    inlineSample.SelectedTab = SampleTab.View;
+                }
+            }
 
             var length = slice.Length;
 
@@ -46,7 +160,7 @@ public class CodeSampleParser : Markdig.Parsers.InlineParser
                 slice.NextChar();
             }
 
-            processor.Inline = new InlineSample() { SampleId = sampleId };
+            processor.Inline = inlineSample;
             return true;
         }
 
@@ -61,7 +175,7 @@ public class CodeSampleRenderer : HtmlObjectRenderer<InlineSample>
     protected override void Write(HtmlRenderer renderer, InlineSample obj)
     {
         var sample = AllCodeSamples.Single(x => x.SampleId == obj.SampleId);
-        var sampleHtml = Control.Sample(sample).ToHtml();
+        var sampleHtml = Control.Sample(sample, obj).ToHtml();
         renderer.Write(sampleHtml);
     }
 
@@ -93,7 +207,7 @@ public static class CodeSamplesLoader
 
     private static string GetCSharpModel(ClassDeclarationSyntax classNode)
     {
-        return string.Join("\n", classNode.Members.Select(x => x.ToString()));
+        return string.Join("\n", classNode.Members.Select(x => x.ToString().Replace("\n        ", "\n")));
     }
 
     private static string GetClassComment(ClassDeclarationSyntax classNode)

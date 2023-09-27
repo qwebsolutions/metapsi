@@ -554,7 +554,9 @@ public class TutorialArticleNode : IHtmlNode
 
     public string ToHtml()
     {
-        var pipeline = new MarkdownPipelineBuilder().Use<CodeSampleMarkdownExtension>().Build();
+        var pipeline = new MarkdownPipelineBuilder()
+            .Use<CodeSampleMarkdownExtension>()
+            .Build();
         var markdown = Markdig.Markdown.ToHtml(this.Markdown, pipeline);
         return markdown;
     }

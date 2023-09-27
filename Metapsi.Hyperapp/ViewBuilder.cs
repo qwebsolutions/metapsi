@@ -1,4 +1,5 @@
-﻿using Metapsi.Hyperapp;
+﻿using Metapsi.Dom;
+using Metapsi.Syntax;
 using Metapsi.Ui;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Metapsi.Syntax
+namespace Metapsi.Hyperapp
 {
     public static class ViewBuilder
     {
@@ -431,12 +432,17 @@ namespace Metapsi.Syntax
             return image;
         }
 
-        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
-            var dateStringLocale = b.FormatLocaleDate(dateDate, b.Const(locale), options);
+            var dateStringLocale = b.FormatLocaleDate(dateDate, locale, options);
             return dateStringLocale;
+        }
+
+        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        {
+            return b.FormatDate(date, b.Const(locale), options);
         }
 
         public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, string locale)
@@ -469,15 +475,25 @@ namespace Metapsi.Syntax
                 b => b.Const(""));
         }
 
-        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date, string languageFormat)
+        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date, Var<string> languageFormat)
         {
-
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
-            var dateStringLocale = b.FormatLocaleDateTime(dateDate, b.Const(languageFormat));
+            var dateStringLocale = b.FormatLocaleDateTime(dateDate, languageFormat);
 
             return dateStringLocale;
         }
+
+        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date, string languageFormat)
+        {
+            return b.FormatDatetime(date, b.Const(languageFormat));
+        }
+
+        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date)
+        {
+            return b.FormatDatetime(date, b.GetLocale());
+        }
+
         public static Var<string> ItalianFormat(this BlockBuilder b, Var<DateTime> date)
         {
             return FormatDatetime(b, date, "it-IT");
@@ -545,6 +561,7 @@ namespace Metapsi.Syntax
     public static class Html
     {
         public static DynamicProperty<string> href = new(nameof(href));
+        public static DynamicProperty<string> target = new(nameof(target));
         public static DynamicProperty<bool> disabled = new(nameof(disabled));
         public static DynamicProperty<string> @class = new(nameof(@class));
         public static DynamicProperty<string> action = new(nameof(action));

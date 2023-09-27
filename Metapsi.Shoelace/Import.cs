@@ -9,8 +9,8 @@ public static class Import
 {
     public static void Shoelace(BlockBuilder b)
     {
-        b.AddScript("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module");
-        b.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css");
+        b.AddScript("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/shoelace-autoloader.js", "module");
+        b.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/themes/light.css");
     }
 
     public static Var<HyperNode> SlNode(this BlockBuilder b, string tag)

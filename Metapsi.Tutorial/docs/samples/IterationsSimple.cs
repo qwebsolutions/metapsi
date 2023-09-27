@@ -6,9 +6,9 @@ using System.Linq;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// If statement
+/// List iteration
 /// </summary>
-public class IfStatement : TutorialSample<IfStatement.Model>
+public class IterationsSimple : TutorialSample<IterationsSimple.Model>
 {
     public class Model
     {
@@ -17,24 +17,16 @@ public class IfStatement : TutorialSample<IfStatement.Model>
 
     public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
     {
-        var container = b.Span();
-
-        var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
-        var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
-
-        b.If(
-            anyLoggedUser,
-            b =>
+        var container = b.Div("flex flex-col");
+        b.Foreach(
+            b.Get(model, x => x.LoggedUsers),
+            (b, user) =>
             {
-                b.Add(container,
-                    b.Text(
-                        b.Concat(
-                            b.Const("There are "),
-                            b.AsString(loggedUsersCount),
-                            b.Const(" logged users"))));
+                b.Add(container, b.Text(user));
             });
 
         return container;
+
     }
 
     public override Model GetSampleData()

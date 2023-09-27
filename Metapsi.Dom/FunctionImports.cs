@@ -172,6 +172,11 @@ namespace Metapsi.Dom
         {
             b.CallDomFunction(nameof(ClearInterval), intervalId);
         }
+
+        public static Var<string> GetLocale(this BlockBuilder b)
+        {
+            return b.CallDomFunction<string>(nameof(GetLocale));
+        }
     }
 }
 

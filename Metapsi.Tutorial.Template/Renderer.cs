@@ -1,6 +1,8 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace Metapsi.Tutorial.Template;
 

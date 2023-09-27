@@ -25,3 +25,6 @@ export const CreateObjectUrl = URL.createObjectURL;
 export const Click = (domElement) => domElement.click()
 export const SetInterval = setInterval;
 export const ClearInterval = clearInterval;
+export const GetLocale = () => {
+    return Intl.NumberFormat().resolvedOptions().locale;
+}

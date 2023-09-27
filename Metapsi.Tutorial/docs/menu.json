@@ -16,8 +16,49 @@
           {
             "Title": "Hello world",
             "Url": "/tutorial/hello-world"
+          },
+          {
+            "Title": "Nested HTML",
+            "Url": "/tutorial/nested-html"
+          },
+          {
+            "Title": "Custom tags",
+            "Url": "/tutorial/custom-tags"
+          },
+          {
+            "Title": "HTML attributes",
+            "Url": "/tutorial/html-attributes"
+          },
+          {
+            "Title": "Data model",
+            "Url": "/tutorial/data-model"
+          },
+          {
+            "Title": "Conditionals",
+            "Url": "/tutorial/conditional-rendering"
+          },
+          {
+            "Title": "Iteration",
+            "Url": "/tutorial/iterations"
+          },
+          {
+            "Title": "Wrap up",
+            "Url": "/tutorial/jump-in-wrap-up"
           }
         ]
+      }
+    ]
+  },
+  {
+    "Title": "Opinion",
+    "Children": [
+      {
+        "Title": "Client side vs server side rendering",
+        "Url": ""
+      },
+      {
+        "Title": "Rendering logic is business logic",
+        "Url": ""
       }
     ]
   }

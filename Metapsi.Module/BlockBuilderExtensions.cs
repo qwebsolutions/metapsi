@@ -88,6 +88,19 @@ namespace Metapsi.Syntax
             return b.CallFunction<TResult>(constExpr, input1, input2, input3, input4, input5);
         }
 
+        public static void Foreach<T>(
+            this BlockBuilder b,
+            Var<List<T>> collection,
+            Action<BlockBuilder, Var<T>, Var<int>> action)
+        {
+            var index = b.Ref(b.Const(0));
+            b.Foreach(collection, (b, item) =>
+            {
+                b.Call(action, item, b.GetRef(index));
+                b.SetRef(index, b.Get(b.GetRef(index), x => x + 1));
+            });
+        }
+
         public static Var<TResult> Switch<TResult, TInput>(
             this BlockBuilder b,
             Var<TInput> v,

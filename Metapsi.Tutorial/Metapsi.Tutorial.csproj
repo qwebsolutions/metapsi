@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
 		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
 		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
@@ -28,6 +29,7 @@
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.js" LogicalName="prism.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.css" LogicalName="prism.css"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\codeflask.min.js" LogicalName="codeflask.min.js"></EmbeddedResource>
 		<EmbeddedResource Include="docs\samples\*.cs" />
 		<EmbeddedResource Include="docs\articles\*.md" />
 		<EmbeddedResource Include="docs\menu.json" LogicalName="menu.json"></EmbeddedResource>

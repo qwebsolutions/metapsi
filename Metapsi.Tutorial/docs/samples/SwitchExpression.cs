@@ -6,9 +6,9 @@ using System.Linq;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// If expression
+/// Switch expression
 /// </summary>
-public class IfExpression : TutorialSample<IfExpression.Model>
+public class SwitchExpression : TutorialSample<SwitchExpression.Model>
 {
     public class Model
     {
@@ -17,24 +17,26 @@ public class IfExpression : TutorialSample<IfExpression.Model>
 
     public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
     {
-        var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        return b.Text(
-            b.If(
-                anyLoggedUser,
+        var loggedUsersMessage = 
+            b.Switch(
+                loggedUsersCount,
                 b => b.Concat(
                     b.Const("There are "),
                     b.AsString(loggedUsersCount),
                     b.Const(" logged users")),
-                b => b.Const("There are no logged users")));
+                (0, b => b.Const("There are no logged users")),
+                (1, b => b.Const("There is one logged user")));
+
+        return b.Text(loggedUsersMessage);
     }
 
     public override Model GetSampleData()
     {
         return new Model()
         {
-            LoggedUsers = new List<string> { }
+            LoggedUsers = new List<string> { "Ringo" }
         };
     }
 }
