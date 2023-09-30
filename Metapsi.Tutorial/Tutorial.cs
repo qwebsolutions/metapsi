@@ -54,6 +54,12 @@ public class TutorialPage : HtmlPage<TutorialModel>
         page.Body.AddJs(b =>
         {
             b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
+
+            b.AddEventListener(b.Window(), b.Const("sl-await-loaded"), b.DefineAction(b =>
+            {
+                b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
+                //b.AddMonaco(b.Const(new CodeSample()));
+            }));
         });
 
         return page;

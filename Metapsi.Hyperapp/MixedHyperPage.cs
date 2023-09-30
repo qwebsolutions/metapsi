@@ -25,7 +25,7 @@ namespace Metapsi.Hyperapp
         {
             var dataModel = ExtractClientModel(serverModel);
 
-            var module = HyperBuilder.BuildModule<TClientModel>(
+            var module = new ModuleBuilder().BuildHyperapp<TClientModel>(
                 (b, clientModel) =>
                 {
                     return OnRender(b, serverModel, clientModel);

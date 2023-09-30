@@ -49,6 +49,7 @@ container.appendChild(...)
 You will not see a compile error, you will not see a runtime error and you might even not notice the wrong output for a long time. 
 Always naming the code builder <span class="inline-code">b</span> is much safer.
     
+### Else
 
 Going back to our sample, we notice that there will be no HTML output when there are no logged users. We can fix that by using the *else* branch.
 

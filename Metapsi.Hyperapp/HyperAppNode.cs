@@ -10,13 +10,13 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
     // TODO: Model should come from outside
     public TDataModel Model { get; set; }
 
+    public ModuleBuilder ModuleBuilder { get; } = new ModuleBuilder();
+
     public HtmlTag TakeoverNode { get; set; }
     public System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> Render { get; set; } = (b, model) => b.Div();
     public System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> Init { get; set; } = (b, model) => b.MakeStateWithEffects(model);
 
-    public System.Action<DocumentTag, IHtmlElement, Module> OnModuleAttached { get; set; } = (d, e, m) => { };
-
-    public void Attach(DocumentTag document, IHtmlElement parentNode)
+    public virtual void Attach(DocumentTag document, IHtmlElement parentNode)
     {
         // Assume control over TakeoverNode
         // If it's already added to the document, remove it
@@ -24,7 +24,7 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
 
         document.ReplaceById(TakeoverNode.Attributes["id"], this);
 
-        var module = HyperBuilder.BuildModule<TDataModel>((b, model) =>
+        var module = this.ModuleBuilder.BuildHyperapp((b, model) =>
         {
             b.AddSubscription<TDataModel>(
                 "SyncSharedModel",
@@ -74,11 +74,6 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
         });
 
         document.Head.AddChild(mainScript);
-
-        if (this.OnModuleAttached != null)
-        {
-            this.OnModuleAttached(document, parentNode, module);
-        }
     }
     public string ToHtml()
     {

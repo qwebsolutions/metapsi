@@ -34,12 +34,34 @@ public static class Tutorial
         return document;
     }
 
+    public class TutorialHyperAppNode<TDataModel> : HyperAppNode<TDataModel>
+    {
+        public override void Attach(DocumentTag document, IHtmlElement parentNode)
+        {
+            base.Attach(document, parentNode);
+            WaitClientSideShoelaceTags(document, parentNode, this.ModuleBuilder.Module);
+        }
+    }
+
     public static HtmlTag ClientSide<TDataModel>(
         TDataModel model,
         System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
         System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
     {
-        return Metapsi.Hyperapp.ClientSide.Create(model, render, init, WaitClientSideShoelaceTags);
+        var mountDivId = $"id_{System.Guid.NewGuid()}";
+        var appContainer = new DivTag().SetAttribute("id", mountDivId);
+
+        var hyperApp = new TutorialHyperAppNode<TDataModel>()
+        {
+            Model = model,
+            Init = init,
+            Render = render,
+            TakeoverNode = appContainer
+        };
+
+        appContainer.AddChild(hyperApp);
+
+        return appContainer;
     }
 
     private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
@@ -72,5 +94,7 @@ public static class Tutorial
 
         document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
         document.Head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
+
+
     }
 }

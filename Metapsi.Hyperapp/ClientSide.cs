@@ -9,8 +9,7 @@ public class ClientSide
     public static HtmlTag Create<TDataModel>(
         TDataModel model,
         System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null,
-        System.Action<DocumentTag, IHtmlElement, Module> onModuleAttached  = null)
+        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
     {
         var mountDivId = $"id_{Guid.NewGuid()}";
         var appContainer = new DivTag().SetAttribute("id", mountDivId);
@@ -20,8 +19,7 @@ public class ClientSide
             Model = model,
             Init = init,
             Render = render,
-            TakeoverNode = appContainer,
-            OnModuleAttached = onModuleAttached
+            TakeoverNode = appContainer
         };
 
         appContainer.AddChild(hyperApp);

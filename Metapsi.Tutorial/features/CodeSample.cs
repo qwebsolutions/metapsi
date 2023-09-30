@@ -46,7 +46,7 @@ public static partial class Control
         var modelPanel = Component.Create(
                     "sl-tab-panel",
                     new TabPanel() { Name = ModelTab },
-                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(sample.CSharpModel))));
+                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpModel)))));
 
         var jsonPanel = Component.Create(
                     "sl-tab-panel",
@@ -54,7 +54,7 @@ public static partial class Control
                     new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-javascript").WithChild(HtmlText.CreateTextNode(sample.JsonModel))));
 
         var viewPanel = Component.Create("sl-tab-panel", new TabPanel() { Name = CSharpCodeTab },
-                new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(sample.CSharpCode))));
+                new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpCode)))));
 
         if (inlineSample.SelectedTab == SampleTab.Json)
         {
@@ -200,14 +200,14 @@ public static class CodeSamplesLoader
         var body = methodDeclarationSyntax.Body.ToString()
             .TrimStart('{')
             .TrimEnd('}').Trim()
-            .Replace("\n        ", "\n");
+            .Replace("\n        ", "\n").Trim();
 
         return body;
     }
 
     private static string GetCSharpModel(ClassDeclarationSyntax classNode)
     {
-        return string.Join("\n", classNode.Members.Select(x => x.ToString().Replace("\n        ", "\n")));
+        return string.Join("\n", classNode.Members.Select(x => x.ToString().Replace("\n        ", "\n"))).Trim();
     }
 
     private static string GetClassComment(ClassDeclarationSyntax classNode)

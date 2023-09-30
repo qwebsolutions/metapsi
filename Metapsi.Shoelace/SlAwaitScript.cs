@@ -17,7 +17,7 @@ public class SlAwaitScript : BaseTag
 
         scriptTag.AddChild(new HtmlText()
         {
-            Text = $" await Promise.allSettled([{whenDefinedArray}]);document.body.classList.add('ready');console.log('document ready');"
+            Text = $" await Promise.allSettled([{whenDefinedArray}]);document.body.classList.add('ready'); window.dispatchEvent(new Event('sl-await-loaded'));"
         });
 
         return scriptTag;

@@ -14,7 +14,7 @@ namespace Metapsi.Hyperapp
 
         public override IHtmlNode GetHtmlTree(TDataModel dataModel)
         {
-            var module = HyperBuilder.BuildModule<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
+            var module = new ModuleBuilder().BuildHyperapp<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 

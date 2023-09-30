@@ -22,13 +22,54 @@ public class SandboxModel : ApiSupportModel
     public string ResultHtml { get; set; } = "<p style=\"font-family:sans-serif;\">Run the code sample to see HTML output here</p>";
 }
 
+public class MinimapProps
+{
+    public bool enabled { get; set; }
+}
+
+public class MonacoProps
+{
+    // Metapsi specific
+ 
+    public string EditorId { get; set; }
+    public string Class { get; set; } = "w-full h-72 bg-white";
+
+    // actual props
+
+    public string value { get; set; }
+    public string language { get; set; }
+    public MinimapProps minimap { get; set; } = new();
+}
 
 public static partial class Control
 {
+    public static Var<HyperNode> MonacoEditor(this BlockBuilder b, Var<MonacoProps> props)
+    {
+        var containerId = b.Get(props, x => x.EditorId);
+
+        var container = b.Div(b.Get(props, x=>x.Class));
+        b.SetAttr(container, Html.id, containerId);
+
+        b.CallExternal("Metapsi.Tutorial", "AttachMonaco", props);
+
+        return container;
+
+    }
+
+    public static string TabPanelName(this System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    {
+        return $"id-tab-{property.PropertyName()}";
+    }
+
+    public static string MonacoDivContainerId(System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    {
+        return $"id-monaco-{property.PropertyName()}";
+    }
+
 
     public static HtmlTag SandboxApp()
     {
-        return ClientSide.Create(new SandboxModel(), Sandbox, (BlockBuilder b, Var<SandboxModel> model) =>
+        var sandboxContainer = Tutorial.ClientSide(new SandboxModel(), DesktopSandboxWithTabs, (BlockBuilder b, Var<SandboxModel> model) =>
         {
             b.AddSubscription<SandboxModel>(
                 "ExploreSample_Sub",
@@ -42,25 +83,33 @@ public static partial class Control
                             {
                                 var resetModel = b.NewObj<SandboxModel>();
                                 b.Set(resetModel, x => x.CodeSample, newSample);
-
-                                b.Log(resetModel);
-                                var rendererCodeContainer = b.GetElementById(b.Const("id-live-sample-renderer"));
-                                var monacoProps = b.NewObj<DynamicObject>();
-                                b.Set(monacoProps, DynamicProperty.String("value"), b.Get(resetModel, x => x.CodeSample.CSharpCode));
-                                b.Set(monacoProps, DynamicProperty.String("language"), b.Const("csharp"));
-
-                                b.CallExternal("Metapsi.Tutorial", "AddMonaco", rendererCodeContainer, monacoProps);
+                                //b.AddMonaco(b.Get(resetModel, x => x.CodeSample));
                                 return resetModel;
                             });
                         }));
                 });
 
+            b.AddSubscription<SandboxModel>(
+                "MonacoAdded_Sub",
+                (BlockBuilder b, Var<SandboxModel> _) =>
+                {
+                    return b.Listen<SandboxModel, SandboxModel>(
+                        b.Const("monaco-added"),
+                        b.MakeAction((BlockBuilder b, Var<SandboxModel> model, Var<SandboxModel> _) =>
+                        {
+                            b.Log("monaco-added");
+                            b.Log(model);
+                            return b.Clone(model);
+                        }));
+                });
+
             return b.Call(OnInit, model);
         });
+
+        return sandboxContainer;
     }
-
-
-    public static Var<HyperNode> Sandbox(BlockBuilder b, Var<SandboxModel> clientModel)
+    /*
+    public static Var<HyperNode> MobileSandbox(BlockBuilder b, Var<SandboxModel> clientModel)
     {
         var liveSample = b.Get(clientModel, x => x.CodeSample);
 
@@ -79,7 +128,6 @@ public static partial class Control
         }));
 
         var jsonModelData = b.NewObj<Textarea>();
-        //b.Set(jsonModelData, x => x.Rows, b.Const(10));
         b.Set(jsonModelData, x => x.Label, "JSON model data");
         b.Set(jsonModelData, x => x.HelpText, b.Const("Matching the class declaration above"));
         b.Set(jsonModelData, x => x.Value, b.Get(liveSample, x => x.JsonModel));
@@ -98,7 +146,6 @@ public static partial class Control
         b.Set(codeArea, x => x.HelpText, "Server-side builder for client-side JavaScript");
         b.Set(codeArea, x => x.Value, b.Get(liveSample, x => x.CSharpCode));
         var codeControl = b.Add(container, b.Textarea(codeArea));
-        //b.SetAttr(codeControl, Html.id, "id-live-sample-renderer");
 
         b.SetOnSlChange(codeControl, b.MakeAction<SandboxModel, string>((b, model, v) =>
         {
@@ -106,11 +153,6 @@ public static partial class Control
             b.Set(liveSample, x => x.CSharpCode, v);
             return b.Clone(model);
         }));
-
-        var monacoRendererContainer = b.Add(container, b.Div("w-full h-96"));
-        b.SetAttr(monacoRendererContainer, Html.id, "id-live-sample-renderer");
-
-        //var compile = b.Add(container, b.Node("button", "rounded p-4 bg-blue-500 text-white", b => b.TextNode("Run!")));
 
         var compileButtonProps = b.NewObj<Button>();
         b.Set(compileButtonProps, x => x.Text, "Run!");
@@ -120,6 +162,113 @@ public static partial class Control
 
         var compile = b.Add(container, b.Button(compileButtonProps));
 
+
+        b.SetOnClick(compile, b.MakeServerAction(clientModel, Compile));
+
+        var iframe = b.Add(container, b.Node("iframe", "w-full h-96 rounded border border-blue-500"));
+        b.SetAttr(iframe, Html.id, "output-frame");
+
+        SetOutputHtml(b, b.Get(clientModel, x => x.ResultHtml));
+
+        return container;
+    }*/
+
+    private static Var<bool> SampleHasProperty(BlockBuilder b, Var<CodeSample> sample, System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    {
+        var modelText = b.Get(sample, property);
+
+        return b.Switch(
+            modelText,
+            b => b.HasValue(modelText),
+            (" ", b => b.Const(false)),
+            ("{}", b => b.Const(false)));
+    }
+
+    public static Var<HyperNode> DesktopSandboxWithTabs(BlockBuilder b, Var<SandboxModel> clientModel)
+    {
+        var liveSample = b.Get(clientModel, x => x.CodeSample);
+
+        var container = b.Div("flex flex-col gap-2 bg-gray-50 rounded p-2");
+
+        // MODEL
+
+        var modelTab = b.Tab(b.NewObj<Tab>(b =>
+        {
+            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x => x.CSharpModel)));
+        }));
+        b.SetAttr(modelTab, DynamicProperty.String("slot"), "nav");
+        b.Add(modelTab, b.TextNode("Model"));
+
+        var modelPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        {
+            b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.CSharpModel)));
+        }));
+
+        var modelEditorProps = b.NewObj<MonacoProps>();
+        b.Set(modelEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpModel));
+        b.Set(modelEditorProps, x => x.language, "csharp");
+        b.Set(modelEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpModel));
+
+        var modelEditor = b.Add(modelPanel, b.MonacoEditor(modelEditorProps));
+
+        // JSON
+
+        var jsonTab = b.Tab(b.NewObj<Tab>(b =>
+        {
+            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x=>x.JsonModel)));
+        }));
+        b.SetAttr(jsonTab, DynamicProperty.String("slot"), "nav");
+        b.Add(jsonTab, b.TextNode("JSON data"));
+        
+        var jsonPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        {
+            b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.JsonModel)));
+        }));
+
+        var jsonEditorProps = b.NewObj<MonacoProps>();
+        b.Set(jsonEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.JsonModel));
+        b.Set(jsonEditorProps, x => x.language, "javascript");
+        b.Set(jsonEditorProps, x => x.value, b.Get(liveSample, x => x.JsonModel));
+
+        b.Add(jsonPanel, b.MonacoEditor(jsonEditorProps));
+
+        // VIEW
+
+        var viewTab = b.Tab(b.NewObj<Tab>(b =>
+        {
+            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x => x.CSharpCode)));
+        }));
+        b.SetAttr(viewTab, DynamicProperty.String("slot"), "nav");
+        b.Add(viewTab, b.TextNode("View"));
+
+        var viewPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        {
+            b.Set(x => x.Name, b.Const(Control.TabPanelName(x=>x.CSharpCode)));
+        }));
+
+
+        var viewEditorProps = b.NewObj<MonacoProps>();
+        b.Set(viewEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpCode));
+        b.Set(viewEditorProps, x => x.language, "csharp");
+        b.Set(viewEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpCode));
+
+        b.Add(viewPanel, b.MonacoEditor(viewEditorProps));
+
+        var tabGroup = b.Add(container, b.TabGroup());
+        b.Add(tabGroup, modelTab);
+        b.Add(tabGroup, jsonTab);
+        b.Add(tabGroup, viewTab);
+        b.Add(tabGroup, modelPanel);
+        b.Add(tabGroup, jsonPanel);
+        b.Add(tabGroup, viewPanel);
+
+        var compileButtonProps = b.NewObj<Button>();
+        b.Set(compileButtonProps, x => x.Text, "Run!");
+        b.Set(compileButtonProps, x => x.Variant, ButtonVariant.Primary);
+        b.Set(compileButtonProps, x => x.Loading, b.Get(clientModel, x => x.ApiSupport.InProgress));
+        b.Set(compileButtonProps, x => x.Disabled, b.Not(b.HasValue(b.Get(liveSample, x => x.CSharpCode))));
+
+        var compile = b.Add(container, b.Button(compileButtonProps));
 
         b.SetOnClick(compile, b.MakeServerAction(clientModel, Compile));
 
@@ -166,7 +315,6 @@ public static partial class Control
                         });
 
                     b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
-
                 }));
         })));
     }

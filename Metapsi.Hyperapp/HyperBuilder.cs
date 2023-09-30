@@ -8,10 +8,11 @@ namespace Metapsi.Hyperapp
 {
     public static class HyperBuilder
     {
-        public static Module BuildModule<TDataModel>(
-           Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render,
-           Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
-           string mountDivId = null)
+        public static Module BuildHyperapp<TDataModel>(
+            this ModuleBuilder moduleBuilder,
+            Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render,
+            Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
+            string mountDivId = null)
         {
             if (mountDivId == null)
                 mountDivId = "app";
