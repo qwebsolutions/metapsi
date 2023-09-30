@@ -1,4 +1,5 @@
-﻿using Metapsi.Ui;
+﻿using Metapsi.Syntax;
+using Metapsi.Ui;
 using System.Linq;
 
 namespace Metapsi.Shoelace;
@@ -23,5 +24,12 @@ public static class SlHtmlExtensions
                 .AddProperty("opacity", "1")
                 .AddProperty("transition", ".25s opacity;");
         }
+
+        document.GetSlAwaitWhenDefinedScript().ThenActions.Add(ShowOnLoaded);
+    }
+
+    private static void ShowOnLoaded(BlockBuilder b)
+    {
+        b.CallExternal("Metapsi.Shoelace", "ShowBodyWhenDefined");
     }
 }

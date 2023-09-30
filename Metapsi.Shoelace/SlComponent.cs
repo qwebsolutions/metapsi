@@ -33,12 +33,7 @@ public class Component<TProps> : IHtmlComponent, IHtmlElement
         document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
         document.Head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
 
-        var slAwaitScript = document.Head.Children.OfType<SlAwaitScript>().SingleOrDefault();
-        if (slAwaitScript == null)
-        {
-            slAwaitScript = document.Head.AddChild(new SlAwaitScript());
-        }
-        slAwaitScript.SlTags.Add(this.htmlTag.Tag);
+        document.GetSlAwaitWhenDefinedScript().SlTags.Add(this.htmlTag.Tag);
     }
 
     public string ToHtml()

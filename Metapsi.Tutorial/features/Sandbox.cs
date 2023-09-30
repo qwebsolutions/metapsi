@@ -83,23 +83,8 @@ public static partial class Control
                             {
                                 var resetModel = b.NewObj<SandboxModel>();
                                 b.Set(resetModel, x => x.CodeSample, newSample);
-                                //b.AddMonaco(b.Get(resetModel, x => x.CodeSample));
                                 return resetModel;
                             });
-                        }));
-                });
-
-            b.AddSubscription<SandboxModel>(
-                "MonacoAdded_Sub",
-                (BlockBuilder b, Var<SandboxModel> _) =>
-                {
-                    return b.Listen<SandboxModel, SandboxModel>(
-                        b.Const("monaco-added"),
-                        b.MakeAction((BlockBuilder b, Var<SandboxModel> model, Var<SandboxModel> _) =>
-                        {
-                            b.Log("monaco-added");
-                            b.Log(model);
-                            return b.Clone(model);
                         }));
                 });
 
@@ -183,6 +168,31 @@ public static partial class Control
             (" ", b => b.Const(false)),
             ("{}", b => b.Const(false)));
     }
+    public static void MonacoSetOnEdit<TState>(
+        this BlockBuilder b,
+        Var<HyperNode> control,
+        Var<HyperType.Action<TState, string>> onEdit)
+    {
+        var editEvent = b.MakeAction<TState, CustomEvent<string>, string>((BlockBuilder b, Var<TState> state, Var<CustomEvent<string>> @event) =>
+        {
+            b.StopPropagation(@event);
+            return b.MakeActionDescriptor<TState, string>(onEdit, b.Get(@event, x=>x.detail));
+        });
+
+        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, CustomEvent<string>>>("oneditor-change"), editEvent);
+    }
+
+    public static void BindToSample(this BlockBuilder b,
+        Var<HyperNode> editor, 
+        System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    {
+        b.MonacoSetOnEdit(editor, b.MakeAction((BlockBuilder b, Var<SandboxModel> model, Var<string> newText) =>
+        {
+            var codeSample = b.Get(model, x => x.CodeSample);
+            b.Set(codeSample, property, newText);
+            return b.Clone(model);
+        }));
+    }
 
     public static Var<HyperNode> DesktopSandboxWithTabs(BlockBuilder b, Var<SandboxModel> clientModel)
     {
@@ -203,6 +213,7 @@ public static partial class Control
         {
             b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.CSharpModel)));
         }));
+        b.SetAttr(modelPanel, Html.id, Control.TabPanelName(x => x.CSharpModel));
 
         var modelEditorProps = b.NewObj<MonacoProps>();
         b.Set(modelEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpModel));
@@ -210,6 +221,7 @@ public static partial class Control
         b.Set(modelEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpModel));
 
         var modelEditor = b.Add(modelPanel, b.MonacoEditor(modelEditorProps));
+        b.BindToSample(modelEditor, x => x.CSharpModel);
 
         // JSON
 
@@ -225,12 +237,15 @@ public static partial class Control
             b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.JsonModel)));
         }));
 
+        b.SetAttr(jsonPanel, Html.id, Control.TabPanelName(x => x.JsonModel));
+
         var jsonEditorProps = b.NewObj<MonacoProps>();
         b.Set(jsonEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.JsonModel));
         b.Set(jsonEditorProps, x => x.language, "javascript");
         b.Set(jsonEditorProps, x => x.value, b.Get(liveSample, x => x.JsonModel));
 
-        b.Add(jsonPanel, b.MonacoEditor(jsonEditorProps));
+        var jsonEditor = b.Add(jsonPanel, b.MonacoEditor(jsonEditorProps));
+        b.BindToSample(jsonEditor, x => x.JsonModel);
 
         // VIEW
 
@@ -246,13 +261,16 @@ public static partial class Control
             b.Set(x => x.Name, b.Const(Control.TabPanelName(x=>x.CSharpCode)));
         }));
 
+        b.SetAttr(viewPanel, Html.id, Control.TabPanelName(x => x.CSharpCode));
+
 
         var viewEditorProps = b.NewObj<MonacoProps>();
         b.Set(viewEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpCode));
         b.Set(viewEditorProps, x => x.language, "csharp");
         b.Set(viewEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpCode));
 
-        b.Add(viewPanel, b.MonacoEditor(viewEditorProps));
+        var viewEditor = b.Add(viewPanel, b.MonacoEditor(viewEditorProps));
+        b.BindToSample(viewEditor, x => x.CSharpCode);
 
         var tabGroup = b.Add(container, b.TabGroup());
         b.Add(tabGroup, modelTab);
@@ -360,18 +378,35 @@ public static partial class Control
 
         if (!binaries.Errors.Any())
         {
+            try
+            {
+                AssemblyLoadContext assemblyLoadContext = new AssemblyLoadContext("temp");
+                var assembly = assemblyLoadContext.LoadFromArray(binaries.Assembly);
+                var rendererType = assembly.GetTypes().First(x => x.Name == "Renderer");
+                var getHtml = rendererType.GetMethods().First(x => x.Name == "Render");
+                var deserializeModel = rendererType.GetMethods().First(x => x.Name == "DeserializeModel");
 
-            AssemblyLoadContext assemblyLoadContext = new AssemblyLoadContext("temp");
-            var assembly = assemblyLoadContext.LoadFromArray(binaries.Assembly);
-            var rendererType = assembly.GetTypes().First(x => x.Name == "Renderer");
-            var getHtml = rendererType.GetMethods().First(x => x.Name == "Render");
-            var deserializeModel = rendererType.GetMethods().First(x => x.Name == "DeserializeModel");
+                var rendererObject = Activator.CreateInstance(rendererType);
+                var modelObject = deserializeModel.Invoke(rendererObject, new object[] { model.CodeSample.JsonModel });
 
-            var rendererObject = Activator.CreateInstance(rendererType);
-            var modelObject = deserializeModel.Invoke(rendererObject, new object[] { model.CodeSample.JsonModel });
+                var html = (string)getHtml.Invoke(rendererObject, new object[] { modelObject });
+                model.ResultHtml = html;
+            }
+            catch(Exception ex)
+            {
+                if(ex.InnerException is System.Text.Json.JsonException)
+                {
+                    System.Text.Json.JsonException jsonException = ex.InnerException as System.Text.Json.JsonException;
 
-            var html = (string)getHtml.Invoke(rendererObject, new object[] { modelObject });
-            model.ResultHtml = html;
+                    var errorHtml = new ErrorPage().Render(new List<string>() { jsonException.Message });
+                    model.ResultHtml = errorHtml;
+                }
+                else
+                {
+                    var errorHtml = new ErrorPage().Render(new List<string>() { ex.Message });
+                    model.ResultHtml = errorHtml;
+                }
+            }
         }
         else
         {

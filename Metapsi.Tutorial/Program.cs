@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Metapsi.Hyperapp;
 using Microsoft.AspNetCore.Builder;
 using Metapsi.Dom;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace Metapsi.Tutorial;
 
@@ -73,6 +74,24 @@ public static partial class Program
 
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
+
+        // fix Monaco codicon.ttf because I don't know how or if it's even possible using the js options
+        var rewriteOptions = new Microsoft.AspNetCore.Rewrite.RewriteOptions();
+        rewriteOptions.Add(async (RewriteContext context) =>
+        {
+            var request = context.HttpContext.Request;
+            if (request.Path.Value != null && context.HttpContext.Request.Path.Value.EndsWith("codicon.ttf"))
+            {
+                var contentType = WebServer.GetMimeTypeForFileExtension(".ttf");
+                context.HttpContext.Response.ContentType = contentType;
+                await context.HttpContext.Response.BodyWriter.WriteAsync(webServer.StaticFiles["codicon.ttf"]);
+
+                context.Result = RuleResult.EndResponse;
+            }
+        });
+
+        webServer.WebApplication.UseRewriter(rewriteOptions);
+
 
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
         webServer.RegisterPageBuilder<TutorialModel>(new TutorialPage().Render);

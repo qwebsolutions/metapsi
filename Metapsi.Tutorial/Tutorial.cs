@@ -4,6 +4,7 @@ using Metapsi.Ui;
 using System;
 using Metapsi.Syntax;
 using Metapsi.Dom;
+using Metapsi.Shoelace;
 
 namespace Metapsi.Tutorial;
 
@@ -51,16 +52,31 @@ public class TutorialPage : HtmlPage<TutorialModel>
         page.Head.AddStylesheet("prism.css");
         page.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
 
-        page.Body.AddJs(b =>
+        page.GetSlAwaitWhenDefinedScript().ThenActions.Add(b =>
         {
-            b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
-
-            b.AddEventListener(b.Window(), b.Const("sl-await-loaded"), b.DefineAction(b =>
-            {
-                b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
-                //b.AddMonaco(b.Const(new CodeSample()));
-            }));
+            b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
         });
+
+        //page.Head.AddJs(b =>
+        //{
+        //    b.Log("adding sl await event listener");
+        //    b.AddEventListener(b.Window(), b.Const("sl-await-loaded"), b.DefineAction(b =>
+        //    {
+        //        var tabIds = b.Const(new List<string>()
+        //        {
+        //            Control.TabPanelName(x => x.CSharpModel),
+        //            Control.TabPanelName(x => x.JsonModel),
+        //            Control.TabPanelName(x => x.CSharpCode)
+        //        });
+
+        //        b.CallExternal("Metapsi.Tutorial", "OnUpdateComplete", tabIds, b.DefineAction(b =>
+        //        {
+        //            b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
+        //        }));
+        //    }));
+
+        //    b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
+        //});
 
         return page;
     }

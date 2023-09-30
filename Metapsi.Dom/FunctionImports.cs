@@ -24,7 +24,12 @@ namespace Metapsi.Dom
     {
     }
 
-    public class DomEvent<TTarget>
+    public interface IDomEvent
+    {
+
+    }
+
+    public class DomEvent<TTarget> : IDomEvent
     {
         public TTarget target { get; set; }
     }
@@ -39,7 +44,7 @@ namespace Metapsi.Dom
         public string key { get; set; }
     }
 
-    public class CustomEvent<TDetail>
+    public class CustomEvent<TDetail> : IDomEvent
     {
         public TDetail detail { get; set; }
     }
@@ -128,9 +133,10 @@ namespace Metapsi.Dom
             b.CallDomFunction(nameof(RequestAnimationFrame), action);
         }
 
-        public static void StopPropagation(this BlockBuilder b, Var<DomEvent<ClickTarget>> domElement)
+        public static void StopPropagation<T>(this BlockBuilder b, Var<T> domEvent)
+            where T: IDomEvent
         {
-            b.CallDomFunction(nameof(StopPropagation), domElement);
+            b.CallDomFunction(nameof(StopPropagation), domEvent);
         }
 
         public static void Focus(this BlockBuilder b, Var<DomElement> domElement, bool scroll)

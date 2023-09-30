@@ -70,19 +70,12 @@ public static class Tutorial
         var shoelaceTags = module.Consts.Where(x => x.Value is ShoelaceTag).Select(x => (x.Value as ShoelaceTag).tag).Where(x => x != "sl-tooltip").ToList();
 
         var head = document.Head;
-        //var style = head.AddChild(new HtmlTag("style"));
-        //style.AddChild(new HtmlText() { Text = "\r\nbody {\r\n    opacity: 0;\r\n}\r\n\r\n    body.ready {\r\n        opacity: 1;\r\n        transition: .25s opacity;\r\n    }" });
-
         var body = document.Body;
 
         var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
         workaroundDiv.SetAttribute("class", "hidden");
 
-        var slAwaitScript = document.Head.Children.OfType<SlAwaitScript>().SingleOrDefault();
-        if (slAwaitScript == null)
-        {
-            slAwaitScript = document.Head.AddChild(new SlAwaitScript());
-        }
+        var slAwaitScript = document.GetSlAwaitWhenDefinedScript();
 
         foreach (var shoelaceTag in shoelaceTags)
         {

@@ -29,7 +29,7 @@
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.js" LogicalName="prism.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.css" LogicalName="prism.css"></EmbeddedResource>
-		<EmbeddedResource Include="embedded\codeflask.min.js" LogicalName="codeflask.min.js"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\codicon.ttf" LogicalName="codicon.ttf"></EmbeddedResource>
 		<EmbeddedResource Include="docs\samples\*.cs" />
 		<EmbeddedResource Include="docs\articles\*.md" />
 		<EmbeddedResource Include="docs\menu.json" LogicalName="menu.json"></EmbeddedResource>

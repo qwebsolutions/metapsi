@@ -23,3 +23,7 @@ export function notify(message, variant = 'primary', icon = 'info-circle', durat
 
     customElements.whenDefined('sl-alert').then(() => alert.toast());
 }
+
+export function ShowBodyWhenDefined() {
+    document.body.classList.add('ready');
+}
