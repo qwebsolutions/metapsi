@@ -20,7 +20,7 @@ CodeSample:NestedHtmlLevels:View
 ### Nest the calls
 
 Sometimes you need to add multiple nested tags. It is possible to create them all one by one. 
-This requires naming them (and we all know that is <a href="https://twitter.com/codinghorror/status/506010907021828096" target="_blank"><i>hard</i></a>) and you might accidentally return the wrong node.
+This requires naming them (we all know that is <a href="https://twitter.com/codinghorror/status/506010907021828096" target="_blank"><i>hard</i></a>) and you might accidentally return the wrong node.
 
 CodeSample:NestedHtmlWrongReturn:View
 

@@ -3,37 +3,48 @@
 Let's just display some text.
 CodeSample:HelloWorldSimpleText:View
 
-That was simple. Just call the Text() function. But, *what is b?*
+That was simple. Just call the <span class="inline-code">Text()</span> function. But, *what is b?*
 
 ### To *b* or not to *b*
 
-When you're dealing with client side executed code, you always *b*.
+When you're dealing with client side executed code, *you always b*.
 *b* is the conventional name of the magical class that transforms C# code into JavaScript code.
 You might notice that we're not really writing JavaScript, but we're not writing arbitrary C# code either.
 *b* is the contextual **code builder**. It is a class that *outputs JavaScript code* that will get run client side. 
 In simplified terms, you can think of it as a  <span class="inline-code">StringBuilder</span>. When you call  <span class="inline-code">b.Text("...")</span> the builder 
-appends the corresponding <span class="inline-code">text("...")</span> function call to the returned JavaScript script.
+appends the necessary client side function calls to the returned JavaScript script.
 
-So, as a pseudo-example (**not** actual output code) this
+So, as a pseudo-example (**not** actual implementation) this
 
-<pre><code class="language-csharp">var t = b.Text("Text output");
-b.Log("text node created");
+<pre><code class="language-csharp">b.Text("Text output");</code></pre>
+
+could be implemented like
+
+<pre><code class="language-csharp">
+public static class TextNodeBuilder
+{
+    public static void Text(this StringBuilder b, string t)
+    {
+        b.AppendLine("document.createTextNode(" + t + ");");
+    }
+}
 </code></pre>
-translates to
-<pre><code class="language-js">var t = document.createTextNode("Text output");
-console.log("text node created");
-</code></pre>
-by calling
-<pre><code class="language-csharp">StringBuilder jsBuilder = new StringBuilder();
-jsBuilder.AppendLine("var t = document.createTextNode(\"Text output\");");
-jsBuilder.AppendLine("console.log(\"text node created\");");
-</code></pre>
+
+So calling 
+
+<pre><code class="language-csharp">StringBuilder b = new StringBuilder();
+b.Text("Text output");
+string outputScript = b.ToString();</code></pre>
+
+would result in
+
+<pre><code class="language-js">document.createTextNode("Text output");</code></pre>
 
 <div class="block-note">In fancy terms you could call it <i><strong>metaprogramming</strong></i>. Hence, the project name <sl-icon name='emoji-smile'></sl-icon></div>
    
 
-
-But don't worry too much about it now. Let's move on to color output text.
+Of course, we're grossly glancing over the fact that the text node is not returned and is not added to the HTML document but this is just to keep things
+simple for now. Don't worry, we'll get to that later. Let's move on to color output text.
 CodeSample:HelloWorldColorText:View
 
 The styling of text is so common that Metapsi also provides a function signature that applies CSS classes to the text output.
