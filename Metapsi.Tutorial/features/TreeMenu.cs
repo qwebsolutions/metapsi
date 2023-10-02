@@ -4,6 +4,7 @@ using Metapsi.Syntax;
 using Metapsi.Ui;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
@@ -26,11 +27,17 @@ public static partial class Control
             "sl-tree",
             new Tree() { Selection = TreeSelection.Leaf });
 
-        FillMenuEntries(model.Menu, tree);
+        var expandedParents = model.GetExpandedParents();
+
+        FillMenuEntries(model.Menu, tree, expandedParents, model.CurrentEntry);
         return tree;
     }
 
-    private static void FillMenuEntries(List<MenuEntry> currentEntries, IHtmlElement currentNode)
+    private static void FillMenuEntries(
+        List<MenuEntry> currentEntries,
+        IHtmlElement currentNode,
+        List<MenuEntry> expandedParents,
+        MenuEntry selectedMenuItem)
     {
         foreach (var entry in currentEntries)
         {
@@ -41,10 +48,14 @@ public static partial class Control
 
             var treeItem = currentNode.AddChild(Component.Create<TreeItem>(
                 "sl-tree-item",
-                new TreeItem(),
+                new TreeItem()
+                {
+                    Selected = entry == selectedMenuItem,
+                    Expanded = expandedParents.Contains(entry)
+                },
                 menuEntry));
 
-            FillMenuEntries(entry.Children, treeItem);
+            FillMenuEntries(entry.Children, treeItem, expandedParents, selectedMenuItem);
         }
     }
 
@@ -146,6 +157,28 @@ public static class TreeMenuExtensions
         });
     }
 
+    public static MenuEntry GetParent(IHasTreeMenu page, MenuEntry childEntry)
+    {
+        var justParents = GetFlatMenuParents(page);
+        return justParents.FirstOrDefault(x => x.Children.Contains(childEntry));
+    }
+
+    public static List<MenuEntry> GetExpandedParents(this IHasTreeMenu page)
+    {
+        List<MenuEntry> parents = new List<MenuEntry>();
+
+        var currentItem = page.CurrentEntry;
+
+        while (true)
+        {
+            if (currentItem == null)
+                return parents;
+
+            currentItem = GetParent(page, currentItem);
+            parents.Add(currentItem);
+        }
+    }
+
     public static void TraverseMenu(List<MenuEntry> menuEntries, Action<MenuEntry> onEntry)
     {
         foreach(var menuEntry in menuEntries)
@@ -155,12 +188,26 @@ public static class TreeMenuExtensions
         }
     }
 
-    public static List<MenuEntry> GetFlatMenu(this IHasTreeMenu page)
+    public static List<MenuEntry> GetFlatMenuArticles(this IHasTreeMenu page)
     {
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         TraverseMenu(page.Menu, entry =>
         {
             if(!string.IsNullOrEmpty(entry.Url))
+            {
+                menuEntries.Add(entry);
+            }
+        });
+
+        return menuEntries;
+    }
+
+    public static List<MenuEntry> GetFlatMenuParents(this IHasTreeMenu page)
+    {
+        List<MenuEntry> menuEntries = new List<MenuEntry>();
+        TraverseMenu(page.Menu, entry =>
+        {
+            if (string.IsNullOrEmpty(entry.Url))
             {
                 menuEntries.Add(entry);
             }
@@ -175,7 +222,7 @@ public static class TreeMenuExtensions
         if (model.CurrentEntry == null)
             return null;
 
-        var flatMenu = model.GetFlatMenu();
+        var flatMenu = model.GetFlatMenuArticles();
         var currentIndex = flatMenu.IndexOf(model.CurrentEntry);
         if (currentIndex == 0)
             return null;
@@ -189,7 +236,7 @@ public static class TreeMenuExtensions
         if (model.CurrentEntry == null)
             return null;
 
-        var flatMenu = model.GetFlatMenu();
+        var flatMenu = model.GetFlatMenuArticles();
         var currentIndex = flatMenu.IndexOf(model.CurrentEntry);
         if (currentIndex <= 0)
             return null;

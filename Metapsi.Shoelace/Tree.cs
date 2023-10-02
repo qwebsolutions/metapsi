@@ -18,7 +18,8 @@ public class Tree
 
 public class TreeItem
 {
-
+    public bool Expanded { get; set; } = false;
+    public bool Selected { get; set; } = false;
 }
 
 public static partial class Control
