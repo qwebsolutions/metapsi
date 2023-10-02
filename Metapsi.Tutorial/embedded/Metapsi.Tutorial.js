@@ -53,21 +53,3 @@ export const AttachMonaco = (props) => {
         }
     }
 }
-
-export const OnUpdateComplete = (componentIds, action) =>
-{
-    console.log(componentIds);
-    var allPromises = []
-    componentIds.forEach((id) => {
-        var slComponent = document.getElementById(id);
-        if (!slComponent.updateComplete) {
-            console.log("Disaster!");
-        }
-        else {
-            allPromises.push(slComponent.updateComplete);
-        }
-    })
-
-    Promise.allSettled(allPromises).then(action);
-    console.log("OnUpdateComplete passed!");
-}

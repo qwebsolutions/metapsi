@@ -99,6 +99,32 @@ public static partial class Control
 
         return header;
     }
+
+    public static IHtmlElement NavigatorArrows(MenuEntry prevEntry, MenuEntry nextEntry)
+    {
+        var navigatorArrowsContainer = DivTag.CreateStyled(
+            "flex flex-row justify-between py-4 mb-8");
+
+        if (prevEntry != null)
+        {
+            var prev = new HtmlTag("a").SetAttribute("href", prevEntry.Url).WithClass("flex flex-row gap-4 items-center");
+            prev.AddChild(Component.Create("sl-icon", new Icon() { Name = "arrow-left-circle" }));
+            prev.AddChild(HtmlText.CreateTextNode(prevEntry.Title));
+
+            navigatorArrowsContainer.AddChild(prev);
+        }
+
+        if (nextEntry != null)
+        {
+            var next = new HtmlTag("a").SetAttribute("href", nextEntry.Url).WithClass("flex flex-row gap-4 items-center");
+            next.AddChild(HtmlText.CreateTextNode(nextEntry.Title));
+            next.AddChild(Component.Create("sl-icon", new Icon() { Name = "arrow-right-circle" }));
+
+            navigatorArrowsContainer.AddChild(next);
+        }
+
+        return navigatorArrowsContainer;
+    }
 }
 
 public static class TreeMenuExtensions
@@ -127,5 +153,50 @@ public static class TreeMenuExtensions
             onEntry(menuEntry);
             TraverseMenu(menuEntry.Children, onEntry);
         }
+    }
+
+    public static List<MenuEntry> GetFlatMenu(this IHasTreeMenu page)
+    {
+        List<MenuEntry> menuEntries = new List<MenuEntry>();
+        TraverseMenu(page.Menu, entry =>
+        {
+            if(!string.IsNullOrEmpty(entry.Url))
+            {
+                menuEntries.Add(entry);
+            }
+        });
+
+        return menuEntries;
+    }
+
+    public static MenuEntry GetPreviousMenuEntry<TModel>(this TModel model)
+        where TModel : IHasTreeMenu
+    {
+        if (model.CurrentEntry == null)
+            return null;
+
+        var flatMenu = model.GetFlatMenu();
+        var currentIndex = flatMenu.IndexOf(model.CurrentEntry);
+        if (currentIndex == 0)
+            return null;
+
+        return flatMenu[currentIndex - 1];
+    }
+
+    public static MenuEntry GetNextMenuEntry<TModel>(this TModel model)
+        where TModel : IHasTreeMenu
+    {
+        if (model.CurrentEntry == null)
+            return null;
+
+        var flatMenu = model.GetFlatMenu();
+        var currentIndex = flatMenu.IndexOf(model.CurrentEntry);
+        if (currentIndex <= 0)
+            return null;
+
+        if (currentIndex == flatMenu.Count - 1)
+            return null;
+
+        return flatMenu[currentIndex + 1];
     }
 }

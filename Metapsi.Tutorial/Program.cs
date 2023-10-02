@@ -82,15 +82,20 @@ public static partial class Program
             var request = context.HttpContext.Request;
             if (request.Path.Value != null && context.HttpContext.Request.Path.Value.EndsWith("codicon.ttf"))
             {
-                var contentType = WebServer.GetMimeTypeForFileExtension(".ttf");
-                context.HttpContext.Response.ContentType = contentType;
-                await context.HttpContext.Response.BodyWriter.WriteAsync(webServer.StaticFiles["codicon.ttf"]);
-
-                context.Result = RuleResult.EndResponse;
+                request.Path = "/codicon.ttf";
+                // If I write the results directly here some other middleware which I cannot identify crashes
             }
         });
 
         webServer.WebApplication.UseRewriter(rewriteOptions);
+
+        webServer.WebApplication.MapGet("/codicon.ttf", async (HttpContext context) =>
+        {
+            var contentType = WebServer.GetMimeTypeForFileExtension(".ttf");
+            context.Response.ContentType = contentType;
+            await context.Response.BodyWriter.WriteAsync(webServer.StaticFiles["codicon.ttf"]);
+        });
+
 
 
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();

@@ -29,10 +29,7 @@ public class Component<TProps> : IHtmlComponent, IHtmlElement
     public void OnAttach(DocumentTag document, IHtmlElement parentNode)
     {
         document.StartHidden();
-
-        document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/shoelace-autoloader.js", "module"));
-        document.Head.AddChild(new LinkTag("stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.6.0/cdn/themes/light.css"));
-
+        document.AddShoelace();
         document.GetSlAwaitWhenDefinedScript().SlTags.Add(this.htmlTag.Tag);
     }
 

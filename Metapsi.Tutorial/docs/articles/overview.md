@@ -7,7 +7,7 @@ The articles are sprinkled with a lot of examples wich you can load, edit & comp
 
 CodeSample:OverviewSandboxExample
 
-Come on, go ahead. Just press the little <sl-icon name="arrow-right-square"></sl-icon> button and the sample will get sent to the sandbox. Run it.
+Come on, go ahead. Just press the little <sl-icon name="caret-right-square"></sl-icon> button and the sample will get sent to the sandbox. Run it.
 Of course, each sample can also be edited which will help you explore & understand it better.
 
 For example, you can copy <sl-copy-button value='public string ModelProperty3 { get; set; }="Value 3";' copy-label='public string ModelProperty3 { get; set; }="Value 3"'></sl-copy-button>  this property & add it in the C# model to see how the output differs.

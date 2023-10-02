@@ -85,7 +85,7 @@ public static partial class Control
                 HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
                 Tooltip.Create(
                     new Tooltip(),
-                    Component.Create("sl-icon-button", new IconButton() { Name = "arrow-right-square" }).SetAttribute("id", sendToPanelButtonId),
+                    Component.Create("sl-icon-button", new IconButton() { Name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId),
                     HtmlText.Create("Send to live panel"))));
 
         container.AddJs(b =>

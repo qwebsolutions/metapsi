@@ -8,6 +8,14 @@ using Metapsi.Shoelace;
 
 namespace Metapsi.Tutorial;
 
+
+
+public interface IHasPrevNext
+{
+    MenuEntry Prev { get; set; }
+    MenuEntry Next { get; set; }
+}
+
 public class TutorialModel : IApiSupportState, IHasTreeMenu
 {
     public List<MenuEntry> Menu { get; set; } = new();
@@ -34,10 +42,12 @@ public class TutorialPage : HtmlPage<TutorialModel>
                             "flex flex-col max-w-[60vw]",
                             DivTag.CreateStyled(
                                 "prose",
+                                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
                                 new TutorialArticleNode()
                                 {
                                     Markdown = dataModel.MarkdownContent
-                                }
+                                },
+                                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())
                                 )
                             )
                         ),
