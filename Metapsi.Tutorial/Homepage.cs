@@ -16,7 +16,7 @@ public class Homepage : HtmlPage<HomeModel>
     public HtmlTag HomepageContent()
     {
         var pageContainer = DivTag.CreateStyled(
-            "flex flex-col",
+            "flex flex-col mt-20",
             DivTag.CreateStyled(
                 "flex flex-col justify-center items-center text-gray-800 pt-12",
                 Component.Create(

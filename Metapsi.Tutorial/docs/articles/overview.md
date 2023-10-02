@@ -1,8 +1,6 @@
 # Welcome
 
-This interactive tutorial covers the basics of Metapsi: what it is, why it exists & the problem it solves.
-
-The articles are sprinkled with a lot of examples wich you can load, edit & compile yourself in the side sandbox.
+This interactive tutorial covers the basics of Metapsi. The articles are sprinkled with a lot of examples wich you can load, edit & compile yourself in the side sandbox.
 
 
 CodeSample:OverviewSandboxExample

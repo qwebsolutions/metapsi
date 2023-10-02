@@ -89,7 +89,7 @@ public static partial class Control
         }));
 
         var header = DivTag.CreateStyled(
-            "flex flex-row gap-4 items-center w-full px-8 py-4 fixed top-0 shadow bg-gray-50 text-xl",
+            "flex flex-row gap-4 items-center w-full px-8 h-20 fixed top-0 shadow bg-gray-50 text-xl",
             onClickScript,
             Component.Create(
                 "sl-icon-button",

@@ -26,6 +26,31 @@ public class TutorialModel : IApiSupportState, IHasTreeMenu
 
 public class TutorialPage : HtmlPage<TutorialModel>
 {
+    private IHtmlElement DocsPanel(TutorialModel dataModel)
+    {
+        var docsPanel = DivTag.CreateStyled(
+            "flex overflow-y-auto w-full h-full",
+            DivTag.CreateStyled(
+                "p-12 prose mx-auto",
+                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
+                new TutorialArticleNode()
+                {
+                    Markdown = dataModel.MarkdownContent
+                },
+                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())));
+
+        docsPanel.SetAttribute("slot", "start");
+
+        return docsPanel;
+    }
+
+    private IHtmlElement SandboxPanel(TutorialModel dataModel)
+    {
+        return DivTag.CreateStyled(
+            "w-full h-full overflow-y-auto",
+            Control.SandboxApp()).SetAttribute("slot", "end");
+    }
+
     public override IHtmlNode GetHtmlTree(TutorialModel dataModel)
     {
         var page = Tutorial.Layout(
@@ -33,31 +58,17 @@ public class TutorialPage : HtmlPage<TutorialModel>
             dataModel.CurrentEntry.Title,
             HtmlText.CreateTextNode(dataModel.CurrentEntry.Title),
             DivTag.CreateStyled(
-                "p-12",
-                DivTag.CreateStyled(
-                    "flex flex-row gap-8 w-full",
-                    DivTag.CreateStyled(
-                        "flex flex-col items-center w-[60vw]",
-                        DivTag.CreateStyled(
-                            "flex flex-col max-w-[60vw]",
-                            DivTag.CreateStyled(
-                                "prose",
-                                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
-                                new TutorialArticleNode()
-                                {
-                                    Markdown = dataModel.MarkdownContent
-                                },
-                                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())
-                                )
-                            )
-                        ),
-                    DivTag.CreateStyled(
-                        "flex flex-col fixed w-[30vw] top-24 right-2 bottom-2 overflow-y-auto",
-                        Control.SandboxApp()
-                        )
-                    )
-                )
-            );
+                "fixed top-20 left-0 bottom-0 right-0",
+                Component.Create(
+                    "sl-split-panel",
+                    new SplitPanel()
+                    {
+                        Position = 40,
+                        Primary = PrimaryPanel.End
+                    },
+                    DocsPanel(dataModel),
+                    SandboxPanel(dataModel)).SetAttribute("class", " w-full h-full")
+                ));
 
         page.Head.AddStylesheet("prism.css");
         page.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
@@ -66,27 +77,6 @@ public class TutorialPage : HtmlPage<TutorialModel>
         {
             b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
         });
-
-        //page.Head.AddJs(b =>
-        //{
-        //    b.Log("adding sl await event listener");
-        //    b.AddEventListener(b.Window(), b.Const("sl-await-loaded"), b.DefineAction(b =>
-        //    {
-        //        var tabIds = b.Const(new List<string>()
-        //        {
-        //            Control.TabPanelName(x => x.CSharpModel),
-        //            Control.TabPanelName(x => x.JsonModel),
-        //            Control.TabPanelName(x => x.CSharpCode)
-        //        });
-
-        //        b.CallExternal("Metapsi.Tutorial", "OnUpdateComplete", tabIds, b.DefineAction(b =>
-        //        {
-        //            b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
-        //        }));
-        //    }));
-
-        //    b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
-        //});
 
         return page;
     }

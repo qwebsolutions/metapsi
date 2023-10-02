@@ -24,7 +24,7 @@ public static class Tutorial
         var document = DocumentTag.Create(pageTitle);
         document.Head.AddModuleStylesheet();
         document.Head.AddChild(style);
-        document.Body.AddChild(DivTag.CreateStyled("flex flex-col w-full h-full pt-24 ", pageContent));
+        document.Body.AddChild(pageContent);
         document.Body.AddChild(Control.DrawerTreeMenu(model));
         document.Body.AddChild(Control.Header(model, headerContent));
         //document.Body.AddChild(new ExternalScriptTag("/codeflask.min.js", ""));
