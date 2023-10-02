@@ -1,7 +1,7 @@
 # Other HTML tags
 
 
-The <span class="inline-code">Div</span> and <span class="inline-code">Span</span> functions are just helper classes for commonly used tags. 
+The <span class="inline-code">Div</span> and <span class="inline-code">Span</span> functions are just helpers for commonly used tags. 
 If Metapsi does not provide a builder for a particular tag, you can use the general <span class="inline-code">Node</span> function to create it.
 
 CodeSample:CustomTagsQTag:View

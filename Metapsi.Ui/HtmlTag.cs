@@ -92,9 +92,9 @@ public class HtmlTag : IHtmlElement
         builder.Append(">");
         foreach (var child in this.Children)
         {
-            builder.AppendLine(child.ToHtml());
+            builder.Append(child.ToHtml());
         }
-        builder.AppendLine($"</{this.Tag}>");
+        builder.Append($"</{this.Tag}>");
 
         return builder.ToString();
     }

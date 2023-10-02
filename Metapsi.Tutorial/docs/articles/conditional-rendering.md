@@ -33,7 +33,7 @@ b.If(
     });
 </code></pre>
 
-This does not work and it **bites hard**. The pseudooutput of a <span class="inline-code">BlockBuilder</span> works with, well, blocks of code. 
+This does not work and it **bites hard**. A <span class="inline-code">BlockBuilder</span> works with, well, blocks of code. 
 Using <span class="inline-code">b.If</span> with a different name results in
 
 <pre><code class="language-js">
