@@ -22,7 +22,6 @@ namespace Metapsi.Tutorial;
 public class Arguments
 {
     public string UiPort { get; set; }
-    public string DbPath { get; set; }
     public string TemplateSlnPath { get; set; }
 
     public static async Task<Arguments> Load()
@@ -31,14 +30,6 @@ public class Arguments
         var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
 
         return arguments;
-    }
-
-    public static async Task<string> FullDbPath()
-    {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
-        var dbFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(parametersFullFilePath), arguments.DbPath);
-        return dbFullPath;
     }
 
     public static async Task<string> TemplateSlnFullPath()
@@ -96,25 +87,11 @@ public static partial class Program
             await context.Response.BodyWriter.WriteAsync(webServer.StaticFiles["codicon.ttf"]);
         });
 
-
-
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
         webServer.RegisterPageBuilder<TutorialModel>(new TutorialPage().Render);
 
-        //webServer.WebApplication.RegisterGetHandler<DocsHandler, Metapsi.Tutorial.Routes.Docs, string>();
-        //webServer.RegisterPageBuilder<DocsModel>(new DocsRenderer().Render);
-
-        webServer.WebApplication.RegisterGetHandler<HomeHandler, Metapsi.Tutorial.Routes.Home>();
-        webServer.RegisterPageBuilder<HomeModel>(new Homepage().Render);
-
-        //webServer.WebApplication.RegisterGetHandler<XXXHandler, Metapsi.Tutorial.Routes.XXX, string, string>();
-        //webServer.RegisterPageBuilder<XXXModel>(new XXXRenderer().Render);
-
-
-        webServer.WebApplication.RegisterGetHandler<ParagraphHandler, Metapsi.Tutorial.Routes.Paragraph, string>();
-
-        webServer.WebApplication.RegisterGetHandler<MarkdownHandler, Metapsi.Tutorial.Routes.MTutorial, string>();
-        webServer.RegisterPageBuilder<MarkdownPage>(new MarkdownRenderer().Render);
+        webServer.WebApplication.RegisterGetHandler<HomepageHandler, Metapsi.Tutorial.Routes.Home>();
+        webServer.RegisterPageBuilder<HomepageModel>(new Homepage().Render);
 
         webServer.WebApplication.UseExceptionHandler(
             exceptionHandlerApp => exceptionHandlerApp.Run(

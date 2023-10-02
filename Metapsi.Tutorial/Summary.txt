@@ -25,3 +25,6 @@ Architecture
 -- Compact
 -- Live
 
+Opinions
+- Client side rendering vs server side rendering
+- UI logic IS business logic

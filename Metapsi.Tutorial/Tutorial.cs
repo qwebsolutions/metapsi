@@ -29,15 +29,19 @@ public class TutorialPage : HtmlPage<TutorialModel>
     private IHtmlElement DocsPanel(TutorialModel dataModel)
     {
         var docsPanel = DivTag.CreateStyled(
-            "flex overflow-y-auto w-full h-full",
+            "flex overflow-y-auto w-full h-full p-12",
             DivTag.CreateStyled(
-                "p-12 prose mx-auto",
+                "prose mx-auto",
                 Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
-                new TutorialArticleNode()
-                {
-                    Markdown = dataModel.MarkdownContent
-                },
-                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())));
+                DivTag.CreateStyled(
+                    "py-8",
+                    new TutorialArticleNode()
+                    {
+                        Markdown = dataModel.MarkdownContent
+                    }),
+                Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
+                DivTag.CreateStyled("h-12") // <- added because scrollbar does not take into consideration padding at end
+                ));
 
         docsPanel.SetAttribute("slot", "start");
 

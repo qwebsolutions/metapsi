@@ -6,7 +6,7 @@ Metapsi supports the C# <span class="inline-code">System.Collections.Generic.Lis
 CodeSample:IterationsSimple:View
 
 <span class="inline-code">Foreach</span> takes two arguments: the client side variable to iterate on and the action that builds the code to be executed for each iteration. 
-The action receives the local iteration builder and the current item variable.
+The action receives the local iteration builder, the current item variable and an *optional* index.
 
 Take into consideration that <span class="inline-code">Foreach</span> *only* works on <span class="inline-code">List</span>, not on 
 <span class="inline-code">System.Collections.Generic.IEnumerable</span> as directly returned by LINQ expressions.

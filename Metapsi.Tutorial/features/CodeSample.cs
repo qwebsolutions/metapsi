@@ -101,6 +101,21 @@ public static partial class Control
     }
 }
 
+public class TutorialArticleNode : IHtmlNode
+{
+    public string Markdown { get; set; } = string.Empty;
+    public List<CodeSample> CodeSamples { get; set; } = new();
+
+    public string ToHtml()
+    {
+        var pipeline = new MarkdownPipelineBuilder()
+            .Use<CodeSampleMarkdownExtension>()
+            .Build();
+        var markdown = Markdig.Markdown.ToHtml(this.Markdown, pipeline);
+        return markdown;
+    }
+}
+
 public class CodeSampleMarkdownExtension : IMarkdownExtension
 {
     public void Setup(MarkdownPipelineBuilder pipeline)

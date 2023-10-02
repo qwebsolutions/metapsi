@@ -20,9 +20,15 @@ public class IterationsSimple : TutorialSample<IterationsSimple.Model>
         var container = b.Div("flex flex-col");
         b.Foreach(
             b.Get(model, x => x.LoggedUsers),
-            (b, user) =>
+            (b, user, index) =>
             {
-                b.Add(container, b.Text(user));
+                b.Add(
+                    container,
+                    b.Text(
+                        b.Concat(
+                            b.AsString(index),
+                            b.Const(". "),
+                            user)));
             });
 
         return container;

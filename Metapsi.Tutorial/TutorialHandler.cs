@@ -20,8 +20,6 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial, string
     {
         Console.WriteLine(httpContext.Request.Path);
 
-        var dbFullPath = await Arguments.FullDbPath();
-
         TutorialModel model = new TutorialModel();
         await model.LoadMenu();
         model.SetCurrentEntry(httpContext.Request.Path);

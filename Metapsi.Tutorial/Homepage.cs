@@ -1,11 +1,33 @@
 ﻿using Metapsi.Shoelace;
 using Metapsi.Ui;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
 
-public class Homepage : HtmlPage<HomeModel>
+public class HomepageModel : IHasTreeMenu
 {
-    public override IHtmlNode GetHtmlTree(HomeModel dataModel)
+    public List<MenuEntry> Menu { get; set; } = new List<MenuEntry>();
+    public MenuEntry CurrentEntry { get; set; } = new();
+
+    public bool MenuIsExpanded { get; set; }
+}
+
+public class HomepageHandler : Http.Get<Metapsi.Tutorial.Routes.Home>
+{
+    public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext)
+    {
+        HomepageModel model = new HomepageModel();
+        await model.LoadMenu();
+        return Page.Result(model);
+    }
+}
+
+
+public class Homepage : HtmlPage<HomepageModel>
+{
+    public override IHtmlNode GetHtmlTree(HomepageModel dataModel)
     {
         return Tutorial.Layout(
             dataModel, "Metapsi - The full stack C# framework",

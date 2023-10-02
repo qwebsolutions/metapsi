@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
 
+public class MenuEntry
+{
+    public string Title { get; set; }
+    public string Url { get; set; }
+    public List<MenuEntry> Children { get; set; } = new();
+}
+
 public interface IHasTreeMenu
 {
     MenuEntry CurrentEntry { get; set; }
@@ -114,7 +121,7 @@ public static partial class Control
     public static IHtmlElement NavigatorArrows(MenuEntry prevEntry, MenuEntry nextEntry)
     {
         var navigatorArrowsContainer = DivTag.CreateStyled(
-            "flex flex-row justify-between py-4 mb-8");
+            "flex flex-row justify-between");
 
         if (prevEntry != null)
         {
