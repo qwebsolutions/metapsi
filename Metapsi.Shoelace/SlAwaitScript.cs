@@ -1,4 +1,5 @@
-﻿using Metapsi.JavaScript;
+﻿using Metapsi.Dom;
+using Metapsi.JavaScript;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using System;
@@ -52,5 +53,12 @@ public static class SlAwaitWhenDefinedScriptExtensions
             slAwaitScript = document.Head.AddChild(new SlAwaitWhenDefinedScript());
         }
         return slAwaitScript;
+    }
+
+    public static void SlAwaitWhenUpdated(this BlockBuilder b, Var<string> controlId, Action<BlockBuilder> action)
+    {
+        b.Log(controlId);
+        var domControl = b.GetElementById(controlId);
+        b.CallExternal("Metapsi.Shoelace", "WhenUpdateComplete", domControl, b.Def(action));
     }
 }

@@ -79,7 +79,10 @@ public class TutorialPage : HtmlPage<TutorialModel>
 
         page.GetSlAwaitWhenDefinedScript().ThenActions.Add(b =>
         {
-            b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
+            //b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
+            //{
+            //    b.DispatchEvent(b.Const("ExploreSample"), b.Const(new CodeSample()));
+            //}));
         });
 
         return page;

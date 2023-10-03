@@ -27,3 +27,12 @@ export function notify(message, variant = 'primary', icon = 'info-circle', durat
 export function ShowBodyWhenDefined() {
     document.body.classList.add('ready');
 }
+
+export function WhenUpdateComplete(control, action) {
+    console.log("await updateComplete");
+    control.updateComplete.then(() => {
+        console.log("updateComplete");
+        console.log(control);
+        action()
+    });
+}

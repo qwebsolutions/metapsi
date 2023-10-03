@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Web.DataModel", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Runtime", "..\Metapsi.Runtime\Metapsi.Runtime.csproj", "{AE1B1A01-0CA5-4F85-967D-7E0E1DDD7C80}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Dom", "..\Metapsi.Dom\Metapsi.Dom.csproj", "{E23DB7DD-9181-43B7-920E-04451ED4B686}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{AE1B1A01-0CA5-4F85-967D-7E0E1DDD7C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE1B1A01-0CA5-4F85-967D-7E0E1DDD7C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE1B1A01-0CA5-4F85-967D-7E0E1DDD7C80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E23DB7DD-9181-43B7-920E-04451ED4B686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E23DB7DD-9181-43B7-920E-04451ED4B686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E23DB7DD-9181-43B7-920E-04451ED4B686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E23DB7DD-9181-43B7-920E-04451ED4B686}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

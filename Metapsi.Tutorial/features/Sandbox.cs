@@ -69,30 +69,46 @@ public static partial class Control
 
     public static HtmlTag SandboxApp()
     {
-        var sandboxContainer = Tutorial.ClientSide(new SandboxModel(), DesktopSandboxWithTabs, (BlockBuilder b, Var<SandboxModel> model) =>
-        {
-            b.AddSubscription<SandboxModel>(
-                "ExploreSample_Sub",
-                (BlockBuilder b, Var<SandboxModel> _) =>
-                {
-                    return b.Listen<SandboxModel, CodeSample>(
-                        b.Const("ExploreSample"),
-                        b.MakeAction((BlockBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
-                        {
-                            return b.MakeAction((BlockBuilder b, Var<SandboxModel> _) =>
-                            {
-                                var resetModel = b.NewObj<SandboxModel>();
-                                b.Set(resetModel, x => x.CodeSample, newSample);
-                                return resetModel;
-                            });
-                        }));
-                });
-
-            return b.Call(OnInit, model);
-        });
+        var sandboxContainer = Tutorial.ClientSide(
+            new SandboxModel(), 
+            DesktopSandboxWithTabs, 
+            (BlockBuilder b, Var<SandboxModel> model) =>
+            {
+                b.AddSubscription<SandboxModel>(
+                    "ExploreSample_Sub",
+                    (BlockBuilder b, Var<SandboxModel> _) =>
+                    {
+                        return b.Listen<SandboxModel, CodeSample>(
+                            b.Const("ExploreSample"),
+                            LoadSample(b));
+                    });
+                return b.Call(OnInit, model);
+            });
 
         return sandboxContainer;
     }
+
+    private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(BlockBuilder b)
+    {
+        return b.MakeAction((BlockBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
+        {
+            return b.AsyncResult(
+                b.Clone(_),
+                (BlockBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
+                {
+                    b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
+                    {
+                        var resetModel = b.NewObj<SandboxModel>();
+                        b.Set(resetModel, x => x.CodeSample, newSample);
+                        b.Dispatch(dispatcher, b.MakeAction((BlockBuilder b, Var<SandboxModel> prevState) =>
+                        {
+                            return resetModel;
+                        }));
+                    }));
+                });
+        });
+    }
+
     /*
     public static Var<HyperNode> MobileSandbox(BlockBuilder b, Var<SandboxModel> clientModel)
     {
@@ -332,7 +348,10 @@ public static partial class Control
                             b.Log("iframe not found!");
                         });
 
-                    b.CallExternal("Metapsi.Tutorial", "HighlightWhenDefined");
+                    b.Dispatch(disp, b.MakeAction((BlockBuilder b, Var<SandboxModel> model) =>
+                    {
+                        return b.Clone(model);
+                    }));
                 }));
         })));
     }
