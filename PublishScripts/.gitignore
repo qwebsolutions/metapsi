@@ -1,0 +1,4 @@
+publishVars.sh
+publish
+*.zip
+push_local.bat

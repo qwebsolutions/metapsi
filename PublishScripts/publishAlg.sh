@@ -32,11 +32,24 @@ echo "$prj"
 revision=$(git rev-parse HEAD)
 echo "$revision"
 
+zipCmd="7z"
+curlCmd="curl"
+osName=$(uname)
+
+if [[ $osName = MINGW* ]]; then
+	zipCmd="./7z/7z"
+	curlCmd="./curl/curl"
+	echo "Running on Windows using local 7z & curl binaries"
+else
+	echo "Using system 7z & curl binaries"
+fi
+
+
 zipPath=$prj.$revision.zip
 rm -r publish
 rm *.zip
 dotnet publish $1 -c Release -r $3 -o ./publish
-7z a $zipPath ./publish/*
+$zipCmd a $zipPath ./publish/*
 
 fProject='project='$prj
 fFile='binaries=@'$zipPath
@@ -44,7 +57,7 @@ fVersion='version='$2
 fRevision='revision='$revision
 fTarget='target='$3
 
-curl -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://s2020:5011/UploadBinaries
+$curlCmd -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://s2020:5011/UploadBinaries
 
 
 echo curl -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://localhost:5011/UploadBinaries > push_local.bat
