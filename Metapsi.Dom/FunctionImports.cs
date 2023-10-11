@@ -183,6 +183,11 @@ namespace Metapsi.Dom
         {
             return b.CallDomFunction<string>(nameof(GetLocale));
         }
+
+        public static void SetStyle(this BlockBuilder b, Var<DomElement> element, Var<string> styleName, Var<string> styleValue)
+        {
+            b.CallDomFunction("SetStyle", element, styleName, styleValue);
+        }
     }
 }
 

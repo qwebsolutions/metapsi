@@ -27,6 +27,9 @@
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\Metapsi.Tutorial.js" LogicalName="metapsi.tutorial.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\metapsi.codemirror.js" LogicalName="metapsi.codemirror.js"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\metapsi.monaco.js" LogicalName="metapsi.monaco.js"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\metapsi.breakpoint.js" LogicalName="metapsi.breakpoint.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.js" LogicalName="prism.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\prism.css" LogicalName="prism.css"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\codicon.ttf" LogicalName="codicon.ttf"></EmbeddedResource>

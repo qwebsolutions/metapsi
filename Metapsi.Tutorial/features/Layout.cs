@@ -4,87 +4,106 @@ using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using System.Linq;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace Metapsi.Tutorial;
-
 public static class Tutorial
 {
-    public static DocumentTag Layout<TPageModel>(
-        TPageModel model, 
-        string pageTitle,
-        IHtmlNode headerContent,
-        IHtmlNode pageContent)
-        where TPageModel : IHasTreeMenu
-
-    {
-        var style = StyleTag.Create();
-        style.AddSelector("a").AddProperty("--tw-prose-links", "var(--sl-color-blue-600)");
-
-
-        var document = DocumentTag.Create(pageTitle);
-        document.Head.AddModuleStylesheet();
-        document.Head.AddChild(style);
-        document.Body.AddChild(pageContent);
-        document.Body.AddChild(Control.DrawerTreeMenu(model));
-        document.Body.AddChild(Control.Header(model, headerContent));
-        //document.Body.AddChild(new ExternalScriptTag("/codeflask.min.js", ""));
-
-        document.AttachComponents();
-
-        return document;
-    }
-
     public class TutorialHyperAppNode<TDataModel> : HyperAppNode<TDataModel>
     {
         public override void Attach(DocumentTag document, IHtmlElement parentNode)
         {
             base.Attach(document, parentNode);
-            WaitClientSideShoelaceTags(document, parentNode, this.ModuleBuilder.Module);
+            WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
         }
     }
 
-    public static HtmlTag ClientSide<TDataModel>(
-        TDataModel model,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
-    {
-        var mountDivId = $"id_{System.Guid.NewGuid()}";
-        var appContainer = new DivTag().SetAttribute("id", mountDivId);
+    public static List<string> SmallBreakpoints = new List<string> { "sm", "md" };
 
-        var hyperApp = new TutorialHyperAppNode<TDataModel>()
+    public static List<string> LargeBreakpoints = new List<string> { "lg", "xl", "2xl" };
+
+    public static DocumentTag CommonLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    {
+        StyleTag style = StyleTag.Create();
+        style.AddSelector("a").AddProperty("--tw-prose-links", "var(--sl-color-blue-600)");
+        DocumentTag documentTag = DocumentTag.Create(pageTitle);
+        documentTag.Head.AddModuleStylesheet();
+        documentTag.Head.AddChild(style);
+        documentTag.Body.AddChild(pageContent);
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+        documentTag.AttachComponents();
+        return documentTag;
+    }
+
+    public static DocumentTag LargeLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    {
+        DocumentTag documentTag = DocumentTag.Create(pageTitle);
+        documentTag.AddRedirectMismatchedBreakpoint(LargeBreakpoints);
+        documentTag.Head.AddModuleStylesheet();
+        documentTag.Body.AddChild(pageContent);
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+        documentTag.AttachComponents();
+        return documentTag;
+    }
+
+    public static DocumentTag SmallLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    {
+        DocumentTag documentTag = DocumentTag.Create(pageTitle);
+        documentTag.AddRedirectMismatchedBreakpoint(SmallBreakpoints);
+        StyleTag style = StyleTag.Create();
+        style.AddSelector(".cm-editor").AddProperty("height", "100%");
+        style.AddSelector(".mobile-drawer::part(close-button)").AddProperty("display", "none");
+        documentTag.Head.AddChild(style);
+        documentTag.Head.AddModuleStylesheet();
+        documentTag.Body.AddChild(pageContent);
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
+        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+        documentTag.AttachComponents();
+        return documentTag;
+    }
+
+    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null, Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+    {
+        DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
+        defaultInterpolatedStringHandler.AppendLiteral("id_");
+        defaultInterpolatedStringHandler.AppendFormatted(Guid.NewGuid());
+        string mountDivId = defaultInterpolatedStringHandler.ToStringAndClear();
+        DivTag appContainer = new DivTag().SetAttribute("id", mountDivId);
+        TutorialHyperAppNode<TDataModel> hyperApp = new TutorialHyperAppNode<TDataModel>
         {
             Model = model,
             Init = init,
             Render = render,
             TakeoverNode = appContainer
         };
-
         appContainer.AddChild(hyperApp);
-
         return appContainer;
     }
 
     private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
     {
-        // sl-tooltip crashes for some reason
-        var shoelaceTags = module.Consts.Where(x => x.Value is ShoelaceTag).Select(x => (x.Value as ShoelaceTag).tag).Where(x => x != "sl-tooltip").ToList();
-
-        var head = document.Head;
-        var body = document.Body;
-
-        var workaroundDiv = body.AddChild(new HtmlTag() { Tag = "div" });
+        List<string> list = (from x in module.Consts
+                             where x.Value is ShoelaceTag
+                             select (x.Value as ShoelaceTag).tag into x
+                             where x != "sl-tooltip"
+                             select x).ToList();
+        _ = document.Head;
+        HtmlTag workaroundDiv = document.Body.AddChild(new HtmlTag
+        {
+            Tag = "div"
+        });
         workaroundDiv.SetAttribute("class", "hidden");
-
-        var slAwaitScript = document.GetSlAwaitWhenDefinedScript();
-
-        foreach (var shoelaceTag in shoelaceTags)
+        SlAwaitWhenDefinedScript slAwaitScript = document.GetSlAwaitWhenDefinedScript();
+        foreach (string shoelaceTag in list)
         {
             workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
             slAwaitScript.SlTags.Add(shoelaceTag);
         }
-
         document.StartHidden();
-
         document.AddShoelace();
     }
 }

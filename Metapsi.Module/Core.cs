@@ -224,10 +224,17 @@ namespace Metapsi.Syntax
             return b.CallExternal<int>(ModuleName, nameof(GetMinutes), dateTime);
         }
 
+        public static Var<bool> Includes<T>(this BlockBuilder b, Var<List<T>> collection, Var<T> item)
+        {
+            return b.CallExternal<bool>(ModuleName, "ArrayIncludes", new IVariable[2] { collection, item });
+        }
+
+        // Metapsi.Syntax.Core
         public static Var<bool> Includes(this BlockBuilder b, Var<string> large, Var<string> small)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(Includes), large, small);
+            return b.CallExternal<bool>(ModuleName, "StringIncludes", new IVariable[2] { large, small });
         }
+
 
         public static Var<List<string>> Split(this BlockBuilder b, Var<string> inputString, Var<string> separator)
         {

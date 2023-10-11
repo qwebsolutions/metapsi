@@ -42,7 +42,8 @@ export const SetProperty = (obj, propName, value) => obj[propName] = value;
 export const AsString = (obj) => "" + obj;
 export const ParseId = (id) => id;
 export const ParseInt = (v) => parseInt(v);
-export const Includes = (large, small) => large.includes(small);
+export const StringIncludes = (large, small) => large.includes(small);
+export const ArrayIncludes = (array, item) => array.includes(item);
 export const ObjectValues = Object.values
 export const Minus = (n) => n * -1;
 export const Add = (n1, n2) => n1 + n2;

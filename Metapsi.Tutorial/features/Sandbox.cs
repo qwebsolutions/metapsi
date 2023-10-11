@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
@@ -21,71 +22,57 @@ public class SandboxModel : ApiSupportModel
     public CodeSample CodeSample { get; set; } = new();
     public string ResultHtml { get; set; } = "<p style=\"font-family:sans-serif;\">Run the code sample to see HTML output here</p>";
 }
-
-public class MinimapProps
+public enum Editor
 {
-    public bool enabled { get; set; }
-}
-
-public class MonacoProps
-{
-    // Metapsi specific
- 
-    public string EditorId { get; set; }
-    public string Class { get; set; } = "w-full h-72 bg-white";
-
-    // actual props
-
-    public string value { get; set; }
-    public string language { get; set; }
-    public MinimapProps minimap { get; set; } = new();
+    Monaco,
+    CodeMirror
 }
 
 public static partial class Control
 {
-    public static Var<HyperNode> MonacoEditor(this BlockBuilder b, Var<MonacoProps> props)
+    public static Var<HyperNode> CodeEditor(this BlockBuilder b, Editor editor, Var<EditorProps> props)
     {
-        var containerId = b.Get(props, x => x.EditorId);
-
-        var container = b.Div(b.Get(props, x=>x.Class));
+        Var<string> containerId = b.Get(props, (EditorProps x) => x.EditorId);
+        Var<HyperNode> container = b.Div(b.Get(props, (EditorProps x) => x.Class));
         b.SetAttr(container, Html.id, containerId);
-
-        b.CallExternal("Metapsi.Tutorial", "AttachMonaco", props);
-
+        if (editor == Editor.Monaco)
+        {
+            Var<MonacoProps> monacoProps = b.NewObj<MonacoProps>();
+            b.Set(monacoProps, (MonacoProps x) => x.EditorId, b.Get(props, (EditorProps x) => x.EditorId));
+            b.Set(monacoProps, (MonacoProps x) => x.value, b.Get(props, (EditorProps x) => x.value));
+            b.Set(monacoProps, (MonacoProps x) => x.language, b.If(b.AreEqual(b.Get(props, (EditorProps x) => x.language), b.Const("json")), (BlockBuilder b) => b.Const("javascript"), (BlockBuilder b) => b.Const("csharp")));
+            b.CallExternal("Metapsi.Monaco", "AttachMonaco", monacoProps);
+        }
+        else
+        {
+            Var<CodeMirrorProps> codeMirrorProps = b.NewObj<CodeMirrorProps>();
+            b.Set(codeMirrorProps, (CodeMirrorProps x) => x.EditorId, b.Get(props, (EditorProps x) => x.EditorId));
+            b.Set(codeMirrorProps, (CodeMirrorProps x) => x.value, b.Get(props, (EditorProps x) => x.value));
+            b.Set(codeMirrorProps, (CodeMirrorProps x) => x.mode, b.Get(props, (EditorProps x) => x.language));
+            b.CallExternal("Metapsi.CodeMirror", "AttachCodeMirror", codeMirrorProps);
+        }
         return container;
-
     }
+
 
     public static string TabPanelName(this System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
     {
         return $"id-tab-{property.PropertyName()}";
     }
 
-    public static string MonacoDivContainerId(System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    public static string EditorDivContainerId(Expression<Func<CodeSample, string>> property)
     {
-        return $"id-monaco-{property.PropertyName()}";
+        return "id-editor-" + property.PropertyName();
     }
 
 
-    public static HtmlTag SandboxApp()
+    public static HtmlTag SandboxApp(Editor editor)
     {
-        var sandboxContainer = Tutorial.ClientSide(
-            new SandboxModel(), 
-            DesktopSandboxWithTabs, 
-            (BlockBuilder b, Var<SandboxModel> model) =>
-            {
-                b.AddSubscription<SandboxModel>(
-                    "ExploreSample_Sub",
-                    (BlockBuilder b, Var<SandboxModel> _) =>
-                    {
-                        return b.Listen<SandboxModel, CodeSample>(
-                            b.Const("ExploreSample"),
-                            LoadSample(b));
-                    });
-                return b.Call(OnInit, model);
-            });
-
-        return sandboxContainer;
+        return Tutorial.ClientSide(new SandboxModel(), (BlockBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model), delegate (BlockBuilder b, Var<SandboxModel> model)
+        {
+            b.AddSubscription("ExploreSample_Sub", (BlockBuilder b, Var<SandboxModel> _) => b.Listen(b.Const("ExploreSample"), LoadSample(b)));
+            return b.Call((Func<BlockBuilder, Var<SandboxModel>, Var<HyperType.StateWithEffects>>)OnInit, model);
+        });
     }
 
     private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(BlockBuilder b)
@@ -210,107 +197,78 @@ public static partial class Control
         }));
     }
 
-    public static Var<HyperNode> DesktopSandboxWithTabs(BlockBuilder b, Var<SandboxModel> clientModel)
+    public static Var<HyperNode> Sandbox(BlockBuilder b, Editor editor, Var<SandboxModel> clientModel)
     {
-        var liveSample = b.Get(clientModel, x => x.CodeSample);
-
-        var container = b.Div("flex flex-col gap-2 bg-gray-50 rounded p-2");
-
-        // MODEL
-
-        var modelTab = b.Tab(b.NewObj<Tab>(b =>
+        Var<CodeSample> liveSample = b.Get(clientModel, (SandboxModel x) => x.CodeSample);
+        Var<HyperNode> container = b.Div("flex flex-col gap-2 bg-gray-50 rounded p-2");
+        Var<HyperNode> modelTab = b.Tab(b.NewObj(delegate (Modifier<Tab> b)
         {
-            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x => x.CSharpModel)));
+            b.Set((Tab x) => x.Panel, b.Const(TabPanelName((CodeSample x) => x.CSharpModel)));
         }));
         b.SetAttr(modelTab, DynamicProperty.String("slot"), "nav");
         b.Add(modelTab, b.TextNode("Model"));
-
-        var modelPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        Var<HyperNode> modelPanel = b.TabPanel(b.NewObj(delegate (Modifier<TabPanel> b)
         {
-            b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.CSharpModel)));
+            b.Set((TabPanel x) => x.Name, b.Const(TabPanelName((CodeSample x) => x.CSharpModel)));
         }));
-        b.SetAttr(modelPanel, Html.id, Control.TabPanelName(x => x.CSharpModel));
-
-        var modelEditorProps = b.NewObj<MonacoProps>();
-        b.Set(modelEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpModel));
-        b.Set(modelEditorProps, x => x.language, "csharp");
-        b.Set(modelEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpModel));
-
-        var modelEditor = b.Add(modelPanel, b.MonacoEditor(modelEditorProps));
-        b.BindToSample(modelEditor, x => x.CSharpModel);
-
-        // JSON
-
-        var jsonTab = b.Tab(b.NewObj<Tab>(b =>
+        b.SetAttr(modelPanel, Html.id, TabPanelName((CodeSample x) => x.CSharpModel));
+        Var<EditorProps> modelEditorProps = b.NewObj<EditorProps>();
+        b.Set(modelEditorProps, (EditorProps x) => x.EditorId, EditorDivContainerId((CodeSample x) => x.CSharpModel));
+        b.Set(modelEditorProps, (EditorProps x) => x.language, "csharp");
+        b.Set(modelEditorProps, (EditorProps x) => x.value, b.Get(liveSample, (CodeSample x) => x.CSharpModel));
+        Var<HyperNode> modelEditor = b.Add(modelPanel, b.CodeEditor(editor, modelEditorProps));
+        b.BindToSample(modelEditor, (CodeSample x) => x.CSharpModel);
+        Var<HyperNode> jsonTab = b.Tab(b.NewObj(delegate (Modifier<Tab> b)
         {
-            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x=>x.JsonModel)));
+            b.Set((Tab x) => x.Panel, b.Const(TabPanelName((CodeSample x) => x.JsonModel)));
         }));
         b.SetAttr(jsonTab, DynamicProperty.String("slot"), "nav");
         b.Add(jsonTab, b.TextNode("JSON data"));
-        
-        var jsonPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        Var<HyperNode> jsonPanel = b.TabPanel(b.NewObj(delegate (Modifier<TabPanel> b)
         {
-            b.Set(x => x.Name, b.Const(Control.TabPanelName(x => x.JsonModel)));
+            b.Set((TabPanel x) => x.Name, b.Const(TabPanelName((CodeSample x) => x.JsonModel)));
         }));
-
-        b.SetAttr(jsonPanel, Html.id, Control.TabPanelName(x => x.JsonModel));
-
-        var jsonEditorProps = b.NewObj<MonacoProps>();
-        b.Set(jsonEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.JsonModel));
-        b.Set(jsonEditorProps, x => x.language, "javascript");
-        b.Set(jsonEditorProps, x => x.value, b.Get(liveSample, x => x.JsonModel));
-
-        var jsonEditor = b.Add(jsonPanel, b.MonacoEditor(jsonEditorProps));
-        b.BindToSample(jsonEditor, x => x.JsonModel);
-
-        // VIEW
-
-        var viewTab = b.Tab(b.NewObj<Tab>(b =>
+        b.SetAttr(jsonPanel, Html.id, TabPanelName((CodeSample x) => x.JsonModel));
+        Var<EditorProps> jsonEditorProps = b.NewObj<EditorProps>();
+        b.Set(jsonEditorProps, (EditorProps x) => x.EditorId, EditorDivContainerId((CodeSample x) => x.JsonModel));
+        b.Set(jsonEditorProps, (EditorProps x) => x.language, "json");
+        b.Set(jsonEditorProps, (EditorProps x) => x.value, b.Get(liveSample, (CodeSample x) => x.JsonModel));
+        Var<HyperNode> jsonEditor = b.Add(jsonPanel, b.CodeEditor(editor, jsonEditorProps));
+        b.BindToSample(jsonEditor, (CodeSample x) => x.JsonModel);
+        Var<HyperNode> viewTab = b.Tab(b.NewObj(delegate (Modifier<Tab> b)
         {
-            b.Set(x => x.Panel, b.Const(Control.TabPanelName(x => x.CSharpCode)));
+            b.Set((Tab x) => x.Panel, b.Const(TabPanelName((CodeSample x) => x.CSharpCode)));
         }));
         b.SetAttr(viewTab, DynamicProperty.String("slot"), "nav");
         b.Add(viewTab, b.TextNode("View"));
-
-        var viewPanel = b.TabPanel(b.NewObj<TabPanel>(b =>
+        Var<HyperNode> viewPanel = b.TabPanel(b.NewObj(delegate (Modifier<TabPanel> b)
         {
-            b.Set(x => x.Name, b.Const(Control.TabPanelName(x=>x.CSharpCode)));
+            b.Set((TabPanel x) => x.Name, b.Const(TabPanelName((CodeSample x) => x.CSharpCode)));
         }));
-
-        b.SetAttr(viewPanel, Html.id, Control.TabPanelName(x => x.CSharpCode));
-
-
-        var viewEditorProps = b.NewObj<MonacoProps>();
-        b.Set(viewEditorProps, x => x.EditorId, Control.MonacoDivContainerId(x => x.CSharpCode));
-        b.Set(viewEditorProps, x => x.language, "csharp");
-        b.Set(viewEditorProps, x => x.value, b.Get(liveSample, x => x.CSharpCode));
-
-        var viewEditor = b.Add(viewPanel, b.MonacoEditor(viewEditorProps));
-        b.BindToSample(viewEditor, x => x.CSharpCode);
-
-        var tabGroup = b.Add(container, b.TabGroup());
+        b.SetAttr(viewPanel, Html.id, TabPanelName((CodeSample x) => x.CSharpCode));
+        Var<EditorProps> viewEditorProps = b.NewObj<EditorProps>();
+        b.Set(viewEditorProps, (EditorProps x) => x.EditorId, EditorDivContainerId((CodeSample x) => x.CSharpCode));
+        b.Set(viewEditorProps, (EditorProps x) => x.language, "csharp");
+        b.Set(viewEditorProps, (EditorProps x) => x.value, b.Get(liveSample, (CodeSample x) => x.CSharpCode));
+        Var<HyperNode> viewEditor = b.Add(viewPanel, b.CodeEditor(editor, viewEditorProps));
+        b.BindToSample(viewEditor, (CodeSample x) => x.CSharpCode);
+        Var<HyperNode> tabGroup = b.Add(container, b.TabGroup());
         b.Add(tabGroup, modelTab);
         b.Add(tabGroup, jsonTab);
         b.Add(tabGroup, viewTab);
         b.Add(tabGroup, modelPanel);
         b.Add(tabGroup, jsonPanel);
         b.Add(tabGroup, viewPanel);
-
-        var compileButtonProps = b.NewObj<Button>();
-        b.Set(compileButtonProps, x => x.Text, "Run!");
-        b.Set(compileButtonProps, x => x.Variant, ButtonVariant.Primary);
-        b.Set(compileButtonProps, x => x.Loading, b.Get(clientModel, x => x.ApiSupport.InProgress));
-        b.Set(compileButtonProps, x => x.Disabled, b.Not(b.HasValue(b.Get(liveSample, x => x.CSharpCode))));
-
-        var compile = b.Add(container, b.Button(compileButtonProps));
-
+        Var<Button> compileButtonProps = b.NewObj<Button>();
+        b.Set(compileButtonProps, (Button x) => x.Text, "Run!");
+        b.Set(compileButtonProps, (Button x) => x.Variant, ButtonVariant.Primary);
+        b.Set(compileButtonProps, (Button x) => x.Loading, b.Get(clientModel, (SandboxModel x) => x.ApiSupport.InProgress));
+        b.Set(compileButtonProps, (Button x) => x.Disabled, b.Not(b.HasValue(b.Get(liveSample, (CodeSample x) => x.CSharpCode))));
+        Var<HyperNode> compile = b.Add(container, b.Button(compileButtonProps));
         b.SetOnClick(compile, b.MakeServerAction(clientModel, Compile));
-
-        var iframe = b.Add(container, b.Node("iframe", "w-full h-96 rounded border border-blue-500"));
+        Var<HyperNode> iframe = b.Add(container, b.Node("iframe", "w-full h-96 rounded border border-blue-500"));
         b.SetAttr(iframe, Html.id, "output-frame");
-
-        SetOutputHtml(b, b.Get(clientModel, x => x.ResultHtml));
-
+        SetOutputHtml(b, b.Get(clientModel, (SandboxModel x) => x.ResultHtml));
         return container;
     }
 

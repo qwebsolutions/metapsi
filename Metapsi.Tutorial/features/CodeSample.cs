@@ -17,8 +17,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
-
-
 public class CodeSample
 {
     public string SampleId { get; set; } = string.Empty;
@@ -83,10 +81,7 @@ public static partial class Control
             DivTag.CreateStyled(
                 "flex flex-row items-center justify-between p-4 bg-gray-100 text-lg",
                 HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
-                Tooltip.Create(
-                    new Tooltip(),
-                    Component.Create("sl-icon-button", new IconButton() { Name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId),
-                    HtmlText.Create("Send to live panel"))));
+                Component.Create("sl-icon-button", new IconButton() { Name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId)));
 
         container.AddJs(b =>
         {

@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.MSBuild;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,14 +19,12 @@ public class TutorialHandler : Http.Get<Metapsi.Tutorial.Routes.Tutorial, string
 {
     public override async Task<IResult> OnGet(CommandContext commandContext, HttpContext httpContext, string docCode)
     {
-        Console.WriteLine(httpContext.Request.Path);
-
-        TutorialModel model = new TutorialModel();
-        await model.LoadMenu();
-        model.SetCurrentEntry(httpContext.Request.Path);
-        model.MarkdownContent = await System.Reflection.Assembly.GetAssembly(this.GetType()).GetEmbeddedTextFile(docCode + ".md");
-
-        return Page.Result(model);
+        return Page.Result(await httpContext.WithBreakpointProbing(async delegate (TutorialModel model)
+        {
+            await model.LoadMenu();
+            model.SetCurrentEntry(httpContext.Request.Path);
+            model.MarkdownContent = await Assembly.GetAssembly(GetType()).GetEmbeddedTextFile(docCode + ".md");
+        }));
     }
 
 }

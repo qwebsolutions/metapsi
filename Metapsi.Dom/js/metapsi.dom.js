@@ -28,3 +28,7 @@ export const ClearInterval = clearInterval;
 export const GetLocale = () => {
     return Intl.NumberFormat().resolvedOptions().locale;
 }
+
+export const SetStyle = (domElement, styleName, styleValue) => {
+    domElement.style[styleName] = styleValue;
+}
