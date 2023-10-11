@@ -1,4 +1,5 @@
-﻿using Metapsi.Hyperapp;
+﻿using Metapsi.Dom;
+using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,15 @@ public static class Event
 {
     public static void SetOnChoice<TState>(BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, Choice>> onChoice)
     {
-        var extractInputValue = b.MakeAction<TState, DynamicObject, Choice>((BlockBuilder b, Var<TState> state, Var<DynamicObject> @event) =>
+        var extractInputValue = b.MakeAction((BlockBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
         {
-            b.Log("OnChoice @event", @event);
-            b.CallExternal(nameof(Native), "stopPropagation", @event);
-            //var value = b.Get(target, x => x.value);
-            var detail = b.Get(@event, new DynamicProperty<DynamicObject>("detail"));
-            var choice = b.Get(detail, new DynamicProperty<Choice>("choice"));
+            b.StopPropagation(@event);
+            var detail = b.GetDynamic(@event, new DynamicProperty<DynamicObject>("detail"));
+            var choice = b.GetDynamic(detail, new DynamicProperty<Choice>("choice"));
             return b.MakeActionDescriptor<TState, Choice>(onChoice, choice);
         });
-
-        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DynamicObject>>("onchoice"), extractInputValue);
+        
+        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, IDomEvent>>("onchoice"), extractInputValue);
     }
 
     public static void SetOnChoiceSelected<TState, TId>(this BlockBuilder b, Var<HyperNode> control, System.Action<BlockBuilder, Var<TState>, Var<TId>> clientAction)
@@ -34,20 +33,15 @@ public static class Event
 
     public static void SetOnChange<TState>(BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onChange)
     {
-        var extractInputValue = b.MakeAction<TState, DynamicObject, string>((BlockBuilder b, Var<TState> state, Var<DynamicObject> @event) =>
+        var extractInputValue = b.MakeAction((BlockBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
         {
-            b.Log("OnChange @event", @event);
-            b.CallExternal(nameof(Native), "stopPropagation", @event);
-            //var detail = b.Get(@event, new DynamicProperty<DynamicObject>("detail"));
-            //var value = b.Get(detail, new DynamicProperty<string>("value"));
-            //return b.MakeActionDescriptor<TState, string>(onChange, value);
-
-            var target = b.Get(@event, new DynamicProperty<DynamicObject>("target"));
-            var value = b.Get(target, new DynamicProperty<string>("value"));
+            b.StopPropagation(@event);
+            var target = b.GetDynamic(@event, new DynamicProperty<DynamicObject>("target"));
+            var value = b.GetDynamic(target, new DynamicProperty<string>("value"));
             return b.MakeActionDescriptor<TState, string>(onChange, value);
         });
 
-        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DynamicObject>>("onchange"), extractInputValue);
+        b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, IDomEvent>>("onchange"), extractInputValue);
     }
 
     public static void MultiBindTo<TState>(this BlockBuilder b, Var<HyperNode> control, System.Linq.Expressions.Expression<Func<TState, List<string>>> multipleValues)
@@ -55,12 +49,8 @@ public static class Event
         SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> _selectedValueNotUsed) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
-            b.Log("container", container);
-
-            var choicesControl = b.Get(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
-            b.Log("choicesControl", choicesControl);
+            var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
             var values = b.CallExternal<List<string>>("metapsi.choices", "GetValue", choicesControl);
-            b.Log("values", values);
             b.Set(state, multipleValues, values);
             return b.Clone(state);
         }));
@@ -71,11 +61,8 @@ public static class Event
         SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> selectedValue) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
-            b.Log("container", container);
-            var choicesControl = b.Get(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
-            b.Log("choicesControl", choicesControl);
+            var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
             var value = b.CallExternal<string>("metapsi.choices", "GetValue", choicesControl);
-            b.Log("value", value);
             b.Set(state, singleValue, value);
 
             return b.Clone(state);
@@ -91,12 +78,8 @@ public static class Event
         SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> selectedValue) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
-            b.Log("container", container);
-            var choicesControl = b.Get(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
-            b.Log("choicesControl", choicesControl);
+            var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
             var value = b.CallExternal<string>("metapsi.choices", "GetValue", choicesControl);
-            b.Log("value", value);
-
             var item = b.Call(getItem, state);
             b.Set(item, singleValue, b.ParseScalar<TId>(value));
 

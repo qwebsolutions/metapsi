@@ -195,14 +195,12 @@ namespace Metapsi.Syntax
             Set<TItem, TProp>(var, access, Const(value));
         }
 
-        public void Set<TDynamicItem, TProp>(Var<TDynamicItem> item, DynamicProperty<TProp> property, Var<TProp> value)
-            where TDynamicItem : IDynamicObject
+        public void SetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property, Var<TProp> value)
         {
             this.SetProperty(item, Const(property.PropertyName), value);
         }
 
-        public Var<TProp> Get<TDynamicItem, TProp>(Var<TDynamicItem> item, DynamicProperty<TProp> property)
-            where TDynamicItem : IDynamicObject
+        public Var<TProp> GetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property)
         {
             return this.GetProperty<TProp>(item, Const(property.PropertyName));
         }

@@ -44,14 +44,14 @@ namespace Metapsi.Hyperapp
                     b.Log(model);
 
                     Var<DynamicObject> inlineStyle = b.NewObj<DynamicObject>();
-                    b.Set(inlineStyle, new DynamicProperty<string>("backgroundColor"), b.Const("white"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("color"), b.Const("black"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("display"), b.Const("flex"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("flex-direction"), b.Const("row"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("width"), b.Const("100vw"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("height"), b.Const("100vh"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
-                    b.Set(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("backgroundColor"), b.Const("white"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("color"), b.Const("black"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("display"), b.Const("flex"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("flex-direction"), b.Const("row"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("width"), b.Const("100vw"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("height"), b.Const("100vh"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
+                    b.SetDynamic(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
 
                     var errorDiv = b.Div("", b => b.TextNode("An error has occurred"));
                     b.SetAttr(errorDiv, new DynamicProperty<DynamicObject>("style"), inlineStyle);

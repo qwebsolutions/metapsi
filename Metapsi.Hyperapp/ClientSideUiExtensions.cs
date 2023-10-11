@@ -18,7 +18,7 @@ namespace Metapsi.Hyperapp
         {
             var dynamicModel = clientModel.As<DynamicObject>();
 
-            var clientVars = b.Get(dynamicModel, ClientSideVars);
+            var clientVars = b.GetDynamic(dynamicModel, ClientSideVars);
 
             // If not initialized at all, initialize now
             b.If(
@@ -26,23 +26,23 @@ namespace Metapsi.Hyperapp
                     b.HasObject(clientVars)),
                 b =>
                 {
-                    b.Set(dynamicModel, ClientSideVars, b.NewObj<DynamicObject>());
+                    b.SetDynamic(dynamicModel, ClientSideVars, b.NewObj<DynamicObject>());
                 });
 
             // & retrieve again
-            clientVars = b.Get(dynamicModel, ClientSideVars);
+            clientVars = b.GetDynamic(dynamicModel, ClientSideVars);
 
-            var varsGroup = b.Get(clientVars, new DynamicProperty<List<UiVar>>(group));
+            var varsGroup = b.GetDynamic(clientVars, new DynamicProperty<List<UiVar>>(group));
 
             b.If(
                 b.Not(
                     b.HasObject(varsGroup)),
                 b =>
                 {
-                    b.Set(clientVars, new DynamicProperty<List<UiVar>>(group), b.NewCollection<UiVar>());
+                    b.SetDynamic(clientVars, new DynamicProperty<List<UiVar>>(group), b.NewCollection<UiVar>());
                 });
 
-            varsGroup = b.Get(clientVars, new DynamicProperty<List<UiVar>>(group));
+            varsGroup = b.GetDynamic(clientVars, new DynamicProperty<List<UiVar>>(group));
 
             var entry = b.Get(varsGroup, key, (varsGroup, key) => varsGroup.SingleOrDefault(x => x.Key == key));
 
@@ -77,7 +77,7 @@ namespace Metapsi.Hyperapp
         {
             var dynamicModel = clientModel.As<DynamicObject>();
 
-            var clientVars = b.Get(dynamicModel, ClientSideVars);
+            var clientVars = b.GetDynamic(dynamicModel, ClientSideVars);
 
             return b.If(
                 b.Not(
@@ -85,7 +85,7 @@ namespace Metapsi.Hyperapp
                 b => defaultValue,
                 b =>
                 {
-                    var varsGroup = b.Get(clientVars, new DynamicProperty<List<UiVar>>(group));
+                    var varsGroup = b.GetDynamic(clientVars, new DynamicProperty<List<UiVar>>(group));
                     b.Log("varsGroup", varsGroup);
                     return b.If(
                         b.Not(

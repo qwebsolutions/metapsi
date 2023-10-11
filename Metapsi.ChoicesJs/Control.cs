@@ -86,17 +86,17 @@ public static class Control
 {
     public static void SetAddItemTextFn(this BlockBuilder b, Var<Props> props, Var<System.Func<string, string>> addItemTextFn)
     {
-        b.Set(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), addItemTextFn);
+        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), addItemTextFn);
     }
 
     public static void SetMaxItemTextFn(this BlockBuilder b, Var<Props> props, Var<System.Func<string, string>> maxItemTextFn)
     {
-        b.Set(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), maxItemTextFn);
+        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), maxItemTextFn);
     }
 
     public static void SetValueComparerFn(this BlockBuilder b, Var<Props> props, Var<System.Func<object, object>> valueComparerFn)
     {
-        b.Set(props.As<DynamicObject>(), new DynamicProperty<System.Func<object, object>>(nameof(Props.valueComparer)), valueComparerFn);
+        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<object, object>>(nameof(Props.valueComparer)), valueComparerFn);
     }
 
 

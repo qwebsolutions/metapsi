@@ -331,7 +331,7 @@ namespace Metapsi.Hyperapp
             Var<TProp> value)
         {
             var props = b.Get(node, x => x.props);
-            b.Set(props, property, value);
+            b.SetDynamic(props, property, value);
         }
 
         public static void SetAttrIfNotEmptyString(
@@ -345,7 +345,7 @@ namespace Metapsi.Hyperapp
                 b =>
                 {
                     var props = b.Get(node, x => x.props);
-                    b.Set(props, property, value);
+                    b.SetDynamic(props, property, value);
                 });
         }
 
@@ -364,7 +364,7 @@ namespace Metapsi.Hyperapp
             DynamicProperty<TProp> property)
         {
             var props = b.Get(node, x => x.props);
-            return b.Get(props, property);
+            return b.GetDynamic(props, property);
         }
 
         public static Var<HyperNode> AddClass(
@@ -373,10 +373,10 @@ namespace Metapsi.Hyperapp
             Var<string> newClass)
         {
             var props = b.Get(node, x => x.props);
-            var current = b.Get(props, Html.@class);
+            var current = b.GetDynamic(props, Html.@class);
             var withSpacer = b.Concat(current, b.Const(" "));
             var withNew = b.Concat(withSpacer, newClass);
-            b.Set(props, Html.@class, withNew);
+            b.SetDynamic(props, Html.@class, withNew);
             return node;
         }
 
@@ -395,7 +395,7 @@ namespace Metapsi.Hyperapp
             Var<string> value)
         {
             var props = b.Get(node, x => x.props);
-            var style = b.Ref(b.Get(props, new DynamicProperty<DynamicObject>("style")));
+            var style = b.Ref(b.GetDynamic(props, new DynamicProperty<DynamicObject>("style")));
 
             b.If(
                 b.Not(b.HasObject(b.GetRef(style))),
@@ -404,7 +404,7 @@ namespace Metapsi.Hyperapp
                     b.SetRef(style, b.NewObj<DynamicObject>());
                 });
 
-            b.Set(b.GetRef(style), new DynamicProperty<string>(property), value);
+            b.SetDynamic(b.GetRef(style), new DynamicProperty<string>(property), value);
 
             b.SetAttr(node, new DynamicProperty<DynamicObject>("style"), b.GetRef(style));
 
@@ -453,7 +453,7 @@ namespace Metapsi.Hyperapp
         public static Var<string> EnglishDayName(this BlockBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
-            b.Set(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
+            b.SetDynamic(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
@@ -461,8 +461,8 @@ namespace Metapsi.Hyperapp
         public static Var<string> EnglishDayAndShortMonth(this BlockBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
-            b.Set(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
-            b.Set(formatParams, new DynamicProperty<string>("month"), b.Const("short"));
+            b.SetDynamic(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
+            b.SetDynamic(formatParams, new DynamicProperty<string>("month"), b.Const("short"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
@@ -503,8 +503,8 @@ namespace Metapsi.Hyperapp
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
             var formatParams = b.NewObj<DynamicObject>();
-            b.Set(formatParams, new DynamicProperty<string>("timeStyle"), b.Const("short"));
-            b.Set(formatParams, new DynamicProperty<string>("dateStyle"), b.Const("short"));
+            b.SetDynamic(formatParams, new DynamicProperty<string>("timeStyle"), b.Const("short"));
+            b.SetDynamic(formatParams, new DynamicProperty<string>("dateStyle"), b.Const("short"));
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
         }
 

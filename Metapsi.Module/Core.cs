@@ -250,7 +250,7 @@ namespace Metapsi.Syntax
 
         public static Var<int> StringLength(this BlockBuilder b, Var<string> inputString)
         {
-            return b.Get(inputString.As<DynamicObject>(), new DynamicProperty<int>("length"));
+            return b.GetDynamic(inputString.As<DynamicObject>(), new DynamicProperty<int>("length"));
         }
         public static Var<int> Minus(this BlockBuilder b, Var<int> number)
         {

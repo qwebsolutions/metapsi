@@ -19,7 +19,7 @@ public static class EventExtensions
                 b.Log(@event);
                 return b.MakeActionDescriptor<TState, string>(
                     onChange,
-                    b.Get(
+                    b.GetDynamic(
                         b.Get(@event, x => x.target).As<DynamicObject>(),
                         new DynamicProperty<string>("value")));
             });
@@ -40,7 +40,7 @@ public static class EventExtensions
                 b.Log(@event);
                 return b.MakeActionDescriptor<TState, bool>(
                     onChange,
-                    b.Get(
+                    b.GetDynamic(
                         b.Get(@event, x => x.target).As<DynamicObject>(),
                         new DynamicProperty<bool>("checked")));
             });

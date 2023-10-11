@@ -91,7 +91,7 @@ public static partial class Control
         container.AddJs(b =>
         {
             var control = b.GetElementById(b.Const(sendToPanelButtonId));
-            b.Set(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.DefineAction((b) =>
+            b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.DefineAction((b) =>
             {
                 b.DispatchEvent(b.Const("ExploreSample"), b.Const(sample));
             }));

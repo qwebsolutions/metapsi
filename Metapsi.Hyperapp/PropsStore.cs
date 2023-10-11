@@ -11,7 +11,7 @@ public static class PropsStore
     public static void SetControlProps<T>(this BlockBuilder b, Var<HyperNode> node, Var<T> props)
     {
         var nodeProps = b.Get(node, x => x.props);
-        var nodeId = b.Get(nodeProps, Html.id);
+        var nodeId = b.GetDynamic(nodeProps, Html.id);
 
         b.If(b.Not(b.HasValue(nodeId)),
             b =>

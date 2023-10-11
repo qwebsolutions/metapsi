@@ -21,8 +21,8 @@ namespace Metapsi.Hyperapp
             Var<HyperType.Action<TState>> action)
         {
             var debounceProps = b.NewObj<DynamicObject>();
-            b.Set(debounceProps, new DynamicProperty<int>("wait"), delayMs);
-            b.Set(debounceProps, new DynamicProperty<HyperType.Action<TState>>("action"), action);
+            b.SetDynamic(debounceProps, new DynamicProperty<int>("wait"), delayMs);
+            b.SetDynamic(debounceProps, new DynamicProperty<HyperType.Action<TState>>("action"), action);
 
             var debounceEffect = b.CallExternal<HyperType.Effect>("Debounce", "Debounce", debounceProps);
             return debounceEffect;
