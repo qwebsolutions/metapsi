@@ -17,6 +17,12 @@ public class DataContextControlBuilder<TPageModel, TContext, TProps>
     public List<Action<BlockBuilder, Var<HyperNode>>> ControlBuilderActions { get; set; } = new();
 }
 
+public class ControlBuilder<TProps>
+{
+    public List<Action<BlockBuilder, Var<TProps>>> PropsBuilderActions { get; set; } = new();
+    public List<Action<BlockBuilder, Var<HyperNode>>> ControlBuilderActions { get; set; } = new();
+}
+
 public static class DataContextControlBuilderExtensions
 {
     public static Var<HyperNode> BuildControl<TPageModel, TDataModel, TControlProps>(
@@ -30,6 +36,31 @@ public static class DataContextControlBuilderExtensions
         builder(controlBuilder);
 
         var props = b.NewObj<TControlProps>();
+        foreach (var propAction in controlBuilder.PropsBuilderActions)
+        {
+            propAction(b, props);
+        }
+
+        var control = controlConstructor(b, props);
+
+        foreach (var controlAction in controlBuilder.ControlBuilderActions)
+        {
+            controlAction(b, control);
+        }
+
+        return control;
+    }
+
+    public static Var<HyperNode> BuildControl<TProps>(
+        this BlockBuilder b,
+        Action<ControlBuilder<TProps>> builder,
+        Func<BlockBuilder, Var<TProps>, Var<HyperNode>> controlConstructor)
+        where TProps : new()
+    {
+        var controlBuilder = new ControlBuilder<TProps>();
+        builder(controlBuilder);
+
+        var props = b.NewObj<TProps>();
         foreach (var propAction in controlBuilder.PropsBuilderActions)
         {
             propAction(b, props);
