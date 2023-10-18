@@ -7,33 +7,8 @@ namespace Metapsi.Hyperapp
 {
     public interface IVNode { }
 
-    public class PropsBuilder : BlockBuilder
-    {
-        public Var<DynamicObject> Props { get; set; }
-        public PropsBuilder(ModuleBuilder moduleBuilder, Block block) : base(moduleBuilder, block)
-        {
-            this.Props = this.NewObj<DynamicObject>();
-        }
-
-        public PropsBuilder(BlockBuilder b) : this(b.ModuleBuilder, b.Block) { }
-    }
-
-    public class LayoutBuilder : BlockBuilder
-    {
-        public LayoutBuilder() { }
-
-        public LayoutBuilder(BlockBuilder b) : base(b.ModuleBuilder, b.Block) { }
-    }
-
     public static class ExternalFunctions
     {
-        public static Var<DynamicObject> EditProps(this LayoutBuilder b, Var<DynamicObject> props, Action<PropsBuilder> action)
-        {
-            var propsBuilder = new PropsBuilder(b);
-            propsBuilder.Props = props;
-            action(propsBuilder);
-            return propsBuilder.Props;
-        }
 
         /// <summary>
         /// Creates a text node (leaf node, no children)
@@ -93,7 +68,7 @@ namespace Metapsi.Hyperapp
             return b.H(b.Const("button"), props, b.List(children));
         }
 
-        public static Var<IVNode> Button(this LayoutBuilder b, Action<PropsBuilder> buildProps, params Var<IVNode>[] children)
+        public static Var<IVNode> Button(this LayoutBuilder b, Action<PropsBuilder, Var<DynamicObject>> buildProps, params Var<IVNode>[] children)
         {
             return b.H(b.Const("button"), buildProps, children);
         }
@@ -101,18 +76,19 @@ namespace Metapsi.Hyperapp
         public static Var<IVNode> H(
             this LayoutBuilder b,
             Var<string> tag,
-            Action<PropsBuilder> buildProps,
+            Action<PropsBuilder, Var<DynamicObject>> buildProps,
             params Var<IVNode>[] children)
         {
             var propsBuilder = new PropsBuilder(b.ModuleBuilder, b.Block);
-            buildProps(propsBuilder);
-            return b.H(tag, propsBuilder.Props, b.List(children));
+            var props = propsBuilder.NewObj<DynamicObject>();
+            buildProps(propsBuilder, props);
+            return b.H(tag, props, b.List(children));
         }
 
         public static Var<IVNode> H(
             this LayoutBuilder b,
             string tag,
-            Action<PropsBuilder> buildProps,
+            Action<PropsBuilder, Var<DynamicObject>> buildProps,
             params Var<IVNode>[] children)
         {
             return b.H(b.Const(tag), buildProps, children);
