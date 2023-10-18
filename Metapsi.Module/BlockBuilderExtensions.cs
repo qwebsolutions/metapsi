@@ -153,6 +153,28 @@ namespace Metapsi.Syntax
             return new Var<T>(variable.Name);
         }
 
+        public static Var<List<TItem>> Filter<TBlockBuiler, TItem>(this TBlockBuiler b, Var<List<TItem>> list, Var<Func<TItem, bool>> predicate)
+            where TBlockBuiler: BlockBuilder
+        {
+            var outList = b.NewObj<List<TItem>>();
+            b.Foreach(list, (b, item) =>
+            {
+                b.If(
+                    b.Call(predicate, item),
+                    b =>
+                    {
+                        b.Push(outList, item);
+                    });
+            });
+
+            return outList;
+        }
+
+        public static Var<List<T>> Filter<T>(this BlockBuilder b, Var<List<T>> list, Func<BlockBuilder, Var<T>, Var<bool>> predicate)
+        {
+            return b.Filter(list, b.Def(predicate));
+        }
+
         public static Var<List<TOut>> Map<TIn,TOut>(this BlockBuilder b, Var<List<TIn>> list, Var<Func<TIn, TOut>> transform)
         {
             var outList = b.NewObj<List<TOut>>();

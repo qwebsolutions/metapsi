@@ -39,6 +39,7 @@ export const FormatLocaleDateTime = (dateTime, localeCode, options) => dateTime.
 export const FormatLocaleDate = (dateTime, localeCode, options) => dateTime.toLocaleDateString(localeCode, options);
 export const GetProperty = (obj, propName) => obj[propName];
 export const SetProperty = (obj, propName, value) => obj[propName] = value;
+export const DeleteProperty = (obj, propName) => delete obj[propName];
 export const AsString = (obj) => "" + obj;
 export const ParseId = (id) => id;
 export const ParseInt = (v) => parseInt(v);

@@ -11,13 +11,13 @@ public class DataContext<TPageModel, TSubmodel>
 }
 
 
-public class DataContextAction<TPageModel, TSubmodel>
-{
-    public DataContext<TPageModel, TSubmodel> Accessor { get; set; }
-    public Action<BlockBuilder, DataContext<TPageModel, TSubmodel>> DoStuff { get; set; }
-}
+//public class DataContextAction<TPageModel, TSubmodel>
+//{
+//    public DataContext<TPageModel, TSubmodel> Accessor { get; set; }
+//    public Action<BlockBuilder, DataContext<TPageModel, TSubmodel>> DoStuff { get; set; }
+//}
 
-public static class DataContextExtensions
+public static partial class DataContextExtensions
 {
     public static void On<TPageModel, TParent, TChild>(
         this BlockBuilder b,
@@ -133,6 +133,17 @@ public static class DataContextExtensions
 
         doStuff(b, clientModelContext);
     }
+
+    //public static void OnModel<TPageModel>(
+    //    this BlockBuilder b,
+    //    Var<TPageModel> model,
+    //    Action<ContextBlockBuilder<TPageModel, TPageModel>> doStuff)
+    //{
+    //    var clientModelContext = b.NewObj<DataContext<TPageModel, TPageModel>>();
+    //    b.Set(clientModelContext, x => x.InputData, model);
+    //    b.Set(clientModelContext, x => x.AccessData, b.Def((BlockBuilder b, Var<TPageModel> model) => model));
+    //    doStuff(new ContextBlockBuilder<TPageModel, TPageModel>(b.ModuleBuilder, b.Block, clientModelContext));
+    //}
 
     public static Var<TContextData> Get<TPageModel, TContextData>(this BlockBuilder b, Var<DataContext<TPageModel, TContextData>> dataContext)
     {

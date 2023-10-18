@@ -5,12 +5,18 @@ using System.Linq.Expressions;
 
 namespace Metapsi.Syntax
 {
+
+    public interface ISyntaxBuilder
+    {
+
+    }
+
     public class Reference<T>
     {
         public T Value { get; set; }
     }
 
-    public class BlockBuilder
+    public class BlockBuilder : ISyntaxBuilder
     {
         public BlockBuilder(ModuleBuilder moduleBuilder, Block block)
         {
@@ -357,39 +363,6 @@ namespace Metapsi.Syntax
             }
             return new(func.functionRef.Name);
         }
-
-        //public IVariable Define<TFunc>(TFunc builder) where TFunc : Delegate
-        //{
-        //    Function<TFunc> action = null;
-        //    if (builder.Target != null)
-        //    {
-        //        action = new Function<TFunc>() { Name = NewName() };
-
-        //        this.Block.Lines.Add(action);
-        //    }
-        //    else
-        //    {
-        //        action = new Function<TFunc>() { Name = ModuleBuilder.QualifiedName(builder.Method), Value = builder };
-        //        this.ModuleBuilder.Const(action);
-        //    }
-
-        //    var parameters = builder.Method.GetParameters();
-        //    if (parameters.Count() == 0 || parameters.First().ParameterType != typeof(BlockBuilder))
-        //        throw new NotSupportedException("All client-side actions must have a builder as first parameter");
-
-        //    foreach (var p in parameters.Skip(1))
-        //    {
-        //        IVariable clientParameter = Activator.CreateInstance(p.ParameterType, new object[] { p.Name }) as IVariable;
-        //        action.Parameters.Add(clientParameter);
-        //    }
-
-        //    List<object> invokeParameters = new List<object>();
-        //    invokeParameters.Add(new BlockBuilder(ModuleBuilder, action.ChildBlock));
-        //    invokeParameters.AddRange(action.Parameters);
-        //    action.ReturnVariable = builder.Method.Invoke(builder.Target, invokeParameters.ToArray()) as IVariable;
-
-        //    return new Var<object>(action.Name);
-        //}
     }
 }
 

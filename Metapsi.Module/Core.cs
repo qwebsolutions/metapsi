@@ -19,6 +19,11 @@ namespace Metapsi.Syntax
             b.CallExternal(ModuleName, nameof(SetProperty), into, propertyName, value);
         }
 
+        public static void DeleteProperty(this BlockBuilder b, IVariable into, Var<string> propertyName)
+        {
+            b.CallExternal(ModuleName, nameof(DeleteProperty), into, propertyName);
+        }
+
         public static Var<bool> AreEqual<T>(this BlockBuilder b, Var<T> v1, Var<T> v2)
         {
             return b.CallExternal<bool>(ModuleName, nameof(AreEqual), v1, v2);
@@ -47,7 +52,7 @@ namespace Metapsi.Syntax
             return b.CallExternal<string>(ModuleName, nameof(Trim), s);
         }
 
-        public static Var<List<T>> List<T>(this BlockBuilder b, params Var<T>[] items)
+        public static Var<List<T>> List<T>(this BlockBuilder b, IEnumerable<Var<T>> items)
         {
             var outList = b.NewCollection<T>();
 
