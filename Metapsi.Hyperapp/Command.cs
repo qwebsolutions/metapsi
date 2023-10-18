@@ -94,8 +94,8 @@ namespace Metapsi.Hyperapp
                 b.FetchCommand(
                     command,
                     p1,
-                    b.Def((BlockBuilder b) => b.Dispatch<TState>(dispatcher, (BlockBuilder b, Var<TState> state) => b.Call<TState, TState>(onResult, state))),
-                    b.Def((BlockBuilder b, Var<ApiError> error) => b.Dispatch<TState>(dispatcher, (BlockBuilder b, Var<TState> state) => b.Call<TState, ApiError, TState>(onError, state, error))));
+                    b.Def((BlockBuilder b) => b.Dispatch<TState>(dispatcher, (BlockBuilder b, Var<TState> state) => b.Call(onResult, state))),
+                    b.Def((BlockBuilder b, Var<ApiError> error) => b.Dispatch<TState>(dispatcher, (BlockBuilder b, Var<TState> state) => b.Call(onError, state, error))));
             };
         }
 

@@ -267,7 +267,7 @@ namespace Metapsi.Hyperapp
             Var<TPayload> payload)
         {
             var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>, TPayload>>();
-            b.Call<HyperType.Action<TState, TPayload>, TPayload>(callable, action, payload);
+            b.Call(callable, action, payload);
         }
 
         public static void Dispatch<TState,TPayload>(

@@ -100,6 +100,14 @@ namespace Metapsi.Hyperapp
             b.SetProp(new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
         }
 
+        public static void OnClickAction<TState>(
+            this PropsBuilder b,
+            System.Func<BlockBuilder, Var<TState>, Var<TState>> onClick)
+        {
+            b.OnClickAction(b.MakeAction(onClick));
+        }
+
+
         public static void SetOnBlur<TState>(
             this PropsBuilder b,
             Var<HyperType.Action<TState>> onBlur)

@@ -92,9 +92,13 @@ namespace Metapsi.Hyperapp
     }
 
     public class ControlBuilder<TData>
+        where TData: new()
     {
+        
         public Func<LayoutBuilder, Var<TData>, Var<DynamicObject>, Var<IVNode>> BuildControl { get; set; }
         private List<Action<PropsBuilder>> propsActions = new List<Action<PropsBuilder>>();
+
+        public List<Action<BlockBuilder, Var<TData>>> dataActions { get; set; } = new();
 
         public ControlBuilder(Action<PropsBuilder> defaultProps)
         {
@@ -108,6 +112,12 @@ namespace Metapsi.Hyperapp
 
         public Var<IVNode> Build(LayoutBuilder b, Var<TData> data)
         {
+            BlockBuilder dataBuilder = BlockBuilder.New<BlockBuilder>(b.ModuleBuilder, b.Block);
+            foreach (var dataAction in dataActions)
+            {
+                dataAction(dataBuilder, data);
+            }
+
             PropsBuilder propsBuilder = new PropsBuilder(b);
             foreach (var prop in propsActions)
             {
@@ -120,11 +130,10 @@ namespace Metapsi.Hyperapp
     public abstract class CompoundBuilder<TData> : IControlBuilder
         where TData : new()
     {
-        public Var<TData> Data { get; private set; }
+        public Action<BlockBuilder, Var<TData>> FillData { get; set; }
 
         public void Init(LayoutBuilder b)
         {
-            this.Data = b.NewObj<TData>();
             this.Setup(b);
         }
         protected abstract void Setup(LayoutBuilder b);

@@ -153,7 +153,7 @@ namespace Metapsi.Hyperapp
 
         public static Var<HyperNode> Text(this BlockBuilder b, Var<string> text, Var<string> classNames)
         {
-            var checkedText = b.If<string>(b.HasValue(text), b => text, b => b.Const(""));
+            var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
             var span = b.Span(classNames);
             b.Add(span, textNode);
@@ -192,13 +192,13 @@ namespace Metapsi.Hyperapp
 
         public static Var<HyperNode> TextNode(this BlockBuilder b, Var<string> text)
         {
-            var checkedText = b.If<string>(b.HasValue(text), b => text, b => b.Const(""));
+            var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             return b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
         }
 
         public static Var<HyperNode> Text(this BlockBuilder b, Var<string> text)
         {
-            var checkedText = b.If<string>(b.HasValue(text), b => text, b => b.Const(""));
+            var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
             var span = b.Span();
             b.Add(span, textNode);

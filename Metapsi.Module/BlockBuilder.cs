@@ -6,6 +6,20 @@ using System.Linq.Expressions;
 namespace Metapsi.Syntax
 {
 
+    public interface IBlockBuilder
+    {
+        ModuleBuilder ModuleBuilder { get; }
+        Block Block { get; }
+        void Init(ModuleBuilder moduleBuilder, Block b);
+        
+        public string NewName();
+        public Var<T> Const<T>(T constant);
+
+        public Var<T> Const<T>(T constant, string name);
+
+        public Var<T> NewObj<T>() where T : new();
+    }
+
     public interface ISyntaxBuilder
     {
 
@@ -16,8 +30,16 @@ namespace Metapsi.Syntax
         public T Value { get; set; }
     }
 
-    public class BlockBuilder : ISyntaxBuilder
+    public class BlockBuilder : IBlockBuilder, ISyntaxBuilder
     {
+        public BlockBuilder() { }
+
+        public void Init(ModuleBuilder moduleBuilder, Block block)
+        {
+            this.ModuleBuilder = moduleBuilder;
+            this.Block = block;
+        }
+
         public BlockBuilder(ModuleBuilder moduleBuilder, Block block)
         {
             this.ModuleBuilder = moduleBuilder;
@@ -211,46 +233,6 @@ namespace Metapsi.Syntax
             return this.GetProperty<TProp>(item, Const(property.PropertyName));
         }
 
-        public void Foreach<T>(Var<List<T>> collection, Action<BlockBuilder, Var<T>> build)
-        {
-            var foreachBlock = new ForeachBlock<T>()
-            {
-                Collection = collection,
-                OverVariable = new Var<T>(NewName())
-            };
-
-            BlockBuilder blockBuilder = new BlockBuilder(ModuleBuilder, foreachBlock.ChildBlock);
-            build(blockBuilder, foreachBlock.OverVariable);
-            Block.Lines.Add(foreachBlock);
-        }
-
-        public void If(Var<bool> varIsTrue, Action<BlockBuilder> bTrue, Action<BlockBuilder> bFalse = null)
-        {
-            var ifBlock = new IfBlock() { Var = varIsTrue };
-            BlockBuilder blockBuilder = new BlockBuilder(ModuleBuilder, ifBlock.TrueBlock);
-            bTrue(blockBuilder);
-            if (bFalse != null)
-            {
-                ifBlock.FalseBlock = new();
-                blockBuilder = new BlockBuilder(ModuleBuilder, ifBlock.FalseBlock);
-                bFalse(blockBuilder);
-            }
-            Block.Lines.Add(ifBlock);
-        }
-
-        public Var<TResult> If<TResult>(
-            Var<bool> varIsTrue,
-            Func<BlockBuilder, Var<TResult>> bTrue, Func<BlockBuilder, Var<TResult>> bFalse)
-        {
-            Var<Reference<TResult>> outRef = NewObj<Reference<TResult>>();
-
-            If(varIsTrue,
-                b => { b.Set(outRef, x => x.Value, bTrue(b)); },
-                b => { b.Set(outRef, x => x.Value, bFalse(b)); });
-
-            return this.Get(outRef, x => x.Value);
-        }
-
         public void Comment(string comment)
         {
             Block.Lines.Add(new LineComment() { Comment = comment });
@@ -272,96 +254,12 @@ namespace Metapsi.Syntax
             }
         }
 
-
-        public Var<Action> DefineAction(System.Action<BlockBuilder> builder)
+        public static T New<T>(ModuleBuilder moduleBuilder, Block block)
+            where T : IBlockBuilder, new()
         {
-            var action = PlaceDefinition(builder);
-            if (!action.alreadyDefined)
-            {
-                ModuleBuilder.BuildActionBody(action.functionRef, builder);
-            }
-            return new (action.functionRef.Name);
-        }
-
-        public Var<Action<P1>> DefineAction<P1>(System.Action<BlockBuilder, Var<P1>> builder)
-        {
-            var action = PlaceDefinition(builder);
-            if (!action.alreadyDefined)
-            {
-                ModuleBuilder.BuildActionBody(action.functionRef, builder);
-            }
-            return new(action.functionRef.Name);
-        }
-
-        public Var<Action<P1, P2>> DefineAction<P1, P2>(System.Action<BlockBuilder, Var<P1>, Var<P2>> builder)
-        {
-            var action = PlaceDefinition(builder);
-            if (!action.alreadyDefined)
-            {
-                ModuleBuilder.BuildActionBody(action.functionRef, builder);
-            }
-            return new(action.functionRef.Name);
-        }
-
-        public Var<Action<P1, P2, P3>> DefineAction<P1, P2, P3>(System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
-        {
-            var action = PlaceDefinition(builder);
-            if (!action.alreadyDefined)
-            {
-                ModuleBuilder.BuildActionBody(action.functionRef, builder);
-            }
-            return new(action.functionRef.Name);
-        }
-
-        public Var<Action<P1, P2, P3, P4>> DefineAction<P1, P2, P3, P4>(System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
-        {
-            var action = PlaceDefinition(builder);
-            if (!action.alreadyDefined)
-            {
-                ModuleBuilder.BuildActionBody(action.functionRef, builder);
-            }
-            return new(action.functionRef.Name);
-        }
-
-
-        public Var<Func<P1, P2, P3, TOut>> DefineFunc<P1, P2, P3,TOut>(System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
-        {
-            var func = PlaceDefinition(builder);
-            if (!func.alreadyDefined)
-            {
-                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
-            }
-            return new(func.functionRef.Name);
-        }
-
-        public Var<Func<P1, P2, TOut>> DefineFunc<P1, P2, TOut>(System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
-        {
-            var func = PlaceDefinition(builder);
-            if (!func.alreadyDefined)
-            {
-                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
-            }
-            return new(func.functionRef.Name);
-        }
-
-        public Var<Func<P1, TOut>> DefineFunc<P1, TOut>(System.Func<BlockBuilder, Var<P1>, Var<TOut>> builder)
-        {
-            var func = PlaceDefinition(builder);
-            if (!func.alreadyDefined)
-            {
-                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
-            }
-            return new(func.functionRef.Name);
-        }
-
-        public Var<Func<TOut>> DefineFunc<TOut>(System.Func<BlockBuilder, Var<TOut>> builder)
-        {
-            var func = PlaceDefinition(builder);
-            if (!func.alreadyDefined)
-            {
-                ModuleBuilder.BuildFuncBody(func.functionRef, builder);
-            }
-            return new(func.functionRef.Name);
+            T builder = new();
+            builder.Init(moduleBuilder, block);
+            return builder;
         }
     }
 }

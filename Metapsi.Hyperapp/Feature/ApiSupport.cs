@@ -40,7 +40,7 @@ namespace Metapsi.Hyperapp
                     state = b.HidePanel(state);
 
                     // Explicit API error
-                    return b.If<HyperType.ActionDescriptor<TState, TResult>>(
+                    return b.If(
                         b.Get(result, x => x.ResultCode == "Error"),
                         b =>
                         {
@@ -79,7 +79,7 @@ namespace Metapsi.Hyperapp
                     state = b.HidePanel(state);
 
                     // Explicit API error
-                    return b.If<HyperType.ActionDescriptor<TState, TResult>>(
+                    return b.If(
                         b.Get(result, x => x.ResultCode == "Error"),
                         b =>
                         {

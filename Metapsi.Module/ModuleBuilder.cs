@@ -87,55 +87,49 @@ namespace Metapsi.Syntax
             return new(func.Name);
         }
 
-        ////Referinte
-        ////Obiecte? Serializabile
-        ////Functii? Buildere
-        //Astea "constante", dar îs referințe in sine. nu au nume
-        //    Variabilele sunt o asociere nume-constanta
-        //    sau nume -> .. ce? nume si atâta
-
-        // de fapt builder-ul ar trebui să stocheze sursele
-        // ca o formă de caching?
-        // si modulul să aiba direct obiectele de sintaxă
-
         private void AddParameters(IFunction function, params IVariable[] parameters)
         {
             function.Parameters.AddRange(parameters);
         }
 
-        public void BuildActionBody(IFunction function, System.Action<BlockBuilder> builder)
+        public void BuildActionBody<TBlockBuilder>(IFunction function, System.Action<TBlockBuilder> builder)
+            where TBlockBuilder : BlockBuilder, new()
         {
-            builder(new BlockBuilder(this, function.ChildBlock));
+            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock));
         }
 
-        public void BuildActionBody<P1>(IFunction function, System.Action<BlockBuilder, Var<P1>> builder)
+        public void BuildActionBody<TBlockBuilder, P1>(IFunction function, System.Action<TBlockBuilder, Var<P1>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             AddParameters(function, p1);
-            builder(new BlockBuilder(this, function.ChildBlock), p1);
+            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1);
         }
 
-        public void BuildActionBody<P1, P2>(IFunction function, System.Action<BlockBuilder, Var<P1>, Var<P2>> builder)
+        public void BuildActionBody<TBlockBuilder, P1, P2>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             var p2 = new Var<P2>(parameters[2].Name);
             AddParameters(function, p1, p2);
-            builder(new BlockBuilder(this, function.ChildBlock), p1, p2);
+            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2);
         }
 
-        public void BuildActionBody<P1, P2, P3>(IFunction function, System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
+        public void BuildActionBody<TBlockBuilder, P1, P2, P3>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             var p2 = new Var<P2>(parameters[2].Name);
             var p3 = new Var<P3>(parameters[3].Name);
             AddParameters(function, p1, p2, p3);
-            builder(new BlockBuilder(this, function.ChildBlock), p1, p2, p3);
+            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3);
         }
 
-        public void BuildActionBody<P1, P2, P3, P4>(IFunction function, System.Action<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
+        public void BuildActionBody<TBlockBuilder, P1, P2, P3, P4>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
@@ -143,43 +137,47 @@ namespace Metapsi.Syntax
             var p3 = new Var<P3>(parameters[3].Name);
             var p4 = new Var<P4>(parameters[4].Name);
             AddParameters(function, p1, p2, p3, p4);
-            builder(new BlockBuilder(this, function.ChildBlock), p1, p2, p3, p4);
+            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3, p4);
         }
 
-
-        public void BuildFuncBody<TOut>(IFunction function, System.Func<BlockBuilder, Var<TOut>> builder)
+        public void BuildFuncBody<TBlockBuilder, TOut>(IFunction function, System.Func<TBlockBuilder, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
-            function.ReturnVariable = builder(new BlockBuilder(this, function.ChildBlock));
+            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock));
         }
 
-        public void BuildFuncBody<P1, TOut>(IFunction function, System.Func<BlockBuilder, Var<P1>, Var<TOut>> builder)
+        public void BuildFuncBody<TBlockBuilder, P1, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             AddParameters(function, p1);
-            function.ReturnVariable = builder(new BlockBuilder(this, function.ChildBlock), p1);
+            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1);
         }
 
-        public void BuildFuncBody<P1, P2, TOut>(IFunction function, System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
+        public void BuildFuncBody<TBlockBuilder, P1, P2, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             var p2 = new Var<P2>(parameters[2].Name);
             AddParameters(function, p1, p2);
-            function.ReturnVariable = builder(new BlockBuilder(this, function.ChildBlock), p1, p2);
+            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2);
         }
 
-        public void BuildFuncBody<P1, P2, P3, TOut>(IFunction function, System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
+        public void BuildFuncBody<TBlockBuilder, P1, P2, P3, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
             var p2 = new Var<P2>(parameters[2].Name);
             var p3 = new Var<P3>(parameters[3].Name);
             AddParameters(function, p1, p2, p3);
-            function.ReturnVariable = builder(new BlockBuilder(this, function.ChildBlock), p1, p2, p3);
+            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3);
         }
 
-        public void BuildFuncBody<P1, P2, P3, P4, TOut>(IFunction function, System.Func<BlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<TOut>> builder)
+        public void BuildFuncBody<TBlockBuilder, P1, P2, P3, P4, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var parameters = builder.Method.GetParameters();
             var p1 = new Var<P1>(parameters[1].Name);
@@ -187,7 +185,7 @@ namespace Metapsi.Syntax
             var p3 = new Var<P3>(parameters[3].Name);
             var p4 = new Var<P4>(parameters[4].Name);
             AddParameters(function, p1, p2, p3, p4);
-            function.ReturnVariable = builder(new BlockBuilder(this, function.ChildBlock), p1, p2, p3, p4);
+            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3, p4);
         }
 
         public IVariable AddExpression<T>(T expression)

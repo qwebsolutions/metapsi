@@ -6,6 +6,139 @@ namespace Metapsi.Syntax
 {
     public static class BlockBuilderExtensions
     {
+
+
+        public static Var<Action> DefineAction<TBlockBuilder>(this TBlockBuilder b, System.Action<TBlockBuilder> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var action = b.PlaceDefinition(builder);
+            if (!action.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
+        }
+
+        public static Var<Action<P1>> DefineAction<TBlockBuilder, P1>(this TBlockBuilder b, System.Action<TBlockBuilder, Var<P1>> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var action = b.PlaceDefinition(builder);
+            if (!action.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
+        }
+
+        public static Var<Action<P1, P2>> DefineAction<TBlockBuilder, P1, P2>(this TBlockBuilder b, System.Action<TBlockBuilder, Var<P1>, Var<P2>> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var action = b.PlaceDefinition(builder);
+            if (!action.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
+        }
+
+        public static Var<Action<P1, P2, P3>> DefineAction<TBlockBuilder, P1, P2, P3>(this TBlockBuilder b, System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
+            where TBlockBuilder: BlockBuilder, new()
+        {
+            var action = b.PlaceDefinition(builder);
+            if (!action.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
+        }
+
+        public static Var<Action<P1, P2, P3, P4>> DefineAction<TBlockBuilder, P1, P2, P3, P4>(this TBlockBuilder b,System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
+            where TBlockBuilder: BlockBuilder, new()
+        {
+            var action = b.PlaceDefinition(builder);
+            if (!action.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildActionBody(action.functionRef, builder);
+            }
+            return new(action.functionRef.Name);
+        }
+
+
+        public static Var<Func<P1, P2, P3, TOut>> DefineFunc<TBlockBuilder, P1, P2, P3, TOut>(this TBlockBuilder b, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var func = b.PlaceDefinition(builder);
+            if (!func.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
+        }
+
+        public static Var<Func<P1, P2, TOut>> DefineFunc<TBlockBuilder, P1, P2, TOut>(this TBlockBuilder b,System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
+            where TBlockBuilder: BlockBuilder, new()
+        {
+            var func = b.PlaceDefinition(builder);
+            if (!func.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
+        }
+
+        public static Var<Func<P1, TOut>> DefineFunc<TBlockBuilder, P1, TOut>(this TBlockBuilder b, System.Func<TBlockBuilder, Var<P1>, Var<TOut>> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var func = b.PlaceDefinition(builder);
+            if (!func.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
+        }
+
+        public static Var<Func<TOut>> DefineFunc<TBlockBuilder, TOut>(this TBlockBuilder b, System.Func<TBlockBuilder, Var<TOut>> builder)
+            where TBlockBuilder : BlockBuilder, new()
+        {
+            var func = b.PlaceDefinition(builder);
+            if (!func.alreadyDefined)
+            {
+                b.ModuleBuilder.BuildFuncBody(func.functionRef, builder);
+            }
+            return new(func.functionRef.Name);
+        }
+
+        public static void If<T>(this T b, Var<bool> varIsTrue, Action<T> bTrue, Action<T> bFalse = null)
+            where T : IBlockBuilder, new()
+        {
+            var ifBlock = new IfBlock() { Var = varIsTrue };
+
+            T blockBuilder = BlockBuilder.New<T>(b.ModuleBuilder, ifBlock.TrueBlock);
+            bTrue(blockBuilder);
+            if (bFalse != null)
+            {
+                ifBlock.FalseBlock = new();
+                blockBuilder = BlockBuilder.New<T>(b.ModuleBuilder, ifBlock.FalseBlock);
+                bFalse(blockBuilder);
+            }
+            b.Block.Lines.Add(ifBlock);
+        }
+
+        public static Var<TResult> If<TBuilder, TResult>(
+            this TBuilder b,
+            Var<bool> varIsTrue,
+            Func<TBuilder, Var<TResult>> bTrue, Func<TBuilder, Var<TResult>> bFalse)
+            where TBuilder : BlockBuilder, new()
+        {
+            Var<Reference<TResult>> outRef = b.NewObj<Reference<TResult>>();
+
+            b.If(varIsTrue,
+                b => { b.Set(outRef, x => x.Value, bTrue(b)); },
+                b => { b.Set(outRef, x => x.Value, bFalse(b)); });
+
+            return b.Get(outRef, x => x.Value);
+        }
+
         public static Var<TResult> Get<TInput, TResult>(
             this BlockBuilder b,
             Var<TInput> input,
@@ -88,6 +221,20 @@ namespace Metapsi.Syntax
             return b.CallFunction<TResult>(constExpr, input1, input2, input3, input4, input5);
         }
 
+        public static void Foreach<TBuilder, T>(this TBuilder b, Var<List<T>> collection, Action<TBuilder, Var<T>> build)
+            where TBuilder : BlockBuilder, new()
+        {
+            var foreachBlock = new ForeachBlock<T>()
+            {
+                Collection = collection,
+                OverVariable = new Var<T>(b.NewName())
+            };
+
+            TBuilder blockBuilder = BlockBuilder.New<TBuilder>(b.ModuleBuilder, foreachBlock.ChildBlock);
+            build(blockBuilder, foreachBlock.OverVariable);
+            b.Block.Lines.Add(foreachBlock);
+        }
+
         public static void Foreach<T>(
             this BlockBuilder b,
             Var<List<T>> collection,
@@ -138,7 +285,8 @@ namespace Metapsi.Syntax
             return b.NewObj<Reference<T>>(b => b.Set(x => x.Value, value));
         }
 
-        public static void SetRef<T>(this BlockBuilder b, Var<Reference<T>> reference, Var<T> value)
+        public static void SetRef<TBlockBuilder, T>(this TBlockBuilder b, Var<Reference<T>> reference, Var<T> value)
+            where TBlockBuilder : BlockBuilder
         {
             b.Set(reference, x => x.Value, value);
         }
@@ -154,7 +302,7 @@ namespace Metapsi.Syntax
         }
 
         public static Var<List<TItem>> Filter<TBlockBuiler, TItem>(this TBlockBuiler b, Var<List<TItem>> list, Var<Func<TItem, bool>> predicate)
-            where TBlockBuiler: BlockBuilder
+            where TBlockBuiler: BlockBuilder, new()
         {
             var outList = b.NewObj<List<TItem>>();
             b.Foreach(list, (b, item) =>
@@ -175,7 +323,8 @@ namespace Metapsi.Syntax
             return b.Filter(list, b.Def(predicate));
         }
 
-        public static Var<List<TOut>> Map<TIn,TOut>(this BlockBuilder b, Var<List<TIn>> list, Var<Func<TIn, TOut>> transform)
+        public static Var<List<TOut>> Map<TBlockBuilder, TIn,TOut>(this TBlockBuilder b, Var<List<TIn>> list, Var<Func<TIn, TOut>> transform)
+            where TBlockBuilder: BlockBuilder, new()
         {
             var outList = b.NewObj<List<TOut>>();
             b.Foreach(list, (b, item) =>
@@ -186,7 +335,8 @@ namespace Metapsi.Syntax
             return outList;
         }
 
-        public static Var<List<TOut>> Map<TIn, TOut>(this BlockBuilder b, Var<List<TIn>> list, Func<BlockBuilder, Var<TIn>, Var<TOut>> transform)
+        public static Var<List<TOut>> Map<TBlockBuilder, TIn, TOut>(this TBlockBuilder b, Var<List<TIn>> list, Func<TBlockBuilder, Var<TIn>, Var<TOut>> transform)
+            where TBlockBuilder : BlockBuilder, new()
         {
             return b.Map(list, b.Def(transform));
         }

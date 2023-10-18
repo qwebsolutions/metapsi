@@ -20,11 +20,21 @@ namespace Metapsi.Hyperapp
 
     public class LayoutBuilder : BlockBuilder
     {
+        public LayoutBuilder() { }
+
         public LayoutBuilder(BlockBuilder b) : base(b.ModuleBuilder, b.Block) { }
     }
 
     public static class ExternalFunctions
     {
+        public static Var<DynamicObject> EditProps(this LayoutBuilder b, Var<DynamicObject> props, Action<PropsBuilder> action)
+        {
+            var propsBuilder = new PropsBuilder(b);
+            propsBuilder.Props = props;
+            action(propsBuilder);
+            return propsBuilder.Props;
+        }
+
         /// <summary>
         /// Creates a text node (leaf node, no children)
         /// </summary>
@@ -58,7 +68,6 @@ namespace Metapsi.Hyperapp
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, Var<List<IVNode>> children)
         {
             var validChildren = b.Filter(children, Metapsi.Hyperapp.ExternalFunctions.IsValidNode);
-            b.Log(tag, validChildren);
             return b.CallExternal<IVNode>("hyperapp", "h", tag, props, validChildren);
         }
 
@@ -72,6 +81,21 @@ namespace Metapsi.Hyperapp
         public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, params Var<IVNode>[] children)
         {
             return b.H(b.Const(tag), props, b.List(children));
+        }
+
+        public static Var<IVNode> Div(this LayoutBuilder b, Var<DynamicObject> props, params Var<IVNode>[] children)
+        {
+            return b.H(b.Const("div"), props, b.List(children));
+        }
+
+        public static Var<IVNode> Button(this LayoutBuilder b, Var<DynamicObject> props, params Var<IVNode>[] children)
+        {
+            return b.H(b.Const("button"), props, b.List(children));
+        }
+
+        public static Var<IVNode> Button(this LayoutBuilder b, Action<PropsBuilder> buildProps, params Var<IVNode>[] children)
+        {
+            return b.H(b.Const("button"), buildProps, children);
         }
 
         public static Var<IVNode> H(
