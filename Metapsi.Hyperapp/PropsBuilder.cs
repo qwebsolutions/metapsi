@@ -22,12 +22,12 @@ namespace Metapsi.Hyperapp
             return props;
         }
 
-        public static void EditProps<TData>(this HtmlControlBuilder<TData> builder, Action<PropsBuilder, Var<TData>, Var<DynamicObject>> propsAction)
+        public static void EditProps<TData>(this ControlDefinition<TData> builder, Action<PropsBuilder, Var<TData>, Var<DynamicObject>> propsAction)
         {
             builder.PropsActions.Add(propsAction);
         }
 
-        public static void EditProps<TData>(this HtmlControlBuilder<TData> builder, Action<PropsBuilder, Var<DynamicObject>> propsAction)
+        public static void EditProps<TData>(this ControlDefinition<TData> builder, Action<PropsBuilder, Var<DynamicObject>> propsAction)
         {
             builder.PropsActions.Add((b, data, props) => propsAction(b, props));
         }
