@@ -6,6 +6,8 @@ namespace Metapsi.Hyperapp
 {
     public class PropsBuilder : BlockBuilder
     {
+        public PropsBuilder() { }
+
         public PropsBuilder(ModuleBuilder moduleBuilder, Block block) : base(moduleBuilder, block)
         {
         }

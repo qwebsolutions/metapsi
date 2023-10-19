@@ -73,6 +73,11 @@ namespace Metapsi.Hyperapp
             return b.H(b.Const("button"), buildProps, children);
         }
 
+        public static Var<DynamicObject> EmptyProps(this LayoutBuilder b)
+        {
+            return b.NewObj<DynamicObject>();
+        }
+
         public static Var<IVNode> H(
             this LayoutBuilder b,
             Var<string> tag,

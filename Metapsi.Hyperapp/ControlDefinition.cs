@@ -7,19 +7,10 @@ using System.Runtime.CompilerServices;
 
 namespace Metapsi.Hyperapp
 {
-    public class ControlBuilder<TControlDefinition, TData> : BlockBuilder
-    {
-        public TControlDefinition Control { get; set; }
-        public Var<TData> Data { get; set; }
 
-        public ControlBuilder(
-            BlockBuilder b, 
-            TControlDefinition controlDefinition,
-            Var<TData> data) : base(b.ModuleBuilder, b.Block)
-        {
-            this.Control = controlDefinition;
-            Data = data;
-        }
+    public interface IControlDefinition<TData>
+    {
+        Func<LayoutBuilder, Var<TData>, Var<IVNode>> GetRenderer();
     }
 
     public static class ControlDefinition
@@ -29,9 +20,9 @@ namespace Metapsi.Hyperapp
             Action<PropsBuilder, Var<TData>, Var<DynamicObject>> defaultProps,
             Func<LayoutBuilder, Var<TData>, Var<IVNode>> child)
         {
-            var builder = new ControlDefinition<TData>();
+            var builder = new ControlDefinition<TData>(tag);
             builder.EditProps(defaultProps);
-            builder.BuildControl = (b, data, props) => b.H(tag, props, b.Call(child, data));
+            builder.AddChild(child);
             return builder;
         }
 
@@ -40,9 +31,12 @@ namespace Metapsi.Hyperapp
             Action<PropsBuilder, Var<TData>, Var<DynamicObject>> defaultProps,
             params Func<LayoutBuilder, Var<TData>, Var<IVNode>>[] children)
         {
-            var builder = new ControlDefinition<TData>();
+            var builder = new ControlDefinition<TData>(tag);
             builder.EditProps(defaultProps);
-            builder.BuildControl = (b, data, props) => b.H(tag, props, b.List(children.Select(buildChild => buildChild(b, data))));
+            foreach(var child in children)
+            {
+                builder.AddChild(child);
+            }
             return builder;
         }
 
@@ -51,45 +45,124 @@ namespace Metapsi.Hyperapp
             Action<PropsBuilder, Var<TData>, Var<DynamicObject>> defaultProps,
             Func<LayoutBuilder, Var<TData>, Var<List<IVNode>>> children)
         {
-            var builder = new ControlDefinition<TData>();
+            var builder = new ControlDefinition<TData>(tag);
             builder.EditProps(defaultProps);
-            builder.BuildControl = (b, data, props) => b.H(tag, props, b.Call(children, data));
+            builder.AddChildren(children);
             return builder;
         }
     }
 
-    public class ControlDefinition<TData>
+    public class ControlDefinition<TData> : IControlDefinition<TData>
     {
-        public Func<LayoutBuilder, Var<TData>, Var<DynamicObject>, Var<IVNode>> BuildControl { get; set; }
-        public List<Action<PropsBuilder, Var<TData>, Var<DynamicObject>>> PropsActions { get; set; } = new();
-    }
+        public ControlDefinition(string tag)
+        {
+            this.Tag = tag;
+        }
 
-    public static class ControlDefinitionExtensions
-    {
+        public string Tag { get; set; }
+        public List<Func<LayoutBuilder, Var<TData>, Var<List<IVNode>>>> ChildrenBuilders { get; set; } = new();
+        public List<Action<PropsBuilder, Var<TData>, Var<DynamicObject>>> PropsActions { get; set; } = new();
+
         /// <summary>
         /// Called when the control is completely defined
         /// </summary>
-        /// <typeparam name="TData"></typeparam>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static Func<LayoutBuilder, Var<TData>, Var<IVNode>> GetRenderer<TData>(this ControlDefinition<TData> builder)
+        public Func<LayoutBuilder, Var<TData>, Var<IVNode>> GetRenderer()
         {
             return (LayoutBuilder b, Var<TData> data) =>
             {
                 var props = b.NewObj<DynamicObject>();
                 PropsBuilder propsBuilder = new PropsBuilder(b);
-                foreach (var prop in builder.PropsActions)
+                foreach (var prop in this.PropsActions)
                 {
                     prop(propsBuilder, data, props);
                 }
 
-                return builder.BuildControl(b, data, props);
+                var children = b.NewCollection<IVNode>();
+
+                foreach (var buildChildren in ChildrenBuilders)
+                {
+                    var newChildren = buildChildren(b, data);
+                    b.Foreach(newChildren, (b, child) =>
+                    {
+                        b.Push(children, child);
+                    });
+                }
+
+                return b.H(Tag, props, children);
             };
         }
+    }
 
-        public static Var<IVNode> Render<TData>(this LayoutBuilder b, ControlDefinition<TData> builder, Var<TData> data)
+    public static class ControlDefinitionExtensions
+    {
+        public static ControlDefinition<TData> Clone<TData>(this ControlDefinition<TData> source)
         {
-            return b.Call(builder.GetRenderer(), data);
+            var clone = new ControlDefinition<TData>(source.Tag);
+            clone.PropsActions.AddRange(source.PropsActions);
+            clone.ChildrenBuilders.AddRange(source.ChildrenBuilders);
+
+            return clone;
+        }
+
+        public static void Override<TData>(
+            this ControlDefinition<TData> definition,
+            ControlDefinition<TData> newDefinition)
+        {
+            definition.Tag = newDefinition.Tag;
+            definition.PropsActions.AddRange(newDefinition.PropsActions);
+            definition.ChildrenBuilders.AddRange(newDefinition.ChildrenBuilders);
+        }
+
+        public static void SetChild<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<TData>, Var<IVNode>> buildChild)
+        {
+            definition.ChildrenBuilders.Clear();
+            definition.ChildrenBuilders.Add((b, data) =>
+            {
+                var singleChildCollection = b.NewCollection<IVNode>();
+                b.Push(singleChildCollection, buildChild(b, data));
+                return singleChildCollection;
+            });
+        }
+
+        public static void AddChild<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<TData>, Var<IVNode>> buildChild)
+        {
+            definition.ChildrenBuilders.Add((b, data) =>
+            {
+                var singleChildCollection = b.NewCollection<IVNode>();
+                b.Push(singleChildCollection, buildChild(b, data));
+                return singleChildCollection;
+            });
+        }
+
+        public static void AddChild<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<IVNode>> buildChild)
+        {
+            definition.ChildrenBuilders.Add((b, data) =>
+            {
+                var singleChildCollection = b.NewCollection<IVNode>();
+                b.Push(singleChildCollection, buildChild(b));
+                return singleChildCollection;
+            });
+        }
+
+        public static void SetChildren<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<TData>, Var<List<IVNode>>> buildChildren)
+        {
+            definition.ChildrenBuilders.Clear();
+            definition.ChildrenBuilders.Add(buildChildren);
+        }
+
+        public static void AddChildren<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<TData>, Var<List<IVNode>>> buildChildren)
+        {
+            definition.ChildrenBuilders.Add(buildChildren);
         }
     }
 }

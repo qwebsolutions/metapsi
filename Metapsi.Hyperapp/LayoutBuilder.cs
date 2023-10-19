@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using System;
 
 namespace Metapsi.Hyperapp
 {
@@ -11,9 +12,27 @@ namespace Metapsi.Hyperapp
 
     public static class LayoutBuilderExtensions
     {
-        public static Var<IVNode> Layout<TData>(this LayoutBuilder b, Var<TData> data, System.Func<LayoutBuilder, Var<TData>, Var<IVNode>> buildLayout)
+        public static Var<IVNode> Render<TData>(this LayoutBuilder b, IControlDefinition<TData> builder, Var<TData> data)
         {
-            return b.Call(buildLayout, data);
+            return b.Call(builder.GetRenderer(), data);
+        }
+
+        public static Var<IVNode> FromDefinition<TDefinition, TData>(
+            this LayoutBuilder b,
+            Func<TDefinition> init,
+            Action<ControlBuilder<TDefinition, TData>, Var<TData>> customize = null)
+            where TData : new()
+            where TDefinition : IControlDefinition<TData>, new()
+        {
+            var data = b.NewObj<TData>();
+            TDefinition controlDefinition = init();
+            if (customize != null)
+            {
+                ControlBuilder<TDefinition, TData> controlBuilder = new(b, controlDefinition, data);
+                customize(controlBuilder, data);
+            }
+
+            return b.Render(controlDefinition, data);
         }
     }
 }
