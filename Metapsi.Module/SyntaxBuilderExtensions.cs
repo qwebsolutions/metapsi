@@ -32,14 +32,25 @@ namespace Metapsi.Syntax
         public static void If<TSyntaxBuilder>(
             this TSyntaxBuilder syntaxBuilder,
             Var<bool> varIsTrue,
-            Action<TSyntaxBuilder> bTrue,
-            Action<TSyntaxBuilder> bFalse = null)
+            Action<TSyntaxBuilder> bTrue)
             where TSyntaxBuilder : SyntaxBuilder
         {
             syntaxBuilder.blockBuilder.If(
                 varIsTrue,
-                b => bTrue(syntaxBuilder),
-                b => bFalse(syntaxBuilder));
+                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b)));
+        }
+
+        public static void If<TSyntaxBuilder>(
+            this TSyntaxBuilder syntaxBuilder,
+            Var<bool> varIsTrue,
+            Action<TSyntaxBuilder> bTrue,
+            Action<TSyntaxBuilder> bFalse)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            syntaxBuilder.blockBuilder.If(
+                varIsTrue,
+                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b)),
+                b => bFalse(SyntaxBuilder.New<TSyntaxBuilder>(b)));
         }
 
         public static void Foreach<TSyntaxBuilder, T>(
@@ -47,7 +58,7 @@ namespace Metapsi.Syntax
             Var<List<T>> collection, Action<TSyntaxBuilder, Var<T>> build)
             where TSyntaxBuilder : SyntaxBuilder
         {
-            syntaxBuilder.blockBuilder.Foreach(collection, (b, var) => build(syntaxBuilder, var));
+            syntaxBuilder.blockBuilder.Foreach(collection, (b, var) => build(SyntaxBuilder.New<TSyntaxBuilder>(b), var));
         }
 
         // Define global actions

@@ -184,7 +184,7 @@ namespace Metapsi.Syntax
             List<object> arguments = new List<object>
             {
                 Activator.CreateInstance(
-                    parameters.First().ParameterType,
+                    builder.GetType().GenericTypeArguments.First(),
                     new object[]
                     {
                         new SyntaxBuilder(new BlockBuilder(this, function.ChildBlock))

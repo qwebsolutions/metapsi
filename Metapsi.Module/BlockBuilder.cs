@@ -27,21 +27,11 @@ namespace Metapsi.Syntax
 
     public class BlockBuilder
     {
-        //public BlockBuilder() { }
-
-        public void Init(ModuleBuilder moduleBuilder, Block block)
-        {
-            this.ModuleBuilder = moduleBuilder;
-            this.Block = block;
-        }
-
         public BlockBuilder(ModuleBuilder moduleBuilder, Block block)
         {
             this.ModuleBuilder = moduleBuilder;
             this.Block = block;
         }
-
-        //public Module Module { get => ModuleBuilder.Module; }
 
         public ModuleBuilder ModuleBuilder { get; private set; }
 

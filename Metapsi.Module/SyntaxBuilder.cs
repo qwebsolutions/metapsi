@@ -6,13 +6,19 @@ namespace Metapsi.Syntax
 {
     public class SyntaxBuilder
     {
+        internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b)
+            where TSyntaxBuilder: class
+        {
+            return Activator.CreateInstance(typeof(TSyntaxBuilder), new object[] { new SyntaxBuilder(b) }) as TSyntaxBuilder;
+        }
+
         internal BlockBuilder blockBuilder;
 
         public Module Module => blockBuilder.ModuleBuilder.Module;
 
         public SyntaxBuilder(BlockBuilder b)
         {
-            this.blockBuilder = new BlockBuilder(b.ModuleBuilder, b.Block);
+            this.blockBuilder = b;
         }
 
         public SyntaxBuilder(SyntaxBuilder b)
