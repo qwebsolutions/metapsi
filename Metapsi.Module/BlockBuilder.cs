@@ -199,7 +199,7 @@ namespace Metapsi.Syntax
             }, value);
         }
 
-        public void Set<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
+        public void SetLax<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
         {
             if (!(access.Body is MemberExpression))
             {

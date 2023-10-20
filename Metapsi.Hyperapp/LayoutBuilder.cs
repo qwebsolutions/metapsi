@@ -19,37 +19,22 @@ namespace Metapsi.Hyperapp
 
         public static Var<IVNode> FromDefinition<TDefinition, TData>(
             this LayoutBuilder b,
-            Func<TDefinition> init,
-            Action<ControlBuilder<TDefinition, TData>, Var<TData>> customize = null)
+            Func<TDefinition> initControlDefinition,
+            Action<ControlBuilder<TDefinition, TData>> customize,
+            Func<BlockBuilder, Var<TData>> initData = null)
             where TData : new()
             where TDefinition : IControlDefinition<TData>, new()
         {
-            var data = b.NewObj<TData>();
-            TDefinition controlDefinition = init();
-            if (customize != null)
+            if (initData == null)
             {
-                ControlBuilder<TDefinition, TData> controlBuilder = new(b, controlDefinition, data);
-                customize(controlBuilder, data);
+                initData = b => b.NewObj<TData>();
             }
 
-            return b.Render(controlDefinition, data);
-        }
+            TDefinition controlDefinition = initControlDefinition();
+            ControlBuilder<TDefinition, TData> controlBuilder = new(controlDefinition, initData);
+            customize(controlBuilder);
 
-        public static Var<IVNode> FromDefinition<TDefinition, TData>(
-            this LayoutBuilder b,
-            Func<TDefinition> init,
-            Var<TData> staticData,
-            Action<ControlBuilder<TDefinition, TData>, Var<TData>> customize = null)
-            where TDefinition : IControlDefinition<TData>, new()
-        {
-            TDefinition controlDefinition = init();
-            if (customize != null)
-            {
-                ControlBuilder<TDefinition, TData> controlBuilder = new(b, controlDefinition, staticData);
-                customize(controlBuilder, staticData);
-            }
-
-            return b.Render(controlDefinition, staticData);
+            return b.Render(controlDefinition, controlBuilder.GetData(b));
         }
 
         public static Var<IVNode> Optional(this LayoutBuilder b, Var<bool> ifValue, System.Func<LayoutBuilder, Var<IVNode>> buildControl)
