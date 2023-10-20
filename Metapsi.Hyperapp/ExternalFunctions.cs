@@ -84,7 +84,7 @@ namespace Metapsi.Hyperapp
             Action<PropsBuilder, Var<DynamicObject>> buildProps,
             params Var<IVNode>[] children)
         {
-            var propsBuilder = new PropsBuilder(b.ModuleBuilder, b.Block);
+            var propsBuilder = new PropsBuilder(b);
             var props = propsBuilder.NewObj<DynamicObject>();
             buildProps(propsBuilder, props);
             return b.H(tag, props, b.List(children));
@@ -99,14 +99,14 @@ namespace Metapsi.Hyperapp
             return b.H(b.Const(tag), buildProps, children);
         }
 
-        public static Var<bool> IsVoidNode<TBlockBuilder>(this TBlockBuilder b, Var<IVNode> node)
-            where TBlockBuilder: BlockBuilder
+        public static Var<bool> IsVoidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)
+            where TSyntaxBuilder : SyntaxBuilder
         {
             return b.AreEqual(b.GetDynamic(node, DynamicProperty.String("tag")), b.Const(ViewBuilder.VoidNodeTag));
         }
 
-        public static Var<bool> IsValidNode<TBlockBuilder>(this TBlockBuilder b, Var<IVNode> node)
-            where TBlockBuilder: BlockBuilder
+        public static Var<bool> IsValidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)
+            where TSyntaxBuilder : SyntaxBuilder
         {
             return b.Not(b.IsVoidNode(node));
         }

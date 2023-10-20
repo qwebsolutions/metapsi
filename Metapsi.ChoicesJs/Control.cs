@@ -84,23 +84,23 @@ public class Props
 
 public static class Control
 {
-    public static void SetAddItemTextFn(this BlockBuilder b, Var<Props> props, Var<System.Func<string, string>> addItemTextFn)
+    public static void SetAddItemTextFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<string, string>> addItemTextFn)
     {
         b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), addItemTextFn);
     }
 
-    public static void SetMaxItemTextFn(this BlockBuilder b, Var<Props> props, Var<System.Func<string, string>> maxItemTextFn)
+    public static void SetMaxItemTextFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<string, string>> maxItemTextFn)
     {
         b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), maxItemTextFn);
     }
 
-    public static void SetValueComparerFn(this BlockBuilder b, Var<Props> props, Var<System.Func<object, object>> valueComparerFn)
+    public static void SetValueComparerFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<object, object>> valueComparerFn)
     {
         b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<object, object>>(nameof(Props.valueComparer)), valueComparerFn);
     }
 
 
-    public static Var<HyperNode> ChoicesText(this BlockBuilder b, Var<Props> props)
+    public static Var<HyperNode> ChoicesText(this LayoutBuilder b, Var<Props> props)
     {
         b.AddStaticFiles();
         var node = b.Node("metapsi-choices-text");
@@ -108,7 +108,7 @@ public static class Control
         return node;
     }
 
-    public static Var<HyperNode> ChoicesSelectOne(this BlockBuilder b, Var<Props> props)
+    public static Var<HyperNode> ChoicesSelectOne(this LayoutBuilder b, Var<Props> props)
     {
         b.AddStaticFiles();
         var node = b.Node("metapsi-choices-select-one");
@@ -116,7 +116,7 @@ public static class Control
         return node;
     }
 
-    public static Var<HyperNode> ChoicesSelectMultiple(this BlockBuilder b, Var<Props> props)
+    public static Var<HyperNode> ChoicesSelectMultiple(this LayoutBuilder b, Var<Props> props)
     {
         b.AddStaticFiles();
         var node = b.Node("metapsi-choices-select-multiple");
@@ -126,7 +126,7 @@ public static class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<List<TItem>> items,
         Var<System.Func<TItem, TId>> valueProp,
         Var<System.Func<TItem, string>> labelProp,
@@ -158,7 +158,7 @@ public static class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<List<TItem>> items,
         System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
         System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
@@ -190,7 +190,7 @@ public static class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<List<TItem>> items,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> valueProp,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
@@ -199,7 +199,7 @@ public static class Control
         return b.MapChoices<TItem, string>(items, valueProp, labelProp, selectedId);
     }
 
-    public static void SetSelectedChoice<TValue>(this BlockBuilder b, Var<List<Choice>> choices, Var<TValue> selectedValue)
+    public static void SetSelectedChoice<TValue>(this SyntaxBuilder b, Var<List<Choice>> choices, Var<TValue> selectedValue)
     {
         b.Foreach(choices, (b, choice) =>
         {
@@ -213,7 +213,7 @@ public static class Control
 
     
 
-    private static void AddStaticFiles(this BlockBuilder b)
+    private static void AddStaticFiles(this LayoutBuilder b)
     {
         b.AddStylesheet("choices.min.css");
         b.AddScript("choices.min.js");

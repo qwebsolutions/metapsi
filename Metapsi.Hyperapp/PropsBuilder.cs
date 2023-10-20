@@ -4,15 +4,9 @@ using System;
 
 namespace Metapsi.Hyperapp
 {
-    public class PropsBuilder : BlockBuilder
+    public class PropsBuilder : SyntaxBuilder
     {
-        public PropsBuilder() { }
-
-        public PropsBuilder(ModuleBuilder moduleBuilder, Block block) : base(moduleBuilder, block)
-        {
-        }
-
-        public PropsBuilder(BlockBuilder b) : this(b.ModuleBuilder, b.Block) { }
+        public PropsBuilder(SyntaxBuilder b) : base(b) { }
     }
 
     public static class PropsBuilderExtensions
@@ -57,7 +51,7 @@ namespace Metapsi.Hyperapp
 
         public static void OnInputAction<TState>(this PropsBuilder b, Var<DynamicObject> props, Var<HyperType.Action<TState, string>> onInput)
         {
-            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((BlockBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
+            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
             {
                 var target = b.Get(@event, x => x.target);
                 var value = b.Get(target, x => x.value);
@@ -80,12 +74,12 @@ namespace Metapsi.Hyperapp
 
         public static void OnKeyAction<TState>(this PropsBuilder b, Var<DynamicObject> props, string keyName, Var<HyperType.Action<TState>> onKey)
         {
-            var onKeyEvent = b.MakeAction((BlockBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
             {
                 return b.If(
                     b.Get(@event, b.Const(keyName), (@event, @keyName) => @event.key == keyName),
                     b => onKey,
-                    b => b.MakeAction((BlockBuilder b, Var<TState> state) => state));
+                    b => b.MakeAction((SyntaxBuilder b, Var<TState> state) => state));
             });
 
             b.SetDynamic(props, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
@@ -93,7 +87,7 @@ namespace Metapsi.Hyperapp
 
         public static void OnKeyDownAction<TState>(this PropsBuilder b, Var<DynamicObject> props, Var<HyperType.Action<TState, string>> onKey)
         {
-            var onKeyEvent = b.MakeAction((BlockBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
             {
                 return b.MakeActionDescriptor(onKey, b.Get(@event, x => x.key));
             });
@@ -101,14 +95,14 @@ namespace Metapsi.Hyperapp
             b.SetDynamic(props, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
         }
 
-        public static Var<HyperType.Action<T>> NoAction<T>(this BlockBuilder b)
+        public static Var<HyperType.Action<T>> NoAction<T>(this SyntaxBuilder b)
         {
-            return b.MakeAction((BlockBuilder b, Var<T> state) => state);
+            return b.MakeAction((SyntaxBuilder b, Var<T> state) => state);
         }
 
-        public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this BlockBuilder b)
+        public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this SyntaxBuilder b)
         {
-            return b.MakeAction((BlockBuilder b, Var<TState> state, Var<TPayload> payload) => state);
+            return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TPayload> payload) => state);
         }
 
 
@@ -119,7 +113,7 @@ namespace Metapsi.Hyperapp
             Var<HyperType.Action<TState, TPayload>> onClick,
             Var<TPayload> payload)
         {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
@@ -133,7 +127,7 @@ namespace Metapsi.Hyperapp
             Var<DynamicObject> props,
             Var<HyperType.Action<TState>> onClick)
         {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return onClick;
@@ -145,7 +139,7 @@ namespace Metapsi.Hyperapp
         public static void OnClickAction<TState>(
             this PropsBuilder b,
             Var<DynamicObject> props,
-            System.Func<BlockBuilder, Var<TState>, Var<TState>> onClick)
+            System.Func<SyntaxBuilder, Var<TState>, Var<TState>> onClick)
         {
             b.OnClickAction(props, b.MakeAction(onClick));
         }
@@ -156,7 +150,7 @@ namespace Metapsi.Hyperapp
             Var<DynamicObject> props,
             Var<HyperType.Action<TState>> onBlur)
         {
-            var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return onBlur;

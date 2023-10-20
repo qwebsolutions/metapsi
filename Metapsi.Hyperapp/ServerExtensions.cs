@@ -7,7 +7,7 @@ using Metapsi.Dom;
 public static class ServerExtensions
 {
     public static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<TState> model,
         Func<TState, TPayload, TState> onServerAction)
         where TState : IApiSupportState
@@ -16,7 +16,7 @@ public static class ServerExtensions
     }
 
     public static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<TState> model,
         Func<CommandContext, TState, TPayload, System.Threading.Tasks.Task<TState>> onServerAction)
         where TState : IApiSupportState
@@ -25,7 +25,7 @@ public static class ServerExtensions
     }
 
     public static Var<HyperType.Action<TState>> MakeServerAction<TState>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<TState> model,
         Func<CommandContext, TState, System.Threading.Tasks.Task<TState>> onServerAction)
         where TState : IApiSupportState
@@ -34,12 +34,12 @@ public static class ServerExtensions
     }
 
     private static Var<HyperType.Action<TState, TPayload>> MakeServerAction<TState, TPayload>(
-            this BlockBuilder b,
+            this SyntaxBuilder b,
             Var<TState> model,
             System.Reflection.MethodInfo method)
             where TState : IApiSupportState
     {
-        var clientAction = b.MakeAction((BlockBuilder b, Var<TState> state, Var<TPayload> payload) =>
+        var clientAction = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TPayload> payload) =>
         {
             var serverActionInput = b.NewObj<Metapsi.Ui.ServerActionInput>();
             b.Set(serverActionInput, x => x.SerializedModel, b.Serialize(state));
@@ -52,7 +52,7 @@ public static class ServerExtensions
                 b.Request(
                     Metapsi.Ui.ServerActionEndpoint.ServerAction,
                     serverActionInput,
-                    b.MakeAction((BlockBuilder b, Var<TState> model, Var<Metapsi.Ui.ServerActionResponse> result) =>
+                    b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<Metapsi.Ui.ServerActionResponse> result) =>
                     {
                         return b.Deserialize<TState>(b.Get(result, x => x.SerializedModel));
                     })));
@@ -62,12 +62,12 @@ public static class ServerExtensions
     }
 
     private static Var<HyperType.Action<TState>> MakeServerAction<TState>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<TState> model,
         System.Reflection.MethodInfo method)
         where TState : IApiSupportState
     {
-        var clientAction = b.MakeAction((BlockBuilder b, Var<TState> state) =>
+        var clientAction = b.MakeAction((SyntaxBuilder b, Var<TState> state) =>
         {
             var serverActionInput = b.NewObj<Metapsi.Ui.ServerActionInput>();
             b.Set(serverActionInput, x => x.SerializedModel, b.Serialize(state));
@@ -79,7 +79,7 @@ public static class ServerExtensions
                 b.Request(
                     Metapsi.Ui.ServerActionEndpoint.ServerAction,
                     serverActionInput,
-                    b.MakeAction((BlockBuilder b, Var<TState> model, Var<Metapsi.Ui.ServerActionResponse> result) =>
+                    b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<Metapsi.Ui.ServerActionResponse> result) =>
                     {
                         var newModel = b.Deserialize<TState>(b.Get(result, x => x.SerializedModel));
                         b.DispatchEvent(b.Const("sharedStateUpdate"), newModel);

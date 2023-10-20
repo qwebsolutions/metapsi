@@ -4,13 +4,13 @@ namespace Metapsi.Syntax;
 
 public static class EnumExtensions
 {
-    public static Var<string> EnumToLowercase<TEnum>(this BlockBuilder b, Var<TEnum> @enum)
+    public static Var<string> EnumToLowercase<TEnum>(this SyntaxBuilder b, Var<TEnum> @enum)
         where TEnum : struct, System.Enum
     {
         return b.EnumToString(@enum, s => s.ToLowerInvariant());
     }
 
-    public static Var<string> EnumToFirstLowercase<TEnum>(this BlockBuilder b, Var<TEnum> @enum)
+    public static Var<string> EnumToFirstLowercase<TEnum>(this SyntaxBuilder b, Var<TEnum> @enum)
         where TEnum : struct, System.Enum
     {
         Func<string, string> transform = (s) => s.Length == 1 ? s.ToLowerInvariant() : s.Substring(0, 1).ToLowerInvariant() + s.Substring(1);
@@ -18,7 +18,7 @@ public static class EnumExtensions
         return b.EnumToString(@enum, transform);
     }
 
-    public static Var<string> EnumToString<TEnum>(this BlockBuilder b, Var<TEnum> @enum, Func<string,string> transform = null)
+    public static Var<string> EnumToString<TEnum>(this SyntaxBuilder b, Var<TEnum> @enum, Func<string,string> transform = null)
         where TEnum : struct, System.Enum
     {
         if (transform == null)

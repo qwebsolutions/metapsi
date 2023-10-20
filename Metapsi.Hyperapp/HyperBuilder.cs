@@ -10,8 +10,8 @@ namespace Metapsi.Hyperapp
     {
         public static Module BuildHyperapp<TDataModel>(
             this ModuleBuilder moduleBuilder,
-            Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render,
-            Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
+            Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render,
+            Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
             string mountDivId = null)
         {
             if (mountDivId == null)
@@ -19,26 +19,26 @@ namespace Metapsi.Hyperapp
 
             ModuleBuilder b = new ModuleBuilder();
 
-            b.Define("main", (BlockBuilder b, Var<TDataModel> model) =>
+            b.Define("main", (SyntaxBuilder b, Var<TDataModel> model) =>
             {
                 Var<HyperType.Init> init = null;
 
                 if (initAction == null)
                 {
-                    init = b.MakeInit(b.Def((BlockBuilder b) =>
+                    init = b.MakeInit(b.Def((SyntaxBuilder b) =>
                     {
                         return model;
                     }));
                 }
                 else
                 {
-                    init = b.MakeInit(b.Def((BlockBuilder b) =>
+                    init = b.MakeInit(b.Def((SyntaxBuilder b) =>
                     {
                         return b.Call(initAction, model);
                     }));
                 }
 
-                var onRenderError = (BlockBuilder b, Var<TDataModel> model, Var<DynamicObject> error) =>
+                var onRenderError = (LayoutBuilder b, Var<TDataModel> model, Var<DynamicObject> error) =>
                 {
                     b.Log(error);
                     b.Log(model);
@@ -61,12 +61,12 @@ namespace Metapsi.Hyperapp
 
                 var app = b.NewObj<HyperType.App<TDataModel>>();
                 b.Set(app, x => x.init, init);
-                b.Set(app, x => x.view, b.Def((BlockBuilder b, Var<TDataModel> model) =>
+                b.Set(app, x => x.view, new LayoutBuilder(b).Def<LayoutBuilder, TDataModel, HyperNode>((LayoutBuilder b, Var<TDataModel> model) =>
                 {
                     var r = b.Def(render);
                     var rootNode = b.TryCatchReturn<HyperNode>(
-                        b.Def(b => b.Call(r, model)),
-                        b.Def((BlockBuilder b, Var<DynamicObject> error) =>
+                        b.Def((LayoutBuilder b) => b.Call(r, model)),
+                        b.Def((LayoutBuilder b, Var<DynamicObject> error) =>
                         {
                             return b.Call(onRenderError, model, error);
                         }));
@@ -78,13 +78,13 @@ namespace Metapsi.Hyperapp
 
                 //var subFuncs2 = b.Module.Constants.Where(x => x.Value is IFunction);
                 var subFuncs = b.Module.Functions.Where(x => x.ReturnVariable.Type == typeof(HyperType.Subscription) && x.Parameters.Count == 1 && (x.Parameters.First().Type == typeof(TDataModel) || x.Parameters.First().Type == typeof(object)));
-                var aggSubs = b.ModuleBuilder.Define("PageSubscriptions", (BlockBuilder b, Var<TDataModel> state) =>
+                var aggSubs = b.Def("PageSubscriptions", (SyntaxBuilder b, Var<TDataModel> state) =>
                 {
                     var subscriptions = b.NewCollection<HyperType.Subscription>();
                     foreach (var subBuilder in subFuncs)
                     {
-                        var fakeFunc = new Var<object>(subBuilder.Name);
-                        var sub = b.CallFunction<HyperType.Subscription>(fakeFunc, state);
+                        var fakeFunc = new Var<Func<TDataModel,HyperType.Subscription>>(subBuilder.Name);
+                        var sub = b.Call(fakeFunc, state);
                         b.Push(subscriptions, sub);
                     }
                     return subscriptions;

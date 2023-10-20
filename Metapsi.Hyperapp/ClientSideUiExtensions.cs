@@ -14,7 +14,7 @@ namespace Metapsi.Hyperapp
     {
         private static DynamicProperty<DynamicObject> ClientSideVars = new("_ui");
 
-        public static void SetVar<TModel>(this BlockBuilder b, Var<TModel> clientModel, string group, Var<string> key, Var<string> value)
+        public static void SetVar<TModel>(this SyntaxBuilder b, Var<TModel> clientModel, string group, Var<string> key, Var<string> value)
         {
             var dynamicModel = clientModel.As<DynamicObject>();
 
@@ -68,12 +68,12 @@ namespace Metapsi.Hyperapp
                 });
         }
 
-        public static void SetVar<TModel>(this BlockBuilder b, Var<TModel> clientModel, Var<string> key, Var<string> value)
+        public static void SetVar<TModel>(this SyntaxBuilder b, Var<TModel> clientModel, Var<string> key, Var<string> value)
         {
             b.SetVar(clientModel, "_default", key, value);
         }
 
-        public static Var<string> GetVar<TModel>(this BlockBuilder b, Var<TModel> clientModel, string group, Var<string> key, Var<string> defaultValue)
+        public static Var<string> GetVar<TModel>(this SyntaxBuilder b, Var<TModel> clientModel, string group, Var<string> key, Var<string> defaultValue)
         {
             var dynamicModel = clientModel.As<DynamicObject>();
 
@@ -106,12 +106,12 @@ namespace Metapsi.Hyperapp
                 });
         }
 
-        public static Var<string> GetVar<TModel>(this BlockBuilder b, Var<TModel> clientModel, string group, Var<string> key)
+        public static Var<string> GetVar<TModel>(this SyntaxBuilder b, Var<TModel> clientModel, string group, Var<string> key)
         {
             return b.GetVar<TModel>(clientModel, group, key, b.Const(string.Empty));
         }
 
-        public static Var<string> GetVar<TModel, TVar>(this BlockBuilder b, Var<TModel> clientModel, Var<string> key)
+        public static Var<string> GetVar<TModel, TVar>(this SyntaxBuilder b, Var<TModel> clientModel, Var<string> key)
         {
             return b.GetVar<TModel>(clientModel, "_default", key);
         }

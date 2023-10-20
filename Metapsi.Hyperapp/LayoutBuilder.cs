@@ -3,11 +3,9 @@ using System;
 
 namespace Metapsi.Hyperapp
 {
-    public class LayoutBuilder : BlockBuilder
+    public class LayoutBuilder : SyntaxBuilder
     {
-        public LayoutBuilder() { }
-
-        public LayoutBuilder(BlockBuilder b) : base(b.ModuleBuilder, b.Block) { }
+        public LayoutBuilder(SyntaxBuilder b) : base(b) { }
     }
 
     public static class LayoutBuilderExtensions
@@ -21,7 +19,7 @@ namespace Metapsi.Hyperapp
             this LayoutBuilder b,
             Func<TDefinition> initControlDefinition,
             Action<ControlBuilder<TDefinition, TData>> customize,
-            Func<BlockBuilder, Var<TData>> initData = null)
+            Func<SyntaxBuilder, Var<TData>> initData = null)
             where TData : new()
             where TDefinition : IControlDefinition<TData>, new()
         {

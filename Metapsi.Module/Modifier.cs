@@ -9,10 +9,10 @@ namespace Metapsi.Syntax
     /// </summary>
     public class Modifier<T>
     {
-        internal readonly BlockBuilder b;
+        internal readonly SyntaxBuilder b;
         internal readonly Var<T> var;
 
-        public Modifier(BlockBuilder b, Var<T> var)
+        public Modifier(SyntaxBuilder b, Var<T> var)
         {
             this.b = b;
             this.var = var;
@@ -52,7 +52,7 @@ namespace Metapsi.Syntax
 
         public Var<TConst> Const<TConst>(TConst constant)
         {
-            return b.ModuleBuilder.Const(constant);
+            return b.blockBuilder.ModuleBuilder.Const(constant);
         }
 
         public Var<bool> Not(Var<bool> var) => b.Not(var);

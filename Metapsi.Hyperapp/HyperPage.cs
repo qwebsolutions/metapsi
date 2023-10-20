@@ -6,8 +6,8 @@ namespace Metapsi.Hyperapp
 {
     public abstract class HyperPage<TDataModel> : HtmlPage<TDataModel>
     {
-        public abstract Var<HyperNode> OnRender(BlockBuilder b, Var<TDataModel> model);
-        public virtual Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TDataModel> model)
+        public abstract Var<HyperNode> OnRender(LayoutBuilder b, Var<TDataModel> model);
+        public virtual Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<TDataModel> model)
         {
             return b.MakeStateWithEffects(model);
         }

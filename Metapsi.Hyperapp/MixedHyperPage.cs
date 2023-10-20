@@ -15,8 +15,8 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public abstract TClientModel ExtractClientModel(TServerModel serverModel);
 
-        public abstract Var<HyperNode> OnRender(BlockBuilder b, TServerModel serverModel, Var<TClientModel> clientModel);
-        public virtual Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<TClientModel> model)
+        public abstract Var<HyperNode> OnRender(LayoutBuilder b, TServerModel serverModel, Var<TClientModel> clientModel);
+        public virtual Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<TClientModel> model)
         {
             return b.MakeStateWithEffects(model);
         }

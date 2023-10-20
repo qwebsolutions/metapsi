@@ -54,137 +54,137 @@ namespace Metapsi.Dom
     {
         private const string ModuleName = "metapsi.dom";
 
-        public static Var<TOut> CallDomFunction<TOut>(this BlockBuilder b, string function, params IVariable[] arguments)
+        public static Var<TOut> CallDomFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
             return b.CallExternal<TOut>(ModuleName, function, arguments);
         }
 
-        public static void CallDomFunction(this BlockBuilder b, string function, params IVariable[] arguments)
+        public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
             b.CallExternal(ModuleName, function, arguments);
         }
 
-        public static Var<Window> Window(this BlockBuilder b)
+        public static Var<Window> Window(this SyntaxBuilder b)
         {
             return b.CallDomFunction<Window>(nameof(Window));
         }
 
-        public static Var<DomElement> GetElementById(this BlockBuilder b, Var<string> id)
+        public static Var<DomElement> GetElementById(this SyntaxBuilder b, Var<string> id)
         {
             return b.CallDomFunction<DomElement>(nameof(GetElementById), id);
         }
 
-        public static Var<DomElement> CreateElement(this BlockBuilder b, Var<string> tag)
+        public static Var<DomElement> CreateElement(this SyntaxBuilder b, Var<string> tag)
         {
             return b.CallDomFunction<DomElement>(nameof(CreateElement), tag);
         }
 
-        public static Var<T> GetAttribute<T>(this BlockBuilder b, Var<DomElement> domElement, Var<string> attributeName)
+        public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName)
         {
             return b.CallDomFunction<T>(nameof(GetAttribute), domElement, attributeName);
         }
 
-        public static void SetAttribute<T>(this BlockBuilder b, Var<DomElement> domElement, Var<string> attributeName, Var<T> attributeValue)
+        public static void SetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName, Var<T> attributeValue)
         {
             b.CallDomFunction(nameof(SetAttribute), domElement, attributeName, attributeValue);
         }
 
-        public static void AppendChild(this BlockBuilder b, Var<DomElement> parent, Var<DomElement> child)
+        public static void AppendChild(this SyntaxBuilder b, Var<DomElement> parent, Var<DomElement> child)
         {
             b.CallDomFunction(nameof(AppendChild), parent, child);
         }
 
-        public static void AddEventListener<T>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action> handler)
+        public static void AddEventListener<T>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action> handler)
             where T: IDomElement
         {
             b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
         }
 
-        public static void AddEventListener<T, TPayload>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
+        public static void AddEventListener<T, TPayload>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
             where T : IDomElement
         {
             b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
         }
 
-        public static void RemoveEventListener<T>(this BlockBuilder b, Var<T> domElement, Var<Action> handler)
+        public static void RemoveEventListener<T>(this SyntaxBuilder b, Var<T> domElement, Var<Action> handler)
                where T : IDomElement
         {
             b.CallDomFunction(nameof(RemoveEventListener), domElement, handler);
         }
 
-        public static void RemoveEventListener<T, TPayload>(this BlockBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
+        public static void RemoveEventListener<T, TPayload>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
             where T : IDomElement
         {
             b.CallDomFunction(nameof(RemoveEventListener), element, eventName, handler);
         }
 
-        public static void DispatchEvent(this BlockBuilder b, Var<string> eventName)
+        public static void DispatchEvent(this SyntaxBuilder b, Var<string> eventName)
         {
             b.CallDomFunction(nameof(DispatchEvent), eventName);
         }
 
-        public static void DispatchEvent<TPayload>(this BlockBuilder b, Var<string> eventName, Var<TPayload> payload)
+        public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<string> eventName, Var<TPayload> payload)
         {
             b.CallDomFunction(nameof(DispatchEvent), eventName, payload);
         }
 
-        public static void RequestAnimationFrame(this BlockBuilder b, Var<Action> action)
+        public static void RequestAnimationFrame(this SyntaxBuilder b, Var<Action> action)
         {
             b.CallDomFunction(nameof(RequestAnimationFrame), action);
         }
 
-        public static void StopPropagation<T>(this BlockBuilder b, Var<T> domEvent)
+        public static void StopPropagation<T>(this SyntaxBuilder b, Var<T> domEvent)
             where T: IDomEvent
         {
             b.CallDomFunction(nameof(StopPropagation), domEvent);
         }
 
-        public static void Focus(this BlockBuilder b, Var<DomElement> domElement, bool scroll)
+        public static void Focus(this SyntaxBuilder b, Var<DomElement> domElement, bool scroll)
         {
             b.CallDomFunction(nameof(Focus), domElement, b.Const(scroll));
         }
 
-        public static Var<string> GetUrl(this BlockBuilder b)
+        public static Var<string> GetUrl(this SyntaxBuilder b)
         {
             return b.CallDomFunction<string>(nameof(GetUrl));
         }
 
-        public static void SetUrl(this BlockBuilder b, Var<string> url)
+        public static void SetUrl(this SyntaxBuilder b, Var<string> url)
         {
             b.CallDomFunction(nameof(SetUrl), url);
         }
 
-        public static void ScrollIntoView(this BlockBuilder b, Var<DomElement> domElement)
+        public static void ScrollIntoView(this SyntaxBuilder b, Var<DomElement> domElement)
         {
             b.CallDomFunction(nameof(ScrollIntoView), domElement);
         }
 
-        public static void ScrollBy(this BlockBuilder b, Var<int> x, Var<int> y)
+        public static void ScrollBy(this SyntaxBuilder b, Var<int> x, Var<int> y)
         {
             b.CallDomFunction(nameof(ScrollBy), x, y);
         }
 
-        public static void ScrollTo(this BlockBuilder b, Var<int> x, Var<int> y)
+        public static void ScrollTo(this SyntaxBuilder b, Var<int> x, Var<int> y)
         {
             b.CallDomFunction(nameof(ScrollTo), x, y);
         }
 
-        public static Var<int> SetInterval(this BlockBuilder b, Var<Action> action, Var<int> delay)
+        public static Var<int> SetInterval(this SyntaxBuilder b, Var<Action> action, Var<int> delay)
         {
             return b.CallDomFunction<int>(nameof(SetInterval), action, delay);
         }
 
-        public static void ClearInterval(this BlockBuilder b, Var<int> intervalId)
+        public static void ClearInterval(this SyntaxBuilder b, Var<int> intervalId)
         {
             b.CallDomFunction(nameof(ClearInterval), intervalId);
         }
 
-        public static Var<string> GetLocale(this BlockBuilder b)
+        public static Var<string> GetLocale(this SyntaxBuilder b)
         {
             return b.CallDomFunction<string>(nameof(GetLocale));
         }
 
-        public static void SetStyle(this BlockBuilder b, Var<DomElement> element, Var<string> styleName, Var<string> styleValue)
+        public static void SetStyle(this SyntaxBuilder b, Var<DomElement> element, Var<string> styleName, Var<string> styleValue)
         {
             b.CallDomFunction("SetStyle", element, styleName, styleValue);
         }

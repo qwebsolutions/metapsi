@@ -23,8 +23,8 @@ namespace Metapsi.Hyperapp
 
     public static class ApiSupportExtensions
     {
-        public static Action<BlockBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult, P1>(
-            this BlockBuilder b,
+        public static Action<SyntaxBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult, P1>(
+            this SyntaxBuilder b,
             Request<TResult, P1> request,
             Var<P1> p1,
             Var<HyperType.Action<TState, TResult>> onResult)
@@ -34,7 +34,7 @@ namespace Metapsi.Hyperapp
             return b.CallApi<TState, TResult, P1>(
                 request,
                 p1,
-                b.MakeAction((BlockBuilder b, Var<TState> state, Var<TResult> result) =>
+                b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TResult> result) =>
                 {
                     // We can hide the panel even if it was not shown in the first place
                     state = b.HidePanel(state);
@@ -50,11 +50,11 @@ namespace Metapsi.Hyperapp
 
                             return b.MakeActionDescriptor(
                                 b.MakeAction(
-                                    (BlockBuilder b, Var<TState> state, Var<TResult> result) => b.Clone(state)), result);
+                                    (SyntaxBuilder b, Var<TState> state, Var<TResult> result) => b.Clone(state)), result);
                         },
                         b => b.MakeActionDescriptor(onResult, result));
                 }),
-                b.MakeAction((BlockBuilder b, Var<TState> state, Var<ApiError> error) =>
+                b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<ApiError> error) =>
                 {
                     // Server/Network error
                     var apiSupport = b.Get(state, x => x.ApiSupport);
@@ -64,8 +64,8 @@ namespace Metapsi.Hyperapp
                 }));
         }
 
-        public static Action<BlockBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult>(
-                    this BlockBuilder b,
+        public static Action<SyntaxBuilder, Var<HyperType.Dispatcher<TState>>> Request<TState, TResult>(
+                    this SyntaxBuilder b,
                     Request<TResult> request,
                     Var<HyperType.Action<TState, TResult>> onResult)
                     where TState : IApiSupportState
@@ -73,7 +73,7 @@ namespace Metapsi.Hyperapp
         {
             return b.CallApi<TState, TResult>(
                 request,
-                b.MakeAction((BlockBuilder b, Var<TState> state, Var<TResult> result) =>
+                b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TResult> result) =>
                 {
                     // We can hide the panel even if it was not shown in the first place
                     state = b.HidePanel(state);
@@ -89,11 +89,11 @@ namespace Metapsi.Hyperapp
 
                             return b.MakeActionDescriptor(
                                 b.MakeAction(
-                                    (BlockBuilder b, Var<TState> state, Var<TResult> result) => b.Clone(state)), result);
+                                    (SyntaxBuilder b, Var<TState> state, Var<TResult> result) => b.Clone(state)), result);
                         },
                         b => b.MakeActionDescriptor(onResult, result));
                 }),
-                b.MakeAction((BlockBuilder b, Var<TState> state, Var<ApiError> error) =>
+                b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<ApiError> error) =>
                 {
                     // Server/Network error
                     var apiSupport = b.Get(state, x => x.ApiSupport);
@@ -103,7 +103,7 @@ namespace Metapsi.Hyperapp
                 }));
         }
 
-        public static Var<TState> ShowPanel<TState>(this BlockBuilder b, Var<TState> page)
+        public static Var<TState> ShowPanel<TState>(this SyntaxBuilder b, Var<TState> page)
             where TState: IApiSupportState
         {
             var apiSupport = b.Get(page, x => x.ApiSupport);
@@ -111,7 +111,7 @@ namespace Metapsi.Hyperapp
             return b.Clone(page);
         }
 
-        public static Var<TState> HidePanel<TState>(this BlockBuilder b, Var<TState> page)
+        public static Var<TState> HidePanel<TState>(this SyntaxBuilder b, Var<TState> page)
             where TState : IApiSupportState
         {
             var apiSupport = b.Get(page, x => x.ApiSupport);
@@ -119,7 +119,7 @@ namespace Metapsi.Hyperapp
             return b.Clone(page);
         }
 
-        public static Var<HyperNode> WaitPanel<TState>(this BlockBuilder b, Var<TState> page)
+        public static Var<HyperNode> WaitPanel<TState>(this LayoutBuilder b, Var<TState> page)
             where TState : IApiSupportState
         {
             return b.Optional(
@@ -127,13 +127,13 @@ namespace Metapsi.Hyperapp
                 b => b.Div("bg-black opacity-50 fixed inset-0 z-40 items-center"));
         }
 
-        public static Var<bool> IsErrorResult<TResult>(this BlockBuilder b, Var<TResult> response)
+        public static Var<bool> IsErrorResult<TResult>(this SyntaxBuilder b, Var<TResult> response)
             where TResult : IApiResponse
         {
             return b.Get(response, x => x.ResultCode == "Error");
         }
 
-        public static Var<bool> IsOkResult<TResult>(this BlockBuilder b, Var<TResult> response)
+        public static Var<bool> IsOkResult<TResult>(this SyntaxBuilder b, Var<TResult> response)
             where TResult : IApiResponse
         {
             return b.Get(response, x => x.ResultCode == "Ok");

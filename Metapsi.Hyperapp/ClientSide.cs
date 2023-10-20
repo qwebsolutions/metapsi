@@ -8,8 +8,8 @@ public class ClientSide
 {
     public static HtmlTag Create<TDataModel>(
         TDataModel model,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+        System.Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
+        System.Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
     {
         var mountDivId = $"id_{Guid.NewGuid()}";
         var appContainer = new DivTag().SetAttribute("id", mountDivId);
@@ -34,8 +34,8 @@ public static class HyperappNodeExtensions
     public static void AddClientSide<TDataModel>(
         this HtmlTag parentNode,
         TDataModel model,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
-        System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null,
+        System.Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render = null,
+        System.Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null,
         System.Action<DocumentTag, IHtmlElement, Module> onModuleAttached = null)
     {
         parentNode.AddChild(ClientSide.Create(model, render, init));

@@ -10,20 +10,14 @@ public class DataContext<TPageModel, TSubmodel>
     public TSubmodel InputData { get; set; }
 }
 
-
-//public class DataContextAction<TPageModel, TSubmodel>
-//{
-//    public DataContext<TPageModel, TSubmodel> Accessor { get; set; }
-//    public Action<BlockBuilder, DataContext<TPageModel, TSubmodel>> DoStuff { get; set; }
-//}
-
 public static partial class DataContextExtensions
 {
-    public static void On<TPageModel, TParent, TChild>(
-        this BlockBuilder b,
+    public static void On<TSyntaxBuilder, TPageModel, TParent, TChild>(
+        this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
-        Func<BlockBuilder, Var<TParent>, Var<TChild>> onChild,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        Func<TSyntaxBuilder, Var<TParent>, Var<TChild>> onChild,
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
         var parentData = b.Get(parentAccessor, x => x.InputData);
         var inputSubmodel = b.Call(onChild, parentData);
@@ -32,7 +26,7 @@ public static partial class DataContextExtensions
         b.Set(childAccessor, x => x.InputData, inputSubmodel);
         b.Set(childAccessor,
             x => x.AccessData,
-            b.Def((BlockBuilder b, Var<TPageModel> pageModel) =>
+            b.Def((TSyntaxBuilder b, Var<TPageModel> pageModel) =>
             {
                 var parent = b.Call(b.Get(parentAccessor, x => x.AccessData), pageModel);
                 var child = b.Call(onChild, parent);
@@ -42,21 +36,23 @@ public static partial class DataContextExtensions
         doStuff(b, childAccessor);
     }
 
-    public static void OnProperty<TPageModel, TParent, TChild>(
-        this BlockBuilder b,
+    public static void OnProperty<TSyntaxBuilder, TPageModel, TParent, TChild>(
+        this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
         System.Linq.Expressions.Expression<Func<TParent, TChild>> property,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
-        var getProperty = (BlockBuilder b, Var<TParent> parent) => b.Get(parent, property);
+        var getProperty = (TSyntaxBuilder b, Var<TParent> parent) => b.Get(parent, property);
         b.On(parentAccessor, getProperty, doStuff);
     }
 
-    public static void OnList<TPageModel, TParent, TChild>(
-        this BlockBuilder b,
+    public static void OnList<TSyntaxBuilder, TPageModel, TParent, TChild>(
+        this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
-        Func<BlockBuilder, Var<TParent>, Var<List<TChild>>> onChild,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        Func<TSyntaxBuilder, Var<TParent>, Var<List<TChild>>> onChild,
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
         var inputList = b.Call(onChild, b.Get(parentAccessor, x => x.InputData));
 
@@ -65,7 +61,7 @@ public static partial class DataContextExtensions
         b.Foreach(inputList, (b, item) =>
         {
             var itemIndex = b.GetRef(indexRef);
-            var getItem = b.DefineFunc((BlockBuilder b, Var<TPageModel> state) =>
+            var getItem = b.Def((TSyntaxBuilder b, Var<TPageModel> state) =>
             {
                 var parentData = b.Call(b.Get(parentAccessor, x => x.AccessData), state);
                 var childListReference = b.Call(onChild, parentData);
@@ -97,24 +93,26 @@ public static partial class DataContextExtensions
         });
     }
 
-    public static void OnList<TPageModel, TParent, TChild>(
-        this BlockBuilder b,
+    public static void OnList<TSyntaxBuilder, TPageModel, TParent, TChild>(
+        this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
         System.Linq.Expressions.Expression<Func<TParent, List<TChild>>> onList,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
-        var getList = (BlockBuilder b, Var<TParent> parent) => b.Get(parent, onList);
+        var getList = (TSyntaxBuilder b, Var<TParent> parent) => b.Get(parent, onList);
         b.OnList(parentAccessor, getList, doStuff);
     }
 
 
-    public static void OnList<TPageModel, TParent, TChild>(
-        this BlockBuilder b,
+    public static void OnList<TSyntaxBuilder, TPageModel, TParent, TChild>(
+        this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
         System.Linq.Expressions.Expression<Func<TParent, IEnumerable<TChild>>> onList,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TChild>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
-        var getList = (BlockBuilder b, Var<TParent> parent) =>
+        var getList = (TSyntaxBuilder b, Var<TParent> parent) =>
         {
             var enumerable = b.Get(parent, onList);
             return b.Get(enumerable, x => x.ToList());
@@ -122,14 +120,15 @@ public static partial class DataContextExtensions
         b.OnList(parentAccessor, getList, doStuff);
     }
 
-    public static void OnModel<TPageModel>(
-        this BlockBuilder b,
+    public static void OnModel<TSyntaxBuilder, TPageModel>(
+        this TSyntaxBuilder b,
         Var<TPageModel> model,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TPageModel>>> doStuff)
+        Action<TSyntaxBuilder, Var<DataContext<TPageModel, TPageModel>>> doStuff)
+        where TSyntaxBuilder: SyntaxBuilder
     {
         var clientModelContext = b.NewObj<DataContext<TPageModel, TPageModel>>();
         b.Set(clientModelContext, x => x.InputData, model);
-        b.Set(clientModelContext, x => x.AccessData, b.Def((BlockBuilder b, Var<TPageModel> model) => model));
+        b.Set(clientModelContext, x => x.AccessData, b.Def((TSyntaxBuilder b, Var<TPageModel> model) => model));
 
         doStuff(b, clientModelContext);
     }
@@ -145,7 +144,8 @@ public static partial class DataContextExtensions
     //    doStuff(new ContextBlockBuilder<TPageModel, TPageModel>(b.ModuleBuilder, b.Block, clientModelContext));
     //}
 
-    public static Var<TContextData> Get<TPageModel, TContextData>(this BlockBuilder b, Var<DataContext<TPageModel, TContextData>> dataContext)
+    public static Var<TContextData> Get<TSyntaxBuilder, TPageModel, TContextData>(this TSyntaxBuilder b, Var<DataContext<TPageModel, TContextData>> dataContext)
+        where TSyntaxBuilder: SyntaxBuilder
     {
         return b.Get(dataContext, x => x.InputData);
     }

@@ -16,7 +16,7 @@ namespace Metapsi.Hyperapp
         //}
 
         public static Var<HyperType.Effect> Debounce<TState>(
-            this BlockBuilder b,
+            this SyntaxBuilder b,
             Var<int> delayMs,
             Var<HyperType.Action<TState>> action)
         {

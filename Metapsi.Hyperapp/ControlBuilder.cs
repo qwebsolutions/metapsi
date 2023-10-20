@@ -9,16 +9,16 @@ namespace Metapsi.Hyperapp
     {
         public TControlDefinition Control { get; set; }
 
-        public Func<BlockBuilder, Var<TData>> InitData { get; set; }
-        public List<Action<BlockBuilder, Var<TData>>> DataActions { get; set; } = new();
+        public Func<SyntaxBuilder, Var<TData>> InitData { get; set; }
+        public List<Action<SyntaxBuilder, Var<TData>>> DataActions { get; set; } = new();
 
-        public ControlBuilder(TControlDefinition controlDefinition, Func<BlockBuilder, Var<TData>> initData)
+        public ControlBuilder(TControlDefinition controlDefinition, Func<SyntaxBuilder, Var<TData>> initData)
         {
             this.Control = controlDefinition;
             this.InitData = initData;
         }
 
-        internal Var<TData> GetData(BlockBuilder b)
+        internal Var<TData> GetData(SyntaxBuilder b)
         {
             var data = InitData(b);
 
@@ -35,7 +35,7 @@ namespace Metapsi.Hyperapp
     {
         public static void SetData<TControlDefinition, TData>(
             this ControlBuilder<TControlDefinition, TData> builder,
-            Action<BlockBuilder,Var<TData>> action)
+            Action<SyntaxBuilder,Var<TData>> action)
             where TControlDefinition : IControlDefinition<TData>
         {
             builder.DataActions.Add(action);

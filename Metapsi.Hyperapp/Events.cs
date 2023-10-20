@@ -11,9 +11,9 @@ namespace Metapsi.Hyperapp
 {
     public static class EventExtensions
     {
-        public static void SetOnInput<TState>(this BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
+        public static void SetOnInput<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
         {
-            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((BlockBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
+            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
             {
                 var target = b.Get(@event, x => x.target);
                 var value = b.Get(target, x => x.value);
@@ -23,33 +23,33 @@ namespace Metapsi.Hyperapp
             b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<InputTarget>>>("oninput"), extractInputValue);
         }
 
-        public static void SetOnEnter<TState>(this BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEnter)
+        public static void SetOnEnter<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEnter)
         {
             b.SetOnKey(control, "Enter", onEnter);
         }
 
-        public static void SetOnEscape<TState>(this BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEscape)
+        public static void SetOnEscape<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEscape)
         {
             b.SetAttr(control, Html.tabindex, 1);// Otherwise keywboard events are not triggered
             b.SetOnKey(control, "Escape", onEscape);
         }
 
-        public static void SetOnKey<TState>(this BlockBuilder b, Var<HyperNode> control, string keyName, Var<HyperType.Action<TState>> onKey)
+        public static void SetOnKey<TState>(this LayoutBuilder b, Var<HyperNode> control, string keyName, Var<HyperType.Action<TState>> onKey)
         {
-            var onKeyEvent = b.MakeAction((BlockBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
             {
                 return b.If(
                     b.Get(@event, b.Const(keyName), (@event, @keyName) => @event.key == keyName),
                     b => onKey,
-                    b => b.MakeAction((BlockBuilder b, Var<TState> state) => state));
+                    b => b.MakeAction((SyntaxBuilder b, Var<TState> state) => state));
             });
 
             b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
         }
 
-        public static void SetOnKeyDown<TState>(this BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onKey)
+        public static void SetOnKeyDown<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onKey)
         {
-            var onKeyEvent = b.MakeAction((BlockBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
             {
                 return b.MakeActionDescriptor(onKey, b.Get(@event, x => x.key));
             });
@@ -57,25 +57,25 @@ namespace Metapsi.Hyperapp
             b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
         }
 
-        public static Var<HyperType.Action<T>> NoAction<T>(this BlockBuilder b)
+        public static Var<HyperType.Action<T>> NoAction<T>(this SyntaxBuilder b)
         {
-            return b.MakeAction((BlockBuilder b, Var<T> state) => state);
+            return b.MakeAction((SyntaxBuilder b, Var<T> state) => state);
         }
 
-        public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this BlockBuilder b)
+        public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this SyntaxBuilder b)
         {
-            return b.MakeAction((BlockBuilder b, Var<TState> state, Var<TPayload> payload) => state);
+            return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TPayload> payload) => state);
         }
 
 
 
         public static void SetOnClick<TState, TPayload>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> control,
             Var<HyperType.Action<TState, TPayload>> onClick,
             Var<TPayload> payload)
         {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
@@ -85,11 +85,11 @@ namespace Metapsi.Hyperapp
         }
 
         public static void SetOnClick<TState>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> control,
             Var<HyperType.Action<TState>> onClick)
         {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return onClick;
@@ -99,11 +99,11 @@ namespace Metapsi.Hyperapp
         }
 
         public static void SetOnBlur<TState>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> control,
             Var<HyperType.Action<TState>> onBlur)
         {
-            var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((BlockBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return onBlur;
@@ -119,11 +119,11 @@ namespace Metapsi.Hyperapp
             public CustomEvent<TPayload> Event { get; set; }
         }
 
-        public static Var<HyperType.Cleanup> ListenToEvent<TState, TPayload>(BlockBuilder b, Var<HyperType.Dispatcher<TState, TPayload>> dispatch, Var<EventSubscriptionProps<TState, TPayload>> props)
+        public static Var<HyperType.Cleanup> ListenToEvent<TState, TPayload>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState, TPayload>> dispatch, Var<EventSubscriptionProps<TState, TPayload>> props)
         {
-            var listener = b.Def((BlockBuilder b, Var<CustomEvent<TPayload>> @event) =>
+            var listener = b.Def((SyntaxBuilder b, Var<CustomEvent<TPayload>> @event) =>
             {
-                b.RequestAnimationFrame(b.Def((BlockBuilder b) =>
+                b.RequestAnimationFrame(b.Def((SyntaxBuilder b) =>
                 {
                     b.Dispatch(dispatch, b.Get(props, x => x.Action), b.Get(@event, x => x.detail));
                 }));
@@ -131,10 +131,10 @@ namespace Metapsi.Hyperapp
 
             b.AddEventListener(b.Window(), b.Get(props, x => x.EventType), listener);
 
-            return b.Def((BlockBuilder b) => b.RemoveEventListener(b.Window(), b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
+            return b.Def((SyntaxBuilder b) => b.RemoveEventListener(b.Window(), b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
         }
 
-        public static Var<HyperType.Subscription> Listen<TState, TPayload>(this BlockBuilder b, Var<string> eventType, Var<HyperType.Action<TState, TPayload>> action)
+        public static Var<HyperType.Subscription> Listen<TState, TPayload>(this SyntaxBuilder b, Var<string> eventType, Var<HyperType.Action<TState, TPayload>> action)
         {
             var subscriber = b.MakeSubscriber<TState, TPayload, EventSubscriptionProps<TState, TPayload>>(ListenToEvent);
             Var<EventSubscriptionProps<TState, TPayload>> subscriptionProps = b.NewObj<EventSubscriptionProps<TState, TPayload>>();
@@ -154,19 +154,19 @@ namespace Metapsi.Hyperapp
             public int IntervalMilliseconds { get; set; }
         }
 
-        public static Var<HyperType.Cleanup> Interval<TState>(BlockBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<IntervalProps<TState>> props)
+        public static Var<HyperType.Cleanup> Interval<TState>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<IntervalProps<TState>> props)
         {
             var id = b.SetInterval(
-                b.Def((BlockBuilder b) =>
+                b.Def((SyntaxBuilder b) =>
                 {
                     b.Dispatch(dispatch, b.Get(props, x => x.OnIntervalAction));
                 }),
                 b.Get(props, x => x.IntervalMilliseconds));
 
-            return b.Def((BlockBuilder b) => b.ClearInterval(id)).As<HyperType.Cleanup>();
+            return b.Def((SyntaxBuilder b) => b.ClearInterval(id)).As<HyperType.Cleanup>();
         }
 
-        public static Var<HyperType.Subscription> Every<TState>(this BlockBuilder b, Var<int> intervalMilliseconds, Var<HyperType.Action<TState>> action)
+        public static Var<HyperType.Subscription> Every<TState>(this LayoutBuilder b, Var<int> intervalMilliseconds, Var<HyperType.Action<TState>> action)
         {
             var subscriber = b.MakeSubscriber<TState, IntervalProps<TState>>(Interval);
             Var<IntervalProps<TState>> intervalProps = b.NewObj<IntervalProps<TState>>();

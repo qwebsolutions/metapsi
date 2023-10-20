@@ -6,20 +6,20 @@ namespace Metapsi.Hyperapp;
 
 public class BindingContext<TPageModel, TSubmodel, TBoundObject>
 {
-    public List<Action<BlockBuilder, Var<DataContext<TPageModel, TSubmodel>>, Var<TBoundObject>>> BindingActions { get; set; } = new();
+    public List<Action<SyntaxBuilder, Var<DataContext<TPageModel, TSubmodel>>, Var<TBoundObject>>> BindingActions { get; set; } = new();
 }
 
 public static class BindingContextExtensions
 {
     public static void Add<TPageModel, TSubmodel, TBoundObject>(
         this BindingContext<TPageModel, TSubmodel, TBoundObject> bindingContext,
-        Action<BlockBuilder, Var<DataContext<TPageModel, TSubmodel>>, Var<TBoundObject>> bindingAction)
+        Action<SyntaxBuilder, Var<DataContext<TPageModel, TSubmodel>>, Var<TBoundObject>> bindingAction)
     {
         bindingContext.BindingActions.Add(bindingAction);
     }
 
     public static void InBindingContext<TPageModel, TLocalModel, TBoundObject>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<DataContext<TPageModel, TLocalModel>> dataContext,
         Var<TBoundObject> boundObject,
         Action<BindingContext<TPageModel, TLocalModel, TBoundObject>> bindingAction)

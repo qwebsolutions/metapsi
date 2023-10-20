@@ -55,137 +55,149 @@ namespace Metapsi.Syntax
             var parentSegment = string.Join('_', parentTypes.ToArray().Reverse());
 
             // Add parameters count because C# supports method overloading
-            return $"{parentSegment}_{methodInfo.Name}_{methodInfo.GetParameters().Count() - 1}";// All start with BlockBuilder, skip that
+            return $"{parentSegment}_{methodInfo.Name}_{methodInfo.GetParameters().Count() - 1}";// All start with SyntaxBuilder, skip that
         }
 
-        //public IVariable Define<TFunc>(TFunc builder) where TFunc : Delegate
-        //{
-        //    return Define(QualifiedName(builder.Method), builder);
-        //}
+        // Module actions
 
-        public Var<Action> Define(string functionName, System.Action<BlockBuilder> builder)
+        public Var<Action> Define(string actionName, System.Action<SyntaxBuilder> builder)
         {
-            var action = new Function<Action>() { Name = functionName };
-            this.AddFunction(action);
-            BuildActionBody(action, builder);
-            return new(action.Name);
+            return DefineAction(actionName, builder).As<Action>();
         }
 
-        public Var<Action> Define<P1>(string functionName, System.Action<BlockBuilder, Var<P1>> builder)
+        public Var<Action<P1>> Define<P1>(string actionName, System.Action<SyntaxBuilder, Var<P1>> builder)
         {
-            var action = new Function<Action>() { Name = functionName };
-            this.AddFunction(action);
-            BuildActionBody(action, builder);
-            return new(action.Name);
+            return DefineAction(actionName, builder).As<Action<P1>>();
         }
 
-        public Var<Func<P1, TOut>> Define<P1, TOut>(string functionName, System.Func<BlockBuilder, Var<P1>, Var<TOut>> builder)
+        // Module functions
+
+        public Var<Func<TOut>> Define<TOut>(string funcName, System.Func<SyntaxBuilder, Var<TOut>> builder)
         {
-            var func = new Function<Func<P1, TOut>>() { Name = functionName };
+            return DefineFunc(funcName, builder).As<Func<TOut>>();
+        }
+
+        public Var<Func<P1, TOut>> Define<P1, TOut>(string funcName, System.Func<SyntaxBuilder, Var<P1>, Var<TOut>> builder)
+        {
+            return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
+        }
+
+        internal IVariable DefineFunc<TDelegate>(string functionName, TDelegate builder)
+            where TDelegate : Delegate
+        {
+            var func = new Function<TDelegate>() { Name = functionName };
             this.AddFunction(func);
-            BuildFuncBody(func, builder);
-            return new(func.Name);
+            BuildBody(func, builder);
+            return MakeVar(func.Name, ClientFuncType(builder));
         }
 
-        private void AddParameters(IFunction function, params IVariable[] parameters)
+        internal IVariable DefineAction<TDelegate>(string actionName, TDelegate builder)
+            where TDelegate : Delegate
         {
-            function.Parameters.AddRange(parameters);
+            var action = new Function<TDelegate>() { Name = actionName };
+            this.AddFunction(action);
+            BuildBody(action, builder);
+            return MakeVar(action.Name, ClientActionType(builder));
         }
 
-        public void BuildActionBody<TBlockBuilder>(IFunction function, System.Action<TBlockBuilder> builder)
-            where TBlockBuilder : BlockBuilder, new()
+        public IVariable MakeVar(string name, Type type)
         {
-            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock));
+            var varType = typeof(Var<>).MakeGenericType(type);
+            return Activator.CreateInstance(varType, new object[] { name }) as IVariable;
         }
 
-        public void BuildActionBody<TBlockBuilder, P1>(IFunction function, System.Action<TBlockBuilder, Var<P1>> builder)
-            where TBlockBuilder: BlockBuilder, new()
+        public static Type[] FuncTypes =
+            new Type[]
+            {
+                typeof(Func<>),
+                typeof(Func<,>),
+                typeof(Func<,,>),
+                typeof(Func<,,,>),
+                typeof(Func<,,,,>),
+                typeof(Func<,,,,,>),
+                typeof(Func<,,,,,,>),
+                typeof(Func<,,,,,,,>),
+                typeof(Func<,,,,,,,,>),
+                typeof(Func<,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,,,,,>),
+                typeof(Func<,,,,,,,,,,,,,,,,>),
+            };
+
+        public static Type[] ActionTypes =
+            new Type[]
+            {
+                typeof(Action),
+                typeof(Action<>),
+                typeof(Action<,>),
+                typeof(Action<,,>),
+                typeof(Action<,,,>),
+                typeof(Action<,,,,>),
+                typeof(Action<,,,,,>),
+                typeof(Action<,,,,,,>),
+                typeof(Action<,,,,,,,>),
+                typeof(Action<,,,,,,,,>),
+                typeof(Action<,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,,,,,>),
+                typeof(Action<,,,,,,,,,,,,,,,>)
+            };
+
+        public Type ClientActionType(Delegate action)
         {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            AddParameters(function, p1);
-            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1);
+            // The minimal Action has 1 type arguments, SyntaxBuilder
+            // Action<SyntaxBuilder> example = (SyntaxBuilder b) => { };
+
+            var serverTypeArguments = action.GetType().GenericTypeArguments;
+            Type genericClientType = ActionTypes[serverTypeArguments.Length];
+
+            return genericClientType.MakeGenericType(serverTypeArguments.ToArray());
         }
 
-        public void BuildActionBody<TBlockBuilder, P1, P2>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>> builder)
-            where TBlockBuilder: BlockBuilder, new()
+        public Type ClientFuncType(Delegate func)
         {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            AddParameters(function, p1, p2);
-            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2);
+            // The minimal Func has 2 type arguments, SyntaxBuilder & return variable
+            // Func<SyntaxBuilder, Var<TOut>> example = (SyntaxBuilder b) => new Var<TOut>();
+
+            var serverTypeArguments = func.GetType().GenericTypeArguments;
+            Type genericClientType = FuncTypes[serverTypeArguments.Length - 1];
+
+            return genericClientType.MakeGenericType(serverTypeArguments.ToArray());
         }
 
-        public void BuildActionBody<TBlockBuilder, P1, P2, P3>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            var p3 = new Var<P3>(parameters[3].Name);
-            AddParameters(function, p1, p2, p3);
-            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3);
-        }
-
-        public void BuildActionBody<TBlockBuilder, P1, P2, P3, P4>(IFunction function, System.Action<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            var p3 = new Var<P3>(parameters[3].Name);
-            var p4 = new Var<P4>(parameters[4].Name);
-            AddParameters(function, p1, p2, p3, p4);
-            builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3, p4);
-        }
-
-        public void BuildFuncBody<TBlockBuilder, TOut>(IFunction function, System.Func<TBlockBuilder, Var<TOut>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock));
-        }
-
-        public void BuildFuncBody<TBlockBuilder, P1, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<TOut>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            AddParameters(function, p1);
-            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1);
-        }
-
-        public void BuildFuncBody<TBlockBuilder, P1, P2, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            AddParameters(function, p1, p2);
-            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2);
-        }
-
-        public void BuildFuncBody<TBlockBuilder, P1, P2, P3, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<TOut>> builder)
-            where TBlockBuilder: BlockBuilder, new()
-        {
-            var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            var p3 = new Var<P3>(parameters[3].Name);
-            AddParameters(function, p1, p2, p3);
-            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3);
-        }
-
-        public void BuildFuncBody<TBlockBuilder, P1, P2, P3, P4, TOut>(IFunction function, System.Func<TBlockBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<TOut>> builder)
-            where TBlockBuilder: BlockBuilder, new()
+        public void BuildBody(IFunction function, Delegate builder)
         {
             var parameters = builder.Method.GetParameters();
-            var p1 = new Var<P1>(parameters[1].Name);
-            var p2 = new Var<P2>(parameters[2].Name);
-            var p3 = new Var<P3>(parameters[3].Name);
-            var p4 = new Var<P4>(parameters[4].Name);
-            AddParameters(function, p1, p2, p3, p4);
-            function.ReturnVariable = builder(BlockBuilder.New<TBlockBuilder>(this, function.ChildBlock), p1, p2, p3, p4);
+            foreach (var parameter in parameters.Skip(1))
+            {
+                var parameterVariable = Activator.CreateInstance(parameter.ParameterType, new object[] { parameter.Name });
+                function.Parameters.Add(parameterVariable as IVariable);
+            }
+
+            List<object> arguments = new List<object>
+            {
+                Activator.CreateInstance(
+                    parameters.First().ParameterType,
+                    new object[]
+                    {
+                        new SyntaxBuilder(new BlockBuilder(this, function.ChildBlock))
+                    })
+            };
+
+            arguments.AddRange(function.Parameters);
+
+            var result = builder.DynamicInvoke(arguments.ToArray());
+            if (result != null)
+            {
+                function.ReturnVariable = result as IVariable;
+            }
         }
 
         public IVariable AddExpression<T>(T expression)

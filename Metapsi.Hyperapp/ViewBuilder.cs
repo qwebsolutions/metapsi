@@ -18,7 +18,7 @@ namespace Metapsi.Hyperapp
     {
         public const string VoidNodeTag = "--void--";
 
-        public static void AddChildren(this BlockBuilder b, Var<HyperNode> parent, params Func<BlockBuilder, Var<HyperNode>>[] children)
+        public static void AddChildren(this LayoutBuilder b, Var<HyperNode> parent, params Func<LayoutBuilder, Var<HyperNode>>[] children)
         {
             foreach (var buildChild in children)
             {
@@ -26,12 +26,12 @@ namespace Metapsi.Hyperapp
             }
         }
 
-        public static void AddChildren(this BlockBuilder b, Var<HyperNode> parent, Var<List<HyperNode>> children)
+        public static void AddChildren(this LayoutBuilder b, Var<HyperNode> parent, Var<List<HyperNode>> children)
         {
             b.Foreach(children, (b, c) => b.AddIfNotVoid(parent, c));
         }
 
-        public static Var<HyperNode> Node(this BlockBuilder b, string tag, string classNames = null)
+        public static Var<HyperNode> Node(this LayoutBuilder b, string tag, string classNames = null)
         {
             Var<List<HyperNode>> newNodeChildren = b.NewCollection<HyperNode>();
             var props = b.NewObj<DynamicObject>();
@@ -45,7 +45,7 @@ namespace Metapsi.Hyperapp
             return newNode;
         }
 
-        public static Var<HyperNode> Node(this BlockBuilder b, string tag, Var<string> classNames)
+        public static Var<HyperNode> Node(this LayoutBuilder b, string tag, Var<string> classNames)
         {
             Var<List<HyperNode>> newNodeChildren = b.NewCollection<HyperNode>();
             var props = b.NewObj<DynamicObject>();
@@ -60,7 +60,7 @@ namespace Metapsi.Hyperapp
             return newNode;
         }
 
-        public static Var<HyperNode> Node(this BlockBuilder b, string tag, string classNames, params Func<BlockBuilder, Var<HyperNode>>[] children)
+        public static Var<HyperNode> Node(this LayoutBuilder b, string tag, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
         {
             var node = b.Node(tag, classNames);
             foreach (var buildChild in children)
@@ -76,24 +76,24 @@ namespace Metapsi.Hyperapp
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Var<HyperNode> VoidNode(this BlockBuilder b)
+        public static Var<HyperNode> VoidNode(this LayoutBuilder b)
         {
             return b.Node(VoidNodeTag);
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b, string classNames, Var<List<HyperNode>> children)
+        public static Var<HyperNode> Div(this LayoutBuilder b, string classNames, Var<List<HyperNode>> children)
         {
             var container = b.Node("div", classNames);
             b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
             return container;
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b, string classNames, params Func<BlockBuilder, Var<HyperNode>>[] children)
+        public static Var<HyperNode> Div(this LayoutBuilder b, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
         {
             return b.Div(b.Const(classNames), children);
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b, Var<string> classNames, params Func<BlockBuilder, Var<HyperNode>>[] children)
+        public static Var<HyperNode> Div(this LayoutBuilder b, Var<string> classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
         {
             var container = b.Node("div", classNames);
             foreach (var buildChild in children)
@@ -103,44 +103,44 @@ namespace Metapsi.Hyperapp
             return container;
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b)
+        public static Var<HyperNode> Div(this LayoutBuilder b)
         {
             return b.Node("div");
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b, string classNames)
+        public static Var<HyperNode> Div(this LayoutBuilder b, string classNames)
         {
             return b.Node("div", classNames);
         }
 
-        public static Var<HyperNode> Div(this BlockBuilder b, Var<string> classNames)
+        public static Var<HyperNode> Div(this LayoutBuilder b, Var<string> classNames)
         {
             return b.Node("div", classNames);
         }
 
-        public static Var<HyperNode> Span(this BlockBuilder b)
+        public static Var<HyperNode> Span(this LayoutBuilder b)
         {
             return b.Node("span");
         }
 
-        public static Var<HyperNode> Span(this BlockBuilder b, Var<string> classNames)
+        public static Var<HyperNode> Span(this LayoutBuilder b, Var<string> classNames)
         {
             return b.Node("span", classNames);
         }
 
-        public static Var<HyperNode> Span(this BlockBuilder b, string classNames)
+        public static Var<HyperNode> Span(this LayoutBuilder b, string classNames)
         {
             return b.Node("span", classNames);
         }
 
-        public static Var<HyperNode> Span(this BlockBuilder b, string classNames, Var<List<HyperNode>> children)
+        public static Var<HyperNode> Span(this LayoutBuilder b, string classNames, Var<List<HyperNode>> children)
         {
             var container = b.Node("span", classNames);
             b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
             return container;
         }
 
-        public static Var<HyperNode> Span(this BlockBuilder b, string classNames, params Func<BlockBuilder, Var<HyperNode>>[] children)
+        public static Var<HyperNode> Span(this LayoutBuilder b, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
         {
             var span = b.Node("span", classNames);
 
@@ -151,7 +151,7 @@ namespace Metapsi.Hyperapp
             return span;
         }
 
-        public static Var<HyperNode> Text(this BlockBuilder b, Var<string> text, Var<string> classNames)
+        public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text, Var<string> classNames)
         {
             var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
@@ -160,24 +160,24 @@ namespace Metapsi.Hyperapp
             return span;
         }
 
-        public static Var<HyperNode> Text(this BlockBuilder b, Var<string> text, string classNames)
+        public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text, string classNames)
         {
             return b.Text(text, b.Const(classNames));
         }
 
-        public static Var<HyperNode> Text(this BlockBuilder b, string text, string classNames)
+        public static Var<HyperNode> Text(this LayoutBuilder b, string text, string classNames)
         {
             return b.Text(b.Const(text), b.Const(classNames));
         }
 
-        public static Var<HyperNode> Text(this BlockBuilder b, string text)
+        public static Var<HyperNode> Text(this LayoutBuilder b, string text)
         {
             return b.Text(b.Const(text), b.Const(""));
         }
 
 
 
-        public static Var<HyperNode> Text(this BlockBuilder b, Var<DateTime> dateTime)
+        public static Var<HyperNode> Text(this LayoutBuilder b, Var<DateTime> dateTime)
         {
             var dateString = dateTime.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -185,18 +185,18 @@ namespace Metapsi.Hyperapp
             return b.Text(dateStringLocale);
         }
 
-        public static Var<HyperNode> TextNode(this BlockBuilder b, string text)
+        public static Var<HyperNode> TextNode(this LayoutBuilder b, string text)
         {
             return TextNode(b, b.Const(text));
         }
 
-        public static Var<HyperNode> TextNode(this BlockBuilder b, Var<string> text)
+        public static Var<HyperNode> TextNode(this LayoutBuilder b, Var<string> text)
         {
             var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             return b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
         }
 
-        public static Var<HyperNode> Text(this BlockBuilder b, Var<string> text)
+        public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text)
         {
             var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
             var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
@@ -212,26 +212,26 @@ namespace Metapsi.Hyperapp
         /// <param name="parent"></param>
         /// <param name="child"></param>
         /// <returns></returns>
-        public static Var<HyperNode> Add(this BlockBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
+        public static Var<HyperNode> Add(this LayoutBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
         {
             var children = b.Get(parent, x => x.children);
             b.Push(children, child);
             return child;
         }
 
-        public static void Add(this BlockBuilder b, Var<HyperNode> parent, Var<TextNode> child)
+        public static void Add(this LayoutBuilder b, Var<HyperNode> parent, Var<TextNode> child)
         {
             var children = b.Get(parent, x => x.children);
             b.Push(children, child.As<HyperNode>());// <- this conversion makes no statical sense
         }
 
-        public static void AddIfNotVoid(this BlockBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
+        public static void AddIfNotVoid(this LayoutBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
         {
             b.If(b.Not(b.AreEqual(b.Get(child, x => x.tag), b.Const(VoidNodeTag))),
                 b => b.Add(parent, child));
         }
 
-        public static Var<HyperNode> Optional(this BlockBuilder b, Var<bool> ifValue, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
+        public static Var<HyperNode> Optional(this LayoutBuilder b, Var<bool> ifValue, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
         {
             return b.If(
                 ifValue,
@@ -239,14 +239,14 @@ namespace Metapsi.Hyperapp
                 b => b.VoidNode());
         }
 
-        public static Var<HyperNode> ShowIfAny<T>(this BlockBuilder b, Var<IEnumerable<T>> collection, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
+        public static Var<HyperNode> ShowIfAny<T>(this LayoutBuilder b, Var<IEnumerable<T>> collection, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
         {
             return b.Optional(
                 b.Get(collection, x => x.Any()),
                 b => buildControl(b));
         }
 
-        public static Var<HyperNode> ShowIfAny<T>(this BlockBuilder b, Var<List<T>> collection, System.Func<BlockBuilder, Var<HyperNode>> buildControl)
+        public static Var<HyperNode> ShowIfAny<T>(this LayoutBuilder b, Var<List<T>> collection, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
         {
             return b.Optional(
                 b.Get(collection, x => x.Any()),
@@ -254,11 +254,11 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> ListIfAny<T>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<List<T>> collection,
-            System.Func<BlockBuilder, Var<HyperNode>> renderContainer,
-            System.Func<BlockBuilder, Var<T>, Var<HyperNode>> renderItem,
-            System.Func<BlockBuilder, Var<HyperNode>> renderEmpty)
+            System.Func<LayoutBuilder, Var<HyperNode>> renderContainer,
+            System.Func<LayoutBuilder, Var<T>, Var<HyperNode>> renderItem,
+            System.Func<LayoutBuilder, Var<HyperNode>> renderEmpty)
         {
             return b.If(
                 b.Get(collection, x => x.Any()),
@@ -271,13 +271,13 @@ namespace Metapsi.Hyperapp
                 b => renderEmpty(b));
         }
 
-        public static Var<string> Url(this BlockBuilder b, Delegate handler)
+        public static Var<string> Url(this LayoutBuilder b, Delegate handler)
         {
             var path = b.Const(Path(handler.Method));
             return path;
         }
 
-        public static Var<string> Url<TRoute>(this BlockBuilder b)
+        public static Var<string> Url<TRoute>(this LayoutBuilder b)
             where TRoute : Route.IGet
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
@@ -285,7 +285,7 @@ namespace Metapsi.Hyperapp
             return b.Const($"/{path}");
         }
 
-        public static Var<string> Url<TRoute, TPayload>(this BlockBuilder b)
+        public static Var<string> Url<TRoute, TPayload>(this LayoutBuilder b)
             where TRoute : Route.IPost<TPayload>
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
@@ -293,7 +293,7 @@ namespace Metapsi.Hyperapp
             return b.Const($"/{path}");
         }
 
-        public static Var<string> Url<TRoute, TParam>(this BlockBuilder b, Var<TParam> param)
+        public static Var<string> Url<TRoute, TParam>(this LayoutBuilder b, Var<TParam> param)
             where TRoute : Route.IGet<TParam>
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
@@ -301,7 +301,7 @@ namespace Metapsi.Hyperapp
             return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
         }
 
-        public static Var<string> RootPath(this BlockBuilder b)
+        public static Var<string> RootPath(this LayoutBuilder b)
         {
             return b.Const(string.Empty);
         }
@@ -318,14 +318,14 @@ namespace Metapsi.Hyperapp
             return methodPath.Replace("//", "/");
         }
 
-        public static void Add(this BlockBuilder b, Var<HyperNode> parent, Var<string> text)
+        public static void Add(this LayoutBuilder b, Var<HyperNode> parent, Var<string> text)
         {
             var children = b.Get(parent, x => x.children);
             b.Push(children, b.Text(text).As<HyperNode>());
         }
 
         public static void SetAttr<TProp>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             DynamicProperty<TProp> property,
             Var<TProp> value)
@@ -335,7 +335,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static void SetAttrIfNotEmptyString(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             DynamicProperty<string> property,
             Var<string> value)
@@ -350,7 +350,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static void SetAttr<TProp>(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             DynamicProperty<TProp> property,
             TProp value)
@@ -359,7 +359,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<TProp> GetAttr<TProp>(
-            this BlockBuilder b,
+            this SyntaxBuilder b,
             Var<HyperNode> node,
             DynamicProperty<TProp> property)
         {
@@ -368,7 +368,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> AddClass(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             Var<string> newClass)
         {
@@ -381,7 +381,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> AddClass(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             string newClass)
         {
@@ -389,7 +389,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> AddStyle(
-            this BlockBuilder b,
+            this LayoutBuilder b,
             Var<HyperNode> node,
             string property,
             Var<string> value)
@@ -412,7 +412,7 @@ namespace Metapsi.Hyperapp
         }
 
         public static Var<HyperNode> AddStyle(
-          this BlockBuilder b,
+          this LayoutBuilder b,
           Var<HyperNode> node,
           string property,
           string value)
@@ -420,19 +420,19 @@ namespace Metapsi.Hyperapp
             return b.AddStyle(node, property, b.Const(value));
         }
 
-        public static Var<Guid> ToId(this BlockBuilder b, Var<string> value)
+        public static Var<Guid> ToId(this LayoutBuilder b, Var<string> value)
         {
             return b.If(b.HasValue(value), b => value.As<Guid>(), b => b.EmptyId());
         }
 
-        public static Var<HyperNode> Image(this BlockBuilder b, Var<string> src, string stylingClasses = null)
+        public static Var<HyperNode> Image(this LayoutBuilder b, Var<string> src, string stylingClasses = null)
         {
             var image = b.Node("img", stylingClasses);
             b.SetAttr(image, Html.src, src);
             return image;
         }
 
-        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -440,17 +440,17 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
         {
             return b.FormatDate(date, b.Const(locale), options);
         }
 
-        public static Var<string> FormatDate(this BlockBuilder b, Var<DateTime> date, string locale)
+        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, string locale)
         {
             return b.FormatDate(date, locale, b.NewObj<DynamicObject>());
         }
 
-        public static Var<string> EnglishDayName(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> EnglishDayName(this LayoutBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
             b.SetDynamic(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
@@ -458,7 +458,7 @@ namespace Metapsi.Hyperapp
             return FormatDate(b, date, "en-gb", formatParams);
         }
 
-        public static Var<string> EnglishDayAndShortMonth(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> EnglishDayAndShortMonth(this LayoutBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
             b.SetDynamic(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
@@ -467,7 +467,7 @@ namespace Metapsi.Hyperapp
             return FormatDate(b, date, "en-gb", formatParams);
         }
 
-        public static Var<string> FormatNullableDate(this BlockBuilder b, Var<DateTime?> date, string locale)
+        public static Var<string> FormatNullableDate(this LayoutBuilder b, Var<DateTime?> date, string locale)
         {
             return b.If(
                 b.HasObject(date),
@@ -475,7 +475,7 @@ namespace Metapsi.Hyperapp
                 b => b.Const(""));
         }
 
-        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date, Var<string> languageFormat)
+        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date, Var<string> languageFormat)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -484,21 +484,21 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date, string languageFormat)
+        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date, string languageFormat)
         {
             return b.FormatDatetime(date, b.Const(languageFormat));
         }
 
-        public static Var<string> FormatDatetime(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date)
         {
             return b.FormatDatetime(date, b.GetLocale());
         }
 
-        public static Var<string> ItalianFormat(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> ItalianFormat(this LayoutBuilder b, Var<DateTime> date)
         {
             return FormatDatetime(b, date, "it-IT");
         }
-        public static Var<string> UKFormat(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> UKFormat(this LayoutBuilder b, Var<DateTime> date)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
@@ -508,26 +508,26 @@ namespace Metapsi.Hyperapp
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
         }
 
-        public static Var<string> UKDate(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> UKDate(this LayoutBuilder b, Var<DateTime> date)
         {
             return FormatDate(b, date, "en-gb");
         }
 
-        public static Var<string> UKNullableDate(this BlockBuilder b, Var<DateTime?> date)
+        public static Var<string> UKNullableDate(this LayoutBuilder b, Var<DateTime?> date)
         {
             return b.FormatNullableDate(date, "en-gb");
         }
 
-        public static Var<string> USFormat(this BlockBuilder b, Var<DateTime> date)
+        public static Var<string> USFormat(this LayoutBuilder b, Var<DateTime> date)
         {
             return FormatDatetime(b, date, "en-us");
         }
-        public static Var<string> ItalianFormat(this BlockBuilder b, Var<string> dateString)
+        public static Var<string> ItalianFormat(this LayoutBuilder b, Var<string> dateString)
         {
             return b.ItalianFormat(dateString.As<DateTime>());
         }
 
-        public static void AddStylesheet(this BlockBuilder b, string href)
+        public static void AddStylesheet(this LayoutBuilder b, string href)
         {
             if (!href.StartsWith("http"))
             {
@@ -539,7 +539,7 @@ namespace Metapsi.Hyperapp
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        public static void AddModuleStylesheet(this BlockBuilder b)
+        public static void AddModuleStylesheet(this LayoutBuilder b)
         {
             var assembly = System.Reflection.Assembly.GetCallingAssembly();
             var cssName = $"{assembly.GetName().Name}.css";
@@ -547,7 +547,7 @@ namespace Metapsi.Hyperapp
             b.AddStylesheet(cssName);
         }
 
-        public static void AddScript(this BlockBuilder b, string src, string type = "")
+        public static void AddScript(this LayoutBuilder b, string src, string type = "")
         {
             if (!src.StartsWith("http"))
             {

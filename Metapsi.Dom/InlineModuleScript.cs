@@ -29,7 +29,7 @@ namespace Metapsi.Dom
 
     public static partial class JsExtensions
     {
-        public static void AddJs(this IHtmlElement htmlElement, Action<BlockBuilder> jsCall)
+        public static void AddJs(this IHtmlElement htmlElement, Action<SyntaxBuilder> jsCall)
         {
             var inlineScript = htmlElement.AddChild(new InlineModuleScript());
             var definition = inlineScript.ModuleBuilder.Define(inlineScript.ModuleBuilder.NewName(), jsCall);

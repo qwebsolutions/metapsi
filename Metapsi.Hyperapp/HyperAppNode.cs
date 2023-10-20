@@ -13,8 +13,8 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
     public ModuleBuilder ModuleBuilder { get; } = new ModuleBuilder();
 
     public HtmlTag TakeoverNode { get; set; }
-    public System.Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> Render { get; set; } = (b, model) => b.Div();
-    public System.Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> Init { get; set; } = (b, model) => b.MakeStateWithEffects(model);
+    public System.Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> Render { get; set; } = (b, model) => b.Div();
+    public System.Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> Init { get; set; } = (b, model) => b.MakeStateWithEffects(model);
 
     public virtual void Attach(DocumentTag document, IHtmlElement parentNode)
     {
@@ -28,11 +28,11 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
         {
             b.AddSubscription<TDataModel>(
                 "SyncSharedModel",
-                (BlockBuilder b, Var<TDataModel> state) =>
+                (SyntaxBuilder b, Var<TDataModel> state) =>
                 {
                     return b.Listen<TDataModel, TDataModel>(
                         b.Const("sharedStateUpdate"),
-                        b.MakeAction((BlockBuilder b, Var<TDataModel> oldModel, Var<TDataModel> newModel) =>
+                        b.MakeAction((SyntaxBuilder b, Var<TDataModel> oldModel, Var<TDataModel> newModel) =>
                         {
                             b.Log("Subscription");
                             return newModel;
@@ -85,7 +85,7 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
 
 public static partial class HyperAppNodeExtensions
 {
-    public static Var<TModel> BroadcastModelUpdate<TModel>(this BlockBuilder b, Var<TModel> model)
+    public static Var<TModel> BroadcastModelUpdate<TModel>(this SyntaxBuilder b, Var<TModel> model)
     {
         var clone = b.Clone(model);
         b.DispatchEvent(b.Const("sharedStateUpdate"), clone);

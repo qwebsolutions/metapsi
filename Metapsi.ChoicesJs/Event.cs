@@ -8,9 +8,9 @@ namespace Metapsi.ChoicesJs;
 
 public static class Event
 {
-    public static void SetOnChoice<TState>(BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, Choice>> onChoice)
+    public static void SetOnChoice<TState>(LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, Choice>> onChoice)
     {
-        var extractInputValue = b.MakeAction((BlockBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
+        var extractInputValue = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
         {
             b.StopPropagation(@event);
             var detail = b.GetDynamic(@event, new DynamicProperty<DynamicObject>("detail"));
@@ -21,9 +21,9 @@ public static class Event
         b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, IDomEvent>>("onchoice"), extractInputValue);
     }
 
-    public static void SetOnChoiceSelected<TState, TId>(this BlockBuilder b, Var<HyperNode> control, System.Action<BlockBuilder, Var<TState>, Var<TId>> clientAction)
+    public static void SetOnChoiceSelected<TState, TId>(this LayoutBuilder b, Var<HyperNode> control, System.Action<SyntaxBuilder, Var<TState>, Var<TId>> clientAction)
     {
-        SetOnChange<TState>(b, control, b.MakeAction<TState, string>((BlockBuilder b, Var<TState> state, Var<string> selectedValue) =>
+        SetOnChange<TState>(b, control, b.MakeAction<TState, string>((SyntaxBuilder b, Var<TState> state, Var<string> selectedValue) =>
         {
             var id = b.ParseScalar<TId>(selectedValue);
             b.Call(clientAction, state, id);
@@ -31,9 +31,9 @@ public static class Event
         }));
     }
 
-    public static void SetOnChange<TState>(BlockBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onChange)
+    public static void SetOnChange<TState>(LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onChange)
     {
-        var extractInputValue = b.MakeAction((BlockBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
+        var extractInputValue = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
         {
             b.StopPropagation(@event);
             var target = b.GetDynamic(@event, new DynamicProperty<DynamicObject>("target"));
@@ -44,9 +44,9 @@ public static class Event
         b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, IDomEvent>>("onchange"), extractInputValue);
     }
 
-    public static void MultiBindTo<TState>(this BlockBuilder b, Var<HyperNode> control, System.Linq.Expressions.Expression<Func<TState, List<string>>> multipleValues)
+    public static void MultiBindTo<TState>(this LayoutBuilder b, Var<HyperNode> control, System.Linq.Expressions.Expression<Func<TState, List<string>>> multipleValues)
     {
-        SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> _selectedValueNotUsed) =>
+        SetOnChange(b, control, b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<string> _selectedValueNotUsed) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
             var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
@@ -56,9 +56,9 @@ public static class Event
         }));
     }
 
-    public static void SingleBindTo<TState>(this BlockBuilder b, Var<HyperNode> control, System.Linq.Expressions.Expression<Func<TState, string>> singleValue)
+    public static void SingleBindTo<TState>(this LayoutBuilder b, Var<HyperNode> control, System.Linq.Expressions.Expression<Func<TState, string>> singleValue)
     {
-        SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> selectedValue) =>
+        SetOnChange(b, control, b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<string> selectedValue) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
             var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
@@ -70,12 +70,12 @@ public static class Event
     }
 
     public static void SingleBindTo<TState, TItem, TId>(
-        this BlockBuilder b, 
+        this LayoutBuilder b, 
         Var<HyperNode> control, 
         Var<Func<TState, TItem>> getItem,
         System.Linq.Expressions.Expression<Func<TItem, TId>> singleValue)
     {
-        SetOnChange(b, control, b.MakeAction((BlockBuilder b, Var<TState> state, Var<string> selectedValue) =>
+        SetOnChange(b, control, b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<string> selectedValue) =>
         {
             var container = b.GetElementById(b.GetAttr(control, Html.id));
             var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));

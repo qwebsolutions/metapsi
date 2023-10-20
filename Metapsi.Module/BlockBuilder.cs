@@ -6,33 +6,28 @@ using System.Linq.Expressions;
 namespace Metapsi.Syntax
 {
 
-    public interface IBlockBuilder
-    {
-        ModuleBuilder ModuleBuilder { get; }
-        Block Block { get; }
-        void Init(ModuleBuilder moduleBuilder, Block b);
+    //public interface IBlockBuilder
+    //{
+    //    ModuleBuilder ModuleBuilder { get; }
+    //    Block Block { get; }
+    //    void Init(ModuleBuilder moduleBuilder, Block b);
         
-        public string NewName();
-        public Var<T> Const<T>(T constant);
+    //    public string NewName();
+    //    public Var<T> Const<T>(T constant);
 
-        public Var<T> Const<T>(T constant, string name);
+    //    public Var<T> Const<T>(T constant, string name);
 
-        public Var<T> NewObj<T>() where T : new();
-    }
-
-    public interface ISyntaxBuilder
-    {
-
-    }
+    //    public Var<T> NewObj<T>() where T : new();
+    //}
 
     public class Reference<T>
     {
         public T Value { get; set; }
     }
 
-    public class BlockBuilder : IBlockBuilder, ISyntaxBuilder
+    public class BlockBuilder
     {
-        public BlockBuilder() { }
+        //public BlockBuilder() { }
 
         public void Init(ModuleBuilder moduleBuilder, Block block)
         {
@@ -46,7 +41,7 @@ namespace Metapsi.Syntax
             this.Block = block;
         }
 
-        public Module Module { get => ModuleBuilder.Module; }
+        //public Module Module { get => ModuleBuilder.Module; }
 
         public ModuleBuilder ModuleBuilder { get; private set; }
 
@@ -110,7 +105,7 @@ namespace Metapsi.Syntax
             var newObj = NewObj<T>();
             if (init != null)
             {
-                init(new Modifier<T>(this, newObj));
+                init(new Modifier<T>(new SyntaxBuilder(this), newObj));
             }
             return newObj;
         }
@@ -223,16 +218,6 @@ namespace Metapsi.Syntax
             Set<TItem, TProp>(var, access, Const(value));
         }
 
-        public void SetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property, Var<TProp> value)
-        {
-            this.SetProperty(item, Const(property.PropertyName), value);
-        }
-
-        public Var<TProp> GetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property)
-        {
-            return this.GetProperty<TProp>(item, Const(property.PropertyName));
-        }
-
         public void Comment(string comment)
         {
             Block.Lines.Add(new LineComment() { Comment = comment });
@@ -254,13 +239,54 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static T New<T>(ModuleBuilder moduleBuilder, Block block)
-            where T : IBlockBuilder, new()
+        public void If(Var<bool> varIsTrue, Action<BlockBuilder> bTrue, Action<BlockBuilder> bFalse = null)
         {
-            T builder = new();
-            builder.Init(moduleBuilder, block);
-            return builder;
+            var ifBlock = new IfBlock() { Var = varIsTrue };
+
+            BlockBuilder blockBuilder = new BlockBuilder(ModuleBuilder, ifBlock.TrueBlock);
+            bTrue(blockBuilder);
+            if (bFalse != null)
+            {
+                ifBlock.FalseBlock = new();
+                blockBuilder = new BlockBuilder(ModuleBuilder, ifBlock.FalseBlock);
+                bFalse(blockBuilder);
+            }
+            Block.Lines.Add(ifBlock);
         }
+
+        public void Foreach<T>(Var<List<T>> collection, Action<BlockBuilder, Var<T>> build)
+        {
+            var foreachBlock = new ForeachBlock<T>()
+            {
+                Collection = collection,
+                OverVariable = new Var<T>(NewName())
+            };
+
+            BlockBuilder blockBuilder = new BlockBuilder(ModuleBuilder, foreachBlock.ChildBlock);
+            build(blockBuilder, foreachBlock.OverVariable);
+            Block.Lines.Add(foreachBlock);
+        }
+
+        internal IVariable DefineAction(Delegate builder)
+        {
+            var (alreadyDefined, clientAction) = PlaceDefinition(builder);
+            if (!alreadyDefined)
+            {
+                ModuleBuilder.BuildBody(clientAction, builder);
+            }
+            return ModuleBuilder.MakeVar(clientAction.Name, ModuleBuilder.ClientActionType(builder));
+        }
+
+        internal IVariable DefineFunc(Delegate builder)
+        {
+            var (alreadyDefined, clientFunc) = PlaceDefinition(builder);
+            if (!alreadyDefined)
+            {
+                ModuleBuilder.BuildBody(clientFunc, builder);
+            }
+            return ModuleBuilder.MakeVar(clientFunc.Name, ModuleBuilder.ClientFuncType(builder));
+        }
+
     }
 }
 
