@@ -18,7 +18,7 @@ namespace Metapsi.Hyperapp
             this.InitData = initData;
         }
 
-        public Var<TData> GetData(BlockBuilder b)
+        internal Var<TData> GetData(BlockBuilder b)
         {
             var data = InitData(b);
 
@@ -33,20 +33,6 @@ namespace Metapsi.Hyperapp
 
     public static class ControlBuilderExtensions
     {
-
-
-        //private static Var<TData> GetData<TData>(
-        //    this BlockBuilder b)
-        //{
-        //    return (BlockBuilder b, Var<TData> data) =>
-        //    {
-        //        foreach (var dataAction in dataActions)
-        //        {
-        //            dataAction(b, data);
-        //        }
-        //    };
-        //}
-
         public static void SetData<TControlDefinition, TData>(
             this ControlBuilder<TControlDefinition, TData> builder,
             Action<BlockBuilder,Var<TData>> action)
@@ -55,19 +41,19 @@ namespace Metapsi.Hyperapp
             builder.DataActions.Add(action);
         }
 
-        public static void OnControl<TParentControlDefinition, TParentData, TChildControlDefinition, TChildData>(
+        public static void OnChildControl<TParentControlDefinition, TParentData, TChildControlDefinition, TChildData>(
             this ControlBuilder<TParentControlDefinition, TParentData> b,
             Func<TParentControlDefinition, TChildControlDefinition> getChildDefinition,
             System.Linq.Expressions.Expression<Func<TParentData, TChildData>> childDataProperty,
-            Action<ControlBuilder<TChildControlDefinition, TChildData>> action)
+            Action<ControlBuilder<TChildControlDefinition, TChildData>> custom)
             where TParentControlDefinition : IControlDefinition<TParentData>
             where TChildControlDefinition : IControlDefinition<TChildData>
             where TChildData : new()
         {
             var childDefinition = getChildDefinition(b.Control);
             ControlBuilder<TChildControlDefinition, TChildData> childBuilder = new(childDefinition, b => b.NewObj<TChildData>());
+            custom(childBuilder);
 
-            action(childBuilder);
 
             // Transfer data actions from child to parent because child actions are never actually called, just registered
 
