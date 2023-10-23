@@ -12,7 +12,7 @@ public class NestedHtmlCombinedCalls : TutorialSample<NestedHtmlCombinedCalls.Mo
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var firstRow = b.Span("flex flex-row justify-between");
 

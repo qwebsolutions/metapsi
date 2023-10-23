@@ -20,7 +20,7 @@ public class Drawer
 
 public static partial class Control
 {
-    public static Var<HyperNode> Drawer(this BlockBuilder b, Var<Drawer> props)
+    public static Var<HyperNode> Drawer(this LayoutBuilder b, Var<Drawer> props)
     {
         var drawer = b.SlNode("sl-drawer");
         b.SetAttr(drawer, new DynamicProperty<string>("label"), b.Get(props, x => x.Label));
@@ -30,15 +30,15 @@ public static partial class Control
         return drawer;
     }
 
-    public static Var<HyperNode> Drawer(this BlockBuilder b, Var<Drawer> props,
-        System.Func<BlockBuilder, Var<HyperNode>> content)
+    public static Var<HyperNode> Drawer(this LayoutBuilder b, Var<Drawer> props,
+        System.Func<LayoutBuilder, Var<HyperNode>> content)
     {
         var drawer = b.Drawer(props);
         b.Add(drawer, b.Call(content));
         return drawer;
     }
 
-    public static void SetOnDrawerHide<TState>(this BlockBuilder b, Var<HyperNode> drawer, Var<HyperType.Action<TState>> onHide)
+    public static void SetOnDrawerHide<TState>(this LayoutBuilder b, Var<HyperNode> drawer, Var<HyperType.Action<TState>> onHide)
     {
         b.SetAttr(drawer, new DynamicProperty<HyperType.Action<TState>>("onsl-hide"), onHide);
     }

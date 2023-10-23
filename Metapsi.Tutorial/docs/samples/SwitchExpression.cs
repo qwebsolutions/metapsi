@@ -15,7 +15,7 @@ public class SwitchExpression : TutorialSample<SwitchExpression.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 

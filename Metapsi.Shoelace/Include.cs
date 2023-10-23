@@ -19,7 +19,7 @@ public class Include
 
 public static partial class Control
 {
-    public static Var<HyperNode> Include(this BlockBuilder b, Var<Include> props)
+    public static Var<HyperNode> Include(this LayoutBuilder b, Var<Include> props)
     {
         var include = b.Node("sl-include");
         b.SetAttr(include, DynamicProperty.String("src"), b.Get(props, x => x.Src));
@@ -29,17 +29,17 @@ public static partial class Control
         return include;
     }
 
-    public static Var<HyperNode> Include(this BlockBuilder b, Var<string> src)
+    public static Var<HyperNode> Include(this LayoutBuilder b, Var<string> src)
     {
         return b.Include(b.NewObj<Include>(b => b.Set(x => x.Src, src)));
     }
 
-    public static Var<HyperNode> Include(this BlockBuilder b, string src)
+    public static Var<HyperNode> Include(this LayoutBuilder b, string src)
     {
         return b.Include(b.Const(src));
     }
 
-    public static Var<string> IncludeModeToString(BlockBuilder b, Var<IncludeMode> mode)
+    public static Var<string> IncludeModeToString(LayoutBuilder b, Var<IncludeMode> mode)
     {
         return b.Switch(
             mode,

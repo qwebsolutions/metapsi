@@ -14,7 +14,7 @@ public class Textarea
 
 public static partial class Control
 {
-    public static Var<HyperNode> Textarea(this BlockBuilder b, Var<Textarea> props)
+    public static Var<HyperNode> Textarea(this LayoutBuilder b, Var<Textarea> props)
     {
         var textarea = b.SlNode("sl-textarea");
 
@@ -26,11 +26,11 @@ public static partial class Control
         return textarea;
     }
 
-    public static Var<HyperNode> BoundTextarea<TModel>(this BlockBuilder b, Var<TModel> model, System.Linq.Expressions.Expression<Func<TModel, string>> onProperty, Var<Textarea> props)
+    public static Var<HyperNode> BoundTextarea<TModel>(this LayoutBuilder b, Var<TModel> model, System.Linq.Expressions.Expression<Func<TModel, string>> onProperty, Var<Textarea> props)
     {
         b.Set(props, x => x.Value, b.Get(model, onProperty));
         var textArea = b.Textarea(props);
-        b.SetOnSlChange(textArea, b.MakeAction((BlockBuilder b, Var<TModel> model, Var<string> newValue) =>
+        b.SetOnSlChange(textArea, b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<string> newValue) =>
         {
             b.Set(model, onProperty, newValue);
             return b.Clone(model);

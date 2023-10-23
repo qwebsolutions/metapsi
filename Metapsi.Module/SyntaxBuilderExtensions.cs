@@ -61,6 +61,21 @@ namespace Metapsi.Syntax
             syntaxBuilder.blockBuilder.Foreach(collection, (b, var) => build(SyntaxBuilder.New<TSyntaxBuilder>(b), var));
         }
 
+        public static void Foreach<TSyntaxBuilder, T>(
+            this TSyntaxBuilder b,
+            Var<List<T>> collection,
+            Action<TSyntaxBuilder, Var<T>, Var<int>> action)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            var index = b.Ref(b.Const(0));
+            b.Foreach(collection, (b, item) =>
+            {
+                b.Call(action, item, b.GetRef(index));
+                b.SetRef(index, b.Get(b.GetRef(index), x => x + 1));
+            });
+        }
+
+
         // Define global actions
         public static Var<Action> Def<TSyntaxBuilder>(this SyntaxBuilder b, string name, Action<TSyntaxBuilder> builder)
             where TSyntaxBuilder : SyntaxBuilder
@@ -293,19 +308,6 @@ namespace Metapsi.Syntax
             var outRef = b.Ref(v);
             b.If(b.IsEmpty(v.As<object>()), b => b.SetRef(outRef, b.Const(defaultValue)));
             return b.GetRef(outRef);
-        }
-
-        public static void Foreach<T>(
-            this SyntaxBuilder b,
-            Var<List<T>> collection,
-            Action<SyntaxBuilder, Var<T>, Var<int>> action)
-        {
-            var index = b.Ref(b.Const(0));
-            b.Foreach(collection, (b, item) =>
-            {
-                b.Call(action, item, b.GetRef(index));
-                b.SetRef(index, b.Get(b.GetRef(index), x => x + 1));
-            });
         }
 
         public static Var<TResult> Switch<TSyntaxBuilder, TResult, TInput>(

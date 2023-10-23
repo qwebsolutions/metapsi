@@ -43,7 +43,7 @@ public class Button
 
 public static partial class Control
 {
-    public static Var<HyperNode> Button(this BlockBuilder b, Var<Button> props)
+    public static Var<HyperNode> Button(this LayoutBuilder b, Var<Button> props)
     {
         var button = b.SlNode("sl-button");
         b.SetAttrIfNotEmptyString(button, DynamicProperty.String("variant"), b.EnumToLowercase(b.Get(props, x => x.Variant)));
@@ -64,7 +64,7 @@ public static partial class Control
         return button;
     }
 
-    public static Var<HyperNode> Button(this BlockBuilder b, Var<string> text)
+    public static Var<HyperNode> Button(this LayoutBuilder b, Var<string> text)
     {
         var props = b.NewObj<Button>();
         var button = b.Button(props);
@@ -72,7 +72,7 @@ public static partial class Control
         return button;
     }
 
-    public static Var<HyperNode> Button(this BlockBuilder b, string text)
+    public static Var<HyperNode> Button(this LayoutBuilder b, string text)
     {
         return b.Button(b.Const(text));
     }

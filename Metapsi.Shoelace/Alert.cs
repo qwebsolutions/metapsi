@@ -20,7 +20,7 @@ public class Alert
 
 public static partial class Control
 {
-    public static Var<HyperNode> Alert(this BlockBuilder b, Var<Alert> props)
+    public static Var<HyperNode> Alert(this LayoutBuilder b, Var<Alert> props)
     {
         var control = b.SlNode("sl-alert");
         b.Add(control, b.TextNode(b.Get(props, x => x.Text)));
@@ -29,7 +29,7 @@ public static partial class Control
         return control;
     }
 
-    private static Var<string> StringVariant(BlockBuilder b, Var<AlertVariant> variant)
+    private static Var<string> StringVariant(SyntaxBuilder b, Var<AlertVariant> variant)
     {
         return b.Switch(
             variant,
@@ -41,13 +41,13 @@ public static partial class Control
             );
     }
 
-    public static void Toast(this BlockBuilder b, Var<Alert> props)
+    public static void Toast(this SyntaxBuilder b, Var<Alert> props)
     {
         var variant = StringVariant(b, b.Get(props, x => x.Variant));
         b.CallExternal("Metapsi.Shoelace", "notify", b.Get(props, x => x.Text), variant);
     }
 
-    public static void Toast(this BlockBuilder b, Var<string> message, Var<AlertVariant> variant)
+    public static void Toast(this SyntaxBuilder b, Var<string> message, Var<AlertVariant> variant)
     {
         var sv = StringVariant(b, variant);
         b.CallExternal("Metapsi.Shoelace", "notify", message, sv);

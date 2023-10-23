@@ -18,19 +18,19 @@ public static partial class Render
 {
     public class Homepage : HyperPage<Handler.Home.Model>
     {
-        public override Var<HyperNode> OnRender(BlockBuilder b, Var<Handler.Home.Model> model)
+        public override Var<HyperNode> OnRender(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             b.AddStylesheet("metapsi.live.css");
 
             b.AddSubscription(
                 "metapsi_each_second",
-                (BlockBuilder b, Var<Handler.Home.Model> model) =>
+                (SyntaxBuilder b, Var<Handler.Home.Model> model) =>
                 {
                     return b.Every<Handler.Home.Model>(
                         b.Const(1000),
-                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                        b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
                         {
-                            return b.Switch<HyperType.StateWithEffects, Handler.View>(
+                            return b.Switch(
                                 b.Get(model, x => x.CurrentView),
                                 b => b.MakeStateWithEffects(model),
                                 (Handler.View.WaitingCompile, b => PoolCompile(b, model)));
@@ -50,7 +50,7 @@ public static partial class Render
                 (Handler.View.FocusRenderer, b => FocusRenderer(b, model)));
         }
 
-        public static Var<HyperNode> Layout(BlockBuilder b, Var<HyperNode> header, Var<HyperNode> content)
+        public static Var<HyperNode> Layout(LayoutBuilder b, Var<HyperNode> header, Var<HyperNode> content)
         {
             var mainDiv = b.Div();
             b.Add(mainDiv, b.AddClass(header, "fixed z-10"));
@@ -58,7 +58,7 @@ public static partial class Render
             return mainDiv;
         }
 
-        public static Var<HyperNode> SolutionNameHeader(BlockBuilder b, Var<Handler.Home.Model> model)
+        public static Var<HyperNode> SolutionNameHeader(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var headerInfo = b.Div(
                 "px-8 flex flex-row w-full py-4 gap-2 text-gray-600 items-center",
@@ -90,7 +90,7 @@ public static partial class Render
             return headerAndProgress;
         }
 
-        public static Var<Metapsi.Live.Db.Solution> SelectedSolution(BlockBuilder b, Var<Handler.Home.Model> model)
+        public static Var<Metapsi.Live.Db.Solution> SelectedSolution(SyntaxBuilder b, Var<Handler.Home.Model> model)
         {
             var selectedSolution = b.Get(model, model => model.Solutions.SingleOrDefault(solution => solution.Id == model.SelectedSolutionId));
 
@@ -100,13 +100,13 @@ public static partial class Render
                 b => b.NewObj<Metapsi.Live.Db.Solution>());
         }
 
-        public static Var<HyperType.StateWithEffects> PoolCompile(BlockBuilder b, Var<Handler.Home.Model> model)
+        public static Var<HyperType.StateWithEffects> PoolCompile(SyntaxBuilder b, Var<Handler.Home.Model> model)
         {
             return b.AsyncResult(
                 model,
                 b.Request<Handler.Home.Model, Frontend.SolutionEntitiesResponse>(
                     Frontend.GetSolutionEntities,
-                    b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntitiesResponse> result) =>
+                    b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model, Var<Frontend.SolutionEntitiesResponse> result) =>
                     {
                         b.Log(result);
                         return b.If(
@@ -137,7 +137,7 @@ public static partial class Render
                     })));
         }
 
-        public Var<HyperNode> SelectSolutionDropDown(BlockBuilder b, Var<Handler.Home.Model> clientModel)
+        public Var<HyperNode> SelectSolutionDropDown(LayoutBuilder b, Var<Handler.Home.Model> clientModel)
         {
             var select = b.Select(
                 new Select()
@@ -174,7 +174,7 @@ public static partial class Render
             return serverModel;
         }
 
-        public Var<HyperNode> ListSolutions(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ListSolutions(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div(
                 "flex flex-col w-full h-full items-center justify-center",
@@ -186,11 +186,11 @@ public static partial class Render
                 );
         }
 
-        public Var<HyperNode> SelectSolutionButton(BlockBuilder b, Var<Metapsi.Live.Db.Solution> sln)
+        public Var<HyperNode> SelectSolutionButton(LayoutBuilder b, Var<Metapsi.Live.Db.Solution> sln)
         {
             var button = b.Node("button", "bg-gray-200 hover:bg-gray-300 rounded py-4 px-8", b => b.Text(b.Get(sln, x => x.Path)));
 
-            b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            b.SetOnClick(button, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
             {
                 b.Set(model, x => x.SelectedSolutionId, b.Get(sln, x => x.Id));
 
@@ -199,7 +199,7 @@ public static partial class Render
                     b.Request(
                         Frontend.SelectSolution,
                         b.Get(sln, x => x.Id),
-                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<ApiResponse> result) =>
+                        b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model, Var<ApiResponse> result) =>
                         {
                             b.Set(model, x => x.CurrentView, b.Const(Handler.View.WaitingCompile));
                             return b.Clone(model);
@@ -209,7 +209,7 @@ public static partial class Render
             return button;
         }
 
-        public Var<HyperNode> ListProjects(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ListProjects(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var list = b.Div("flex flex-col gap-8 items-stretch p-8",
                 b.Map(
@@ -220,7 +220,7 @@ public static partial class Render
                         {
                             var button = b.Node("button", "", b => ProjectListCard(b, model, project));
 
-                            b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> page) =>
+                            b.SetOnClick(button, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> page) =>
                             {
                                 b.Set(page, x => x.FocusedProjectName, b.Get(project, x => x.Name));
                                 b.Set(page, x => x.CurrentView, b.Const(Handler.View.FocusProject));
@@ -233,7 +233,7 @@ public static partial class Render
             return b.Div("flex flex-row justify-center", b => list);
         }
 
-        public Var<HyperNode> ProjectListCard(BlockBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
+        public Var<HyperNode> ProjectListCard(LayoutBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
         {
             var renderers = GetProjectRenderers(b, model, project);
             var handlers = GetProjectHandlers(b, model, project);
@@ -279,22 +279,22 @@ public static partial class Render
             return projectCard;
         }
 
-        public Var<List<RendererReference>> GetProjectRenderers(BlockBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
+        public Var<List<RendererReference>> GetProjectRenderers(SyntaxBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
         {
             return b.Get(model, project, (model, project) => model.SolutionEntities.Renderers.Where(x => x.Renderer.SymbolKey.Project == project.Name).ToList());
         }
 
-        public Var<List<HandlerReference>> GetProjectHandlers(BlockBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
+        public Var<List<HandlerReference>> GetProjectHandlers(SyntaxBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
         {
             return b.Get(model, project, (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList());
         }
 
-        public Var<List<RouteReference>> GetProjectRoutes(BlockBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
+        public Var<List<RouteReference>> GetProjectRoutes(SyntaxBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
         {
             return b.Get(model, project, (model, project) => model.SolutionEntities.Routes.Where(x => x.Route.SymbolKey.Project == project.Name).ToList());
         }
 
-        public Var<HyperNode> FocusProject(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> FocusProject(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var project = b.GetFocusedProject(model);
 
@@ -315,7 +315,7 @@ public static partial class Render
             return b.Div("flex flex-row justify-center", b => projectPage);
         }
 
-        public Var<HyperNode> RelatedProjectsList(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> RelatedProjectsList(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
 
@@ -332,7 +332,7 @@ public static partial class Render
                         {
                             var selectProject = b.Node("button", "w-fit", b => b.Text(related));
 
-                            b.SetOnClick(selectProject, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                            b.SetOnClick(selectProject, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
                             {
                                 b.Set(model, x => x.FocusedProjectName, related);
                                 return b.Clone(model);
@@ -344,7 +344,7 @@ public static partial class Render
             return b.ShowIfAny(usedProjects, b => container);
         }
 
-        public Var<HyperNode> ProjectRoutesList(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ProjectRoutesList(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var projectRoutes = GetProjectRoutes(b, model, b.GetFocusedProject(model));
             var container = b.Div(
@@ -365,7 +365,7 @@ public static partial class Render
             return b.ShowIfAny(projectRoutes, b => container);
         }
 
-        public Var<HyperNode> ProjectHandlersList(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ProjectHandlersList(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var projectHandlers = b.Get(model, b.GetFocusedProject(model), (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name).ToList());
             var container = b.Div(
@@ -402,7 +402,7 @@ public static partial class Render
         //        b => b.Text(nestedClassName, "text-gray-800"));
         //}
 
-        public Var<HyperNode> ListRoutes(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ListRoutes(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div("flex flex-col gap-8",
                 b.Map(
@@ -413,7 +413,7 @@ public static partial class Render
                         b => QualifiedSymbolClass(b, b.Get(route, x => x.Route.SymbolKey)))));
         }
 
-        public Var<HyperNode> ListHandlers(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ListHandlers(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div("flex flex-col gap-8",
                 b.Map(
@@ -429,7 +429,7 @@ public static partial class Render
                                 (b, call) => b.Text(call))))));
         }
 
-        public Var<HyperNode> ListRenderers(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ListRenderers(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
@@ -468,7 +468,7 @@ public static partial class Render
             public RendererReference Renderer { get; set; }
         }
 
-        public Var<string> GetQualifiedSymbolKey(BlockBuilder b, Var<SymbolKey> symbolKey)
+        public Var<string> GetQualifiedSymbolKey(SyntaxBuilder b, Var<SymbolKey> symbolKey)
         {
             return b.If(
                 b.HasObject(symbolKey),
@@ -489,7 +489,7 @@ public static partial class Render
                 b => b.Const(string.Empty));
         }
 
-        public Var<HyperNode> QualifiedSymbolClass(BlockBuilder b, Var<SymbolKey> symbolKey)
+        public Var<HyperNode> QualifiedSymbolClass(LayoutBuilder b, Var<SymbolKey> symbolKey)
         {
             return b.If(
                 b.HasObject(symbolKey),
@@ -508,7 +508,7 @@ public static partial class Render
                 b => b.Text("Not defined", "text-red-500"));
         }
 
-        public Var<HyperNode> QualifiedSymbolUrl(BlockBuilder b, Var<SymbolKey> symbolKey)
+        public Var<HyperNode> QualifiedSymbolUrl(LayoutBuilder b, Var<SymbolKey> symbolKey)
         {
             return b.If(
                 b.HasObject(symbolKey),
@@ -527,12 +527,12 @@ public static partial class Render
                 b => b.Text("Not defined", "text-red-500"));
         }
 
-        public Var<bool> SymbolKeyEquals(BlockBuilder b, Var<SymbolKey> first, Var<SymbolKey> second)
+        public Var<bool> SymbolKeyEquals(SyntaxBuilder b, Var<SymbolKey> first, Var<SymbolKey> second)
         {
             return b.AreEqual(GetQualifiedSymbolKey(b, first), GetQualifiedSymbolKey(b, second));
         }
 
-        public Var<HyperNode> SolutionSummaryTable(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> SolutionSummaryTable(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.VoidNode();
 
@@ -649,7 +649,7 @@ public static partial class Render
         //        ("Renderer", b => GetRendererCell(b, row)));
         //}
 
-        public Var<HyperNode> GetRendererCell(BlockBuilder b, Var<SummaryRow> row)
+        public Var<HyperNode> GetRendererCell(LayoutBuilder b, Var<SummaryRow> row)
         {
             var renderer = b.Get(row, x => x.Renderer);
 
@@ -659,7 +659,7 @@ public static partial class Render
                 b => b.Text("Not defined", "text-red-500"));
         }
 
-        public Var<HyperNode> GetHandlerCell(BlockBuilder b, Var<SummaryRow> row)
+        public Var<HyperNode> GetHandlerCell(LayoutBuilder b, Var<SummaryRow> row)
         {
             var handler = b.Get(row, x => x.Handler);
 
@@ -669,7 +669,7 @@ public static partial class Render
                 b => b.Text("Not defined", "text-red-500"));
         }
 
-        public Var<HyperNode> GetModelCell(BlockBuilder b, Var<SummaryRow> row)
+        public Var<HyperNode> GetModelCell(LayoutBuilder b, Var<SummaryRow> row)
         {
             var handler = b.Get(row, x => x.Handler);
 
@@ -679,7 +679,7 @@ public static partial class Render
                 b => b.Text("Not defined", "text-red-500"));
         }
 
-        public Var<HyperNode> SolutionSummary(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> SolutionSummary(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var entities = b.Get(model, x => x.SolutionEntities);
 
@@ -782,7 +782,7 @@ public static partial class Render
                 b => SolutionSummaryTable(b, model)));
         }
 
-        public Var<HyperNode> ProjectsTab(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ProjectsTab(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.If(
                 b.Not(b.HasValue(b.Get(model, x => x.FocusedProjectName))),
@@ -790,12 +790,12 @@ public static partial class Render
                 b => FocusedProjectDetails(b, model));
         }
 
-        public Var<HyperNode> RoutesTab(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> RoutesTab(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return ListRoutes(b, model);
         }
 
-        public Var<HyperNode> ProjectsList(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> ProjectsList(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div(
                 "flex flex-col gap-8 p-4",
@@ -812,7 +812,7 @@ public static partial class Render
                     (b, project) => ProjectEntry(b, model, project))));
         }
 
-        public Var<HyperNode> FocusedProjectDetails(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> FocusedProjectDetails(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             return b.Div(
                 "flex flex-col gap-8 p-4",
@@ -820,7 +820,7 @@ public static partial class Render
                 {
                     var breadcrumb = b.Breadcrumb();
                     var projectsItem = b.BreadcrumbButtonItem(b.Const("Projects"));
-                    b.SetOnClick(projectsItem, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    b.SetOnClick(projectsItem, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
                     {
                         b.Set(model, x => x.FocusedProjectName, b.Const(string.Empty));
                         return b.Clone(model);
@@ -833,7 +833,7 @@ public static partial class Render
                 b => FocusProject(b, model));
         }
 
-        public Var<List<ProjectReference>> FilteredProjects(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<List<ProjectReference>> FilteredProjects(SyntaxBuilder b, Var<Handler.Home.Model> model)
         {
             var withRoutes = b.Get(model, Filter.ProjectContainingRoutes);
             var withHandlers = b.Get(model, Filter.ProjectContainingHandlers);
@@ -860,7 +860,7 @@ public static partial class Render
             return b.GetRef(outProjects);
         }
 
-        public Var<HyperNode> ProjectEntry(BlockBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
+        public Var<HyperNode> ProjectEntry(LayoutBuilder b, Var<Handler.Home.Model> model, Var<ProjectReference> project)
         {
             var projectRoutes = b.Get(model, project, (model, project) => model.SolutionEntities.Routes.Where(x => x.Route.SymbolKey.Project == project.Name));
             var projectHandlers = b.Get(model, project, (model, project) => model.SolutionEntities.Handlers.Where(x => x.Handler.SymbolKey.Project == project.Name));
@@ -870,7 +870,7 @@ public static partial class Render
                 "flex flex-col gap-4 bg-gray-50 text-xs text-gray-500 p-4 cursor-pointer",
                 b => b.Text(b.Get(project, x => x.Name), "text-gray-700 text-sm"));
 
-            b.SetOnClick(entry, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            b.SetOnClick(entry, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
             {
                 b.Set(model, x => x.FocusedProjectName, b.Get(project, x => x.Name));
                 //b.Set(model, x => x.CurrentView, b.Const(Handler.View.FocusProject));
@@ -889,7 +889,7 @@ public static partial class Render
             return entry;
         }
 
-        public Var<HyperNode> CompileErrorsStack(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> CompileErrorsStack(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var container = b.Div("flex flex-col gap-2");
 
@@ -924,7 +924,7 @@ public static partial class Render
             return container;
         }
 
-        public Var<HyperNode> SelectRendererButton(BlockBuilder b, Var<SymbolKey> renderer)
+        public Var<HyperNode> SelectRendererButton(LayoutBuilder b, Var<SymbolKey> renderer)
         {
             var button = b.Node(
                 "button",
@@ -933,14 +933,14 @@ public static partial class Render
                     "flex flex-col items-center gap-2",
                     b => QualifiedSymbolClass(b, renderer)));
 
-            b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            b.SetOnClick(button, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
             {
                 return b.AsyncResult(
                     b.Clone(model),
                     b.Request(
                         Frontend.SelectRenderer,
                         renderer,
-                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> result) =>
+                        b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> result) =>
                         {
                             b.Set(model, x => x.CurrentView, b.Const(Handler.View.FocusRenderer));
                             b.Set(model, x => x.SelectedRenderer, renderer);
@@ -952,7 +952,7 @@ public static partial class Render
             return button;
         }
 
-        public Var<HyperNode> WaitCompile(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> WaitCompile(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
@@ -975,7 +975,7 @@ public static partial class Render
             return Layout(b, SolutionNameHeader(b, model), content);
         }
 
-        public Var<HyperNode> FocusRenderer(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> FocusRenderer(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var selectedSolution = b.Get(model, model => model.Solutions.Single(solution => solution.Id == model.SelectedSolutionId));
             var solutionPath = b.Get(selectedSolution, x => x.Path);
@@ -990,7 +990,7 @@ public static partial class Render
                 {
                     var sln = b.Node("button", "", b => b.Text(solutionPath));
 
-                    b.SetOnClick(sln, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+                    b.SetOnClick(sln, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
                     {
                         b.Set(model, x => x.CurrentView, b.Const(Handler.View.ListRenderers));
                         return b.Clone(model);
@@ -1018,18 +1018,18 @@ public static partial class Render
                                 (model, currentInputId) => model.SelectedInputId == currentInputId)))));
         }
 
-        public Var<HyperNode> AddInputButton(BlockBuilder b, Var<Handler.Home.Model> model)
+        public Var<HyperNode> AddInputButton(LayoutBuilder b, Var<Handler.Home.Model> model)
         {
             var addInputButton = b.Node("button", "w-10 h-10 flex flex-col items-center justify-center rounded bg-green-100 font-bold text-lg", b => b.Text("+"));
 
-            b.SetOnClick(addInputButton, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            b.SetOnClick(addInputButton, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
             {
                 return b.AsyncResult(
                     model,
                     b.Request(
                         Frontend.AddRendererInput,
                         b.Get(model, x => x.SelectedRenderer),
-                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> response) =>
+                        b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model, Var<Backend.RendererResponse> response) =>
                         {
                             b.Set(model, x => x.Inputs, b.Get(response, x => x.Inputs));
                             return b.Clone(model);
@@ -1039,7 +1039,7 @@ public static partial class Render
             return addInputButton;
         }
 
-        public Var<HyperNode> SelectInputButton(BlockBuilder b, Var<Metapsi.Live.Db.Input> input, Var<bool> isSelected)
+        public Var<HyperNode> SelectInputButton(LayoutBuilder b, Var<Metapsi.Live.Db.Input> input, Var<bool> isSelected)
         {
             var inputName = b.Get(input, x => x.InputName);
             var inputId = b.Get(input, x => x.Id);
@@ -1048,14 +1048,14 @@ public static partial class Render
 
             b.If(isSelected, b => b.AddClass(button, "font-semibold"));
 
-            b.SetOnClick(button, b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model) =>
+            b.SetOnClick(button, b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model) =>
             {
                 return b.AsyncResult(
                     b.Clone(model),
                     b.Request(
                         Frontend.SetInputId,
                         inputId,
-                        b.MakeAction((BlockBuilder b, Var<Handler.Home.Model> model, Var<ApiResponse> result) =>
+                        b.MakeAction((SyntaxBuilder b, Var<Handler.Home.Model> model, Var<ApiResponse> result) =>
                         {
                             b.Set(model, x => x.SelectedInputId, b.Get(input, x => x.Id));
                             return b.Clone(model);
@@ -1065,7 +1065,7 @@ public static partial class Render
             return button;
         }
 
-        public Var<HyperNode> FactCard(BlockBuilder b, Var<string> mainData, Var<string> subtitle)
+        public Var<HyperNode> FactCard(LayoutBuilder b, Var<string> mainData, Var<string> subtitle)
         {
             return b.Div(
                 "flex flex-col gap-8 rounded p-8 bg-blue-100 border w-64",
@@ -1101,7 +1101,7 @@ public static class Filter
 
 public static class ModelExtensions
 {
-    public static Var<ProjectReference> GetFocusedProject(this BlockBuilder b, Var<Handler.Home.Model> model)
+    public static Var<ProjectReference> GetFocusedProject(this SyntaxBuilder b, Var<Handler.Home.Model> model)
     {
         var project = b.Get(model, model => model.SolutionEntities.Projects.Single(x => x.Name == model.FocusedProjectName));
         return project;

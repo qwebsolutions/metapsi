@@ -15,7 +15,7 @@ public class IterationsCompact : TutorialSample<IterationsCompact.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var container = b.Div("flex flex-col");
         b.Foreach(

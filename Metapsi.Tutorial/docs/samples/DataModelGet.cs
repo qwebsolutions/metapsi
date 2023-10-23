@@ -13,7 +13,7 @@ public class DataModelGet : TutorialSample<DataModelGet.Model>
         public string Name { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var name = b.Get(model, x => x.Name);
         return b.Text(name);

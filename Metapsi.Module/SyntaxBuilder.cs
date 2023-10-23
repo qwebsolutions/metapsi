@@ -16,7 +16,7 @@ namespace Metapsi.Syntax
 
         public Module Module => blockBuilder.ModuleBuilder.Module;
 
-        public SyntaxBuilder(BlockBuilder b)
+        internal SyntaxBuilder(BlockBuilder b)
         {
             this.blockBuilder = b;
         }

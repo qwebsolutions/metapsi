@@ -37,7 +37,7 @@ public class Checkbox : IHasCheckedProperty
 
 public partial class Control
 {
-    public static Var<HyperNode> Checkbox(this BlockBuilder b, Var<Checkbox> props)
+    public static Var<HyperNode> Checkbox(this LayoutBuilder b, Var<Checkbox> props)
     {
         var checkbox = b.SlNode("sl-checkbox");
 
@@ -49,7 +49,7 @@ public partial class Control
     }
 
     public static Var<HyperNode> BoundCheckbox<TModel>(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<string> label,
         Var<TModel> model, 
         System.Linq.Expressions.Expression<System.Func<TModel, bool>> onProperty)
@@ -63,7 +63,7 @@ public partial class Control
 
         b.Add(checkbox, b.TextNode(label));
 
-        b.SetOnSlChange(checkbox, b.MakeAction((BlockBuilder b, Var<TModel> model, Var<bool> isChecked) =>
+        b.SetOnSlChange(checkbox, b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<bool> isChecked) =>
         {
             b.Set(model, onProperty, isChecked);
             return b.Clone(model);

@@ -43,7 +43,7 @@ public static partial class Control
 {
 
 
-    public static Var<HyperNode> TabGroup(this BlockBuilder b, Var<TabGroup> props)
+    public static Var<HyperNode> TabGroup(this LayoutBuilder b, Var<TabGroup> props)
     {
         var group = b.SlNode("sl-tab-group");
 
@@ -54,12 +54,12 @@ public static partial class Control
         return group;
     }
 
-    public static Var<HyperNode> TabGroup(this BlockBuilder b)
+    public static Var<HyperNode> TabGroup(this LayoutBuilder b)
     {
         return b.TabGroup(b.NewObj<TabGroup>());
     }
 
-    public static Var<HyperNode> Tab(this BlockBuilder b, Var<Tab> props)
+    public static Var<HyperNode> Tab(this LayoutBuilder b, Var<Tab> props)
     {
         var tab = b.SlNode("sl-tab");
 
@@ -73,7 +73,7 @@ public static partial class Control
         return tab;
     }
 
-    public static Var<HyperNode> TabPanel(this BlockBuilder b, Var<TabPanel> props)
+    public static Var<HyperNode> TabPanel(this LayoutBuilder b, Var<TabPanel> props)
     {
         var tabPanel = b.SlNode("sl-tab-panel");
 
@@ -84,7 +84,7 @@ public static partial class Control
     }
 
     public static void TabPage(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<HyperNode> tabGroup,
         Var<string> name,
         Var<HyperNode> tab,
@@ -122,7 +122,7 @@ public static partial class Control
         b.Add(tabGroup, tabPanelControl);
     }
 
-    public static void TabPage(this BlockBuilder b, Var<HyperNode> tabGroup, Var<string> name, Var<string> tabLabel, Var<HyperNode> panel)
+    public static void TabPage(this LayoutBuilder b, Var<HyperNode> tabGroup, Var<string> name, Var<string> tabLabel, Var<HyperNode> panel)
     {
         b.TabPage(tabGroup, name, b.Text(tabLabel), panel);
     }

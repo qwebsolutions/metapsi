@@ -10,7 +10,7 @@ public class Spinner
 
 public static partial class Control
 {
-    public static Var<HyperNode> Spinner(this BlockBuilder b)
+    public static Var<HyperNode> Spinner(this LayoutBuilder b)
     {
         return b.SlNode("sl-spinner");
     }

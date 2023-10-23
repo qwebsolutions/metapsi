@@ -14,7 +14,7 @@ public class OverviewSandboxExample : TutorialSample<OverviewSandboxExample.Mode
         public string ModelProperty2 { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         return b.Text(b.Serialize(model));
     }

@@ -29,7 +29,7 @@ public class Animation
 
 public static partial class Control
 {
-    public static Var<HyperNode> Animation(this BlockBuilder b, Var<Animation> props, Func<BlockBuilder, Var<HyperNode>> content = null)
+    public static Var<HyperNode> Animation(this LayoutBuilder b, Var<Animation> props, Func<LayoutBuilder, Var<HyperNode>> content = null)
     {
         var animation = b.SlNode("sl-animation");
 

@@ -20,7 +20,7 @@ public class IterationsIEnumerable : TutorialSample<IterationsIEnumerable.Model>
         public List<User> AllUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var container = b.Div("flex flex-col");
 

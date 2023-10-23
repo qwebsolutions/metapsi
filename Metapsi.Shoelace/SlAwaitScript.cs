@@ -1,4 +1,5 @@
 ﻿using Metapsi.Dom;
+using Metapsi.Hyperapp;
 using Metapsi.JavaScript;
 using Metapsi.Syntax;
 using Metapsi.Ui;
@@ -11,7 +12,7 @@ namespace Metapsi.Shoelace;
 public class SlAwaitWhenDefinedScript : BaseTag
 {
     public HashSet<string> SlTags { get; set; } = new();
-    public HashSet<Action<BlockBuilder>> ThenActions { get; set; } = new();
+    public HashSet<Action<SyntaxBuilder>> ThenActions { get; set; } = new();
 
     public override HtmlTag GetTag()
     {
@@ -55,7 +56,7 @@ public static class SlAwaitWhenDefinedScriptExtensions
         return slAwaitScript;
     }
 
-    public static void SlAwaitWhenUpdated(this BlockBuilder b, Var<string> controlId, Action<BlockBuilder> action)
+    public static void SlAwaitWhenUpdated(this SyntaxBuilder b, Var<string> controlId, Action<SyntaxBuilder> action)
     {
         b.Log(controlId);
         var domControl = b.GetElementById(controlId);

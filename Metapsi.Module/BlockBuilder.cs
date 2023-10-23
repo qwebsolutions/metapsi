@@ -5,27 +5,12 @@ using System.Linq.Expressions;
 
 namespace Metapsi.Syntax
 {
-
-    //public interface IBlockBuilder
-    //{
-    //    ModuleBuilder ModuleBuilder { get; }
-    //    Block Block { get; }
-    //    void Init(ModuleBuilder moduleBuilder, Block b);
-        
-    //    public string NewName();
-    //    public Var<T> Const<T>(T constant);
-
-    //    public Var<T> Const<T>(T constant, string name);
-
-    //    public Var<T> NewObj<T>() where T : new();
-    //}
-
     public class Reference<T>
     {
         public T Value { get; set; }
     }
 
-    public class BlockBuilder
+    internal class BlockBuilder
     {
         public BlockBuilder(ModuleBuilder moduleBuilder, Block block)
         {
@@ -64,18 +49,6 @@ namespace Metapsi.Syntax
 
             return intoVar;
         }
-
-        //public Var<string> EmptyString()
-        //{
-        //    Var<string> intoVar = new Var<string>() { Name = NewName() };
-        //    Block.Lines.Add(new ObjectConstructor<string>()
-        //    {
-        //        IntoVar = intoVar,
-        //        From = ""
-        //    });
-
-        //    return intoVar;
-        //}
 
         public Var<T> NewObj<T>(T serverObject)
         {

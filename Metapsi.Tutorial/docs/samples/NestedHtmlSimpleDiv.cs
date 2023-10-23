@@ -12,7 +12,7 @@ public class NestedHtmlSimpleDiv : TutorialSample<NestedHtmlSimpleDiv.Model>
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var div = b.Div("bg-blue-100");
         b.Add(div, b.Text("Text inside div", "text-blue-600"));

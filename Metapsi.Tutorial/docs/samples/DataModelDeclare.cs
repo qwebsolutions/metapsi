@@ -13,7 +13,7 @@ public class DataModelDeclare : TutorialSample<DataModelDeclare.Model>
         public string Name { get; set; }
     }
 
-    public Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         return b.Text(b.Serialize(model));
     }

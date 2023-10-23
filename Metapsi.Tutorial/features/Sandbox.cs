@@ -30,7 +30,7 @@ public enum Editor
 
 public static partial class Control
 {
-    public static Var<HyperNode> CodeEditor(this BlockBuilder b, Editor editor, Var<EditorProps> props)
+    public static Var<HyperNode> CodeEditor(this LayoutBuilder b, Editor editor, Var<EditorProps> props)
     {
         Var<string> containerId = b.Get(props, (EditorProps x) => x.EditorId);
         Var<HyperNode> container = b.Div(b.Get(props, (EditorProps x) => x.Class));
@@ -40,7 +40,7 @@ public static partial class Control
             Var<MonacoProps> monacoProps = b.NewObj<MonacoProps>();
             b.Set(monacoProps, (MonacoProps x) => x.EditorId, b.Get(props, (EditorProps x) => x.EditorId));
             b.Set(monacoProps, (MonacoProps x) => x.value, b.Get(props, (EditorProps x) => x.value));
-            b.Set(monacoProps, (MonacoProps x) => x.language, b.If(b.AreEqual(b.Get(props, (EditorProps x) => x.language), b.Const("json")), (BlockBuilder b) => b.Const("javascript"), (BlockBuilder b) => b.Const("csharp")));
+            b.Set(monacoProps, (MonacoProps x) => x.language, b.If(b.AreEqual(b.Get(props, (EditorProps x) => x.language), b.Const("json")), (SyntaxBuilder b) => b.Const("javascript"), (SyntaxBuilder b) => b.Const("csharp")));
             b.CallExternal("Metapsi.Monaco", "AttachMonaco", monacoProps);
         }
         else
@@ -68,26 +68,29 @@ public static partial class Control
 
     public static HtmlTag SandboxApp(Editor editor)
     {
-        return Tutorial.ClientSide(new SandboxModel(), (BlockBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model), delegate (BlockBuilder b, Var<SandboxModel> model)
-        {
-            b.AddSubscription("ExploreSample_Sub", (BlockBuilder b, Var<SandboxModel> _) => b.Listen(b.Const("ExploreSample"), LoadSample(b)));
-            return b.Call((Func<BlockBuilder, Var<SandboxModel>, Var<HyperType.StateWithEffects>>)OnInit, model);
-        });
+        return Tutorial.ClientSide(
+            new SandboxModel(),
+            (LayoutBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model),
+            (SyntaxBuilder b, Var<SandboxModel> model) =>
+            {
+                b.AddSubscription("ExploreSample_Sub", (SyntaxBuilder b, Var<SandboxModel> _) => b.Listen(b.Const("ExploreSample"), LoadSample(b)));
+                return b.Call(OnInit, model);
+            });
     }
 
-    private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(BlockBuilder b)
+    private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(SyntaxBuilder b)
     {
-        return b.MakeAction((BlockBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
+        return b.MakeAction((SyntaxBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
         {
             return b.AsyncResult(
                 b.Clone(_),
-                (BlockBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
+                (SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
                 {
                     b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
                     {
                         var resetModel = b.NewObj<SandboxModel>();
                         b.Set(resetModel, x => x.CodeSample, newSample);
-                        b.Dispatch(dispatcher, b.MakeAction((BlockBuilder b, Var<SandboxModel> prevState) =>
+                        b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> prevState) =>
                         {
                             return resetModel;
                         }));
@@ -161,7 +164,7 @@ public static partial class Control
         return container;
     }*/
 
-    private static Var<bool> SampleHasProperty(BlockBuilder b, Var<CodeSample> sample, System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
+    private static Var<bool> SampleHasProperty(SyntaxBuilder b, Var<CodeSample> sample, System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
     {
         var modelText = b.Get(sample, property);
 
@@ -172,11 +175,11 @@ public static partial class Control
             ("{}", b => b.Const(false)));
     }
     public static void MonacoSetOnEdit<TState>(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<HyperNode> control,
         Var<HyperType.Action<TState, string>> onEdit)
     {
-        var editEvent = b.MakeAction<TState, CustomEvent<string>, string>((BlockBuilder b, Var<TState> state, Var<CustomEvent<string>> @event) =>
+        var editEvent = b.MakeAction<TState, CustomEvent<string>, string>((SyntaxBuilder b, Var<TState> state, Var<CustomEvent<string>> @event) =>
         {
             b.StopPropagation(@event);
             return b.MakeActionDescriptor<TState, string>(onEdit, b.Get(@event, x=>x.detail));
@@ -185,11 +188,12 @@ public static partial class Control
         b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, CustomEvent<string>>>("oneditor-change"), editEvent);
     }
 
-    public static void BindToSample(this BlockBuilder b,
+    public static void BindToSample(
+        this LayoutBuilder b,
         Var<HyperNode> editor, 
         System.Linq.Expressions.Expression<Func<CodeSample, string>> property)
     {
-        b.MonacoSetOnEdit(editor, b.MakeAction((BlockBuilder b, Var<SandboxModel> model, Var<string> newText) =>
+        b.MonacoSetOnEdit(editor, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<string> newText) =>
         {
             var codeSample = b.Get(model, x => x.CodeSample);
             b.Set(codeSample, property, newText);
@@ -197,7 +201,7 @@ public static partial class Control
         }));
     }
 
-    public static Var<HyperNode> Sandbox(BlockBuilder b, Editor editor, Var<SandboxModel> clientModel)
+    public static Var<HyperNode> Sandbox(LayoutBuilder b, Editor editor, Var<SandboxModel> clientModel)
     {
         Var<CodeSample> liveSample = b.Get(clientModel, (SandboxModel x) => x.CodeSample);
         Var<HyperNode> container = b.Div("flex flex-col gap-2 bg-gray-50 rounded p-2");
@@ -272,7 +276,7 @@ public static partial class Control
         return container;
     }
 
-    public static void SetOutputHtml(BlockBuilder b, Var<string> content)
+    public static void SetOutputHtml(SyntaxBuilder b, Var<string> content)
     {
         var domFrame = b.GetElementById(b.Const("output-frame"));
         b.If(
@@ -287,12 +291,12 @@ public static partial class Control
             });
     }
 
-    public static Var<HyperType.StateWithEffects> OnInit(BlockBuilder b, Var<SandboxModel> model)
+    public static Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<SandboxModel> model)
     {
         return b.MakeStateWithEffects(b.Clone(model), b.MakeEffect(b.MakeEffecter<SandboxModel>((b, disp) =>
         {
             b.RequestAnimationFrame(
-                b.DefineAction(b =>
+                b.Def((SyntaxBuilder b) =>
                 {
                     var domFrame = b.GetElementById(b.Const("output-frame"));
                     b.If(
@@ -306,7 +310,7 @@ public static partial class Control
                             b.Log("iframe not found!");
                         });
 
-                    b.Dispatch(disp, b.MakeAction((BlockBuilder b, Var<SandboxModel> model) =>
+                    b.Dispatch(disp, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model) =>
                     {
                         return b.Clone(model);
                     }));

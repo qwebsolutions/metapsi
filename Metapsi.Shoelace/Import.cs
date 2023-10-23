@@ -8,7 +8,7 @@ public record ShoelaceTag(string tag);
 
 public static class Import
 {
-    public static void Shoelace(BlockBuilder b, ShoelaceVersion shoelaceVersion = null)
+    public static void Shoelace(LayoutBuilder b, ShoelaceVersion shoelaceVersion = null)
     {
         if (shoelaceVersion == null)
         {
@@ -19,7 +19,7 @@ public static class Import
         b.AddStylesheet(shoelaceVersion.StylesheetUrl);
     }
 
-    public static Var<HyperNode> SlNode(this BlockBuilder b, string tag)
+    public static Var<HyperNode> SlNode(this LayoutBuilder b, string tag)
     {
         Import.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
@@ -56,7 +56,7 @@ public static class Import
 public static class PropExtensions
 {
     public static void SetOptionalAttribute(
-        this BlockBuilder b,
+        this LayoutBuilder b,
         Var<HyperNode> node,
         string htmlAttribute,
         Var<string> value)

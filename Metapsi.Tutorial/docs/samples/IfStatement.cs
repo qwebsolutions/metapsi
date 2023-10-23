@@ -15,7 +15,7 @@ public class IfStatement : TutorialSample<IfStatement.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var container = b.Span();
 

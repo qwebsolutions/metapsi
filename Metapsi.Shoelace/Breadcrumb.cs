@@ -17,12 +17,12 @@ public class BreadcrumbItem
 
 public static partial class Control
 {
-    public static Var<HyperNode> Breadcrumb(this BlockBuilder b)
+    public static Var<HyperNode> Breadcrumb(this LayoutBuilder b)
     {
         return b.SlNode("sl-breadcrumb");
     }
 
-    public static Var<HyperNode> BreadcrumbHrefItem(this BlockBuilder b, Var<BreadcrumbItem> props)
+    public static Var<HyperNode> BreadcrumbHrefItem(this LayoutBuilder b, Var<BreadcrumbItem> props)
     {
         var item = b.SlNode("sl-breadcrumb-item");
 
@@ -35,7 +35,7 @@ public static partial class Control
         return item;
     }
 
-    public static Var<HyperNode> BreadcrumbHrefItem(this BlockBuilder b, Var<string> label, Var<string> href)
+    public static Var<HyperNode> BreadcrumbHrefItem(this LayoutBuilder b, Var<string> label, Var<string> href)
     {
         var item = b.BreadcrumbHrefItem(b.NewObj<BreadcrumbItem>(
             b => b.Set(x => x.Href, href)));
@@ -43,14 +43,14 @@ public static partial class Control
         return item;
     }
 
-    public static Var<HyperNode> BreadcrumbButtonItem(this BlockBuilder b, Var<string> label)
+    public static Var<HyperNode> BreadcrumbButtonItem(this LayoutBuilder b, Var<string> label)
     {
         var item = b.SlNode("sl-breadcrumb-item");
         b.Add(item, b.TextNode(label));
         return item;
     }
 
-    public static Var<HyperNode> BreadcrumbButtonItemLast(this BlockBuilder b, Var<string> label)
+    public static Var<HyperNode> BreadcrumbButtonItemLast(this LayoutBuilder b, Var<string> label)
     {
         var item = b.BreadcrumbButtonItem(label);
         b.AddClass(item, "cursor-default");

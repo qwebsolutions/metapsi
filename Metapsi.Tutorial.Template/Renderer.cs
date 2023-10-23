@@ -16,7 +16,7 @@ public class Renderer : HyperPage<Model>
         return "iframeApp";
     }
 
-    public override Var<HyperNode> OnRender(BlockBuilder b, Var<Model> model)
+    public override Var<HyperNode> OnRender(LayoutBuilder b, Var<Model> model)
     {
         b.AddStylesheet("metapsi.tutorial.css");
         return null;

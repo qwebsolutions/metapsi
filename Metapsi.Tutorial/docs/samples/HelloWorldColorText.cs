@@ -12,7 +12,7 @@ public class HelloWorldColorText : TutorialSample<HelloWorldColorText.Model>
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         return b.Text("Hello world", "text-blue-600");
     }

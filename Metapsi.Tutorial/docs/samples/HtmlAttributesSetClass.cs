@@ -12,7 +12,7 @@ public class HtmlAttributesSetClass : TutorialSample<HtmlAttributesSetClass.Mode
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var a = b.Node("a");
         b.SetAttr(a, Html.href, "https://www.w3schools.com/tags/tag_a.asp");

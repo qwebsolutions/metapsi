@@ -66,7 +66,7 @@ public static class Tutorial
         return documentTag;
     }
 
-    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<BlockBuilder, Var<TDataModel>, Var<HyperNode>> render = null, Func<BlockBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render = null, Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
     {
         DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
         defaultInterpolatedStringHandler.AppendLiteral("id_");

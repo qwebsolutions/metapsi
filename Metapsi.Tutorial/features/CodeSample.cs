@@ -5,6 +5,7 @@ using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax.Inlines;
 using Metapsi.Dom;
+using Metapsi.Hyperapp;
 using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
@@ -86,7 +87,7 @@ public static partial class Control
         container.AddJs(b =>
         {
             var control = b.GetElementById(b.Const(sendToPanelButtonId));
-            b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.DefineAction((b) =>
+            b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.Def((SyntaxBuilder b) =>
             {
                 b.DispatchEvent(b.Const("ExploreSample"), b.Const(sample));
             }));
@@ -288,7 +289,7 @@ public static class CodeSamplesLoader
 
                 var renderMethod = sampleType.DeclaredMethods.SingleOrDefault(
                     x => x.GetParameters().Count() == 2
-                    && x.GetParameters().First().ParameterType == typeof(Metapsi.Syntax.BlockBuilder)
+                    && x.GetParameters().First().ParameterType == typeof(LayoutBuilder)
                     && x.GetParameters().Last().ParameterType.GenericTypeArguments.Count() == 1
                     && x.GetParameters().Last().ParameterType.GenericTypeArguments.First() == modelType);
 

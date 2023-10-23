@@ -12,7 +12,7 @@ public class NestedHtmlSpanMoreChildren : TutorialSample<NestedHtmlSpanMoreChild
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var span = b.Span();
         b.Add(span, b.Text("Blue text inside span", "text-blue-600"));

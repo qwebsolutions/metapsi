@@ -143,7 +143,7 @@ namespace Metapsi.Hyperapp
             return b.MakeSubscription<EventSubscriptionProps<TState, TPayload>>(subscriber, subscriptionProps);
         }
 
-        public static Var<HyperType.Subscription> Unsubscribe(this BlockBuilder b)
+        public static Var<HyperType.Subscription> Unsubscribe(this SyntaxBuilder b)
         {
             return b.Const(false).As<HyperType.Subscription>();
         }
@@ -166,7 +166,7 @@ namespace Metapsi.Hyperapp
             return b.Def((SyntaxBuilder b) => b.ClearInterval(id)).As<HyperType.Cleanup>();
         }
 
-        public static Var<HyperType.Subscription> Every<TState>(this LayoutBuilder b, Var<int> intervalMilliseconds, Var<HyperType.Action<TState>> action)
+        public static Var<HyperType.Subscription> Every<TState>(this SyntaxBuilder b, Var<int> intervalMilliseconds, Var<HyperType.Action<TState>> action)
         {
             var subscriber = b.MakeSubscriber<TState, IntervalProps<TState>>(Interval);
             Var<IntervalProps<TState>> intervalProps = b.NewObj<IntervalProps<TState>>();

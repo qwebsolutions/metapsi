@@ -15,7 +15,7 @@ public class Option
 
 public static partial class Control
 {
-    public static Var<HyperNode> Option(this BlockBuilder b, Var<Option> props)
+    public static Var<HyperNode> Option(this LayoutBuilder b, Var<Option> props)
     {
         var option = b.SlNode("sl-option");
         b.SetAttr(option, Html.value, b.Get(props, x => x.Value));
@@ -31,12 +31,12 @@ public static partial class Control
 public static partial class OptionExtensions
 {
     public static Var<List<Option>> MapOptions<T>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<List<T>> items,
         System.Linq.Expressions.Expression<Func<T, string>> getValue,
         System.Linq.Expressions.Expression<Func<T, string>> getLabel)
     {
-        return b.Map<T, Option>(
+        return b.Map(
             items,
             (b, s) =>
             {
@@ -52,12 +52,12 @@ public static partial class OptionExtensions
     }
 
     public static Var<List<Option>> MapOptions<T>(
-        this BlockBuilder b,
+        this SyntaxBuilder b,
         Var<List<T>> items,
         System.Linq.Expressions.Expression<Func<T, Guid>> getValue,
         System.Linq.Expressions.Expression<Func<T, string>> getLabel)
         {
-            return b.Map<T, Option>(
+            return b.Map(
                 items,
                 (b, s) =>
                 {

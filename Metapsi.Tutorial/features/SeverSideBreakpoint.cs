@@ -113,7 +113,7 @@ public static class ServerSideBreakpointExtensions
     public static DocumentTag BreakpointProbingPage()
     {
         DocumentTag documentTag = DocumentTag.Create("Metapsi - Redirecting ...");
-        documentTag.AddJs(delegate (BlockBuilder b)
+        documentTag.AddJs(delegate (SyntaxBuilder b)
         {
             Var<string> bp = b.AssumeBreakpoint();
             b.RedirectWithBreakpoint(bp);
@@ -146,70 +146,70 @@ public static class ServerSideBreakpointExtensions
         return buildPage(model);
     }
 
-    private static void RedirectWithBreakpoint(this BlockBuilder b, Var<string> bp)
+    private static void RedirectWithBreakpoint(this SyntaxBuilder b, Var<string> bp)
     {
         b.SetUrl(b.Concat(b.GetUrl(), b.Const("?bp="), bp));
     }
 
-    private static Var<string> GetWindowBreakpoint(this BlockBuilder b)
+    private static Var<string> GetWindowBreakpoint(this SyntaxBuilder b)
     {
         return b.CallExternal<string>("Metapsi.Tutorial", "GetWindowBreakpoint", Array.Empty<IVariable>());
     }
 
-    public static Var<bool> HasTouchScreen(this BlockBuilder b)
+    public static Var<bool> HasTouchScreen(this SyntaxBuilder b)
     {
         return b.CallExternal<bool>("Metapsi.Breakpoint", "HasTouchScreen", Array.Empty<IVariable>());
     }
 
-    public static Var<int> WindowWidth(this BlockBuilder b)
+    public static Var<int> WindowWidth(this SyntaxBuilder b)
     {
         return b.GetDynamic(b.Window().As<DynamicObject>(), DynamicProperty.Int("innerWidth"));
     }
 
-    public static Var<int> WindowHeight(this BlockBuilder b)
+    public static Var<int> WindowHeight(this SyntaxBuilder b)
     {
         return b.GetDynamic(b.Window().As<DynamicObject>(), DynamicProperty.Int("innerHeight"));
     }
 
-    public static Var<string> MatchBreakpoint(this BlockBuilder b, Var<int> width)
+    public static Var<string> MatchBreakpoint(this SyntaxBuilder b, Var<int> width)
     {
         Var<List<Breakpoint.Size>> breapointsList = b.Const(Breakpoint.Breakpoints);
         Var<Reference<string>> match = b.Ref(b.Const(string.Empty));
-        b.Foreach(breapointsList, delegate (BlockBuilder b, Var<Breakpoint.Size> bp)
+        b.Foreach(breapointsList, delegate (SyntaxBuilder b, Var<Breakpoint.Size> bp)
         {
-            b.If(b.Get(bp, width, (Breakpoint.Size bp, int width) => width <= bp.Pixels), delegate (BlockBuilder b)
+            b.If(b.Get(bp, width, (Breakpoint.Size bp, int width) => width <= bp.Pixels), delegate (SyntaxBuilder b)
             {
-                b.If(b.Not(b.HasValue(b.GetRef(match))), delegate (BlockBuilder b)
+                b.If(b.Not(b.HasValue(b.GetRef(match))), delegate (SyntaxBuilder b)
                 {
                     b.SetRef(match, b.Get(bp, (Breakpoint.Size x) => x.Name));
                 });
             });
         });
-        b.If(b.Not(b.HasValue(b.GetRef(match))), delegate (BlockBuilder b)
+        b.If(b.Not(b.HasValue(b.GetRef(match))), delegate (SyntaxBuilder b)
         {
             b.SetRef(match, b.Get(breapointsList, (List<Breakpoint.Size> x) => x.Last().Name));
         });
         return b.GetRef(match);
     }
 
-    public static Var<string> AssumeBreakpoint(this BlockBuilder b)
+    public static Var<string> AssumeBreakpoint(this SyntaxBuilder b)
     {
-        return b.If(b.HasTouchScreen(), delegate (BlockBuilder b)
+        return b.If(b.HasTouchScreen(), delegate (SyntaxBuilder b)
         {
             Var<List<int>> var = b.NewCollection<int>();
             b.Push(var, b.WindowWidth());
             b.Push(var, b.WindowHeight());
             Var<int> width = b.Get(var, (List<int> x) => x.Min());
             return b.MatchBreakpoint(width);
-        }, (BlockBuilder b) => b.MatchBreakpoint(b.WindowWidth()));
+        }, (SyntaxBuilder b) => b.MatchBreakpoint(b.WindowWidth()));
     }
 
-    public static void RedirectMismatchedBreakpoint(this BlockBuilder b, List<string> serverAssumedBreakpoints)
+    public static void RedirectMismatchedBreakpoint(this SyntaxBuilder b, List<string> serverAssumedBreakpoints)
     {
-        b.If(b.Not(b.CallExternal<bool>("Metapsi.Breakpoint", "HasQueryParam", new IVariable[1] { b.Const("bp") })), delegate (BlockBuilder b)
+        b.If(b.Not(b.CallExternal<bool>("Metapsi.Breakpoint", "HasQueryParam", new IVariable[1] { b.Const("bp") })), delegate (SyntaxBuilder b)
         {
             Var<string> clientAssumedBreakpoint = b.AssumeBreakpoint();
-            b.If(b.Not(b.Includes(b.Const(serverAssumedBreakpoints), clientAssumedBreakpoint)), delegate (BlockBuilder b)
+            b.If(b.Not(b.Includes(b.Const(serverAssumedBreakpoints), clientAssumedBreakpoint)), delegate (SyntaxBuilder b)
             {
                 b.RedirectWithBreakpoint(clientAssumedBreakpoint);
             });
@@ -218,7 +218,7 @@ public static class ServerSideBreakpointExtensions
 
     public static void AddRedirectMismatchedBreakpoint(this IHtmlElement htmlElement, List<string> serverAssumedBreakpoints)
     {
-        htmlElement.AddJs(delegate (BlockBuilder b)
+        htmlElement.AddJs(delegate (SyntaxBuilder b)
         {
             b.RedirectMismatchedBreakpoint(serverAssumedBreakpoints);
         });

@@ -62,36 +62,36 @@ public class TutorialPage : HtmlPage<TutorialModel>
         {
             Name = "braces"
         }).SetAttribute("id", "ToggleSandboxIcon"));
-        htmlTag.AddJs(delegate (BlockBuilder b)
+        htmlTag.AddJs(delegate (SyntaxBuilder b)
         {
             Var<DomElement> elementById7 = b.GetElementById(b.Const("MobileExpandCodeButton"));
-            b.AddEventListener(elementById7, b.Const("click"), b.DefineAction(delegate (BlockBuilder b)
+            b.AddEventListener(elementById7, b.Const("click"), b.Def(delegate (SyntaxBuilder b)
             {
                 Var<DomElement> elementById8 = b.GetElementById(b.Const("MobileSandbox"));
                 Var<bool> dynamic = b.GetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"));
                 b.SetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"), b.Not(dynamic));
             }));
         });
-        htmlTag.AddJs(delegate (BlockBuilder b)
+        htmlTag.AddJs(delegate (SyntaxBuilder b)
         {
-            b.AddEventListener(b.Window(), b.Const("ExploreSample"), b.DefineAction(delegate (BlockBuilder b)
+            b.AddEventListener(b.Window(), b.Const("ExploreSample"), b.Def(delegate (SyntaxBuilder b)
             {
                 Var<DomElement> elementById6 = b.GetElementById(b.Const("MobileSandbox"));
                 b.GetAttribute<bool>(elementById6, b.Const("open"));
                 b.SetAttribute(elementById6, b.Const("open"), b.Const(constant: true));
             }));
         });
-        htmlTag.AddJs(delegate (BlockBuilder b)
+        htmlTag.AddJs(delegate (SyntaxBuilder b)
         {
             Var<DomElement> elementById = b.GetElementById(b.Const("MobileSandbox"));
-            b.AddEventListener(elementById, b.Const("sl-after-show"), b.DefineAction(delegate (BlockBuilder b)
+            b.AddEventListener(elementById, b.Const("sl-after-show"), b.Def(delegate (SyntaxBuilder b)
             {
                 Var<DomElement> elementById4 = b.GetElementById(b.Const("MobileExpandCodeButton"));
                 b.SetStyle(elementById4, b.Const("opacity"), b.Const("0.5"));
                 Var<DomElement> elementById5 = b.GetElementById(b.Const("ToggleSandboxIcon"));
                 b.SetDynamic(elementById5.As<DynamicObject>(), DynamicProperty.String("name"), b.Const("x-lg"));
             }));
-            b.AddEventListener(elementById, b.Const("sl-after-hide"), b.DefineAction(delegate (BlockBuilder b)
+            b.AddEventListener(elementById, b.Const("sl-after-hide"), b.Def(delegate (SyntaxBuilder b)
             {
                 Var<DomElement> elementById2 = b.GetElementById(b.Const("MobileExpandCodeButton"));
                 b.SetStyle(elementById2, b.Const("opacity"), b.Const("1"));

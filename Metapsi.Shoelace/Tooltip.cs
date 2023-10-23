@@ -42,7 +42,7 @@ public class Tooltip
 
 public static partial class Control
 {
-    public static Var<HyperNode> Tooltip(this BlockBuilder b, Var<Tooltip> props, Func<BlockBuilder, Var<HyperNode>> anchorNode = null)
+    public static Var<HyperNode> Tooltip(this LayoutBuilder b, Var<Tooltip> props, Func<LayoutBuilder, Var<HyperNode>> anchorNode = null)
     {
         var tooltip = b.SlNode("sl-tooltip");
 
@@ -56,7 +56,7 @@ public static partial class Control
         return tooltip;
     }
 
-    public static Var<HyperNode> Tooltip(this BlockBuilder b, Var<string> text, Func<BlockBuilder, Var<HyperNode>> content = null)
+    public static Var<HyperNode> Tooltip(this LayoutBuilder b, Var<string> text, Func<LayoutBuilder, Var<HyperNode>> content = null)
     {
         var props = b.NewObj<Tooltip>(
             b =>

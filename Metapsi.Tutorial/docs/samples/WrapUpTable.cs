@@ -22,7 +22,7 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
         public List<User> AllUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var headerCss = "py-3 px-2 font-medium text-left bg-blue-400 text-white ";
         var baseRowCss = b.Const("py-3 px-2 font-light text-left text-gray-700 ");

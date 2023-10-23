@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 using Metapsi.Ui;
 using System.Linq;
 
@@ -28,7 +29,7 @@ public static class SlHtmlExtensions
         document.GetSlAwaitWhenDefinedScript().ThenActions.Add(ShowOnLoaded);
     }
 
-    private static void ShowOnLoaded(BlockBuilder b)
+    private static void ShowOnLoaded(SyntaxBuilder b)
     {
         b.CallExternal("Metapsi.Shoelace", "ShowBodyWhenDefined");
     }

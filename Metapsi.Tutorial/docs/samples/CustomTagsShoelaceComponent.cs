@@ -12,7 +12,7 @@ public class CustomTagsShoelaceComponent : TutorialSample<CustomTagsShoelaceComp
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         // Imports the js & css of a web components library. We'll get to that later
         b.AddScript("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/shoelace-autoloader.js", "module");

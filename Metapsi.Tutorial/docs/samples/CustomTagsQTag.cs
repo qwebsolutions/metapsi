@@ -12,7 +12,7 @@ public class CustomTagsQTag: TutorialSample<CustomTagsQTag.Model>
     {
     }
 
-    public static Var<HyperNode> Render(BlockBuilder b, Var<Model> model)
+    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var quotation = b.Node("q");
         b.Add(
