@@ -8,7 +8,7 @@ namespace Metapsi.Hyperapp
         public LayoutBuilder(SyntaxBuilder b) : base(b) { }
     }
 
-    public static class LayoutBuilderExtensions
+    public static partial class LayoutBuilderExtensions
     {
         public static Var<IVNode> Render<TData>(this LayoutBuilder b, IControlDefinition<TData> builder, Var<TData> data)
         {

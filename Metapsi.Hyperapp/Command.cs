@@ -17,11 +17,6 @@ namespace Metapsi.Hyperapp
     //        public Func<object, object, object> FinalUpdate { get; set; }
     //    }
 
-    public class ApiError
-    {
-        public string ErrorMessage { get; set; }
-    }
-
     public static class CommandExtensions
     {
         // Request 0 parameters
@@ -45,8 +40,8 @@ namespace Metapsi.Hyperapp
             {
                 b.FetchRequest(
                     request,
-                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state, result))),
-                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error))));
+                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state, result)))),
+                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error)))));
             };
         }
 
@@ -60,8 +55,8 @@ namespace Metapsi.Hyperapp
             {
                 b.FetchRequest(
                     request,
-                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch<TState, TResult>(dispatcher.As<HyperType.Dispatcher<TState, TResult>>(), onResult, result)),
-                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch<TState, ApiError>(dispatcher.As<HyperType.Dispatcher<TState, ApiError>>(), onError, error)));
+                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, b.MakeActionDescriptor(onResult, result))),
+                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, b.MakeActionDescriptor(onError, error))));
             };
         }
 
@@ -94,8 +89,8 @@ namespace Metapsi.Hyperapp
                 b.FetchCommand(
                     command,
                     p1,
-                    b.Def((SyntaxBuilder b) => b.Dispatch<TState>(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state))),
-                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch<TState>(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error))));
+                    b.Def((SyntaxBuilder b) => b.Dispatch<TState>(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state)))),
+                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch<TState>(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error)))));
             };
         }
 
@@ -132,8 +127,8 @@ namespace Metapsi.Hyperapp
                 b.FetchRequest(
                     request,
                     p1,
-                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state, result))),
-                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, (SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error))));
+                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onResult, state, result)))),
+                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<TState> state) => b.Call(onError, state, error)))));
             };
         }
 
@@ -149,8 +144,8 @@ namespace Metapsi.Hyperapp
                 b.FetchRequest(
                     request,
                     p1,
-                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch<TState, TResult>(dispatcher.As<HyperType.Dispatcher<TState, TResult>>(), onResult, result)),
-                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch<TState, ApiError>(dispatcher.As<HyperType.Dispatcher<TState, ApiError>>(), onError, error)));
+                    b.Def((SyntaxBuilder b, Var<TResult> result) => b.Dispatch(dispatcher, b.MakeActionDescriptor(onResult, result))),
+                    b.Def((SyntaxBuilder b, Var<ApiError> error) => b.Dispatch(dispatcher, b.MakeActionDescriptor(onError, error))));
             };
         }
     }

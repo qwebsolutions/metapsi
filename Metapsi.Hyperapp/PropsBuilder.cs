@@ -51,7 +51,7 @@ namespace Metapsi.Hyperapp
 
         public static void OnInputAction<TState>(this PropsBuilder b, Var<DynamicObject> props, Var<HyperType.Action<TState, string>> onInput)
         {
-            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
+            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
             {
                 var target = b.Get(@event, x => x.target);
                 var value = b.Get(target, x => x.value);
@@ -107,20 +107,20 @@ namespace Metapsi.Hyperapp
 
 
 
-        public static void OnClickAction<TState, TPayload>(
-            this PropsBuilder b,
-            Var<DynamicObject> props,
-            Var<HyperType.Action<TState, TPayload>> onClick,
-            Var<TPayload> payload)
-        {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
-            {
-                b.StopPropagation(@event);
-                return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
-            });
+        //public static void OnClickAction<TState, TPayload>(
+        //    this PropsBuilder b,
+        //    Var<DynamicObject> props,
+        //    Var<HyperType.Action<TState, TPayload>> onClick,
+        //    Var<TPayload> payload)
+        //{
+        //    var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+        //    {
+        //        b.StopPropagation(@event);
+        //        return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
+        //    });
 
-            b.SetDynamic(props, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
-        }
+        //    b.SetDynamic(props, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
+        //}
 
         public static void OnClickAction<TState>(
             this PropsBuilder b,

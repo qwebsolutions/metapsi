@@ -13,7 +13,7 @@ namespace Metapsi.Hyperapp
     {
         public static void SetOnInput<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
         {
-            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>, string>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
+            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
             {
                 var target = b.Get(@event, x => x.target);
                 var value = b.Get(target, x => x.value);
@@ -75,7 +75,7 @@ namespace Metapsi.Hyperapp
             Var<HyperType.Action<TState, TPayload>> onClick,
             Var<TPayload> payload)
         {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>, TPayload>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
@@ -119,13 +119,13 @@ namespace Metapsi.Hyperapp
             public CustomEvent<TPayload> Event { get; set; }
         }
 
-        public static Var<HyperType.Cleanup> ListenToEvent<TState, TPayload>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState, TPayload>> dispatch, Var<EventSubscriptionProps<TState, TPayload>> props)
+        public static Var<HyperType.Cleanup> ListenToEvent<TState, TPayload>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<EventSubscriptionProps<TState, TPayload>> props)
         {
             var listener = b.Def((SyntaxBuilder b, Var<CustomEvent<TPayload>> @event) =>
             {
                 b.RequestAnimationFrame(b.Def((SyntaxBuilder b) =>
                 {
-                    b.Dispatch(dispatch, b.Get(props, x => x.Action), b.Get(@event, x => x.detail));
+                    b.Dispatch(dispatch, b.MakeActionDescriptor(b.Get(props, x => x.Action), b.Get(@event, x => x.detail)));
                 }));
             });
 

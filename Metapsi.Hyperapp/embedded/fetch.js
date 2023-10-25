@@ -98,3 +98,11 @@ export const postRequest = (url, payload, onResult, onError) =>
             console.log(error);
             onError(error)
         })
+
+
+export const Fetch = (url, options, ok, err) =>
+    fetch(url, options)
+    .then((resp) => (resp.ok ? resp : Promise.reject(resp)))
+    .then((resp) => resp.json())
+    .then((result) => ok(result))
+    .catch((error) => err(error))
