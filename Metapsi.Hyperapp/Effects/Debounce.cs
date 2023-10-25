@@ -2,19 +2,8 @@
 
 namespace Metapsi.Hyperapp
 {
-
-
     public static class Effect
     {
-        //private static class Debounce
-        //{
-        //    public class Props<TState>
-        //    {
-        //        public int WaitMs { get; set; }
-        //        public HyperType.Action<TState> Action { get; set; }
-        //    }
-        //}
-
         public static Var<HyperType.Effect> Debounce<TState>(
             this SyntaxBuilder b,
             Var<int> delayMs,
