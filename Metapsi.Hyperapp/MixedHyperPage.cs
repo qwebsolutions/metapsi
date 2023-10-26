@@ -15,13 +15,13 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public abstract TClientModel ExtractClientModel(TServerModel serverModel);
 
-        public abstract Var<HyperNode> OnRender(LayoutBuilder b, TServerModel serverModel, Var<TClientModel> clientModel);
+        public abstract Var<IVNode> OnRender(LayoutBuilder b, TServerModel serverModel, Var<TClientModel> clientModel);
         public virtual Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<TClientModel> model)
         {
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtmlTree(TServerModel serverModel)
+        public override void FillHtml(TServerModel serverModel, DocumentTag document)
         {
             var dataModel = ExtractClientModel(serverModel);
 
@@ -34,7 +34,6 @@ namespace Metapsi.Hyperapp
 
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 
-            var document = DocumentTag.Create();
             var head = document.Head;
             var body = document.Body;
 
@@ -67,8 +66,6 @@ namespace Metapsi.Hyperapp
 
             var mainDiv = body.AddChild(new HtmlTag("div"));
             mainDiv.SetAttribute("id", "app");
-
-            return document;
         }
     }
 }

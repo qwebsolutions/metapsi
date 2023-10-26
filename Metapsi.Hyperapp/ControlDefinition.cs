@@ -109,8 +109,8 @@ namespace Metapsi.Hyperapp
             ControlDefinition<TData> newDefinition)
         {
             definition.Tag = newDefinition.Tag;
-            definition.PropsActions.AddRange(newDefinition.PropsActions);
-            definition.ChildrenBuilders.AddRange(newDefinition.ChildrenBuilders);
+            definition.PropsActions = new(newDefinition.PropsActions);
+            definition.ChildrenBuilders = new(newDefinition.ChildrenBuilders);
         }
 
         public static void SetChild<TData>(

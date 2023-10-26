@@ -6,21 +6,20 @@ namespace Metapsi.Hyperapp
 {
     public abstract class HyperPage<TDataModel> : HtmlPage<TDataModel>
     {
-        public abstract Var<HyperNode> OnRender(LayoutBuilder b, Var<TDataModel> model);
+        public abstract Var<IVNode> OnRender(LayoutBuilder b, Var<TDataModel> model);
         public virtual Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<TDataModel> model)
         {
             return b.MakeStateWithEffects(model);
         }
 
-        public override IHtmlNode GetHtmlTree(TDataModel dataModel)
+        public override void FillHtml(TDataModel dataModel, DocumentTag document)
         {
             var module = new ModuleBuilder().BuildHyperapp<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
 
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 
-            var root = DocumentTag.Create();
-            var head = root.Head;
-            var body = root.Body;
+            var head = document.Head;
+            var body = document.Body;
 
             foreach (var requiredTag in moduleRequiredTags)
             {
@@ -51,19 +50,11 @@ namespace Metapsi.Hyperapp
 
             var mainDiv = body.AddChild(new HtmlTag("div"));
             mainDiv.SetAttribute("id", GetMountDivId());
-
-            ModifyHtml(root, module);
-            return root;
         }
 
         public virtual string GetMountDivId()
         {
             return "app";
-        }
-
-        public virtual IHtmlNode ModifyHtml(IHtmlNode root, Module module)
-        {
-            return root;
         }
     }
 }

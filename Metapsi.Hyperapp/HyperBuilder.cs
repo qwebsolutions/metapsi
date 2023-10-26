@@ -10,7 +10,7 @@ namespace Metapsi.Hyperapp
     {
         public static Module BuildHyperapp<TDataModel>(
             this ModuleBuilder moduleBuilder,
-            Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render,
+            Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render,
             Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> initAction = null,
             string mountDivId = null)
         {
@@ -53,18 +53,20 @@ namespace Metapsi.Hyperapp
                     b.SetDynamic(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
                     b.SetDynamic(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
 
-                    var errorDiv = b.Div("", b => b.TextNode("An error has occurred"));
-                    b.SetAttr(errorDiv, new DynamicProperty<DynamicObject>("style"), inlineStyle);
+                    var props = b.EmptyProps();
+                    b.SetDynamic(props, new DynamicProperty<DynamicObject>("style"), inlineStyle);
+
+                    var errorDiv = b.Div(props, b.T("An error has occurred"));
 
                     return errorDiv;
                 };
 
                 var app = b.NewObj<HyperType.App<TDataModel>>();
                 b.Set(app, x => x.init, init);
-                b.Set(app, x => x.view, new LayoutBuilder(b).Def<LayoutBuilder, TDataModel, HyperNode>((LayoutBuilder b, Var<TDataModel> model) =>
+                b.Set(app, x => x.view, new LayoutBuilder(b).Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
                 {
                     var r = b.Def(render);
-                    var rootNode = b.TryCatchReturn<HyperNode>(
+                    var rootNode = b.TryCatchReturn<IVNode>(
                         b.Def((LayoutBuilder b) => b.Call(r, model)),
                         b.Def((LayoutBuilder b, Var<DynamicObject> error) =>
                         {

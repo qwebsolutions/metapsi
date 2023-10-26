@@ -71,5 +71,17 @@ namespace Metapsi.Hyperapp
                     b.Dispatch(dispatcher, b.MakeActionDescriptor(b.Get(callApiParameters, x => x.OnError), error));
                 }));
         }
+
+        public static Var<HyperType.Effect> CallApiEffect<TState,TData, TResult>(
+            this SyntaxBuilder b,
+            Request<TResult, TData> request,
+            Var<TData> payload,
+            Var<HyperType.Action<TState, TResult>> onResult,
+            Var<HyperType.Action<TState, ApiError>> onError)
+        {
+            return b.MakeEffect(
+                b.Def<SyntaxBuilder, HyperType.Dispatcher<TState>, CallApiInput<TState, TData, TResult>>(CallApiEffecter), 
+                b.MakeCallApiEffecterPayload(request, payload, onResult, onError));
+        }
     }
 }

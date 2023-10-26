@@ -271,13 +271,13 @@ namespace Metapsi.Hyperapp
                 b => renderEmpty(b));
         }
 
-        public static Var<string> Url(this LayoutBuilder b, Delegate handler)
+        public static Var<string> Url(this SyntaxBuilder b, Delegate handler)
         {
             var path = b.Const(Path(handler.Method));
             return path;
         }
 
-        public static Var<string> Url<TRoute>(this LayoutBuilder b)
+        public static Var<string> Url<TRoute>(this SyntaxBuilder b)
             where TRoute : Route.IGet
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
@@ -285,7 +285,7 @@ namespace Metapsi.Hyperapp
             return b.Const($"/{path}");
         }
 
-        public static Var<string> Url<TRoute, TPayload>(this LayoutBuilder b)
+        public static Var<string> Url<TRoute, TPayload>(this SyntaxBuilder b)
             where TRoute : Route.IPost<TPayload>
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();
@@ -293,7 +293,7 @@ namespace Metapsi.Hyperapp
             return b.Const($"/{path}");
         }
 
-        public static Var<string> Url<TRoute, TParam>(this LayoutBuilder b, Var<TParam> param)
+        public static Var<string> Url<TRoute, TParam>(this SyntaxBuilder b, Var<TParam> param)
             where TRoute : Route.IGet<TParam>
         {
             var nestedTypeNames = typeof(TRoute).NestedTypeNames();

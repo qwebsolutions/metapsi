@@ -12,7 +12,7 @@ namespace Metapsi.Hyperapp
         public class App<TState>
         {
             public Init init { get; set; }
-            public Func<TState, HyperNode> view { get; set; }
+            public Func<TState, IVNode> view { get; set; }
             public DomElement node { get; set; }
             public Func<TState, List<Subscription>> subscriptions { get; set; }
         }

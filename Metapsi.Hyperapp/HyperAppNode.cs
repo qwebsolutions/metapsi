@@ -13,7 +13,7 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
     public ModuleBuilder ModuleBuilder { get; } = new ModuleBuilder();
 
     public HtmlTag TakeoverNode { get; set; }
-    public System.Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> Render { get; set; } = (b, model) => b.Div();
+    public System.Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> Render { get; set; } = (b, model) => b.T("");
     public System.Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> Init { get; set; } = (b, model) => b.MakeStateWithEffects(model);
 
     public virtual void Attach(DocumentTag document, IHtmlElement parentNode)
