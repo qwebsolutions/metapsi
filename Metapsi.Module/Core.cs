@@ -29,7 +29,7 @@ namespace Metapsi.Syntax
             return b.CallExternal<bool>(ModuleName, nameof(AreEqual), v1, v2);
         }
 
-        public static Var<string> AsString<T>(this SyntaxBuilder b, Var<T> o)
+        public static Var<string> AsString(this SyntaxBuilder b, IVariable o)
         {
             return b.CallExternal<string>(ModuleName, nameof(AsString), o);
         }
@@ -72,55 +72,56 @@ namespace Metapsi.Syntax
         public static Var<bool> Not(this SyntaxBuilder b, Var<bool> v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(Not), v);
-            //return b.CallInline<bool>("(v) => !v", v);
+        }
+
+        public static Var<bool> And(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
+        {
+            return b.CallExternal<bool>(ModuleName, nameof(And), l, r);
+        }
+
+        public static Var<bool> Or(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
+        {
+            return b.CallExternal<bool>(ModuleName, nameof(Or), l, r);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<string> v)
         {
             return b.CallExternal<bool>(ModuleName, "IsEmptyString", v);
-            //return b.CallInline<bool>("(s) => !s", var);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<object> v)
         {
             return b.CallExternal<bool>(ModuleName, "IsEmptyObject", v);
-            //return b.CallInline<bool>("(s) => !s", var);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<Guid> v)
         {
             return b.CallExternal<bool>(ModuleName, "IsEmptyGuid", v);
-            //return b.CallInline<bool>("(id) => { if(id=== '00000000-0000-0000-0000-000000000000') return true; return !id}", var);
         }
 
         public static Var<bool> IsNull(this SyntaxBuilder b, IVariable v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(IsNull), v);
-            //return b.CallInline<bool>("(s) => !s", var);
         }
 
         public static Var<bool> HasValue(this SyntaxBuilder b, Var<string> v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(HasValue), v);
-            //return b.CallInline<bool>("(s) => !(!s)", var);
         }
 
         public static Var<bool> HasId(this SyntaxBuilder b, Var<Guid> v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(HasId), v);
-            //return b.CallInline<bool>("(id) => { if(id=== '00000000-0000-0000-0000-000000000000') return false; return id}", var);
         }
 
         public static Var<bool> HasObject<T>(this SyntaxBuilder b, Var<T> v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(HasObject), v);
-            //return b.CallInline<bool>("(s) => !(!s)", var);
         }
 
         public static Var<bool> HasFunction<T>(this SyntaxBuilder b, Var<T> v) where T : System.Delegate
         {
             return b.CallExternal<bool>(ModuleName, nameof(HasFunction), v);
-            //return b.CallInline<bool>("(s) => !(!s)", var);
         }
 
         public static Var<Guid> NewId(this SyntaxBuilder b)
@@ -155,11 +156,6 @@ namespace Metapsi.Syntax
         {
             return b.CallExternal<bool>(ModuleName, nameof(EndsWith), larger, end);
         }
-
-        //public static Var<string> VarToString(this SyntaxBuilder b, IVariable variable)
-        //{
-        //    return b.CallExternal<string>(nameof(Native), nameof(ToString), variable);
-        //}
 
         public static Var<TScalar> ParseScalar<TScalar>(this SyntaxBuilder b, Var<string> value)
         {
@@ -264,6 +260,12 @@ namespace Metapsi.Syntax
         {
             return b.GetDynamic(inputString.As<DynamicObject>(), new DynamicProperty<int>("length"));
         }
+
+        public static Var<int> CollectionLength<T>(this SyntaxBuilder b, Var<List<T>> collection)
+        {
+            return b.GetDynamic(collection.As<DynamicObject>(), new DynamicProperty<int>("length"));
+        }
+
         public static Var<int> Minus(this SyntaxBuilder b, Var<int> number)
         {
             return b.CallExternal<int>(ModuleName, nameof(Minus), number);
@@ -385,6 +387,25 @@ namespace Metapsi.Syntax
         {
             b.CallExternal(ModuleName, nameof(FileToBase64), file, onResult, onError);
         }
+
+        public static Var<List<char>> Chars(this SyntaxBuilder b, Var<string> s)
+        {
+            return b.CallExternal<List<char>>(ModuleName, nameof(Chars), s);
+        }
+
+        public static Var<string> JoinChars(this SyntaxBuilder b, Var<List<char>> s)
+        {
+            return b.CallExternal<string>(ModuleName, nameof(JoinChars), s);
+        }
+
+        public static Var<char> CharToUpperCase(this SyntaxBuilder b, Var<char> c)
+        {
+            return b.CallExternal<char>(ModuleName, nameof(CharToUpperCase), c);
+        }
+
+        public static Var<char> CharToLowerCase(this SyntaxBuilder b, Var<char> c)
+        {
+            return b.CallExternal<char>(ModuleName, nameof(CharToLowerCase), c);
+        }
     }
 }
-

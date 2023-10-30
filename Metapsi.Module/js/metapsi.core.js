@@ -32,6 +32,8 @@ export const ToLowercase = (s) => !s ? "" : s.toLowerCase()
 export const Trim = (s) => !s ? "" : s.trim()
 export const EndsWith = (larger, end) => larger.endsWith(end);
 export const Not = (s) => !s
+export const And = (l, r) => l && r
+export const Or = (l, r) => l || r
 export const Log = (s) => console.log(s)
 export const stopPropagation = (e) => e.stopPropagation();
 export const ParseDate = (s) => new Date(s)
@@ -107,4 +109,10 @@ export const FileToBase64 = (file, onResult, onError) => {
         onError(error);
     };
 };
+
+export const Chars = (s) => [...s]
+export const JoinChars = (chars) => chars.join("");
+
+export const CharToUpperCase = (c) => c.toUpperCase();
+export const CharToLowerCase = (c) => c.toLowerCase();
 
