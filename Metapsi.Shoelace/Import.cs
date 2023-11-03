@@ -1,6 +1,7 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using Metapsi.Ui;
+using System;
 
 namespace Metapsi.Shoelace;
 
@@ -24,6 +25,17 @@ public static class Import
         Import.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
         return b.Node(tag);
+    }
+
+    public static Var<IVNode> SlNode(
+        this LayoutBuilder b,
+        string tag,
+        Action<PropsBuilder, Var<DynamicObject>> buildProps,
+        params Var<IVNode>[] children)
+    {
+        Import.Shoelace(b);
+        b.Const(new ShoelaceTag(tag));
+        return b.H(tag, buildProps, children);
     }
 
     public class ShoelaceVersion
