@@ -11,13 +11,13 @@ public static class EventExtensions
        Var<HyperNode> control,
        Var<HyperType.Action<TState, string>> onChange)
     {
-        var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, string>(
+        var onChangeEvent = b.MakeAction(
             (SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 b.Comment("SetOnSlChange");
                 b.Log(@event);
-                return b.MakeActionDescriptor<TState, string>(
+                return b.MakeActionDescriptor(
                     onChange,
                     b.GetDynamic(
                         b.Get(@event, x => x.target).As<DynamicObject>(),
@@ -32,13 +32,13 @@ public static class EventExtensions
        Var<HyperNode> control,
        Var<HyperType.Action<TState, bool>> onChange)
     {
-        var onChangeEvent = b.MakeAction<TState, DomEvent<ClickTarget>, bool>(
+        var onChangeEvent = b.MakeAction(
             (SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
                 b.Comment("SetOnSlChange");
                 b.Log(@event);
-                return b.MakeActionDescriptor<TState, bool>(
+                return b.MakeActionDescriptor(
                     onChange,
                     b.GetDynamic(
                         b.Get(@event, x => x.target).As<DynamicObject>(),

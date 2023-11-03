@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Metapsi.Syntax;
 
@@ -12,6 +13,41 @@ public class DataContext<TPageModel, TSubmodel>
 
 public static partial class DataContextExtensions
 {
+    public static Var<DataContext<TPageModel, TPageModel>> GetDataContext<TSyntaxBuilder, TPageModel>(
+        this TSyntaxBuilder b,
+        Var<TPageModel> model)
+        where TSyntaxBuilder : SyntaxBuilder
+    {
+        var clientModelContext = b.NewObj<DataContext<TPageModel, TPageModel>>();
+        b.Set(clientModelContext, x => x.InputData, model);
+        b.Set(clientModelContext, x => x.AccessData, b.Def((TSyntaxBuilder b, Var<TPageModel> model) => model));
+        return clientModelContext;
+    }
+
+    public static Var<DataContext<TPageModel, TSubmodel>> GetDataContext<TSyntaxBuilder, TPageModel, TSubmodel>(
+        this TSyntaxBuilder b,
+        Var<TPageModel> model,
+        Func<TSyntaxBuilder, Var<TPageModel>, Var<TSubmodel>> onSubmodel)
+        where TSyntaxBuilder : SyntaxBuilder
+    {
+        var getSubmodel = b.Def(onSubmodel);
+
+        var dataContext = b.NewObj<DataContext<TPageModel, TSubmodel>>();
+        b.Set(dataContext, x => x.InputData, b.Call(getSubmodel, model));
+        b.Set(dataContext, x => x.AccessData, getSubmodel);
+        return dataContext;
+    }
+
+    public static Var<DataContext<TPageModel, TSubmodel>> GetDataContext<TSyntaxBuilder, TPageModel, TSubmodel>(
+        this TSyntaxBuilder b,
+        Var<TPageModel> model,
+        System.Linq.Expressions.Expression<Func<TPageModel, TSubmodel>> property)
+        where TSyntaxBuilder : SyntaxBuilder
+    {
+        var getProperty = (TSyntaxBuilder b, Var<TPageModel> parent) => b.Get(parent, property);
+        return b.GetDataContext(model, getProperty);
+    }
+
     public static void On<TSyntaxBuilder, TPageModel, TParent, TChild>(
         this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
