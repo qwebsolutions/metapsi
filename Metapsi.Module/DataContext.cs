@@ -48,6 +48,41 @@ public static partial class DataContextExtensions
         return b.GetDataContext(model, getProperty);
     }
 
+    public static Var<DataContext<TPageModel, TChildModel>> GetDataContext<TSyntaxBuilder, TPageModel, TParentModel, TChildModel>(
+        this TSyntaxBuilder b,
+        Var<DataContext<TPageModel, TParentModel>> parentContext,
+        Func<TSyntaxBuilder, Var<TParentModel>, Var<TChildModel>> onChildModel)
+        where TSyntaxBuilder : SyntaxBuilder
+    {
+        var parentData = b.Get(parentContext, x => x.InputData);
+        var inputSubmodel = b.Call(onChildModel, parentData);
+
+        var childAccessor = b.NewObj<DataContext<TPageModel, TChildModel>>();
+        b.Set(childAccessor, x => x.InputData, inputSubmodel);
+        b.Set(childAccessor,
+            x => x.AccessData,
+            b.Def((TSyntaxBuilder b, Var<TPageModel> pageModel) =>
+            {
+                var parent = b.Call(b.Get(parentContext, x => x.AccessData), pageModel);
+                var child = b.Call(onChildModel, parent);
+                return child;
+            }));
+
+        return childAccessor;
+    }
+
+    public static Var<DataContext<TPageModel, TChildModel>> GetDataContext<TSyntaxBuilder, TPageModel, TParentModel, TChildModel>(
+        this TSyntaxBuilder b,
+        Var<DataContext<TPageModel, TParentModel>> parentContext,
+        System.Linq.Expressions.Expression<Func<TParentModel, TChildModel>> onChildModel)
+        where TSyntaxBuilder : SyntaxBuilder
+    {
+        b.Comment("Pizda mă-ti!");
+
+        var getProperty = (TSyntaxBuilder b, Var<TParentModel> parent) => b.Get(parent, onChildModel);
+        return GetDataContext(b, parentContext, getProperty);
+    }
+
     public static void On<TSyntaxBuilder, TPageModel, TParent, TChild>(
         this TSyntaxBuilder b,
         Var<DataContext<TPageModel, TParent>> parentAccessor,
