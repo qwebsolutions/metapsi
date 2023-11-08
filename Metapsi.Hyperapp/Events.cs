@@ -119,6 +119,12 @@ namespace Metapsi.Hyperapp
             public CustomEvent<TPayload> Event { get; set; }
         }
 
+        public class EventSubscriptionProps<TState>
+        {
+            public string EventType { get; set; }
+            public HyperType.Action<TState> Action { get; set; }
+        }
+
         public static Var<HyperType.Cleanup> ListenToEvent<TState, TPayload>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<EventSubscriptionProps<TState, TPayload>> props)
         {
             var listener = b.Def((SyntaxBuilder b, Var<CustomEvent<TPayload>> @event) =>
@@ -134,6 +140,21 @@ namespace Metapsi.Hyperapp
             return b.Def((SyntaxBuilder b) => b.RemoveEventListener(b.Window(), b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
         }
 
+        public static Var<HyperType.Cleanup> ListenToEvent<TState>(SyntaxBuilder b, Var<HyperType.Dispatcher<TState>> dispatch, Var<EventSubscriptionProps<TState>> props)
+        {
+            var listener = b.Def((SyntaxBuilder b) =>
+            {
+                b.RequestAnimationFrame(b.Def((SyntaxBuilder b) =>
+                {
+                    b.Dispatch(dispatch, b.Get(props, x => x.Action));
+                }));
+            });
+
+            b.AddEventListener(b.Window(), b.Get(props, x => x.EventType), listener);
+
+            return b.Def((SyntaxBuilder b) => b.RemoveEventListener(b.Window(), b.Get(props, x => x.EventType), listener)).As<HyperType.Cleanup>();
+        }
+
         public static Var<HyperType.Subscription> Listen<TState, TPayload>(this SyntaxBuilder b, Var<string> eventType, Var<HyperType.Action<TState, TPayload>> action)
         {
             var subscriber = b.MakeSubscriber<TState, TPayload, EventSubscriptionProps<TState, TPayload>>(ListenToEvent);
@@ -141,6 +162,15 @@ namespace Metapsi.Hyperapp
             b.Set(subscriptionProps, x => x.EventType, eventType);
             b.Set(subscriptionProps, x => x.Action, action);
             return b.MakeSubscription<EventSubscriptionProps<TState, TPayload>>(subscriber, subscriptionProps);
+        }
+
+        public static Var<HyperType.Subscription> Listen<TState>(this SyntaxBuilder b, Var<string> eventType, Var<HyperType.Action<TState>> action)
+        {
+            var subscriber = b.MakeSubscriber<TState, EventSubscriptionProps<TState>>(ListenToEvent);
+            Var<EventSubscriptionProps<TState>> subscriptionProps = b.NewObj<EventSubscriptionProps<TState>>();
+            b.Set(subscriptionProps, x => x.EventType, eventType);
+            b.Set(subscriptionProps, x => x.Action, action);
+            return b.MakeSubscription<EventSubscriptionProps<TState>>(subscriber, subscriptionProps);
         }
 
         public static Var<HyperType.Subscription> Unsubscribe(this SyntaxBuilder b)

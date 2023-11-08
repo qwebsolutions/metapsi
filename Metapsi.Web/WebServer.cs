@@ -484,6 +484,12 @@ namespace Metapsi
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
         }
 
+        public static void RegisterRenderer<TModel, TRenderer>(this References references)
+            where TRenderer : IPageTemplate<TModel>, new()
+        {
+            references.Renderers[typeof(TModel)] = new TRenderer().Render;
+        }
+
         public static void MapServerAction(IEndpointRouteBuilder apiEndpoint)
         {
             apiEndpoint.MapRequest(Metapsi.Ui.ServerActionEndpoint.ServerAction, async (CommandContext commandContext, HttpContext httpContext, ServerActionInput input) =>

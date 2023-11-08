@@ -44,10 +44,16 @@ namespace Metapsi.Sqlite
                 "insert into doc (type, timestamp, json) values(@type, @timestamp, @json)", internalDoc, transaction);
         }
 
-        public static async Task<IEnumerable<string>> ListDocumentIds(this System.Data.Common.DbTransaction transaction)
+        //public static async Task<IEnumerable<string>> ListDocumentIds(this System.Data.Common.DbTransaction transaction)
+        //{
+        //    await CreateDocumentTable(transaction);
+        //    return await transaction.Connection.QueryAsync<string>("select id from doc");
+        //}
+
+        public static async Task<IEnumerable<string>> ListDocumentIds<T>(this System.Data.Common.DbTransaction transaction)
         {
             await CreateDocumentTable(transaction);
-            return await transaction.Connection.QueryAsync<string>("select id from doc");
+            return await transaction.Connection.QueryAsync<string>("select id from doc where type=@type", new { type = typeof(T).AssemblyQualifiedName });
         }
 
         public static async Task<T> GetDocument<T>(this System.Data.Common.DbTransaction transaction, string id)

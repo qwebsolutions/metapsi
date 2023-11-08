@@ -106,10 +106,10 @@ namespace Metapsi.Dom
             b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
         }
 
-        public static void RemoveEventListener<T>(this SyntaxBuilder b, Var<T> domElement, Var<Action> handler)
+        public static void RemoveEventListener<T>(this SyntaxBuilder b, Var<T> domElement, Var<string> eventName, Var<Action> handler)
                where T : IDomElement
         {
-            b.CallDomFunction(nameof(RemoveEventListener), domElement, handler);
+            b.CallDomFunction(nameof(RemoveEventListener), domElement, eventName, handler);
         }
 
         public static void RemoveEventListener<T, TPayload>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
