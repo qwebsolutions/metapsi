@@ -68,18 +68,24 @@ namespace Metapsi.Hyperapp
         /// </summary>
         public Func<LayoutBuilder, Var<TData>, Var<IVNode>> GetRenderer()
         {
+            // Clone so that we get the renderer at this specific time
+            // Otherwise the returned function keeps a reference to a control definition
+            // that could change in the meantime, possibly leading to infinite loops if we reuse this renderer
+
+            var clone = this.Clone();
+
             return (LayoutBuilder b, Var<TData> data) =>
             {
                 var props = b.NewObj<DynamicObject>();
                 PropsBuilder propsBuilder = new PropsBuilder(b);
-                foreach (var prop in this.PropsActions)
+                foreach (var prop in clone.PropsActions)
                 {
                     prop(propsBuilder, data, props);
                 }
 
                 var children = b.NewCollection<IVNode>();
 
-                foreach (var buildChildren in ChildrenBuilders)
+                foreach (var buildChildren in clone.ChildrenBuilders)
                 {
                     var newChildren = buildChildren(b, data);
                     b.Foreach(newChildren, (b, child) =>
@@ -111,6 +117,14 @@ namespace Metapsi.Hyperapp
             definition.Tag = newDefinition.Tag;
             definition.PropsActions = new(newDefinition.PropsActions);
             definition.ChildrenBuilders = new(newDefinition.ChildrenBuilders);
+        }
+
+        public static void OverrideChild<TData>(
+            this ControlDefinition<TData> definition,
+            Func<LayoutBuilder, Var<TData>, Func<LayoutBuilder, Var<TData>, Var<IVNode>>, Var<IVNode>> overrideChild)
+        {
+            var previousRenderer = definition.GetRenderer();
+            SetChild(definition, (b, data) => overrideChild(b, data, previousRenderer));
         }
 
         public static void SetChild<TData>(

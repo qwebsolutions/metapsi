@@ -69,6 +69,26 @@ namespace Metapsi.Syntax
             b.CallExternal(ModuleName, nameof(Push), onCollection, item);
         }
 
+        public static void PushRange<T>(this SyntaxBuilder b, Var<List<T>> onCollection, Var<List<T>> newItems)
+        {
+            b.Foreach(newItems, (b, item) => b.Push(onCollection, item));
+        }
+
+        public static void Clear<T>(this SyntaxBuilder b, Var<List<T>> collection)
+        {
+            b.CallExternal(ModuleName, nameof(Clear), collection);
+        }
+
+        public static Var<int> IndexOf<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<T> item)
+        {
+            return b.CallExternal<int>(ModuleName, nameof(IndexOf), collection, item);
+        }
+
+        public static void Remove<T>(this SyntaxBuilder b, Var<List<T>> fromCollection, Var<T> item)
+        {
+            b.CallExternal<int>(ModuleName, nameof(Remove), fromCollection, item);
+        }
+
         public static Var<bool> Not(this SyntaxBuilder b, Var<bool> v)
         {
             return b.CallExternal<bool>(ModuleName, nameof(Not), v);

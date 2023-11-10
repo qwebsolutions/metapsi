@@ -1,8 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-
-
-GenerateIconClass("optimized\\24\\outline", "Outline");
+﻿GenerateIconClass("optimized\\24\\outline", "Outline");
 GenerateIconClass("optimized\\24\\solid", "Solid");
 GenerateIconClass("optimized\\20\\solid", "Mini");
 
@@ -17,7 +13,7 @@ static void GenerateIconClass(string inputFolder, string className)
     builder.AppendLine($"public static class {className}");
     builder.AppendLine("{");
 
-    foreach(var iconFile in System.IO.Directory.EnumerateFiles("optimized\\24\\outline"))
+    foreach(var iconFile in System.IO.Directory.EnumerateFiles(inputFolder))
     {
         string iconName = string.Concat(System.IO.Path.GetFileNameWithoutExtension(iconFile).Split("-").Select(x=> Capitalize(x)));
 

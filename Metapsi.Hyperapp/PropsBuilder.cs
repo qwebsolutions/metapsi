@@ -44,6 +44,27 @@ namespace Metapsi.Hyperapp
             b.SetDynamic(props, Html.@class, b.Concat(currentClass, b.Const(" "), @class));
         }
 
+        public static void AddStyle(this PropsBuilder b, Var<DynamicObject> props, string property, Var<string> value)
+        {
+            var styleProperty = new DynamicProperty<object>("style");
+
+            var currentStyle = b.GetDynamic(props, styleProperty);
+            b.If(
+                b.Not(b.HasObject(currentStyle)),
+                b =>
+                {
+                    b.SetDynamic(props, styleProperty, b.NewObj<object>());
+                });
+
+            currentStyle = b.GetDynamic(props, styleProperty);
+            b.SetDynamic(currentStyle, new DynamicProperty<string>(property), value);
+        }
+
+        public static void AddStyle(this PropsBuilder b, Var<DynamicObject> props, string property, string value)
+        {
+            b.AddStyle(props, property, b.Const(value));
+        }
+
         public static void AddClass(this PropsBuilder b, Var<DynamicObject> props, string @class)
         {
             b.AddClass(props, b.Const(@class));

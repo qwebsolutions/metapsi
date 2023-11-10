@@ -17,6 +17,15 @@ export const SubstringStartLength = (initialString, start, length) => initialStr
 export const Slice = (initialString, start, end) => initialString.slice(start, end);
 export const Replace = (initialString, oldText, newText) => initialString.replace(oldText, newText);
 export const Push = (into, item) => into.push(item)
+export const Clear = (collection) => collection.length = 0;
+export const IndexOf = (collection, item) => collection.IndexOf(item)
+export const Remove = (collection, item) => {
+    var index = collection.indexOf(item)
+    if (index >= 0) {
+        collection.splice(index, 1)
+    }
+}
+
 export const HasValue = (s) => !(!s)
 export const IsNull = (s) => !s
 export const GetExpr = (expr, ...args) => console.log(expr)
