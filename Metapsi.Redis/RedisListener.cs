@@ -32,7 +32,7 @@ namespace Metapsi
 
         public static async Task StartListening(CommandContext commandContext, State state, RedisChannel redisChannel)
         {
-            if(string.IsNullOrEmpty(redisChannel.ChannelName))
+            if (string.IsNullOrEmpty(redisChannel.ChannelName))
             {
                 commandContext.Logger.LogInfo($"Redis channel is empty, listening skipped");
                 return;
@@ -78,6 +78,13 @@ namespace Metapsi
         public static async Task StopListening(CommandContext commandContext, State state)
         {
             state.IsShuttingDown = true;
+        }
+
+        public static async Task StopListening(CommandContext commandContext, State state, RedisChannel redisChannel)
+        {
+            var redisConnection = RedisConnections.GetConnection(state.connections, redisChannel.RedisUrl);
+            var subscriber = redisConnection.GetSubscriber();
+            await subscriber.UnsubscribeAsync(redisChannel.ChannelName);
         }
     }
 
