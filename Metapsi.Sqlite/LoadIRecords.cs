@@ -75,6 +75,23 @@ namespace Metapsi.Sqlite
             }
         }
 
+        public static async Task<TResult> WithCommit<TResult>(string filePath, Func<OpenTransaction, Task<TResult>> dbAction)
+        {
+            using (SQLiteConnection conn = ToConnection(filePath))
+            {
+                await conn.OpenAsync();
+                var transaction = conn.BeginTransaction();
+                var result = await dbAction(new OpenTransaction()
+                {
+                    Connection = conn,
+                    Transaction = transaction
+                });
+                transaction.Commit();
+
+                return result;
+            }
+        }
+
         public static async Task<IEnumerable<TRecord>> Records<TRecord>(string fileName, IEnumerable<Guid> ids)
         {
             return await WithRollback(fileName, async c => await c.Transaction.LoadRecords<TRecord>(new List<Guid>(ids)));
