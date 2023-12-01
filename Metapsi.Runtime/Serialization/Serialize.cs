@@ -9,26 +9,22 @@ namespace Metapsi
     public static class Serialize
     {
         private static JsonSerializerOptions toJsonOptions = null;
-        private static readonly object toJsonOptionsLocker = new object();
         private static JsonSerializerOptions ToJsonOptions
         {
             get
             {
                 if (toJsonOptions == null)
                 {
-                    lock (toJsonOptionsLocker)
+                    var newOptions = new JsonSerializerOptions()
                     {
-                        if (toJsonOptions == null)
-                        {
-                            toJsonOptions = new JsonSerializerOptions()
-                            {
-                                WriteIndented = true,
-                                IgnoreReadOnlyFields = true,
-                                IgnoreReadOnlyProperties = true
-                            };
-                            toJsonOptions.Converters.Add(new DynamicObjectConverter());
-                        }
-                    }
+                        WriteIndented = true,
+                        IgnoreReadOnlyFields = true,
+                        IgnoreReadOnlyProperties = true
+                    };
+                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    
+                    // Only assign after options are fully built to avoid multi-threading errors
+                    toJsonOptions = newOptions;
                 }
 
                 return toJsonOptions;
@@ -36,46 +32,38 @@ namespace Metapsi
         }
 
         private static JsonSerializerOptions fromJsonOptions = null;
-        private static readonly object fromJsonOptionsLocker = new object();
         private static JsonSerializerOptions FromJsonOptions
         {
             get
             {
                 if (fromJsonOptions == null)
                 {
-                    lock (fromJsonOptionsLocker)
-                    {
-                        if (fromJsonOptions == null)
-                        {
-                            fromJsonOptions = new JsonSerializerOptions();
-                            fromJsonOptions.Converters.Add(new RecordCollectionConverterFactory());
-                            fromJsonOptions.Converters.Add(new DynamicObjectConverter());
-                        }
-                    }
+                    var newOptions = new JsonSerializerOptions();
+                    newOptions.Converters.Add(new RecordCollectionConverterFactory());
+                    newOptions.Converters.Add(new DynamicObjectConverter());
+
+                    // Only assign after options are fully built to avoid multi-threading errors
+                    fromJsonOptions = newOptions;
                 }
                 return fromJsonOptions;
             }
         }
 
         private static JsonSerializerOptions toTypedJsonOptions = null;
-        private static readonly object toTypedJsonOptionsLocker = new object();
         private static JsonSerializerOptions ToTypedJsonOptions
         {
             get
             {
                 if (toTypedJsonOptions == null)
                 {
-                    lock (toTypedJsonOptionsLocker)
-                    {
-                        if (toTypedJsonOptions == null)
-                        {
-                            toTypedJsonOptions = new System.Text.Json.JsonSerializerOptions();
-                            toTypedJsonOptions.IncludeFields = true;
-                            toTypedJsonOptions.Converters.Add(new DynamicObjectConverter());
-                            toTypedJsonOptions.IgnoreReadOnlyFields = true;
-                            toTypedJsonOptions.IgnoreReadOnlyProperties = true;
-                        }
-                    }
+                    var newOptions = new System.Text.Json.JsonSerializerOptions();
+                    newOptions.IncludeFields = true;
+                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    newOptions.IgnoreReadOnlyFields = true;
+                    newOptions.IgnoreReadOnlyProperties = true;
+
+                    // Only assign after options are fully built to avoid multi-threading errors
+                    toTypedJsonOptions = newOptions;
                 }
 
                 return toTypedJsonOptions;
@@ -83,23 +71,19 @@ namespace Metapsi
         }
 
         private static JsonSerializerOptions fromTypedJsonOptions = null;
-        private static readonly object fromTypedJsonOptionsLocker = new object();
         private static JsonSerializerOptions FromTypedJsonOptions
         {
             get
             {
                 if (fromTypedJsonOptions == null)
                 {
-                    lock (fromTypedJsonOptionsLocker)
-                    {
-                        if (fromTypedJsonOptions == null)
-                        {
-                            fromTypedJsonOptions = new System.Text.Json.JsonSerializerOptions();
-                            fromTypedJsonOptions.Converters.Add(new RecordCollectionConverterFactory());
-                            fromTypedJsonOptions.Converters.Add(new DynamicObjectConverter());
-                            fromTypedJsonOptions.IncludeFields = true;
-                        }
-                    }
+                    var newOptions = new System.Text.Json.JsonSerializerOptions();
+                    newOptions.Converters.Add(new RecordCollectionConverterFactory());
+                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    newOptions.IncludeFields = true;
+
+                    // Only assign after options are fully built to avoid multi-threading errors
+                    fromTypedJsonOptions = newOptions;
                 }
                 return fromTypedJsonOptions;
             }
