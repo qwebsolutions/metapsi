@@ -14,8 +14,11 @@ namespace Metapsi.Hyperapp
             b.RequestAnimationFrame(b.Def<SyntaxBuilder>(b =>
             {
                 var domElement = b.GetElementById(elementId);
-                var scrollHeight = b.GetDynamic(domElement, new DynamicProperty<int>("scrollHeight"));
-                b.SetDynamic(domElement, new DynamicProperty<int>("scrollTop"), scrollHeight);
+                b.If(b.HasObject(domElement), b =>
+                {
+                    var scrollHeight = b.GetDynamic(domElement, new DynamicProperty<int>("scrollHeight"));
+                    b.SetDynamic(domElement, new DynamicProperty<int>("scrollTop"), scrollHeight);
+                });
             }));
         }
 
