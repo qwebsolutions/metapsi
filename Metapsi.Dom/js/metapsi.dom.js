@@ -32,3 +32,10 @@ export const GetLocale = () => {
 export const SetStyle = (domElement, styleName, styleValue) => {
     domElement.style[styleName] = styleValue;
 }
+
+export const SubmitForm = (formId) => {
+    var form = document.getElementById(formId);
+    if (form) {
+        form.submit();
+    }
+}

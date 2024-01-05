@@ -81,7 +81,8 @@ export const postRequest = (url, payload, onResult, onError) =>
     fetch(url,
         {
             method: 'POST', headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'credentials': 'include'
             },
             body: JSON.stringify(payload, replacer)
         })

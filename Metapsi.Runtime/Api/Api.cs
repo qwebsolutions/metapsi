@@ -42,7 +42,9 @@ namespace Metapsi
 
         public static async Task<TOut> Request<TOut>(this HttpClient httpClient, Request<TOut> request)
         {
-            var r = await httpClient.GetAsync(request.Name);
+            var requestName = httpClient.FixRequestSlash(request.Name);
+
+            var r = await httpClient.GetAsync(requestName);
             if (!r.IsSuccessStatusCode)
             {
                 throw new Exception($"HTTP client code: {r.StatusCode}");
@@ -66,8 +68,10 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(request.Name);
+
                 r = await httpClient.PostAsync(
-                    request.Name,
+                    requestName,
                     JsonContent(
                        new PostBody<T1>()
                        {
@@ -97,8 +101,10 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(request.Name);
+
                 r = await httpClient.PostAsync(
-                    request.Name,
+                    requestName,
                     JsonContent(
                        new PostBody<T1, T2>()
                        {
@@ -130,8 +136,10 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(request.Name);
+
                 r = await httpClient.PostAsync(
-                    request.Name,
+                    requestName,
                     JsonContent(
                        new PostBody<T1, T2, T3>()
                        {
@@ -173,8 +181,9 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(command.Name);
                 r = await httpClient.PostAsync(
-                    command.Name,
+                    requestName,
                     JsonContent(new PostBody<T1>()
                     {
                         P1 = p1
@@ -196,8 +205,10 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(command.Name);
+
                 r = await httpClient.PostAsync(
-                   command.Name,
+                   requestName,
                    JsonContent(new PostBody<T1, T2>()
                    {
                        P1 = p1,
@@ -220,8 +231,10 @@ namespace Metapsi
             }
             else
             {
+                var requestName = httpClient.FixRequestSlash(command.Name);
+
                 r = await httpClient.PostAsync(
-                   command.Name,
+                   requestName,
                    JsonContent(new PostBody<T1, T2, T3>()
                    {
                        P1 = p1,
@@ -302,6 +315,18 @@ namespace Metapsi
             }
 
             return uri;
+        }
+
+        public static string FixRequestSlash(this HttpClient httpClient, string requestName)
+        {
+            if (httpClient.BaseAddress.ToString().Trim().EndsWith("/"))
+            {
+                return requestName;
+            }
+            else
+            {
+                return $"/{requestName}";
+            }
         }
     }
 }

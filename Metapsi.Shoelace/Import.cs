@@ -2,6 +2,7 @@
 using Metapsi.Syntax;
 using Metapsi.Ui;
 using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Shoelace;
 
@@ -32,6 +33,17 @@ public static class Import
         string tag,
         Action<PropsBuilder, Var<DynamicObject>> buildProps,
         params Var<IVNode>[] children)
+    {
+        Import.Shoelace(b);
+        b.Const(new ShoelaceTag(tag));
+        return b.H(tag, buildProps, children);
+    }
+
+    public static Var<IVNode> SlNode(
+        this LayoutBuilder b,
+        string tag,
+        Action<PropsBuilder, Var<DynamicObject>> buildProps,
+        Var<List<IVNode>> children)
     {
         Import.Shoelace(b);
         b.Const(new ShoelaceTag(tag));

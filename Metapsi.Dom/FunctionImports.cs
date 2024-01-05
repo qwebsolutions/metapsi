@@ -188,6 +188,11 @@ namespace Metapsi.Dom
         {
             b.CallDomFunction("SetStyle", element, styleName, styleValue);
         }
+
+        public static void SubmitForm(this SyntaxBuilder b, Var<string> formId)
+        {
+            b.CallDomFunction("SubmitForm", formId);
+        }
     }
 }
 

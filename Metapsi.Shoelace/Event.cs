@@ -96,6 +96,21 @@ public static class EventExtensions
         b.SetDynamic(props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), extractInputValue);
     }
 
+    public static void OnSlChange<TModel>(
+        this PropsBuilder b,
+        Var<DynamicObject> props,
+        Var<HyperType.Action<TModel, string>> slChangeAction)
+    {
+        var extractInputValue = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> @event) =>
+        {
+            var target = b.GetDynamic<object>(@event, new DynamicProperty<object>("target"));
+            var value = b.GetDynamic(target, new DynamicProperty<string>("value"));
+            return b.MakeActionDescriptor<TModel, string>(slChangeAction, value);
+        });
+
+        b.SetDynamic(props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), extractInputValue);
+    }
+
     public static void BindSlCheckedValue<TModel, TContext>(
         this PropsBuilder b,
         Var<DynamicObject> props,

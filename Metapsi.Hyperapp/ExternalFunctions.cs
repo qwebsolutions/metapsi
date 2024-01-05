@@ -73,6 +73,11 @@ namespace Metapsi.Hyperapp
             return b.H(b.Const("button"), buildProps, children);
         }
 
+        public static Var<IVNode> H(this LayoutBuilder b, string tag, Action<PropsBuilder, Var<DynamicObject>> buildProps, Var<List<IVNode>> children)
+        {
+            return b.H(b.Const(tag), buildProps, children);
+        }
+
         public static Var<DynamicObject> EmptyProps(this LayoutBuilder b)
         {
             return b.NewObj<DynamicObject>();
@@ -88,6 +93,18 @@ namespace Metapsi.Hyperapp
             var props = propsBuilder.NewObj<DynamicObject>();
             buildProps(propsBuilder, props);
             return b.H(tag, props, b.List(children));
+        }
+
+        public static Var<IVNode> H(
+            this LayoutBuilder b,
+            Var<string> tag,
+            Action<PropsBuilder, Var<DynamicObject>> buildProps,
+            Var<List<IVNode>> children)
+        {
+            var propsBuilder = new PropsBuilder(b);
+            var props = propsBuilder.NewObj<DynamicObject>();
+            buildProps(propsBuilder, props);
+            return b.H(tag, props, children);
         }
 
         public static Var<IVNode> H(
