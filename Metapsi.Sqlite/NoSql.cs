@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Sqlite
 {
-    public class NoSqlDocIndexAttribute: Attribute
+    public class DocIndexAttribute: Attribute
     {
     }
 
@@ -30,6 +30,11 @@ namespace Metapsi.Sqlite
             public string json { get; set; }
         }
 
+        private class PragmaXTableRow
+        {
+            public string name { get; set; }
+        }
+
         private static HashSet<string> createdTables = new HashSet<string>();
 
         public static async Task CreateDocumentTable<T>(string fullDbPath)
@@ -40,21 +45,21 @@ namespace Metapsi.Sqlite
             if (createdTables.Contains(tableName))
                 return;
 
-            if (createdTables.Count == 0)
+            using (SQLiteConnection conn = Sqlite.Db.ToConnection(fullDbPath))
             {
-                await Db.WithCommit(fullDbPath, async (transaction) => await transaction.Connection.ExecuteAsync("PRAGMA journal_mode=WAL;", transaction: transaction.Transaction));
-            }
+                await conn.OpenAsync();
 
-            if (!createdTables.Contains(tableName))
-            {
-                await Db.WithCommit(fullDbPath, async (transaction) =>
+                if (createdTables.Count == 0)
                 {
-                    var tableTransaction = await transaction.Connection.BeginTransactionAsync();
+                    await conn.ExecuteAsync("PRAGMA journal_mode=WAL;");
+                }
 
+                if (!createdTables.Contains(tableName))
+                {
                     var indexProperties = new List<string>();
                     foreach (var property in typeof(T).GetProperties())
                     {
-                        if (property.CustomAttributes.Any(x => x.AttributeType == typeof(NoSqlDocIndexAttribute)))
+                        if (property.CustomAttributes.Any(x => x.AttributeType == typeof(DocIndexAttribute)))
                         {
                             indexProperties.Add(property.Name);
                         }
@@ -76,19 +81,30 @@ namespace Metapsi.Sqlite
 
                     var createDocCommand = $"CREATE TABLE IF NOT EXISTS {tableName} ({string.Join(",", tableColumnDeclarations)});";
 
-                    await tableTransaction.Connection.ExecuteAsync(createDocCommand, transaction: tableTransaction);
+                    await conn.ExecuteAsync(createDocCommand);
+
+                    // If table already existed, it was not recreated. 
+                    // Check if all index columns are created
+
+
+                    var allColumns = await conn.QueryAsync<PragmaXTableRow>($"PRAGMA table_xinfo({tableName});");
 
                     foreach (var indexProperty in indexProperties)
                     {
-                        await tableTransaction.Connection.ExecuteAsync(
-                            $"CREATE UNIQUE INDEX IF NOT EXISTS {tableName}_{indexProperty} on {tableName}({indexProperty});",
-                            transaction: tableTransaction);
+                        if (!allColumns.Any(x => x.name == indexProperty))
+                        {
+                            await conn.ExecuteAsync($"ALTER TABLE {tableName} ADD COLUMN {indexProperty} TEXT GENERATED ALWAYS AS (json_extract(json, '$.{indexProperty}')) VIRTUAL NOT NULL");
+                        }
                     }
 
-                    await tableTransaction.CommitAsync();
+                    foreach (var indexProperty in indexProperties)
+                    {
+                        await conn.ExecuteAsync(
+                            $"CREATE UNIQUE INDEX IF NOT EXISTS {tableName}_{indexProperty} on {tableName}({indexProperty});");
+                    }
 
                     createdTables.Add(tableName);
-                });
+                }
             }
         }
 
