@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Sqlite
 {
-    public class IndexAttribute: Attribute
+    public class NoSqlDocIndexAttribute: Attribute
     {
     }
 
@@ -54,7 +54,7 @@ namespace Metapsi.Sqlite
                     var indexProperties = new List<string>();
                     foreach (var property in typeof(T).GetProperties())
                     {
-                        if (property.CustomAttributes.Any(x => x.AttributeType == typeof(IndexAttribute)))
+                        if (property.CustomAttributes.Any(x => x.AttributeType == typeof(NoSqlDocIndexAttribute)))
                         {
                             indexProperties.Add(property.Name);
                         }
