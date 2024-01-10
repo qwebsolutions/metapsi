@@ -13,6 +13,18 @@ namespace Metapsi.Sqlite
     {
     }
 
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class DocDescriptionAttribute : Attribute
+    {
+        public DocDescriptionAttribute(string summary)
+        {
+        }
+
+        public DocDescriptionAttribute(string summary, int order)
+        {
+        }
+    }
+
     public static class NoSql
     {
         public interface IDocument
