@@ -47,14 +47,22 @@ namespace Metapsi.Sqlite
             public string name { get; set; }
         }
 
-        private static HashSet<string> createdTables = new HashSet<string>();
-
-        public static async Task CreateDocumentTable<T>(string fullDbPath)
+        public static bool TableCreated<T>()
         {
             var tableName = NormalizeTableName(typeof(T).FullName);
 
             // If the table is created don't attempt to create it again
-            if (createdTables.Contains(tableName))
+            return createdTables.Contains(tableName);
+        }
+
+        private static HashSet<string> createdTables = new HashSet<string>();
+
+        public static async Task CreateDocumentTableAsync<T>(string fullDbPath)
+        {
+            var tableName = NormalizeTableName(typeof(T).FullName);
+
+            // If the table is created don't attempt to create it again
+            if (TableCreated<T>())
                 return;
 
             using (SQLiteConnection conn = Sqlite.Db.ToConnection(fullDbPath))
@@ -112,7 +120,7 @@ namespace Metapsi.Sqlite
                     foreach (var indexProperty in indexProperties)
                     {
                         await conn.ExecuteAsync(
-                            $"CREATE UNIQUE INDEX IF NOT EXISTS {tableName}_{indexProperty} on {tableName}({indexProperty});");
+                            $"CREATE INDEX IF NOT EXISTS {tableName}_{indexProperty} on {tableName}({indexProperty});");
                     }
 
                     createdTables.Add(tableName);

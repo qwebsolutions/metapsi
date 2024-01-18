@@ -54,7 +54,7 @@ namespace Metapsi.Sqlite
                     Connection = conn,
                     Transaction = transaction
                 });
-                transaction.Rollback();
+                await transaction.RollbackAsync();
             }
 
             return result;
@@ -71,7 +71,7 @@ namespace Metapsi.Sqlite
                     Connection = conn,
                     Transaction = transaction
                 });
-                transaction.Commit();
+                await transaction.CommitAsync();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Metapsi.Sqlite
                     Connection = conn,
                     Transaction = transaction
                 });
-                transaction.Commit();
+                await transaction.CommitAsync();
 
                 return result;
             }
