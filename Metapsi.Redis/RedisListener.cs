@@ -154,7 +154,12 @@ namespace Metapsi
             return $"{this.Server}:{this.Port}/{this.QueueName}";
         }
 
-        public string RedisUrl => $"{this.Server}:{this.Port}";
+        public string RedisUrl =>
+            new RedisServer()
+            {
+                Server = this.Server,
+                Port = this.Port
+            }.ToString();
     }
 
     public class RedisResource
@@ -211,6 +216,11 @@ namespace Metapsi
             }
 
             return redisServer;
+        }
+
+        public override string ToString()
+        {
+            return $"{Server}:{Port}";
         }
     }
 }
