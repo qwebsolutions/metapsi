@@ -1,11 +1,191 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 
 namespace Metapsi
 {
+    public static class Scalar
+    {
+        /// <summary>
+        /// Types that return the same value when converted to string and back
+        /// </summary>
+        public static List<Type> Types = new List<Type>()
+        {
+            typeof(string),
+            typeof(int),
+            typeof(long),
+            typeof(decimal),
+            typeof(bool),
+            typeof(Guid),
+            typeof(DateTime)
+        };
+
+        public static bool Object(object obj)
+        {
+            var objType = obj.GetType();
+
+            if (objType == typeof(Type))
+            {
+                throw new NotSupportedException($"Types should be checked by using {nameof(Scalar)}.{nameof(Type)}");
+            }
+
+            return Type(objType);
+        }
+
+        public static bool Type(Type type)
+        {
+            if (Types.Contains(type))
+                return true;
+
+            if (type.IsEnum)
+                return true;
+
+            return false;
+        }
+    }
+
     public static class Diff
     {
+        public class Changes
+        {
+            public List<ScalarPropertyDiff> ScalarChanges { get; set; } = new List<ScalarPropertyDiff>();
+            public List<CollectionPropertyDiff> CollectionChanges { get; set; } = new List<CollectionPropertyDiff>();
+
+            public bool None => ScalarChanges.Count == 0 && CollectionChanges.Count == 0;
+        }
+
+        public class ScalarPropertyDiff
+        {
+            public PropertyInfo Property { get; set; }
+            public object FirstValue { get; set; }
+            public object SecondValue { get; set; }
+        }
+
+        public class CollectionPropertyDiff
+        {
+            public PropertyInfo Property { get; set; }
+            public CollectionChanges Changes { get; set; }
+        }
+
+        public class CollectionChanges
+        {
+            // There's no such thing as common but changed
+            // They might represent the same logical object,
+            // but their serialization is different. 
+            // It's basically just in first/just in second VERSIONS of objects
+
+            public List<object> JustInFirst { get; set; } = new List<object>();
+            public List<object> JustInSecond { get; set; } = new List<object>();
+
+            public bool None => JustInFirst.Count == 0 && JustInSecond.Count == 0;
+        }
+
+        public static CollectionChanges Collections(System.Collections.IEnumerable first, System.Collections.IEnumerable second)
+        {
+            Dictionary<string, object> firstAsJson = new Dictionary<string, object>();
+            Dictionary<string, object> secondAsJson = new Dictionary<string, object>();
+
+            foreach (var item in first)
+            {
+                var json = Metapsi.Serialize.ToJson(item);
+                firstAsJson.Add(json, item);
+            }
+
+            foreach (var item in second)
+            {
+                var json = Metapsi.Serialize.ToJson(item);
+                secondAsJson.Add(json, item);
+            }
+
+            CollectionChanges result = new CollectionChanges();
+
+            List<string> firstKeys = firstAsJson.Keys.ToList();
+
+            foreach (var json in firstKeys)
+            {
+                if (secondAsJson.ContainsKey(json))
+                {
+                    //result.Common.Add(firstAsJson[json]);
+                    firstAsJson.Remove(json);
+                    secondAsJson.Remove(json);
+                }
+                else
+                {
+                    result.JustInFirst.Add(firstAsJson[json]);
+                    firstAsJson.Remove(json);
+                }
+            }
+
+            List<string> remainingSecondKeys = secondAsJson.Keys.ToList();
+            foreach (var json in remainingSecondKeys)
+            {
+                if (firstAsJson.ContainsKey(json))
+                {
+                    // Common values should already be removed
+                    throw new Exception("Error in diff");
+                }
+                else
+                {
+                    result.JustInSecond.Add(secondAsJson[json]);
+                }
+            }
+
+            return result;
+        }
+
+        public static Changes Anything<T>(T first, T second)
+        {
+            Changes diff = new Changes();
+
+            var allProperties = typeof(T).GetProperties();
+
+            foreach (var property in allProperties)
+            {
+                if (property.CanWrite)
+                {
+                    var propertyType = property.PropertyType;
+                    if (Scalar.Type(propertyType))
+                    {
+                        var firstValue = property.GetValue(first);
+                        var secondValue = property.GetValue(second);
+
+                        if (firstValue.ToString() != secondValue.ToString())
+                        {
+                            diff.ScalarChanges.Add(new ScalarPropertyDiff()
+                            {
+                                Property = property,
+                                FirstValue = firstValue,
+                                SecondValue = secondValue
+                            });
+                        }
+                    }
+                    else if (property.PropertyType.IsAssignableTo(typeof(System.Collections.IEnumerable)))
+                    {
+                        var firstCollection = property.GetValue(first) as System.Collections.IEnumerable;
+                        var secondCollection = property.GetValue(second) as System.Collections.IEnumerable;
+
+                        var collectionsDiff = Collections(firstCollection, secondCollection);
+                        if (!collectionsDiff.None)
+                        {
+                            diff.CollectionChanges.Add(new CollectionPropertyDiff()
+                            {
+                                Changes = collectionsDiff,
+                                Property = property
+                            });
+                        }
+                    }
+                    else
+                    {
+                        // Not supported
+                    }
+                }
+            }
+
+            return diff;
+        }
+
         public static DataStructureDiff Structures<TDataStructure>(TDataStructure previous, TDataStructure next)
             where TDataStructure: IDataStructure, new()
         {
