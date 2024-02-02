@@ -48,6 +48,92 @@ namespace Metapsi
 
     public static class Diff
     {
+        public class ScalarCollectionChanges<T>
+        {
+            public List<T> JustInFirst { get; set; } = new List<T>();
+            public List<T> JustInSecond { get; set; } = new List<T>();
+            public List<T> Common { get; set; } = new List<T>();
+        }
+
+        public static ScalarCollectionChanges<T> ScalarCollections<T>(IEnumerable<T> first, IEnumerable<T> second)
+        {
+            ScalarCollectionChanges<T> changes = new ScalarCollectionChanges<T>()
+            {
+                JustInFirst = first.Except(second).ToList(),
+                JustInSecond = second.Except(first).ToList(),
+                Common = first.Intersect(second).ToList()
+            };
+
+            return changes;
+        }
+
+        public class ItemChange<TItem>
+        {
+            public TItem InFirst { get; set; }
+            public TItem InSecond { get; set; }
+        }
+
+        public class CollectionChanges<T>
+        {
+            public List<T> JustInFirst { get; set; } = new List<T>();
+            public List<T> JustInSecond { get;set; } = new List<T>();
+            public List<T> Common { get; set; } = new List<T>();
+            public List<ItemChange<T>> Different { get; set; }= new List<ItemChange<T>>();
+        }
+
+        public static bool Any<T>(this CollectionChanges<T> changes)
+        {
+            if (changes.JustInFirst.Any())
+                return true;
+
+            if (changes.JustInSecond.Any())
+                return true;
+
+            if(changes.Different.Any()) 
+                return true;
+
+            return false;
+        }
+
+        public static CollectionChanges<TItem> CollectionsByKey<TItem, TKey>(IEnumerable<TItem> first, IEnumerable<TItem> second, Func<TItem, TKey> byKey)
+        {
+            var firstKeys = first.Select(byKey);
+            var secondKeys = second.Select(byKey);
+
+            var keysDiff = ScalarCollections(firstKeys, secondKeys);
+
+            CollectionChanges<TItem> result = new CollectionChanges<TItem>()
+            {
+                JustInFirst = first.Where(x => keysDiff.JustInFirst.Contains(byKey(x))).ToList(),
+                JustInSecond = second.Where(x => keysDiff.JustInSecond.Contains(byKey(x))).ToList(),
+            };
+
+            foreach (var commonKey in keysDiff.Common)
+            {
+                var firstItem = first.Single(x => commonKey.Equals(byKey(x)));
+                var secondItem = second.Single(x => commonKey.Equals(byKey(x)));
+
+                var firstJson = Metapsi.Serialize.ToJson(firstItem);
+                var secondJson = Metapsi.Serialize.ToJson(secondItem);
+
+                if (firstJson == secondJson)
+                {
+                    result.Common.Add(firstItem);
+                }
+                else
+                {
+                    result.Different.Add(new ItemChange<TItem>()
+                    {
+                        InFirst = firstItem,
+                        InSecond = secondItem,
+                    });
+                }
+            }
+
+            return result;
+        }
+
+
         public class Changes
         {
             public List<ScalarPropertyDiff> ScalarChanges { get; set; } = new List<ScalarPropertyDiff>();
