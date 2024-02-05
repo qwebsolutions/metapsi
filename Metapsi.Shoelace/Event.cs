@@ -50,6 +50,21 @@ public static class EventExtensions
     }
 
 
+    public static void OnSlClickAction<TState>(
+        this PropsBuilder b,
+        Var<DynamicObject> props,
+        Var<HyperType.Action<TState>> onClick)
+    {
+        var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+        {
+            // It does not stop propagation so component events work correctly
+            return onClick;
+        });
+
+        b.SetDynamic(props, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
+    }
+
+
     public static void OnSlInput<TModel>(
         this PropsBuilder b,
         Var<DynamicObject> props,
