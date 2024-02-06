@@ -14,7 +14,6 @@ namespace Metapsi.Hyperapp
         public static Var<T> LocalStorageGetItem<T>(SyntaxBuilder b, Var<string> key)
         {
             var json = b.CallExternal<string>(nameof(LocalStorage), "GetItem", key);
-            b.Log(json);
             return b.Deserialize<T>(json);
         }
 

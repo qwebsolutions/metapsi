@@ -58,7 +58,6 @@ public static class SlAwaitWhenDefinedScriptExtensions
 
     public static void SlAwaitWhenUpdated(this SyntaxBuilder b, Var<string> controlId, Action<SyntaxBuilder> action)
     {
-        b.Log(controlId);
         var domControl = b.GetElementById(controlId);
         b.CallExternal("Metapsi.Shoelace", "WhenUpdateComplete", domControl, b.Def(action));
     }

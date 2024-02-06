@@ -134,14 +134,8 @@ namespace Metapsi.Hyperapp
             var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
             {
                 b.StopPropagation(@event);
-
-                b.Log("click event", @event);
-
                 var target = b.Get(@event, x => x.target);
                 var value = b.GetDynamic(target, new DynamicProperty<TPayload>("value"));
-
-                b.Log("click payload", value);
-
                 return b.MakeActionDescriptor<TState, TPayload>(onClick, value);
             });
 

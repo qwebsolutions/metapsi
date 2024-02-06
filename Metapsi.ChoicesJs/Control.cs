@@ -64,8 +64,8 @@ public class Props
     public bool shouldSortItems { get; set; } = false;
     // sorter
     public bool placeholder { get; set; } = true;
-    public string placeholderValue { get; set; } = null;
-    public string searchPlaceholderValue { get; set; } = null;
+    public string placeholderValue { get; set; } = "Not selected";
+    public string searchPlaceholderValue { get; set; } = "Search...";
     public string prependValue { get; set; } = null;
     public string appendValue { get; set; } = null;
     public string renderSelectedChoices { get; set; } = "auto"; // auto/always
@@ -108,11 +108,30 @@ public static class Control
         return node;
     }
 
-    public static Var<HyperNode> ChoicesSelectOne(this LayoutBuilder b, Var<Props> props)
+    public static Var<HyperNode> ChoicesSelectOne(
+        this LayoutBuilder b, 
+        Var<Props> props)
     {
         b.AddStaticFiles();
         var node = b.Node("metapsi-choices-select-one");
         b.SetControlProps(node, props);
+        return node;
+    }
+
+    public static Var<IVNode> ChoicesSelectOneWebComponent(
+        this LayoutBuilder b,
+        Var<Props> choicesProps,
+        Var<List<Choice>> choices)
+    {
+        b.AddStaticFiles();
+        var node = b.H(
+            "metapsi-choices-select-one",
+            (b, props) =>
+            {
+                b.SetDynamic(props, new DynamicProperty<List<Choice>>("options"), choices);
+                b.Comment("ChoicesSelectOneWebComponent:props");
+                b.SetDynamic(props, new DynamicProperty<Props>("props"), choicesProps);
+            });
         return node;
     }
 
@@ -132,7 +151,7 @@ public static class Control
         Var<System.Func<TItem, string>> labelProp,
         Var<TId> selectedId)
     {
-        return b.Map(items, (b, item) =>
+        var choices = b.Map(items, (b, item) =>
         {
             var value = b.AsString(b.Call(valueProp, item));
             var label = b.AsString(b.Call(labelProp, item));
@@ -142,7 +161,7 @@ public static class Control
                 b.Set(x => x.value, value);
                 b.Set(x => x.label, label);
             });
-
+            b.Log("Choices selected id", selectedId);
             if (selectedId != null)
             {
                 b.If(
@@ -155,6 +174,19 @@ public static class Control
 
             return choice;
         });
+
+        //var outList = b.NewCollection<Choice>();
+        //var placeholder = b.NewObj<Choice>(b =>
+        //{
+        //    b.Set(x => x.value, b.Const(""));
+        //    b.Set(x => x.label, b.Const("Not selected"));
+        //});
+
+        //b.SetDynamic(placeholder, DynamicProperty.Bool("placeholder"), b.Const(true));
+
+        //b.Push(outList, placeholder);
+        //b.Foreach(choices, (b, item) => b.Push(outList, item));
+        return choices;
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
@@ -164,7 +196,7 @@ public static class Control
         System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
         Var<TId> selectedId = null)
     {
-        return b.Map(items, (b, item) =>
+        var choices = b.Map(items, (b, item) =>
         {
             var value = b.AsString(b.Get(item, valueProp));
             var label = b.AsString(b.Get(item, labelProp));
@@ -187,6 +219,17 @@ public static class Control
 
             return choice;
         });
+
+        //var outList = b.NewCollection<Choice>();
+        //b.Push(
+        //    outList,
+        //    b.NewObj<Choice>(b =>
+        //    {
+        //        b.Set(x => x.value, b.Const(""));
+        //        b.Set(x => x.label, b.Const("Not selected"));
+        //    }));
+        //b.Foreach(choices, (b, item) => b.Push(outList, item));
+        return choices;
     }
 
     public static Var<List<Choice>> MapChoices<TItem>(

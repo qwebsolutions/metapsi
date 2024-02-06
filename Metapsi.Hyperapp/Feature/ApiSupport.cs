@@ -46,7 +46,6 @@ namespace Metapsi.Hyperapp
                         {
                             var apiSupport = b.Get(state, x => x.ApiSupport);
                             b.Set(apiSupport, x => x.ErrorMessage, b.Const("It seems there was an error. Try again, please"));
-                            b.Log(b.Get(result, x => x.ErrorMessage));
 
                             return b.MakeActionDescriptor(
                                 b.MakeAction(

@@ -34,7 +34,6 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
                         b.Const("sharedStateUpdate"),
                         b.MakeAction((SyntaxBuilder b, Var<TDataModel> oldModel, Var<TDataModel> newModel) =>
                         {
-                            b.Log("Subscription");
                             return newModel;
                         }));
                 });

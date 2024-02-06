@@ -46,13 +46,10 @@ namespace Metapsi.Hyperapp
 
             var entry = b.Get(varsGroup, key, (varsGroup, key) => varsGroup.SingleOrDefault(x => x.Key == key));
 
-            b.Log("value", value);
-
             b.If(
                 b.HasObject(entry),
                 b =>
                 {
-                    b.Log("Set entry value", value.As<object>());
                     b.Set(entry, x => x.Value, value.As<object>());
                 },
                 b =>
@@ -64,7 +61,6 @@ namespace Metapsi.Hyperapp
                             b.Set(x => x.Value, value);
                         });
                     b.Push(varsGroup, newVar);
-                    b.Log(newVar);
                 });
         }
 
@@ -86,16 +82,13 @@ namespace Metapsi.Hyperapp
                 b =>
                 {
                     var varsGroup = b.GetDynamic(clientVars, new DynamicProperty<List<UiVar>>(group));
-                    b.Log("varsGroup", varsGroup);
                     return b.If(
                         b.Not(
                             b.HasObject(varsGroup)),
                         b => defaultValue,
                         b =>
                         {
-                            b.Log("key", key);
                             var entry = b.Get(varsGroup, key, (varsGroup, key) => varsGroup.SingleOrDefault(x => x.Key == key));
-                            b.Log("entry", entry);
 
                             return b.If(
                                 b.Not(

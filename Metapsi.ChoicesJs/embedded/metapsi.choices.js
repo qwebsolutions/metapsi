@@ -1,8 +1,7 @@
-import { TakeProps, propsStore } from "/Metapsi.PropsStore.js";
-
 class ChoicesCustomElement extends HTMLElement {
-    choices;
-    props;
+    _choices;
+    _props;
+    _options;
 
     createInput() { return null; }
 
@@ -17,50 +16,39 @@ class ChoicesCustomElement extends HTMLElement {
         container.appendChild(js);
     }
 
-    //createChoices() { // Shadow DOM does not work with Choices.js
-
-    //    var shadowDom = this.attachShadow({ mode: 'open' });
-    //    this.addShadowCss(shadowDom);
-    //    var inputControl = this.createInput();
-    //    shadowDom.appendChild(inputControl);
-    //    return new Choices(inputControl, this.props);
-    //}
-
-    createChoices() { // direct
+    refreshChoices() { // direct
+        if (this._choices) {
+            var passedInput = this._choices.passedElement.element;
+            this._choices.destroy();
+            this.removeChild(passedInput);
+        }
         var inputControl = this.createInput();
         this.appendChild(inputControl);
-        return new Choices(inputControl, this.props);
+        this._choices = new Choices(inputControl, this._props);
+        console.log("refreshChoices", this._options);
     }
 
     connectedCallback() {
-        this.choices = this.createChoices();
+        this.refreshChoices();
     }
 
     disconnectedCallback() {
-        if (this.choices)
-            this.choices.destroy();
+        if (this._choices)
+            this._choices.destroy();
     }
 
-    set id(value) {
-        this.setAttribute("id", value);
-        this.props = TakeProps(value);
-        if (this.choices) {
-            this.choices.setChoices(this.props.choices, 'value', 'label', true);
+    //static get observedAttributes() {
+    //    return ["options"];
+    //}
 
-            var allValues = this.props.choices.map((x) => x.value);
-            var activeValues = this.choices.getValue(true);
-            if (Array.isArray(activeValues)) {
-                activeValues.forEach((v) => {
-                    if (!allValues.includes(v)) {
-                        this.choices.removeActiveItemsByValue(v);
-                    }
-                });
-            }
-            else {
-                if (!allValues.includes(activeValues)) {
-                    this.choices.removeActiveItemsByValue(activeValues);
-                }
-            }
+    set props(value) {
+        this._props = value;
+    }
+
+    set options(value) {
+        if (JSON.stringify(value) != JSON.stringify(this._options)) {
+            this._options = value;
+            this.refreshChoices();
         }
     }
 }
@@ -74,7 +62,28 @@ window.customElements.define(
 window.customElements.define(
     'metapsi-choices-select-one',
     class extends ChoicesCustomElement {
-        createInput() { return document.createElement("select")  }
+        createInput() {
+            var select = document.createElement("select")
+            var placeholderOption = document.createElement("option");
+            placeholderOption.setAttribute("value", "")
+            //placeholderOption.setAttribute("placeholder", "");
+            placeholderOption.appendChild(document.createTextNode("Not selected"));
+            if (!this._options.some((x => x.selected))) {
+                placeholderOption.setAttribute("selected", true);
+            }
+            select.appendChild(placeholderOption)
+
+            this._options.forEach((input) => {
+                var option = document.createElement("option");
+                option.setAttribute("value", input.value)
+                if (input.selected) {
+                    option.setAttribute("selected", input.selected)
+                }
+                option.appendChild(document.createTextNode(input.label));
+                select.appendChild(option)
+            });
+            return select;
+        }
     });
 
 window.customElements.define(
@@ -88,3 +97,20 @@ window.customElements.define(
     });
 
 export const GetValue = (c) => c.getValue(true);
+
+//const highlightOnShowDropdown = (choices) => {
+//    choices.passedElement.element.addEventListener('showDropdown', () => {
+//        const selected = choices.getValue()
+//        if (typeof selected === 'string' || Array.isArray(selected)) {
+//            return
+//        }
+
+//        const selectedEl = choices.dropdown.element.querySelector < HTMLElement > (`[data-value="${selected.value}"]`)
+//        if (selectedEl === null) {
+//            return
+//        }
+
+//        //choices.highlightAll();
+//        choices._highlightChoice(selectedEl)
+//    })
+//}
