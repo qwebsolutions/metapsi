@@ -1,5 +1,6 @@
 ﻿using Metapsi.Syntax;
 using Metapsi.Ui;
+using System;
 using System.Linq;
 
 namespace Metapsi.Hyperapp
@@ -14,7 +15,15 @@ namespace Metapsi.Hyperapp
 
         public override void FillHtml(TDataModel dataModel, DocumentTag document)
         {
-            var module = new ModuleBuilder().BuildHyperapp<TDataModel>(this.OnRender, this.OnInit, GetMountDivId());
+            var module = new ModuleBuilder().BuildHyperapp<TDataModel>(
+                (b, clientModel)=>
+                {
+                    Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> renderFunc = this.OnRender;
+                    b.AddModuleStylesheet(renderFunc.Method.DeclaringType.Assembly);
+                    return b.Call(this.OnRender, clientModel);
+                },
+                this.OnInit, 
+                GetMountDivId());
 
             var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 

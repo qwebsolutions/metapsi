@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
@@ -543,7 +544,12 @@ namespace Metapsi.Hyperapp
         {
             var assembly = System.Reflection.Assembly.GetCallingAssembly();
             var cssName = $"{assembly.GetName().Name}.css";
+            b.AddStylesheet(cssName);
+        }
 
+        public static void AddModuleStylesheet(this LayoutBuilder b, Assembly assembly)
+        {
+            var cssName = $"{assembly.GetName().Name}.css";
             b.AddStylesheet(cssName);
         }
 
