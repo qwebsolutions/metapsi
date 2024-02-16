@@ -194,7 +194,7 @@ public static class Control
         Var<List<TItem>> items,
         System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
         System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
-        Var<TId> selectedId = null)
+        Var<TId> selectedId)
     {
         var choices = b.Map(items, (b, item) =>
         {
@@ -237,24 +237,10 @@ public static class Control
             Var<List<TItem>> items,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> valueProp,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
-            Var<string> selectedId = null)
+            Var<string> selectedId)
     {
         return b.MapChoices<TItem, string>(items, valueProp, labelProp, selectedId);
     }
-
-    public static void SetSelectedChoice<TValue>(this SyntaxBuilder b, Var<List<Choice>> choices, Var<TValue> selectedValue)
-    {
-        b.Foreach(choices, (b, choice) =>
-        {
-            b.If(b.AreEqual(b.AsString(selectedValue), b.Get(choice, x => x.value)),
-                b =>
-                {
-                    b.Set(choice, x => x.selected, b.Const(true));
-                });
-        });
-    }
-
-    
 
     private static void AddStaticFiles(this LayoutBuilder b)
     {

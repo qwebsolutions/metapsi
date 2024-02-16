@@ -68,22 +68,4 @@ public static class Event
             return b.Clone(state);
         }));
     }
-
-    public static void SingleBindTo<TState, TItem, TId>(
-        this LayoutBuilder b, 
-        Var<HyperNode> control, 
-        Var<Func<TState, TItem>> getItem,
-        System.Linq.Expressions.Expression<Func<TItem, TId>> singleValue)
-    {
-        SetOnChange(b, control, b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<string> selectedValue) =>
-        {
-            var container = b.GetElementById(b.GetAttr(control, Html.id));
-            var choicesControl = b.GetDynamic(container.As<DynamicObject>(), new DynamicProperty<DynamicObject>("choices"));
-            var value = b.CallExternal<string>("metapsi.choices", "GetValue", choicesControl);
-            var item = b.Call(getItem, state);
-            b.Set(item, singleValue, b.ParseScalar<TId>(value));
-
-            return b.Clone(state);
-        }));
-    }
 }
