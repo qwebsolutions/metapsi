@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Description>Pass messages between Metapsi services using Redis</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Redis\Metapsi.Redis.csproj" />
+		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
+	</ItemGroup>
+	
+</Project>
