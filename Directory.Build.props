@@ -2,6 +2,7 @@
 <Project>
     <PropertyGroup>
 		<Company>qwebsolutions.eu</Company>
+		<Owners>qwebsolutions.eu</Owners>
 		<Authors>qwebsolutions.eu</Authors>
         <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
