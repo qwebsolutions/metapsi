@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<OutputType>Library</OutputType>
+		<Description>Defines abstract logic in C# that can be converted to other programming languages on demand (JavaScript, for now). This is the base package for building client-side web pages with Metapsi</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

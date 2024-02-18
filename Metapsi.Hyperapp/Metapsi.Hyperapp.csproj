@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
+		<Description>Build client-side applications with the Hyperapp framework (https://github.com/jorgebucaran/hyperapp)</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

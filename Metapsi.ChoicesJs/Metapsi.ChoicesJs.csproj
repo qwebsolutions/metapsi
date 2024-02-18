@@ -1,17 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Description>Use Choices.js as web component (https://github.com/Choices-js/Choices)</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <EmbeddedResource Include="embedded\choices.min.js" LogicalName="choices.min.js" />
-	  <EmbeddedResource Include="embedded\choices.min.css" LogicalName="choices.min.css" />
-	  <EmbeddedResource Include="embedded\metapsi.choices.js" LogicalName="metapsi.choices.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\choices.min.js" LogicalName="choices.min.js" />
+		<EmbeddedResource Include="embedded\choices.min.css" LogicalName="choices.min.css" />
+		<EmbeddedResource Include="embedded\metapsi.choices.js" LogicalName="metapsi.choices.js" />
+	</ItemGroup>
 
 </Project>

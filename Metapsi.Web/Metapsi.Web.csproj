@@ -4,6 +4,7 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>true</IsPackable>
+		<Description>Instantiates Metapsi.Runtime-aware web servers. Allows using CommandContext and embedded resources</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

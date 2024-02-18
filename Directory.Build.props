@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <PropertyGroup>
+		<Company>qwebsolutions.eu</Company>
+		<Authors>qwebsolutions.eu</Authors>
+        <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>

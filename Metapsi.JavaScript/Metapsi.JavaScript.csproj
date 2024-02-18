@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+	  <Description>Generates JavaScript from Metapsi.Module logic</Description>
   </PropertyGroup>
 
   <ItemGroup>

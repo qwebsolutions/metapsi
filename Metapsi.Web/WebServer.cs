@@ -104,6 +104,22 @@ namespace Metapsi
                 WebRootPaths.Add(webRootPath);
             }
 
+            //TODO: This should now be default
+            builder.Services.AddCors(b =>
+            {
+                b.AddPolicy("allow-everything", b =>
+                {
+                    b.AllowAnyHeader();
+                    b.AllowAnyMethod();
+                    b.AllowAnyOrigin();
+                });
+            });
+
+            builder.Host.ConfigureHostOptions(options =>
+            {
+                options.ShutdownTimeout = TimeSpan.FromSeconds(30);
+            });
+
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();
             builder.Services.AddEndpointsApiExplorer();
@@ -120,6 +136,8 @@ namespace Metapsi
                 buildServices(builder);
 
             var app = builder.Build();
+
+            app.UseCors("allow-everything");
 
             app.Use(async (context, next) =>
             {
@@ -224,6 +242,7 @@ namespace Metapsi
             app.UseHttpLogging();
 
             MapServerAction(app.MapGroup("api"));
+
 
             if (buildApp != null)
                 buildApp(app);
@@ -475,18 +494,25 @@ namespace Metapsi
 
         public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
         {
+            // Auto register static files of renderer method assembly
+            if (builder.Method.DeclaringType != null)
+            {
+                references.RegisterStaticFiles(builder.Method.DeclaringType.Assembly);
+            }
             references.Renderers[typeof(TModel)] = builder;
         }
 
         public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
             where TRenderer : IPageTemplate<TModel>, new()
         {
+            references.RegisterStaticFiles(typeof(TRenderer).Assembly);
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
         }
 
         public static void RegisterRenderer<TModel, TRenderer>(this References references)
             where TRenderer : IPageTemplate<TModel>, new()
         {
+            references.RegisterStaticFiles(typeof(TRenderer).Assembly);
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
         }
 
