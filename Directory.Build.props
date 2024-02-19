@@ -6,5 +6,6 @@
 		<Authors>qwebsolutions.eu</Authors>
         <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://metapsi.dev</PackageProjectUrl>
     </PropertyGroup>
 </Project>
