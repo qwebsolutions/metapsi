@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>true</IsPackable>
-		<Description>Use Shoelace in both server-side and client-side generated web pages (https://shoelace.style)</Description>
+		<Description>Use Shoelace with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

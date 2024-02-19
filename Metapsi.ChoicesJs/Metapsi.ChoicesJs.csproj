@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Description>Use Choices.js as web component (https://github.com/Choices-js/Choices)</Description>
+		<Description>Use Choices.js as web component in Metapsi apps (https://github.com/Choices-js/Choices)</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
