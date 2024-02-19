@@ -427,5 +427,49 @@ namespace Metapsi.Syntax
         {
             return b.CallExternal<char>(ModuleName, nameof(CharToLowerCase), c);
         }
+
+        public static Var<bool> CharIsUpperCase(this SyntaxBuilder b, Var<char> c)
+        {
+            var isUpperCase = b.AreEqual(b.CharToUpperCase(c), c);
+            var hasUpperCase = b.Not(b.AreEqual(b.CharToLowerCase(c), c));
+
+            var result = b.And(isUpperCase, hasUpperCase);
+            return result;
+        }
+
+        public static Var<List<string>> SplitOnUppercase(this SyntaxBuilder b, Var<string> text)
+        {
+            var outStrings = b.NewCollection<string>();
+            var currentString = b.Ref(b.NewCollection<char>());
+
+            b.Foreach(b.Chars(text), (b, c) =>
+            {
+                b.If(b.CharIsUpperCase(c),
+                    b =>
+                    {
+                        var joined = b.JoinChars(b.GetRef(currentString));
+                        b.If(
+                            b.Get(b.StringLength(joined), x => x > 0),
+                            b =>
+                            {
+                                b.Push(outStrings, joined);
+                            });
+                        b.SetRef(currentString, b.NewCollection<char>());
+                    });
+
+                b.Push(b.GetRef(currentString), c);
+            });
+
+            b.Push(outStrings, b.JoinChars(b.GetRef(currentString)));
+
+            return outStrings;
+        }
+
+        public static Var<string> FormatLabel(this SyntaxBuilder b, Var<string> fieldName)
+        {
+            var split = b.SplitOnUppercase(fieldName);
+            var label = b.JoinStrings(b.Const(" "), split);
+            return label;
+        }
     }
 }

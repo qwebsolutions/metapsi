@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\mds\MdsCommon.Controls\MdsCommon.Controls.csproj" />
+		<ProjectReference Include="..\Metapsi.Heroicons\Metapsi.Heroicons.csproj" />
+		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
+		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
+		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\Metapsi.ServiceDoc.css" LogicalName="Metapsi.ServiceDoc.css" />
+	</ItemGroup>
+
+</Project>
