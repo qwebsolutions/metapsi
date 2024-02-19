@@ -18,7 +18,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
 		<ProjectReference Include="..\Metapsi.Ui\Metapsi.Ui.csproj" />
-		<ProjectReference Include="..\Metapsi.Web.DataModel\Metapsi.Web.DataModel.csproj" />
+		<ProjectReference Include="..\Metapsi.Web.Contracts\Metapsi.Web.Contracts.csproj" />
 	</ItemGroup>
 
 </Project>

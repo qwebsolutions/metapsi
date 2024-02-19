@@ -16,13 +16,13 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.6.0" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
 		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
 		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
 		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\Metapsi.Tutorial.js" LogicalName="metapsi.tutorial.js"></EmbeddedResource>
