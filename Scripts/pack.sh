@@ -1,12 +1,19 @@
 #!/bin/sh
 
+if [ -z "$1" ]
+then
+    echo 'Version not specified'
+    exit 1
+else
+    echo 'Packing version '$1
+fi
+
 REPO_URL=$(git config --get remote.origin.url)
 REPO_BRANCH=$(git branch --show-current)
 REPO_COMMIT=$(git rev-parse HEAD)
 
 rm ./nugets -r
-version=1.7.0
-#version="$(date +"%Y.%m.%d%H%M")"
+version=$1
 outputFolder=nugets
 echo "Output folder: $outputFolder"
 echo "Version: $version"
