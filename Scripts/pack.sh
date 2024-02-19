@@ -12,7 +12,7 @@ REPO_URL=$(git config --get remote.origin.url)
 REPO_BRANCH=$(git branch --show-current)
 REPO_COMMIT=$(git rev-parse HEAD)
 
-rm ./nugets -r
+rm ./nugets -rf
 version=$1
 outputFolder=nugets
 echo "Output folder: $outputFolder"
