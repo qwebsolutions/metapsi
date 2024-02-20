@@ -28,6 +28,23 @@ public enum Editor
     CodeMirror
 }
 
+public class SandboxSample
+{
+    public string CSharpModel { get; set; } = " "; // because model is not always mandatory & code sample span collapses if there is no text
+    public string CSharpCode { get; set; } = string.Empty; // because code is always mandatory & compile button is disabled if there's none
+    public string JsonModel { get; set; } = "{}";
+}
+
+public class CompileResponse : ApiResponse
+{
+    public string ResultHtml { get; set; }
+}
+
+public static class SandboxApi
+{
+    public static Request<CompileResponse, SandboxSample> CompileSample { get; set; } = new(nameof(CompileSample));
+}
+
 public static partial class Control
 {
     public static Var<HyperNode> CodeEditor(this LayoutBuilder b, Editor editor, Var<EditorProps> props)
@@ -82,20 +99,21 @@ public static partial class Control
     {
         return b.MakeAction((SyntaxBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
         {
-            return b.AsyncResult(
+            return b.MakeStateWithEffects(
                 b.Clone(_),
-                (SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
-                {
-                    b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
+                b.MakeEffect<SandboxModel>(
+                    b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
                     {
-                        var resetModel = b.NewObj<SandboxModel>();
-                        b.Set(resetModel, x => x.CodeSample, newSample);
-                        b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> prevState) =>
+                        b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
                         {
-                            return resetModel;
+                            var resetModel = b.NewObj<SandboxModel>();
+                            b.Set(resetModel, x => x.CodeSample, newSample);
+                            b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> prevState) =>
+                            {
+                                return resetModel;
+                            }));
                         }));
-                    }));
-                });
+                    })));
         });
     }
 
@@ -179,10 +197,10 @@ public static partial class Control
         Var<HyperNode> control,
         Var<HyperType.Action<TState, string>> onEdit)
     {
-        var editEvent = b.MakeAction<TState, CustomEvent<string>, string>((SyntaxBuilder b, Var<TState> state, Var<CustomEvent<string>> @event) =>
+        var editEvent = b.MakeAction<TState, CustomEvent<string>>((SyntaxBuilder b, Var<TState> state, Var<CustomEvent<string>> @event) =>
         {
             b.StopPropagation(@event);
-            return b.MakeActionDescriptor<TState, string>(onEdit, b.Get(@event, x=>x.detail));
+            return b.MakeActionDescriptor(onEdit, b.Get(@event, x=>x.detail));
         });
 
         b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, CustomEvent<string>>>("oneditor-change"), editEvent);
@@ -201,7 +219,7 @@ public static partial class Control
         }));
     }
 
-    public static Var<HyperNode> Sandbox(LayoutBuilder b, Editor editor, Var<SandboxModel> clientModel)
+    public static Var<IVNode> Sandbox(LayoutBuilder b, Editor editor, Var<SandboxModel> clientModel)
     {
         Var<CodeSample> liveSample = b.Get(clientModel, (SandboxModel x) => x.CodeSample);
         Var<HyperNode> container = b.Div("flex flex-col gap-2 bg-gray-50 rounded p-2");
@@ -269,11 +287,38 @@ public static partial class Control
         b.Set(compileButtonProps, (Button x) => x.Loading, b.Get(clientModel, (SandboxModel x) => x.ApiSupport.InProgress));
         b.Set(compileButtonProps, (Button x) => x.Disabled, b.Not(b.HasValue(b.Get(liveSample, (CodeSample x) => x.CSharpCode))));
         Var<HyperNode> compile = b.Add(container, b.Button(compileButtonProps));
-        b.SetOnClick(compile, b.MakeServerAction(clientModel, Compile));
+        b.SetOnClick(compile, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model) =>
+        {
+            b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(true));
+
+            var sample = b.NewObj<SandboxSample>();
+            b.Set(sample, x => x.JsonModel, b.Get(model, x => x.CodeSample.JsonModel));
+            b.Set(sample, x => x.CSharpModel, b.Get(model, x => x.CodeSample.CSharpModel));
+            b.Set(sample, x => x.CSharpCode, b.Get(model, x => x.CodeSample.CSharpCode));
+
+            return b.MakeStateWithEffects(
+                b.Clone(model),
+                b.CallApiEffect(
+                    SandboxApi.CompileSample,
+                    sample,
+                    b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<CompileResponse> response) =>
+                    {
+                        b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(false));
+                        b.Set(model, x => x.ResultHtml, b.Get(response, x => x.ResultHtml));
+                        return b.Clone(model);
+                    }),
+                    b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<ApiError> error) =>
+                    {
+                        b.Log(b.Get(error, x => x.ErrorMessage));
+                        b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(false));
+                        b.Set(model, x => x.ResultHtml, b.Const("Compile error"));
+                        return b.Clone(model);
+                    })));
+        }));
         Var<HyperNode> iframe = b.Add(container, b.Node("iframe", "w-full h-96 rounded border border-blue-500"));
         b.SetAttr(iframe, Html.id, "output-frame");
         SetOutputHtml(b, b.Get(clientModel, (SandboxModel x) => x.ResultHtml));
-        return container;
+        return container.As<IVNode>();
     }
 
     public static void SetOutputHtml(SyntaxBuilder b, Var<string> content)
@@ -293,7 +338,9 @@ public static partial class Control
 
     public static Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<SandboxModel> model)
     {
-        return b.MakeStateWithEffects(b.Clone(model), b.MakeEffect(b.MakeEffecter<SandboxModel>((b, disp) =>
+        return b.MakeStateWithEffects(b.Clone(model), b.MakeEffect<SandboxModel>(
+            b.Def(
+                (SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> disp) =>
         {
             b.RequestAnimationFrame(
                 b.Def((SyntaxBuilder b) =>
@@ -318,19 +365,20 @@ public static partial class Control
         })));
     }
 
-    public static async Task<SandboxModel> Compile(CommandContext commandContext, SandboxModel model)
+    public static async Task<string> Compile(CommandContext commandContext, SandboxSample sample)
     {
         var workspace = MSBuildWorkspace.Create();
         var sln = await workspace.OpenSolutionAsync(await Arguments.TemplateSlnFullPath());
 
         //var project = workspace.CurrentSolution.AddProject("temp", "temp", "C#");
         //var textDocument = project.AddDocument("Program.cs", "namespace Whatever { public static class Program {public static async Task Main() {Console.WriteLine(\"abc\");}}}");
+        
         var csDoc = sln.Projects.First().Documents.Single(x => x.Name == "Renderer.cs");
         var project = sln.Projects.First().RemoveDocument(csDoc.Id);
         var initialText = await csDoc.GetTextAsync();
         var code = initialText.ToString();
-        code = code.Replace("public class Model { }", $"public class Model {{ {model.CodeSample.CSharpModel} }}");
-        code = code.Replace("return null;", model.CodeSample.CSharpCode);
+        code = code.Replace("public class Model { }", $"public class Model {{ {sample.CSharpModel} }}");
+        code = code.Replace("return null;", sample.CSharpCode);
         csDoc = project.AddDocument(csDoc.Name, code);
 
         var semanticModel = await csDoc.GetSemanticModelAsync();
@@ -348,8 +396,7 @@ public static partial class Control
                 {
                     "This sandbox can only be used for building Metapsi views"
                 });
-                model.ResultHtml = errorHtml;
-                return model;
+                return errorHtml;
             }
         }
 
@@ -368,10 +415,10 @@ public static partial class Control
                 var deserializeModel = rendererType.GetMethods().First(x => x.Name == "DeserializeModel");
 
                 var rendererObject = Activator.CreateInstance(rendererType);
-                var modelObject = deserializeModel.Invoke(rendererObject, new object[] { model.CodeSample.JsonModel });
+                var modelObject = deserializeModel.Invoke(rendererObject, new object[] { sample.JsonModel });
 
                 var html = (string)getHtml.Invoke(rendererObject, new object[] { modelObject });
-                model.ResultHtml = html;
+                return html;
             }
             catch(Exception ex)
             {
@@ -380,21 +427,20 @@ public static partial class Control
                     System.Text.Json.JsonException jsonException = ex.InnerException as System.Text.Json.JsonException;
 
                     var errorHtml = new ErrorPage().Render(new List<string>() { jsonException.Message });
-                    model.ResultHtml = errorHtml;
+                    return errorHtml;
                 }
                 else
                 {
                     var errorHtml = new ErrorPage().Render(new List<string>() { ex.Message });
-                    model.ResultHtml = errorHtml;
+                    return errorHtml;
                 }
             }
         }
         else
         {
             var errorHtml = new ErrorPage().Render(binaries.Errors.Select(x => x.ToString()).ToList());
-            model.ResultHtml = errorHtml;
+            return errorHtml;
         }
-        return model;
     }
 
     public static bool IsDeserialize(SymbolInfo symbolInfo)
@@ -424,24 +470,18 @@ public static partial class Control
 
 public class ErrorPage : HtmlPage<List<string>>
 {
-    public override IHtmlNode GetHtmlTree(List<string> dataModel)
+    public override void FillHtml(List<string> dataModel, DocumentTag document)
     {
-        var document = DocumentTag.Create();
-        var head = document.Head;
-        var body = document.Body;
-
-        var script = head.AddChild(new HtmlTag("link"));
+        var script = document.Head.AddChild(new HtmlTag("link"));
         script.SetAttribute("rel", "stylesheet");
         script.SetAttribute("href", "/metapsi.tutorial.css");
 
         foreach (var error in dataModel)
         {
-            var errorDiv = body.AddChild(new HtmlTag("div"));
+            var errorDiv = document.Body.AddChild(new HtmlTag("div"));
             errorDiv.SetAttribute("class", "text-red-500");
             errorDiv.AddChild(new HtmlText(error));
         }
-
-        return document;
     }
 }
 

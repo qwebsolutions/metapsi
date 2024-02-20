@@ -45,7 +45,7 @@ public static partial class Program
     public static async Task Main()
     {
         MSBuildLocator.RegisterDefaults();
-        Metapsi.Sqlite.Converters.RegisterAll();
+        //Metapsi.Sqlite.Converters.RegisterAll();
 
         var setup = Metapsi.ApplicationSetup.New();
         var arguments = await Arguments.Load();
@@ -79,6 +79,28 @@ public static partial class Program
         });
 
         webServer.WebApplication.UseRewriter(rewriteOptions);
+
+        var api = webServer.WebApplication.MapGroup("api");
+        api.MapRequest(SandboxApi.CompileSample, async (CommandContext commandContext, HttpContext httpContext, SandboxSample sample) =>
+        {
+            try
+            {
+                var resultHtml = await Control.Compile(commandContext, sample);
+                return new CompileResponse()
+                {
+                    ResultHtml = resultHtml
+                };
+            }
+            catch (Exception ex)
+            {
+                return new CompileResponse()
+                {
+                    ErrorMessage = ex.Message,
+                    ResultCode = "Error",
+                    ResultHtml = "Compile error"
+                };
+            }
+        }, WebServer.Authorization.Public);
 
         webServer.WebApplication.MapGet("/codicon.ttf", async (HttpContext context) =>
         {

@@ -24,29 +24,25 @@ public static class Tutorial
 
     public static List<string> LargeBreakpoints = new List<string> { "lg", "xl", "2xl" };
 
-    public static DocumentTag CommonLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static DocumentTag CommonLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
         StyleTag style = StyleTag.Create();
         style.AddSelector("a").AddProperty("--tw-prose-links", "var(--sl-color-blue-600)");
-        DocumentTag documentTag = DocumentTag.Create(pageTitle);
         documentTag.Head.AddModuleStylesheet();
         documentTag.Head.AddChild(style);
         documentTag.Body.AddChild(pageContent);
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
-        documentTag.AttachComponents();
         return documentTag;
     }
 
-    public static DocumentTag LargeLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static DocumentTag LargeLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
-        DocumentTag documentTag = DocumentTag.Create(pageTitle);
         documentTag.AddRedirectMismatchedBreakpoint(LargeBreakpoints);
         documentTag.Head.AddModuleStylesheet();
         documentTag.Body.AddChild(pageContent);
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
-        documentTag.AttachComponents();
         return documentTag;
     }
 
@@ -66,7 +62,7 @@ public static class Tutorial
         return documentTag;
     }
 
-    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<HyperNode>> render = null, Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
+    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render = null, Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
     {
         DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
         defaultInterpolatedStringHandler.AppendLiteral("id_");

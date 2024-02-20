@@ -5,13 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
-    <ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
-    <ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
-    <ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
-    <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
-    <ProjectReference Include="..\Metapsi.Ui\Metapsi.Ui.csproj" />
-    <ProjectReference Include="..\Metapsi.Web.DataModel\Metapsi.Web.DataModel.csproj" />
+    <PackageReference Include="Metapsi.Hyperapp" Version="0.1.3" />
   </ItemGroup>
 
 </Project>

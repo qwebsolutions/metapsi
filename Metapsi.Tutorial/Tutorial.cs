@@ -115,9 +115,9 @@ public class TutorialPage : HtmlPage<TutorialModel>
         return component;
     }
 
-    public override IHtmlNode GetHtmlTree(TutorialModel dataModel)
+    public override void FillHtml(TutorialModel dataModel, DocumentTag document)
     {
-        return dataModel.WithBreakpointProbingPage(delegate (TutorialModel dataModel)
+        document.WithBreakpointProbingPage(dataModel, delegate (TutorialModel dataModel)
         {
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))
             {
@@ -128,16 +128,16 @@ public class TutorialPage : HtmlPage<TutorialModel>
                 }));
                 documentTag.Head.AddStylesheet("prism.css");
                 documentTag.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
-                return documentTag;
+                return;
             }
-            DocumentTag documentTag2 = Tutorial.LargeLayout(dataModel, dataModel.CurrentEntry.Title, HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", Component.Create("sl-split-panel", new SplitPanel
+            else
+            Tutorial.LargeLayout(document, dataModel, dataModel.CurrentEntry.Title, HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", Component.Create("sl-split-panel", new SplitPanel
             {
                 Position = 40,
                 Primary = PrimaryPanel.End
             }, LargeDocsPanel(dataModel), DesktopSandbox()).SetAttribute("class", " w-full h-full")));
-            documentTag2.Head.AddStylesheet("prism.css");
-            documentTag2.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
-            return documentTag2;
+            document.Head.AddStylesheet("prism.css");
+            document.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
         });
     }
 }

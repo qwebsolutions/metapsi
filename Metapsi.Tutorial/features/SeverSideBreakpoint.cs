@@ -110,15 +110,16 @@ public static class ServerSideBreakpointExtensions
 {
     private const string BreakpointCookie = "bp";
 
-    public static DocumentTag BreakpointProbingPage()
+    public static void BreakpointProbingPage(DocumentTag documentTag)
     {
-        DocumentTag documentTag = DocumentTag.Create("Metapsi - Redirecting ...");
+        var titleTag = documentTag.Head.AddChild(new HtmlTag() { Tag = "title" });
+        titleTag.AddText("Metapsi - Redirecting ...");
+
         documentTag.AddJs(delegate (SyntaxBuilder b)
         {
             Var<string> bp = b.AssumeBreakpoint();
             b.RedirectWithBreakpoint(bp);
         });
-        return documentTag;
     }
 
     public static async Task<TModel> WithBreakpointProbing<TModel>(this HttpContext httpContext, Func<TModel, Task> fillModel) where TModel : IServerSideBreakpoint, new()
@@ -137,13 +138,14 @@ public static class ServerSideBreakpointExtensions
         return model;
     }
 
-    public static DocumentTag WithBreakpointProbingPage<TModel>(this TModel model, Func<TModel, DocumentTag> buildPage) where TModel : IServerSideBreakpoint
+    public static void WithBreakpointProbingPage<TModel>(this DocumentTag documentTag, TModel model, Action<TModel> buildPage) where TModel : IServerSideBreakpoint
     {
         if (string.IsNullOrEmpty(model.AssumedBreakpoint))
         {
-            return BreakpointProbingPage();
+            BreakpointProbingPage(documentTag);
+            return;
         }
-        return buildPage(model);
+        buildPage(model);
     }
 
     private static void RedirectWithBreakpoint(this SyntaxBuilder b, Var<string> bp)
