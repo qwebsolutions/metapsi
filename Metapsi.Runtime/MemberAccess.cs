@@ -10,7 +10,7 @@ namespace Metapsi
     {
         private List<MemberExpression> AllMemberExpressions = new List<MemberExpression>();
 
-        [return: NotNullIfNotNull("node")]
+        //[return: NotNullIfNotNull("node")]
         public override Expression Visit(Expression node)
         {
             if (node.NodeType == ExpressionType.MemberAccess)

@@ -247,7 +247,7 @@ namespace Metapsi
                             });
                         }
                     }
-                    else if (property.PropertyType.IsAssignableTo(typeof(System.Collections.IEnumerable)))
+                    else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(property.PropertyType))
                     {
                         var firstCollection = property.GetValue(first) as System.Collections.IEnumerable;
                         var secondCollection = property.GetValue(second) as System.Collections.IEnumerable;
