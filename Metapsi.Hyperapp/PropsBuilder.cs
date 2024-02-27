@@ -9,6 +9,21 @@ namespace Metapsi.Hyperapp
         public PropsBuilder(SyntaxBuilder b) : base(b) { }
     }
 
+    public class PropsBuilder<TProps> : SyntaxBuilder
+        where TProps : new()
+    {
+        public Var<TProps> Props { get; private set; }
+        public PropsBuilder(SyntaxBuilder b) : base(b)
+        {
+            this.Props = b.NewObj<TProps>();
+        }
+
+        public PropsBuilder(SyntaxBuilder b, Var<TProps> props) : base(b)
+        {
+            this.Props = props;
+        }
+    }
+
     public static class PropsBuilderExtensions
     {
         public static Var<DynamicObject> EditProps(this LayoutBuilder b, Var<DynamicObject> props, Action<PropsBuilder, Var<DynamicObject>> action)

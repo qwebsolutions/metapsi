@@ -142,3 +142,23 @@ public static class EventExtensions
         }));
     }
 }
+
+//public partial interface IClientSideSlMenuItem
+//{
+//    public string value { get; set; }
+//}
+
+//public partial class SlMenuItem : IClientSideSlMenuItem
+//{
+//    public string value { get; set; }
+//}
+
+//public partial interface IClientSideSlRadioGroup
+//{
+//    public string value { get; set; }
+//}
+
+//public partial class SlRadioGroup : IClientSideSlRadioGroup
+//{
+//    public string value { get; set; }
+//}

@@ -21,12 +21,12 @@ public static class Import
         b.AddStylesheet(shoelaceVersion.StylesheetUrl);
     }
 
-    public static Var<HyperNode> SlNode(this LayoutBuilder b, string tag)
-    {
-        Import.Shoelace(b);
-        b.Const(new ShoelaceTag(tag));
-        return b.Node(tag);
-    }
+    //public static Var<HyperNode> SlNode(this LayoutBuilder b, string tag)
+    //{
+    //    Import.Shoelace(b);
+    //    b.Const(new ShoelaceTag(tag));
+    //    return b.Node(tag);
+    //}
 
     public static Var<IVNode> SlNode(
         this LayoutBuilder b,
@@ -39,15 +39,49 @@ public static class Import
         return b.H(tag, buildProps, children);
     }
 
-    public static Var<IVNode> SlNode(
+    //public static Var<IVNode> SlNode(
+    //    this LayoutBuilder b,
+    //    string tag,
+    //    Action<PropsBuilder, Var<DynamicObject>> buildProps,
+    //    Var<List<IVNode>> children)
+    //{
+    //    Import.Shoelace(b);
+    //    b.Const(new ShoelaceTag(tag));
+    //    return b.H(tag, buildProps, children);
+    //}
+
+    public static Var<IVNode> SlNode<TProps>(
         this LayoutBuilder b,
         string tag,
-        Action<PropsBuilder, Var<DynamicObject>> buildProps,
+        Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
+        where TProps : new()
     {
         Import.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
-        return b.H(tag, buildProps, children);
+        Action<PropsBuilder, Var<DynamicObject>> dynamicPropsBuilder = (PropsBuilder b, Var<DynamicObject> props) =>
+        {
+            var propsBuilder = new PropsBuilder<TProps>(b, props.As<TProps>());
+            buildProps(propsBuilder);
+        };
+        return b.H(tag, dynamicPropsBuilder, children);
+    }
+
+    public static Var<IVNode> SlNode<TProps>(
+        this LayoutBuilder b,
+        string tag,
+        Action<PropsBuilder<TProps>> buildProps,
+        Var<IVNode>[] children)
+        where TProps : new()
+    {
+        Import.Shoelace(b);
+        b.Const(new ShoelaceTag(tag));
+        Action<PropsBuilder, Var<DynamicObject>> dynamicPropsBuilder = (PropsBuilder b, Var<DynamicObject> props) =>
+        {
+            var propsBuilder = new PropsBuilder<TProps>(b, props.As<TProps>());
+            buildProps(propsBuilder);
+        };
+        return b.H(tag, dynamicPropsBuilder, children);
     }
 
     public class ShoelaceVersion
