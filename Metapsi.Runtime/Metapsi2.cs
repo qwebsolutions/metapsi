@@ -71,6 +71,11 @@ namespace Metapsi
         public Command(string name) : base(name, ExternalOperationType.CommandOperation) { }
     }
 
+    public class Command<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> : ExternalOperation
+    {
+        public Command(string name) : base(name, ExternalOperationType.CommandOperation) { }
+    }
+
     public class Request<TResult> : ExternalOperation
     {
         public Request(string name) : base(name, ExternalOperationType.RequestOperation) { }

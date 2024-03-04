@@ -52,6 +52,11 @@ namespace Metapsi
             return MapInternal(command, implementation.Method, implementation.Target);
         }
 
+        public ExternalOperationMapping MapCommand<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(
+            Command<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> command, Func<CommandRoutingContext, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task> implementation)
+        {
+            return MapInternal(command, implementation.Method, implementation.Target);
+        }
 
         public ExternalOperationMapping MapRequest<TResult>(
             Request<TResult> request, Func<RequestRoutingContext, Task<TResult>> implementation)

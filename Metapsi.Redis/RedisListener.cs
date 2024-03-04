@@ -43,8 +43,10 @@ namespace Metapsi
             redisConnection.ConnectionFailed += (s, e) => { commandContext.Logger.LogInfo($"Redis connection failed to channel {redisChannel.RedisUrl}"); };
             redisConnection.ConnectionRestored += (s, e) => { commandContext.Logger.LogInfo($"Redis connection restored to channel {redisChannel.RedisUrl}"); };
             var subscriber = redisConnection.GetSubscriber();
-            await subscriber.SubscribeAsync(redisChannel.ChannelName, async (channel, message) =>
+            var queue = await subscriber.SubscribeAsync(redisChannel.ChannelName);
+            queue.OnMessage((channelMessage) =>
             {
+                var message = channelMessage.Message;
                 if (!state.IsShuttingDown)
                 {
                     string messageValue = string.Empty;

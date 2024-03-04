@@ -613,11 +613,11 @@ namespace Metapsi
                 var transaction = conn.BeginTransaction();
 
                 var commands = await conn.QueryAsync<CommandEntry>("select * from Command where Processed = 0 order by id asc", transaction: transaction);
-                Console.WriteLine($"Found {commands.Count()} commands");
+                //Console.WriteLine($"Found {commands.Count()} commands");
 
                 foreach(CommandEntry commandEntry in commands)
                 {
-                    commandContext.Logger.LogInfo($"Found command: {commandEntry.CommandDataType} {commandEntry.CommandData}");
+                    //commandContext.Logger.LogInfo($"Found command: {commandEntry.CommandDataType} {commandEntry.CommandData}");
                     switch(commandEntry.CommandDataType)
                     {
                         case nameof(Shutdown):
@@ -628,7 +628,7 @@ namespace Metapsi
                     }
 
                     int updatedRows = await conn.ExecuteAsync("update Command set Processed = 1 where Id = @Id", commandEntry, transaction);
-                    Console.WriteLine($"Try update row with ID = {commandEntry.Id}, updated count {updatedRows}");
+                    //Console.WriteLine($"Try update row with ID = {commandEntry.Id}, updated count {updatedRows}");
                 }
                 transaction.Commit();
             }
