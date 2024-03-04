@@ -1,144 +1,129 @@
-//using System.Linq;
-//using Metapsi.Reflection;
+﻿using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
-//namespace Metapsi
-//{
-//    /// <summary>
-//        /// Single component that handles all the timers
-//        /// </summary>
-//    public static partial class Timer
-//    {
-//        /// <summary>
-//                /// 
-//                /// </summary>
-//        public static partial class Command
-//        {
-//            /// <summary>
-//                        /// 
-//                        /// </summary>
-//            [Metapsi.Reflection.DataItem("93a9e471-009b-432f-b749-536457909635")]
-//            public partial class Remove : Metapsi.Reflection.IRecord, Metapsi.Reflection.IClonable<Metapsi.Timer.Command.Remove>
-//            {
-//                [Metapsi.Reflection.DataItemField("2ad3214d-26e8-455b-9dcc-b26ca6b3e840")]
-//                [Metapsi.Reflection.ScalarTypeName("Id")]
-//                public System.Guid Id { get; set; } = System.Guid.NewGuid();
-//                [Metapsi.Reflection.DataItemField("70ad90b3-1ef1-4ac6-8efc-4cba43c1ffba")]
-//                [Metapsi.Reflection.ScalarTypeName("String")]
-//                public System.String Name { get; set; } = System.String.Empty;
-//                public Metapsi.Timer.Command.Remove Clone()
-//                {
-//                    var clone = new Metapsi.Timer.Command.Remove();
-//                    clone.Id = this.Id;
-//                    clone.Name = this.Name;
-//                    return clone;
-//                }
+namespace Metapsi
+{
+    public static partial class Timer
+    {
+        public static class Command
+        {
+            public class Set
+            {
+                public string Name { get; set; } = string.Empty;
+                public int IntervalMilliseconds { get; set; }
+                public int DelayMilliseconds { get; set; }
+                public string Data { get; set; } = string.Empty;
+            }
 
-//                public static System.Guid GetId(Metapsi.Timer.Command.Remove dataRecord)
-//                {
-//                    return dataRecord.Id;
-//                }
+            public class Remove
+            {
+                public string Name { get; set; } = string.Empty;
+            }
+        }
 
-//                public static System.String GetName(Metapsi.Timer.Command.Remove dataRecord)
-//                {
-//                    return dataRecord.Name;
-//                }
-//            }
+        public static partial class Event
+        {
+            public partial class Tick : IData
+            {
+                public string Name { get; set; } = string.Empty;
+                public string Data { get; set; } = string.Empty;
+                public int TickCount { get; set; } = 0;
+            }
+        }
 
-//            /// <summary>
-//                        /// 
-//                        /// </summary>
-//            [Metapsi.Reflection.DataItem("2f69cf1d-9627-4d64-86e4-7722f73520a0")]
-//            public partial class Set : Metapsi.Reflection.IRecord, Metapsi.Reflection.IClonable<Metapsi.Timer.Command.Set>
-//            {
-//                [Metapsi.Reflection.DataItemField("227ff905-bbb8-4607-a314-0049de927ad4")]
-//                [Metapsi.Reflection.ScalarTypeName("Id")]
-//                public System.Guid Id { get; set; } = System.Guid.NewGuid();
-//                [Metapsi.Reflection.DataItemField("4f243bde-db9a-46ed-b684-d40ed4194357")]
-//                [Metapsi.Reflection.ScalarTypeName("String")]
-//                public System.String Name { get; set; } = System.String.Empty;
-//                [Metapsi.Reflection.DataItemField("2116d0b1-9c9d-4cdc-a015-3860ecbb2a03")]
-//                [Metapsi.Reflection.ScalarTypeName("Int")]
-//                public System.Int32 IntervalMilliseconds { get; set; }
+        public class State
+        {
+            internal Dictionary<string, TimerReferences> Timers { get; set; } = new Dictionary<string, TimerReferences>();
+            public bool IsShuttingDown { get; set; } = false;
+        }
 
-//                [Metapsi.Reflection.DataItemField("c05e9d8f-e487-422d-aa24-53372111e710")]
-//                [Metapsi.Reflection.ScalarTypeName("String")]
-//                public System.String Data { get; set; } = System.String.Empty;
-//                public Metapsi.Timer.Command.Set Clone()
-//                {
-//                    var clone = new Metapsi.Timer.Command.Set();
-//                    clone.Id = this.Id;
-//                    clone.Name = this.Name;
-//                    clone.IntervalMilliseconds = this.IntervalMilliseconds;
-//                    clone.Data = this.Data;
-//                    return clone;
-//                }
+        public static async Task SetTimer(CommandContext commandContext, State state, Command.Set setTimer)
+        {
+            RemoveTimer(state, setTimer.Name);
 
-//                public static System.Guid GetId(Metapsi.Timer.Command.Set dataRecord)
-//                {
-//                    return dataRecord.Id;
-//                }
+            int tickCount = 0;
 
-//                public static System.String GetName(Metapsi.Timer.Command.Set dataRecord)
-//                {
-//                    return dataRecord.Name;
-//                }
+            System.Threading.Timer newTimer = new System.Threading.Timer((_) =>
+            {
+                if (!state.IsShuttingDown)
+                {
+                    tickCount++;
+                    commandContext.PostEvent(new Event.Tick()
+                    {
+                        Name = setTimer.Name,
+                        Data = setTimer.Data,
+                        TickCount = tickCount
+                    });
+                }
+            }, null, setTimer.DelayMilliseconds, setTimer.IntervalMilliseconds);
+            state.Timers[setTimer.Name] = new TimerReferences()
+            {
+                Setter = setTimer,
+                Timer = newTimer
+            };
+        }
 
-//                public static System.Int32 GetIntervalMilliseconds(Metapsi.Timer.Command.Set dataRecord)
-//                {
-//                    return dataRecord.IntervalMilliseconds;
-//                }
+        public static async Task RemoveTimer(CommandContext commandContext, State state, Command.Remove removeTimer)
+        {
+            RemoveTimer(state, removeTimer.Name);
+        }
 
-//                public static System.String GetData(Metapsi.Timer.Command.Set dataRecord)
-//                {
-//                    return dataRecord.Data;
-//                }
-//            }
-//        }
+        public static async Task RemoveByData(CommandContext commandContext, State state, string data)
+        {
+            List<string> removableKeys = new List<string>();
 
-//        /// <summary>
-//                /// 
-//                /// </summary>
-//        public static partial class Event
-//        {
-//            /// <summary>
-//                        /// 
-//                        /// </summary>
-//            [Metapsi.Reflection.DataItem("3a8787c3-f6d5-4e1f-854d-94d1018c936c")]
-//            public partial class Tick : Metapsi.Reflection.IRecord, Metapsi.Reflection.IClonable<Metapsi.Timer.Event.Tick>
-//            {
-//                [Metapsi.Reflection.DataItemField("a0711c52-d914-4d71-a212-5fbb634706ed")]
-//                [Metapsi.Reflection.ScalarTypeName("Id")]
-//                public System.Guid Id { get; set; } = System.Guid.NewGuid();
-//                [Metapsi.Reflection.DataItemField("5dfd049b-7a34-48be-be55-9285e49cb13f")]
-//                [Metapsi.Reflection.ScalarTypeName("String")]
-//                public System.String Name { get; set; } = System.String.Empty;
-//                [Metapsi.Reflection.DataItemField("bd9fdf78-24b5-43a6-b6ff-3167271ec1da")]
-//                [Metapsi.Reflection.ScalarTypeName("String")]
-//                public System.String Data { get; set; } = System.String.Empty;
-//                public Metapsi.Timer.Event.Tick Clone()
-//                {
-//                    var clone = new Metapsi.Timer.Event.Tick();
-//                    clone.Id = this.Id;
-//                    clone.Name = this.Name;
-//                    clone.Data = this.Data;
-//                    return clone;
-//                }
+            foreach (string key in state.Timers.Keys)
+            {
+                if (state.Timers[key].Setter.Data == data)
+                {
+                    removableKeys.Add(key);
+                }
+            }
 
-//                public static System.Guid GetId(Metapsi.Timer.Event.Tick dataRecord)
-//                {
-//                    return dataRecord.Id;
-//                }
+            foreach (string key in removableKeys)
+            {
+                RemoveTimer(state, key);
+            }
+        }
 
-//                public static System.String GetName(Metapsi.Timer.Event.Tick dataRecord)
-//                {
-//                    return dataRecord.Name;
-//                }
+        public static async Task Shutdown(CommandContext commandContext, State state)
+        {
+            state.IsShuttingDown = true;
+            List<string> allTimerNames = state.Timers.Keys.ToList();
 
-//                public static System.String GetData(Metapsi.Timer.Event.Tick dataRecord)
-//                {
-//                    return dataRecord.Data;
-//                }
-//            }
-//        }
-//    }
-//}
+            foreach (string key in allTimerNames)
+            {
+                RemoveTimer(state, key);
+            }
+        }
+
+        private static void RemoveTimer(State state, string name)
+        {
+            if (state.Timers.ContainsKey(name))
+            {
+                TimerReferences oldTimerReferences = state.Timers[name];
+                System.Threading.Timer oldTimer = oldTimerReferences.Timer;
+                oldTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+                oldTimer.Dispose();
+                state.Timers.Remove(name);
+            }
+        }
+
+        public static int FromMinutes(int minutes)
+        {
+            return minutes * 60 * 1000;
+        }
+
+        public static int FromSeconds(int seconds)
+        {
+            return seconds * 1000;
+        }
+
+        internal class TimerReferences
+        {
+            public System.Threading.Timer Timer { get; set; }
+            public Command.Set Setter { get; set; }
+        }
+    }
+}

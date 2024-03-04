@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Web.Contracts", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Shoelace.Generate", "Metapsi.Shoelace.Generate\Metapsi.Shoelace.Generate.csproj", "{FF184E85-3F7B-4EEA-A90F-00630D4F8264}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Mds", "Metapsi.Mds\Metapsi.Mds.csproj", "{A45F5CD1-32C3-42FF-AADB-EBE143911569}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Timer", "Metapsi.Timer\Metapsi.Timer.csproj", "{B085B31B-CFC7-49DA-9297-15575332FB86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +97,14 @@ Global
 		{FF184E85-3F7B-4EEA-A90F-00630D4F8264}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF184E85-3F7B-4EEA-A90F-00630D4F8264}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF184E85-3F7B-4EEA-A90F-00630D4F8264}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A45F5CD1-32C3-42FF-AADB-EBE143911569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A45F5CD1-32C3-42FF-AADB-EBE143911569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A45F5CD1-32C3-42FF-AADB-EBE143911569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A45F5CD1-32C3-42FF-AADB-EBE143911569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B085B31B-CFC7-49DA-9297-15575332FB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B085B31B-CFC7-49DA-9297-15575332FB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B085B31B-CFC7-49DA-9297-15575332FB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B085B31B-CFC7-49DA-9297-15575332FB86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
