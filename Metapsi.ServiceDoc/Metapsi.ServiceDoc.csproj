@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\mds\MdsCommon.Controls\MdsCommon.Controls.csproj" />
+		<ProjectReference Include="..\..\mds\MdsCommon.Controls\MdsCommon.Controls.Direct.csproj" />
 		<ProjectReference Include="..\Metapsi.Heroicons\Metapsi.Heroicons.csproj" />
 		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
 		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
