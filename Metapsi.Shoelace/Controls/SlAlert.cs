@@ -3,30 +3,36 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlAlert
+public partial class SlAlert
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// An icon to show in the alert. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string Icon = "icon";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Shows the alert.
+        /// </summary>
+        public const string Show = "show";
+        /// <summary> 
+        /// Hides the alert
+        /// </summary>
+        public const string Hide = "hide";
+        /// <summary> 
+        /// Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by calling this method again. The returned promise will resolve after the alert is hidden.
+        /// </summary>
+        public const string Toast = "toast";
+    }
 }
-public partial class SlAlertShowArgs
-{
-    public IClientSideSlAlert target { get; set; }
-}
-public partial class SlAlertAfterShowArgs
-{
-    public IClientSideSlAlert target { get; set; }
-}
-public partial class SlAlertHideArgs
-{
-    public IClientSideSlAlert target { get; set; }
-}
-public partial class SlAlertAfterHideArgs
-{
-    public IClientSideSlAlert target { get; set; }
-}
+
 public static partial class SlAlertControl
 {
     /// <summary>
@@ -50,6 +56,7 @@ public static partial class SlAlertControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
+
     /// <summary>
     /// Enables a close button that allows the user to dismiss the alert.
     /// </summary>
@@ -57,6 +64,7 @@ public static partial class SlAlertControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("closable"), b.Const(true));
     }
+
     /// <summary>
     /// The alert's theme variant.
     /// </summary>
@@ -92,137 +100,121 @@ public static partial class SlAlertControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("danger"));
     }
+
+    /// <summary>
+    /// The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`, meaning the alert will not close on its own.
+    /// </summary>
+    public static void SetDuration(this PropsBuilder<SlAlert> b, Var<int> value)
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), value);
+    }
+    /// <summary>
+    /// The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`, meaning the alert will not close on its own.
+    /// </summary>
+    public static void SetDuration(this PropsBuilder<SlAlert> b, int value)
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(value));
+    }
+
     /// <summary>
     /// Emitted when the alert opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, SlAlertShowArgs>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertShowArgs>>("onsl-show"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
     }
     /// <summary>
     /// Emitted when the alert opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAlertShowArgs>, Var<TModel>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertShowArgs>>("onsl-show"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted after the alert opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
     }
     /// <summary>
     /// Emitted after the alert opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, SlAlertAfterShowArgs>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertAfterShowArgs>>("onsl-after-show"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
     }
+
     /// <summary>
-    /// Emitted after the alert opens and all animations are complete.
+    /// Emitted when the alert closes.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAlertAfterShowArgs>, Var<TModel>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertAfterShowArgs>>("onsl-after-show"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
     }
     /// <summary>
     /// Emitted when the alert closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, SlAlertHideArgs>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertHideArgs>>("onsl-hide"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the alert closes.
+    /// Emitted after the alert closes and all animations are complete.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAlertHideArgs>, Var<TModel>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertHideArgs>>("onsl-hide"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
     }
     /// <summary>
     /// Emitted after the alert closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlAlert> b, Var<HyperType.Action<TModel, SlAlertAfterHideArgs>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertAfterHideArgs>>("onsl-after-hide"), action);
-    }
-    /// <summary>
-    /// Emitted after the alert closes and all animations are complete.
-    /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAlertAfterHideArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAlertAfterHideArgs>>("onsl-after-hide"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Alerts are used to display important messages inline or as toast notifications.
-/// </summary>
-public partial class SlAlert : HtmlTag
-{
-    public SlAlert()
-    {
-        this.Tag = "sl-alert";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
     }
 
-    public static SlAlert New()
-    {
-        return new SlAlert();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// An icon to show in the alert. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string Icon = "icon";
-    }
-}
-
-public static partial class SlAlertControl
-{
-    /// <summary>
-    /// Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert, or you can use the `show()` and `hide()` methods and this attribute will reflect the alert's open state.
-    /// </summary>
-    public static SlAlert SetOpen(this SlAlert tag)
-    {
-        return tag.SetAttribute("open", "true");
-    }
-    /// <summary>
-    /// Enables a close button that allows the user to dismiss the alert.
-    /// </summary>
-    public static SlAlert SetClosable(this SlAlert tag)
-    {
-        return tag.SetAttribute("closable", "true");
-    }
-    /// <summary>
-    /// The alert's theme variant.
-    /// </summary>
-    public static SlAlert SetVariantPrimary(this SlAlert tag)
-    {
-        return tag.SetAttribute("variant", "primary");
-    }
-    /// <summary>
-    /// The alert's theme variant.
-    /// </summary>
-    public static SlAlert SetVariantSuccess(this SlAlert tag)
-    {
-        return tag.SetAttribute("variant", "success");
-    }
-    /// <summary>
-    /// The alert's theme variant.
-    /// </summary>
-    public static SlAlert SetVariantNeutral(this SlAlert tag)
-    {
-        return tag.SetAttribute("variant", "neutral");
-    }
-    /// <summary>
-    /// The alert's theme variant.
-    /// </summary>
-    public static SlAlert SetVariantWarning(this SlAlert tag)
-    {
-        return tag.SetAttribute("variant", "warning");
-    }
-    /// <summary>
-    /// The alert's theme variant.
-    /// </summary>
-    public static SlAlert SetVariantDanger(this SlAlert tag)
-    {
-        return tag.SetAttribute("variant", "danger");
-    }
 }
 

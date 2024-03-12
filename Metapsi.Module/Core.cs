@@ -24,6 +24,15 @@ namespace Metapsi.Syntax
             b.CallExternal(ModuleName, nameof(DeleteProperty), into, propertyName);
         }
 
+        public static void CallOnObject(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
+        {
+            List<IVariable> allParams = new List<IVariable>();
+            allParams.Add(@object);
+            allParams.Add(b.Const(function));
+            allParams.AddRange(parameters);
+            b.CallExternal(ModuleName, nameof(CallOnObject), allParams.ToArray());
+        }
+
         public static Var<bool> AreEqual<T>(this SyntaxBuilder b, Var<T> v1, Var<T> v2)
         {
             return b.CallExternal<bool>(ModuleName, nameof(AreEqual), v1, v2);

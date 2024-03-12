@@ -3,18 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlResizeObserver
+public partial class SlResizeObserver
 {
 }
-public partial class SlResizeObserverResizeArgs
-{
-    public IClientSideSlResizeObserver target { get; set; }
-}
+
 public static partial class SlResizeObserverControl
 {
     /// <summary>
@@ -38,48 +34,31 @@ public static partial class SlResizeObserverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// Emitted when the element is resized.
-    /// event detail: { entries: ResizeObserverEntry[] }
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, SlResizeObserverResizeArgs>> action)
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlResizeObserverResizeArgs>>("onsl-resize"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-resize"), eventAction);
     }
     /// <summary>
     /// Emitted when the element is resized.
-    /// event detail: { entries: ResizeObserverEntry[] }
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlResizeObserverResizeArgs>, Var<TModel>> action)
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlResizeObserverResizeArgs>>("onsl-resize"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
-/// </summary>
-public partial class SlResizeObserver : HtmlTag
-{
-    public SlResizeObserver()
-    {
-        this.Tag = "sl-resize-observer";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-resize"), eventAction);
     }
 
-    public static SlResizeObserver New()
-    {
-        return new SlResizeObserver();
-    }
-}
-
-public static partial class SlResizeObserverControl
-{
-    /// <summary>
-    /// Disables the observer.
-    /// </summary>
-    public static SlResizeObserver SetDisabled(this SlResizeObserver tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
 }
 

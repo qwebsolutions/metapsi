@@ -3,23 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlMenu
+public partial class SlMenu
 {
 }
-public partial class SlMenuSelectArgs
-{
-    public IClientSideSlMenu target { get; set; }
-    public partial class Details 
-    {
-        public IClientSideSlMenuItem item { get; set; }
-    }
-    public Details detail { get; set; }
-}
+
 public static partial class SlMenuControl
 {
     /// <summary>
@@ -38,39 +29,28 @@ public static partial class SlMenuControl
     }
     /// <summary>
     /// Emitted when a menu item is selected.
-    /// event detail: { item: SlMenuItem }
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, SlMenuSelectArgs>> action)
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlMenuSelectArgs>>("onsl-select"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-select"), eventAction);
     }
     /// <summary>
     /// Emitted when a menu item is selected.
-    /// event detail: { item: SlMenuItem }
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlMenuSelectArgs>, Var<TModel>> action)
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlMenuSelectArgs>>("onsl-select"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Menus provide a list of options for the user to choose from.
-/// </summary>
-public partial class SlMenu : HtmlTag
-{
-    public SlMenu()
-    {
-        this.Tag = "sl-menu";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-select"), eventAction);
     }
 
-    public static SlMenu New()
-    {
-        return new SlMenu();
-    }
-}
-
-public static partial class SlMenuControl
-{
 }
 

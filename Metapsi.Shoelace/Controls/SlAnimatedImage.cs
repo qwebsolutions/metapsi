@@ -3,22 +3,25 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlAnimatedImage
+public partial class SlAnimatedImage
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// Optional play icon to use instead of the default. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string PlayIcon = "play-icon";
+        /// <summary> 
+        /// Optional pause icon to use instead of the default. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string PauseIcon = "pause-icon";
+    }
 }
-public partial class SlAnimatedImageLoadArgs
-{
-    public IClientSideSlAnimatedImage target { get; set; }
-}
-public partial class SlAnimatedImageErrorArgs
-{
-    public IClientSideSlAnimatedImage target { get; set; }
-}
+
 public static partial class SlAnimatedImageControl
 {
     /// <summary>
@@ -49,6 +52,7 @@ public static partial class SlAnimatedImageControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(value));
     }
+
     /// <summary>
     /// A description of the image used by assistive devices.
     /// </summary>
@@ -63,6 +67,7 @@ public static partial class SlAnimatedImageControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), b.Const(value));
     }
+
     /// <summary>
     /// Plays the animation. When this attribute is remove, the animation will pause.
     /// </summary>
@@ -70,85 +75,56 @@ public static partial class SlAnimatedImageControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("play"), b.Const(true));
     }
+
     /// <summary>
     /// Emitted when the image loads successfully.
     /// </summary>
-    public static void OnSlLoad<TModel>(this PropsBuilder<SlAnimatedImage> b, Var<HyperType.Action<TModel, SlAnimatedImageLoadArgs>> action)
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlAnimatedImage> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAnimatedImageLoadArgs>>("onsl-load"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-load"), eventAction);
     }
     /// <summary>
     /// Emitted when the image loads successfully.
     /// </summary>
-    public static void OnSlLoad<TModel>(this PropsBuilder<SlAnimatedImage> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAnimatedImageLoadArgs>, Var<TModel>> action)
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlAnimatedImage> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAnimatedImageLoadArgs>>("onsl-load"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-load"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted when the image fails to load.
+    /// </summary>
+    public static void OnSlError<TModel>(this PropsBuilder<SlAnimatedImage> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-error"), eventAction);
     }
     /// <summary>
     /// Emitted when the image fails to load.
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlAnimatedImage> b, Var<HyperType.Action<TModel, SlAnimatedImageErrorArgs>> action)
+    public static void OnSlError<TModel>(this PropsBuilder<SlAnimatedImage> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAnimatedImageErrorArgs>>("onsl-error"), action);
-    }
-    /// <summary>
-    /// Emitted when the image fails to load.
-    /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlAnimatedImage> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlAnimatedImageErrorArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlAnimatedImageErrorArgs>>("onsl-error"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// A component for displaying animated GIFs and WEBPs that play and pause on interaction.
-/// </summary>
-public partial class SlAnimatedImage : HtmlTag
-{
-    public SlAnimatedImage()
-    {
-        this.Tag = "sl-animated-image";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-error"), eventAction);
     }
 
-    public static SlAnimatedImage New()
-    {
-        return new SlAnimatedImage();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Optional play icon to use instead of the default. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string PlayIcon = "play-icon";
-        /// <summary> 
-        /// Optional pause icon to use instead of the default. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string PauseIcon = "pause-icon";
-    }
-}
-
-public static partial class SlAnimatedImageControl
-{
-    /// <summary>
-    /// The path to the image to load.
-    /// </summary>
-    public static SlAnimatedImage SetSrc(this SlAnimatedImage tag, string value)
-    {
-        return tag.SetAttribute("src", value.ToString());
-    }
-    /// <summary>
-    /// A description of the image used by assistive devices.
-    /// </summary>
-    public static SlAnimatedImage SetAlt(this SlAnimatedImage tag, string value)
-    {
-        return tag.SetAttribute("alt", value.ToString());
-    }
-    /// <summary>
-    /// Plays the animation. When this attribute is remove, the animation will pause.
-    /// </summary>
-    public static SlAnimatedImage SetPlay(this SlAnimatedImage tag)
-    {
-        return tag.SetAttribute("play", "true");
-    }
 }
 

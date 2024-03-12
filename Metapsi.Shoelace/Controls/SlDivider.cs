@@ -3,14 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlDivider
+public partial class SlDivider
 {
 }
+
 public static partial class SlDividerControl
 {
     /// <summary>
@@ -34,32 +34,6 @@ public static partial class SlDividerControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
     }
-}
 
-/// <summary>
-/// Dividers are used to visually separate or group elements.
-/// </summary>
-public partial class SlDivider : HtmlTag
-{
-    public SlDivider()
-    {
-        this.Tag = "sl-divider";
-    }
-
-    public static SlDivider New()
-    {
-        return new SlDivider();
-    }
-}
-
-public static partial class SlDividerControl
-{
-    /// <summary>
-    /// Draws the divider in a vertical orientation.
-    /// </summary>
-    public static SlDivider SetVertical(this SlDivider tag)
-    {
-        return tag.SetAttribute("vertical", "true");
-    }
 }
 

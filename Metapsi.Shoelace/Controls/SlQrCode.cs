@@ -3,15 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlQrCode
+public partial class SlQrCode
 {
-    public string value { get; set; }
 }
+
 public static partial class SlQrCodeControl
 {
     /// <summary>
@@ -42,6 +41,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// The label for assistive devices to announce. If unspecified, the value will be used instead.
     /// </summary>
@@ -56,6 +56,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
     }
+
     /// <summary>
     /// The size of the QR code, in pixels.
     /// </summary>
@@ -70,6 +71,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("size"), b.Const(value));
     }
+
     /// <summary>
     /// The fill color. This can be any valid CSS color, but not a CSS custom property.
     /// </summary>
@@ -84,6 +86,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const(value));
     }
+
     /// <summary>
     /// The background color. This can be any valid CSS color or `transparent`. It cannot be a CSS custom property.
     /// </summary>
@@ -98,6 +101,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("background"), b.Const(value));
     }
+
     /// <summary>
     /// The edge radius of each module. Must be between 0 and 0.5.
     /// </summary>
@@ -112,6 +116,7 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("radius"), b.Const(value));
     }
+
     /// <summary>
     /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
     /// </summary>
@@ -140,95 +145,6 @@ public static partial class SlQrCodeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("errorCorrection"), b.Const("H"));
     }
-}
 
-/// <summary>
-/// Generates a [QR code](https://www.qrcode.com/) and renders it using the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
-/// </summary>
-public partial class SlQrCode : HtmlTag
-{
-    public SlQrCode()
-    {
-        this.Tag = "sl-qr-code";
-    }
-
-    public static SlQrCode New()
-    {
-        return new SlQrCode();
-    }
-}
-
-public static partial class SlQrCodeControl
-{
-    /// <summary>
-    /// The QR code's value.
-    /// </summary>
-    public static SlQrCode SetValue(this SlQrCode tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// The label for assistive devices to announce. If unspecified, the value will be used instead.
-    /// </summary>
-    public static SlQrCode SetLabel(this SlQrCode tag, string value)
-    {
-        return tag.SetAttribute("label", value.ToString());
-    }
-    /// <summary>
-    /// The size of the QR code, in pixels.
-    /// </summary>
-    public static SlQrCode SetSize(this SlQrCode tag, int value)
-    {
-        return tag.SetAttribute("size", value.ToString());
-    }
-    /// <summary>
-    /// The fill color. This can be any valid CSS color, but not a CSS custom property.
-    /// </summary>
-    public static SlQrCode SetFill(this SlQrCode tag, string value)
-    {
-        return tag.SetAttribute("fill", value.ToString());
-    }
-    /// <summary>
-    /// The background color. This can be any valid CSS color or `transparent`. It cannot be a CSS custom property.
-    /// </summary>
-    public static SlQrCode SetBackground(this SlQrCode tag, string value)
-    {
-        return tag.SetAttribute("background", value.ToString());
-    }
-    /// <summary>
-    /// The edge radius of each module. Must be between 0 and 0.5.
-    /// </summary>
-    public static SlQrCode SetRadius(this SlQrCode tag, int value)
-    {
-        return tag.SetAttribute("radius", value.ToString());
-    }
-    /// <summary>
-    /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
-    /// </summary>
-    public static SlQrCode SetErrorCorrectionL(this SlQrCode tag)
-    {
-        return tag.SetAttribute("errorCorrection", "L");
-    }
-    /// <summary>
-    /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
-    /// </summary>
-    public static SlQrCode SetErrorCorrectionM(this SlQrCode tag)
-    {
-        return tag.SetAttribute("errorCorrection", "M");
-    }
-    /// <summary>
-    /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
-    /// </summary>
-    public static SlQrCode SetErrorCorrectionQ(this SlQrCode tag)
-    {
-        return tag.SetAttribute("errorCorrection", "Q");
-    }
-    /// <summary>
-    /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
-    /// </summary>
-    public static SlQrCode SetErrorCorrectionH(this SlQrCode tag)
-    {
-        return tag.SetAttribute("errorCorrection", "H");
-    }
 }
 

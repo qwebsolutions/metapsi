@@ -3,30 +3,40 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlDetails
+public partial class SlDetails
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// The details' summary. Alternatively, you can use the `summary` attribute.
+        /// </summary>
+        public const string Summary = "summary";
+        /// <summary> 
+        /// Optional expand icon to use instead of the default. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string ExpandIcon = "expand-icon";
+        /// <summary> 
+        /// Optional collapse icon to use instead of the default. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string CollapseIcon = "collapse-icon";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Shows the details.
+        /// </summary>
+        public const string Show = "show";
+        /// <summary> 
+        /// Hides the details
+        /// </summary>
+        public const string Hide = "hide";
+    }
 }
-public partial class SlDetailsShowArgs
-{
-    public IClientSideSlDetails target { get; set; }
-}
-public partial class SlDetailsAfterShowArgs
-{
-    public IClientSideSlDetails target { get; set; }
-}
-public partial class SlDetailsHideArgs
-{
-    public IClientSideSlDetails target { get; set; }
-}
-public partial class SlDetailsAfterHideArgs
-{
-    public IClientSideSlDetails target { get; set; }
-}
+
 public static partial class SlDetailsControl
 {
     /// <summary>
@@ -50,6 +60,7 @@ public static partial class SlDetailsControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
+
     /// <summary>
     /// The summary to show in the header. If you need to display HTML, use the `summary` slot instead.
     /// </summary>
@@ -64,6 +75,7 @@ public static partial class SlDetailsControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("summary"), b.Const(value));
     }
+
     /// <summary>
     /// Disables the details so it can't be toggled.
     /// </summary>
@@ -71,117 +83,106 @@ public static partial class SlDetailsControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// Emitted when the details opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, SlDetailsShowArgs>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsShowArgs>>("onsl-show"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
     }
     /// <summary>
     /// Emitted when the details opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlDetailsShowArgs>, Var<TModel>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsShowArgs>>("onsl-show"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted after the details opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
     }
     /// <summary>
     /// Emitted after the details opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, SlDetailsAfterShowArgs>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsAfterShowArgs>>("onsl-after-show"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
     }
+
     /// <summary>
-    /// Emitted after the details opens and all animations are complete.
+    /// Emitted when the details closes.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlDetailsAfterShowArgs>, Var<TModel>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsAfterShowArgs>>("onsl-after-show"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
     }
     /// <summary>
     /// Emitted when the details closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, SlDetailsHideArgs>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsHideArgs>>("onsl-hide"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the details closes.
+    /// Emitted after the details closes and all animations are complete.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlDetailsHideArgs>, Var<TModel>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsHideArgs>>("onsl-hide"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
     }
     /// <summary>
     /// Emitted after the details closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, SlDetailsAfterHideArgs>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsAfterHideArgs>>("onsl-after-hide"), action);
-    }
-    /// <summary>
-    /// Emitted after the details closes and all animations are complete.
-    /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlDetailsAfterHideArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlDetailsAfterHideArgs>>("onsl-after-hide"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Details show a brief summary and expand to show additional content.
-/// </summary>
-public partial class SlDetails : HtmlTag
-{
-    public SlDetails()
-    {
-        this.Tag = "sl-details";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
     }
 
-    public static SlDetails New()
-    {
-        return new SlDetails();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// The details' summary. Alternatively, you can use the `summary` attribute.
-        /// </summary>
-        public const string Summary = "summary";
-        /// <summary> 
-        /// Optional expand icon to use instead of the default. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string ExpandIcon = "expand-icon";
-        /// <summary> 
-        /// Optional collapse icon to use instead of the default. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string CollapseIcon = "collapse-icon";
-    }
-}
-
-public static partial class SlDetailsControl
-{
-    /// <summary>
-    /// Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state.
-    /// </summary>
-    public static SlDetails SetOpen(this SlDetails tag)
-    {
-        return tag.SetAttribute("open", "true");
-    }
-    /// <summary>
-    /// The summary to show in the header. If you need to display HTML, use the `summary` slot instead.
-    /// </summary>
-    public static SlDetails SetSummary(this SlDetails tag, string value)
-    {
-        return tag.SetAttribute("summary", value.ToString());
-    }
-    /// <summary>
-    /// Disables the details so it can't be toggled.
-    /// </summary>
-    public static SlDetails SetDisabled(this SlDetails tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
 }
 

@@ -3,35 +3,52 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlSwitch
+public partial class SlSwitch
 {
-    public string value { get; set; }
+    public static class Slot
+    {
+        /// <summary> 
+        /// Text that describes how to use the switch. Alternatively, you can use the `help-text` attribute.
+        /// </summary>
+        public const string HelpText = "help-text";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Simulates a click on the switch.
+        /// </summary>
+        public const string Click = "click";
+        /// <summary> 
+        /// Sets focus on the switch.
+        /// </summary>
+        public const string Focus = "focus";
+        /// <summary> 
+        /// Removes focus from the switch.
+        /// </summary>
+        public const string Blur = "blur";
+        /// <summary> 
+        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// </summary>
+        public const string CheckValidity = "checkValidity";
+        /// <summary> 
+        /// Gets the associated form, if one exists.
+        /// </summary>
+        public const string GetForm = "getForm";
+        /// <summary> 
+        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// </summary>
+        public const string ReportValidity = "reportValidity";
+        /// <summary> 
+        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// </summary>
+        public const string SetCustomValidity = "setCustomValidity";
+    }
 }
-public partial class SlSwitchBlurArgs
-{
-    public IClientSideSlSwitch target { get; set; }
-}
-public partial class SlSwitchChangeArgs
-{
-    public IClientSideSlSwitch target { get; set; }
-}
-public partial class SlSwitchInputArgs
-{
-    public IClientSideSlSwitch target { get; set; }
-}
-public partial class SlSwitchFocusArgs
-{
-    public IClientSideSlSwitch target { get; set; }
-}
-public partial class SlSwitchInvalidArgs
-{
-    public IClientSideSlSwitch target { get; set; }
-}
+
 public static partial class SlSwitchControl
 {
     /// <summary>
@@ -62,6 +79,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
     }
+
     /// <summary>
     /// The current value of the switch, submitted as a name/value pair with form data.
     /// </summary>
@@ -76,6 +94,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// The switch's size.
     /// </summary>
@@ -97,6 +116,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
     }
+
     /// <summary>
     /// Disables the switch.
     /// </summary>
@@ -104,6 +124,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// Draws the switch in a checked state.
     /// </summary>
@@ -111,6 +132,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
+
     /// <summary>
     /// The default value of the form control. Primarily used for resetting the form control.
     /// </summary>
@@ -118,6 +140,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("defaultChecked"), b.Const(true));
     }
+
     /// <summary>
     /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
     /// </summary>
@@ -132,6 +155,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
     }
+
     /// <summary>
     /// Makes the switch a required field.
     /// </summary>
@@ -139,6 +163,7 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
+
     /// <summary>
     /// The switch's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
@@ -153,179 +178,131 @@ public static partial class SlSwitchControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
     }
+
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, SlSwitchBlurArgs>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchBlurArgs>>("onsl-blur"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
     }
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSwitchBlurArgs>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchBlurArgs>>("onsl-blur"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted when the control's checked state changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
     }
     /// <summary>
     /// Emitted when the control's checked state changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, SlSwitchChangeArgs>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchChangeArgs>>("onsl-change"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the control's checked state changes.
+    /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSwitchChangeArgs>, Var<TModel>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchChangeArgs>>("onsl-change"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
     }
     /// <summary>
     /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, SlSwitchInputArgs>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchInputArgs>>("onsl-input"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the control receives input.
+    /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSwitchInputArgs>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchInputArgs>>("onsl-input"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, SlSwitchFocusArgs>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchFocusArgs>>("onsl-focus"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSwitchFocusArgs>, Var<TModel>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchFocusArgs>>("onsl-focus"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
     }
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, SlSwitchInvalidArgs>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchInvalidArgs>>("onsl-invalid"), action);
-    }
-    /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
-    /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSwitchInvalidArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSwitchInvalidArgs>>("onsl-invalid"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Switches allow the user to toggle an option on or off.
-/// </summary>
-public partial class SlSwitch : HtmlTag
-{
-    public SlSwitch()
-    {
-        this.Tag = "sl-switch";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
     }
 
-    public static SlSwitch New()
-    {
-        return new SlSwitch();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Text that describes how to use the switch. Alternatively, you can use the `help-text` attribute.
-        /// </summary>
-        public const string HelpText = "help-text";
-    }
-}
-
-public static partial class SlSwitchControl
-{
-    /// <summary>
-    /// The name of the switch, submitted as a name/value pair with form data.
-    /// </summary>
-    public static SlSwitch SetName(this SlSwitch tag, string value)
-    {
-        return tag.SetAttribute("name", value.ToString());
-    }
-    /// <summary>
-    /// The current value of the switch, submitted as a name/value pair with form data.
-    /// </summary>
-    public static SlSwitch SetValue(this SlSwitch tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// The switch's size.
-    /// </summary>
-    public static SlSwitch SetSizeSmall(this SlSwitch tag)
-    {
-        return tag.SetAttribute("size", "small");
-    }
-    /// <summary>
-    /// The switch's size.
-    /// </summary>
-    public static SlSwitch SetSizeMedium(this SlSwitch tag)
-    {
-        return tag.SetAttribute("size", "medium");
-    }
-    /// <summary>
-    /// The switch's size.
-    /// </summary>
-    public static SlSwitch SetSizeLarge(this SlSwitch tag)
-    {
-        return tag.SetAttribute("size", "large");
-    }
-    /// <summary>
-    /// Disables the switch.
-    /// </summary>
-    public static SlSwitch SetDisabled(this SlSwitch tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
-    /// <summary>
-    /// Draws the switch in a checked state.
-    /// </summary>
-    public static SlSwitch SetChecked(this SlSwitch tag)
-    {
-        return tag.SetAttribute("checked", "true");
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static SlSwitch SetDefaultChecked(this SlSwitch tag)
-    {
-        return tag.SetAttribute("defaultChecked", "true");
-    }
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public static SlSwitch SetForm(this SlSwitch tag, string value)
-    {
-        return tag.SetAttribute("form", value.ToString());
-    }
-    /// <summary>
-    /// Makes the switch a required field.
-    /// </summary>
-    public static SlSwitch SetRequired(this SlSwitch tag)
-    {
-        return tag.SetAttribute("required", "true");
-    }
-    /// <summary>
-    /// The switch's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public static SlSwitch SetHelpText(this SlSwitch tag, string value)
-    {
-        return tag.SetAttribute("helpText", value.ToString());
-    }
 }
 

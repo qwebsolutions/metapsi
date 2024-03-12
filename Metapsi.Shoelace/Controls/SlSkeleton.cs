@@ -3,14 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlSkeleton
+public partial class SlSkeleton
 {
 }
+
 public static partial class SlSkeletonControl
 {
     /// <summary>
@@ -48,46 +48,6 @@ public static partial class SlSkeletonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("effect"), b.Const("none"));
     }
-}
 
-/// <summary>
-/// Skeletons are used to provide a visual representation of where content will eventually be drawn.
-/// </summary>
-public partial class SlSkeleton : HtmlTag
-{
-    public SlSkeleton()
-    {
-        this.Tag = "sl-skeleton";
-    }
-
-    public static SlSkeleton New()
-    {
-        return new SlSkeleton();
-    }
-}
-
-public static partial class SlSkeletonControl
-{
-    /// <summary>
-    /// Determines which effect the skeleton will use.
-    /// </summary>
-    public static SlSkeleton SetEffectPulse(this SlSkeleton tag)
-    {
-        return tag.SetAttribute("effect", "pulse");
-    }
-    /// <summary>
-    /// Determines which effect the skeleton will use.
-    /// </summary>
-    public static SlSkeleton SetEffectSheen(this SlSkeleton tag)
-    {
-        return tag.SetAttribute("effect", "sheen");
-    }
-    /// <summary>
-    /// Determines which effect the skeleton will use.
-    /// </summary>
-    public static SlSkeleton SetEffectNone(this SlSkeleton tag)
-    {
-        return tag.SetAttribute("effect", "none");
-    }
 }
 

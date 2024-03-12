@@ -5,4 +5,8 @@
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Metapsi.WebComponentGenerator\Metapsi.WebComponentGenerator.csproj" />
+  </ItemGroup>
+
 </Project>

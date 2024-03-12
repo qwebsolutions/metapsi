@@ -3,23 +3,25 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlTree
+public partial class SlTree
 {
-}
-public partial class SlTreeSelectionChangeArgs
-{
-    public IClientSideSlTree target { get; set; }
-    public partial class Details 
+    public static class Slot
     {
-        public List<IClientSideSlTreeItem> selection { get; set; }
+        /// <summary> 
+        /// The icon to show when the tree item is expanded. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string ExpandIcon = "expand-icon";
+        /// <summary> 
+        /// The icon to show when the tree item is collapsed. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string CollapseIcon = "collapse-icon";
     }
-    public Details detail { get; set; }
 }
+
 public static partial class SlTreeControl
 {
     /// <summary>
@@ -57,73 +59,31 @@ public static partial class SlTreeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("selection"), b.Const("leaf"));
     }
+
     /// <summary>
     /// Emitted when a tree item is selected or deselected.
-    /// event detail: { selection: SlTreeItem[] }
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, SlTreeSelectionChangeArgs>> action)
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlTreeSelectionChangeArgs>>("onsl-selection-change"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-selection-change"), eventAction);
     }
     /// <summary>
     /// Emitted when a tree item is selected or deselected.
-    /// event detail: { selection: SlTreeItem[] }
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTreeSelectionChangeArgs>, Var<TModel>> action)
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlTreeSelectionChangeArgs>>("onsl-selection-change"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
-/// </summary>
-public partial class SlTree : HtmlTag
-{
-    public SlTree()
-    {
-        this.Tag = "sl-tree";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-selection-change"), eventAction);
     }
 
-    public static SlTree New()
-    {
-        return new SlTree();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// The icon to show when the tree item is expanded. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string ExpandIcon = "expand-icon";
-        /// <summary> 
-        /// The icon to show when the tree item is collapsed. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string CollapseIcon = "collapse-icon";
-    }
-}
-
-public static partial class SlTreeControl
-{
-    /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
-    /// </summary>
-    public static SlTree SetSelectionSingle(this SlTree tag)
-    {
-        return tag.SetAttribute("selection", "single");
-    }
-    /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
-    /// </summary>
-    public static SlTree SetSelectionMultiple(this SlTree tag)
-    {
-        return tag.SetAttribute("selection", "multiple");
-    }
-    /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
-    /// </summary>
-    public static SlTree SetSelectionLeaf(this SlTree tag)
-    {
-        return tag.SetAttribute("selection", "leaf");
-    }
 }
 

@@ -3,18 +3,25 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlTab
+public partial class SlTab
 {
+    public static class Method
+    {
+        /// <summary> 
+        /// Sets focus to the tab.
+        /// </summary>
+        public const string Focus = "focus";
+        /// <summary> 
+        /// Removes focus from the tab.
+        /// </summary>
+        public const string Blur = "blur";
+    }
 }
-public partial class SlTabCloseArgs
-{
-    public IClientSideSlTab target { get; set; }
-}
+
 public static partial class SlTabControl
 {
     /// <summary>
@@ -45,6 +52,7 @@ public static partial class SlTabControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), b.Const(value));
     }
+
     /// <summary>
     /// Draws the tab in an active state.
     /// </summary>
@@ -52,6 +60,7 @@ public static partial class SlTabControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
     }
+
     /// <summary>
     /// Makes the tab closable and shows a close button.
     /// </summary>
@@ -59,6 +68,7 @@ public static partial class SlTabControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("closable"), b.Const(true));
     }
+
     /// <summary>
     /// Disables the tab and prevents selection.
     /// </summary>
@@ -66,67 +76,31 @@ public static partial class SlTabControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// Emitted when the tab is closable and the close button is activated.
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel, SlTabCloseArgs>> action)
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlTabCloseArgs>>("onsl-close"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-close"), eventAction);
     }
     /// <summary>
     /// Emitted when the tab is closable and the close button is activated.
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabCloseArgs>, Var<TModel>> action)
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlTabCloseArgs>>("onsl-close"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Tabs are used inside [tab groups](/components/tab-group) to represent and activate [tab panels](/components/tab-panel).
-/// </summary>
-public partial class SlTab : HtmlTag
-{
-    public SlTab()
-    {
-        this.Tag = "sl-tab";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-close"), eventAction);
     }
 
-    public static SlTab New()
-    {
-        return new SlTab();
-    }
-}
-
-public static partial class SlTabControl
-{
-    /// <summary>
-    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
-    /// </summary>
-    public static SlTab SetPanel(this SlTab tag, string value)
-    {
-        return tag.SetAttribute("panel", value.ToString());
-    }
-    /// <summary>
-    /// Draws the tab in an active state.
-    /// </summary>
-    public static SlTab SetActive(this SlTab tag)
-    {
-        return tag.SetAttribute("active", "true");
-    }
-    /// <summary>
-    /// Makes the tab closable and shows a close button.
-    /// </summary>
-    public static SlTab SetClosable(this SlTab tag)
-    {
-        return tag.SetAttribute("closable", "true");
-    }
-    /// <summary>
-    /// Disables the tab and prevents selection.
-    /// </summary>
-    public static SlTab SetDisabled(this SlTab tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
 }
 

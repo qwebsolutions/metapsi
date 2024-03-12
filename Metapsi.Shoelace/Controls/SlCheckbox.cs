@@ -3,35 +3,52 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlCheckbox
+public partial class SlCheckbox
 {
-    public string value { get; set; }
+    public static class Slot
+    {
+        /// <summary> 
+        /// Text that describes how to use the checkbox. Alternatively, you can use the `help-text` attribute.
+        /// </summary>
+        public const string HelpText = "help-text";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Simulates a click on the checkbox.
+        /// </summary>
+        public const string Click = "click";
+        /// <summary> 
+        /// Sets focus on the checkbox.
+        /// </summary>
+        public const string Focus = "focus";
+        /// <summary> 
+        /// Removes focus from the checkbox.
+        /// </summary>
+        public const string Blur = "blur";
+        /// <summary> 
+        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// </summary>
+        public const string CheckValidity = "checkValidity";
+        /// <summary> 
+        /// Gets the associated form, if one exists.
+        /// </summary>
+        public const string GetForm = "getForm";
+        /// <summary> 
+        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// </summary>
+        public const string ReportValidity = "reportValidity";
+        /// <summary> 
+        /// Sets a custom validation message. The value provided will be shown to the user when the form is submitted. To clear the custom validation message, call this method with an empty string.
+        /// </summary>
+        public const string SetCustomValidity = "setCustomValidity";
+    }
 }
-public partial class SlCheckboxBlurArgs
-{
-    public IClientSideSlCheckbox target { get; set; }
-}
-public partial class SlCheckboxChangeArgs
-{
-    public IClientSideSlCheckbox target { get; set; }
-}
-public partial class SlCheckboxFocusArgs
-{
-    public IClientSideSlCheckbox target { get; set; }
-}
-public partial class SlCheckboxInputArgs
-{
-    public IClientSideSlCheckbox target { get; set; }
-}
-public partial class SlCheckboxInvalidArgs
-{
-    public IClientSideSlCheckbox target { get; set; }
-}
+
 public static partial class SlCheckboxControl
 {
     /// <summary>
@@ -62,6 +79,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
     }
+
     /// <summary>
     /// The current value of the checkbox, submitted as a name/value pair with form data.
     /// </summary>
@@ -76,6 +94,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// The checkbox's size.
     /// </summary>
@@ -97,6 +116,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
     }
+
     /// <summary>
     /// Disables the checkbox.
     /// </summary>
@@ -104,6 +124,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// Draws the checkbox in a checked state.
     /// </summary>
@@ -111,6 +132,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
+
     /// <summary>
     /// Draws the checkbox in an indeterminate state. This is usually applied to checkboxes that represents a "select all/none" behavior when associated checkboxes have a mix of checked and unchecked states.
     /// </summary>
@@ -118,6 +140,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(true));
     }
+
     /// <summary>
     /// The default value of the form control. Primarily used for resetting the form control.
     /// </summary>
@@ -125,6 +148,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("defaultChecked"), b.Const(true));
     }
+
     /// <summary>
     /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
     /// </summary>
@@ -139,6 +163,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
     }
+
     /// <summary>
     /// Makes the checkbox a required field.
     /// </summary>
@@ -146,6 +171,7 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
+
     /// <summary>
     /// The checkbox's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
@@ -160,186 +186,131 @@ public static partial class SlCheckboxControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
     }
+
     /// <summary>
     /// Emitted when the checkbox loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, SlCheckboxBlurArgs>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxBlurArgs>>("onsl-blur"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
     }
     /// <summary>
     /// Emitted when the checkbox loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlCheckboxBlurArgs>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxBlurArgs>>("onsl-blur"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted when the checked state changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
     }
     /// <summary>
     /// Emitted when the checked state changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, SlCheckboxChangeArgs>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxChangeArgs>>("onsl-change"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the checked state changes.
+    /// Emitted when the checkbox gains focus.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlCheckboxChangeArgs>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxChangeArgs>>("onsl-change"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
     /// <summary>
     /// Emitted when the checkbox gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, SlCheckboxFocusArgs>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxFocusArgs>>("onsl-focus"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the checkbox gains focus.
+    /// Emitted when the checkbox receives input.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlCheckboxFocusArgs>, Var<TModel>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxFocusArgs>>("onsl-focus"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
     }
     /// <summary>
     /// Emitted when the checkbox receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, SlCheckboxInputArgs>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxInputArgs>>("onsl-input"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
     }
+
     /// <summary>
-    /// Emitted when the checkbox receives input.
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlCheckboxInputArgs>, Var<TModel>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxInputArgs>>("onsl-input"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
     }
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlCheckbox> b, Var<HyperType.Action<TModel, SlCheckboxInvalidArgs>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxInvalidArgs>>("onsl-invalid"), action);
-    }
-    /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
-    /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlCheckbox> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlCheckboxInvalidArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlCheckboxInvalidArgs>>("onsl-invalid"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Checkboxes allow the user to toggle an option on or off.
-/// </summary>
-public partial class SlCheckbox : HtmlTag
-{
-    public SlCheckbox()
-    {
-        this.Tag = "sl-checkbox";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
     }
 
-    public static SlCheckbox New()
-    {
-        return new SlCheckbox();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Text that describes how to use the checkbox. Alternatively, you can use the `help-text` attribute.
-        /// </summary>
-        public const string HelpText = "help-text";
-    }
-}
-
-public static partial class SlCheckboxControl
-{
-    /// <summary>
-    /// The name of the checkbox, submitted as a name/value pair with form data.
-    /// </summary>
-    public static SlCheckbox SetName(this SlCheckbox tag, string value)
-    {
-        return tag.SetAttribute("name", value.ToString());
-    }
-    /// <summary>
-    /// The current value of the checkbox, submitted as a name/value pair with form data.
-    /// </summary>
-    public static SlCheckbox SetValue(this SlCheckbox tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// The checkbox's size.
-    /// </summary>
-    public static SlCheckbox SetSizeSmall(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("size", "small");
-    }
-    /// <summary>
-    /// The checkbox's size.
-    /// </summary>
-    public static SlCheckbox SetSizeMedium(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("size", "medium");
-    }
-    /// <summary>
-    /// The checkbox's size.
-    /// </summary>
-    public static SlCheckbox SetSizeLarge(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("size", "large");
-    }
-    /// <summary>
-    /// Disables the checkbox.
-    /// </summary>
-    public static SlCheckbox SetDisabled(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
-    /// <summary>
-    /// Draws the checkbox in a checked state.
-    /// </summary>
-    public static SlCheckbox SetChecked(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("checked", "true");
-    }
-    /// <summary>
-    /// Draws the checkbox in an indeterminate state. This is usually applied to checkboxes that represents a "select all/none" behavior when associated checkboxes have a mix of checked and unchecked states.
-    /// </summary>
-    public static SlCheckbox SetIndeterminate(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("indeterminate", "true");
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static SlCheckbox SetDefaultChecked(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("defaultChecked", "true");
-    }
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public static SlCheckbox SetForm(this SlCheckbox tag, string value)
-    {
-        return tag.SetAttribute("form", value.ToString());
-    }
-    /// <summary>
-    /// Makes the checkbox a required field.
-    /// </summary>
-    public static SlCheckbox SetRequired(this SlCheckbox tag)
-    {
-        return tag.SetAttribute("required", "true");
-    }
-    /// <summary>
-    /// The checkbox's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public static SlCheckbox SetHelpText(this SlCheckbox tag, string value)
-    {
-        return tag.SetAttribute("helpText", value.ToString());
-    }
 }
 

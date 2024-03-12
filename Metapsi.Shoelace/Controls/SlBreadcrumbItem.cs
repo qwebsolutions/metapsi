@@ -3,14 +3,29 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlBreadcrumbItem
+public partial class SlBreadcrumbItem
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// An optional prefix, usually an icon or icon button.
+        /// </summary>
+        public const string Prefix = "prefix";
+        /// <summary> 
+        /// An optional suffix, usually an icon or icon button.
+        /// </summary>
+        public const string Suffix = "suffix";
+        /// <summary> 
+        /// The separator to use for the breadcrumb item. This will only change the separator for this item. If you want to change it for all items in the group, set the separator on `<sl-breadcrumb>` instead.
+        /// </summary>
+        public const string Separator = "separator";
+    }
 }
+
 public static partial class SlBreadcrumbItemControl
 {
     /// <summary>
@@ -41,6 +56,7 @@ public static partial class SlBreadcrumbItemControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(value));
     }
+
     /// <summary>
     /// Tells the browser where to open the link. Only used when `href` is set.
     /// </summary>
@@ -69,6 +85,7 @@ public static partial class SlBreadcrumbItemControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("target"), b.Const("_top"));
     }
+
     /// <summary>
     /// The `rel` attribute to use on the link. Only used when `href` is set.
     /// </summary>
@@ -83,82 +100,6 @@ public static partial class SlBreadcrumbItemControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(value));
     }
-}
 
-/// <summary>
-/// Breadcrumb Items are used inside [breadcrumbs](/components/breadcrumb) to represent different links.
-/// </summary>
-public partial class SlBreadcrumbItem : HtmlTag
-{
-    public SlBreadcrumbItem()
-    {
-        this.Tag = "sl-breadcrumb-item";
-    }
-
-    public static SlBreadcrumbItem New()
-    {
-        return new SlBreadcrumbItem();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// An optional prefix, usually an icon or icon button.
-        /// </summary>
-        public const string Prefix = "prefix";
-        /// <summary> 
-        /// An optional suffix, usually an icon or icon button.
-        /// </summary>
-        public const string Suffix = "suffix";
-        /// <summary> 
-        /// The separator to use for the breadcrumb item. This will only change the separator for this item. If you want to change it for all items in the group, set the separator on `<sl-breadcrumb>` instead.
-        /// </summary>
-        public const string Separator = "separator";
-    }
-}
-
-public static partial class SlBreadcrumbItemControl
-{
-    /// <summary>
-    /// Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead.
-    /// </summary>
-    public static SlBreadcrumbItem SetHref(this SlBreadcrumbItem tag, string value)
-    {
-        return tag.SetAttribute("href", value.ToString());
-    }
-    /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is set.
-    /// </summary>
-    public static SlBreadcrumbItem SetTarget_blank(this SlBreadcrumbItem tag)
-    {
-        return tag.SetAttribute("target", "_blank");
-    }
-    /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is set.
-    /// </summary>
-    public static SlBreadcrumbItem SetTarget_parent(this SlBreadcrumbItem tag)
-    {
-        return tag.SetAttribute("target", "_parent");
-    }
-    /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is set.
-    /// </summary>
-    public static SlBreadcrumbItem SetTarget_self(this SlBreadcrumbItem tag)
-    {
-        return tag.SetAttribute("target", "_self");
-    }
-    /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is set.
-    /// </summary>
-    public static SlBreadcrumbItem SetTarget_top(this SlBreadcrumbItem tag)
-    {
-        return tag.SetAttribute("target", "_top");
-    }
-    /// <summary>
-    /// The `rel` attribute to use on the link. Only used when `href` is set.
-    /// </summary>
-    public static SlBreadcrumbItem SetRel(this SlBreadcrumbItem tag, string value)
-    {
-        return tag.SetAttribute("rel", value.ToString());
-    }
 }
 

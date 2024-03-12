@@ -3,18 +3,29 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlSplitPanel
+public partial class SlSplitPanel
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// Content to place in the start panel.
+        /// </summary>
+        public const string Start = "start";
+        /// <summary> 
+        /// Content to place in the end panel.
+        /// </summary>
+        public const string End = "end";
+        /// <summary> 
+        /// The divider. Useful for slotting in a custom icon that renders as a handle.
+        /// </summary>
+        public const string Divider = "divider";
+    }
 }
-public partial class SlSplitPanelRepositionArgs
-{
-    public IClientSideSlSplitPanel target { get; set; }
-}
+
 public static partial class SlSplitPanelControl
 {
     /// <summary>
@@ -45,6 +56,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("position"), b.Const(value));
     }
+
     /// <summary>
     /// The current position of the divider from the primary panel's edge in pixels.
     /// </summary>
@@ -59,6 +71,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("positionInPixels"), b.Const(value));
     }
+
     /// <summary>
     /// Draws the split panel in a vertical orientation with the start and end panels stacked.
     /// </summary>
@@ -66,6 +79,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
     }
+
     /// <summary>
     /// Disables resizing. Note that the position may still change as a result of resizing the host element.
     /// </summary>
@@ -73,6 +87,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
     /// </summary>
@@ -87,6 +102,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("primary"), b.Const("end"));
     }
+
     /// <summary>
     /// One or more space-separated values at which the divider should snap. Values can be in pixels or percentages, e.g. `"100px 50%"`.
     /// </summary>
@@ -101,6 +117,7 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("snap"), b.Const(value));
     }
+
     /// <summary>
     /// How close the divider must be to a snap point until snapping occurs.
     /// </summary>
@@ -115,110 +132,31 @@ public static partial class SlSplitPanelControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("snapThreshold"), b.Const(value));
     }
+
     /// <summary>
     /// Emitted when the divider's position changes.
     /// </summary>
-    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, Var<HyperType.Action<TModel, SlSplitPanelRepositionArgs>> action)
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSplitPanelRepositionArgs>>("onsl-reposition"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-reposition"), eventAction);
     }
     /// <summary>
     /// Emitted when the divider's position changes.
     /// </summary>
-    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSplitPanelRepositionArgs>, Var<TModel>> action)
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlSplitPanelRepositionArgs>>("onsl-reposition"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Split panels display two adjacent panels, allowing the user to reposition them.
-/// </summary>
-public partial class SlSplitPanel : HtmlTag
-{
-    public SlSplitPanel()
-    {
-        this.Tag = "sl-split-panel";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-reposition"), eventAction);
     }
 
-    public static SlSplitPanel New()
-    {
-        return new SlSplitPanel();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Content to place in the start panel.
-        /// </summary>
-        public const string Start = "start";
-        /// <summary> 
-        /// Content to place in the end panel.
-        /// </summary>
-        public const string End = "end";
-        /// <summary> 
-        /// The divider. Useful for slotting in a custom icon that renders as a handle.
-        /// </summary>
-        public const string Divider = "divider";
-    }
-}
-
-public static partial class SlSplitPanelControl
-{
-    /// <summary>
-    /// The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size.
-    /// </summary>
-    public static SlSplitPanel SetPosition(this SlSplitPanel tag, int value)
-    {
-        return tag.SetAttribute("position", value.ToString());
-    }
-    /// <summary>
-    /// The current position of the divider from the primary panel's edge in pixels.
-    /// </summary>
-    public static SlSplitPanel SetPositionInPixels(this SlSplitPanel tag, int value)
-    {
-        return tag.SetAttribute("positionInPixels", value.ToString());
-    }
-    /// <summary>
-    /// Draws the split panel in a vertical orientation with the start and end panels stacked.
-    /// </summary>
-    public static SlSplitPanel SetVertical(this SlSplitPanel tag)
-    {
-        return tag.SetAttribute("vertical", "true");
-    }
-    /// <summary>
-    /// Disables resizing. Note that the position may still change as a result of resizing the host element.
-    /// </summary>
-    public static SlSplitPanel SetDisabled(this SlSplitPanel tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
-    /// <summary>
-    /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
-    /// </summary>
-    public static SlSplitPanel SetPrimaryStart(this SlSplitPanel tag)
-    {
-        return tag.SetAttribute("primary", "start");
-    }
-    /// <summary>
-    /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
-    /// </summary>
-    public static SlSplitPanel SetPrimaryEnd(this SlSplitPanel tag)
-    {
-        return tag.SetAttribute("primary", "end");
-    }
-    /// <summary>
-    /// One or more space-separated values at which the divider should snap. Values can be in pixels or percentages, e.g. `"100px 50%"`.
-    /// </summary>
-    public static SlSplitPanel SetSnap(this SlSplitPanel tag, string value)
-    {
-        return tag.SetAttribute("snap", value.ToString());
-    }
-    /// <summary>
-    /// How close the divider must be to a snap point until snapping occurs.
-    /// </summary>
-    public static SlSplitPanel SetSnapThreshold(this SlSplitPanel tag, int value)
-    {
-        return tag.SetAttribute("snapThreshold", value.ToString());
-    }
 }
 

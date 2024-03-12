@@ -3,14 +3,21 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlBreadcrumb
+public partial class SlBreadcrumb
 {
+    public static class Slot
+    {
+        /// <summary> 
+        /// The separator to use between breadcrumb items. Works best with `<sl-icon>`.
+        /// </summary>
+        public const string Separator = "separator";
+    }
 }
+
 public static partial class SlBreadcrumbControl
 {
     /// <summary>
@@ -41,39 +48,6 @@ public static partial class SlBreadcrumbControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
     }
-}
 
-/// <summary>
-/// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
-/// </summary>
-public partial class SlBreadcrumb : HtmlTag
-{
-    public SlBreadcrumb()
-    {
-        this.Tag = "sl-breadcrumb";
-    }
-
-    public static SlBreadcrumb New()
-    {
-        return new SlBreadcrumb();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// The separator to use between breadcrumb items. Works best with `<sl-icon>`.
-        /// </summary>
-        public const string Separator = "separator";
-    }
-}
-
-public static partial class SlBreadcrumbControl
-{
-    /// <summary>
-    /// The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users.
-    /// </summary>
-    public static SlBreadcrumb SetLabel(this SlBreadcrumb tag, string value)
-    {
-        return tag.SetAttribute("label", value.ToString());
-    }
 }
 
