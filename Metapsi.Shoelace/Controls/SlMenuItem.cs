@@ -3,15 +3,36 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlMenuItem
+public partial class SlMenuItem
 {
-    public string value { get; set; }
+    public static class Slot
+    {
+        /// <summary> 
+        /// Used to prepend an icon or similar element to the menu item.
+        /// </summary>
+        public const string Prefix = "prefix";
+        /// <summary> 
+        /// Used to append an icon or similar element to the menu item.
+        /// </summary>
+        public const string Suffix = "suffix";
+        /// <summary> 
+        /// Used to denote a nested menu.
+        /// </summary>
+        public const string Submenu = "submenu";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Returns a text label based on the contents of the menu item's default slot.
+        /// </summary>
+        public const string GetTextLabel = "getTextLabel";
+    }
 }
+
 public static partial class SlMenuItemControl
 {
     /// <summary>
@@ -42,6 +63,7 @@ public static partial class SlMenuItemControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("checkbox"));
     }
+
     /// <summary>
     /// Draws the item in a checked state.
     /// </summary>
@@ -49,6 +71,7 @@ public static partial class SlMenuItemControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
+
     /// <summary>
     /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
     /// </summary>
@@ -63,6 +86,7 @@ public static partial class SlMenuItemControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// Draws the menu item in a loading state.
     /// </summary>
@@ -70,6 +94,7 @@ public static partial class SlMenuItemControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
     }
+
     /// <summary>
     /// Draws the menu item in a disabled state, preventing selection.
     /// </summary>
@@ -77,82 +102,6 @@ public static partial class SlMenuItemControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
-}
 
-/// <summary>
-/// Menu items provide options for the user to pick from in a menu.
-/// </summary>
-public partial class SlMenuItem : HtmlTag
-{
-    public SlMenuItem()
-    {
-        this.Tag = "sl-menu-item";
-    }
-
-    public static SlMenuItem New()
-    {
-        return new SlMenuItem();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Used to prepend an icon or similar element to the menu item.
-        /// </summary>
-        public const string Prefix = "prefix";
-        /// <summary> 
-        /// Used to append an icon or similar element to the menu item.
-        /// </summary>
-        public const string Suffix = "suffix";
-        /// <summary> 
-        /// Used to denote a nested menu.
-        /// </summary>
-        public const string Submenu = "submenu";
-    }
-}
-
-public static partial class SlMenuItemControl
-{
-    /// <summary>
-    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
-    /// </summary>
-    public static SlMenuItem SetTypeNormal(this SlMenuItem tag)
-    {
-        return tag.SetAttribute("type", "normal");
-    }
-    /// <summary>
-    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
-    /// </summary>
-    public static SlMenuItem SetTypeCheckbox(this SlMenuItem tag)
-    {
-        return tag.SetAttribute("type", "checkbox");
-    }
-    /// <summary>
-    /// Draws the item in a checked state.
-    /// </summary>
-    public static SlMenuItem SetChecked(this SlMenuItem tag)
-    {
-        return tag.SetAttribute("checked", "true");
-    }
-    /// <summary>
-    /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
-    /// </summary>
-    public static SlMenuItem SetValue(this SlMenuItem tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// Draws the menu item in a loading state.
-    /// </summary>
-    public static SlMenuItem SetLoading(this SlMenuItem tag)
-    {
-        return tag.SetAttribute("loading", "true");
-    }
-    /// <summary>
-    /// Draws the menu item in a disabled state, preventing selection.
-    /// </summary>
-    public static SlMenuItem SetDisabled(this SlMenuItem tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
 }
 

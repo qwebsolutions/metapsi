@@ -3,23 +3,36 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlRadioButton
+public partial class SlRadioButton
 {
-    public string value { get; set; }
+    public static class Slot
+    {
+        /// <summary> 
+        /// A presentational prefix icon or similar element.
+        /// </summary>
+        public const string Prefix = "prefix";
+        /// <summary> 
+        /// A presentational suffix icon or similar element.
+        /// </summary>
+        public const string Suffix = "suffix";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Sets focus on the radio button.
+        /// </summary>
+        public const string Focus = "focus";
+        /// <summary> 
+        /// Removes focus from the radio button.
+        /// </summary>
+        public const string Blur = "blur";
+    }
 }
-public partial class SlRadioButtonBlurArgs
-{
-    public IClientSideSlRadioButton target { get; set; }
-}
-public partial class SlRadioButtonFocusArgs
-{
-    public IClientSideSlRadioButton target { get; set; }
-}
+
 public static partial class SlRadioButtonControl
 {
     /// <summary>
@@ -50,6 +63,7 @@ public static partial class SlRadioButtonControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// Disables the radio button.
     /// </summary>
@@ -57,6 +71,7 @@ public static partial class SlRadioButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+
     /// <summary>
     /// The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
     /// </summary>
@@ -78,6 +93,7 @@ public static partial class SlRadioButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
     }
+
     /// <summary>
     /// Draws a pill-style radio button with rounded edges.
     /// </summary>
@@ -85,106 +101,56 @@ public static partial class SlRadioButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
+
     /// <summary>
     /// Emitted when the button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadioButton> b, Var<HyperType.Action<TModel, SlRadioButtonBlurArgs>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadioButton> b, Var<HyperType.Action<TModel, object>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlRadioButtonBlurArgs>>("onsl-blur"), action);
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
     }
     /// <summary>
     /// Emitted when the button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadioButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlRadioButtonBlurArgs>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadioButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlRadioButtonBlurArgs>>("onsl-blur"), b.MakeAction(action));
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+    }
+
+    /// <summary>
+    /// Emitted when the button gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadioButton> b, Var<HyperType.Action<TModel, object>> action)
+    {
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(action, value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
     /// <summary>
     /// Emitted when the button gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadioButton> b, Var<HyperType.Action<TModel, SlRadioButtonFocusArgs>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadioButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlRadioButtonFocusArgs>>("onsl-focus"), action);
-    }
-    /// <summary>
-    /// Emitted when the button gains focus.
-    /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadioButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlRadioButtonFocusArgs>, Var<TModel>> action)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, SlRadioButtonFocusArgs>>("onsl-focus"), b.MakeAction(action));
-    }
-}
-
-/// <summary>
-/// Radios buttons allow the user to select a single option from a group using a button-like control.
-/// </summary>
-public partial class SlRadioButton : HtmlTag
-{
-    public SlRadioButton()
-    {
-        this.Tag = "sl-radio-button";
+        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
+        {
+            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
+            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
+        });
+        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
     }
 
-    public static SlRadioButton New()
-    {
-        return new SlRadioButton();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// A presentational prefix icon or similar element.
-        /// </summary>
-        public const string Prefix = "prefix";
-        /// <summary> 
-        /// A presentational suffix icon or similar element.
-        /// </summary>
-        public const string Suffix = "suffix";
-    }
-}
-
-public static partial class SlRadioButtonControl
-{
-    /// <summary>
-    /// The radio's value. When selected, the radio group will receive this value.
-    /// </summary>
-    public static SlRadioButton SetValue(this SlRadioButton tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// Disables the radio button.
-    /// </summary>
-    public static SlRadioButton SetDisabled(this SlRadioButton tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
-    /// <summary>
-    /// The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
-    /// </summary>
-    public static SlRadioButton SetSizeSmall(this SlRadioButton tag)
-    {
-        return tag.SetAttribute("size", "small");
-    }
-    /// <summary>
-    /// The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
-    /// </summary>
-    public static SlRadioButton SetSizeMedium(this SlRadioButton tag)
-    {
-        return tag.SetAttribute("size", "medium");
-    }
-    /// <summary>
-    /// The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
-    /// </summary>
-    public static SlRadioButton SetSizeLarge(this SlRadioButton tag)
-    {
-        return tag.SetAttribute("size", "large");
-    }
-    /// <summary>
-    /// Draws a pill-style radio button with rounded edges.
-    /// </summary>
-    public static SlRadioButton SetPill(this SlRadioButton tag)
-    {
-        return tag.SetAttribute("pill", "true");
-    }
 }
 

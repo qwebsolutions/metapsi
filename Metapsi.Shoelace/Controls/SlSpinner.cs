@@ -3,14 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlSpinner
+public partial class SlSpinner
 {
 }
+
 public static partial class SlSpinnerControl
 {
     /// <summary>
@@ -27,25 +27,5 @@ public static partial class SlSpinnerControl
     {
         return b.SlNode("sl-spinner", buildProps, children);
     }
-}
-
-/// <summary>
-/// Spinners are used to show the progress of an indeterminate operation.
-/// </summary>
-public partial class SlSpinner : HtmlTag
-{
-    public SlSpinner()
-    {
-        this.Tag = "sl-spinner";
-    }
-
-    public static SlSpinner New()
-    {
-        return new SlSpinner();
-    }
-}
-
-public static partial class SlSpinnerControl
-{
 }
 

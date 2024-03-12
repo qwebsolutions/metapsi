@@ -3,14 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlButtonGroup
+public partial class SlButtonGroup
 {
 }
+
 public static partial class SlButtonGroupControl
 {
     /// <summary>
@@ -41,32 +41,6 @@ public static partial class SlButtonGroupControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
     }
-}
 
-/// <summary>
-/// Button groups can be used to group related buttons into sections.
-/// </summary>
-public partial class SlButtonGroup : HtmlTag
-{
-    public SlButtonGroup()
-    {
-        this.Tag = "sl-button-group";
-    }
-
-    public static SlButtonGroup New()
-    {
-        return new SlButtonGroup();
-    }
-}
-
-public static partial class SlButtonGroupControl
-{
-    /// <summary>
-    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
-    /// </summary>
-    public static SlButtonGroup SetLabel(this SlButtonGroup tag, string value)
-    {
-        return tag.SetAttribute("label", value.ToString());
-    }
 }
 

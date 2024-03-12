@@ -3,15 +3,32 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlOption
+public partial class SlOption
 {
-    public string value { get; set; }
+    public static class Slot
+    {
+        /// <summary> 
+        /// Used to prepend an icon or similar element to the menu item.
+        /// </summary>
+        public const string Prefix = "prefix";
+        /// <summary> 
+        /// Used to append an icon or similar element to the menu item.
+        /// </summary>
+        public const string Suffix = "suffix";
+    }
+    public static class Method
+    {
+        /// <summary> 
+        /// Returns a plain text label based on the option's content.
+        /// </summary>
+        public const string GetTextLabel = "getTextLabel";
+    }
 }
+
 public static partial class SlOptionControl
 {
     /// <summary>
@@ -42,6 +59,7 @@ public static partial class SlOptionControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
     /// <summary>
     /// Draws the option in a disabled state, preventing selection.
     /// </summary>
@@ -49,50 +67,6 @@ public static partial class SlOptionControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
-}
 
-/// <summary>
-/// Options define the selectable items within various form controls such as [select](/components/select).
-/// </summary>
-public partial class SlOption : HtmlTag
-{
-    public SlOption()
-    {
-        this.Tag = "sl-option";
-    }
-
-    public static SlOption New()
-    {
-        return new SlOption();
-    }
-    public static class Slot
-    {
-        /// <summary> 
-        /// Used to prepend an icon or similar element to the menu item.
-        /// </summary>
-        public const string Prefix = "prefix";
-        /// <summary> 
-        /// Used to append an icon or similar element to the menu item.
-        /// </summary>
-        public const string Suffix = "suffix";
-    }
-}
-
-public static partial class SlOptionControl
-{
-    /// <summary>
-    /// The option's value. When selected, the containing form control will receive this value. The value must be unique from other options in the same group. Values may not contain spaces, as spaces are used as delimiters when listing multiple values.
-    /// </summary>
-    public static SlOption SetValue(this SlOption tag, string value)
-    {
-        return tag.SetAttribute("value", value.ToString());
-    }
-    /// <summary>
-    /// Draws the option in a disabled state, preventing selection.
-    /// </summary>
-    public static SlOption SetDisabled(this SlOption tag)
-    {
-        return tag.SetAttribute("disabled", "true");
-    }
 }
 

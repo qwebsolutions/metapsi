@@ -3,14 +3,14 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
-using System.ComponentModel;
 
 namespace Metapsi.Shoelace;
 
 
-public partial interface IClientSideSlTabPanel
+public partial class SlTabPanel
 {
 }
+
 public static partial class SlTabPanelControl
 {
     /// <summary>
@@ -41,6 +41,7 @@ public static partial class SlTabPanelControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
     }
+
     /// <summary>
     /// When true, the tab panel will be shown.
     /// </summary>
@@ -48,39 +49,6 @@ public static partial class SlTabPanelControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
     }
-}
 
-/// <summary>
-/// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
-/// </summary>
-public partial class SlTabPanel : HtmlTag
-{
-    public SlTabPanel()
-    {
-        this.Tag = "sl-tab-panel";
-    }
-
-    public static SlTabPanel New()
-    {
-        return new SlTabPanel();
-    }
-}
-
-public static partial class SlTabPanelControl
-{
-    /// <summary>
-    /// The tab panel's name.
-    /// </summary>
-    public static SlTabPanel SetName(this SlTabPanel tag, string value)
-    {
-        return tag.SetAttribute("name", value.ToString());
-    }
-    /// <summary>
-    /// When true, the tab panel will be shown.
-    /// </summary>
-    public static SlTabPanel SetActive(this SlTabPanel tag)
-    {
-        return tag.SetAttribute("active", "true");
-    }
 }
 
