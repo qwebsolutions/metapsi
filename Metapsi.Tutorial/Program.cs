@@ -93,6 +93,7 @@ public static partial class Program
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return new CompileResponse()
                 {
                     ErrorMessage = ex.Message,
