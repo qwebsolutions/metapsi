@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 helpMsg='Parameters are: csproj version target (target is win10-x64 or linux-x64)'
 
 if [ -z "$1" ]
@@ -57,7 +59,7 @@ fVersion='version='$2
 fRevision='revision='$revision
 fTarget='target='$3
 
-$curlCmd -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://s2020:5011/UploadBinaries
+$curlCmd -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://localhost:5011/UploadBinaries
 
 
 echo curl -F $fFile -F $fProject -F $fVersion -F $fRevision -F $fTarget http://localhost:5011/UploadBinaries > push_local.bat

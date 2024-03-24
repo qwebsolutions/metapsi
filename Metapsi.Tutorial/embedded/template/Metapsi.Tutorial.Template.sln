@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Tutorial.Template", "Metapsi.Tutorial.Template.csproj", "{5E4E7A66-33A3-460C-9B4A-F8A7E6B1E99D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E4E7A66-33A3-460C-9B4A-F8A7E6B1E99D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4E7A66-33A3-460C-9B4A-F8A7E6B1E99D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4E7A66-33A3-460C-9B4A-F8A7E6B1E99D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4E7A66-33A3-460C-9B4A-F8A7E6B1E99D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91DBAE9A-3D0D-4454-ADE4-88F29E6AA41C}
+	EndGlobalSection
+EndGlobal

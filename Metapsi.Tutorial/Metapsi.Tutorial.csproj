@@ -18,14 +18,6 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.6.0" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
-		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
-		<ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
-		<ProjectReference Include="..\Metapsi.Sqlite\Metapsi.SQLite.csproj" />
-		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
-	</ItemGroup>-->
-
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\Metapsi.Tutorial.js" LogicalName="metapsi.tutorial.js"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\metapsi.tutorial.css" LogicalName="metapsi.tutorial.css"></EmbeddedResource>
@@ -38,17 +30,9 @@
 		<EmbeddedResource Include="docs\samples\*.cs" />
 		<EmbeddedResource Include="docs\articles\*.md" />
 		<EmbeddedResource Include="docs\menu.json" LogicalName="menu.json"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\template\Metapsi.Tutorial.Template.sln" LogicalName="Metapsi.Tutorial.Template.sln"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\template\Metapsi.Tutorial.Template.csproj" LogicalName="Metapsi.Tutorial.Template.csproj"></EmbeddedResource>
+		<EmbeddedResource Include="embedded\template\Renderer.cs" LogicalName="Renderer.cs"></EmbeddedResource>
 	</ItemGroup>
 
-
-	<!--<ItemGroup>
-		<Content Include="docs\**" />
-		<Compile Remove="docs\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="docs\articles\hello-world.md" />
-	  <None Remove="docs\articles\Overview.md" />
-	  <None Remove="docs\menu.json" />
-	</ItemGroup>-->
 </Project>

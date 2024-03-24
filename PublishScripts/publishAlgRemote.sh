@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 source ./publishVars.sh
 
 helpMsg='Parameters are: csproj version target (target is win10-x64 or linux-x64)'

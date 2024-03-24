@@ -16,13 +16,14 @@ using Metapsi.Hyperapp;
 using Microsoft.AspNetCore.Builder;
 using Metapsi.Dom;
 using Microsoft.AspNetCore.Rewrite;
+using System.Collections.Generic;
 
 namespace Metapsi.Tutorial;
 
 public class Arguments
 {
     public string UiPort { get; set; }
-    public string TemplateSlnPath { get; set; }
+    public string TemplateSlnFolder { get; set; }
 
     public static async Task<Arguments> Load()
     {
@@ -30,13 +31,6 @@ public class Arguments
         var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
 
         return arguments;
-    }
-
-    public static async Task<string> TemplateSlnFullPath()
-    {
-        var parametersFullFilePath = Metapsi.RelativePath.SearchUpfolder(RelativePath.From.CurrentDir, "parameters.json");
-        var arguments = Metapsi.Serialize.FromJson<Arguments>(await System.IO.File.ReadAllTextAsync(parametersFullFilePath));
-        return arguments.TemplateSlnPath;
     }
 }
 
@@ -124,6 +118,44 @@ public static partial class Program
         webServer.WebApplication.MapFallback((HttpContext context) =>
         {
             return "OOOPS!";
+        });
+
+        setup.MapEvent<ApplicationRevived>(e =>
+        {
+            var createTemplateSlnTask = Task.Run(async () =>
+            {
+                try
+                {
+                    if (System.IO.Directory.Exists(arguments.TemplateSlnFolder))
+                    {
+                        System.IO.Directory.Delete(arguments.TemplateSlnFolder, true);
+                    }
+
+                    System.IO.Directory.CreateDirectory(arguments.TemplateSlnFolder);
+
+                    List<string> slnFiles = new() {
+                        "Metapsi.Tutorial.Template.sln",
+                        "Metapsi.Tutorial.Template.csproj",
+                        "Renderer.cs" 
+                    };
+
+                    foreach (var file in slnFiles)
+                    {
+                        await System.IO.File.WriteAllTextAsync(
+                            System.IO.Path.Combine(arguments.TemplateSlnFolder, file),
+                            await typeof(Program).Assembly.GetEmbeddedTextFile(file));
+                    }
+
+                    var dotnetRestore = System.Diagnostics.Process.Start("dotnet", $"restore {arguments.TemplateSlnFolder}");
+
+                    await dotnetRestore.WaitForExitAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            });
         });
 
         var app = setup.Revive();

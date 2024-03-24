@@ -368,7 +368,10 @@ public static partial class Control
     public static async Task<string> Compile(CommandContext commandContext, SandboxSample sample)
     {
         var workspace = MSBuildWorkspace.Create();
-        var sln = await workspace.OpenSolutionAsync(await Arguments.TemplateSlnFullPath());
+        var sln = await workspace.OpenSolutionAsync(
+            System.IO.Path.Combine(
+                (await Arguments.Load()).TemplateSlnFolder,
+                "Metapsi.Tutorial.Template.sln"));
 
         //var project = workspace.CurrentSolution.AddProject("temp", "temp", "C#");
         //var textDocument = project.AddDocument("Program.cs", "namespace Whatever { public static class Program {public static async Task Main() {Console.WriteLine(\"abc\");}}}");
