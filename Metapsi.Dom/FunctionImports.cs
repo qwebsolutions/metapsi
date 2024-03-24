@@ -14,6 +14,11 @@ namespace Metapsi.Dom
 
     }
 
+    public class Document: IDomElement
+    {
+
+    }
+
     public class DomElement : IDomElement
     {
         public string innerHTML { get; set; }
@@ -67,6 +72,11 @@ namespace Metapsi.Dom
         public static Var<Window> Window(this SyntaxBuilder b)
         {
             return b.CallDomFunction<Window>(nameof(Window));
+        }
+
+        public static Var<Document> Document(this SyntaxBuilder b)
+        {
+            return b.CallDomFunction<Document>(nameof(Document));
         }
 
         public static Var<DomElement> GetElementById(this SyntaxBuilder b, Var<string> id)

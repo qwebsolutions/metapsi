@@ -1,147 +1,103 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using Metapsi.Html;
+using Metapsi.Dom;
+using System;
 using System.Collections.Generic;
 
 namespace Metapsi.ChoicesJs;
 
-public class Choice
+
+public interface IChoices
 {
-    public string value { get; set; } = string.Empty;
-    public string label { get; set; } = string.Empty;
-    public bool selected { get; set; }
-    public bool disabled { get; set; }
+    ChoicesOptions props { get; }
 }
 
-public class ClassNames
+public interface IChoicesSelect
 {
-    public string containerOuter { get; set; } = "choices";
-    public string containerInner { get; set; } = "choices__inner";
-    public string input { get; set; } = "choices__input";
-    public string inputCloned { get; set; } = "choices__input--cloned";
-    public string list { get; set; } = "choices__list";
-    public string listItems { get; set; } = "choices__list--multiple";
-    public string listSingle { get; set; } = "choices__list--single";
-    public string listDropdown { get; set; } = "choices__list--dropdown";
-    public string item { get; set; } = "choices__item";
-    public string itemSelectable { get; set; } = "choices__item--selectable";
-    public string itemDisabled { get; set; } = "choices__item--disabled";
-    public string itemOption { get; set; } = "choices__item--choice";
-    public string group { get; set; } = "choices__group";
-    public string groupHeading { get; set; } = "choices__heading";
-    public string button { get; set; } = "choices__button";
-    public string activeState { get; set; } = "is-active";
-    public string focusState { get; set; } = "is-focused";
-    public string openState { get; set; } = "is-open";
-    public string disabledState { get; set; } = "is-disabled";
-    public string highlightedState { get; set; } = "is-highlighted";
-    public string selectedState { get; set; } = "is-selected";
-    public string flippedState { get; set; } = "is-flipped";
+
 }
 
-public class Props
+public class ChoicesText : IChoices
 {
-    public bool silent { get; set; } = false;
-    public List<Choice> choices { get; set; } = new();
-    public int renderChoiceLimit { get; set; } = -1;
-    public int maxItemCount { get; set; } = -1;
-    public bool addItems { get; set; } = true;
-    public bool removeItems { get; set; } = true;
-    public bool removeItemButton { get; set; } = false;
-    public bool editItems { get; set; } = false;
-    public bool allowHTML { get; set; } = true;
-    public bool duplicateItemsAllowed { get; set; } = true;
-    public string delimiter { get; set; } = ",";
-    public bool paste { get; set; } = true;
-    public bool searchEnabled { get; set; } = true;
-    public bool searchChoices { get; set; } = true;
-    public List<string> searchFields { get; set; } = new() { "label", "value" };
-    public int searchFloor { get; set; } = 1;
-    public int searchResultLimit { get; set; } = 4;
-    public string position { get; set; } = "auto";
-    public bool resetScrollPosition { get; set; } = true;
-    //addItemFilter
-    public bool shouldSort { get; set; } = true;
-    public bool shouldSortItems { get; set; } = false;
-    // sorter
-    public bool placeholder { get; set; } = true;
-    public string placeholderValue { get; set; } = "Not selected";
-    public string searchPlaceholderValue { get; set; } = "Search...";
-    public string prependValue { get; set; } = null;
-    public string appendValue { get; set; } = null;
-    public string renderSelectedChoices { get; set; } = "auto"; // auto/always
-    public string loadingText { get; set; } = "Loading...";
-    public string noResultsText { get; set; } = "No results found";
-    public string noChoicesText { get; set; } = "No choices to choose from";
-    public string itemSelectText { get; set; } = "Press to select";
-
-    public string addItemText { get; set; } = null;
-    public string maxItemText { get; set; } = null;
-    public System.Func<object, object> valueComparer { get; set; } = null;
-    public string labelId { get; set; } = string.Empty;
-
-    public ClassNames classNames { get; set; } = new();
+    public ChoicesOptions props { get; set; } = new ChoicesOptions();
 }
 
-public static class Control
+public class ChoicesSelectOne : IChoices, IChoicesSelect
 {
-    public static void SetAddItemTextFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<string, string>> addItemTextFn)
-    {
-        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), addItemTextFn);
-    }
+    public ChoicesOptions props { get; set; } = new ChoicesOptions();
+}
 
-    public static void SetMaxItemTextFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<string, string>> maxItemTextFn)
-    {
-        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<string, string>>(nameof(Props.addItemText)), maxItemTextFn);
-    }
+public class ChoicesSelectMultiple : IChoices, IChoicesSelect
+{
+    public ChoicesOptions props { get; set; } = new ChoicesOptions();
+}
 
-    public static void SetValueComparerFn(this LayoutBuilder b, Var<Props> props, Var<System.Func<object, object>> valueComparerFn)
-    {
-        b.SetDynamic(props.As<DynamicObject>(), new DynamicProperty<System.Func<object, object>>(nameof(Props.valueComparer)), valueComparerFn);
-    }
-
-
-    public static Var<HyperNode> ChoicesText(this LayoutBuilder b, Var<Props> props)
-    {
-        b.AddStaticFiles();
-        var node = b.Node("metapsi-choices-text");
-        b.SetControlProps(node, props);
-        return node;
-    }
-
-    public static Var<HyperNode> ChoicesSelectOne(
-        this LayoutBuilder b, 
-        Var<Props> props)
-    {
-        b.AddStaticFiles();
-        var node = b.Node("metapsi-choices-select-one");
-        b.SetControlProps(node, props);
-        return node;
-    }
-
-    public static Var<IVNode> ChoicesSelectOneWebComponent(
+public static partial class Control
+{
+    /// <summary>
+    /// Choices.js 'text' control
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="buildProps"></param>
+    /// <returns></returns>
+    public static Var<IVNode> ChoicesText(
         this LayoutBuilder b,
-        Var<Props> choicesProps,
-        Var<List<Choice>> choices)
+        Action<PropsBuilder<ChoicesText>> buildProps)
     {
-        b.AddStaticFiles();
-        var node = b.H(
-            "metapsi-choices-select-one",
-            (b, props) =>
-            {
-                b.SetDynamic(props, new DynamicProperty<List<Choice>>("options"), choices);
-                b.Comment("ChoicesSelectOneWebComponent:props");
-                b.SetDynamic(props, new DynamicProperty<Props>("props"), choicesProps);
-            });
-        return node;
+        return BuildChoices(b, "metapsi-choices-text", buildProps);
     }
 
-    public static Var<HyperNode> ChoicesSelectMultiple(this LayoutBuilder b, Var<Props> props)
+    /// <summary>
+    /// Choices.js 'select-one' control
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="buildProps"></param>
+    /// <returns></returns>
+    public static Var<IVNode> Choices(
+        this LayoutBuilder b,
+        Action<PropsBuilder<ChoicesSelectOne>> buildProps)
+    {
+        return BuildChoices(b, "metapsi-choices-select-one", buildProps);
+    }
+
+    /// <summary>
+    /// Choices.js 'select-multiple' control
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="buildProps"></param>
+    /// <returns></returns>
+    public static Var<IVNode> ChoicesSelectMultiple(
+        this LayoutBuilder b,
+        Action<PropsBuilder<ChoicesSelectMultiple>> buildProps)
+    {
+        return BuildChoices(b, "metapsi-choices-select-multiple", buildProps);
+    }
+
+    private static Var<IVNode> BuildChoices<T>(LayoutBuilder b, string tag, Action<PropsBuilder<T>> buildProps)
+        where T : IChoices, new()
     {
         b.AddStaticFiles();
-        var node = b.Node("metapsi-choices-select-multiple");
-        b.SetControlProps(node, props);
+        return b.H(tag, buildProps);
+    }
 
-        return node;
+    public static void Configure<TControl, TProp>(
+        this PropsBuilder<TControl> b,
+        System.Linq.Expressions.Expression<System.Func<ChoicesOptions, TProp>> property,
+        Var<TProp> value)
+        where TControl : IChoices, new()
+    {
+        var configuration = b.Get(b.Props, x => x.props);
+        b.Set(configuration, property, value);
+    }
+
+    public static void Configure<TControl, TProp>(
+        this PropsBuilder<TControl> b,
+        System.Linq.Expressions.Expression<System.Func<ChoicesOptions, TProp>> property,
+        TProp value)
+        where TControl : IChoices, new()
+    {
+        b.Configure(property, b.Const(value));
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
@@ -161,7 +117,6 @@ public static class Control
                 b.Set(x => x.value, value);
                 b.Set(x => x.label, label);
             });
-            b.Log("Choices selected id", selectedId);
             if (selectedId != null)
             {
                 b.If(
@@ -190,7 +145,7 @@ public static class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
-        this LayoutBuilder b,
+        this SyntaxBuilder b,
         Var<List<TItem>> items,
         System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
         System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
@@ -216,7 +171,6 @@ public static class Control
                         b.Set(choice, x => x.selected, b.Const(true));
                     });
             }
-
             return choice;
         });
 
@@ -233,7 +187,7 @@ public static class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem>(
-            this LayoutBuilder b,
+            this SyntaxBuilder b,
             Var<List<TItem>> items,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> valueProp,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
@@ -244,7 +198,7 @@ public static class Control
 
     private static void AddStaticFiles(this LayoutBuilder b)
     {
-        b.AddStylesheet("choices.min.css");
+        b.AddStylesheet("metapsi.choices.css");
         b.AddScript("choices.min.js");
         b.AddScript("metapsi.choices.js", "module");
     }

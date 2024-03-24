@@ -24,13 +24,19 @@ namespace Metapsi.Syntax
             b.CallExternal(ModuleName, nameof(DeleteProperty), into, propertyName);
         }
 
-        public static void CallOnObject(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
+        public static Var<TResult> CallOnObject<TResult>(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             List<IVariable> allParams = new List<IVariable>();
             allParams.Add(@object);
             allParams.Add(b.Const(function));
             allParams.AddRange(parameters);
-            b.CallExternal(ModuleName, nameof(CallOnObject), allParams.ToArray());
+            return b.CallExternal<TResult>(ModuleName, nameof(CallOnObject), allParams.ToArray());
+        }
+
+        public static void CallOnObject(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
+        {
+            // would return undefined, just ignore the result
+            CallOnObject<object>(b, @object, function, parameters);
         }
 
         public static Var<bool> AreEqual<T>(this SyntaxBuilder b, Var<T> v1, Var<T> v2)

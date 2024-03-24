@@ -1,31 +1,25 @@
 class ChoicesCustomElement extends HTMLElement {
+    // the Choices control itself
     _choices;
+    // The Choices props
     _props;
-    _options;
 
     createInput() { return null; }
 
-    addShadowCss(container) {
-        var css = document.createElement("link");
-        css.setAttribute("rel", "stylesheet");
-        css.setAttribute("href", "/choices.min.css");
-        container.appendChild(css);
-
-        var js = document.createElement("script");
-        js.setAttribute("src", "/choices.min.js");
-        container.appendChild(js);
-    }
-
-    refreshChoices() { // direct
-        if (this._choices) {
-            var passedInput = this._choices.passedElement.element;
-            this._choices.destroy();
-            this.removeChild(passedInput);
+    refreshChoices() {
+        if (!this._choices) {
+            var inputControl = this.createInput();
+            this.appendChild(inputControl);
+            this._choices = new Choices(inputControl, this._props);
         }
-        var inputControl = this.createInput();
-        this.appendChild(inputControl);
-        this._choices = new Choices(inputControl, this._props);
-        console.log("refreshChoices", this._options);
+        else {
+            this._choices.setChoices(
+                this._props.choices,
+                'value',
+                'label',
+                true
+            );
+        }
     }
 
     connectedCallback() {
@@ -36,52 +30,86 @@ class ChoicesCustomElement extends HTMLElement {
         if (this._choices)
             this._choices.destroy();
     }
-
-    //static get observedAttributes() {
-    //    return ["options"];
-    //}
-
-    set props(value) {
-        this._props = value;
-    }
-
-    set options(value) {
-        if (JSON.stringify(value) != JSON.stringify(this._options)) {
-            this._options = value;
-            this.refreshChoices();
-        }
-    }
 }
 
 window.customElements.define(
     'metapsi-choices-text',
     class extends ChoicesCustomElement {
+
+
+        set props(value) {
+            if (JSON.stringify(this._props?.items) != JSON.stringify(value.items)) {
+                this._props = {
+                    ...value,
+                    items: [ ...value.items ] // clone items to be sure the same reference is not compared
+                };
+                this.refreshChoices();
+            }
+        }
+
         createInput() { return document.createElement("input") }
     });
 
 window.customElements.define(
     'metapsi-choices-select-one',
-    class extends ChoicesCustomElement {
+    class extends HTMLElement {
+
+        // the Choices control itself
+        _choices;
+        // The Choices props
+        _props;
+
+        // the data source is extracted from _props.choices but kept separately
+        // otherwise the choices would be duplicated
+        // (once the.choices when control is created
+        // & again when the data source is set with .setChoices)
+        _dataSource;
+
+        refreshChoices() {
+            if (!this._choices) {
+                var inputControl = this.createInput();
+                this.appendChild(inputControl);
+                this._choices = new Choices(inputControl, this._props);
+            }
+            else {
+                this._choices.setChoices(this._dataSource, 'value', 'label', true);
+            }
+        }
+
+        connectedCallback() {
+            this.refreshChoices();
+        }
+
+        disconnectedCallback() {
+            if (this._choices)
+                this._choices.destroy();
+        }
+
+        set props(value) {
+            this._dataSource = [...value.choices];
+            this._props = {
+                ...value,
+                choices: []
+            }
+            this.refreshChoices();
+        }
+
         createInput() {
             var select = document.createElement("select")
-            var placeholderOption = document.createElement("option");
-            placeholderOption.setAttribute("value", "")
-            //placeholderOption.setAttribute("placeholder", "");
-            placeholderOption.appendChild(document.createTextNode("Not selected"));
-            if (!this._options.some((x => x.selected))) {
-                placeholderOption.setAttribute("selected", true);
-            }
-            select.appendChild(placeholderOption)
-
-            this._options.forEach((input) => {
-                var option = document.createElement("option");
-                option.setAttribute("value", input.value)
-                if (input.selected) {
-                    option.setAttribute("selected", input.selected)
+            if (this._props.placeholder) {
+                var placeholderOption = document.createElement("option");
+                placeholderOption.setAttribute("value", "")
+                var placeholderValue = this._props.placeholderValue;
+                if (!placeholderValue) {
+                    placeholderValue = "Not selected";
                 }
-                option.appendChild(document.createTextNode(input.label));
-                select.appendChild(option)
-            });
+                placeholderOption.appendChild(document.createTextNode(placeholderValue));
+                if (!this._dataSource.some((x => x.selected))) {
+                    placeholderOption.setAttribute("selected", true);
+                }
+                select.appendChild(placeholderOption)
+            }
+
             return select;
         }
     });
@@ -89,28 +117,20 @@ window.customElements.define(
 window.customElements.define(
     'metapsi-choices-select-multiple',
     class extends ChoicesCustomElement {
+
+        set props(value) {
+            if (JSON.stringify(this._props?.choices) != JSON.stringify(value.choices)) {
+                this._props = {
+                    ...value,
+                    choices: [ ...value.choices ] // clone choices to be sure the same reference is not compared
+                }
+                this.refreshChoices();
+            }
+        }
+
         createInput() {
             var select = document.createElement("select");
             select.setAttribute("multiple", "");
             return select
         }
     });
-
-export const GetValue = (c) => c.getValue(true);
-
-//const highlightOnShowDropdown = (choices) => {
-//    choices.passedElement.element.addEventListener('showDropdown', () => {
-//        const selected = choices.getValue()
-//        if (typeof selected === 'string' || Array.isArray(selected)) {
-//            return
-//        }
-
-//        const selectedEl = choices.dropdown.element.querySelector < HTMLElement > (`[data-value="${selected.value}"]`)
-//        if (selectedEl === null) {
-//            return
-//        }
-
-//        //choices.highlightAll();
-//        choices._highlightChoice(selectedEl)
-//    })
-//}

@@ -30,7 +30,10 @@ public static class Program
 
         var shoelaceControlsOutputFolder = System.IO.Path.Combine(shoelaceProjectFolder, "Controls");
 
-        System.IO.Directory.Delete(shoelaceControlsOutputFolder, true);
+        if (System.IO.Directory.Exists(shoelaceControlsOutputFolder))
+        {
+            System.IO.Directory.Delete(shoelaceControlsOutputFolder, true);
+        }
         System.IO.Directory.CreateDirectory(shoelaceControlsOutputFolder);
 
         CSharpConverter cSharpConverter = new CSharpConverter

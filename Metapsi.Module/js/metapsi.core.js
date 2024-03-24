@@ -125,5 +125,5 @@ export const JoinChars = (chars) => chars.join("");
 export const CharToUpperCase = (c) => c.toUpperCase();
 export const CharToLowerCase = (c) => c.toLowerCase();
 
-export const CallOnObject = (object, functionName, ...args) => object[functionName](args)
+export const CallOnObject = (object, functionName, ...args) => object[functionName](...args)
 

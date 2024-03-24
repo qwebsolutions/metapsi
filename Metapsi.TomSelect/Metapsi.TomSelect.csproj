@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
+		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\metapsi.tomselect.js" LogicalName="metapsi.tomselect.js" />
+		<EmbeddedResource Include="embedded\metapsi.tomselect.shoelace.css" LogicalName="metapsi.tomselect.shoelace.css" />
+		<EmbeddedResource Include="embedded\tom-select.bootstrap4.css" LogicalName="tom-select.bootstrap4.css" />
+	</ItemGroup>
+
+</Project>

@@ -6,15 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Metapsi.ChoicesJs\Metapsi.ChoicesJs.csproj" />
+    <ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
     <ProjectReference Include="..\Metapsi.Ionic\Metapsi.Ionic.csproj" />
     <ProjectReference Include="..\Metapsi.Mds\Metapsi.Mds.csproj" />
     <ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
+    <ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
+    <ProjectReference Include="..\Metapsi.TomSelect\Metapsi.TomSelect.csproj" />
     <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
   </ItemGroup>
 
 
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\Metapsi.Ionic.Demo.css" LogicalName="Metapsi.Ionic.Demo.css" />
+		<EmbeddedResource Include="embedded\Metapsi.Choices.Shoelace.css" LogicalName="Metapsi.Choices.Shoelace.css" />
+		<EmbeddedResource Include="embedded\DataSourceApi.js" LogicalName="DataSourceApi.js" />
 	</ItemGroup>
 
 </Project>

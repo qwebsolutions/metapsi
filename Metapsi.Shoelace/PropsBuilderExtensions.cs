@@ -5,17 +5,14 @@ namespace Metapsi.Shoelace;
 
 public static class PropsBuilderExtensions
 {
-    public static PropsBuilder<TProps> SetSlot<TProps>(this PropsBuilder<TProps> b, Var<string> slotName)
-        where TProps : new()
+    public static PropsBuilder SetSlot(this PropsBuilder b, Var<DynamicObject> props, Var<string> slotName)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("slot"), slotName);
+        b.SetDynamic(props, DynamicProperty.String("slot"), slotName);
         return b;
     }
 
-    public static PropsBuilder<TProps> SetSlot<TProps>(this PropsBuilder<TProps> b, string slotName)
-        where TProps : new()
+    public static PropsBuilder SetSlot(this PropsBuilder b, Var<DynamicObject> props, string slotName)
     {
-        b.SetSlot(b.Const(slotName));
-        return b;
+        return b.SetSlot(props, b.Const(slotName));
     }
 }

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Description>Simplified HTML tag methods for client-side generated web pages</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+	</ItemGroup>
+
+</Project>

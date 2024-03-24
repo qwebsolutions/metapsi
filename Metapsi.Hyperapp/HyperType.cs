@@ -293,6 +293,12 @@ namespace Metapsi.Hyperapp
             b.Call(callable, action);
         }
 
+        public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
+        {
+            var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>, TPayload>>();
+            b.Call(callable, action, payload);
+        }
+
         //public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState, TPayload>> action)
         //{
         //    var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>>>();

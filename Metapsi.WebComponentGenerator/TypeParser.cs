@@ -400,11 +400,11 @@ public static class Utils
             return string.Empty;
 
         var currentDirectories = System.IO.Directory.GetDirectories(startPath);
-        var matchingPath = currentDirectories.FirstOrDefault(x => x.Split("\\").LastOrDefault(x => x == folderName) != null);
+        var matchingPath = currentDirectories.FirstOrDefault(x => x.Split("\\").LastOrDefault() == folderName);
         if (matchingPath != null)
             return matchingPath;
 
-        matchingPath = currentDirectories.FirstOrDefault(x => x.Split("\\").LastOrDefault(x => x == folderName) != null);
+        matchingPath = currentDirectories.FirstOrDefault(x => x.Split("\\").LastOrDefault() == folderName);
         if (matchingPath != null)
             return matchingPath;
 

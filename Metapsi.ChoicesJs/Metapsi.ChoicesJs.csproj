@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
 		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 	</ItemGroup>
 
@@ -13,6 +14,7 @@
 		<EmbeddedResource Include="embedded\choices.min.js" LogicalName="choices.min.js" />
 		<EmbeddedResource Include="embedded\choices.min.css" LogicalName="choices.min.css" />
 		<EmbeddedResource Include="embedded\metapsi.choices.js" LogicalName="metapsi.choices.js" />
+		<EmbeddedResource Include="embedded\metapsi.choices.css" LogicalName="metapsi.choices.css" />
 	</ItemGroup>
 
 </Project>

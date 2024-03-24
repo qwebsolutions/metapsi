@@ -1,4 +1,5 @@
 ﻿export const Window = () => window
+export const Document = () => document;
 export const StopPropagation = (e) => e.stopPropagation();
 export const GetElementById = (id) => document.getElementById(id);
 export const CreateElement = (tag) => document.createElement(tag);
