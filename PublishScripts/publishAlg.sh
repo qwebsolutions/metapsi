@@ -1,6 +1,6 @@
 #!/bin/bash
 
-helpMsg='Parameters are: csproj version target (target is win10-x64 or linux-x64)'
+helpMsg='Parameters are: csproj version target (target is win-x64 or linux-x64)'
 
 if [ -z "$1" ]
 then

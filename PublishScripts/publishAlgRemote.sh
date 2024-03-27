@@ -1,10 +1,8 @@
 #!/bin/bash
 
-set -x
-
 source ./publishVars.sh
 
-helpMsg='Parameters are: csproj version target (target is win10-x64 or linux-x64)'
+helpMsg='Parameters are: csproj version target (target is win-x64 or linux-x64)'
 
 if [ -z "$1" ]
 then
@@ -29,6 +27,8 @@ then
 else
 	echo 'Target '$3
 fi
+
+set -x
 
 revision=$(git rev-parse HEAD)
 echo "$revision"
