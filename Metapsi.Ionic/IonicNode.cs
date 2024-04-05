@@ -41,7 +41,7 @@ public class IonComponent : HtmlComponent
 {
     public IonComponent(string tagName) : base(tagName) { }
 
-    public override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
+    protected override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
     {
         
     }
