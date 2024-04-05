@@ -49,12 +49,12 @@ public partial class SlInclude : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("allowScripts");
+            return this.GetTag().GetAttribute<bool>("allow-scripts");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("allowScripts", value.ToString());
+            this.GetTag().SetAttribute("allow-scripts", value.ToString());
         }
     }
 
@@ -118,7 +118,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetAllowScripts(this PropsBuilder<SlInclude> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("allowScripts"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("allow-scripts"), b.Const(string.Empty));
     }
 
     /// <summary>

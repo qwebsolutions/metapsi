@@ -119,7 +119,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlAlert> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetClosable(this PropsBuilder<SlAlert> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("closable"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("closable"), b.Const(string.Empty));
     }
 
     /// <summary>

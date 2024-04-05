@@ -73,6 +73,12 @@ public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
         });
 
         document.Head.AddChild(mainScript);
+
+        var webComponentTags = module.Consts.Where(x => x.Value is WebComponentTag);
+        foreach (var wcTag in webComponentTags)
+        {
+            document.AddToFadeInList((wcTag.Value as WebComponentTag).tag);
+        }
     }
     public string ToHtml()
     {

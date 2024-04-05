@@ -81,7 +81,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetActive(this PropsBuilder<SlTabPanel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("active"), b.Const(string.Empty));
     }
 
 }

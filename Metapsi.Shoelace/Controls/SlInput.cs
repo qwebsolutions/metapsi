@@ -64,11 +64,11 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("defaultValue");
+            return this.GetTag().GetAttribute<string>("");
         }
         set
         {
-            this.GetTag().SetAttribute("defaultValue", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -141,11 +141,11 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("helpText");
+            return this.GetTag().GetAttribute<string>("help-text");
         }
         set
         {
-            this.GetTag().SetAttribute("helpText", value.ToString());
+            this.GetTag().SetAttribute("help-text", value.ToString());
         }
     }
 
@@ -219,12 +219,12 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("passwordToggle");
+            return this.GetTag().GetAttribute<bool>("password-toggle");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("passwordToggle", value.ToString());
+            this.GetTag().SetAttribute("password-toggle", value.ToString());
         }
     }
 
@@ -235,12 +235,12 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("passwordVisible");
+            return this.GetTag().GetAttribute<bool>("password-visible");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("passwordVisible", value.ToString());
+            this.GetTag().SetAttribute("password-visible", value.ToString());
         }
     }
 
@@ -251,12 +251,12 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("noSpinButtons");
+            return this.GetTag().GetAttribute<bool>("no-spin-buttons");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("noSpinButtons", value.ToString());
+            this.GetTag().SetAttribute("no-spin-buttons", value.ToString());
         }
     }
 
@@ -495,11 +495,11 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<object>("valueAsDate");
+            return this.GetTag().GetAttribute<object>("");
         }
         set
         {
-            this.GetTag().SetAttribute("valueAsDate", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -510,11 +510,11 @@ public partial class SlInput : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("valueAsNumber");
+            return this.GetTag().GetAttribute<int>("");
         }
         set
         {
-            this.GetTag().SetAttribute("valueAsNumber", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -720,21 +720,6 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlInput> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), value);
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlInput> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(value));
-    }
-
-    /// <summary>
     /// The input's size.
     /// </summary>
     public static void SetSizeSmall(this PropsBuilder<SlInput> b)
@@ -761,7 +746,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetFilled(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("filled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -769,7 +754,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -792,14 +777,14 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlInput> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
     }
     /// <summary>
     /// The input's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlInput> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
     }
 
     /// <summary>
@@ -807,7 +792,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetClearable(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("clearable"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -815,7 +800,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -838,7 +823,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetReadonly(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("readonly"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -846,7 +831,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordToggle(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordToggle"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("password-toggle"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -854,7 +839,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordVisible(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordVisible"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("password-visible"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -862,7 +847,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetNoSpinButtons(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noSpinButtons"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("no-spin-buttons"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -885,7 +870,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -1091,7 +1076,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutofocus(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("autofocus"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -1149,7 +1134,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSpellcheck(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("spellcheck"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -1207,36 +1192,6 @@ public static partial class SlInputControl
     public static void SetInputmodeUrl(this PropsBuilder<SlInput> b)
     {
         b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("url"));
-    }
-
-    /// <summary>
-    /// Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error.
-    /// </summary>
-    public static void SetValueAsDate(this PropsBuilder<SlInput> b, Var<object> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), value);
-    }
-    /// <summary>
-    /// Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error.
-    /// </summary>
-    public static void SetValueAsDate(this PropsBuilder<SlInput> b, object value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), b.Const(value));
-    }
-
-    /// <summary>
-    /// Gets or sets the current value as a number. Returns `NaN` if the value can't be converted.
-    /// </summary>
-    public static void SetValueAsNumber(this PropsBuilder<SlInput> b, Var<int> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), value);
-    }
-    /// <summary>
-    /// Gets or sets the current value as a number. Returns `NaN` if the value can't be converted.
-    /// </summary>
-    public static void SetValueAsNumber(this PropsBuilder<SlInput> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), b.Const(value));
     }
 
     /// <summary>

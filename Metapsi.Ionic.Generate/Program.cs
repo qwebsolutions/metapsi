@@ -92,7 +92,8 @@ public static class Program
 
                 var webComponentField = new WebComponentProperty()
                 {
-                    Name = prop.name,
+                    PropertyName = prop.name,
+                    AttributeName = prop.attr,
                     Description = Utils.SingleLine(prop.docs)
                 };
 

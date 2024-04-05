@@ -117,7 +117,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetExpanded(this PropsBuilder<SlTreeItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("expanded"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("expanded"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetSelected(this PropsBuilder<SlTreeItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("selected"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("selected"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlTreeItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetLazy(this PropsBuilder<SlTreeItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("lazy"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("lazy"), b.Const(string.Empty));
     }
 
     /// <summary>

@@ -66,12 +66,12 @@ public partial class SlDropdown : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("stayOpenOnSelect");
+            return this.GetTag().GetAttribute<bool>("stay-open-on-select");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("stayOpenOnSelect", value.ToString());
+            this.GetTag().SetAttribute("stay-open-on-select", value.ToString());
         }
     }
 
@@ -82,11 +82,11 @@ public partial class SlDropdown : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<object>("containingElement");
+            return this.GetTag().GetAttribute<object>("");
         }
         set
         {
-            this.GetTag().SetAttribute("containingElement", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -181,7 +181,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -282,22 +282,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetStayOpenOnSelect(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("stayOpenOnSelect"), b.Const(true));
-    }
-
-    /// <summary>
-    /// The dropdown will close when the user interacts outside of this element (e.g. clicking). Useful for composing other components that use a dropdown internally.
-    /// </summary>
-    public static void SetContainingElement(this PropsBuilder<SlDropdown> b, Var<object> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("containingElement"), value);
-    }
-    /// <summary>
-    /// The dropdown will close when the user interacts outside of this element (e.g. clicking). Useful for composing other components that use a dropdown internally.
-    /// </summary>
-    public static void SetContainingElement(this PropsBuilder<SlDropdown> b, object value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("containingElement"), b.Const(value));
+        b.SetDynamic(b.Props, DynamicProperty.String("stay-open-on-select"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -335,7 +320,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
     }
 
     /// <summary>

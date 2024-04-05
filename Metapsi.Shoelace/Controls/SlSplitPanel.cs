@@ -34,11 +34,11 @@ public partial class SlSplitPanel : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("positionInPixels");
+            return this.GetTag().GetAttribute<int>("position-in-pixels");
         }
         set
         {
-            this.GetTag().SetAttribute("positionInPixels", value.ToString());
+            this.GetTag().SetAttribute("position-in-pixels", value.ToString());
         }
     }
 
@@ -111,11 +111,11 @@ public partial class SlSplitPanel : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("snapThreshold");
+            return this.GetTag().GetAttribute<int>("snap-threshold");
         }
         set
         {
-            this.GetTag().SetAttribute("snapThreshold", value.ToString());
+            this.GetTag().SetAttribute("snap-threshold", value.ToString());
         }
     }
 
@@ -172,14 +172,14 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPositionInPixels(this PropsBuilder<SlSplitPanel> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("positionInPixels"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("position-in-pixels"), value);
     }
     /// <summary>
     /// The current position of the divider from the primary panel's edge in pixels.
     /// </summary>
     public static void SetPositionInPixels(this PropsBuilder<SlSplitPanel> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("positionInPixels"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("position-in-pixels"), b.Const(value));
     }
 
     /// <summary>
@@ -187,7 +187,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetVertical(this PropsBuilder<SlSplitPanel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("vertical"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSplitPanel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -233,14 +233,14 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetSnapThreshold(this PropsBuilder<SlSplitPanel> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("snapThreshold"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("snap-threshold"), value);
     }
     /// <summary>
     /// How close the divider must be to a snap point until snapping occurs.
     /// </summary>
     public static void SetSnapThreshold(this PropsBuilder<SlSplitPanel> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("snapThreshold"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("snap-threshold"), b.Const(value));
     }
 
     /// <summary>

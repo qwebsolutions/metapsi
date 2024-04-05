@@ -213,7 +213,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetReadonly(this PropsBuilder<SlRating> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("readonly"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlRating> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

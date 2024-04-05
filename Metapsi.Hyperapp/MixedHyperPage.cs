@@ -23,6 +23,8 @@ namespace Metapsi.Hyperapp
 
         public override void FillHtml(TServerModel serverModel, DocumentTag document)
         {
+            document.UseWebComponentsFadeIn();
+
             var dataModel = ExtractClientModel(serverModel);
 
             var module = new ModuleBuilder().BuildHyperapp<TClientModel>(
@@ -66,6 +68,12 @@ namespace Metapsi.Hyperapp
 
             var mainDiv = body.AddChild(new HtmlTag("div"));
             mainDiv.SetAttribute("id", "app");
+
+            var webComponentTags = module.Consts.Where(x => x.Value is WebComponentTag);
+            foreach (var wcTag in webComponentTags)
+            {
+                document.AddToFadeInList((wcTag.Value as WebComponentTag).tag);
+            }
         }
     }
 }

@@ -112,12 +112,12 @@ public partial class SlCheckbox : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("defaultChecked");
+            return this.GetTag().GetAttribute<bool>("");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("defaultChecked", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -159,11 +159,11 @@ public partial class SlCheckbox : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("helpText");
+            return this.GetTag().GetAttribute<string>("help-text");
         }
         set
         {
-            this.GetTag().SetAttribute("helpText", value.ToString());
+            this.GetTag().SetAttribute("help-text", value.ToString());
         }
     }
 
@@ -280,7 +280,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetChecked(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("checked"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -296,15 +296,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetIndeterminate(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(true));
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultChecked(this PropsBuilder<SlCheckbox> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("defaultChecked"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("indeterminate"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -327,7 +319,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -335,14 +327,14 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlCheckbox> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
     }
     /// <summary>
     /// The checkbox's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlCheckbox> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
     }
 
     /// <summary>

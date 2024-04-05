@@ -114,13 +114,16 @@ public static class Generator
 
         foreach (var property in webComponent.Properties)
         {
-            var propertyCode = GenerateClientSidePropertySetter(webComponent, property, property.TypeScriptType, converter);
-            if (string.IsNullOrEmpty(propertyCode))
+            if (!string.IsNullOrEmpty(property.AttributeName))
             {
-                throw new NotImplementedException();
-            }
+                var propertyCode = GenerateClientSidePropertySetter(webComponent, property, property.TypeScriptType, converter);
+                if (string.IsNullOrEmpty(propertyCode))
+                {
+                    throw new NotImplementedException();
+                }
 
-            codeBuilder.AppendLine(propertyCode);
+                codeBuilder.AppendLine(propertyCode);
+            }
         }
 
         var anonEventDetails = webComponent.Events.Where(x => x.Type is TypeScriptAnonymousType);
@@ -226,7 +229,8 @@ public static class Generator
             return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
             {
                 Description = property.Description,
-                Name = property.Name,
+                PropertyName = property.PropertyName,
+                AttributeName = property.AttributeName,
                 TypeScriptType = new TypeScriptObjectType()
                 {
                     TypeName = "string"
@@ -265,7 +269,8 @@ public static class Generator
                 return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
                 {
                     Description = property.Description,
-                    Name = property.Name,
+                    PropertyName = property.PropertyName,
+                    AttributeName = property.AttributeName,
                     TypeScriptType = withoutUndefined.Single()
                 }, converter);
             }
@@ -301,7 +306,8 @@ public static class Generator
             {
                 TypeScriptType = new TypeScriptObjectType() { TypeName = genericType },
                 Description = property.Description,
-                Name = property.Name,
+                PropertyName  = property.PropertyName,
+                AttributeName = property.AttributeName
             }, converter);
         }
 
@@ -324,7 +330,7 @@ public static class Generator
 
         StringBuilder codeBuilder = new StringBuilder();
 
-        var propertyName =  Utils.FixReservedKeyword(property.Name);
+        var propertyName =  Utils.FixReservedKeyword(property.PropertyName);
         if (propertyName == "GetTag")
         {
             propertyName = "GetTagFn";
@@ -337,7 +343,7 @@ public static class Generator
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine("        get");
         codeBuilder.AppendLine("        {");
-        codeBuilder.AppendLine($"            return this.GetTag().GetAttribute<{cSharpType}>(\"{property.Name}\");");
+        codeBuilder.AppendLine($"            return this.GetTag().GetAttribute<{cSharpType}>(\"{property.AttributeName}\");");
         codeBuilder.AppendLine("        }");
         codeBuilder.AppendLine("        set");
         codeBuilder.AppendLine("        {");
@@ -346,7 +352,7 @@ public static class Generator
             // Bool properties should not be set at all if they are false
             codeBuilder.AppendLine("            if (!value) return;");
         }
-        codeBuilder.AppendLine($"            this.GetTag().SetAttribute(\"{property.Name}\", value.ToString());");
+        codeBuilder.AppendLine($"            this.GetTag().SetAttribute(\"{property.AttributeName}\", value.ToString());");
         codeBuilder.AppendLine("        }");
         codeBuilder.AppendLine("    }");
 
@@ -549,9 +555,9 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.Name}\"), b.Const(true));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.AttributeName}\"), b.Const(string.Empty));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -572,17 +578,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.Name}\"), value);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.AttributeName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, {propertyType.ToCSharpType(converter)} value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {propertyType.ToCSharpType(converter)} value)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.Name}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.AttributeName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -598,7 +604,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine($"        throw new NotImplementedException();");
         codeBuilder.AppendLine("    }");
@@ -618,14 +624,14 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, {parameters})");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {parameters})");
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine($"        var _dynamicParameter = b.NewObj<DynamicObject>();");
         foreach (var anonProperty in propertyType.properties)
         {
             codeBuilder.AppendLine($"        b.SetDynamic(_dynamicParameter, new DynamicProperty<{anonProperty.type.ToCSharpType(converter)}>(\"{anonProperty.name}\"), {anonProperty.name});");
         }
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>(\"{property.Name}\"), _dynamicParameter);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>(\"{property.AttributeName}\"), _dynamicParameter);");
         codeBuilder.AppendLine("    }");
         return codeBuilder.ToString();
     }
@@ -657,17 +663,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, Var<List<{propertyType.ItemType.ToCSharpType(converter)}>> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<List<{propertyType.ItemType.ToCSharpType(converter)}>> value)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.Name}\"), value);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.AttributeName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, List<{propertyType.ItemType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, List<{propertyType.ItemType.ToCSharpType(converter)}> value)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.Name}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.AttributeName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -692,17 +698,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, {clientSideFunc} f)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {clientSideFunc} f)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.Name}\"), f);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.AttributeName}\"), f);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}(this PropsBuilder<{component.Name}> b, {serverSideFunc} f)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {serverSideFunc} f)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.Name}\"), b.Def(f));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.AttributeName}\"), b.Def(f));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -715,9 +721,9 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.Name)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}(this PropsBuilder<{component.Name}> b)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}(this PropsBuilder<{component.Name}> b)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.Name}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.AttributeName}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();

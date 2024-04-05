@@ -28,6 +28,7 @@ public class IonicComponentMetadata
 public class IonicPropMetadata
 {
     public string name { get; set; }
+    public string attr { get; set; }
     public string type { get; set; }
     public string docs { get; set; }
     public string @default { get; set; }

@@ -110,11 +110,11 @@ public partial class SlAnimation : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("endDelay");
+            return this.GetTag().GetAttribute<int>("end-delay");
         }
         set
         {
-            this.GetTag().SetAttribute("endDelay", value.ToString());
+            this.GetTag().SetAttribute("end-delay", value.ToString());
         }
     }
 
@@ -155,11 +155,11 @@ public partial class SlAnimation : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("iterationStart");
+            return this.GetTag().GetAttribute<int>("iteration-start");
         }
         set
         {
-            this.GetTag().SetAttribute("iterationStart", value.ToString());
+            this.GetTag().SetAttribute("iteration-start", value.ToString());
         }
     }
 
@@ -170,11 +170,11 @@ public partial class SlAnimation : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("playbackRate");
+            return this.GetTag().GetAttribute<int>("playback-rate");
         }
         set
         {
-            this.GetTag().SetAttribute("playbackRate", value.ToString());
+            this.GetTag().SetAttribute("playback-rate", value.ToString());
         }
     }
 
@@ -185,11 +185,11 @@ public partial class SlAnimation : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("currentTime");
+            return this.GetTag().GetAttribute<int>("");
         }
         set
         {
-            this.GetTag().SetAttribute("currentTime", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -242,7 +242,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlay(this PropsBuilder<SlAnimation> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("play"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("play"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -310,14 +310,14 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetEndDelay(this PropsBuilder<SlAnimation> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("endDelay"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("end-delay"), value);
     }
     /// <summary>
     /// The number of milliseconds to delay after the active period of an animation sequence.
     /// </summary>
     public static void SetEndDelay(this PropsBuilder<SlAnimation> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("endDelay"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("end-delay"), b.Const(value));
     }
 
     /// <summary>
@@ -355,29 +355,14 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetIterationStart(this PropsBuilder<SlAnimation> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterationStart"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("iteration-start"), value);
     }
     /// <summary>
     /// The offset at which to start the animation, usually between 0 (start) and 1 (end).
     /// </summary>
     public static void SetIterationStart(this PropsBuilder<SlAnimation> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterationStart"), b.Const(value));
-    }
-
-    /// <summary>
-    /// The keyframes to use for the animation. If this is set, `name` will be ignored.
-    /// </summary>
-    public static void SetKeyframes(this PropsBuilder<SlAnimation> b, Var<List<Keyframe>> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<Keyframe>>("keyframes"), value);
-    }
-    /// <summary>
-    /// The keyframes to use for the animation. If this is set, `name` will be ignored.
-    /// </summary>
-    public static void SetKeyframes(this PropsBuilder<SlAnimation> b, List<Keyframe> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<Keyframe>>("keyframes"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("iteration-start"), b.Const(value));
     }
 
     /// <summary>
@@ -385,29 +370,14 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlaybackRate(this PropsBuilder<SlAnimation> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("playbackRate"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("playback-rate"), value);
     }
     /// <summary>
     /// Sets the animation's playback rate. The default is `1`, which plays the animation at a normal speed. Setting this to `2`, for example, will double the animation's speed. A negative value can be used to reverse the animation. This value can be changed without causing the animation to restart.
     /// </summary>
     public static void SetPlaybackRate(this PropsBuilder<SlAnimation> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("playbackRate"), b.Const(value));
-    }
-
-    /// <summary>
-    /// Gets and sets the current animation time.
-    /// </summary>
-    public static void SetCurrentTime(this PropsBuilder<SlAnimation> b, Var<int> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("currentTime"), value);
-    }
-    /// <summary>
-    /// Gets and sets the current animation time.
-    /// </summary>
-    public static void SetCurrentTime(this PropsBuilder<SlAnimation> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("currentTime"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("playback-rate"), b.Const(value));
     }
 
     /// <summary>

@@ -64,6 +64,12 @@ namespace Metapsi.Hyperapp
 
             var mainDiv = body.AddChild(new HtmlTag("div"));
             mainDiv.SetAttribute("id", GetMountDivId());
+
+            var webComponentTags = module.Consts.Where(x => x.Value is WebComponentTag);
+            foreach (var wcTag in webComponentTags)
+            {
+                document.AddToFadeInList((wcTag.Value as WebComponentTag).tag);
+            }
         }
 
         public virtual string GetMountDivId()

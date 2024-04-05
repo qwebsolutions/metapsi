@@ -124,7 +124,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetActive(this PropsBuilder<SlTab> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("active"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetClosable(this PropsBuilder<SlTab> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("closable"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("closable"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlTab> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

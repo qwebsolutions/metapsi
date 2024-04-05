@@ -49,12 +49,12 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("noGrouping");
+            return this.GetTag().GetAttribute<bool>("no-grouping");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("noGrouping", value.ToString());
+            this.GetTag().SetAttribute("no-grouping", value.ToString());
         }
     }
 
@@ -80,11 +80,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("currencyDisplay");
+            return this.GetTag().GetAttribute<string>("currency-display");
         }
         set
         {
-            this.GetTag().SetAttribute("currencyDisplay", value.ToString());
+            this.GetTag().SetAttribute("currency-display", value.ToString());
         }
     }
 
@@ -95,11 +95,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("minimumIntegerDigits");
+            return this.GetTag().GetAttribute<int>("minimum-integer-digits");
         }
         set
         {
-            this.GetTag().SetAttribute("minimumIntegerDigits", value.ToString());
+            this.GetTag().SetAttribute("minimum-integer-digits", value.ToString());
         }
     }
 
@@ -110,11 +110,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("minimumFractionDigits");
+            return this.GetTag().GetAttribute<int>("minimum-fraction-digits");
         }
         set
         {
-            this.GetTag().SetAttribute("minimumFractionDigits", value.ToString());
+            this.GetTag().SetAttribute("minimum-fraction-digits", value.ToString());
         }
     }
 
@@ -125,11 +125,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("maximumFractionDigits");
+            return this.GetTag().GetAttribute<int>("maximum-fraction-digits");
         }
         set
         {
-            this.GetTag().SetAttribute("maximumFractionDigits", value.ToString());
+            this.GetTag().SetAttribute("maximum-fraction-digits", value.ToString());
         }
     }
 
@@ -140,11 +140,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("minimumSignificantDigits");
+            return this.GetTag().GetAttribute<int>("minimum-significant-digits");
         }
         set
         {
-            this.GetTag().SetAttribute("minimumSignificantDigits", value.ToString());
+            this.GetTag().SetAttribute("minimum-significant-digits", value.ToString());
         }
     }
 
@@ -155,11 +155,11 @@ public partial class SlFormatNumber : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("maximumSignificantDigits");
+            return this.GetTag().GetAttribute<int>("maximum-significant-digits");
         }
         set
         {
-            this.GetTag().SetAttribute("maximumSignificantDigits", value.ToString());
+            this.GetTag().SetAttribute("maximum-significant-digits", value.ToString());
         }
     }
 
@@ -223,7 +223,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetNoGrouping(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noGrouping"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("no-grouping"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -246,28 +246,28 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrencyDisplaySymbol(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currencyDisplay"), b.Const("symbol"));
+        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("symbol"));
     }
     /// <summary>
     /// How to display the currency.
     /// </summary>
     public static void SetCurrencyDisplayNarrowSymbol(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currencyDisplay"), b.Const("narrowSymbol"));
+        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("narrowSymbol"));
     }
     /// <summary>
     /// How to display the currency.
     /// </summary>
     public static void SetCurrencyDisplayCode(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currencyDisplay"), b.Const("code"));
+        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("code"));
     }
     /// <summary>
     /// How to display the currency.
     /// </summary>
     public static void SetCurrencyDisplayName(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currencyDisplay"), b.Const("name"));
+        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("name"));
     }
 
     /// <summary>
@@ -275,14 +275,14 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumIntegerDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-integer-digits"), value);
     }
     /// <summary>
     /// The minimum number of integer digits to use. Possible values are 1-21.
     /// </summary>
     public static void SetMinimumIntegerDigits(this PropsBuilder<SlFormatNumber> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-integer-digits"), b.Const(value));
     }
 
     /// <summary>
@@ -290,14 +290,14 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumFractionDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-fraction-digits"), value);
     }
     /// <summary>
     /// The minimum number of fraction digits to use. Possible values are 0-20.
     /// </summary>
     public static void SetMinimumFractionDigits(this PropsBuilder<SlFormatNumber> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-fraction-digits"), b.Const(value));
     }
 
     /// <summary>
@@ -305,14 +305,14 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumFractionDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-fraction-digits"), value);
     }
     /// <summary>
     /// The maximum number of fraction digits to use. Possible values are 0-0.
     /// </summary>
     public static void SetMaximumFractionDigits(this PropsBuilder<SlFormatNumber> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-fraction-digits"), b.Const(value));
     }
 
     /// <summary>
@@ -320,14 +320,14 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumSignificantDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-significant-digits"), value);
     }
     /// <summary>
     /// The minimum number of significant digits to use. Possible values are 1-21.
     /// </summary>
     public static void SetMinimumSignificantDigits(this PropsBuilder<SlFormatNumber> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-significant-digits"), b.Const(value));
     }
 
     /// <summary>
@@ -335,14 +335,14 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumSignificantDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-significant-digits"), value);
     }
     /// <summary>
     /// The maximum number of significant digits to use,. Possible values are 1-21.
     /// </summary>
     public static void SetMaximumSignificantDigits(this PropsBuilder<SlFormatNumber> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-significant-digits"), b.Const(value));
     }
 
 }

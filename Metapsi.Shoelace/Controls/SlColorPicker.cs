@@ -34,11 +34,11 @@ public partial class SlColorPicker : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("defaultValue");
+            return this.GetTag().GetAttribute<string>("");
         }
         set
         {
-            this.GetTag().SetAttribute("defaultValue", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -110,12 +110,12 @@ public partial class SlColorPicker : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("noFormatToggle");
+            return this.GetTag().GetAttribute<bool>("no-format-toggle");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("noFormatToggle", value.ToString());
+            this.GetTag().SetAttribute("no-format-toggle", value.ToString());
         }
     }
 
@@ -320,21 +320,6 @@ public static partial class SlColorPickerControl
     }
 
     /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlColorPicker> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), value);
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlColorPicker> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(value));
-    }
-
-    /// <summary>
     /// The color picker's label. This will not be displayed, but it will be announced by assistive devices. If you need to display HTML, you can use the `label` slot` instead.
     /// </summary>
     public static void SetLabel(this PropsBuilder<SlColorPicker> b, Var<string> value)
@@ -383,7 +368,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetInline(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("inline"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("inline"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -413,7 +398,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetNoFormatToggle(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noFormatToggle"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("no-format-toggle"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -436,7 +421,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -444,7 +429,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -452,7 +437,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetOpacity(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("opacity"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("opacity"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -460,7 +445,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetUppercase(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("uppercase"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("uppercase"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -512,7 +497,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlColorPicker> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>

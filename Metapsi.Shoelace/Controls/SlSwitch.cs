@@ -96,12 +96,12 @@ public partial class SlSwitch : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("defaultChecked");
+            return this.GetTag().GetAttribute<bool>("");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("defaultChecked", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -143,11 +143,11 @@ public partial class SlSwitch : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("helpText");
+            return this.GetTag().GetAttribute<string>("help-text");
         }
         set
         {
-            this.GetTag().SetAttribute("helpText", value.ToString());
+            this.GetTag().SetAttribute("help-text", value.ToString());
         }
     }
 
@@ -264,7 +264,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -272,15 +272,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetChecked(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultChecked(this PropsBuilder<SlSwitch> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("defaultChecked"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("checked"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -303,7 +295,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -311,14 +303,14 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlSwitch> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
     }
     /// <summary>
     /// The switch's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlSwitch> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
     }
 
     /// <summary>

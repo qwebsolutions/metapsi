@@ -16,7 +16,7 @@ public static class Tutorial
         public override void Attach(DocumentTag document, IHtmlElement parentNode)
         {
             base.Attach(document, parentNode);
-            WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
+            //WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
         }
     }
 
@@ -80,26 +80,26 @@ public static class Tutorial
         return appContainer;
     }
 
-    private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
-    {
-        List<string> list = (from x in module.Consts
-                             where x.Value is ShoelaceTag
-                             select (x.Value as ShoelaceTag).tag into x
-                             where x != "sl-tooltip"
-                             select x).ToList();
-        _ = document.Head;
-        HtmlTag workaroundDiv = document.Body.AddChild(new HtmlTag
-        {
-            Tag = "div"
-        });
-        workaroundDiv.SetAttribute("class", "hidden");
-        SlAwaitWhenDefinedScript slAwaitScript = document.GetSlAwaitWhenDefinedScript();
-        foreach (string shoelaceTag in list)
-        {
-            workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
-            slAwaitScript.SlTags.Add(shoelaceTag);
-        }
-        document.StartHidden();
-        document.AddShoelace();
-    }
+    //private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
+    //{
+    //    List<string> list = (from x in module.Consts
+    //                         where x.Value is ShoelaceTag
+    //                         select (x.Value as ShoelaceTag).tag into x
+    //                         where x != "sl-tooltip"
+    //                         select x).ToList();
+    //    _ = document.Head;
+    //    HtmlTag workaroundDiv = document.Body.AddChild(new HtmlTag
+    //    {
+    //        Tag = "div"
+    //    });
+    //    workaroundDiv.SetAttribute("class", "hidden");
+    //    SlAwaitWhenDefinedScript slAwaitScript = document.GetSlAwaitWhenDefinedScript();
+    //    foreach (string shoelaceTag in list)
+    //    {
+    //        workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
+    //        slAwaitScript.SlTags.Add(shoelaceTag);
+    //    }
+    //    document.StartHidden();
+    //    //document.AddShoelace();
+    //}
 }

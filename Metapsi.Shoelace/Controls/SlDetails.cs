@@ -108,7 +108,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDetails> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlDetails> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

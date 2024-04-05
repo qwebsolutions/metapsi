@@ -65,11 +65,11 @@ public partial class SlCopyButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("copyLabel");
+            return this.GetTag().GetAttribute<string>("copy-label");
         }
         set
         {
-            this.GetTag().SetAttribute("copyLabel", value.ToString());
+            this.GetTag().SetAttribute("copy-label", value.ToString());
         }
     }
 
@@ -80,11 +80,11 @@ public partial class SlCopyButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("successLabel");
+            return this.GetTag().GetAttribute<string>("success-label");
         }
         set
         {
-            this.GetTag().SetAttribute("successLabel", value.ToString());
+            this.GetTag().SetAttribute("success-label", value.ToString());
         }
     }
 
@@ -95,11 +95,11 @@ public partial class SlCopyButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("errorLabel");
+            return this.GetTag().GetAttribute<string>("error-label");
         }
         set
         {
-            this.GetTag().SetAttribute("errorLabel", value.ToString());
+            this.GetTag().SetAttribute("error-label", value.ToString());
         }
     }
 
@@ -110,11 +110,11 @@ public partial class SlCopyButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("feedbackDuration");
+            return this.GetTag().GetAttribute<int>("feedback-duration");
         }
         set
         {
-            this.GetTag().SetAttribute("feedbackDuration", value.ToString());
+            this.GetTag().SetAttribute("feedback-duration", value.ToString());
         }
     }
 
@@ -125,11 +125,11 @@ public partial class SlCopyButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("tooltipPlacement");
+            return this.GetTag().GetAttribute<string>("tooltip-placement");
         }
         set
         {
-            this.GetTag().SetAttribute("tooltipPlacement", value.ToString());
+            this.GetTag().SetAttribute("tooltip-placement", value.ToString());
         }
     }
 
@@ -217,7 +217,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -225,14 +225,14 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetCopyLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("copy-label"), value);
     }
     /// <summary>
     /// A custom label to show in the tooltip.
     /// </summary>
     public static void SetCopyLabel(this PropsBuilder<SlCopyButton> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("copy-label"), b.Const(value));
     }
 
     /// <summary>
@@ -240,14 +240,14 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetSuccessLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("success-label"), value);
     }
     /// <summary>
     /// A custom label to show in the tooltip after copying.
     /// </summary>
     public static void SetSuccessLabel(this PropsBuilder<SlCopyButton> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("success-label"), b.Const(value));
     }
 
     /// <summary>
@@ -255,14 +255,14 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetErrorLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("error-label"), value);
     }
     /// <summary>
     /// A custom label to show in the tooltip when a copy error occurs.
     /// </summary>
     public static void SetErrorLabel(this PropsBuilder<SlCopyButton> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("error-label"), b.Const(value));
     }
 
     /// <summary>
@@ -270,14 +270,14 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetFeedbackDuration(this PropsBuilder<SlCopyButton> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("feedback-duration"), value);
     }
     /// <summary>
     /// The length of time to show feedback before restoring the default trigger.
     /// </summary>
     public static void SetFeedbackDuration(this PropsBuilder<SlCopyButton> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("feedback-duration"), b.Const(value));
     }
 
     /// <summary>
@@ -285,28 +285,28 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetTooltipPlacementTop(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltipPlacement"), b.Const("top"));
+        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("top"));
     }
     /// <summary>
     /// The preferred placement of the tooltip.
     /// </summary>
     public static void SetTooltipPlacementRight(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltipPlacement"), b.Const("right"));
+        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("right"));
     }
     /// <summary>
     /// The preferred placement of the tooltip.
     /// </summary>
     public static void SetTooltipPlacementBottom(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltipPlacement"), b.Const("bottom"));
+        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("bottom"));
     }
     /// <summary>
     /// The preferred placement of the tooltip.
     /// </summary>
     public static void SetTooltipPlacementLeft(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltipPlacement"), b.Const("left"));
+        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("left"));
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
     }
 
     /// <summary>

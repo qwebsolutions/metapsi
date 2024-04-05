@@ -162,7 +162,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetSync(this PropsBuilder<SlRelativeTime> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("sync"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("sync"), b.Const(string.Empty));
     }
 
 }

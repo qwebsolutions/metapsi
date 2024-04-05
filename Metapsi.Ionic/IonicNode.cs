@@ -43,6 +43,8 @@ public class IonComponent : HtmlComponent
 
     protected override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
     {
-        
+        documentTag.Body.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js", "module"));
+        documentTag.Body.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js", ""));
+        documentTag.Head.AddStylesheet("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
     }
 }

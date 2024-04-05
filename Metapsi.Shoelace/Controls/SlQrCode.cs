@@ -109,11 +109,11 @@ public partial class SlQrCode : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("errorCorrection");
+            return this.GetTag().GetAttribute<string>("error-correction");
         }
         set
         {
-            this.GetTag().SetAttribute("errorCorrection", value.ToString());
+            this.GetTag().SetAttribute("error-correction", value.ToString());
         }
     }
 
@@ -230,28 +230,28 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetErrorCorrectionL(this PropsBuilder<SlQrCode> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("errorCorrection"), b.Const("L"));
+        b.SetDynamic(b.Props, DynamicProperty.String("error-correction"), b.Const("L"));
     }
     /// <summary>
     /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
     /// </summary>
     public static void SetErrorCorrectionM(this PropsBuilder<SlQrCode> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("errorCorrection"), b.Const("M"));
+        b.SetDynamic(b.Props, DynamicProperty.String("error-correction"), b.Const("M"));
     }
     /// <summary>
     /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
     /// </summary>
     public static void SetErrorCorrectionQ(this PropsBuilder<SlQrCode> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("errorCorrection"), b.Const("Q"));
+        b.SetDynamic(b.Props, DynamicProperty.String("error-correction"), b.Const("Q"));
     }
     /// <summary>
     /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
     /// </summary>
     public static void SetErrorCorrectionH(this PropsBuilder<SlQrCode> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("errorCorrection"), b.Const("H"));
+        b.SetDynamic(b.Props, DynamicProperty.String("error-correction"), b.Const("H"));
     }
 
 }

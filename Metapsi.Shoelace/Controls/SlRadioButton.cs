@@ -134,7 +134,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlRadioButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlRadioButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
     }
 
     /// <summary>

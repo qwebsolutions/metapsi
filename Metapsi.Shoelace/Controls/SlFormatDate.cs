@@ -154,11 +154,11 @@ public partial class SlFormatDate : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("timeZoneName");
+            return this.GetTag().GetAttribute<string>("time-zone-name");
         }
         set
         {
-            this.GetTag().SetAttribute("timeZoneName", value.ToString());
+            this.GetTag().SetAttribute("time-zone-name", value.ToString());
         }
     }
 
@@ -169,11 +169,11 @@ public partial class SlFormatDate : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("timeZone");
+            return this.GetTag().GetAttribute<string>("time-zone");
         }
         set
         {
-            this.GetTag().SetAttribute("timeZone", value.ToString());
+            this.GetTag().SetAttribute("time-zone", value.ToString());
         }
     }
 
@@ -184,11 +184,11 @@ public partial class SlFormatDate : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("hourFormat");
+            return this.GetTag().GetAttribute<string>("hour-format");
         }
         set
         {
-            this.GetTag().SetAttribute("hourFormat", value.ToString());
+            this.GetTag().SetAttribute("hour-format", value.ToString());
         }
     }
 
@@ -399,14 +399,14 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZoneNameShort(this PropsBuilder<SlFormatDate> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("timeZoneName"), b.Const("short"));
+        b.SetDynamic(b.Props, DynamicProperty.String("time-zone-name"), b.Const("short"));
     }
     /// <summary>
     /// The format for displaying the time.
     /// </summary>
     public static void SetTimeZoneNameLong(this PropsBuilder<SlFormatDate> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("timeZoneName"), b.Const("long"));
+        b.SetDynamic(b.Props, DynamicProperty.String("time-zone-name"), b.Const("long"));
     }
 
     /// <summary>
@@ -414,14 +414,14 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZone(this PropsBuilder<SlFormatDate> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZone"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("time-zone"), value);
     }
     /// <summary>
     /// The time zone to express the time in.
     /// </summary>
     public static void SetTimeZone(this PropsBuilder<SlFormatDate> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZone"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("time-zone"), b.Const(value));
     }
 
     /// <summary>
@@ -429,21 +429,21 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHourFormatAuto(this PropsBuilder<SlFormatDate> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hourFormat"), b.Const("auto"));
+        b.SetDynamic(b.Props, DynamicProperty.String("hour-format"), b.Const("auto"));
     }
     /// <summary>
     /// The format for displaying the hour.
     /// </summary>
     public static void SetHourFormat12(this PropsBuilder<SlFormatDate> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hourFormat"), b.Const("12"));
+        b.SetDynamic(b.Props, DynamicProperty.String("hour-format"), b.Const("12"));
     }
     /// <summary>
     /// The format for displaying the hour.
     /// </summary>
     public static void SetHourFormat24(this PropsBuilder<SlFormatDate> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hourFormat"), b.Const("24"));
+        b.SetDynamic(b.Props, DynamicProperty.String("hour-format"), b.Const("24"));
     }
 
 }

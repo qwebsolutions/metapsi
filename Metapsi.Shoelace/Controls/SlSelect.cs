@@ -49,11 +49,11 @@ public partial class SlSelect : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("defaultValue");
+            return this.GetTag().GetAttribute<string>("");
         }
         set
         {
-            this.GetTag().SetAttribute("defaultValue", value.ToString());
+            this.GetTag().SetAttribute("", value.ToString());
         }
     }
 
@@ -110,11 +110,11 @@ public partial class SlSelect : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<int>("maxOptionsVisible");
+            return this.GetTag().GetAttribute<int>("max-options-visible");
         }
         set
         {
-            this.GetTag().SetAttribute("maxOptionsVisible", value.ToString());
+            this.GetTag().SetAttribute("max-options-visible", value.ToString());
         }
     }
 
@@ -251,11 +251,11 @@ public partial class SlSelect : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("helpText");
+            return this.GetTag().GetAttribute<string>("help-text");
         }
         set
         {
-            this.GetTag().SetAttribute("helpText", value.ToString());
+            this.GetTag().SetAttribute("help-text", value.ToString());
         }
     }
 
@@ -426,35 +426,6 @@ public static partial class SlSelectControl
     }
 
     /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlSelect> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), value);
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlSelect> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(value));
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlSelect> b, Var<List<string>> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), value);
-    }
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public static void SetDefaultValue(this PropsBuilder<SlSelect> b, List<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), b.Const(value));
-    }
-
-    /// <summary>
     /// The select's size.
     /// </summary>
     public static void SetSizeSmall(this PropsBuilder<SlSelect> b)
@@ -496,7 +467,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMultiple(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("multiple"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -504,14 +475,14 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMaxOptionsVisible(this PropsBuilder<SlSelect> b, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max-options-visible"), value);
     }
     /// <summary>
     /// The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit.
     /// </summary>
     public static void SetMaxOptionsVisible(this PropsBuilder<SlSelect> b, int value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max-options-visible"), b.Const(value));
     }
 
     /// <summary>
@@ -519,7 +490,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -527,7 +498,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetClearable(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("clearable"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -535,7 +506,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -543,7 +514,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -551,7 +522,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetFilled(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("filled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -559,7 +530,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -597,14 +568,14 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlSelect> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
     }
     /// <summary>
     /// The select's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlSelect> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
     }
 
     /// <summary>
@@ -627,7 +598,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>

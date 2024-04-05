@@ -11,3 +11,15 @@ public record ExternalScriptTag(string src, string type) : DistinctTag
         return tag;
     }
 }
+
+public record ScriptTag(string content, string type): DistinctTag
+{
+    public override HtmlTag GetTag()
+    {
+        var tag = new HtmlTag("script").WithChild(new HtmlText(content));
+        if (!string.IsNullOrEmpty(type))
+            tag.SetAttribute("type", type);
+
+        return tag;
+    }
+}

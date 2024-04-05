@@ -51,7 +51,7 @@ public static partial class SlResizeObserverControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlResizeObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

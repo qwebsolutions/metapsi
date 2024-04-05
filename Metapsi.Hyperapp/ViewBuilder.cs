@@ -565,6 +565,11 @@ namespace Metapsi.Hyperapp
             }
             b.Const(new ExternalScriptTag(src, type));
         }
+
+        public static void AddScript(this LayoutBuilder b, ScriptTag scriptTag)
+        {
+            b.Const(scriptTag);
+        }
     }
 
     public static class Html

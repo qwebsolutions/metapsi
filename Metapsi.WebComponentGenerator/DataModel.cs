@@ -23,7 +23,8 @@ public class WebComponent
 
 public class WebComponentProperty
 {
-    public string Name { get; set; }
+    public string PropertyName { get; set; }
+    public string AttributeName { get; set; }
     public string Description { get; set; }
     public ITypeScriptType TypeScriptType { get; set; }
 }

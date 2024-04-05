@@ -23,7 +23,7 @@ public class ShoelaceDeclaration
     public List<ShoelaceSlot> slots { get; set; } = new();
     public List<ShoelaceMember> members { get; set; } = new();
     public List<ShoelaceEvent> events { get; set; } = new();
-    public List<ShoelaceAttribute> attributes { get; set; } = new();
+    public List<ShoelaceProperty> attributes { get; set; } = new();
     public string summary { get; set; }
     public List<ShoelaceAnimation> animations { get; set; } = new();
     public string tagName { get; set; }
@@ -68,12 +68,13 @@ public class ShoelaceEvent
     public ShoelaceType type { get; set; } = new();
 }
 
-public class ShoelaceAttribute
+public class ShoelaceProperty
 {
     public string name { get; set; }
     public ShoelaceType type { get; set; }
     public string @default { get; set; }
     public string description { get; set; }
+    public string attribute { get; set; }
 }
 
 public class ShoelaceAnimation

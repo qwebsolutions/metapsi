@@ -34,11 +34,11 @@ public partial class SlRadioGroup : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("helpText");
+            return this.GetTag().GetAttribute<string>("help-text");
         }
         set
         {
-            this.GetTag().SetAttribute("helpText", value.ToString());
+            this.GetTag().SetAttribute("help-text", value.ToString());
         }
     }
 
@@ -186,14 +186,14 @@ public static partial class SlRadioGroupControl
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlRadioGroup> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
     }
     /// <summary>
     /// The radio groups's help text. If you need to display HTML, use the `help-text` slot instead.
     /// </summary>
     public static void SetHelpText(this PropsBuilder<SlRadioGroup> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
     }
 
     /// <summary>
@@ -268,7 +268,7 @@ public static partial class SlRadioGroupControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlRadioGroup> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
     }
 
     /// <summary>

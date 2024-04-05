@@ -265,11 +265,11 @@ public partial class SlButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("formAction");
+            return this.GetTag().GetAttribute<string>("formaction");
         }
         set
         {
-            this.GetTag().SetAttribute("formAction", value.ToString());
+            this.GetTag().SetAttribute("formaction", value.ToString());
         }
     }
 
@@ -280,11 +280,11 @@ public partial class SlButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("formEnctype");
+            return this.GetTag().GetAttribute<string>("formenctype");
         }
         set
         {
-            this.GetTag().SetAttribute("formEnctype", value.ToString());
+            this.GetTag().SetAttribute("formenctype", value.ToString());
         }
     }
 
@@ -295,11 +295,11 @@ public partial class SlButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("formMethod");
+            return this.GetTag().GetAttribute<string>("formmethod");
         }
         set
         {
-            this.GetTag().SetAttribute("formMethod", value.ToString());
+            this.GetTag().SetAttribute("formmethod", value.ToString());
         }
     }
 
@@ -310,12 +310,12 @@ public partial class SlButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("formNoValidate");
+            return this.GetTag().GetAttribute<bool>("formnovalidate");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("formNoValidate", value.ToString());
+            this.GetTag().SetAttribute("formnovalidate", value.ToString());
         }
     }
 
@@ -326,11 +326,11 @@ public partial class SlButton : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<string>("formTarget");
+            return this.GetTag().GetAttribute<string>("formtarget");
         }
         set
         {
-            this.GetTag().SetAttribute("formTarget", value.ToString());
+            this.GetTag().SetAttribute("formtarget", value.ToString());
         }
     }
 
@@ -471,7 +471,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCaret(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("caret"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("caret"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -487,7 +487,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetLoading(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("loading"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -495,7 +495,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetOutline(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("outline"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -503,7 +503,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -511,7 +511,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCircle(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("circle"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("circle"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -658,104 +658,104 @@ public static partial class SlButtonControl
     /// <summary>
     /// Used to override the form owner's `action` attribute.
     /// </summary>
-    public static void SetFormAction(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetFormaction(this PropsBuilder<SlButton> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formaction"), value);
     }
     /// <summary>
     /// Used to override the form owner's `action` attribute.
     /// </summary>
-    public static void SetFormAction(this PropsBuilder<SlButton> b, string value)
+    public static void SetFormaction(this PropsBuilder<SlButton> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formaction"), b.Const(value));
     }
 
     /// <summary>
     /// Used to override the form owner's `enctype` attribute.
     /// </summary>
-    public static void SetFormEnctypeApplicationXWwwFormUrlencoded(this PropsBuilder<SlButton> b)
+    public static void SetFormenctypeApplicationXWwwFormUrlencoded(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formEnctype"), b.Const("application/x-www-form-urlencoded"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("application/x-www-form-urlencoded"));
     }
     /// <summary>
     /// Used to override the form owner's `enctype` attribute.
     /// </summary>
-    public static void SetFormEnctypeMultipartFormData(this PropsBuilder<SlButton> b)
+    public static void SetFormenctypeMultipartFormData(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formEnctype"), b.Const("multipart/form-data"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("multipart/form-data"));
     }
     /// <summary>
     /// Used to override the form owner's `enctype` attribute.
     /// </summary>
-    public static void SetFormEnctypeTextPlain(this PropsBuilder<SlButton> b)
+    public static void SetFormenctypeTextPlain(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formEnctype"), b.Const("text/plain"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("text/plain"));
     }
 
     /// <summary>
     /// Used to override the form owner's `method` attribute.
     /// </summary>
-    public static void SetFormMethodPost(this PropsBuilder<SlButton> b)
+    public static void SetFormmethodPost(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formMethod"), b.Const("post"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formmethod"), b.Const("post"));
     }
     /// <summary>
     /// Used to override the form owner's `method` attribute.
     /// </summary>
-    public static void SetFormMethodGet(this PropsBuilder<SlButton> b)
+    public static void SetFormmethodGet(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formMethod"), b.Const("get"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formmethod"), b.Const("get"));
     }
 
     /// <summary>
     /// Used to override the form owner's `novalidate` attribute.
     /// </summary>
-    public static void SetFormNoValidate(this PropsBuilder<SlButton> b)
+    public static void SetFormnovalidate(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("formNoValidate"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("formnovalidate"), b.Const(string.Empty));
     }
 
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget_self(this PropsBuilder<SlButton> b)
+    public static void SetFormtarget_self(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formTarget"), b.Const("_self"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_self"));
     }
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget_blank(this PropsBuilder<SlButton> b)
+    public static void SetFormtarget_blank(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formTarget"), b.Const("_blank"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_blank"));
     }
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget_parent(this PropsBuilder<SlButton> b)
+    public static void SetFormtarget_parent(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formTarget"), b.Const("_parent"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_parent"));
     }
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget_top(this PropsBuilder<SlButton> b)
+    public static void SetFormtarget_top(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formTarget"), b.Const("_top"));
+        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_top"));
     }
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetFormtarget(this PropsBuilder<SlButton> b, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formtarget"), value);
     }
     /// <summary>
     /// Used to override the form owner's `target` attribute.
     /// </summary>
-    public static void SetFormTarget(this PropsBuilder<SlButton> b, string value)
+    public static void SetFormtarget(this PropsBuilder<SlButton> b, string value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formtarget"), b.Const(value));
     }
 
     /// <summary>

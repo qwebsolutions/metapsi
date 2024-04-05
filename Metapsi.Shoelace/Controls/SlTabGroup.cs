@@ -49,12 +49,12 @@ public partial class SlTabGroup : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("noScrollControls");
+            return this.GetTag().GetAttribute<bool>("no-scroll-controls");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("noScrollControls", value.ToString());
+            this.GetTag().SetAttribute("no-scroll-controls", value.ToString());
         }
     }
 
@@ -139,7 +139,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetNoScrollControls(this PropsBuilder<SlTabGroup> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noScrollControls"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("no-scroll-controls"), b.Const(string.Empty));
     }
 
     /// <summary>

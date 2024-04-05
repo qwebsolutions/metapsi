@@ -118,7 +118,7 @@ public static partial class SlRadioControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlRadio> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

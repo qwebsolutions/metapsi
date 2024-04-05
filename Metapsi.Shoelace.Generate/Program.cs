@@ -76,7 +76,7 @@ public static class Program
             {
                 if (webComponent.Name == "SlAnimation")
                 {
-                    if (property.Name == "keyframes")
+                    if (property.PropertyName == "keyframes")
                         return false;
                 }
 
@@ -93,10 +93,14 @@ public static class Program
             }
         };
 
+        Dictionary<string,string> importPaths = new Dictionary<string,string>();
+
         foreach (var module in metadata.modules)
         {
             foreach (var declaration in module.declarations.Where(x => !SkippedControls().Contains(x.name)))
             {
+                importPaths[declaration.tagName] = module.path;
+
                 WebComponent shoelaceComponent = new()
                 {
                     Name = declaration.name,
@@ -136,7 +140,8 @@ public static class Program
 
                     var shoelaceField = new WebComponentProperty()
                     {
-                        Name = member.name,
+                        PropertyName = member.name,
+                        AttributeName = member.attribute,
                         Description = member.description.Replace("\r", string.Empty).Replace("\n", " "),
                         TypeScriptType = TypeParser.GetTypeScriptType(typeString)
                     };
@@ -195,6 +200,24 @@ public static class Program
                 await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(shoelaceControlsOutputFolder, $"{shoelaceComponent.Name}.cs"), shoelaceComponent.ToCSharpFile(cSharpConverter));
             }
         }
+
+        StringBuilder importsBuilder = new StringBuilder();
+        importsBuilder.AppendLine("namespace Metapsi.Shoelace;");
+        importsBuilder.AppendLine();
+        importsBuilder.AppendLine("public static partial class Cdn");
+        importsBuilder.AppendLine("{");
+        importsBuilder.AppendLine($"    public static string Version = \"{version}\";");
+        importsBuilder.AppendLine("    public static System.Collections.Generic.Dictionary<string,string> ImportPaths = new()");
+        importsBuilder.AppendLine("    {");
+        foreach (var importPath in importPaths)
+        {
+            importsBuilder.AppendLine($"        {{ \"{importPath.Key}\", \"{importPath.Value}\" }},");
+        }
+        importsBuilder.AppendLine("    };");
+        importsBuilder.AppendLine("}");
+
+        await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(shoelaceControlsOutputFolder, $"CdnPaths.cs"), importsBuilder.ToString());
+
 
         var csProjPath = System.IO.Path.Combine(shoelaceProjectFolder, "Metapsi.Shoelace.csproj");
         var projectDescription = $"Use Shoelace {version} with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)";

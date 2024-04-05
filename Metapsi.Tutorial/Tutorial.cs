@@ -115,6 +115,7 @@ public class TutorialPage : HtmlPage<TutorialModel>
 
     public override void FillHtml(TutorialModel dataModel, DocumentTag document)
     {
+        document.UseWebComponentsFadeIn();
         document.WithBreakpointProbingPage(dataModel, delegate (TutorialModel dataModel)
         {
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))

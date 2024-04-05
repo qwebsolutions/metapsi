@@ -30,6 +30,7 @@ public class Homepage : HtmlPage<HomepageModel>
 
     public override void FillHtml(HomepageModel dataModel, DocumentTag document)
     {
+        document.UseWebComponentsFadeIn();
         Tutorial.CommonLayout(document, dataModel, "Metapsi - The full stack C# framework", new HtmlTag("header").WithChild(new HtmlText("Metapsi")), HomepageContent());
     }
 

@@ -34,12 +34,12 @@ public partial class SlMutationObserver : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("attrOldValue");
+            return this.GetTag().GetAttribute<bool>("attr-old-value");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("attrOldValue", value.ToString());
+            this.GetTag().SetAttribute("attr-old-value", value.ToString());
         }
     }
 
@@ -50,12 +50,12 @@ public partial class SlMutationObserver : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("charData");
+            return this.GetTag().GetAttribute<bool>("char-data");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("charData", value.ToString());
+            this.GetTag().SetAttribute("char-data", value.ToString());
         }
     }
 
@@ -66,12 +66,12 @@ public partial class SlMutationObserver : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("charDataOldValue");
+            return this.GetTag().GetAttribute<bool>("char-data-old-value");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("charDataOldValue", value.ToString());
+            this.GetTag().SetAttribute("char-data-old-value", value.ToString());
         }
     }
 
@@ -82,12 +82,12 @@ public partial class SlMutationObserver : SlComponent
     {
         get
         {
-            return this.GetTag().GetAttribute<bool>("childList");
+            return this.GetTag().GetAttribute<bool>("child-list");
         }
         set
         {
             if (!value) return;
-            this.GetTag().SetAttribute("childList", value.ToString());
+            this.GetTag().SetAttribute("child-list", value.ToString());
         }
     }
 
@@ -145,7 +145,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttrOldValue(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("attrOldValue"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("attr-old-value"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharData(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("charData"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("char-data"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharDataOldValue(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("charDataOldValue"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("char-data-old-value"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetChildList(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("childList"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("child-list"), b.Const(string.Empty));
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
     }
 
     /// <summary>

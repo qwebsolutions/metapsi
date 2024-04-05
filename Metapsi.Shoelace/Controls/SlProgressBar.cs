@@ -96,7 +96,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetIndeterminate(this PropsBuilder<SlProgressBar> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(true));
+        b.SetDynamic(b.Props, DynamicProperty.String("indeterminate"), b.Const(string.Empty));
     }
 
     /// <summary>
