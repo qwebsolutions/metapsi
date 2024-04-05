@@ -3,12 +3,60 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBreadcrumbItem
+public partial class SlBreadcrumbItem : SlComponent
 {
+    public SlBreadcrumbItem() : base("sl-breadcrumb-item") { }
+    /// <summary>
+    /// Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser where to open the link. Only used when `href` is set.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The `rel` attribute to use on the link. Only used when `href` is set.
+    /// </summary>
+    public string rel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("rel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rel", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 

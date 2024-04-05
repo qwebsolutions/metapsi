@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMenu
+public partial class SlMenu : SlComponent
 {
+    public SlMenu() : base("sl-menu") { }
 }
 
 public static partial class SlMenuControl
@@ -30,26 +33,46 @@ public static partial class SlMenuControl
     /// <summary>
     /// Emitted when a menu item is selected.
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-select"), eventAction);
+        b.OnEventAction("onsl-select", action);
     }
     /// <summary>
     /// Emitted when a menu item is selected.
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-select"), eventAction);
+        b.OnEventAction("onsl-select", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a menu item is selected.
+    /// </summary>
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-select", action);
+    }
+    /// <summary>
+    /// Emitted when a menu item is selected.
+    /// </summary>
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-select", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a menu item is selected.
+    /// </summary>
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, SlSelectEventArgs>> action)
+    {
+        b.OnEventAction("onsl-select", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when a menu item is selected.
+    /// </summary>
+    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-select", b.MakeAction(action), "detail");
     }
 
 }

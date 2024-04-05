@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRadio
+public partial class SlRadio : SlComponent
 {
+    public SlRadio() : base("sl-radio") { }
+    /// <summary>
+    /// The radio's value. When selected, the radio group will receive this value.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the radio.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlRadioControl
@@ -75,51 +124,61 @@ public static partial class SlRadioControl
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", action);
+    }
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
 }

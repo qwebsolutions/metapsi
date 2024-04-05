@@ -77,7 +77,7 @@ namespace Metapsi
                             (b, props) =>
                             {
                                 b.AddClass(props, "flex w-6 h-6");
-                                b.SetDynamic(props, Html.innerHTML, b.Const(Metapsi.Heroicons.Solid.PlusCircle));
+                                b.SetDynamic(props, Hyperapp.Html.innerHTML, b.Const(Metapsi.Heroicons.Solid.PlusCircle));
                                 b.SetDynamic(props, DynamicProperty.String("slot"), b.Const("prefix"));
                             }))),
                 !string.IsNullOrEmpty(serverModel.DescriptionHtml)? this.DocDescriptionPanel(b, b.Const( serverModel.DescriptionHtml)) : b.VoidNode().As<IVNode>(),
@@ -230,7 +230,7 @@ namespace Metapsi
                     "span",
                     (b, props) =>
                     {
-                        b.SetDynamic(props, Html.innerHTML, summaryHtml);
+                        b.SetDynamic(props, Hyperapp.Html.innerHTML, summaryHtml);
                     }));
         }
 

@@ -28,7 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="embedded\Metapsi.PropsStore.js" LogicalName="Metapsi.PropsStore.js" />
 		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
 		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />

@@ -3,12 +3,122 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRating
+public partial class SlRating : SlComponent
 {
+    public SlRating() : base("sl-rating") { }
+    /// <summary>
+    /// A label that describes the rating to assistive devices.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The current rating.
+    /// </summary>
+    public int value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The highest rating to show.
+    /// </summary>
+    public int max
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("max");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("max", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`.
+    /// </summary>
+    public int precision
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("precision");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("precision", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the rating readonly.
+    /// </summary>
+    public bool @readonly
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("readonly");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("readonly", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the rating.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements.
+    /// </summary>
+    public System.Func<int,string> getSymbol
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<int,string>>("getSymbol");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("getSymbol", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -132,51 +242,76 @@ public static partial class SlRatingControl
     /// <summary>
     /// Emitted when the rating's value changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// Emitted when the rating's value changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the rating's value changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", action);
+    }
+    /// <summary>
+    /// Emitted when the rating's value changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hover"), eventAction);
+        b.OnEventAction("onsl-hover", action);
     }
     /// <summary>
     /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hover"), eventAction);
+        b.OnEventAction("onsl-hover", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// </summary>
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-hover", action);
+    }
+    /// <summary>
+    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// </summary>
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-hover", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// </summary>
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, SlHoverEventArgs>> action)
+    {
+        b.OnEventAction("onsl-hover", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// </summary>
+    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlHoverEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-hover", b.MakeAction(action), "detail");
     }
 
 }

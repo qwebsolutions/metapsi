@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlOption
+public partial class SlOption : SlComponent
 {
+    public SlOption() : base("sl-option") { }
+    /// <summary>
+    /// The option's value. When selected, the containing form control will receive this value. The value must be unique from other options in the same group. Values may not contain spaces, as spaces are used as delimiters when listing multiple values.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the option in a disabled state, preventing selection.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 

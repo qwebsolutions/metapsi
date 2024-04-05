@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemGroup
+public partial class IonItemGroup : IonComponent
 {
+    public IonItemGroup() : base("ion-item-group") { }
 }
 
 public static partial class IonItemGroupControl

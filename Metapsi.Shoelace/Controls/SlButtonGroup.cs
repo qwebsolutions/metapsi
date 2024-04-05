@@ -3,12 +3,30 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlButtonGroup
+public partial class SlButtonGroup : SlComponent
 {
+    public SlButtonGroup() : base("sl-button-group") { }
+    /// <summary>
+    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlButtonGroupControl

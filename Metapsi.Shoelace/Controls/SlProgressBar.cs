@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlProgressBar
+public partial class SlProgressBar : SlComponent
 {
+    public SlProgressBar() : base("sl-progress-bar") { }
+    /// <summary>
+    /// The current progress as a percentage, 0 to 100.
+    /// </summary>
+    public int value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state.
+    /// </summary>
+    public bool indeterminate
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("indeterminate");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("indeterminate", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A custom label for assistive devices.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlProgressBarControl

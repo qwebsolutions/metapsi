@@ -3,12 +3,76 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRelativeTime
+public partial class SlRelativeTime : SlComponent
 {
+    public SlRelativeTime() : base("sl-relative-time") { }
+    /// <summary>
+    /// The date from which to calculate time from. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+    /// </summary>
+    public string date
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("date");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("date", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The formatting style to use.
+    /// </summary>
+    public string format
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("format");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("format", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When `auto`, values such as "yesterday" and "tomorrow" will be shown when possible. When `always`, values such as "1 day ago" and "in 1 day" will be shown.
+    /// </summary>
+    public string numeric
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("numeric");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("numeric", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Keep the displayed value up to date as time passes.
+    /// </summary>
+    public bool sync
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("sync");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("sync", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlRelativeTimeControl

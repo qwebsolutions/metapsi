@@ -15,7 +15,7 @@ public class SwitchExpression : TutorialSample<SwitchExpression.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
@@ -29,7 +29,7 @@ public class SwitchExpression : TutorialSample<SwitchExpression.Model>
                 (0, b => b.Const("There are no logged users")),
                 (1, b => b.Const("There is one logged user")));
 
-        return b.Text(loggedUsersMessage);
+        return b.T(loggedUsersMessage);
     }
 
     public override Model GetSampleData()

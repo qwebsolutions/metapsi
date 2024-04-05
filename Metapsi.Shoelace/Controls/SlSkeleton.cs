@@ -3,12 +3,30 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSkeleton
+public partial class SlSkeleton : SlComponent
 {
+    public SlSkeleton() : base("sl-skeleton") { }
+    /// <summary>
+    /// Determines which effect the skeleton will use.
+    /// </summary>
+    public string effect
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("effect");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("effect", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlSkeletonControl

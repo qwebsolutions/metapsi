@@ -60,7 +60,7 @@ namespace Metapsi.Sqlite
             switch (parameter.DbType)
             {
                 case DbType.String:
-                    parameter.Value = value.ToString("O");
+                    parameter.Value = value.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 default:
                     parameter.Value = value;

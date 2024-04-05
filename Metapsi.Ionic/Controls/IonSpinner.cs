@@ -3,12 +3,76 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSpinner
+public partial class IonSpinner : IonComponent
 {
+    public IonSpinner() : base("ion-spinner") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Duration of the spinner animation in milliseconds. The default varies based on the spinner.
+    /// </summary>
+    public int duration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("duration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("duration", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the spinner's animation will be paused.
+    /// </summary>
+    public bool paused
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("paused");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("paused", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonSpinnerControl

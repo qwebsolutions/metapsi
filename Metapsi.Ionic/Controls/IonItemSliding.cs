@@ -3,12 +3,31 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemSliding
+public partial class IonItemSliding : IonComponent
 {
+    public IonItemSliding() : base("ion-item-sliding") { }
+    /// <summary>
+    /// If `true`, the user cannot interact with the sliding item.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -69,24 +88,14 @@ public static partial class IonItemSlidingControl
     /// </summary>
     public static void OnIonDrag<TModel>(this PropsBuilder<IonItemSliding> b, Var<HyperType.Action<TModel, object>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionDrag"), eventAction);
+        b.OnEventAction("onionDrag", action, "detail");
     }
     /// <summary>
     /// Emitted when the sliding position changes.
     /// </summary>
     public static void OnIonDrag<TModel>(this PropsBuilder<IonItemSliding> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionDrag"), eventAction);
+        b.OnEventAction("onionDrag", b.MakeAction(action), "detail");
     }
 
 }

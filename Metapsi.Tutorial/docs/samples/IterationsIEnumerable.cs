@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Collections.Generic;
@@ -20,10 +21,8 @@ public class IterationsIEnumerable : TutorialSample<IterationsIEnumerable.Model>
         public List<User> AllUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var container = b.Div("flex flex-col");
-
         // This will result in a compile error
         //var loggedUsers =
         //    b.Get(
@@ -31,21 +30,28 @@ public class IterationsIEnumerable : TutorialSample<IterationsIEnumerable.Model>
         //        x => x.AllUsers.Where(x => x.IsLoggedIn));
 
         // While this will work
-        var loggedUsers = 
+        var loggedUsers =
             b.Get(
-                model, 
+                model,
                 x => x.AllUsers.Where(x => x.IsLoggedIn).ToList());
+
+        var textNodes = b.NewCollection<IVNode>();
 
         b.Foreach(loggedUsers,
             (b, user) =>
             {
                 var userName = b.Get(user, x => x.Name);
-                b.Add(
-                    container,
-                    b.Text(userName));
+                b.Push(
+                    textNodes,
+                    b.T(userName));
             });
 
-        return container;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col");
+            },
+            textNodes);
     }
 
     public override Model GetSampleData()

@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,14 +13,16 @@ public class HtmlAttributesSetClass : TutorialSample<HtmlAttributesSetClass.Mode
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var a = b.Node("a");
-        b.SetAttr(a, Html.href, "https://www.w3schools.com/tags/tag_a.asp");
-        b.SetAttr(a, Html.target, "_blank");
-        b.SetAttr(a, Html.@class, "underline text-blue-500");
-        b.Add(a, b.Text("link"));
-        return a;
+        return b.HtmlA(
+            b =>
+            {
+                b.SetClass("underline text-blue-500");
+                b.SetHref("https://www.w3schools.com/tags/tag_a.asp");
+                b.SetDynamic(b.Props, Hyperapp.Html.target, b.Const("_blank"));
+            },
+            b.T("link"));
     }
 
     public override Model GetSampleData()

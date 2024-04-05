@@ -118,13 +118,13 @@ namespace Metapsi.Hyperapp
             return b.Clone(page);
         }
 
-        public static Var<HyperNode> WaitPanel<TState>(this LayoutBuilder b, Var<TState> page)
-            where TState : IApiSupportState
-        {
-            return b.Optional(
-                b.Get(page, x => x.ApiSupport.InProgress),
-                b => b.Div("bg-black opacity-50 fixed inset-0 z-40 items-center"));
-        }
+        //public static Var<HyperNode> WaitPanel<TState>(this LayoutBuilder b, Var<TState> page)
+        //    where TState : IApiSupportState
+        //{
+        //    return b.Optional(
+        //        b.Get(page, x => x.ApiSupport.InProgress),
+        //        b => b.Div("bg-black opacity-50 fixed inset-0 z-40 items-center"));
+        //}
 
         public static Var<bool> IsErrorResult<TResult>(this SyntaxBuilder b, Var<TResult> response)
             where TResult : IApiResponse

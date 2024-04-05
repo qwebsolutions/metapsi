@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSelectOption
+public partial class IonSelectOption : IonComponent
 {
+    public IonSelectOption() : base("ion-select-option") { }
+    /// <summary>
+    /// If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The text value of the option.
+    /// </summary>
+    public object value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonSelectOptionControl

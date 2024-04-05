@@ -3,12 +3,93 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMenuItem
+public partial class SlMenuItem : SlComponent
 {
+    public SlMenuItem() : base("sl-menu-item") { }
+    /// <summary>
+    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the item in a checked state.
+    /// </summary>
+    public bool @checked
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("checked");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("checked", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the menu item in a loading state.
+    /// </summary>
+    public bool loading
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("loading");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("loading", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the menu item in a disabled state, preventing selection.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 

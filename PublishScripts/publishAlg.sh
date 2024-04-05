@@ -50,7 +50,7 @@ fi
 zipPath=$prj.$revision.zip
 rm -r publish
 rm *.zip
-dotnet publish $1 -c Release -r $3 -o ./publish
+dotnet publish $1 -c Release -r $3 --self-contained -o ./publish
 $zipCmd a $zipPath ./publish/*
 
 fProject='project='$prj

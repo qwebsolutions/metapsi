@@ -3,12 +3,319 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonToast
+public partial class IonToast : IonComponent
 {
+    public IonToast() : base("ion-toast") { }
+    /// <summary>
+    /// If `true`, the toast will animate.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An array of buttons for the toast.
+    /// </summary>
+    public List<object> buttons
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<List<object>>("buttons");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("buttons", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// </summary>
+    public string cssClass
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cssClass");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cssClass", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How many milliseconds to wait before hiding the toast. By default, it will show until `dismiss()` is called.
+    /// </summary>
+    public int duration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("duration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("duration", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the toast is presented.
+    /// </summary>
+    public System.Func<object,object,Animation> enterAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("enterAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Header to be shown in the toast.
+    /// </summary>
+    public string header
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("header");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("header", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional attributes to pass to the toast.
+    /// </summary>
+    public object htmlAttributes
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("htmlAttributes");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("htmlAttributes", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the icon to display, or the path to a valid SVG file. See `ion-icon`. https://ionic.io/ionicons
+    /// </summary>
+    public string icon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("icon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("icon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the toast will open. If `false`, the toast will close. Use this if you need finer grained control over presentation, otherwise just use the toastController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the toast dismisses. You will need to do that in your code.
+    /// </summary>
+    public bool isOpen
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("isOpen");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("isOpen", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public bool keyboardClose
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("keyboardClose");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("keyboardClose", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Defines how the message and buttons are laid out in the toast. 'baseline': The message and the buttons will appear on the same line. Message text may wrap within the message container. 'stacked': The buttons containers and message will stack on top of each other. Use this if you have long text in your buttons.
+    /// </summary>
+    public string layout
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("layout");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("layout", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the toast is dismissed.
+    /// </summary>
+    public System.Func<object,object,Animation> leaveAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("leaveAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("leaveAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Message to be shown in the toast. This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string message
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("message");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("message", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The starting position of the toast on the screen. Can be tweaked further using the `positionAnchor` property.
+    /// </summary>
+    public string position
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("position");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("position", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The element to anchor the toast's position to. Can be set as a direct reference or the ID of the element. With `position="bottom"`, the toast will sit above the chosen element. With `position="top"`, the toast will sit below the chosen element. With `position="middle"`, the value of `positionAnchor` is ignored.
+    /// </summary>
+    public string positionAnchor
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("positionAnchor");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("positionAnchor", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If set to 'vertical', the Toast can be dismissed with a swipe gesture. The swipe direction is determined by the value of the `position` property: `top`: The Toast can be swiped up to dismiss. `bottom`: The Toast can be swiped down to dismiss. `middle`: The Toast can be swiped up or down to dismiss.
+    /// </summary>
+    public string swipeGesture
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("swipeGesture");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("swipeGesture", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the toast will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public bool translucent
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("translucent");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("translucent", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An ID corresponding to the trigger element that causes the toast to open when clicked.
+    /// </summary>
+    public string trigger
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("trigger");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("trigger", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -434,24 +741,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the toast has dismissed. Shorthand for ionToastDidDismiss.
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -459,14 +756,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), action);
+        b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
     /// Emitted after the toast has presented. Shorthand for ionToastWillDismiss.
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), b.MakeAction(action));
+        b.OnEventAction("ondidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -474,24 +771,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnIonToastDidDismiss<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionToastDidDismiss"), eventAction);
+        b.OnEventAction("onionToastDidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the toast has dismissed.
     /// </summary>
     public static void OnIonToastDidDismiss<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionToastDidDismiss"), eventAction);
+        b.OnEventAction("onionToastDidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -499,14 +786,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnIonToastDidPresent<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionToastDidPresent"), action);
+        b.OnEventAction("onionToastDidPresent", action);
     }
     /// <summary>
     /// Emitted after the toast has presented.
     /// </summary>
     public static void OnIonToastDidPresent<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionToastDidPresent"), b.MakeAction(action));
+        b.OnEventAction("onionToastDidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -514,24 +801,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnIonToastWillDismiss<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionToastWillDismiss"), eventAction);
+        b.OnEventAction("onionToastWillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the toast has dismissed.
     /// </summary>
     public static void OnIonToastWillDismiss<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionToastWillDismiss"), eventAction);
+        b.OnEventAction("onionToastWillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -539,14 +816,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnIonToastWillPresent<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionToastWillPresent"), action);
+        b.OnEventAction("onionToastWillPresent", action);
     }
     /// <summary>
     /// Emitted before the toast has presented.
     /// </summary>
     public static void OnIonToastWillPresent<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionToastWillPresent"), b.MakeAction(action));
+        b.OnEventAction("onionToastWillPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -554,24 +831,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the toast has dismissed. Shorthand for ionToastWillDismiss.
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -579,14 +846,14 @@ public static partial class IonToastControl
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonToast> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), action);
+        b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
     /// Emitted before the toast has presented. Shorthand for ionToastWillPresent.
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonToast> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), b.MakeAction(action));
+        b.OnEventAction("onwillPresent", b.MakeAction(action));
     }
 
 }

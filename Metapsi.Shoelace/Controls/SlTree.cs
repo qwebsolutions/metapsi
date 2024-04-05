@@ -3,12 +3,30 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTree
+public partial class SlTree : SlComponent
 {
+    public SlTree() : base("sl-tree") { }
+    /// <summary>
+    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
+    /// </summary>
+    public string selection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("selection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("selection", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -63,26 +81,46 @@ public static partial class SlTreeControl
     /// <summary>
     /// Emitted when a tree item is selected or deselected.
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-selection-change"), eventAction);
+        b.OnEventAction("onsl-selection-change", action);
     }
     /// <summary>
     /// Emitted when a tree item is selected or deselected.
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-selection-change"), eventAction);
+        b.OnEventAction("onsl-selection-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tree item is selected or deselected.
+    /// </summary>
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-selection-change", action);
+    }
+    /// <summary>
+    /// Emitted when a tree item is selected or deselected.
+    /// </summary>
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-selection-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tree item is selected or deselected.
+    /// </summary>
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, SlSelectionChangeEventArgs>> action)
+    {
+        b.OnEventAction("onsl-selection-change", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when a tree item is selected or deselected.
+    /// </summary>
+    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectionChangeEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-selection-change", b.MakeAction(action), "detail");
     }
 
 }

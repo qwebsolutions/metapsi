@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCarouselItem
+public partial class SlCarouselItem : SlComponent
 {
+    public SlCarouselItem() : base("sl-carousel-item") { }
 }
 
 public static partial class SlCarouselItemControl

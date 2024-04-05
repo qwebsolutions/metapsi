@@ -3,12 +3,45 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTitle
+public partial class IonTitle : IonComponent
 {
+    public IonTitle() : base("ion-title") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The size of the toolbar title.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonTitleControl

@@ -39,6 +39,13 @@ namespace Metapsi.Dom
         public TTarget target { get; set; }
     }
 
+    public class DomEvent : IDomEvent
+    {
+        public DomElement currentTarget { get; set; }
+        public DomElement target { get; set; }
+    }
+
+
     public class InputTarget
     {
         public string value { get; set; }
@@ -147,6 +154,12 @@ namespace Metapsi.Dom
             where T: IDomEvent
         {
             b.CallDomFunction(nameof(StopPropagation), domEvent);
+        }
+
+        public static void PreventDefault<T>(this SyntaxBuilder b, Var<T> domEvent)
+            where T : IDomEvent
+        {
+            b.CallOnObject(domEvent, "preventDefault");
         }
 
         public static void Focus(this SyntaxBuilder b, Var<DomElement> domElement, bool scroll)

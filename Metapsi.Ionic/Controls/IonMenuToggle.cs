@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonMenuToggle
+public partial class IonMenuToggle : IonComponent
 {
+    public IonMenuToggle() : base("ion-menu-toggle") { }
+    /// <summary>
+    /// Automatically hides the content when the corresponding menu is not active.  By default, it's `true`. Change it to `false` in order to keep `ion-menu-toggle` always visible regardless the state of the menu.
+    /// </summary>
+    public bool autoHide
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autoHide");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autoHide", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle.  If this property is not used, `ion-menu-toggle` will toggle the first menu that is active.
+    /// </summary>
+    public string menu
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("menu");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("menu", value.ToString());
+        }
+    }
+
     /// <summary> 
     /// Content is placed inside the toggle to act as the click target.
     /// </summary>

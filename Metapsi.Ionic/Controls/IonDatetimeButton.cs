@@ -3,12 +3,76 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonDatetimeButton
+public partial class IonDatetimeButton : IonComponent
 {
+    public IonDatetimeButton() : base("ion-datetime-button") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The ID of the `ion-datetime` instance associated with the datetime button.
+    /// </summary>
+    public string datetime
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("datetime");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("datetime", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the button.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 

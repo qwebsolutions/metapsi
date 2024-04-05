@@ -3,12 +3,366 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTextarea
+public partial class SlTextarea : SlComponent
 {
+    public SlTextarea() : base("sl-textarea") { }
+    /// <summary>
+    /// The name of the textarea, submitted as a name/value pair with form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The current value of the textarea, submitted as a name/value pair with form data.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The textarea's size.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws a filled textarea.
+    /// </summary>
+    public bool filled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("filled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("filled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The textarea's label. If you need to display HTML, use the `label` slot instead.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The textarea's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// </summary>
+    public string helpText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("helpText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("helpText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Placeholder text to show as a hint when the input is empty.
+    /// </summary>
+    public string placeholder
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placeholder");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placeholder", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The number of rows to display by default.
+    /// </summary>
+    public int rows
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("rows");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rows", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Controls how the textarea can be resized.
+    /// </summary>
+    public string resize
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("resize");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("resize", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the textarea.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the textarea readonly.
+    /// </summary>
+    public bool @readonly
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("readonly");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("readonly", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// </summary>
+    public string form
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("form");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("form", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the textarea a required field.
+    /// </summary>
+    public bool required
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("required");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("required", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum length of input that will be considered valid.
+    /// </summary>
+    public int minlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum length of input that will be considered valid.
+    /// </summary>
+    public int maxlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maxlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maxlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// </summary>
+    public string autocapitalize
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocapitalize");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocapitalize", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether the browser's autocorrect feature is on or off.
+    /// </summary>
+    public string autocorrect
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocorrect");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocorrect", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+    /// </summary>
+    public string autocomplete
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocomplete");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocomplete", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates that the input should receive focus on page load.
+    /// </summary>
+    public bool autofocus
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autofocus");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autofocus", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// </summary>
+    public string enterkeyhint
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("enterkeyhint");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Enables spell checking on the textarea.
+    /// </summary>
+    public bool spellcheck
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("spellcheck");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("spellcheck", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+    /// </summary>
+    public string inputmode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("inputmode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("inputmode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The default value of the form control. Primarily used for resetting the form control.
+    /// </summary>
+    public string defaultValue
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("defaultValue");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("defaultValue", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -506,126 +860,151 @@ public static partial class SlTextareaControl
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", action);
+    }
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when an alteration to the control's value is committed by the user.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// Emitted when an alteration to the control's value is committed by the user.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when an alteration to the control's value is committed by the user.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", action);
+    }
+    /// <summary>
+    /// Emitted when an alteration to the control's value is committed by the user.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
+        b.OnEventAction("onsl-input", action);
     }
     /// <summary>
     /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
+        b.OnEventAction("onsl-input", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-input", action);
+    }
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", action);
+    }
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
 }

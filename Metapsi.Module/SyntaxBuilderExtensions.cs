@@ -18,7 +18,7 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<bool> varIsTrue,
             Func<TSyntaxBuilder, Var<TResult>> bTrue, Func<TSyntaxBuilder, Var<TResult>> bFalse)
-            where TSyntaxBuilder: SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             Var<Reference<TResult>> outRef = b.NewObj<Reference<TResult>>();
 
@@ -33,11 +33,11 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder syntaxBuilder,
             Var<bool> varIsTrue,
             Action<TSyntaxBuilder> bTrue)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             syntaxBuilder.blockBuilder.If(
                 varIsTrue,
-                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b)));
+                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b, syntaxBuilder)));
         }
 
         public static void If<TSyntaxBuilder>(
@@ -45,27 +45,27 @@ namespace Metapsi.Syntax
             Var<bool> varIsTrue,
             Action<TSyntaxBuilder> bTrue,
             Action<TSyntaxBuilder> bFalse)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             syntaxBuilder.blockBuilder.If(
                 varIsTrue,
-                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b)),
-                b => bFalse(SyntaxBuilder.New<TSyntaxBuilder>(b)));
+                b => bTrue(SyntaxBuilder.New<TSyntaxBuilder>(b, syntaxBuilder)),
+                b => bFalse(SyntaxBuilder.New<TSyntaxBuilder>(b, syntaxBuilder)));
         }
 
         public static void Foreach<TSyntaxBuilder, T>(
             this TSyntaxBuilder syntaxBuilder,
             Var<List<T>> collection, Action<TSyntaxBuilder, Var<T>> build)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
-            syntaxBuilder.blockBuilder.Foreach(collection, (b, var) => build(SyntaxBuilder.New<TSyntaxBuilder>(b), var));
+            syntaxBuilder.blockBuilder.Foreach(collection, (b, var) => build(SyntaxBuilder.New<TSyntaxBuilder>(b, syntaxBuilder), var));
         }
 
         public static void Foreach<TSyntaxBuilder, T>(
             this TSyntaxBuilder b,
             Var<List<T>> collection,
             Action<TSyntaxBuilder, Var<T>, Var<int>> action)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             var index = b.Ref(b.Const(0));
             b.Foreach(collection, (b, item) =>
@@ -315,7 +315,7 @@ namespace Metapsi.Syntax
             Var<TInput> v,
             Func<TSyntaxBuilder, Var<TResult>> @default,
             params (TInput, Func<TSyntaxBuilder, Var<TResult>>)[] cases)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             b.Comment($"case default");
             var resultContainer = b.Ref(@default(b));
@@ -346,6 +346,16 @@ namespace Metapsi.Syntax
         public static Var<Reference<T>> Ref<T>(this SyntaxBuilder b, Var<T> value)
         {
             return b.NewObj<Reference<T>>(b => b.Set(x => x.Value, value));
+        }
+
+        public static Var<Reference<T>> GlobalRef<T>(this SyntaxBuilder b, Reference<T> reference)
+        {
+            return b.Const(reference);
+        }
+
+        public static Var<Reference<T>> GlobalRef<T>(this SyntaxBuilder b, T initialValue)
+        {
+            return b.Const(new Reference<T>() { Value = initialValue });
         }
 
         public static void SetRef<TSyntaxBuilder, T>(this TSyntaxBuilder b, Var<Reference<T>> reference, Var<T> value)
@@ -386,7 +396,7 @@ namespace Metapsi.Syntax
         }
 
         public static Var<List<TOut>> Map<TSyntaxBuilder, TIn, TOut>(this TSyntaxBuilder b, Var<List<TIn>> list, Var<Func<TIn, TOut>> transform)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             var outList = b.NewObj<List<TOut>>();
             b.Foreach(list, (b, item) =>
@@ -398,7 +408,7 @@ namespace Metapsi.Syntax
         }
 
         public static Var<List<TOut>> Map<TSyntaxBuilder, TIn, TOut>(this TSyntaxBuilder b, Var<List<TIn>> list, Func<TSyntaxBuilder, Var<TIn>, Var<TOut>> transform)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : SyntaxBuilder, new()
         {
             return b.Map(list, b.Def(transform));
         }

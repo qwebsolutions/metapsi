@@ -32,6 +32,8 @@ namespace Metapsi.Hyperapp
             return b.T(b.Const(text));
         }
 
+        // All parameters
+
         /// <summary>
         /// Creates a virtual node
         /// </summary>
@@ -42,78 +44,56 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, Var<List<IVNode>> children)
         {
-            var validChildren = b.Filter(children, Metapsi.Hyperapp.ExternalFunctions.IsValidNode);
-            return b.CallExternal<IVNode>("hyperapp", "h", tag, props, validChildren);
+            return b.CallExternal<IVNode>("hyperapp", "h", tag, props, b.Call(ValidChildren, children));
         }
-
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, Var<List<IVNode>> children)
         {
             return b.H(b.Const(tag), props, children);
         }
 
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, params Var<IVNode>[] children)
+        {
+            return b.H(tag, props, b.List(children));
+        }
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, params Var<IVNode>[] children)
         {
             return b.H(b.Const(tag), props, b.List(children));
         }
 
-        public static Var<IVNode> Div(this LayoutBuilder b, Var<DynamicObject> props, params Var<IVNode>[] children)
+        // Without props. Children are optional, so this signatures include the ones without children
+
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<List<IVNode>> children)
         {
-            return b.H(b.Const("div"), props, b.List(children));
+            return b.H(tag, b.NewObj<DynamicObject>(), children);
         }
 
-        public static Var<IVNode> Button(this LayoutBuilder b, Var<DynamicObject> props, params Var<IVNode>[] children)
+        public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<List<IVNode>> children)
         {
-            return b.H(b.Const("button"), props, b.List(children));
+            return b.H(tag, b.NewObj<DynamicObject>(), children);
         }
 
-        public static Var<IVNode> Button(this LayoutBuilder b, Action<PropsBuilder, Var<DynamicObject>> buildProps, params Var<IVNode>[] children)
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, params Var<IVNode>[] children)
         {
-            return b.H(b.Const("button"), buildProps, children);
+            return b.H(tag, b.NewObj<DynamicObject>(), children);
         }
 
-        public static Var<IVNode> H(this LayoutBuilder b, string tag, Action<PropsBuilder, Var<DynamicObject>> buildProps, Var<List<IVNode>> children)
+        public static Var<IVNode> H(this LayoutBuilder b, string tag, params Var<IVNode>[] children)
         {
-            return b.H(b.Const(tag), buildProps, children);
+            return b.H(tag, b.NewObj<DynamicObject>(), children);
         }
 
-        public static Var<DynamicObject> EmptyProps(this LayoutBuilder b)
+        // Just tag
+
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag)
         {
-            return b.NewObj<DynamicObject>();
+            return b.H(tag, b.NewObj<DynamicObject>());
         }
 
-        public static Var<IVNode> H(
-            this LayoutBuilder b,
-            Var<string> tag,
-            Action<PropsBuilder, Var<DynamicObject>> buildProps,
-            params Var<IVNode>[] children)
+        public static Var<IVNode> H(this LayoutBuilder b, string tag)
         {
-            var propsBuilder = new PropsBuilder(b);
-            var props = propsBuilder.NewObj<DynamicObject>();
-            buildProps(propsBuilder, props);
-            return b.H(tag, props, b.List(children));
-        }
-
-        public static Var<IVNode> H(
-            this LayoutBuilder b,
-            Var<string> tag,
-            Action<PropsBuilder, Var<DynamicObject>> buildProps,
-            Var<List<IVNode>> children)
-        {
-            var propsBuilder = new PropsBuilder(b);
-            var props = propsBuilder.NewObj<DynamicObject>();
-            buildProps(propsBuilder, props);
-            return b.H(tag, props, children);
-        }
-
-        public static Var<IVNode> H(
-            this LayoutBuilder b,
-            string tag,
-            Action<PropsBuilder, Var<DynamicObject>> buildProps,
-            params Var<IVNode>[] children)
-        {
-            return b.H(b.Const(tag), buildProps, children);
+            return b.H(b.Const(tag), b.NewObj<DynamicObject>());
         }
 
         public static Var<bool> IsVoidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)
@@ -126,6 +106,11 @@ namespace Metapsi.Hyperapp
             where TSyntaxBuilder : SyntaxBuilder
         {
             return b.Not(b.IsVoidNode(node));
+        }
+
+        public static Var<List<IVNode>> ValidChildren(this SyntaxBuilder b, Var<List<IVNode>> children)
+        {
+            return b.Filter(children, IsValidNode);
         }
     }
 }

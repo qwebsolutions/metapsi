@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonReorder
+public partial class IonReorder : IonComponent
 {
+    public IonReorder() : base("ion-reorder") { }
 }
 
 public static partial class IonReorderControl

@@ -53,17 +53,19 @@ namespace Metapsi.Hyperapp
                     b.SetDynamic(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
                     b.SetDynamic(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
 
-                    var props = b.EmptyProps();
+                    var props = b.NewObj<DynamicObject>();
                     b.SetDynamic(props, new DynamicProperty<DynamicObject>("style"), inlineStyle);
 
-                    var errorDiv = b.Div(props, b.T("An error has occurred"));
-
-                    return errorDiv;
+                    //var errorDiv = b.Div(props, b.T("An error has occurred"));
+                    return b.H("div", props, b.T("An error has occurred"));
                 };
+
+                LayoutBuilder layoutBuilder = new LayoutBuilder();
+                layoutBuilder.InitializeFrom(b);
 
                 var app = b.NewObj<HyperType.App<TDataModel>>();
                 b.Set(app, x => x.init, init);
-                b.Set(app, x => x.view, new LayoutBuilder(b).Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
+                b.Set(app, x => x.view, layoutBuilder.Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
                 {
                     var r = b.Def(render);
                     var rootNode = b.TryCatchReturn<IVNode>(

@@ -3,12 +3,110 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonContent
+public partial class IonContent : IonComponent
 {
+    public IonContent() : base("ion-content") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
+    /// </summary>
+    public bool forceOverscroll
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("forceOverscroll");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("forceOverscroll", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+    /// </summary>
+    public bool fullscreen
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("fullscreen");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("fullscreen", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
+    /// </summary>
+    public bool scrollEvents
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("scrollEvents");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("scrollEvents", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
+    /// </summary>
+    public bool scrollX
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("scrollX");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("scrollX", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
+    /// </summary>
+    public bool scrollY
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("scrollY");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("scrollY", value.ToString());
+        }
+    }
+
     /// <summary> 
     /// Content is placed in the scrollable area if provided without a slot.
     /// </summary>
@@ -196,24 +294,14 @@ public static partial class IonContentControl
     /// </summary>
     public static void OnIonScroll<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScroll"), eventAction);
+        b.OnEventAction("onionScroll", action, "detail");
     }
     /// <summary>
     /// Emitted while scrolling. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
     public static void OnIonScroll<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScroll"), eventAction);
+        b.OnEventAction("onionScroll", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -221,24 +309,14 @@ public static partial class IonContentControl
     /// </summary>
     public static void OnIonScrollEnd<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollBaseDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollBaseDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScrollEnd"), eventAction);
+        b.OnEventAction("onionScrollEnd", action, "detail");
     }
     /// <summary>
     /// Emitted when the scroll has ended. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
     public static void OnIonScrollEnd<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollBaseDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollBaseDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScrollEnd"), eventAction);
+        b.OnEventAction("onionScrollEnd", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -246,24 +324,14 @@ public static partial class IonContentControl
     /// </summary>
     public static void OnIonScrollStart<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollBaseDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollBaseDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScrollStart"), eventAction);
+        b.OnEventAction("onionScrollStart", action, "detail");
     }
     /// <summary>
     /// Emitted when the scroll has started. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
     public static void OnIonScrollStart<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ScrollBaseDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ScrollBaseDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionScrollStart"), eventAction);
+        b.OnEventAction("onionScrollStart", b.MakeAction(action), "detail");
     }
 
 }

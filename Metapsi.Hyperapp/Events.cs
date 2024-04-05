@@ -11,106 +11,106 @@ namespace Metapsi.Hyperapp
 {
     public static class EventExtensions
     {
-        public static void SetOnInput<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
-        {
-            var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
-            {
-                var target = b.Get(@event, x => x.target);
-                var value = b.Get(target, x => x.value);
-                return b.MakeActionDescriptor<TState, string>(onInput, value);
-            });
+        //public static void SetOnInput<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onInput)
+        //{
+        //    var extractInputValue = b.MakeAction<TState, DomEvent<InputTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<InputTarget>> @event) =>
+        //    {
+        //        var target = b.Get(@event, x => x.target);
+        //        var value = b.Get(target, x => x.value);
+        //        return b.MakeActionDescriptor<TState, string>(onInput, value);
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<InputTarget>>>("oninput"), extractInputValue);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<InputTarget>>>("oninput"), extractInputValue);
+        //}
 
-        public static void SetOnEnter<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEnter)
-        {
-            b.SetOnKey(control, "Enter", onEnter);
-        }
+        //public static void SetOnEnter<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEnter)
+        //{
+        //    b.SetOnKey(control, "Enter", onEnter);
+        //}
 
-        public static void SetOnEscape<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEscape)
-        {
-            b.SetAttr(control, Html.tabindex, 1);// Otherwise keywboard events are not triggered
-            b.SetOnKey(control, "Escape", onEscape);
-        }
+        //public static void SetOnEscape<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState>> onEscape)
+        //{
+        //    b.SetAttr(control, Html.tabindex, 1);// Otherwise keywboard events are not triggered
+        //    b.SetOnKey(control, "Escape", onEscape);
+        //}
 
-        public static void SetOnKey<TState>(this LayoutBuilder b, Var<HyperNode> control, string keyName, Var<HyperType.Action<TState>> onKey)
-        {
-            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
-            {
-                return b.If(
-                    b.Get(@event, b.Const(keyName), (@event, @keyName) => @event.key == keyName),
-                    b => onKey,
-                    b => b.MakeAction((SyntaxBuilder b, Var<TState> state) => state));
-            });
+        //public static void SetOnKey<TState>(this LayoutBuilder b, Var<HyperNode> control, string keyName, Var<HyperType.Action<TState>> onKey)
+        //{
+        //    var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+        //    {
+        //        return b.If(
+        //            b.Get(@event, b.Const(keyName), (@event, @keyName) => @event.key == keyName),
+        //            b => onKey,
+        //            b => b.MakeAction((SyntaxBuilder b, Var<TState> state) => state));
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
+        //}
 
-        public static void SetOnKeyDown<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onKey)
-        {
-            var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
-            {
-                return b.MakeActionDescriptor(onKey, b.Get(@event, x => x.key));
-            });
+        //public static void SetOnKeyDown<TState>(this LayoutBuilder b, Var<HyperNode> control, Var<HyperType.Action<TState, string>> onKey)
+        //{
+        //    var onKeyEvent = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<KeyboardEvent> @event) =>
+        //    {
+        //        return b.MakeActionDescriptor(onKey, b.Get(@event, x => x.key));
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, KeyboardEvent>>("onkeydown"), onKeyEvent);
+        //}
 
-        public static Var<HyperType.Action<T>> NoAction<T>(this SyntaxBuilder b)
-        {
-            return b.MakeAction((SyntaxBuilder b, Var<T> state) => state);
-        }
+        //public static Var<HyperType.Action<T>> NoAction<T>(this SyntaxBuilder b)
+        //{
+        //    return b.MakeAction((SyntaxBuilder b, Var<T> state) => state);
+        //}
 
-        public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this SyntaxBuilder b)
-        {
-            return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TPayload> payload) => state);
-        }
+        //public static Var<HyperType.Action<TState, TPayload>> NoAction<TState, TPayload>(this SyntaxBuilder b)
+        //{
+        //    return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<TPayload> payload) => state);
+        //}
 
 
 
-        public static void SetOnClick<TState, TPayload>(
-            this LayoutBuilder b,
-            Var<HyperNode> control,
-            Var<HyperType.Action<TState, TPayload>> onClick,
-            Var<TPayload> payload)
-        {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
-            {
-                b.StopPropagation(@event);
-                return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
-            });
+        //public static void SetOnClick<TState, TPayload>(
+        //    this LayoutBuilder b,
+        //    Var<HyperNode> control,
+        //    Var<HyperType.Action<TState, TPayload>> onClick,
+        //    Var<TPayload> payload)
+        //{
+        //    var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+        //    {
+        //        b.StopPropagation(@event);
+        //        return b.MakeActionDescriptor<TState, TPayload>(onClick, payload);
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
+        //}
 
-        public static void SetOnClick<TState>(
-            this LayoutBuilder b,
-            Var<HyperNode> control,
-            Var<HyperType.Action<TState>> onClick)
-        {
-            var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
-            {
-                b.StopPropagation(@event);
-                return onClick;
-            });
+        //public static void SetOnClick<TState>(
+        //    this LayoutBuilder b,
+        //    Var<HyperNode> control,
+        //    Var<HyperType.Action<TState>> onClick)
+        //{
+        //    var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+        //    {
+        //        b.StopPropagation(@event);
+        //        return onClick;
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onclick"), clickEvent);
+        //}
 
-        public static void SetOnBlur<TState>(
-            this LayoutBuilder b,
-            Var<HyperNode> control,
-            Var<HyperType.Action<TState>> onBlur)
-        {
-            var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
-            {
-                b.StopPropagation(@event);
-                return onBlur;
-            });
+        //public static void SetOnBlur<TState>(
+        //    this LayoutBuilder b,
+        //    Var<HyperNode> control,
+        //    Var<HyperType.Action<TState>> onBlur)
+        //{
+        //    var blurEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
+        //    {
+        //        b.StopPropagation(@event);
+        //        return onBlur;
+        //    });
 
-            b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onblur"), blurEvent);
-        }
+        //    b.SetAttr(control, new DynamicProperty<HyperType.Action<TState, DomEvent<ClickTarget>>>("onblur"), blurEvent);
+        //}
 
         public class EventSubscriptionProps<TState, TPayload>
         {

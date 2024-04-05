@@ -3,12 +3,45 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonToolbar
+public partial class IonToolbar : IonComponent
 {
+    public IonToolbar() : base("ion-toolbar") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
     /// <summary> 
     /// Content is placed between the named slots if provided without a slot.
     /// </summary>

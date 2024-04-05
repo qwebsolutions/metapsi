@@ -3,12 +3,154 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSwitch
+public partial class SlSwitch : SlComponent
 {
+    public SlSwitch() : base("sl-switch") { }
+    /// <summary>
+    /// The name of the switch, submitted as a name/value pair with form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The current value of the switch, submitted as a name/value pair with form data.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The switch's size.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the switch.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the switch in a checked state.
+    /// </summary>
+    public bool @checked
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("checked");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("checked", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The default value of the form control. Primarily used for resetting the form control.
+    /// </summary>
+    public bool defaultChecked
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("defaultChecked");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("defaultChecked", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// </summary>
+    public string form
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("form");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("form", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the switch a required field.
+    /// </summary>
+    public bool required
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("required");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("required", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The switch's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// </summary>
+    public string helpText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("helpText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("helpText", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -182,126 +324,151 @@ public static partial class SlSwitchControl
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", action);
+    }
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control's checked state changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// Emitted when the control's checked state changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control's checked state changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", action);
+    }
+    /// <summary>
+    /// Emitted when the control's checked state changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
+        b.OnEventAction("onsl-input", action);
     }
     /// <summary>
     /// Emitted when the control receives input.
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-input"), eventAction);
+        b.OnEventAction("onsl-input", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-input", action);
+    }
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    public static void OnSlInput<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// Emitted when the control gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", action);
+    }
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSwitch> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
 }

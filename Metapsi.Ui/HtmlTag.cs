@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -70,6 +71,7 @@ public class HtmlTag : IHtmlElement
             builder.Append($" {attribute.Key}=\"{attribute.Value}\"");
         }
         builder.Append(">");
+        builder.Append($"[... {Children.Count} children ...]");
 
         // Do not append children, as this would make for
         // a bad debug experience, especially when investigating 
@@ -164,6 +166,11 @@ public static class HtmlNodeExtensions
         {
             parent.AddChild(child);
         }
+    }
+
+    public static T GetAttribute<T>(this IHtmlElement element, string name)
+    {
+        return Scalar.FromString<T>(element.GetTag().Attributes.GetValueOrDefault(name));
     }
 
     public static T SetAttribute<T>(this T element, string name, string value)

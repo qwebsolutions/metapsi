@@ -3,12 +3,277 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRange
+public partial class IonRange : IonComponent
 {
+    public IonRange() : base("ion-range") { }
+    /// <summary>
+    /// The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value.
+    /// </summary>
+    public int activeBarStart
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("activeBarStart");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("activeBarStart", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value.
+    /// </summary>
+    public int debounce
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("debounce");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("debounce", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the range.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Show two knobs.
+    /// </summary>
+    public bool dualKnobs
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("dualKnobs");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("dualKnobs", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// </summary>
+    public string labelPlacement
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("labelPlacement");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("labelPlacement", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the `legacy` property to `true` to forcibly use the legacy form control markup. Ionic will only opt components in to the modern form markup when they are using either the `aria-label` attribute or the `label` property. As a result, the `legacy` property should only be used as an escape hatch when you want to avoid this automatic opt-in behavior. Note that this property will be removed in an upcoming major release of Ionic, and all form components will be opted-in to using the modern form markup.
+    /// </summary>
+    public bool legacy
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("legacy");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("legacy", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Maximum integer value of the range.
+    /// </summary>
+    public int max
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("max");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("max", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Minimum integer value of the range.
+    /// </summary>
+    public int min
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("min");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("min", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the control, which is submitted with the form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// </summary>
+    public bool pin
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pin");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pin", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// </summary>
+    public System.Func<int,object> pinFormatter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<int,object>>("pinFormatter");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pinFormatter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// </summary>
+    public bool snaps
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("snaps");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("snaps", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the value granularity.
+    /// </summary>
+    public int step
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("step");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("step", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// </summary>
+    public bool ticks
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("ticks");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("ticks", value.ToString());
+        }
+    }
+
+
     public static class Slot
     {
         /// <summary> 
@@ -362,14 +627,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), action);
+        b.OnEventAction("onionBlur", action);
     }
     /// <summary>
     /// Emitted when the range loses focus.
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), b.MakeAction(action));
+        b.OnEventAction("onionBlur", b.MakeAction(action));
     }
 
     /// <summary>
@@ -377,24 +642,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  `ionChange` is not fired when the value is changed programmatically.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -402,14 +657,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), action);
+        b.OnEventAction("onionFocus", action);
     }
     /// <summary>
     /// Emitted when the range has focus.
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), b.MakeAction(action));
+        b.OnEventAction("onionFocus", b.MakeAction(action));
     }
 
     /// <summary>
@@ -417,24 +672,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
     /// The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob.
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -442,24 +687,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonKnobMoveEnd<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel, RangeKnobMoveEndEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeKnobMoveEndEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeKnobMoveEndEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionKnobMoveEnd"), eventAction);
+        b.OnEventAction("onionKnobMoveEnd", action, "detail");
     }
     /// <summary>
     /// Emitted when the user finishes moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
     /// </summary>
     public static void OnIonKnobMoveEnd<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeKnobMoveEndEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeKnobMoveEndEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeKnobMoveEndEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionKnobMoveEnd"), eventAction);
+        b.OnEventAction("onionKnobMoveEnd", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -467,24 +702,14 @@ public static partial class IonRangeControl
     /// </summary>
     public static void OnIonKnobMoveStart<TModel>(this PropsBuilder<IonRange> b, Var<HyperType.Action<TModel, RangeKnobMoveStartEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeKnobMoveStartEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeKnobMoveStartEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionKnobMoveStart"), eventAction);
+        b.OnEventAction("onionKnobMoveStart", action, "detail");
     }
     /// <summary>
     /// Emitted when the user starts moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
     /// </summary>
     public static void OnIonKnobMoveStart<TModel>(this PropsBuilder<IonRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeKnobMoveStartEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RangeKnobMoveStartEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RangeKnobMoveStartEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionKnobMoveStart"), eventAction);
+        b.OnEventAction("onionKnobMoveStart", b.MakeAction(action), "detail");
     }
 
 }

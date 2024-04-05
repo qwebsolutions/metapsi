@@ -3,12 +3,337 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlButton
+public partial class SlButton : SlComponent
 {
+    public SlButton() : base("sl-button") { }
+    /// <summary>
+    /// The button's theme variant.
+    /// </summary>
+    public string variant
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("variant");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("variant", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The button's size.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
+    /// </summary>
+    public bool caret
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("caret");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("caret", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the button.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the button in a loading state.
+    /// </summary>
+    public bool loading
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("loading");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("loading", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws an outlined button.
+    /// </summary>
+    public bool outline
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("outline");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("outline", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws a pill-style button with rounded edges.
+    /// </summary>
+    public bool pill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pill");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot.
+    /// </summary>
+    public bool circle
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("circle");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("circle", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser where to open the link. Only used when `href` is present.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively.
+    /// </summary>
+    public string rel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("rel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rel", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser to download the linked file as this filename. Only used when `href` is present.
+    /// </summary>
+    public string download
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("download");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("download", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
+    /// </summary>
+    public string form
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("form");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("form", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to override the form owner's `action` attribute.
+    /// </summary>
+    public string formAction
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("formAction");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("formAction", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to override the form owner's `enctype` attribute.
+    /// </summary>
+    public string formEnctype
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("formEnctype");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("formEnctype", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to override the form owner's `method` attribute.
+    /// </summary>
+    public string formMethod
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("formMethod");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("formMethod", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to override the form owner's `novalidate` attribute.
+    /// </summary>
+    public bool formNoValidate
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("formNoValidate");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("formNoValidate", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Used to override the form owner's `target` attribute.
+    /// </summary>
+    public string formTarget
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("formTarget");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("formTarget", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -436,76 +761,91 @@ public static partial class SlButtonControl
     /// <summary>
     /// Emitted when the button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// Emitted when the button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the button loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", action);
+    }
+    /// <summary>
+    /// Emitted when the button loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the button gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// Emitted when the button gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the button gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the button gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
     /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-invalid"), eventAction);
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", action);
+    }
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
 }

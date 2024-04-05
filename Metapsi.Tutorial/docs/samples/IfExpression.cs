@@ -15,12 +15,12 @@ public class IfExpression : TutorialSample<IfExpression.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        return b.Text(
+        return b.T(
             b.If(
                 anyLoggedUser,
                 b => b.Concat(

@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouter
+public partial class IonRouter : IonComponent
 {
+    public IonRouter() : base("ion-router") { }
+    /// <summary>
+    /// The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths.
+    /// </summary>
+    public string root
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("root");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("root", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
+    /// </summary>
+    public bool useHash
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("useHash");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("useHash", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -71,24 +105,14 @@ public static partial class IonRouterControl
     /// </summary>
     public static void OnIonRouteDidChange<TModel>(this PropsBuilder<IonRouter> b, Var<HyperType.Action<TModel, RouterEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RouterEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RouterEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRouteDidChange"), eventAction);
+        b.OnEventAction("onionRouteDidChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the route had changed
     /// </summary>
     public static void OnIonRouteDidChange<TModel>(this PropsBuilder<IonRouter> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RouterEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RouterEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRouteDidChange"), eventAction);
+        b.OnEventAction("onionRouteDidChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -96,24 +120,14 @@ public static partial class IonRouterControl
     /// </summary>
     public static void OnIonRouteWillChange<TModel>(this PropsBuilder<IonRouter> b, Var<HyperType.Action<TModel, RouterEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RouterEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RouterEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRouteWillChange"), eventAction);
+        b.OnEventAction("onionRouteWillChange", action, "detail");
     }
     /// <summary>
     /// Event emitted when the route is about to change
     /// </summary>
     public static void OnIonRouteWillChange<TModel>(this PropsBuilder<IonRouter> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RouterEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RouterEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRouteWillChange"), eventAction);
+        b.OnEventAction("onionRouteWillChange", b.MakeAction(action), "detail");
     }
 
 }

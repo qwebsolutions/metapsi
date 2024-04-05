@@ -5,6 +5,8 @@ window.customElements.define(
         _settings;
         _csspaths;
 
+        _currentOptions;
+
         connectedCallback() {
             this.refresh();
         }
@@ -67,9 +69,24 @@ window.customElements.define(
             }
 
             if (this._settings) {
-                this._tomSelect.clearOptions();
-                this._tomSelect.addOptions(this._settings.options);
-                this._tomSelect.refreshOptions(false);
+                this._tomSelect.clear(true);
+                var ts = this._tomSelect;
+                this._settings.items.forEach((v) => ts.addItem(v, true));
+
+
+                // Clearing options breaks scrolling to the selected one when the dropdown is opened
+                if (!this._currentOptions) {
+                    this._tomSelect.addOptions(this._settings.options);
+                    this._tomSelect.refreshOptions(false);
+                    this._currentOptions = [...this._settings.options]
+                }
+                else if (JSON.stringify(this._currentOptions) != JSON.stringify(this._settings.options)) {
+
+                    this._tomSelect.clearOptions(() => true);
+                    this._tomSelect.addOptions(this._settings.options);
+                    this._tomSelect.refreshOptions(false);
+                    this._currentOptions = [...this._settings.options]
+                }
             }
         }
 

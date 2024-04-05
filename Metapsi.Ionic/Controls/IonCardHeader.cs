@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCardHeader
+public partial class IonCardHeader : IonComponent
 {
+    public IonCardHeader() : base("ion-card-header") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the card header will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public bool translucent
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("translucent");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("translucent", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonCardHeaderControl

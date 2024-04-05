@@ -30,9 +30,10 @@ public static partial class Control
     public static IHtmlElement TreeMenu<TModel>(TModel model)
         where TModel : IHasTreeMenu
     {
-        var tree = Component.Create(
-            "sl-tree",
-            new Tree() { Selection = TreeSelection.Leaf });
+        var tree = new SlTree()
+        {
+            selection = "leaf"
+        };
 
         var expandedParents = model.GetExpandedParents();
 
@@ -53,14 +54,12 @@ public static partial class Control
                 new HtmlTag("a").WithChild(HtmlText.CreateTextNode(entry.Title)).SetAttribute("href", entry.Url) :
                 new HtmlText(entry.Title);
 
-            var treeItem = currentNode.AddChild(Component.Create<TreeItem>(
-                "sl-tree-item",
-                new TreeItem()
-                {
-                    Selected = entry == selectedMenuItem,
-                    Expanded = expandedParents.Contains(entry)
-                },
-                menuEntry));
+            var treeItem = currentNode.AddChild(new SlTreeItem()
+            {
+                selected = entry == selectedMenuItem,
+                expanded = expandedParents.Contains(entry)
+            });
+            treeItem.AddChild(menuEntry);
 
             FillMenuEntries(entry.Children, treeItem, expandedParents, selectedMenuItem);
         }
@@ -69,14 +68,12 @@ public static partial class Control
     public static IHtmlElement DrawerTreeMenu<TModel>(TModel model)
         where TModel: IHasTreeMenu
     {
-        var drawer = Component.Create(
-            "sl-drawer",
-            new Drawer()
-            {
-                Placement = DrawerPlacement.Start
-            },
-            TreeMenu(model));
+        var drawer = new SlDrawer()
+        {
+            placement = "start"
+        };
         drawer.SetAttribute("id", MenuDrawerId);
+        drawer.AddChild(TreeMenu(model));
 
         drawer.AddChild(
             DivTag.CreateStyled(
@@ -109,10 +106,10 @@ public static partial class Control
         var header = DivTag.CreateStyled(
             "flex flex-row gap-4 items-center w-full px-8 h-20 fixed top-0 shadow bg-gray-50 text-xl",
             onClickScript,
-            Component.Create(
-                "sl-icon-button",
-                new IconButton() { Name = "list" })
-            .SetAttribute("id", BtnToggleTreeId),
+            new SlIconButton()
+            {
+                name = "list"
+            }.SetAttribute("id", BtnToggleTreeId),
             headerContent);
 
         return header;
@@ -126,7 +123,7 @@ public static partial class Control
         if (prevEntry != null)
         {
             var prev = new HtmlTag("a").SetAttribute("href", prevEntry.Url).WithClass("flex flex-row gap-4 items-center");
-            prev.AddChild(Component.Create("sl-icon", new Icon() { Name = "arrow-left-circle" }));
+            prev.AddChild(new SlIcon() { name = "arrow-left-circle" });
             prev.AddChild(HtmlText.CreateTextNode(prevEntry.Title));
 
             navigatorArrowsContainer.AddChild(prev);
@@ -136,7 +133,7 @@ public static partial class Control
         {
             var next = new HtmlTag("a").SetAttribute("href", nextEntry.Url).WithClass("flex flex-row gap-4 items-center");
             next.AddChild(HtmlText.CreateTextNode(nextEntry.Title));
-            next.AddChild(Component.Create("sl-icon", new Icon() { Name = "arrow-right-circle" }));
+            next.AddChild(new SlIcon() { name = "arrow-right-circle" });
 
             navigatorArrowsContainer.AddChild(next);
         }

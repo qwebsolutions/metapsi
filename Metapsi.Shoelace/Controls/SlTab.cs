@@ -3,12 +3,78 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTab
+public partial class SlTab : SlComponent
 {
+    public SlTab() : base("sl-tab") { }
+    /// <summary>
+    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
+    /// </summary>
+    public string panel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("panel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("panel", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the tab in an active state.
+    /// </summary>
+    public bool active
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("active");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("active", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the tab closable and shows a close button.
+    /// </summary>
+    public bool closable
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("closable");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("closable", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the tab and prevents selection.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -80,26 +146,31 @@ public static partial class SlTabControl
     /// <summary>
     /// Emitted when the tab is closable and the close button is activated.
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-close"), eventAction);
+        b.OnEventAction("onsl-close", action);
     }
     /// <summary>
     /// Emitted when the tab is closable and the close button is activated.
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-close"), eventAction);
+        b.OnEventAction("onsl-close", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the tab is closable and the close button is activated.
+    /// </summary>
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-close", action);
+    }
+    /// <summary>
+    /// Emitted when the tab is closable and the close button is activated.
+    /// </summary>
+    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-close", b.MakeAction(action));
     }
 
 }

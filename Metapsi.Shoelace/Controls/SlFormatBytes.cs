@@ -3,12 +3,60 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatBytes
+public partial class SlFormatBytes : SlComponent
 {
+    public SlFormatBytes() : base("sl-format-bytes") { }
+    /// <summary>
+    /// The number to format in bytes.
+    /// </summary>
+    public int value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of unit to display.
+    /// </summary>
+    public string unit
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("unit");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("unit", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Determines how to display the result, e.g. "100 bytes", "100 b", or "100b".
+    /// </summary>
+    public string display
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("display");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("display", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlFormatBytesControl

@@ -38,22 +38,34 @@ public static partial class Control
 
         var sendToPanelButtonId = "send_to_live_panel_" + sample.SampleId;
 
-        var modelTab = Component.Create("sl-tab", new Tab() { Panel = ModelTab }, HtmlText.CreateTextNode("Model")).SetAttribute("slot", "nav");
-        var jsonTab = Component.Create("sl-tab", new Tab() { Panel = JsonDataTab }, HtmlText.CreateTextNode("JSON data")).SetAttribute("slot", "nav");
-        var viewTab = Component.Create("sl-tab", new Tab() { Panel = CSharpCodeTab }, HtmlText.CreateTextNode("View")).SetAttribute("slot", "nav");
+        var modelTab = new SlTab() { panel = ModelTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("Model"));
+        var jsonTab = new SlTab(){ panel = JsonDataTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("JSON data"));
+        var viewTab = new SlTab(){ panel = CSharpCodeTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("View"));
 
-        var modelPanel = Component.Create(
-                    "sl-tab-panel",
-                    new TabPanel() { Name = ModelTab },
-                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpModel)))));
+        var modelPanel = new SlTabPanel()
+        {
+            name = ModelTab,
+        }
+        .WithChild(
+            new HtmlTag("pre").WithChild(
+                new HtmlTag("code").WithClass("language-csharp").WithChild(
+                    HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpModel)))));
 
-        var jsonPanel = Component.Create(
-                    "sl-tab-panel",
-                    new TabPanel() { Name = JsonDataTab },
-                    new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-javascript").WithChild(HtmlText.CreateTextNode(sample.JsonModel))));
+        var jsonPanel = new SlTabPanel()
+        {
+            name = JsonDataTab
+        }.WithChild(
+            new HtmlTag("pre").WithChild(
+                new HtmlTag("code").WithClass("language-javascript").WithChild(
+                    HtmlText.CreateTextNode(sample.JsonModel))));
 
-        var viewPanel = Component.Create("sl-tab-panel", new TabPanel() { Name = CSharpCodeTab },
-                new HtmlTag("pre").WithChild(new HtmlTag("code").WithClass("language-csharp").WithChild(HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpCode)))));
+        var viewPanel = new SlTabPanel()
+        {
+            name = CSharpCodeTab
+        }.WithChild(
+                new HtmlTag("pre").WithChild(
+                    new HtmlTag("code").WithClass("language-csharp").WithChild(
+                        HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpCode)))));
 
         if (inlineSample.SelectedTab == SampleTab.Json)
         {
@@ -69,20 +81,18 @@ public static partial class Control
 
         var container = DivTag.CreateStyled(
             "flex flex-col border rounded",
-            Component.Create(
-                "sl-tab-group",
-                new TabGroup(),
-                modelTab,
-                jsonTab,
-                viewTab,
-                modelPanel,
-                jsonPanel,
-                viewPanel),
-
-            DivTag.CreateStyled(
-                "flex flex-row items-center justify-between p-4 bg-gray-100 text-lg",
-                HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
-                Component.Create("sl-icon-button", new IconButton() { Name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId)));
+            new SlTabGroup()
+            .WithChild(modelTab)
+            .WithChild(jsonTab)
+            .WithChild(viewTab)
+            .WithChild(modelPanel)
+            .WithChild(jsonPanel)
+            .WithChild(viewPanel)
+            .WithChild(
+                DivTag.CreateStyled(
+                    "flex flex-row items-center justify-between p-4 bg-gray-100 text-lg",
+                    HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
+                    new SlIconButton() { name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId)));
 
         container.AddJs(b =>
         {

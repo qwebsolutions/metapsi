@@ -59,6 +59,7 @@ public static class Program
         {
             Namespace = "Metapsi.Ionic",
             NodeConstructor = "IonicNode",
+            BaseComponent = "IonComponent",
             ToCSharpType = (t, converter) =>
             {
                 var defaultConversion = CSharpConverter.DefaultToCSharpType(t, converter);
@@ -117,7 +118,8 @@ public static class Program
                 {
                     Name = @event.@event,
                     Type = TypeParser.GetTypeScriptType(eventType),
-                    Comment = Utils.SingleLine(@event.docs)
+                    Comment = Utils.SingleLine(@event.docs),
+                    DetailPath = new() { "detail" }
                 });
             }
 

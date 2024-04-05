@@ -144,6 +144,26 @@ public static partial class Control
         return choices;
     }
 
+    public static void SetChoices<TControl>(
+        this PropsBuilder<TControl> b,
+        Var<List<Choice>> choices)
+        where TControl : IChoices, new()
+    {
+        b.Configure(x => x.choices, choices);
+    }
+
+    public static void SetChoices<TControl, TItem, TId>(
+        this PropsBuilder<TControl> b,
+        Var<List<TItem>> items,
+        System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
+        System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,
+        Var<TId> selectedId)
+        where TControl : IChoices, new()
+    {
+        var choices = MapChoices(b, items, valueProp, labelProp, selectedId);
+        b.Configure(x => x.choices, choices);
+    }
+
     public static Var<List<Choice>> MapChoices<TItem, TId>(
         this SyntaxBuilder b,
         Var<List<TItem>> items,
@@ -174,15 +194,6 @@ public static partial class Control
             return choice;
         });
 
-        //var outList = b.NewCollection<Choice>();
-        //b.Push(
-        //    outList,
-        //    b.NewObj<Choice>(b =>
-        //    {
-        //        b.Set(x => x.value, b.Const(""));
-        //        b.Set(x => x.label, b.Const("Not selected"));
-        //    }));
-        //b.Foreach(choices, (b, item) => b.Push(outList, item));
         return choices;
     }
 

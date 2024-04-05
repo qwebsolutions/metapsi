@@ -46,6 +46,7 @@ public class WebComponentEvent
     public string Name { get; set; }
     public string Comment { get; set; }
     public ITypeScriptType Type { get; set; }
+    public List<string> DetailPath { get; set; } = new();
 }
 
 public class WebComponentMethod
@@ -68,6 +69,9 @@ public class CSharpConverter
     public List<string> UsingNamespaces { get; set; } = DefaultUsingNamespaces;
     public string Namespace { get; set; }
     public string NodeConstructor { get; set; } = "H";
+    public string BaseComponent { get; set; } = string.Empty;
+
+    public Func<WebComponent, WebComponentProperty, bool> IncludeClassProperty { get; set; } = (wc, wcp) => true;
 
     public Func<ITypeScriptType, CSharpConverter, string> ToCSharpType { get; set; } = DefaultToCSharpType;
 
@@ -81,7 +85,9 @@ public class CSharpConverter
                 "Metapsi.Syntax",
                 "System",
                 "System.Collections.Generic",
-                "Metapsi.Ui"
+                "Metapsi.Ui",
+                "Metapsi.Html",
+                "Metapsi.Dom"
             };
         }
     }
@@ -128,6 +134,17 @@ public class CSharpConverter
                 }
             case TypeScriptDictionary dictionaryType:
                 return "object";
+            case TypeScriptFunction functionType:
+                {
+                    var funcTypes = functionType.Parameters.Select(x=>x.ToCSharpType(converter)).ToList();
+                    funcTypes.Add(functionType.ReturnType.ToCSharpType(converter));
+
+                    var joined = string.Join(",", funcTypes);
+
+                    return $"System.Func<{joined}>";
+                }
+            case TypeScriptFunctionParameter parameter:
+                return parameter.Type.ToCSharpType(converter);
         }
 
         throw new NotImplementedException();

@@ -3,12 +3,30 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlImageComparer
+public partial class SlImageComparer : SlComponent
 {
+    public SlImageComparer() : base("sl-image-comparer") { }
+    /// <summary>
+    /// The position of the divider as a percentage.
+    /// </summary>
+    public int position
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("position");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("position", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -60,26 +78,31 @@ public static partial class SlImageComparerControl
     /// <summary>
     /// Emitted when the position changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// Emitted when the position changes.
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-change"), eventAction);
+        b.OnEventAction("onsl-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the position changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", action);
+    }
+    /// <summary>
+    /// Emitted when the position changes.
+    /// </summary>
+    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
 }

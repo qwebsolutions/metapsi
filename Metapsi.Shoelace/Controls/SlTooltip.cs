@@ -3,12 +3,138 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTooltip
+public partial class SlTooltip : SlComponent
 {
+    public SlTooltip() : base("sl-tooltip") { }
+    /// <summary>
+    /// The tooltip's content. If you need to display HTML, use the `content` slot instead.
+    /// </summary>
+    public string content
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("content");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("content", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip inside of the viewport.
+    /// </summary>
+    public string placement
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placement");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placement", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the tooltip so it won't show when triggered.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The distance in pixels from which to offset the tooltip away from its target.
+    /// </summary>
+    public int distance
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("distance");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("distance", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods.
+    /// </summary>
+    public bool open
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("open");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("open", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The distance in pixels from which to offset the tooltip along its target.
+    /// </summary>
+    public int skidding
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("skidding");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("skidding", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple options can be passed by separating them with a space. When manual is used, the tooltip must be activated programmatically.
+    /// </summary>
+    public string trigger
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("trigger");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("trigger", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios.
+    /// </summary>
+    public bool hoist
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("hoist");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("hoist", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -217,101 +343,121 @@ public static partial class SlTooltipControl
     /// <summary>
     /// Emitted when the tooltip begins to show.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// Emitted when the tooltip begins to show.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the tooltip begins to show.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", action);
+    }
+    /// <summary>
+    /// Emitted when the tooltip begins to show.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the tooltip has shown and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// Emitted after the tooltip has shown and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the tooltip has shown and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", action);
+    }
+    /// <summary>
+    /// Emitted after the tooltip has shown and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the tooltip begins to hide.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// Emitted when the tooltip begins to hide.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the tooltip begins to hide.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", action);
+    }
+    /// <summary>
+    /// Emitted when the tooltip begins to hide.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the tooltip has hidden and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// Emitted after the tooltip has hidden and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the tooltip has hidden and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", action);
+    }
+    /// <summary>
+    /// Emitted after the tooltip has hidden and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlTooltip> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
 
 }

@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Collections.Generic;
@@ -15,26 +16,20 @@ public class IfStatement : TutorialSample<IfStatement.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var container = b.Span();
-
         var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        b.If(
-            anyLoggedUser,
-            b =>
-            {
-                b.Add(container,
-                    b.Text(
-                        b.Concat(
-                            b.Const("There are "),
-                            b.AsString(loggedUsersCount),
-                            b.Const(" logged users"))));
-            });
-
-        return container;
+        return b.HtmlSpan(
+            b => { },
+            b.Optional(
+                anyLoggedUser,
+                b => b.T(
+                    b.Concat(
+                        b.Const("There are "),
+                        b.AsString(loggedUsersCount),
+                        b.Const(" logged users")))));
     }
 
     public override Model GetSampleData()

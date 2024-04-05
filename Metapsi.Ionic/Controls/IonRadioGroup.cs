@@ -3,12 +3,76 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRadioGroup
+public partial class IonRadioGroup : IonComponent
 {
+    public IonRadioGroup() : base("ion-radio-group") { }
+    /// <summary>
+    /// If `true`, the radios can be deselected.
+    /// </summary>
+    public bool allowEmptySelection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("allowEmptySelection");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("allowEmptySelection", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
+    /// </summary>
+    public string compareWith
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("compareWith");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("compareWith", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the control, which is submitted with the form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// the value of the radio group.
+    /// </summary>
+    public object value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonRadioGroupControl
@@ -99,24 +163,14 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonRadioGroup> b, Var<HyperType.Action<TModel, RadioGroupChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RadioGroupChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RadioGroupChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the value has changed.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RadioGroupChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RadioGroupChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RadioGroupChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
 }

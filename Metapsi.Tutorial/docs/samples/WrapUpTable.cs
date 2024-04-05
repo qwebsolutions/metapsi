@@ -1,4 +1,5 @@
-﻿using Metapsi.Hyperapp;
+﻿using Metapsi.Html;
+using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
@@ -22,54 +23,87 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
         public List<User> AllUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var headerCss = "py-3 px-2 font-medium text-left bg-blue-400 text-white ";
         var baseRowCss = b.Const("py-3 px-2 font-light text-left text-gray-700 ");
 
-        var grid = b.Div(
-            "grid grid-cols-4 w-full p-4 rounded ",
-            b => b.Div(headerCss, b => b.Text("User")),
-            b => b.Div(headerCss, b => b.Text("Is logged in")),
-            b => b.Div(headerCss + " col-span-2 ", b => b.Text("Last log in")));
+        var gridNodes = b.NewCollection<IVNode>();
+        b.Push(gridNodes,
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass(headerCss);
+                },
+                b.T("User")));
+        b.Push(gridNodes,
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass(headerCss);
+                },
+                b.T("Is logged in")));
+
+        b.Push(gridNodes,
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass(headerCss + " col-span-2 ");
+                },
+                b.T("Last log in")));
 
         b.Foreach(
             b.Get(
-                model, 
-                x => x.AllUsers.OrderByDescending(x=>x.LastLogIn).ToList()),
+                model,
+                x => x.AllUsers.OrderByDescending(x => x.LastLogIn).ToList()),
             (b, user, index) =>
             {
                 var rowCss = b.If(
                     b.Get(index, x => x % 2 == 0),
                     b => baseRowCss,
                     b => b.Concat(
-                        baseRowCss, 
+                        baseRowCss,
                         b.Const(" bg-gray-100 ")));
 
-                b.Add(grid, 
-                    b.Div(
-                        rowCss, 
-                        b => b.Text(
-                            b.Get(user, x => x.Name))));
+                b.Push(gridNodes,
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass(rowCss);
+                        },
+                        b.T(b.Get(user, x => x.Name))));
 
-                b.Add(grid,
-                    b.Div(
-                        rowCss,
-                        b => b.Optional(
+                b.Push(gridNodes,
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass(rowCss);
+                        },
+                        b.Optional(
                             b.Get(user, x => x.IsLoggedIn),
-                            b => b.Text("✓", "text-green-500"))));
+                            b => b.HtmlSpan(
+                                b =>
+                                {
+                                    b.SetClass("text-green-500");
+                                },
+                                b.T("✓")))));
 
-                b.Add(grid, 
-                    b.Div(
-                        b.Concat(
-                            rowCss, 
-                            b.Const(" col-span-2 ")), 
-                        b => b.Text(
-                            b.FormatDatetime(
-                                b.Get(user, x => x.LastLogIn)))));
+                b.Push(gridNodes,
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass(b.Concat(rowCss, b.Const(" col-span-2 ")));
+                        },
+                        b.T(
+                            b.FormatDatetime(b.Get(user, x => x.LastLogIn)))));
             });
 
-        return grid;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("grid grid-cols-4 w-full p-4 rounded ");
+            },
+            gridNodes);
     }
 
     public override Model GetSampleData()

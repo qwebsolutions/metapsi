@@ -3,12 +3,122 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonMenu
+public partial class IonMenu : IonComponent
 {
+    public IonMenu() : base("ion-menu") { }
+    /// <summary>
+    /// The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`.
+    /// </summary>
+    public string contentId
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("contentId");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("contentId", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the menu is disabled.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
+    /// </summary>
+    public int maxEdgeStart
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maxEdgeStart");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maxEdgeStart", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An id for the menu.
+    /// </summary>
+    public string menuId
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("menuId");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("menuId", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Which side of the view the menu should be placed.
+    /// </summary>
+    public string side
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("side");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("side", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, swiping the menu is enabled.
+    /// </summary>
+    public bool swipeGesture
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("swipeGesture");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("swipeGesture", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -161,14 +271,14 @@ public static partial class IonMenuControl
     /// </summary>
     public static void OnIonDidClose<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionDidClose"), action);
+        b.OnEventAction("onionDidClose", action);
     }
     /// <summary>
     /// Emitted when the menu is closed.
     /// </summary>
     public static void OnIonDidClose<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionDidClose"), b.MakeAction(action));
+        b.OnEventAction("onionDidClose", b.MakeAction(action));
     }
 
     /// <summary>
@@ -176,14 +286,14 @@ public static partial class IonMenuControl
     /// </summary>
     public static void OnIonDidOpen<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionDidOpen"), action);
+        b.OnEventAction("onionDidOpen", action);
     }
     /// <summary>
     /// Emitted when the menu is open.
     /// </summary>
     public static void OnIonDidOpen<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionDidOpen"), b.MakeAction(action));
+        b.OnEventAction("onionDidOpen", b.MakeAction(action));
     }
 
     /// <summary>
@@ -191,14 +301,14 @@ public static partial class IonMenuControl
     /// </summary>
     public static void OnIonWillClose<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionWillClose"), action);
+        b.OnEventAction("onionWillClose", action);
     }
     /// <summary>
     /// Emitted when the menu is about to be closed.
     /// </summary>
     public static void OnIonWillClose<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionWillClose"), b.MakeAction(action));
+        b.OnEventAction("onionWillClose", b.MakeAction(action));
     }
 
     /// <summary>
@@ -206,14 +316,14 @@ public static partial class IonMenuControl
     /// </summary>
     public static void OnIonWillOpen<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionWillOpen"), action);
+        b.OnEventAction("onionWillOpen", action);
     }
     /// <summary>
     /// Emitted when the menu is about to be opened.
     /// </summary>
     public static void OnIonWillOpen<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionWillOpen"), b.MakeAction(action));
+        b.OnEventAction("onionWillOpen", b.MakeAction(action));
     }
 
 }

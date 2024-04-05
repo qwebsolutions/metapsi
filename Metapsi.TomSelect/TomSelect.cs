@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Metapsi.Dom;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
+using System.Diagnostics.Metrics;
 
 namespace Metapsi.TomSelect;
 
@@ -31,7 +33,7 @@ public class Render
 public class TomSelectSettings
 {
     public bool allowEmptyOption { get; set; } = false;
-    public string placeholder { get; set; } = "Placeholder";
+    public string placeholder { get; set; }
 
     public string optionClass { get; set; } = "option";
     public string itemClass { get; set; } = "item";
@@ -51,13 +53,26 @@ public class TomSelectSettings
     public Action<DomElement> editTsControl { get; set; } 
 }
 
-public class TomSelect
+public partial class TomSelect
 {
     public List<string> cssPaths { get; set; } = new List<string>()
     {
         "https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css"
     };
     public TomSelectSettings settings { get; set; } = new();
+}
+
+public partial class TomSelect : IAllowsBinding<TomSelect>
+{
+    public ControlBinder<TomSelect> GetControlBinder()
+    {
+        return new ControlBinder<TomSelect>()
+        {
+            NewValueEventName = "change",
+            GetEventValue = (b, @event) => b.GetProperty<string>(@event, b.Const("detail")),
+            SetControlValue = Control.SetItem
+        };
+    }
 }
 
 public class ClearButtonConfiguration
@@ -74,7 +89,12 @@ public static class Control
         b.AddScript("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
         b.AddScript("/metapsi.tomselect.js", "module");
 
-        return b.H("metapsi-tom-select", buildProps);
+        // Use own props builder to serialize the default values of the TomSelect class
+        var tomSelectPropsBuilder = new PropsBuilder<TomSelect>() { Props = b.NewObj<TomSelect>() };
+        tomSelectPropsBuilder.InitializeFrom(b);
+        buildProps(tomSelectPropsBuilder);
+
+        return b.H("metapsi-tom-select", tomSelectPropsBuilder.Props.As<DynamicObject>());
     }
 
     public static void Configure<TProp>(
@@ -126,6 +146,60 @@ public static class Control
             System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp)
     {
         return b.MapOptions<TItem, string>(items, valueProp, labelProp);
+    }
+
+    public static void SetOptions<TItem, TId>(
+        this PropsBuilder<TomSelect> b,
+        Var<List<TItem>> items,
+        Var<System.Func<TItem, TId>> valueProp,
+        Var<System.Func<TItem, string>> textProp)
+    {
+        b.Configure(x => x.options, b.MapOptions(items, valueProp, textProp));
+    }
+
+    public static void SetOptions<TItem, TId>(
+        this PropsBuilder<TomSelect> b,
+        Var<List<TItem>> items,
+        System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
+        System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp)
+    {
+        b.Configure(x => x.options, b.MapOptions(items, valueProp, labelProp));
+    }
+
+    public static void SetItem<TId>(
+        this PropsBuilder<TomSelect> b,
+        Var<TId> item)
+    {
+        var itemValues = b.NewCollection<string>();
+        b.Push(itemValues, b.AsString(item));
+        b.Configure(x => x.items, itemValues);
+    }
+
+    public static void SetItems<TId>(
+        this PropsBuilder<TomSelect> b,
+        Var<List<TId>> items)
+    {
+        var itemValues = b.NewCollection<string>();
+        b.PushRange(itemValues,
+            b.Get(items,
+            b.Def<SyntaxBuilder, TId, string>(Core.AsString),
+            (items, asString) => items.Select(x => asString(x)).ToList()));
+
+        b.Configure(x => x.items, itemValues);
+    }
+
+    public static void SetPlaceholder(
+        this PropsBuilder<TomSelect> b,
+        Var<string> placeholder)
+    {
+        b.Configure(x=>x.placeholder, placeholder);
+    }
+
+    public static void SetPlaceholder(
+        this PropsBuilder<TomSelect> b,
+        string placeholder)
+    {
+        b.SetPlaceholder(b.Const(placeholder));
     }
 
     public static void UseDropDownInput(this PropsBuilder<TomSelect> b)

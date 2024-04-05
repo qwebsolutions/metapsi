@@ -3,12 +3,62 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDialog
+public partial class SlDialog : SlComponent
 {
+    public SlDialog() : base("sl-dialog") { }
+    /// <summary>
+    /// Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state.
+    /// </summary>
+    public bool open
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("open");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("open", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The dialog's label as displayed in the header. You should always include a relevant label even when using `no-header`, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the header. This will also remove the default close button, so please ensure you provide an easy, accessible way for users to dismiss the dialog.
+    /// </summary>
+    public bool noHeader
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("noHeader");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("noHeader", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -87,151 +137,196 @@ public static partial class SlDialogControl
     /// <summary>
     /// Emitted when the dialog opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// Emitted when the dialog opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the dialog opens.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", action);
+    }
+    /// <summary>
+    /// Emitted when the dialog opens.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the dialog opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// Emitted after the dialog opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the dialog opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", action);
+    }
+    /// <summary>
+    /// Emitted after the dialog opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the dialog closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// Emitted when the dialog closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the dialog closes.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", action);
+    }
+    /// <summary>
+    /// Emitted when the dialog closes.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the dialog closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// Emitted after the dialog closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the dialog closes and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", action);
+    }
+    /// <summary>
+    /// Emitted after the dialog closes and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input.
     /// </summary>
-    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-initial-focus"), eventAction);
+        b.OnEventAction("onsl-initial-focus", action);
     }
     /// <summary>
     /// Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input.
     /// </summary>
-    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-initial-focus"), eventAction);
+        b.OnEventAction("onsl-initial-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input.
+    /// </summary>
+    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-initial-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input.
+    /// </summary>
+    public static void OnSlInitialFocus<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-initial-focus", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
     /// </summary>
-    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-request-close"), eventAction);
+        b.OnEventAction("onsl-request-close", action);
     }
     /// <summary>
     /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
     /// </summary>
-    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-request-close"), eventAction);
+        b.OnEventAction("onsl-request-close", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+    /// </summary>
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-request-close", action);
+    }
+    /// <summary>
+    /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+    /// </summary>
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-request-close", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+    /// </summary>
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, Var<HyperType.Action<TModel, SlRequestCloseEventArgs>> action)
+    {
+        b.OnEventAction("onsl-request-close", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+    /// </summary>
+    public static void OnSlRequestClose<TModel>(this PropsBuilder<SlDialog> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlRequestCloseEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-request-close", b.MakeAction(action), "detail");
     }
 
 }

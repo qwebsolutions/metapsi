@@ -3,12 +3,31 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlResizeObserver
+public partial class SlResizeObserver : SlComponent
 {
+    public SlResizeObserver() : base("sl-resize-observer") { }
+    /// <summary>
+    /// Disables the observer.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlResizeObserverControl
@@ -38,26 +57,46 @@ public static partial class SlResizeObserverControl
     /// <summary>
     /// Emitted when the element is resized.
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-resize"), eventAction);
+        b.OnEventAction("onsl-resize", action);
     }
     /// <summary>
     /// Emitted when the element is resized.
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-resize"), eventAction);
+        b.OnEventAction("onsl-resize", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the element is resized.
+    /// </summary>
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-resize", action);
+    }
+    /// <summary>
+    /// Emitted when the element is resized.
+    /// </summary>
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-resize", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the element is resized.
+    /// </summary>
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, SlResizeEventArgs>> action)
+    {
+        b.OnEventAction("onsl-resize", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when the element is resized.
+    /// </summary>
+    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlResizeEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-resize", b.MakeAction(action), "detail");
     }
 
 }

@@ -3,12 +3,106 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonProgressBar
+public partial class IonProgressBar : IonComponent
 {
+    public IonProgressBar() : base("ion-progress-bar") { }
+    /// <summary>
+    /// If the buffer and value are smaller than 1, the buffer circles will show. The buffer should be between [0, 1].
+    /// </summary>
+    public int buffer
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("buffer");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("buffer", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If true, reverse the progress bar direction.
+    /// </summary>
+    public bool reversed
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("reversed");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("reversed", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The state of the progress bar, based on if the time the process takes is known or not. Default options are: `"determinate"` (no animation), `"indeterminate"` (animate from left to right).
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The value determines how much of the active bar should display when the `type` is `"determinate"`. The value should be between [0, 1].
+    /// </summary>
+    public int value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonProgressBarControl

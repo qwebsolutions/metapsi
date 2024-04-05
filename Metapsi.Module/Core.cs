@@ -178,6 +178,12 @@ namespace Metapsi.Syntax
         {
             return b.CallExternal<int>(ModuleName, nameof(ParseInt), v);
         }
+
+        public static Var<bool> ParseBool(this SyntaxBuilder b, Var<string> v)
+        {
+            return b.AreEqual(v, b.Const("true"));
+        }
+
         public static Var<decimal> ParseDecimal(this SyntaxBuilder b, Var<string> v)
         {
             return b.CallExternal<decimal>(ModuleName, nameof(ParseDecimal), v);

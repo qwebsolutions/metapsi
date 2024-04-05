@@ -3,12 +3,166 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatNumber
+public partial class SlFormatNumber : SlComponent
 {
+    public SlFormatNumber() : base("sl-format-number") { }
+    /// <summary>
+    /// The number to format.
+    /// </summary>
+    public int value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The formatting style to use.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Turns off grouping separators.
+    /// </summary>
+    public bool noGrouping
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("noGrouping");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("noGrouping", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting.
+    /// </summary>
+    public string currency
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("currency");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("currency", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How to display the currency.
+    /// </summary>
+    public string currencyDisplay
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("currencyDisplay");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("currencyDisplay", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum number of integer digits to use. Possible values are 1-21.
+    /// </summary>
+    public int minimumIntegerDigits
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minimumIntegerDigits");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minimumIntegerDigits", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum number of fraction digits to use. Possible values are 0-20.
+    /// </summary>
+    public int minimumFractionDigits
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minimumFractionDigits");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minimumFractionDigits", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum number of fraction digits to use. Possible values are 0-0.
+    /// </summary>
+    public int maximumFractionDigits
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maximumFractionDigits");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maximumFractionDigits", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum number of significant digits to use. Possible values are 1-21.
+    /// </summary>
+    public int minimumSignificantDigits
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minimumSignificantDigits");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minimumSignificantDigits", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum number of significant digits to use,. Possible values are 1-21.
+    /// </summary>
+    public int maximumSignificantDigits
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maximumSignificantDigits");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maximumSignificantDigits", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlFormatNumberControl

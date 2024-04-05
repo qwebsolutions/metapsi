@@ -3,12 +3,31 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonReorderGroup
+public partial class IonReorderGroup : IonComponent
 {
+    public IonReorderGroup() : base("ion-reorder-group") { }
+    /// <summary>
+    /// If `true`, the reorder will be hidden.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -49,24 +68,14 @@ public static partial class IonReorderGroupControl
     /// </summary>
     public static void OnIonItemReorder<TModel>(this PropsBuilder<IonReorderGroup> b, Var<HyperType.Action<TModel, ItemReorderEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ItemReorderEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ItemReorderEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionItemReorder"), eventAction);
+        b.OnEventAction("onionItemReorder", action, "detail");
     }
     /// <summary>
     /// Event that needs to be listened to in order to complete the reorder action. Once the event has been emitted, the `complete()` method then needs to be called in order to finalize the reorder action.
     /// </summary>
     public static void OnIonItemReorder<TModel>(this PropsBuilder<IonReorderGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ItemReorderEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<ItemReorderEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, ItemReorderEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionItemReorder"), eventAction);
+        b.OnEventAction("onionItemReorder", b.MakeAction(action), "detail");
     }
 
 }

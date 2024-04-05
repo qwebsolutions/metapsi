@@ -3,12 +3,155 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCarousel
+public partial class SlCarousel : SlComponent
 {
+    public SlCarousel() : base("sl-carousel") { }
+    /// <summary>
+    /// When set, allows the user to navigate the carousel in the same direction indefinitely.
+    /// </summary>
+    public bool loop
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("loop");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("loop", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, show the carousel's navigation.
+    /// </summary>
+    public bool navigation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("navigation");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("navigation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, show the carousel's pagination indicators.
+    /// </summary>
+    public bool pagination
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pagination");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pagination", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, the slides will scroll automatically when the user is not interacting with them.
+    /// </summary>
+    public bool autoplay
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autoplay");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autoplay", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the amount of time, in milliseconds, between each automatic scroll.
+    /// </summary>
+    public int autoplayInterval
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("autoplayInterval");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autoplayInterval", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies how many slides should be shown at a given time.
+    /// </summary>
+    public int slidesPerPage
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("slidesPerPage");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("slidesPerPage", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the number of slides the carousel will advance when scrolling, useful when specifying a `slides-per-page` greater than one. It can't be higher than `slides-per-page`.
+    /// </summary>
+    public int slidesPerMove
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("slidesPerMove");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("slidesPerMove", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the orientation in which the carousel will lay out.
+    /// </summary>
+    public string orientation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("orientation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("orientation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, it is possible to scroll through the slides by dragging them with the mouse.
+    /// </summary>
+    public bool mouseDragging
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("mouseDragging");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("mouseDragging", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -156,26 +299,46 @@ public static partial class SlCarouselControl
     /// <summary>
     /// Emitted when the active slide changes.
     /// </summary>
-    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-slide-change"), eventAction);
+        b.OnEventAction("onsl-slide-change", action);
     }
     /// <summary>
     /// Emitted when the active slide changes.
     /// </summary>
-    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-slide-change"), eventAction);
+        b.OnEventAction("onsl-slide-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the active slide changes.
+    /// </summary>
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-slide-change", action);
+    }
+    /// <summary>
+    /// Emitted when the active slide changes.
+    /// </summary>
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-slide-change", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the active slide changes.
+    /// </summary>
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, Var<HyperType.Action<TModel, SlSlideChangeEventArgs>> action)
+    {
+        b.OnEventAction("onsl-slide-change", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when the active slide changes.
+    /// </summary>
+    public static void OnSlSlideChange<TModel>(this PropsBuilder<SlCarousel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSlideChangeEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-slide-change", b.MakeAction(action), "detail");
     }
 
 }

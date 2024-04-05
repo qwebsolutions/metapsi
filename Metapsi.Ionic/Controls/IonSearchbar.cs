@@ -3,12 +3,318 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSearchbar
+public partial class IonSearchbar : IonComponent
 {
+    public IonSearchbar() : base("ion-searchbar") { }
+    /// <summary>
+    /// If `true`, enable searchbar animation.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the input's autocomplete property.
+    /// </summary>
+    public string autocomplete
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocomplete");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocomplete", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the input's autocorrect property.
+    /// </summary>
+    public string autocorrect
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocorrect");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocorrect", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the cancel button icon. Only applies to `md` mode. Defaults to `arrow-back-sharp`.
+    /// </summary>
+    public string cancelButtonIcon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cancelButtonIcon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cancelButtonIcon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the the cancel button text. Only applies to `ios` mode.
+    /// </summary>
+    public string cancelButtonText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cancelButtonText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cancelButtonText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the clear icon. Defaults to `close-circle` for `ios` and `close-sharp` for `md`.
+    /// </summary>
+    public string clearIcon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("clearIcon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("clearIcon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// </summary>
+    public int debounce
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("debounce");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("debounce", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// </summary>
+    public string enterkeyhint
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("enterkeyhint");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// </summary>
+    public string inputmode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("inputmode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("inputmode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If used in a form, set the name of the control, which is submitted with the form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the input's placeholder. `placeholder` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)
+    /// </summary>
+    public string placeholder
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placeholder");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placeholder", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The icon to use as the search icon. Defaults to `search-outline` in `ios` mode and `search-sharp` in `md` mode.
+    /// </summary>
+    public string searchIcon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("searchIcon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("searchIcon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Sets the behavior for the cancel button. Defaults to `"never"`. Setting to `"focus"` shows the cancel button on focus. Setting to `"never"` hides the cancel button. Setting to `"always"` shows the cancel button regardless of focus state.
+    /// </summary>
+    public string showCancelButton
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("showCancelButton");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("showCancelButton", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Sets the behavior for the clear button. Defaults to `"focus"`. Setting to `"focus"` shows the clear button on focus if the input is not empty. Setting to `"never"` hides the clear button. Setting to `"always"` shows the clear button regardless of focus state, but only if the input is not empty.
+    /// </summary>
+    public string showClearButton
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("showClearButton");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("showClearButton", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, enable spellcheck on the input.
+    /// </summary>
+    public bool spellcheck
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("spellcheck");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("spellcheck", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the type of the input.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// the value of the searchbar.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -877,14 +1183,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), action);
+        b.OnEventAction("onionBlur", action);
     }
     /// <summary>
     /// Emitted when the input loses focus.
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), b.MakeAction(action));
+        b.OnEventAction("onionBlur", b.MakeAction(action));
     }
 
     /// <summary>
@@ -892,14 +1198,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonCancel<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionCancel"), action);
+        b.OnEventAction("onionCancel", action);
     }
     /// <summary>
     /// Emitted when the cancel button is clicked.
     /// </summary>
     public static void OnIonCancel<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionCancel"), b.MakeAction(action));
+        b.OnEventAction("onionCancel", b.MakeAction(action));
     }
 
     /// <summary>
@@ -907,24 +1213,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel, SearchbarChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SearchbarChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SearchbarChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// The `ionChange` event is fired for `<ion-searchbar>` elements when the user modifies the element's value. Unlike the `ionInput` event, the `ionChange` event is not necessarily fired for each alteration to an element's value.  The `ionChange` event is fired when the value has been committed by the user. This can happen when the element loses focus or when the "Enter" key is pressed. `ionChange` can also fire when clicking the clear or cancel buttons.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SearchbarChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SearchbarChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SearchbarChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -932,14 +1228,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonClear<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionClear"), action);
+        b.OnEventAction("onionClear", action);
     }
     /// <summary>
     /// Emitted when the clear input button is clicked.
     /// </summary>
     public static void OnIonClear<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionClear"), b.MakeAction(action));
+        b.OnEventAction("onionClear", b.MakeAction(action));
     }
 
     /// <summary>
@@ -947,14 +1243,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), action);
+        b.OnEventAction("onionFocus", action);
     }
     /// <summary>
     /// Emitted when the input has focus.
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), b.MakeAction(action));
+        b.OnEventAction("onionFocus", b.MakeAction(action));
     }
 
     /// <summary>
@@ -962,24 +1258,14 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonSearchbar> b, Var<HyperType.Action<TModel, SearchbarInputEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SearchbarInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SearchbarInputEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
     /// Emitted when the `value` of the `ion-searchbar` element has changed.
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonSearchbar> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SearchbarInputEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SearchbarInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SearchbarInputEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", b.MakeAction(action), "detail");
     }
 
 }

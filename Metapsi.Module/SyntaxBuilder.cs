@@ -1,24 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Metapsi.Syntax
 {
     public class SyntaxBuilder
     {
-        internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b)
-            where TSyntaxBuilder: class
+        public virtual void InitializeFrom(SyntaxBuilder parent)
         {
-            return Activator.CreateInstance(typeof(TSyntaxBuilder), new object[] { new SyntaxBuilder(b) }) as TSyntaxBuilder;
+            if (this.blockBuilder == null)
+            {
+                this.blockBuilder = parent.blockBuilder; // TODO: Seems shady?
+            }
         }
+
+        internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b, TSyntaxBuilder source)
+            where TSyntaxBuilder : SyntaxBuilder, new()
+        {
+            TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
+            syntaxBuilder.InitializeFrom(source);
+            return syntaxBuilder;
+        }
+
+        //public static TSyntaxBuilder New<TSyntaxBuilder>(TSyntaxBuilder source)
+        //    where TSyntaxBuilder : SyntaxBuilder, new()
+        //{
+        //    TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
+        //    return syntaxBuilder;
+        //}
 
         internal BlockBuilder blockBuilder;
 
         public Module Module => blockBuilder.ModuleBuilder.Module;
 
-        internal SyntaxBuilder(BlockBuilder b)
+        public SyntaxBuilder()
         {
-            this.blockBuilder = b;
         }
 
         public SyntaxBuilder(SyntaxBuilder b)

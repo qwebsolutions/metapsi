@@ -35,39 +35,65 @@ public class Homepage : HtmlPage<HomepageModel>
 
     public IHtmlElement GithubLink()
     {
-        return new HtmlTag("a").SetAttribute("href", "https://github.com/qwebsolutions/metapsi").SetAttribute("target", "_blank").WithChild(DivTag.CreateStyled("flex flex-row items-center gap-4 opacity-75 hover:opacity-100 text-base font-sans text-blue-500 font-light", Component.Create("sl-icon", new Icon
-        {
-            Name = "github"
-        }), HtmlText.Create("github.com/qwebsolutions/metapsi")));
+        return new HtmlTag("a")
+            .SetAttribute("href", "https://github.com/qwebsolutions/metapsi")
+            .SetAttribute("target", "_blank")
+            .WithChild(
+            DivTag.CreateStyled(
+                "flex flex-row items-center gap-4 opacity-75 hover:opacity-100 text-base font-sans text-blue-500 font-light",
+                new SlIcon()
+                {
+                    name = "github"
+                }).WithChild(HtmlText.Create("github.com/qwebsolutions/metapsi")));
     }
 
     public IHtmlElement TopSlogan()
     {
-        return DivTag.CreateStyled("flex flex-col justify-center items-center text-gray-800 text-center", Component.Create("sl-animation", new Animation
-        {
-            Name = "fadeInDown",
-            Iterations = 1,
-            Duration = 300,
-            Delay = 500,
-            Play = true,
-            Fill = "both",
-            Easing = "easeOut"
-        }, SpanTag.Create(HtmlText.Create("The "), HtmlText.Create("full stack C#").WithClass("bg-blue-50"), HtmlText.Create(" framework"))), Animation.Create(new Animation
-        {
-            Name = "fadeIn",
-            Iterations = 1,
-            Delay = 1000,
-            Duration = 500,
-            Play = true,
-            Fill = "both",
-            Easing = "easeOut"
-        }, DivTag.Create(HtmlText.Create("that "), Tooltip.Create(new Tooltip
-        {
-            Placement = TooltipPlacement.Bottom
-        }, HtmlText.Create("packs").WithClass("underline decoration-dashed"), Component.Create("sl-icon", new Icon
-        {
-            Name = "box-seam"
-        })), HtmlText.Create(" everything.")))).WithStyle("font-size", "var(--sl-font-size-2x-large)").WithStyle("font-family", "var(--sl-font-serif)")
+        return DivTag.CreateStyled(
+            "flex flex-col justify-center items-center text-gray-800 text-center",
+            new SlAnimation()
+            {
+                name = "fadeInDown",
+                iterations = 1,
+                duration = 300,
+                delay = 500,
+                play = true,
+                fill = "both",
+                easing = "easeOut"
+            }.WithChild(
+                SpanTag.Create(
+                    HtmlText.Create("The "),
+                    HtmlText.Create("full stack C#").WithClass("bg-blue-50"),
+                    HtmlText.Create(" framework"))),
+            new SlAnimation()
+            {
+
+                name = "fadeIn",
+                iterations = 1,
+                delay = 1000,
+                duration = 500,
+                play = true,
+                fill = "both",
+                easing = "easeOut"
+            }
+            .WithChild(
+                DivTag.Create(
+                    HtmlText.Create("that "),
+                    new SlTooltip()
+                    {
+                        placement = "bottom"
+                    }
+                    .WithChild(
+                        HtmlText.Create("packs").WithClass("underline decoration-dashed"))
+                        .WithChild(
+                            new SlIcon()
+                            {
+                                name = "box-seam",
+                            }.SetAttribute("slot", "content")
+                    ))
+            .WithChild(
+                HtmlText.Create(" everything."))))
+            .WithStyle("font-size", "var(--sl-font-size-2x-large)").WithStyle("font-family", "var(--sl-font-serif)")
             .WithStyle("font-weight", "var(--sl-font-weight-bold)");
     }
 
@@ -94,9 +120,16 @@ public class Homepage : HtmlPage<HomepageModel>
         {
             featureDetails.AddChild(HtmlText.Create(details).WithClass("text-sm"));
         }
-        return DivTag.CreateStyled("flex flex-row items-center justify-center gap-8 lg:gap-24 bg-blue-50 px-4 py-12 lg:p-16", DivTag.CreateStyled("flex flex-row items-center justify-end lg:flex-1 lg:basis-1/3 ", DivTag.CreateStyled("flex flex-row items-center justify-center w-16 h-16 text-3xl rounded-full bg-blue-400 text-white", Component.Create("sl-icon", new Icon
-        {
-            Name = iconName
-        }))), featureDetails);
+        return DivTag.CreateStyled(
+            "flex flex-row items-center justify-center gap-8 lg:gap-24 bg-blue-50 px-4 py-12 lg:p-16", 
+            DivTag.CreateStyled(
+                "flex flex-row items-center justify-end lg:flex-1 lg:basis-1/3 ", 
+                DivTag.CreateStyled(
+                    "flex flex-row items-center justify-center w-16 h-16 text-3xl rounded-full bg-blue-400 text-white", 
+                    new SlIcon()
+                    {
+                        name = iconName
+                    }))
+            , featureDetails);
     }
 }

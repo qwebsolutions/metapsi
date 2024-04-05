@@ -421,6 +421,15 @@ public static class Utils
         return string.Join(null, s.Split(new char[] { '-', '/' }).Select(Capitalize));
     }
 
+    public static string FixReservedKeyword(string s)
+    {
+        HashSet<string> reservedKeywords = new() { "checked", "readonly", "fixed", "interface", "event" };
+        if (reservedKeywords.Contains(s))
+            return "@" + s;
+
+        return s;
+    }
+
     public static void SetCsProjDescription(string fullProjectPath, string description)
     {
         var projectContent = System.IO.File.ReadAllText(fullProjectPath);

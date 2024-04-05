@@ -3,12 +3,246 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonLoading
+public partial class IonLoading : IonComponent
 {
+    public IonLoading() : base("ion-loading") { }
+    /// <summary>
+    /// If `true`, the loading indicator will animate.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the loading indicator will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public bool backdropDismiss
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("backdropDismiss");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("backdropDismiss", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// </summary>
+    public string cssClass
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cssClass");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cssClass", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Number of milliseconds to wait before dismissing the loading indicator.
+    /// </summary>
+    public int duration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("duration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("duration", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the loading indicator is presented.
+    /// </summary>
+    public System.Func<object,object,Animation> enterAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("enterAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional attributes to pass to the loader.
+    /// </summary>
+    public object htmlAttributes
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("htmlAttributes");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("htmlAttributes", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the loading indicator will open. If `false`, the loading indicator will close. Use this if you need finer grained control over presentation, otherwise just use the loadingController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the loading indicator dismisses. You will need to do that in your code.
+    /// </summary>
+    public bool isOpen
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("isOpen");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("isOpen", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public bool keyboardClose
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("keyboardClose");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("keyboardClose", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the loading indicator is dismissed.
+    /// </summary>
+    public System.Func<object,object,Animation> leaveAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("leaveAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("leaveAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Optional text content to display in the loading indicator.  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string message
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("message");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("message", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the loading indicator.
+    /// </summary>
+    public bool showBackdrop
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("showBackdrop");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("showBackdrop", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the spinner to display.
+    /// </summary>
+    public string spinner
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("spinner");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("spinner", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the loading indicator will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public bool translucent
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("translucent");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("translucent", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An ID corresponding to the trigger element that causes the loading indicator to open when clicked.
+    /// </summary>
+    public string trigger
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("trigger");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("trigger", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -303,24 +537,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the loading indicator has dismissed. Shorthand for ionLoadingDidDismiss.
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -328,14 +552,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), action);
+        b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
     /// Emitted after the loading indicator has presented. Shorthand for ionLoadingWillDismiss.
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), b.MakeAction(action));
+        b.OnEventAction("ondidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -343,24 +567,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnIonLoadingDidDismiss<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionLoadingDidDismiss"), eventAction);
+        b.OnEventAction("onionLoadingDidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the loading has dismissed.
     /// </summary>
     public static void OnIonLoadingDidDismiss<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionLoadingDidDismiss"), eventAction);
+        b.OnEventAction("onionLoadingDidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -368,14 +582,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnIonLoadingDidPresent<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionLoadingDidPresent"), action);
+        b.OnEventAction("onionLoadingDidPresent", action);
     }
     /// <summary>
     /// Emitted after the loading has presented.
     /// </summary>
     public static void OnIonLoadingDidPresent<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionLoadingDidPresent"), b.MakeAction(action));
+        b.OnEventAction("onionLoadingDidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -383,24 +597,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnIonLoadingWillDismiss<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionLoadingWillDismiss"), eventAction);
+        b.OnEventAction("onionLoadingWillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the loading has dismissed.
     /// </summary>
     public static void OnIonLoadingWillDismiss<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionLoadingWillDismiss"), eventAction);
+        b.OnEventAction("onionLoadingWillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -408,14 +612,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnIonLoadingWillPresent<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionLoadingWillPresent"), action);
+        b.OnEventAction("onionLoadingWillPresent", action);
     }
     /// <summary>
     /// Emitted before the loading has presented.
     /// </summary>
     public static void OnIonLoadingWillPresent<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionLoadingWillPresent"), b.MakeAction(action));
+        b.OnEventAction("onionLoadingWillPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -423,24 +627,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the loading indicator has dismissed. Shorthand for ionLoadingWillDismiss.
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -448,14 +642,14 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonLoading> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), action);
+        b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
     /// Emitted before the loading indicator has presented. Shorthand for ionLoadingWillPresent.
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonLoading> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), b.MakeAction(action));
+        b.OnEventAction("onwillPresent", b.MakeAction(action));
     }
 
 }

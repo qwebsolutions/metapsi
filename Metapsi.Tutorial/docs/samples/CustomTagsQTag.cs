@@ -1,5 +1,6 @@
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using Metapsi.Html;
 
 namespace Metapsi.Tutorial.Samples;
 
@@ -12,14 +13,9 @@ public class CustomTagsQTag: TutorialSample<CustomTagsQTag.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var quotation = b.Node("q");
-        b.Add(
-            quotation,
-            b.Text(
-                "The obscure q tag is supposed to represent a quotation"));
-        return quotation;
+        return b.H("q", b.T("The obscure q tag is supposed to represent a quotation"));
     }
 
     public override Model GetSampleData()

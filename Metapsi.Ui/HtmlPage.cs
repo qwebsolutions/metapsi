@@ -14,6 +14,10 @@ namespace Metapsi
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("<!DOCTYPE html>");
             var document = new DocumentTag();
+            document.Head.AddChild(
+                new HtmlTag("meta")
+                .SetAttribute("name", "viewport")
+                .SetAttribute("content", "width=device-width, initial-scale=1"));
             FillHtml(model, document);
             document.AttachComponents();
             builder.AppendLine(document.ToHtml());

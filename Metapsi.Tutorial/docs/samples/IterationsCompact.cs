@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Collections.Generic;
@@ -15,18 +16,23 @@ public class IterationsCompact : TutorialSample<IterationsCompact.Model>
         public List<string> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var container = b.Div("flex flex-col");
+        var textNodes = b.NewCollection<IVNode>();
+
         b.Foreach(
             b.Get(model, x => x.LoggedUsers),
             (b, user) =>
             {
-                b.Add(container, b.Text(user));
+                b.Push(textNodes, b.T(user));
             });
 
-        return container;
-
+        return b.HtmlDiv(
+            b =>
+            {
+                b.AddClass("flex flex-col");
+            },
+            textNodes);
     }
 
     public override Model GetSampleData()

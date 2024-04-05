@@ -58,10 +58,7 @@ public class TutorialPage : HtmlPage<TutorialModel>
         htmlTag.SetAttribute("class", "shows rounded bg-gray-100 w-10 h-10 flex flex-row items-center justify-center md:hidden");
         htmlTag.WithStyle("opacity", "1");
         htmlTag.SetAttribute("id", "MobileExpandCodeButton");
-        htmlTag.AddChild(Component.Create("sl-icon", new Icon
-        {
-            Name = "braces"
-        }).SetAttribute("id", "ToggleSandboxIcon"));
+        htmlTag.AddChild(new SlIcon() { name = "braces" }).SetAttribute("id", "ToggleSandboxIcon");
         htmlTag.AddJs(delegate (SyntaxBuilder b)
         {
             Var<DomElement> elementById7 = b.GetElementById(b.Const("MobileExpandCodeButton"));
@@ -104,10 +101,11 @@ public class TutorialPage : HtmlPage<TutorialModel>
 
     public IHtmlElement MobileSandbox()
     {
-        Component<Drawer> component = Component.Create("sl-drawer", new Drawer
+        var component = new SlDrawer()
         {
-            Placement = DrawerPlacement.End
-        }, DivTag.CreateStyled("w-full h-full", Metapsi.Tutorial.Control.SandboxApp(Editor.CodeMirror)));
+            placement = "end"
+        }
+        .WithChild(DivTag.CreateStyled("w-full h-full", Metapsi.Tutorial.Control.SandboxApp(Editor.CodeMirror)));
         component.SetAttribute("contained", "true");
         component.SetAttribute("class", "relative mobile-drawer");
         component.SetAttribute("id", "MobileSandbox");
@@ -121,7 +119,7 @@ public class TutorialPage : HtmlPage<TutorialModel>
         {
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))
             {
-                DocumentTag documentTag = Tutorial.SmallLayout(dataModel, dataModel.CurrentEntry.Title, DivTag.CreateStyled("w-full flex flex-row justify-between items-center", HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), MobileExpandCodeButton()), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", DivTag.CreateStyled("h-full", MobileSandbox(), SmallDocsPanel(dataModel))));
+                DocumentTag documentTag = Tutorial.SmallLayout(document, dataModel, dataModel.CurrentEntry.Title, DivTag.CreateStyled("w-full flex flex-row justify-between items-center", HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), MobileExpandCodeButton()), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", DivTag.CreateStyled("h-full", MobileSandbox(), SmallDocsPanel(dataModel))));
                 documentTag.Head.Children.Insert(0, new HtmlTag("script").SetAttribute("type", "importmap").WithChild(new HtmlText
                 {
                     Text = "{\r\n\t\t\"imports\": {\r\n\t\t\t\"codemirror/\": \"https://deno.land/x/codemirror_esm@v6.0.1/esm/\"\r\n\t\t}\r\n\t}"
@@ -131,11 +129,20 @@ public class TutorialPage : HtmlPage<TutorialModel>
                 return;
             }
             else
-            Tutorial.LargeLayout(document, dataModel, dataModel.CurrentEntry.Title, HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", Component.Create("sl-split-panel", new SplitPanel
-            {
-                Position = 40,
-                Primary = PrimaryPanel.End
-            }, LargeDocsPanel(dataModel), DesktopSandbox()).SetAttribute("class", " w-full h-full")));
+            Tutorial.LargeLayout(
+                document, 
+                dataModel, 
+                dataModel.CurrentEntry.Title, 
+                HtmlText.CreateTextNode(
+                    dataModel.CurrentEntry.Title), 
+                DivTag.CreateStyled(
+                    "fixed top-20 left-0 bottom-0 right-0", 
+                    new SlSplitPanel()
+                    {
+                        position = 40,
+                        primary = "end"
+                    }.WithChild(LargeDocsPanel(dataModel))
+                    .WithChild(DesktopSandbox()).SetAttribute("class", " w-full h-full")));
             document.Head.AddStylesheet("prism.css");
             document.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
         });

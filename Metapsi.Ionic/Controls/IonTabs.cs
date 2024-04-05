@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTabs
+public partial class IonTabs : IonComponent
 {
+    public IonTabs() : base("ion-tabs") { }
     /// <summary> 
     /// Content is placed between the named slots if provided without a slot.
     /// </summary>
@@ -80,24 +83,14 @@ public static partial class IonTabsControl
     /// </summary>
     public static void OnIonTabsDidChange<TModel>(this PropsBuilder<IonTabs> b, Var<HyperType.Action<TModel, IonTabsIonTabsDidChangeDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<IonTabsIonTabsDidChangeDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, IonTabsIonTabsDidChangeDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionTabsDidChange"), eventAction);
+        b.OnEventAction("onionTabsDidChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the navigation has finished transitioning to a new component.
     /// </summary>
     public static void OnIonTabsDidChange<TModel>(this PropsBuilder<IonTabs> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsDidChangeDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<IonTabsIonTabsDidChangeDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, IonTabsIonTabsDidChangeDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionTabsDidChange"), eventAction);
+        b.OnEventAction("onionTabsDidChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -105,24 +98,14 @@ public static partial class IonTabsControl
     /// </summary>
     public static void OnIonTabsWillChange<TModel>(this PropsBuilder<IonTabs> b, Var<HyperType.Action<TModel, IonTabsIonTabsWillChangeDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<IonTabsIonTabsWillChangeDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, IonTabsIonTabsWillChangeDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionTabsWillChange"), eventAction);
+        b.OnEventAction("onionTabsWillChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the navigation is about to transition to a new component.
     /// </summary>
     public static void OnIonTabsWillChange<TModel>(this PropsBuilder<IonTabs> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsWillChangeDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<IonTabsIonTabsWillChangeDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, IonTabsIonTabsWillChangeDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionTabsWillChange"), eventAction);
+        b.OnEventAction("onionTabsWillChange", b.MakeAction(action), "detail");
     }
 
 }

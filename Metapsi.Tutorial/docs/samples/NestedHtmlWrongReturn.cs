@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,31 +13,43 @@ public class NestedHtmlWrongReturn : TutorialSample<NestedHtmlWrongReturn.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var mainContainer = b.Div("flex flex-col");
+        var container = b.HtmlSpan(
+            b =>
+            {
+                b.SetClass("flex flex-row justify-between");
+            },
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("flex flex-row justify-between");
+                },
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-blue-600");
+                    },
+                    b.T("Blue text inside span")),
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-green-600");
+                    },
+                    b.T("Green text inside span"))));
 
-        var container = b.Add(
-            mainContainer,
-            b.Span("flex flex-row justify-between"));
-
-        b.Add(
+        var mainContainer = b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col");
+            },
             container,
-            b.Text(
-                "Blue text inside span",
-                "text-blue-600"));
-
-        b.Add(
-            container,
-            b.Text(
-                "Green text inside span",
-                "text-green-600"));
-
-        b.Add(
-            mainContainer,
-            b.Text(
-                "Red text inside div",
-                "text-red-600"));
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-red-600");
+                },
+                b.T("Red text inside div")));
 
         return container;
     }

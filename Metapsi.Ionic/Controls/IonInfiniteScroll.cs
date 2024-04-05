@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInfiniteScroll
+public partial class IonInfiniteScroll : IonComponent
 {
+    public IonInfiniteScroll() : base("ion-infinite-scroll") { }
+    /// <summary>
+    /// If `true`, the infinite scroll will be hidden and scroll event listeners will be removed.  Set this to true to disable the infinite scroll from actively trying to receive new data while scrolling. This is useful when it is known that there is no more data that can be added, and the infinite scroll is no longer needed.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The position of the infinite scroll element. The value can be either `top` or `bottom`.
+    /// </summary>
+    public string position
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("position");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("position", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The threshold distance from the bottom of the content to call the `infinite` output event when scrolled. The threshold value can be either a percent, or in pixels. For example, use the value of `10%` for the `infinite` output event to get called when the user has scrolled 10% from the bottom of the page. Use the value `100px` when the scroll is within 100 pixels from the bottom of the page.
+    /// </summary>
+    public string threshold
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("threshold");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("threshold", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -78,14 +127,14 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void OnIonInfinite<TModel>(this PropsBuilder<IonInfiniteScroll> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionInfinite"), action);
+        b.OnEventAction("onionInfinite", action);
     }
     /// <summary>
     /// Emitted when the scroll reaches the threshold distance. From within your infinite handler, you must call the infinite scroll's `complete()` method when your async operation has completed.
     /// </summary>
     public static void OnIonInfinite<TModel>(this PropsBuilder<IonInfiniteScroll> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionInfinite"), b.MakeAction(action));
+        b.OnEventAction("onionInfinite", b.MakeAction(action));
     }
 
 }

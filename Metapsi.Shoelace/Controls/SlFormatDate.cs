@@ -3,12 +3,195 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatDate
+public partial class SlFormatDate : SlComponent
 {
+    public SlFormatDate() : base("sl-format-date") { }
+    /// <summary>
+    /// The date/time to format. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+    /// </summary>
+    public string date
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("date");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("date", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the weekday.
+    /// </summary>
+    public string weekday
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("weekday");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("weekday", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the era.
+    /// </summary>
+    public string era
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("era");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("era", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the year.
+    /// </summary>
+    public string year
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("year");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("year", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the month.
+    /// </summary>
+    public string month
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("month");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("month", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the day.
+    /// </summary>
+    public string day
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("day");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("day", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the hour.
+    /// </summary>
+    public string hour
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("hour");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("hour", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the minute.
+    /// </summary>
+    public string minute
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("minute");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minute", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the second.
+    /// </summary>
+    public string second
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("second");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("second", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the time.
+    /// </summary>
+    public string timeZoneName
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("timeZoneName");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("timeZoneName", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The time zone to express the time in.
+    /// </summary>
+    public string timeZone
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("timeZone");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("timeZone", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The format for displaying the hour.
+    /// </summary>
+    public string hourFormat
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("hourFormat");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("hourFormat", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlFormatDateControl

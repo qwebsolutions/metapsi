@@ -3,12 +3,272 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonButton
+public partial class IonButton : IonComponent
 {
+    public IonButton() : base("ion-button") { }
+    /// <summary>
+    /// The type of button.
+    /// </summary>
+    public string buttonType
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("buttonType");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("buttonType", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the button.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
+    /// </summary>
+    public string download
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("download");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("download", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set to `"block"` for a full-width button or to `"full"` for a full-width button with square corners and no left or right borders.
+    /// </summary>
+    public string expand
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("expand");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("expand", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set to `"clear"` for a transparent button that resembles a flat button, to `"outline"` for a transparent button with a border, or to `"solid"` for a button with a filled background. The default fill is `"solid"` except inside of a toolbar, where the default is `"clear"`.
+    /// </summary>
+    public string fill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("fill");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("fill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The HTML form element or form element id. Used to submit a form when the button is not a child of the form.
+    /// </summary>
+    public string form
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("form");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("form", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// </summary>
+    public string rel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("rel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rel", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
+    /// </summary>
+    public System.Func<object,object,Animation> routerAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public string routerDirection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("routerDirection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerDirection", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set to `"round"` for a button with more rounded corners.
+    /// </summary>
+    public string shape
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("shape");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("shape", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set to `"small"` for a button with less height and padding, to `"default"` for a button with the default height and padding, or to `"large"` for a button with more height and padding. By default the size is unset, unless the button is inside of an item, where the size is `"small"` by default. Set the size to `"default"` inside of an item to make it a standard size button.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, activates a button with a heavier font weight.
+    /// </summary>
+    public bool strong
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("strong");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("strong", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
     /// <summary> 
     /// Content is placed between the named slots if provided without a slot.
     /// </summary>
@@ -396,14 +656,14 @@ public static partial class IonButtonControl
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonButton> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), action);
+        b.OnEventAction("onionBlur", action);
     }
     /// <summary>
     /// Emitted when the button loses focus.
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionBlur"), b.MakeAction(action));
+        b.OnEventAction("onionBlur", b.MakeAction(action));
     }
 
     /// <summary>
@@ -411,14 +671,14 @@ public static partial class IonButtonControl
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonButton> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), action);
+        b.OnEventAction("onionFocus", action);
     }
     /// <summary>
     /// Emitted when the button has focus.
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionFocus"), b.MakeAction(action));
+        b.OnEventAction("onionFocus", b.MakeAction(action));
     }
 
 }

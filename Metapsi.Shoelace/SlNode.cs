@@ -3,12 +3,13 @@ using Metapsi.Syntax;
 using Metapsi.Ui;
 using System;
 using System.Collections.Generic;
+using Metapsi.Html;
 
 namespace Metapsi.Shoelace;
 
 public record ShoelaceTag(string tag);
 
-public static class Import
+public static class SlNodeExtensions
 {
     public static void Shoelace(LayoutBuilder b, ShoelaceVersion shoelaceVersion = null)
     {
@@ -21,35 +22,6 @@ public static class Import
         b.AddStylesheet(shoelaceVersion.StylesheetUrl);
     }
 
-    //public static Var<HyperNode> SlNode(this LayoutBuilder b, string tag)
-    //{
-    //    Import.Shoelace(b);
-    //    b.Const(new ShoelaceTag(tag));
-    //    return b.Node(tag);
-    //}
-
-    public static Var<IVNode> SlNode(
-        this LayoutBuilder b,
-        string tag,
-        Action<PropsBuilder, Var<DynamicObject>> buildProps,
-        params Var<IVNode>[] children)
-    {
-        Import.Shoelace(b);
-        b.Const(new ShoelaceTag(tag));
-        return b.H(tag, buildProps, children);
-    }
-
-    //public static Var<IVNode> SlNode(
-    //    this LayoutBuilder b,
-    //    string tag,
-    //    Action<PropsBuilder, Var<DynamicObject>> buildProps,
-    //    Var<List<IVNode>> children)
-    //{
-    //    Import.Shoelace(b);
-    //    b.Const(new ShoelaceTag(tag));
-    //    return b.H(tag, buildProps, children);
-    //}
-
     public static Var<IVNode> SlNode<TProps>(
         this LayoutBuilder b,
         string tag,
@@ -57,14 +29,9 @@ public static class Import
         Var<List<IVNode>> children)
         where TProps : new()
     {
-        Import.Shoelace(b);
+        SlNodeExtensions.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
-        Action<PropsBuilder, Var<DynamicObject>> dynamicPropsBuilder = (PropsBuilder b, Var<DynamicObject> props) =>
-        {
-            var propsBuilder = new PropsBuilder<TProps>(b, props.As<TProps>());
-            buildProps(propsBuilder);
-        };
-        return b.H(tag, dynamicPropsBuilder, children);
+        return b.H(tag, buildProps, children);
     }
 
     public static Var<IVNode> SlNode<TProps>(
@@ -74,14 +41,9 @@ public static class Import
         Var<IVNode>[] children)
         where TProps : new()
     {
-        Import.Shoelace(b);
+        SlNodeExtensions.Shoelace(b);
         b.Const(new ShoelaceTag(tag));
-        Action<PropsBuilder, Var<DynamicObject>> dynamicPropsBuilder = (PropsBuilder b, Var<DynamicObject> props) =>
-        {
-            var propsBuilder = new PropsBuilder<TProps>(b, props.As<TProps>());
-            buildProps(propsBuilder);
-        };
-        return b.H(tag, dynamicPropsBuilder, children);
+        return b.H(tag, buildProps, children);
     }
 
     public class ShoelaceVersion
@@ -108,17 +70,5 @@ public static class Import
 
         document.Head.AddChild(new ExternalScriptTag(shoelaceVersion.AutoloaderUrl, "module"));
         document.Head.AddChild(new LinkTag("stylesheet", shoelaceVersion.StylesheetUrl));
-    }
-}
-
-public static class PropExtensions
-{
-    public static void SetOptionalAttribute(
-        this LayoutBuilder b,
-        Var<HyperNode> node,
-        string htmlAttribute,
-        Var<string> value)
-    {
-        b.If(b.HasValue(value), b => b.SetAttr(node, new DynamicProperty<string>(htmlAttribute), value));
     }
 }

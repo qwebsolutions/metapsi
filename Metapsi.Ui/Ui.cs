@@ -2,10 +2,6 @@
 
 namespace Metapsi.Ui;
 
-public interface IHasSidePanel
-{
-    bool ShowSidePanel { get; set; }
-}
 
 public interface IHasValidationPanel
 {

@@ -3,12 +3,122 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSplitPanel
+public partial class SlSplitPanel : SlComponent
 {
+    public SlSplitPanel() : base("sl-split-panel") { }
+    /// <summary>
+    /// The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size.
+    /// </summary>
+    public int position
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("position");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("position", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The current position of the divider from the primary panel's edge in pixels.
+    /// </summary>
+    public int positionInPixels
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("positionInPixels");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("positionInPixels", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws the split panel in a vertical orientation with the start and end panels stacked.
+    /// </summary>
+    public bool vertical
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("vertical");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("vertical", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables resizing. Note that the position may still change as a result of resizing the host element.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
+    /// </summary>
+    public string primary
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("primary");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("primary", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// One or more space-separated values at which the divider should snap. Values can be in pixels or percentages, e.g. `"100px 50%"`.
+    /// </summary>
+    public string snap
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("snap");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("snap", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How close the divider must be to a snap point until snapping occurs.
+    /// </summary>
+    public int snapThreshold
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("snapThreshold");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("snapThreshold", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -136,26 +246,31 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// Emitted when the divider's position changes.
     /// </summary>
-    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-reposition"), eventAction);
+        b.OnEventAction("onsl-reposition", action);
     }
     /// <summary>
     /// Emitted when the divider's position changes.
     /// </summary>
-    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-reposition"), eventAction);
+        b.OnEventAction("onsl-reposition", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the divider's position changes.
+    /// </summary>
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-reposition", action);
+    }
+    /// <summary>
+    /// Emitted when the divider's position changes.
+    /// </summary>
+    public static void OnSlReposition<TModel>(this PropsBuilder<SlSplitPanel> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-reposition", b.MakeAction(action));
     }
 
 }

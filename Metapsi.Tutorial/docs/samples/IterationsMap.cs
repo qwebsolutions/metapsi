@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Collections.Generic;
@@ -20,10 +21,8 @@ public class IterationsMap : TutorialSample<IterationsMap.Model>
         public List<User> AllUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var container = b.Div("flex flex-col");
-
         var status = b.Map(
             b.Get(model, x => x.AllUsers),
             (b, user) =>
@@ -34,9 +33,12 @@ public class IterationsMap : TutorialSample<IterationsMap.Model>
                     b => b.Concat(b.Get(user, x => x.Name), b.Const(" is not logged in")));
             });
 
-        b.AddChildren(container, b.Map(status, (b, userStatusMessage) => b.Text(userStatusMessage)));
-
-        return container;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col");
+            },
+            b.Map(status, (b, status) => b.T(status)));
     }
 
     public override Model GetSampleData()

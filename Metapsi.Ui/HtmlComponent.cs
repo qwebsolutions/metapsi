@@ -2,11 +2,18 @@
 
 namespace Metapsi.Ui;
 
-public abstract class HtmlComponent : IHtmlComponent
+public abstract class HtmlComponent : IHtmlComponent, IHtmlElement
 {
+    public HtmlComponent(string tagName)
+    {
+        this.HtmlTag = new HtmlTag(tagName);
+    }
+
+    public HtmlTag HtmlTag { get; set; }
+
     protected bool Attached { get; set; }
 
-    public void Attach(DocumentTag document, IHtmlElement parentNode)
+    void IHtmlComponent.Attach(DocumentTag document, IHtmlElement parentNode)
     {
         if (!this.Attached)
         {
@@ -15,7 +22,17 @@ public abstract class HtmlComponent : IHtmlComponent
         }
     }
 
-    public abstract void OnAttach(DocumentTag documentTag, IHtmlElement parentNode);
+    protected abstract void OnAttach(DocumentTag documentTag, IHtmlElement parentNode);
+
+    public HtmlTag GetTag()
+    {
+        return this.HtmlTag;
+    }
+
+    string IHtmlNode.ToHtml()
+    {
+        return this.GetTag().ToHtml();
+    }
 }
 
 public class PageBuilder<TModel>

@@ -3,12 +3,90 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBreadcrumbs
+public partial class IonBreadcrumbs : IonComponent
 {
+    public IonBreadcrumbs() : base("ion-breadcrumbs") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// </summary>
+    public int itemsAfterCollapse
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("itemsAfterCollapse");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("itemsAfterCollapse", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// </summary>
+    public int itemsBeforeCollapse
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("itemsBeforeCollapse");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("itemsBeforeCollapse", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum number of breadcrumbs to show before collapsing.
+    /// </summary>
+    public int maxItems
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maxItems");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maxItems", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonBreadcrumbsControl
@@ -170,24 +248,14 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void OnIonCollapsedClick<TModel>(this PropsBuilder<IonBreadcrumbs> b, Var<HyperType.Action<TModel, BreadcrumbCollapsedClickEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<BreadcrumbCollapsedClickEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, BreadcrumbCollapsedClickEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionCollapsedClick"), eventAction);
+        b.OnEventAction("onionCollapsedClick", action, "detail");
     }
     /// <summary>
     /// Emitted when the collapsed indicator is clicked on.
     /// </summary>
     public static void OnIonCollapsedClick<TModel>(this PropsBuilder<IonBreadcrumbs> b, System.Func<SyntaxBuilder, Var<TModel>, Var<BreadcrumbCollapsedClickEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<BreadcrumbCollapsedClickEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, BreadcrumbCollapsedClickEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionCollapsedClick"), eventAction);
+        b.OnEventAction("onionCollapsedClick", b.MakeAction(action), "detail");
     }
 
 }

@@ -3,12 +3,202 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonPicker
+public partial class IonPicker : IonComponent
 {
+    public IonPicker() : base("ion-picker") { }
+    /// <summary>
+    /// If `true`, the picker will animate.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the picker will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public bool backdropDismiss
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("backdropDismiss");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("backdropDismiss", value.ToString());
+        }
+    }
+
+
+
+    /// <summary>
+    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// </summary>
+    public string cssClass
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cssClass");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cssClass", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Number of milliseconds to wait before dismissing the picker.
+    /// </summary>
+    public int duration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("duration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("duration", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the picker is presented.
+    /// </summary>
+    public System.Func<object,object,Animation> enterAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("enterAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional attributes to pass to the picker.
+    /// </summary>
+    public object htmlAttributes
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("htmlAttributes");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("htmlAttributes", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
+    /// </summary>
+    public bool isOpen
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("isOpen");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("isOpen", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public bool keyboardClose
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("keyboardClose");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("keyboardClose", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the picker is dismissed.
+    /// </summary>
+    public System.Func<object,object,Animation> leaveAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("leaveAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("leaveAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the picker.
+    /// </summary>
+    public bool showBackdrop
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("showBackdrop");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("showBackdrop", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An ID corresponding to the trigger element that causes the picker to open when clicked.
+    /// </summary>
+    public string trigger
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("trigger");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("trigger", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -252,24 +442,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the picker has dismissed. Shorthand for ionPickerDidDismiss.
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -277,14 +457,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), action);
+        b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
     /// Emitted after the picker has presented. Shorthand for ionPickerWillDismiss.
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), b.MakeAction(action));
+        b.OnEventAction("ondidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -292,24 +472,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnIonPickerDidDismiss<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionPickerDidDismiss"), eventAction);
+        b.OnEventAction("onionPickerDidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the picker has dismissed.
     /// </summary>
     public static void OnIonPickerDidDismiss<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionPickerDidDismiss"), eventAction);
+        b.OnEventAction("onionPickerDidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -317,14 +487,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnIonPickerDidPresent<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPickerDidPresent"), action);
+        b.OnEventAction("onionPickerDidPresent", action);
     }
     /// <summary>
     /// Emitted after the picker has presented.
     /// </summary>
     public static void OnIonPickerDidPresent<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPickerDidPresent"), b.MakeAction(action));
+        b.OnEventAction("onionPickerDidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -332,24 +502,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnIonPickerWillDismiss<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionPickerWillDismiss"), eventAction);
+        b.OnEventAction("onionPickerWillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the picker has dismissed.
     /// </summary>
     public static void OnIonPickerWillDismiss<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionPickerWillDismiss"), eventAction);
+        b.OnEventAction("onionPickerWillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -357,14 +517,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnIonPickerWillPresent<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPickerWillPresent"), action);
+        b.OnEventAction("onionPickerWillPresent", action);
     }
     /// <summary>
     /// Emitted before the picker has presented.
     /// </summary>
     public static void OnIonPickerWillPresent<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPickerWillPresent"), b.MakeAction(action));
+        b.OnEventAction("onionPickerWillPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -372,24 +532,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the picker has dismissed. Shorthand for ionPickerWillDismiss.
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -397,14 +547,14 @@ public static partial class IonPickerControl
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonPicker> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), action);
+        b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
     /// Emitted before the picker has presented. Shorthand for ionPickerWillPresent.
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonPicker> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), b.MakeAction(action));
+        b.OnEventAction("onwillPresent", b.MakeAction(action));
     }
 
 }

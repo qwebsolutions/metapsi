@@ -3,12 +3,31 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonGrid
+public partial class IonGrid : IonComponent
 {
+    public IonGrid() : base("ion-grid") { }
+    /// <summary>
+    /// If `true`, the grid will have a fixed width based on the screen size.
+    /// </summary>
+    public bool @fixed
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("fixed");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("fixed", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonGridControl

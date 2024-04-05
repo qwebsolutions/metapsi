@@ -3,12 +3,75 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlIcon
+public partial class SlIcon : SlComponent
 {
+    public SlIcon() : base("sl-icon") { }
+    /// <summary>
+    /// The name of the icon to draw. Available names depend on the icon library being used.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks.
+    /// </summary>
+    public string src
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("src");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("src", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An alternate description to use for assistive devices. If omitted, the icon will be considered presentational and ignored by assistive devices.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of a registered custom icon library.
+    /// </summary>
+    public string library
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("library");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("library", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -97,51 +160,61 @@ public static partial class SlIconControl
     /// <summary>
     /// Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit.
     /// </summary>
-    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-load"), eventAction);
+        b.OnEventAction("onsl-load", action);
     }
     /// <summary>
     /// Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit.
     /// </summary>
-    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-load"), eventAction);
+        b.OnEventAction("onsl-load", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit.
+    /// </summary>
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-load", action);
+    }
+    /// <summary>
+    /// Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit.
+    /// </summary>
+    public static void OnSlLoad<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-load", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit.
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-error"), eventAction);
+        b.OnEventAction("onsl-error", action);
     }
     /// <summary>
     /// Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit.
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-error"), eventAction);
+        b.OnEventAction("onsl-error", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit.
+    /// </summary>
+    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-error", action);
+    }
+    /// <summary>
+    /// Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit.
+    /// </summary>
+    public static void OnSlError<TModel>(this PropsBuilder<SlIcon> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-error", b.MakeAction(action));
     }
 
 }

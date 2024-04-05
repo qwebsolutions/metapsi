@@ -3,12 +3,232 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonAlert
+public partial class IonAlert : IonComponent
 {
+    public IonAlert() : base("ion-alert") { }
+    /// <summary>
+    /// If `true`, the alert will animate.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the alert will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public bool backdropDismiss
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("backdropDismiss");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("backdropDismiss", value.ToString());
+        }
+    }
+
+
+    /// <summary>
+    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// </summary>
+    public string cssClass
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("cssClass");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cssClass", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the alert is presented.
+    /// </summary>
+    public System.Func<object,object,Animation> enterAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("enterAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The main title in the heading of the alert.
+    /// </summary>
+    public string header
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("header");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("header", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Additional attributes to pass to the alert.
+    /// </summary>
+    public object htmlAttributes
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("htmlAttributes");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("htmlAttributes", value.ToString());
+        }
+    }
+
+
+    /// <summary>
+    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
+    /// </summary>
+    public bool isOpen
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("isOpen");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("isOpen", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public bool keyboardClose
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("keyboardClose");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("keyboardClose", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Animation to use when the alert is dismissed.
+    /// </summary>
+    public System.Func<object,object,Animation> leaveAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("leaveAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("leaveAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string message
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("message");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("message", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The subtitle in the heading of the alert. Displayed under the title.
+    /// </summary>
+    public string subHeader
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("subHeader");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("subHeader", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public bool translucent
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("translucent");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("translucent", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An ID corresponding to the trigger element that causes the alert to open when clicked.
+    /// </summary>
+    public string trigger
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("trigger");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("trigger", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -290,24 +510,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the alert has dismissed. Shorthand for ionAlertDidDismiss.
     /// </summary>
     public static void OnDidDismiss<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("ondidDismiss"), eventAction);
+        b.OnEventAction("ondidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -315,14 +525,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), action);
+        b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
     /// Emitted after the alert has presented. Shorthand for ionAlertWillDismiss.
     /// </summary>
     public static void OnDidPresent<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("ondidPresent"), b.MakeAction(action));
+        b.OnEventAction("ondidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -330,24 +540,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnIonAlertDidDismiss<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionAlertDidDismiss"), eventAction);
+        b.OnEventAction("onionAlertDidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the alert has dismissed.
     /// </summary>
     public static void OnIonAlertDidDismiss<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionAlertDidDismiss"), eventAction);
+        b.OnEventAction("onionAlertDidDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -355,14 +555,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnIonAlertDidPresent<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionAlertDidPresent"), action);
+        b.OnEventAction("onionAlertDidPresent", action);
     }
     /// <summary>
     /// Emitted after the alert has presented.
     /// </summary>
     public static void OnIonAlertDidPresent<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionAlertDidPresent"), b.MakeAction(action));
+        b.OnEventAction("onionAlertDidPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -370,24 +570,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnIonAlertWillDismiss<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionAlertWillDismiss"), eventAction);
+        b.OnEventAction("onionAlertWillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the alert has dismissed.
     /// </summary>
     public static void OnIonAlertWillDismiss<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionAlertWillDismiss"), eventAction);
+        b.OnEventAction("onionAlertWillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -395,14 +585,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnIonAlertWillPresent<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionAlertWillPresent"), action);
+        b.OnEventAction("onionAlertWillPresent", action);
     }
     /// <summary>
     /// Emitted before the alert has presented.
     /// </summary>
     public static void OnIonAlertWillPresent<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionAlertWillPresent"), b.MakeAction(action));
+        b.OnEventAction("onionAlertWillPresent", b.MakeAction(action));
     }
 
     /// <summary>
@@ -410,24 +600,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the alert has dismissed. Shorthand for ionAlertWillDismiss.
     /// </summary>
     public static void OnWillDismiss<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<OverlayEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, OverlayEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onwillDismiss"), eventAction);
+        b.OnEventAction("onwillDismiss", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -435,14 +615,14 @@ public static partial class IonAlertControl
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonAlert> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), action);
+        b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
     /// Emitted before the alert has presented. Shorthand for ionAlertWillPresent.
     /// </summary>
     public static void OnWillPresent<TModel>(this PropsBuilder<IonAlert> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onwillPresent"), b.MakeAction(action));
+        b.OnEventAction("onwillPresent", b.MakeAction(action));
     }
 
 }

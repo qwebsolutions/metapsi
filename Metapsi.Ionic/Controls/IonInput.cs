@@ -3,12 +3,580 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInput
+public partial class IonInput : IonComponent
 {
+    public IonInput() : base("ion-input") { }
+    /// <summary>
+    /// This attribute is ignored.
+    /// </summary>
+    public string accept
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("accept");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("accept", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
+    /// </summary>
+    public string autocapitalize
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocapitalize");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocapitalize", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether the value of the control can be automatically completed by the browser.
+    /// </summary>
+    public string autocomplete
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocomplete");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocomplete", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Whether auto correction should be enabled when the user is entering/editing the text value.
+    /// </summary>
+    public string autocorrect
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocorrect");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocorrect", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// </summary>
+    public bool autofocus
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autofocus");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autofocus", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+    /// </summary>
+    public bool clearInput
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("clearInput");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("clearInput", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types.
+    /// </summary>
+    public bool clearOnEdit
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("clearOnEdit");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("clearOnEdit", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// </summary>
+    public bool counter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("counter");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("counter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// </summary>
+    public System.Func<int,int,string> counterFormatter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<int,int,string>>("counterFormatter");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("counterFormatter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// </summary>
+    public int debounce
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("debounce");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("debounce", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// </summary>
+    public string enterkeyhint
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("enterkeyhint");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Text that is placed under the input and displayed when an error is detected.
+    /// </summary>
+    public string errorText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("errorText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("errorText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// </summary>
+    public string fill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("fill");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("fill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Text that is placed under the input and displayed when no error is detected.
+    /// </summary>
+    public string helperText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("helperText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("helperText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// </summary>
+    public string inputmode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("inputmode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("inputmode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The visible label associated with the input.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// </summary>
+    public string labelPlacement
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("labelPlacement");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("labelPlacement", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the `legacy` property to `true` to forcibly use the legacy form control markup. Ionic will only opt components in to the modern form markup when they are using either the `aria-label` attribute or the `label` property. As a result, the `legacy` property should only be used as an escape hatch when you want to avoid this automatic opt-in behavior. Note that this property will be removed in an upcoming major release of Ionic, and all form components will be opted-in to using the modern form markup.
+    /// </summary>
+    public bool legacy
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("legacy");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("legacy", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum value, which must not be less than its minimum (min attribute) value.
+    /// </summary>
+    public string max
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("max");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("max", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the maximum number of characters that the user can enter.
+    /// </summary>
+    public int maxlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maxlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maxlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum value, which must not be greater than its maximum (max attribute) value.
+    /// </summary>
+    public string min
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("min");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("min", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the minimum number of characters that the user can enter.
+    /// </summary>
+    public int minlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user can enter more than one value. This attribute applies when the type attribute is set to `"email"`, otherwise it is ignored.
+    /// </summary>
+    public bool multiple
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("multiple");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("multiple", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the control, which is submitted with the form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information.
+    /// </summary>
+    public string pattern
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("pattern");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pattern", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Instructional text that shows before the input has a value. This property applies only when the `type` property is set to `"email"`, `"number"`, `"password"`, `"search"`, `"tel"`, `"text"`, or `"url"`, otherwise it is ignored.
+    /// </summary>
+    public string placeholder
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placeholder");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placeholder", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot modify the value.
+    /// </summary>
+    public bool @readonly
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("readonly");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("readonly", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user must fill in a value before submitting a form.
+    /// </summary>
+    public bool required
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("required");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("required", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The shape of the input. If "round" it will have an increased border radius.
+    /// </summary>
+    public string shape
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("shape");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("shape", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the element will have its spelling and grammar checked.
+    /// </summary>
+    public bool spellcheck
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("spellcheck");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("spellcheck", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Works with the min and max attributes to limit the increments at which a value can be set. Possible values are: `"any"` or a positive floating point number.
+    /// </summary>
+    public string step
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("step");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("step", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of control to display. The default type is text.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The value of the input.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -1175,24 +1743,14 @@ public static partial class IonInputControl
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonInput> b, Var<HyperType.Action<TModel, FocusEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionBlur"), eventAction);
+        b.OnEventAction("onionBlur", action, "detail");
     }
     /// <summary>
     /// Emitted when the input loses focus.
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionBlur"), eventAction);
+        b.OnEventAction("onionBlur", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -1200,24 +1758,14 @@ public static partial class IonInputControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonInput> b, Var<HyperType.Action<TModel, InputChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<InputChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, InputChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// The `ionChange` event is fired when the user modifies the input's value. Unlike the `ionInput` event, the `ionChange` event is only fired when changes are committed, not as the user types.  Depending on the way the users interacts with the element, the `ionChange` event fires at a different moment: - When the user commits the change explicitly (e.g. by selecting a date from a date picker for `<ion-input type="date">`, pressing the "Enter" key, etc.). - When the element loses focus after its value has changed: for elements where the user's interaction is typing.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<InputChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<InputChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, InputChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -1225,24 +1773,14 @@ public static partial class IonInputControl
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonInput> b, Var<HyperType.Action<TModel, FocusEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionFocus"), eventAction);
+        b.OnEventAction("onionFocus", action, "detail");
     }
     /// <summary>
     /// Emitted when the input has focus.
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionFocus"), eventAction);
+        b.OnEventAction("onionFocus", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -1250,24 +1788,14 @@ public static partial class IonInputControl
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonInput> b, Var<HyperType.Action<TModel, InputInputEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<InputInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, InputInputEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
     /// The `ionInput` event is fired each time the user modifies the input's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the input's value. This typically happens for each keystroke as the user types.  For elements that accept text input (`type=text`, `type=tel`, etc.), the interface is [`InputEvent`](https://developer.mozilla.org/en-US/docs/Web/API/InputEvent); for others, the interface is [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event). If the input is cleared on edit, the type is `null`.
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<InputInputEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<InputInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, InputInputEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", b.MakeAction(action), "detail");
     }
 
 }

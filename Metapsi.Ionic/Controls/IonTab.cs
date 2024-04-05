@@ -3,12 +3,45 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTab
+public partial class IonTab : IonComponent
 {
+    public IonTab() : base("ion-tab") { }
+    /// <summary>
+    /// The component to display inside of the tab.
+    /// </summary>
+    public string component
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("component");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("component", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
+    /// </summary>
+    public string tab
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("tab");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("tab", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 

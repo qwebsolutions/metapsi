@@ -16,7 +16,7 @@ public class Renderer : HyperPage<Model>
         return "iframeApp";
     }
 
-    public Var<HyperNode> RenderHyperNode(LayoutBuilder b, Var<Model> model)
+    public Var<IVNode> RenderHyperNode(LayoutBuilder b, Var<Model> model)
     {
         return null;
     }
@@ -24,7 +24,7 @@ public class Renderer : HyperPage<Model>
     public override Var<IVNode> OnRender(LayoutBuilder b, Var<Model> model)
     {
         b.AddStylesheet("metapsi.tutorial.css");
-        return RenderHyperNode(b, model).As<IVNode>();
+        return RenderHyperNode(b, model);
     }
 
     public Model DeserializeModel(string json)

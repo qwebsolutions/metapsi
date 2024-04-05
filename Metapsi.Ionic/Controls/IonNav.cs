@@ -3,12 +3,92 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonNav
+public partial class IonNav : IonComponent
 {
+    public IonNav() : base("ion-nav") { }
+    /// <summary>
+    /// If `true`, the nav should animate the transition of components.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// By default `ion-nav` animates transition between pages based in the mode (ios or material design). However, this property allows to create custom transition using `AnimationBuilder` functions.
+    /// </summary>
+    public System.Func<object,object,Animation> animation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("animation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("animation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Root NavComponent to load
+    /// </summary>
+    public string root
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("root");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("root", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Any parameters for the root component
+    /// </summary>
+    public object rootParams
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("rootParams");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rootParams", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If the nav component should allow for swipe-to-go-back.
+    /// </summary>
+    public bool swipeGesture
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("swipeGesture");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("swipeGesture", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -237,14 +317,14 @@ public static partial class IonNavControl
     /// </summary>
     public static void OnIonNavDidChange<TModel>(this PropsBuilder<IonNav> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionNavDidChange"), action);
+        b.OnEventAction("onionNavDidChange", action);
     }
     /// <summary>
     /// Event fired when the nav has changed components
     /// </summary>
     public static void OnIonNavDidChange<TModel>(this PropsBuilder<IonNav> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionNavDidChange"), b.MakeAction(action));
+        b.OnEventAction("onionNavDidChange", b.MakeAction(action));
     }
 
     /// <summary>
@@ -252,14 +332,14 @@ public static partial class IonNavControl
     /// </summary>
     public static void OnIonNavWillChange<TModel>(this PropsBuilder<IonNav> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionNavWillChange"), action);
+        b.OnEventAction("onionNavWillChange", action);
     }
     /// <summary>
     /// Event fired when the nav will change components
     /// </summary>
     public static void OnIonNavWillChange<TModel>(this PropsBuilder<IonNav> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionNavWillChange"), b.MakeAction(action));
+        b.OnEventAction("onionNavWillChange", b.MakeAction(action));
     }
 
 }

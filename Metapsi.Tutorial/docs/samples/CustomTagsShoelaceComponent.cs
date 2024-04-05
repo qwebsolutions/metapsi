@@ -12,13 +12,13 @@ public class CustomTagsShoelaceComponent : TutorialSample<CustomTagsShoelaceComp
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         // Imports the js & css of a web components library. We'll get to that later
         b.AddScript("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/shoelace-autoloader.js", "module");
         b.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/themes/light.css");
 
-        return b.Node("sl-avatar");
+        return b.H("sl-avatar");
     }
 
     public override Model GetSampleData()

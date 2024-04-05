@@ -3,12 +3,90 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlAvatar
+public partial class SlAvatar : SlComponent
 {
+    public SlAvatar() : base("sl-avatar") { }
+    /// <summary>
+    /// The image source to use for the avatar.
+    /// </summary>
+    public string image
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("image");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("image", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A label to use to describe the avatar to assistive devices.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Initials to use as a fallback when no image is available (1-2 characters max recommended).
+    /// </summary>
+    public string initials
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("initials");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("initials", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates how the browser should load the image.
+    /// </summary>
+    public string loading
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("loading");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("loading", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The shape of the avatar.
+    /// </summary>
+    public string shape
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("shape");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("shape", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 

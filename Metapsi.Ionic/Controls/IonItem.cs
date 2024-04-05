@@ -3,12 +3,289 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItem
+public partial class IonItem : IonComponent
 {
+    public IonItem() : base("ion-item") { }
+    /// <summary>
+    /// If `true`, a button tag will be rendered and the item will be tappable.
+    /// </summary>
+    public bool button
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("button");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("button", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Only applies when the `maxlength` property is set on the inner `ion-input` or `ion-textarea`.
+    /// </summary>
+    public bool counter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("counter");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("counter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".
+    /// </summary>
+    public System.Func<int,int,string> counterFormatter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<int,int,string>>("counterFormatter");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("counterFormatter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
+    /// </summary>
+    public bool detail
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("detail");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("detail", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The icon to use when `detail` is set to `true`.
+    /// </summary>
+    public string detailIcon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("detailIcon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("detailIcon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the item.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
+    /// </summary>
+    public string download
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("download");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("download", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// </summary>
+    public string fill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("fill");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("fill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How the bottom border should be displayed on the item.
+    /// </summary>
+    public string lines
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("lines");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("lines", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// </summary>
+    public string rel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("rel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rel", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
+    /// </summary>
+    public System.Func<object,object,Animation> routerAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public string routerDirection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("routerDirection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerDirection", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The shape of the item. If "round" it will have increased border radius.
+    /// </summary>
+    public string shape
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("shape");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("shape", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
     /// <summary> 
     /// Content is placed between the named slots if provided without a slot.
     /// </summary>

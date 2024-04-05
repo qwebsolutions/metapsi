@@ -91,6 +91,21 @@ namespace Metapsi.Hyperapp
         // The state is temporary, effects execute async code
         public class StateWithEffects { }
 
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(
+            this SyntaxBuilder b,
+            Var<TState> state)
+        {
+            return b.MakeStateWithEffects(state, new Var<Effect>[0]);
+        }
+
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(
+            this SyntaxBuilder b,
+            Var<TState> state,
+            params System.Action<SyntaxBuilder>[] effects)
+        {
+            return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect<TState>).ToArray());
+        }
+
         public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, params Var<Effect>[] effects)
         {
             var output = b.NewCollection<object>();
@@ -176,6 +191,14 @@ namespace Metapsi.Hyperapp
             return output.As<HyperType.Action<TState>>();
         }
 
+        public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> action, Var<TPayload> payload)
+        {
+            var output = b.NewCollection<object>();
+            b.Push(output, b.MakeAction(action).As<object>());
+            b.Push(output, payload.As<object>());
+            return output.As<HyperType.Action<TState>>();
+        }
+
         //// Effecter is the function that, given the dispatch function (to call back into application) and an optional payload interacts with the outside world
         //public class Effecter { }
         //public class Effecter<TPayload> { }
@@ -195,6 +218,18 @@ namespace Metapsi.Hyperapp
         // Effects are the effecter function itself OR effecter function + payload
         public class Effect { }
         //public class Effect<TInput> { }
+
+        public static Var<HyperType.Effect> MakeEffect<TState>(
+            this SyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
+        {
+            return b.Def(effecterAction).As<HyperType.Effect>();
+        }
+
+        public static Var<HyperType.Effect> MakeEffect<TState>(
+            this SyntaxBuilder b, Var<System.Action> effecterAction)
+        {
+            return effecterAction.As<HyperType.Effect>();
+        }
 
         public static Var<HyperType.Effect> MakeEffect<TState>(
             this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher<TState>>> effecterAction)

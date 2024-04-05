@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,21 +13,37 @@ public class NestedHtmlNestedCalls : TutorialSample<NestedHtmlNestedCalls.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.Div(
-            "flex flex-col",
-            b => b.Span(
-                "flex flex-row justify-between",
-                b => b.Text(
-                    "Blue text inside span",
-                    "text-blue-600"),
-                b => b.Text(
-                    "Green text inside span",
-                    "text-green-600")),
-            b => b.Text(
-                "Red text inside div",
-                "text-red-600"));
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col");
+            },
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("flex flex-row justify-between");
+                },
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-blue-600");
+                    },
+                    b.T("Blue text inside span")),
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-green-600");
+                    },
+                    b.T(
+                    "Green text inside span"))),
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-red-600");
+                },
+                b.T("Red text inside div")));
     }
 
     public override Model GetSampleData()

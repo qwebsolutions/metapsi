@@ -19,7 +19,12 @@ namespace Metapsi.Hyperapp
                 (b, clientModel)=>
                 {
                     Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> renderFunc = this.OnRender;
-                    b.AddModuleStylesheet(renderFunc.Method.DeclaringType.Assembly);
+                    var moduleAssembly = renderFunc.Method.DeclaringType.Assembly;
+                    var moduleStylesheetName = b.GetModuleStylesheetName(moduleAssembly);
+                    if (moduleAssembly.GetManifestResourceNames().Contains(moduleStylesheetName))
+                    {
+                        b.AddModuleStylesheet(renderFunc.Method.DeclaringType.Assembly);
+                    }
                     return b.Call(this.OnRender, clientModel);
                 },
                 this.OnInit, 

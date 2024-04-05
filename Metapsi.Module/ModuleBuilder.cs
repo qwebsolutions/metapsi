@@ -181,15 +181,10 @@ namespace Metapsi.Syntax
                 function.Parameters.Add(parameterVariable as IVariable);
             }
 
-            List<object> arguments = new List<object>
-            {
-                Activator.CreateInstance(
-                    builder.GetType().GenericTypeArguments.First(),
-                    new object[]
-                    {
-                        new SyntaxBuilder(new BlockBuilder(this, function.ChildBlock))
-                    })
-            };
+            SyntaxBuilder b = Activator.CreateInstance(builder.GetType().GenericTypeArguments.First()) as SyntaxBuilder;
+            b.blockBuilder = new BlockBuilder(this, function.ChildBlock);
+
+            List<object> arguments = new List<object> { b };
 
             arguments.AddRange(function.Parameters);
 

@@ -21,10 +21,10 @@ public class DataModelLinq : TutorialSample<DataModelLinq.Model>
         public List<User> LoggedUsers { get; set; }
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var over21 = b.Get(model, x => x.LoggedUsers.Where(x => x.Age >= 21).Count());
-        return b.Text(b.AsString(over21));
+        return b.T(b.AsString(over21));
     }
 
     public override Model GetSampleData()

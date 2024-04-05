@@ -3,12 +3,136 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBackButton
+public partial class IonBackButton : IonComponent
 {
+    public IonBackButton() : base("ion-back-button") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The url to navigate back to by default when there is no history.
+    /// </summary>
+    public string defaultHref
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("defaultHref");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("defaultHref", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the button.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The built-in named SVG icon name or the exact `src` of an SVG file to use for the back button.
+    /// </summary>
+    public string icon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("icon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("icon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition animation when navigating to another page.
+    /// </summary>
+    public System.Func<object,object,Animation> routerAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The text to display in the back button.
+    /// </summary>
+    public string text
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("text");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("text", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public string type
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("type");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("type", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonBackButtonControl

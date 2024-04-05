@@ -63,7 +63,8 @@ public class ShoelaceType
 public class ShoelaceEvent
 {
     public string description { get; set; }
-    public string name { get; set; }
+    public string name { get; set; } // js event-name
+    public string eventName { get; set; } // class name
     public ShoelaceType type { get; set; } = new();
 }
 

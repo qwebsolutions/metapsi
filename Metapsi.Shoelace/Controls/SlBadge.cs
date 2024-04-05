@@ -3,12 +3,62 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBadge
+public partial class SlBadge : SlComponent
 {
+    public SlBadge() : base("sl-badge") { }
+    /// <summary>
+    /// The badge's theme variant.
+    /// </summary>
+    public string variant
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("variant");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("variant", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws a pill-style badge with rounded edges.
+    /// </summary>
+    public bool pill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pill");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the badge pulsate to draw attention.
+    /// </summary>
+    public bool pulse
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pulse");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pulse", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlBadgeControl

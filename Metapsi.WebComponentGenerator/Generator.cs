@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -23,8 +24,29 @@ public static class Generator
         codeBuilder.AppendLine();
         codeBuilder.AppendLine();
 
-        codeBuilder.AppendLine($"public partial class {webComponent.Name}");
+
+        codeBuilder.Append($"public partial class {webComponent.Name}");
+        if (!string.IsNullOrEmpty(converter.BaseComponent))
+        {
+            codeBuilder.Append($" : {converter.BaseComponent}");
+        }
+
+        codeBuilder.AppendLine();
         codeBuilder.AppendLine("{");
+
+        if (!string.IsNullOrEmpty(converter.BaseComponent))
+        {
+            codeBuilder.AppendLine($"    public {webComponent.Name}() : base(\"{webComponent.Tag}\") {{ }}");
+        }
+
+        foreach (var property in webComponent.Properties)
+        {
+            if (converter.IncludeClassProperty(webComponent, property))
+            {
+                codeBuilder.AppendLine(GenerateClassProperty(webComponent, property, property.TypeScriptType, converter));
+            }
+        }
+
         if (webComponent.Slots.Any())
         {
             var defaultSlot = webComponent.Slots.SingleOrDefault(x => string.IsNullOrWhiteSpace(x.Name));
@@ -92,7 +114,7 @@ public static class Generator
 
         foreach (var property in webComponent.Properties)
         {
-            var propertyCode = GenerateProperty(webComponent, property, property.TypeScriptType, converter);
+            var propertyCode = GenerateClientSidePropertySetter(webComponent, property, property.TypeScriptType, converter);
             if (string.IsNullOrEmpty(propertyCode))
             {
                 throw new NotImplementedException();
@@ -169,16 +191,178 @@ public static class Generator
         return converter.ToCSharpType(typeScriptType, converter);
     }
 
-    public static string GenerateProperty(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
+    private static bool IsConvertibleToString(ITypeScriptType typeScriptType, CSharpConverter converter)
     {
-        if (IsStringLiteral(propertyType))
+        if (IsStringLiteral(typeScriptType))
         {
-            return GenerateStringLiteralProperty(webComponent, property, propertyType as TypeScriptLiteral);
+            return true;
+        }
+
+        if (IsObjectType(typeScriptType))
+        {
+            TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)typeScriptType;
+            var csharpType = converter.ToCSharpType(typeScriptObjectType, converter);
+
+            if (csharpType == "string")
+            {
+                return true;
+            }
+        }
+
+        if (IsMultiTypeUnion(typeScriptType))
+        {
+            TypeScriptUnion typeScriptUnion = (TypeScriptUnion)typeScriptType;
+            var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
+            if (withoutUndefined.Any(x => IsConvertibleToString(x, converter)))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static string GenerateClassProperty(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
+    {
+        if (IsConvertibleToString(propertyType, converter))
+            return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+            {
+                Description = property.Description,
+                Name = property.Name,
+                TypeScriptType = new TypeScriptObjectType()
+                {
+                    TypeName = "string"
+                }
+            }, converter);
+
+        // Do not generate code for 'undefined' value
+        if (IsUndefinedType(propertyType))
+        {
+            return string.Empty;
+        }
+
+        // Do not generate code for 'null' value
+        if (IsNullType(propertyType))
+        {
+            return string.Empty;
+        }
+
+        if (IsBoolType(propertyType))
+        {
+            return GenerateScalarClassProperty(webComponent, property, converter);
+        }
+
+        if (IsObjectType(propertyType))
+        {
+            TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)propertyType;
+            return GenerateScalarClassProperty(webComponent, property, converter);
         }
 
         if (IsMultiTypeUnion(propertyType))
         {
-            return GenerateMultiTypeUnionProperty(webComponent, property, propertyType as TypeScriptUnion, converter);
+            TypeScriptUnion typeScriptUnion = (TypeScriptUnion)propertyType;
+            var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
+            if (withoutUndefined.Count() == 1)
+            {
+                return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+                {
+                    Description = property.Description,
+                    Name = property.Name,
+                    TypeScriptType = withoutUndefined.Single()
+                }, converter);
+            }
+            return string.Empty;
+        }
+
+        if (IsCollectionType(propertyType))
+        {
+            // Do not generate server-side property as it's an object. Use only client-side
+            return string.Empty;
+        }
+
+        //if (IsCollectionType(propertyType))
+        //{
+        //    return GenerateCollectionProperty(webComponent, property, propertyType as TypeScriptCollection, converter);
+        //}
+
+        //if (IsObjectType(propertyType))
+        //{
+        //    return GenerateValueProperty(webComponent, property, propertyType as TypeScriptObjectType, converter);
+        //}
+
+        if (IsFuncType(propertyType))
+        {
+            TypeScriptFunction function = (TypeScriptFunction)propertyType;
+
+            var funcParams = function.Parameters.Select(x => x.Type.ToCSharpType(converter)).ToList();
+            funcParams.Add(function.ReturnType.ToCSharpType(converter));
+
+            var genericType = $"System.Func<{string.Join(",", funcParams)}>";
+
+            return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+            {
+                TypeScriptType = new TypeScriptObjectType() { TypeName = genericType },
+                Description = property.Description,
+                Name = property.Name,
+            }, converter);
+        }
+
+        //if (IsDictionary(propertyType))
+        //{
+        //    return GenerateDictionaryProperty(webComponent, property, propertyType as TypeScriptDictionary, converter);
+        //}
+
+        //if (IsAnonymousType(propertyType))
+        //{
+        //    return GenerateAnonymousTypeProperty(webComponent, property, propertyType as TypeScriptAnonymousType, converter);
+        //}
+
+        throw new NotImplementedException();
+    }
+
+    public static string GenerateScalarClassProperty(WebComponent webComponent, WebComponentProperty property, CSharpConverter converter)
+    {
+        var cSharpType = converter.ToCSharpType(property.TypeScriptType, converter);
+
+        StringBuilder codeBuilder = new StringBuilder();
+
+        var propertyName =  Utils.FixReservedKeyword(property.Name);
+        if (propertyName == "GetTag")
+        {
+            propertyName = "GetTagFn";
+        }
+
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {property.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public {cSharpType} {propertyName}");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine("        get");
+        codeBuilder.AppendLine("        {");
+        codeBuilder.AppendLine($"            return this.GetTag().GetAttribute<{cSharpType}>(\"{property.Name}\");");
+        codeBuilder.AppendLine("        }");
+        codeBuilder.AppendLine("        set");
+        codeBuilder.AppendLine("        {");
+        if (cSharpType == "bool")
+        {
+            // Bool properties should not be set at all if they are false
+            codeBuilder.AppendLine("            if (!value) return;");
+        }
+        codeBuilder.AppendLine($"            this.GetTag().SetAttribute(\"{property.Name}\", value.ToString());");
+        codeBuilder.AppendLine("        }");
+        codeBuilder.AppendLine("    }");
+
+        return codeBuilder.ToString();
+    }
+
+    public static string GenerateClientSidePropertySetter(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
+    {
+        if (IsStringLiteral(propertyType))
+        {
+            return GenerateClientSideStringLiteralPropertySetter(webComponent, property, propertyType as TypeScriptLiteral);
+        }
+
+        if (IsMultiTypeUnion(propertyType))
+        {
+            return GenerateClientSideMultiTypeUnionPropertySetter(webComponent, property, propertyType as TypeScriptUnion, converter);
         }
 
         // Do not generate code for 'undefined' value
@@ -195,32 +379,32 @@ public static class Generator
 
         if (IsBoolType(propertyType))
         {
-            return GenerateBoolProperty(webComponent, property);
+            return GenerateClientSideBoolPropertySetter(webComponent, property);
         }
 
         if (IsCollectionType(propertyType))
         {
-            return GenerateCollectionProperty(webComponent, property, propertyType as TypeScriptCollection, converter);
+            return GenerateClientSideCollectionPropertySetter(webComponent, property, propertyType as TypeScriptCollection, converter);
         }
 
         if (IsObjectType(propertyType))
         {
-            return GenerateValueProperty(webComponent, property, propertyType as TypeScriptObjectType, converter);
+            return GenerateClientSideValuePropertySetter(webComponent, property, propertyType as TypeScriptObjectType, converter);
         }
 
         if (IsFuncType(propertyType))
         {
-            return GenerateFuncProperty(webComponent, property, propertyType as TypeScriptFunction, converter);
+            return GenerateClientSideFuncPropertySetter(webComponent, property, propertyType as TypeScriptFunction, converter);
         }
 
         if (IsDictionary(propertyType))
         {
-            return GenerateDictionaryProperty(webComponent, property, propertyType as TypeScriptDictionary, converter);
+            return GenerateClientSideDictionaryPropertySetter(webComponent, property, propertyType as TypeScriptDictionary, converter);
         }
 
         if (IsAnonymousType(propertyType))
         {
-            return GenerateAnonymousTypeProperty(webComponent, property, propertyType as TypeScriptAnonymousType, converter);
+            return GenerateClientSideAnonymousTypePropertySetter(webComponent, property, propertyType as TypeScriptAnonymousType, converter);
         }
 
         throw new NotImplementedException();
@@ -232,6 +416,11 @@ public static class Generator
 
         StringBuilder codeBuilder = new StringBuilder();
 
+        string detailPath = string.Join(", ", @event.DetailPath.Select(x => $"\"{x}\""));
+        if (string.IsNullOrWhiteSpace(detailPath))
+            detailPath = "";
+        else detailPath = ", " + detailPath;
+
         if (csharpType == "void")
         {
             // HyperAction with no payload
@@ -241,7 +430,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, Var<HyperType.Action<TModel>> action)");
             codeBuilder.AppendLine("    {");
-            codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>(\"on{@event.Name}\"), action);");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action);");
             codeBuilder.AppendLine("    }");
 
             codeBuilder.AppendLine("    /// <summary>");
@@ -249,7 +438,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)");
             codeBuilder.AppendLine("    {");
-            codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>(\"on{@event.Name}\"), b.MakeAction(action));");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", b.MakeAction(action));");
             codeBuilder.AppendLine("    }");
         }
         else
@@ -259,12 +448,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, Var<HyperType.Action<TModel, {csharpType}>> action)");
             codeBuilder.AppendLine("    {");
-            codeBuilder.AppendLine("        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>");
-            codeBuilder.AppendLine("        {");
-            codeBuilder.AppendLine($"            var value = b.GetDynamic(eventArgs, new DynamicProperty<{csharpType}>(\"detail\"));");
-            codeBuilder.AppendLine($"            return b.MakeActionDescriptor<TModel, {csharpType}>(action, value);");
-            codeBuilder.AppendLine("        });");
-            codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>(\"on{@event.Name}\"), eventAction);");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action{detailPath});");
             codeBuilder.AppendLine("    }");
 
             codeBuilder.AppendLine("    /// <summary>");
@@ -272,12 +456,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, System.Func<SyntaxBuilder, Var<TModel>, Var<{csharpType}>, Var<TModel>> action)");
             codeBuilder.AppendLine("    {");
-            codeBuilder.AppendLine("        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>");
-            codeBuilder.AppendLine("        {");
-            codeBuilder.AppendLine($"            var value = b.GetDynamic(eventArgs, new DynamicProperty<{csharpType}>(\"detail\"));");
-            codeBuilder.AppendLine($"            return b.MakeActionDescriptor<TModel, {csharpType}>(b.MakeAction(action), value);");
-            codeBuilder.AppendLine("        });");
-            codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>(\"on{@event.Name}\"), eventAction);");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", b.MakeAction(action){detailPath});");
             codeBuilder.AppendLine("    }");
         }
 
@@ -363,7 +542,7 @@ public static class Generator
         return true;
     }
 
-    public static string GenerateBoolProperty(WebComponent component, WebComponentProperty property)
+    public static string GenerateClientSideBoolPropertySetter(WebComponent component, WebComponentProperty property)
     {
         StringBuilder codeBuilder = new StringBuilder();
 
@@ -378,7 +557,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateValueProperty(WebComponent component, WebComponentProperty property, TypeScriptObjectType propertyType, CSharpConverter converter)
+    public static string GenerateClientSideValuePropertySetter(WebComponent component, WebComponentProperty property, TypeScriptObjectType propertyType, CSharpConverter converter)
     {
         if(propertyType.TypeName == "IonicSafeString")
         {
@@ -409,7 +588,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateDictionaryProperty(WebComponent component, WebComponentProperty property, TypeScriptDictionary propertyType, CSharpConverter converter)
+    public static string GenerateClientSideDictionaryPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptDictionary propertyType, CSharpConverter converter)
     {
         if (propertyType == null)
             throw new NotSupportedException();
@@ -427,7 +606,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateAnonymousTypeProperty(WebComponent component, WebComponentProperty property, TypeScriptAnonymousType propertyType, CSharpConverter converter)
+    public static string GenerateClientSideAnonymousTypePropertySetter(WebComponent component, WebComponentProperty property, TypeScriptAnonymousType propertyType, CSharpConverter converter)
     {
         if (propertyType == null)
             throw new NotSupportedException();
@@ -451,7 +630,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateCollectionProperty(WebComponent component, WebComponentProperty property, TypeScriptCollection propertyType, CSharpConverter converter)
+    public static string GenerateClientSideCollectionPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptCollection propertyType, CSharpConverter converter)
     {
         if (propertyType == null)
             throw new NotSupportedException();
@@ -467,7 +646,7 @@ public static class Generator
                 {
                     ItemType = option
                 };
-                codeBuilder.Append(GenerateCollectionProperty(component, property, collectionType, converter));
+                codeBuilder.Append(GenerateClientSideCollectionPropertySetter(component, property, collectionType, converter));
             }
 
             return codeBuilder.ToString();
@@ -494,7 +673,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateFuncProperty(WebComponent component, WebComponentProperty property, TypeScriptFunction propertyType, CSharpConverter converter)
+    public static string GenerateClientSideFuncPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptFunction propertyType, CSharpConverter converter)
     {
         if (propertyType == null)
             throw new NotSupportedException();
@@ -529,7 +708,7 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateStringLiteralProperty(WebComponent component, WebComponentProperty property, TypeScriptLiteral typeScriptLiteral)
+    public static string GenerateClientSideStringLiteralPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptLiteral typeScriptLiteral)
     {
         StringBuilder codeBuilder = new StringBuilder();
 
@@ -544,13 +723,13 @@ public static class Generator
         return codeBuilder.ToString();
     }
 
-    public static string GenerateMultiTypeUnionProperty(WebComponent component, WebComponentProperty property, TypeScriptUnion optionType, CSharpConverter converter)
+    public static string GenerateClientSideMultiTypeUnionPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptUnion optionType, CSharpConverter converter)
     {
         StringBuilder codeBuilder = new StringBuilder();
 
         foreach (var option in optionType.Options)
         {
-            codeBuilder.Append(GenerateProperty(component, property, option, converter));
+            codeBuilder.Append(GenerateClientSidePropertySetter(component, property, option, converter));
         }
 
         return codeBuilder.ToString();

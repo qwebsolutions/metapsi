@@ -73,6 +73,7 @@ window.customElements.define(
             }
             else {
                 this._choices.setChoices(this._dataSource, 'value', 'label', true);
+                this._choices.setValue(this._props.items);
             }
         }
 

@@ -68,7 +68,7 @@ namespace Metapsi.Syntax
             var newObj = NewObj<T>();
             if (init != null)
             {
-                init(new Modifier<T>(new SyntaxBuilder(this), newObj));
+                init(new Modifier<T>(new SyntaxBuilder() { blockBuilder = this }, newObj));
             }
             return newObj;
         }

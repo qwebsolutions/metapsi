@@ -2,13 +2,11 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.33.0" />
-		<PackageReference Include="Metapsi.Shoelace" Version="0.1.3" />
-		<PackageReference Include="Metapsi.Web" Version="0.1.3" />
 		<PackageReference Include="Microsoft.Build" Version="17.6.3" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.Build.Framework" Version="17.6.3" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
@@ -33,6 +31,12 @@
 		<EmbeddedResource Include="embedded\template\Metapsi.Tutorial.Template.sln" LogicalName="Metapsi.Tutorial.Template.sln"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\template\Metapsi.Tutorial.Template.csproj" LogicalName="Metapsi.Tutorial.Template.csproj"></EmbeddedResource>
 		<EmbeddedResource Include="embedded\template\Renderer.cs" LogicalName="Renderer.cs"></EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
+	  <ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
+	  <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -46,9 +46,9 @@ public static class Tutorial
         return documentTag;
     }
 
-    public static DocumentTag SmallLayout<TPageModel>(TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static DocumentTag SmallLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
-        DocumentTag documentTag = DocumentTag.Create(pageTitle);
+        documentTag.AddChild(new HtmlTag("title").WithChild(new HtmlText() { Text = pageTitle }));
         documentTag.AddRedirectMismatchedBreakpoint(SmallBreakpoints);
         StyleTag style = StyleTag.Create();
         style.AddSelector(".cm-editor").AddProperty("height", "100%");

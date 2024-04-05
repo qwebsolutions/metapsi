@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMenuLabel
+public partial class SlMenuLabel : SlComponent
 {
+    public SlMenuLabel() : base("sl-menu-label") { }
 }
 
 public static partial class SlMenuLabelControl

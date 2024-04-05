@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabPanel
+public partial class SlTabPanel : SlComponent
 {
+    public SlTabPanel() : base("sl-tab-panel") { }
+    /// <summary>
+    /// The tab panel's name.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When true, the tab panel will be shown.
+    /// </summary>
+    public bool active
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("active");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("active", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlTabPanelControl

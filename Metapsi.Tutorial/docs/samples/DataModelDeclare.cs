@@ -13,9 +13,9 @@ public class DataModelDeclare : TutorialSample<DataModelDeclare.Model>
         public string Name { get; set; }
     }
 
-    public Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.Text(b.Serialize(model));
+        return b.T(b.Serialize(model));
     }
 
     public override Model GetSampleData()

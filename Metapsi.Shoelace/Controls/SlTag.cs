@@ -3,12 +3,77 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTag
+public partial class SlTag : SlComponent
 {
+    public SlTag() : base("sl-tag") { }
+    /// <summary>
+    /// The tag's theme variant.
+    /// </summary>
+    public string variant
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("variant");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("variant", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The tag's size.
+    /// </summary>
+    public string size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Draws a pill-style tag with rounded edges.
+    /// </summary>
+    public bool pill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("pill");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("pill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Makes the tag removable and shows a remove button.
+    /// </summary>
+    public bool removable
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("removable");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("removable", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlTagControl
@@ -111,26 +176,31 @@ public static partial class SlTagControl
     /// <summary>
     /// Emitted when the remove button is activated.
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-remove"), eventAction);
+        b.OnEventAction("onsl-remove", action);
     }
     /// <summary>
     /// Emitted when the remove button is activated.
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-remove"), eventAction);
+        b.OnEventAction("onsl-remove", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the remove button is activated.
+    /// </summary>
+    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-remove", action);
+    }
+    /// <summary>
+    /// Emitted when the remove button is activated.
+    /// </summary>
+    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-remove", b.MakeAction(action));
     }
 
 }

@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,11 +13,19 @@ public class NestedHtmlSimpleDiv : TutorialSample<NestedHtmlSimpleDiv.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var div = b.Div("bg-blue-100");
-        b.Add(div, b.Text("Text inside div", "text-blue-600"));
-        return div;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("bg-blue-100");
+            },
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-blue-600");
+                },
+                b.T("Text inside div")));
     }
 
     public override Model GetSampleData()

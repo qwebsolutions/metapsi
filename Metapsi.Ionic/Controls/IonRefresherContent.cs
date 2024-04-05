@@ -3,12 +3,75 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRefresherContent
+public partial class IonRefresherContent : IonComponent
 {
+    public IonRefresherContent() : base("ion-refresher-content") { }
+    /// <summary>
+    /// A static icon or a spinner to display when you begin to pull down. A spinner name can be provided to gradually show tick marks when pulling down on iOS devices.
+    /// </summary>
+    public string pullingIcon
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("pullingIcon");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pullingIcon", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The text you want to display when you begin to pull down. `pullingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string pullingText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("pullingText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pullingText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An animated SVG spinner that shows when refreshing begins
+    /// </summary>
+    public string refreshingSpinner
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("refreshingSpinner");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("refreshingSpinner", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The text you want to display when performing a refresh. `refreshingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string refreshingText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("refreshingText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("refreshingText", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonRefresherContentControl

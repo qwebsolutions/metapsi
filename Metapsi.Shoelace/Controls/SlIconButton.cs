@@ -3,12 +3,136 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlIconButton
+public partial class SlIconButton : SlComponent
 {
+    public SlIconButton() : base("sl-icon-button") { }
+    /// <summary>
+    /// The name of the icon to draw. Available names depend on the icon library being used.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of a registered custom icon library.
+    /// </summary>
+    public string library
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("library");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("library", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks.
+    /// </summary>
+    public string src
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("src");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("src", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser where to open the link. Only used when `href` is set.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Tells the browser to download the linked file as this filename. Only used when `href` is set.
+    /// </summary>
+    public string download
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("download");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("download", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A description that gets read by assistive devices. For optimal accessibility, you should always include a label that describes what the icon button does.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the button.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -172,51 +296,61 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// Emitted when the icon button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// Emitted when the icon button loses focus.
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-blur"), eventAction);
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the icon button loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", action);
+    }
+    /// <summary>
+    /// Emitted when the icon button loses focus.
+    /// </summary>
+    public static void OnSlBlur<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the icon button gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// Emitted when the icon button gains focus.
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-focus"), eventAction);
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the icon button gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", action);
+    }
+    /// <summary>
+    /// Emitted when the icon button gains focus.
+    /// </summary>
+    public static void OnSlFocus<TModel>(this PropsBuilder<SlIconButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
 }

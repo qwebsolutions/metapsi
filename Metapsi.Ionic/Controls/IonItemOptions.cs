@@ -3,12 +3,30 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemOptions
+public partial class IonItemOptions : IonComponent
 {
+    public IonItemOptions() : base("ion-item-options") { }
+    /// <summary>
+    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
+    /// </summary>
+    public string side
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("side");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("side", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonItemOptionsControl
@@ -47,24 +65,14 @@ public static partial class IonItemOptionsControl
     /// </summary>
     public static void OnIonSwipe<TModel>(this PropsBuilder<IonItemOptions> b, Var<HyperType.Action<TModel, object>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionSwipe"), eventAction);
+        b.OnEventAction("onionSwipe", action, "detail");
     }
     /// <summary>
     /// Emitted when the item has been fully swiped.
     /// </summary>
     public static void OnIonSwipe<TModel>(this PropsBuilder<IonItemOptions> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionSwipe"), eventAction);
+        b.OnEventAction("onionSwipe", b.MakeAction(action), "detail");
     }
 
 }

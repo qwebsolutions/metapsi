@@ -3,12 +3,31 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDivider
+public partial class SlDivider : SlComponent
 {
+    public SlDivider() : base("sl-divider") { }
+    /// <summary>
+    /// Draws the divider in a vertical orientation.
+    /// </summary>
+    public bool vertical
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("vertical");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("vertical", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlDividerControl

@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabGroup
+public partial class SlTabGroup : SlComponent
 {
+    public SlTabGroup() : base("sl-tab-group") { }
+    /// <summary>
+    /// The placement of the tabs.
+    /// </summary>
+    public string placement
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placement");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placement", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter.
+    /// </summary>
+    public string activation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("activation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("activation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the scroll arrows that appear when tabs overflow.
+    /// </summary>
+    public bool noScrollControls
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("noScrollControls");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("noScrollControls", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -96,51 +145,91 @@ public static partial class SlTabGroupControl
     /// <summary>
     /// Emitted when a tab is shown.
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-tab-show"), eventAction);
+        b.OnEventAction("onsl-tab-show", action);
     }
     /// <summary>
     /// Emitted when a tab is shown.
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-tab-show"), eventAction);
+        b.OnEventAction("onsl-tab-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tab is shown.
+    /// </summary>
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-show", action);
+    }
+    /// <summary>
+    /// Emitted when a tab is shown.
+    /// </summary>
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tab is shown.
+    /// </summary>
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, SlTabShowEventArgs>> action)
+    {
+        b.OnEventAction("onsl-tab-show", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when a tab is shown.
+    /// </summary>
+    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabShowEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-show", b.MakeAction(action), "detail");
     }
 
     /// <summary>
     /// Emitted when a tab is hidden.
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-tab-hide"), eventAction);
+        b.OnEventAction("onsl-tab-hide", action);
     }
     /// <summary>
     /// Emitted when a tab is hidden.
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-tab-hide"), eventAction);
+        b.OnEventAction("onsl-tab-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tab is hidden.
+    /// </summary>
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-hide", action);
+    }
+    /// <summary>
+    /// Emitted when a tab is hidden.
+    /// </summary>
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a tab is hidden.
+    /// </summary>
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, SlTabHideEventArgs>> action)
+    {
+        b.OnEventAction("onsl-tab-hide", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when a tab is hidden.
+    /// </summary>
+    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabHideEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-tab-hide", b.MakeAction(action), "detail");
     }
 
 }

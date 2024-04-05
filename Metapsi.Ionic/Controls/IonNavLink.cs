@@ -3,12 +3,75 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonNavLink
+public partial class IonNavLink : IonComponent
 {
+    public IonNavLink() : base("ion-nav-link") { }
+    /// <summary>
+    /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
+    /// </summary>
+    public string component
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("component");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("component", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`.
+    /// </summary>
+    public object componentProps
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<object>("componentProps");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("componentProps", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The transition animation when navigating to another page.
+    /// </summary>
+    public System.Func<object,object,Animation> routerAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The transition direction when navigating to another page.
+    /// </summary>
+    public string routerDirection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("routerDirection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerDirection", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonNavLinkControl

@@ -257,7 +257,7 @@ namespace Metapsi.JavaScript
                 WriteIndented = true,
                 IgnoreReadOnlyFields = true,
                 IgnoreReadOnlyProperties = true,
-                DefaultIgnoreCondition= System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault
+                //DefaultIgnoreCondition= System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault
             };
             options.Converters.Add(new ConstFunctionNameSerializer());
             options.Converters.Add(new JsDynamicObjectConverter());

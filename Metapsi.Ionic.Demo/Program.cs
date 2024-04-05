@@ -331,7 +331,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                 },
                 b.SlButton(b =>
                 {
-                    b.OnSlFocus((SyntaxBuilder b, Var<HomeModel> model, Var<object> eventArgs) =>
+                    b.OnSlFocus((SyntaxBuilder b, Var<HomeModel> model, Var<DomEvent> eventArgs) =>
                     {
                         b.Log(eventArgs);
                         return b.Clone(model);
@@ -342,7 +342,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                     b =>
                     {
                         b.SetVariantPrimary();
-                        b.OnSlFocus((SyntaxBuilder b, Var<HomeModel> model, Var<object> eventArgs) =>
+                        b.OnSlFocus((SyntaxBuilder b, Var<HomeModel> model, Var<DomEvent> eventArgs) =>
                         {
                             b.Log(eventArgs);
                             return b.Clone(model);
@@ -598,7 +598,12 @@ public class HomeRenderer : HyperPage<HomeModel>
                     {
                         b.SetClearable();
                         b.SetPlaceholder("Placeholder text here");
-                        b.SetValue("input VALUE");
+                        b.SetValue(b.Get(model, x => x.ContentText));
+                        b.OnInputAction((SyntaxBuilder b, Var<HomeModel> model, Var<string> value) =>
+                        {
+                            b.Set(model, x => x.ContentText, value);
+                            return b.Clone(model);
+                        });
                     })),
                 b.IonAlert(b =>
                 {

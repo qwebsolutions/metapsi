@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSpinner
+public partial class SlSpinner : SlComponent
 {
+    public SlSpinner() : base("sl-spinner") { }
 }
 
 public static partial class SlSpinnerControl

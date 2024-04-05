@@ -54,8 +54,8 @@ public static partial class Program
         webServer.RegisterStaticFiles(typeof(Program).Assembly);
         webServer.RegisterStaticFiles(typeof(DomElement).Assembly);
         webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
-        webServer.RegisterStaticFiles(typeof(HyperNode).Assembly);
-        webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.Control).Assembly);
+        webServer.RegisterStaticFiles(typeof(IVNode).Assembly);
+        webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly);
 
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));

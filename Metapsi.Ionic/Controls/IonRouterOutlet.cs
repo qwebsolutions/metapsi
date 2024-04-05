@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouterOutlet
+public partial class IonRouterOutlet : IonComponent
 {
+    public IonRouterOutlet() : base("ion-router-outlet") { }
+    /// <summary>
+    /// If `true`, the router-outlet should animate the transition of components.
+    /// </summary>
+    public bool animated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("animated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("animated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This property allows to create custom transition using AnimationBuilder functions.
+    /// </summary>
+    public System.Func<object,object,Animation> animation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("animation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("animation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonRouterOutletControl

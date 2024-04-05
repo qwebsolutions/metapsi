@@ -3,12 +3,77 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFab
+public partial class IonFab : IonComponent
 {
+    public IonFab() : base("ion-fab") { }
+    /// <summary>
+    /// If `true`, both the `ion-fab-button` and all `ion-fab-list` inside `ion-fab` will become active. That means `ion-fab-button` will become a `close` icon and `ion-fab-list` will become visible.
+    /// </summary>
+    public bool activated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("activated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("activated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the fab will display on the edge of the header if `vertical` is `"top"`, and on the edge of the footer if it is `"bottom"`. Should be used with a `fixed` slot.
+    /// </summary>
+    public bool edge
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("edge");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("edge", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Where to align the fab horizontally in the viewport.
+    /// </summary>
+    public string horizontal
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("horizontal");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("horizontal", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Where to align the fab vertically in the viewport.
+    /// </summary>
+    public string vertical
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("vertical");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("vertical", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 

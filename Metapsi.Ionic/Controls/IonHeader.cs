@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonHeader
+public partial class IonHeader : IonComponent
 {
+    public IonHeader() : base("ion-header") { }
+    /// <summary>
+    /// Describes the scroll effect that will be applied to the header. Only applies in iOS mode.  Typically used for [Collapsible Large Titles](https://ionicframework.com/docs/api/title#collapsible-large-titles)
+    /// </summary>
+    public string collapse
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("collapse");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("collapse", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the header will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the header, the `fullscreen` attribute needs to be set on the content.
+    /// </summary>
+    public bool translucent
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("translucent");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("translucent", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonHeaderControl

@@ -3,12 +3,62 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDetails
+public partial class SlDetails : SlComponent
 {
+    public SlDetails() : base("sl-details") { }
+    /// <summary>
+    /// Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state.
+    /// </summary>
+    public bool open
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("open");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("open", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The summary to show in the header. If you need to display HTML, use the `summary` slot instead.
+    /// </summary>
+    public string summary
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("summary");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("summary", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the details so it can't be toggled.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -87,101 +137,121 @@ public static partial class SlDetailsControl
     /// <summary>
     /// Emitted when the details opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// Emitted when the details opens.
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-show"), eventAction);
+        b.OnEventAction("onsl-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the details opens.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", action);
+    }
+    /// <summary>
+    /// Emitted when the details opens.
+    /// </summary>
+    public static void OnSlShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the details opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// Emitted after the details opens and all animations are complete.
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-show"), eventAction);
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the details opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", action);
+    }
+    /// <summary>
+    /// Emitted after the details opens and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted when the details closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// Emitted when the details closes.
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-hide"), eventAction);
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when the details closes.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", action);
+    }
+    /// <summary>
+    /// Emitted when the details closes.
+    /// </summary>
+    public static void OnSlHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
 
     /// <summary>
     /// Emitted after the details closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// Emitted after the details closes and all animations are complete.
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-after-hide"), eventAction);
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted after the details closes and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", action);
+    }
+    /// <summary>
+    /// Emitted after the details closes and all animations are complete.
+    /// </summary>
+    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlDetails> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
 
 }

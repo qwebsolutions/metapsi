@@ -3,12 +3,110 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMutationObserver
+public partial class SlMutationObserver : SlComponent
 {
+    public SlMutationObserver() : base("sl-mutation-observer") { }
+    /// <summary>
+    /// Watches for changes to attributes. To watch only specific attributes, separate them by a space, e.g. `attr="class id title"`. To watch all attributes, use `*`.
+    /// </summary>
+    public string attr
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("attr");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("attr", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether or not the attribute's previous value should be recorded when monitoring changes.
+    /// </summary>
+    public bool attrOldValue
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("attrOldValue");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("attrOldValue", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Watches for changes to the character data contained within the node.
+    /// </summary>
+    public bool charData
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("charData");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("charData", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether or not the previous value of the node's text should be recorded.
+    /// </summary>
+    public bool charDataOldValue
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("charDataOldValue");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("charDataOldValue", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Watches for the addition or removal of new child nodes.
+    /// </summary>
+    public bool childList
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("childList");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("childList", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Disables the observer.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlMutationObserverControl
@@ -85,26 +183,46 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// Emitted when a mutation occurs.
     /// </summary>
-    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, Var<HyperType.Action<TModel, DomEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-mutation"), eventAction);
+        b.OnEventAction("onsl-mutation", action);
     }
     /// <summary>
     /// Emitted when a mutation occurs.
     /// </summary>
-    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<object>("detail"));
-            return b.MakeActionDescriptor<TModel, object>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onsl-mutation"), eventAction);
+        b.OnEventAction("onsl-mutation", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a mutation occurs.
+    /// </summary>
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.OnEventAction("onsl-mutation", action);
+    }
+    /// <summary>
+    /// Emitted when a mutation occurs.
+    /// </summary>
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-mutation", b.MakeAction(action));
+    }
+
+    /// <summary>
+    /// Emitted when a mutation occurs.
+    /// </summary>
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, Var<HyperType.Action<TModel, SlMutationEventArgs>> action)
+    {
+        b.OnEventAction("onsl-mutation", action, "detail");
+    }
+    /// <summary>
+    /// Emitted when a mutation occurs.
+    /// </summary>
+    public static void OnSlMutation<TModel>(this PropsBuilder<SlMutationObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlMutationEventArgs>, Var<TModel>> action)
+    {
+        b.OnEventAction("onsl-mutation", b.MakeAction(action), "detail");
     }
 
 }

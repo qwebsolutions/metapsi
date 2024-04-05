@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,11 +13,14 @@ public class HelloWorldMoreColorText : TutorialSample<HelloWorldMoreColorText.Mo
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.Text(
-            "Hello world", 
-            "text-blue-600 bg-green-100 border border-red-500");
+        return b.HtmlSpan(
+            b =>
+            {
+                b.SetClass("text-blue-600 bg-green-100 border border-red-500");
+            }, 
+            b.T("Hello world"));
     }
 
     public override Model GetSampleData()

@@ -3,12 +3,121 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRefresher
+public partial class IonRefresher : IonComponent
 {
+    public IonRefresher() : base("ion-refresher") { }
+    /// <summary>
+    /// Time it takes to close the refresher. Does not apply when the refresher content uses a spinner, enabling the native refresher.
+    /// </summary>
+    public string closeDuration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("closeDuration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("closeDuration", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the refresher will be hidden.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How much to multiply the pull speed by. To slow the pull animation down, pass a number less than `1`. To speed up the pull, pass a number greater than `1`. The default value is `1` which is equal to the speed of the cursor. If a negative value is passed in, the factor will be `1` instead.  For example: If the value passed is `1.2` and the content is dragged by `10` pixels, instead of `10` pixels the content will be pulled by `12` pixels (an increase of 20 percent). If the value passed is `0.8`, the dragged amount will be `8` pixels, less than the amount the cursor has moved.  Does not apply when the refresher content uses a spinner, enabling the native refresher.
+    /// </summary>
+    public int pullFactor
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("pullFactor");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pullFactor", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The maximum distance of the pull until the refresher will automatically go into the `refreshing` state. Defaults to the result of `pullMin + 60`. Does not apply when  the refresher content uses a spinner, enabling the native refresher.
+    /// </summary>
+    public int pullMax
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("pullMax");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pullMax", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The minimum distance the user must pull down until the refresher will go into the `refreshing` state. Does not apply when the refresher content uses a spinner, enabling the native refresher.
+    /// </summary>
+    public int pullMin
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("pullMin");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("pullMin", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Time it takes the refresher to snap back to the `refreshing` state. Does not apply when the refresher content uses a spinner, enabling the native refresher.
+    /// </summary>
+    public string snapbackDuration
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("snapbackDuration");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("snapbackDuration", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 
@@ -148,14 +257,14 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void OnIonPull<TModel>(this PropsBuilder<IonRefresher> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPull"), action);
+        b.OnEventAction("onionPull", action);
     }
     /// <summary>
     /// Emitted while the user is pulling down the content and exposing the refresher.
     /// </summary>
     public static void OnIonPull<TModel>(this PropsBuilder<IonRefresher> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionPull"), b.MakeAction(action));
+        b.OnEventAction("onionPull", b.MakeAction(action));
     }
 
     /// <summary>
@@ -163,24 +272,14 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void OnIonRefresh<TModel>(this PropsBuilder<IonRefresher> b, Var<HyperType.Action<TModel, RefresherEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RefresherEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RefresherEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRefresh"), eventAction);
+        b.OnEventAction("onionRefresh", action, "detail");
     }
     /// <summary>
     /// Emitted when the user lets go of the content and has pulled down further than the `pullMin` or pulls the content down and exceeds the pullMax. Updates the refresher state to `refreshing`. The `complete()` method should be called when the async operation has completed.
     /// </summary>
     public static void OnIonRefresh<TModel>(this PropsBuilder<IonRefresher> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RefresherEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<RefresherEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, RefresherEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionRefresh"), eventAction);
+        b.OnEventAction("onionRefresh", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -188,14 +287,14 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void OnIonStart<TModel>(this PropsBuilder<IonRefresher> b, Var<HyperType.Action<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionStart"), action);
+        b.OnEventAction("onionStart", action);
     }
     /// <summary>
     /// Emitted when the user begins to start pulling down.
     /// </summary>
     public static void OnIonStart<TModel>(this PropsBuilder<IonRefresher> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel>>("onionStart"), b.MakeAction(action));
+        b.OnEventAction("onionStart", b.MakeAction(action));
     }
 
 }

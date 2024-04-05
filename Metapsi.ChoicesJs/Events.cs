@@ -10,21 +10,9 @@ namespace Metapsi.ChoicesJs;
 
 public static partial class Control
 {
-
-
     public static void OnChoice<TControl, TState>(this PropsBuilder<TControl> b, Var<HyperType.Action<TState, Choice>> onChoice)
         where TControl : IChoicesSelect, new()
     {
-        //var extractInputValue = b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<IDomEvent> @event) =>
-        //{
-        //    b.StopPropagation(@event);
-        //    var detail = b.GetDynamic(@event, new DynamicProperty<DynamicObject>("detail"));
-        //    b.Log("OnChoice detail", detail);
-        //    var choice = b.GetDynamic(detail, new DynamicProperty<Choice>("choice"));
-        //    return b.MakeActionDescriptor<TState, Choice>(onChoice, choice);
-        //});
-
-        //b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TState, IDomEvent>>("onchoice"), extractInputValue);
         b.OnEventAction("choice", onChoice, "detail", "choice");
     }
 
@@ -51,6 +39,12 @@ public static partial class Control
         where TControl : IChoices, new()
     {
         b.OnEventAction("change", onChange, "detail", "value");
+    }
+
+    public static void OnChange<TControl, TState>(this PropsBuilder<TControl> b, System.Func<SyntaxBuilder, Var<TState>, Var<string>, Var<TState>> onChange)
+        where TControl : IChoices, new()
+    {
+        b.OnChange(b.MakeAction(onChange));
     }
 
     public static void OnSearch<TControl, TState>(this PropsBuilder<TControl> b, Var<HyperType.Action<TState, SearchArgs>> onSearch)

@@ -3,12 +3,45 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInfiniteScrollContent
+public partial class IonInfiniteScrollContent : IonComponent
 {
+    public IonInfiniteScrollContent() : base("ion-infinite-scroll-content") { }
+    /// <summary>
+    /// An animated SVG spinner that shows while loading.
+    /// </summary>
+    public string loadingSpinner
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("loadingSpinner");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("loadingSpinner", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Optional text to display while loading. `loadingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// </summary>
+    public string loadingText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("loadingText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("loadingText", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonInfiniteScrollContentControl

@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlVisuallyHidden
+public partial class SlVisuallyHidden : SlComponent
 {
+    public SlVisuallyHidden() : base("sl-visually-hidden") { }
 }
 
 public static partial class SlVisuallyHiddenControl

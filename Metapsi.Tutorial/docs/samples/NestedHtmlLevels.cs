@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,31 +13,33 @@ public class NestedHtmlLevels : TutorialSample<NestedHtmlLevels.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var container = b.Div("flex flex-col");
+        var container = b.HtmlDiv(b => { });
 
-        var firstRow = b.Add(
-            container, 
-            b.Span("flex flex-row justify-between"));
+        //TODO: Not sure what I was trying to show here
+
+        //var firstRow = b.Add(
+        //    container, 
+        //    b.Span("flex flex-row justify-between"));
         
-        b.Add(
-            firstRow, 
-            b.Text(
-                "Blue text inside span", 
-                "text-blue-600"));
+        //b.Add(
+        //    firstRow, 
+        //    b.Text(
+        //        "Blue text inside span", 
+        //        "text-blue-600"));
 
-        b.Add(
-            firstRow, 
-            b.Text(
-                "Green text inside span", 
-                "text-green-600"));
+        //b.Add(
+        //    firstRow, 
+        //    b.Text(
+        //        "Green text inside span", 
+        //        "text-green-600"));
 
-        b.Add(
-            container,
-            b.Text(
-                "Red text inside div",
-                "text-red-600"));
+        //b.Add(
+        //    container,
+        //    b.Text(
+        //        "Red text inside div",
+        //        "text-red-600"));
 
         return container;
     }

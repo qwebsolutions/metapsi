@@ -3,12 +3,120 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlQrCode
+public partial class SlQrCode : SlComponent
 {
+    public SlQrCode() : base("sl-qr-code") { }
+    /// <summary>
+    /// The QR code's value.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The label for assistive devices to announce. If unspecified, the value will be used instead.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The size of the QR code, in pixels.
+    /// </summary>
+    public int size
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("size");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("size", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The fill color. This can be any valid CSS color, but not a CSS custom property.
+    /// </summary>
+    public string fill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("fill");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("fill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The background color. This can be any valid CSS color or `transparent`. It cannot be a CSS custom property.
+    /// </summary>
+    public string background
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("background");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("background", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The edge radius of each module. Must be between 0 and 0.5.
+    /// </summary>
+    public int radius
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("radius");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("radius", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html)
+    /// </summary>
+    public string errorCorrection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("errorCorrection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("errorCorrection", value.ToString());
+        }
+    }
+
 }
 
 public static partial class SlQrCodeControl

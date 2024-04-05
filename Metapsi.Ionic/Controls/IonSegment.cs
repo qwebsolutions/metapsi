@@ -3,12 +3,124 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSegment
+public partial class IonSegment : IonComponent
 {
+    public IonSegment() : base("ion-segment") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the segment.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
+    /// </summary>
+    public bool scrollable
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("scrollable");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("scrollable", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
+    /// </summary>
+    public bool selectOnFocus
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("selectOnFocus");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("selectOnFocus", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, users will be able to swipe between segment buttons to activate them.
+    /// </summary>
+    public bool swipeGesture
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("swipeGesture");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("swipeGesture", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// the value of the segment.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonSegmentControl
@@ -186,24 +298,14 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonSegment> b, Var<HyperType.Action<TModel, SegmentChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SegmentChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SegmentChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonSegment> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SegmentChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<SegmentChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, SegmentChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
 }

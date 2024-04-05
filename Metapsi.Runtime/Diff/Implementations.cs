@@ -44,6 +44,17 @@ namespace Metapsi
 
             return false;
         }
+
+        public static T FromString<T>(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return default(T);
+
+            if (typeof(T) == typeof(Guid))
+                return (T) (object) Guid.Parse(str);
+
+            return (T) Convert.ChangeType(str, typeof(T));
+        }
     }
 
     public static class Diff

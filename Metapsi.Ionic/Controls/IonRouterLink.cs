@@ -3,12 +3,105 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouterLink
+public partial class IonRouterLink : IonComponent
 {
+    public IonRouterLink() : base("ion-router-link") { }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// </summary>
+    public string href
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("href");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("href", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// </summary>
+    public string rel
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("rel");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rel", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
+    /// </summary>
+    public System.Func<object,object,Animation> routerAnimation
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerAnimation", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public string routerDirection
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("routerDirection");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("routerDirection", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
+    /// </summary>
+    public string target
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("target");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("target", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonRouterLinkControl

@@ -3,12 +3,474 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTextarea
+public partial class IonTextarea : IonComponent
 {
+    public IonTextarea() : base("ion-textarea") { }
+    /// <summary>
+    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
+    /// </summary>
+    public bool autoGrow
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autoGrow");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autoGrow", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
+    /// </summary>
+    public string autocapitalize
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("autocapitalize");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("autocapitalize", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// </summary>
+    public bool autofocus
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("autofocus");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("autofocus", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the value will be cleared after focus upon edit.
+    /// </summary>
+    public bool clearOnEdit
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("clearOnEdit");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("clearOnEdit", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public string color
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("color");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("color", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer.
+    /// </summary>
+    public int cols
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("cols");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("cols", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// </summary>
+    public bool counter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("counter");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("counter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// </summary>
+    public System.Func<int,int,string> counterFormatter
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<System.Func<int,int,string>>("counterFormatter");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("counterFormatter", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// </summary>
+    public int debounce
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("debounce");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("debounce", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot interact with the textarea.
+    /// </summary>
+    public bool disabled
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("disabled");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("disabled", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// </summary>
+    public string enterkeyhint
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("enterkeyhint");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Text that is placed under the textarea and displayed when an error is detected.
+    /// </summary>
+    public string errorText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("errorText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("errorText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// </summary>
+    public string fill
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("fill");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("fill", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Text that is placed under the textarea and displayed when no error is detected.
+    /// </summary>
+    public string helperText
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("helperText");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("helperText", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// </summary>
+    public string inputmode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("inputmode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("inputmode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used.
+    /// </summary>
+    public string label
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("label");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("label", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// </summary>
+    public string labelPlacement
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("labelPlacement");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("labelPlacement", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Set the `legacy` property to `true` to forcibly use the legacy form control markup. Ionic will only opt components in to the modern form markup when they are using either the `aria-label` attribute or the default slot that contains the label text. As a result, the `legacy` property should only be used as an escape hatch when you want to avoid this automatic opt-in behavior. Note that this property will be removed in an upcoming major release of Ionic, and all form components will be opted-in to using the modern form markup.
+    /// </summary>
+    public bool legacy
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("legacy");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("legacy", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This attribute specifies the maximum number of characters that the user can enter.
+    /// </summary>
+    public int maxlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("maxlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("maxlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// This attribute specifies the minimum number of characters that the user can enter.
+    /// </summary>
+    public int minlength
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("minlength");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("minlength", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The name of the control, which is submitted with the form data.
+    /// </summary>
+    public string name
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("name");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("name", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Instructional text that shows before the input has a value.
+    /// </summary>
+    public string placeholder
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("placeholder");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("placeholder", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user cannot modify the value.
+    /// </summary>
+    public bool @readonly
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("readonly");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("readonly", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the user must fill in a value before submitting a form.
+    /// </summary>
+    public bool required
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("required");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("required", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The number of visible text lines for the control.
+    /// </summary>
+    public int rows
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<int>("rows");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("rows", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The shape of the textarea. If "round" it will have an increased border radius.
+    /// </summary>
+    public string shape
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("shape");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("shape", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// If `true`, the element will have its spelling and grammar checked.
+    /// </summary>
+    public bool spellcheck
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("spellcheck");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("spellcheck", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The value of the textarea.
+    /// </summary>
+    public string value
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("value");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("value", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Indicates how the control wraps text.
+    /// </summary>
+    public string wrap
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("wrap");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("wrap", value.ToString());
+        }
+    }
+
     public static class Slot
     {
         /// <summary> 
@@ -608,24 +1070,14 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonTextarea> b, Var<HyperType.Action<TModel, FocusEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionBlur"), eventAction);
+        b.OnEventAction("onionBlur", action, "detail");
     }
     /// <summary>
     /// Emitted when the input loses focus.
     /// </summary>
     public static void OnIonBlur<TModel>(this PropsBuilder<IonTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionBlur"), eventAction);
+        b.OnEventAction("onionBlur", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -633,24 +1085,14 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonTextarea> b, Var<HyperType.Action<TModel, TextareaChangeEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<TextareaChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, TextareaChangeEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// The `ionChange` event is fired when the user modifies the textarea's value. Unlike the `ionInput` event, the `ionChange` event is fired when the element loses focus after its value has been modified.
     /// </summary>
     public static void OnIonChange<TModel>(this PropsBuilder<IonTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TextareaChangeEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<TextareaChangeEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, TextareaChangeEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionChange"), eventAction);
+        b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -658,24 +1100,14 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonTextarea> b, Var<HyperType.Action<TModel, FocusEvent>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionFocus"), eventAction);
+        b.OnEventAction("onionFocus", action, "detail");
     }
     /// <summary>
     /// Emitted when the input has focus.
     /// </summary>
     public static void OnIonFocus<TModel>(this PropsBuilder<IonTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<FocusEvent>("detail"));
-            return b.MakeActionDescriptor<TModel, FocusEvent>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionFocus"), eventAction);
+        b.OnEventAction("onionFocus", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -683,24 +1115,14 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonTextarea> b, Var<HyperType.Action<TModel, TextareaInputEventDetail>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<TextareaInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, TextareaInputEventDetail>(action, value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
     /// The `ionInput` event is fired each time the user modifies the textarea's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the textarea's value. This typically happens for each keystroke as the user types.  When `clearOnEdit` is enabled, the `ionInput` event will be fired when the user clears the textarea by performing a keydown event.
     /// </summary>
     public static void OnIonInput<TModel>(this PropsBuilder<IonTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TextareaInputEventDetail>, Var<TModel>> action)
     {
-        var eventAction = b.MakeAction<TModel, object>((SyntaxBuilder b, Var<TModel> state, Var<object> eventArgs) =>
-        {
-            var value = b.GetDynamic(eventArgs, new DynamicProperty<TextareaInputEventDetail>("detail"));
-            return b.MakeActionDescriptor<TModel, TextareaInputEventDetail>(b.MakeAction(action), value);
-        });
-        b.SetDynamic(b.Props, new DynamicProperty<HyperType.Action<TModel, object>>("onionInput"), eventAction);
+        b.OnEventAction("onionInput", b.MakeAction(action), "detail");
     }
 
 }

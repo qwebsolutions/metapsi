@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonAvatar
+public partial class IonAvatar : IonComponent
 {
+    public IonAvatar() : base("ion-avatar") { }
 }
 
 public static partial class IonAvatarControl

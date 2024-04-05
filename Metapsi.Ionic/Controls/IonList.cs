@@ -3,12 +3,61 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonList
+public partial class IonList : IonComponent
 {
+    public IonList() : base("ion-list") { }
+    /// <summary>
+    /// If `true`, the list will have margin around it and rounded corners.
+    /// </summary>
+    public bool inset
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("inset");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("inset", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// How the bottom border should be displayed on all items.
+    /// </summary>
+    public string lines
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("lines");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("lines", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public string mode
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("mode");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("mode", value.ToString());
+        }
+    }
+
     public static class Method
     {
         /// <summary> 

@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonThumbnail
+public partial class IonThumbnail : IonComponent
 {
+    public IonThumbnail() : base("ion-thumbnail") { }
 }
 
 public static partial class IonThumbnailControl

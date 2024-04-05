@@ -40,19 +40,56 @@ public static class Program
         {
             Namespace = "Metapsi.Shoelace",
             NodeConstructor = "SlNode",
+            BaseComponent = "SlComponent",
             ToCSharpType = (t, converter) =>
             {
                 var defaultConversion = CSharpConverter.DefaultToCSharpType(t, converter);
+
+                if(defaultConversion == "PlaybackDirection")
+                {
+                    return "string";
+                }
+                if (defaultConversion == "FillMode")
+                {
+                    return "string";
+                }
+
+                if(defaultConversion == "CSSNumberish")
+                {
+                    return "int"; //?? decimal, maybe?
+                }
 
                 if (defaultConversion == "Date")
                 {
                     return "DateTime";
                 }
 
+                if (defaultConversion == "HTMLElement")
+                    return "object";
+
                 if (defaultConversion.Trim().StartsWith("Promise<"))
                     return "object";
 
                 return defaultConversion;
+            },
+            IncludeClassProperty = (webComponent, property) =>
+            {
+                if (webComponent.Name == "SlAnimation")
+                {
+                    if (property.Name == "keyframes")
+                        return false;
+                }
+
+                //TypeScriptObjectType typeScriptObjectType = property.TypeScriptType as TypeScriptObjectType;
+                //if (typeScriptObjectType != null)
+                //{
+                //    if(typeScriptObjectType.TypeName == "")
+                //    {
+
+                //    }
+                //}
+
+                return true;
             }
         };
 
@@ -112,8 +149,26 @@ public static class Program
                     {
                         Name = @event.name,
                         Comment = Utils.SingleLine(@event.description),
-                        Type = new TypeScriptObjectType() { TypeName = "any" }
+                        Type = new TypeScriptObjectType() { TypeName = "DomEvent" }
                     });
+
+                    shoelaceComponent.Events.Add(new WebComponentEvent()
+                    {
+                        Name = @event.name,
+                        Comment = Utils.SingleLine(@event.description),
+                        Type = new TypeScriptObjectType() { TypeName = "void" }
+                    });
+
+                    if (!string.IsNullOrEmpty(@event.type.text))
+                    {
+                        shoelaceComponent.Events.Add(new WebComponentEvent()
+                        {
+                            Name = @event.name,
+                            Comment = Utils.SingleLine(@event.description),
+                            Type = new TypeScriptObjectType() { TypeName = $"{@event.eventName}Args" },
+                            DetailPath = new() { "detail" }
+                        });
+                    }
                 }
 
                 foreach (var slot in declaration.slots)

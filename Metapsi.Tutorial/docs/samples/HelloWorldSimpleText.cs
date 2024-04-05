@@ -12,9 +12,9 @@ public class HelloWorldSimpleText : TutorialSample<HelloWorldSimpleText.Model>
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.Text("Hello world");
+        return b.T("Hello world");
     }
 
     public override Model GetSampleData()

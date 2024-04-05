@@ -3,12 +3,15 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRow
+public partial class IonRow : IonComponent
 {
+    public IonRow() : base("ion-row") { }
 }
 
 public static partial class IonRowControl

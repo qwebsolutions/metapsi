@@ -1,3 +1,4 @@
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
@@ -12,13 +13,28 @@ public class NestedHtmlSpanMoreChildren : TutorialSample<NestedHtmlSpanMoreChild
     {
     }
 
-    public static Var<HyperNode> Render(LayoutBuilder b, Var<Model> model)
+    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        var span = b.Span();
-        b.Add(span, b.Text("Blue text inside span", "text-blue-600"));
-        b.Add(span, b.Text("Green text inside span", "text-green-600"));
-        b.Add(span, b.Text("Red text inside span", "text-red-600"));
-        return span;
+        return b.HtmlSpan(
+            b => { },
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-blue-600");
+                },
+                b.T("Blue text inside span")),
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-green-600");
+                },
+                b.T("Green text inside span")),
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetClass("text-red-600");
+                },
+                b.T("Red text inside span")));
     }
 
     public override Model GetSampleData()

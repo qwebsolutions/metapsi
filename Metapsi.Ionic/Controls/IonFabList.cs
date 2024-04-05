@@ -3,12 +3,46 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFabList
+public partial class IonFabList : IonComponent
 {
+    public IonFabList() : base("ion-fab-list") { }
+    /// <summary>
+    /// If `true`, the fab list will show all fab buttons in the list.
+    /// </summary>
+    public bool activated
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<bool>("activated");
+        }
+        set
+        {
+            if (!value) return;
+            this.GetTag().SetAttribute("activated", value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// The side the fab list will show on relative to the main fab button.
+    /// </summary>
+    public string side
+    {
+        get
+        {
+            return this.GetTag().GetAttribute<string>("side");
+        }
+        set
+        {
+            this.GetTag().SetAttribute("side", value.ToString());
+        }
+    }
+
 }
 
 public static partial class IonFabListControl
