@@ -150,7 +150,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetChecked(this PropsBuilder<SlMenuItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("checked"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetLoading(this PropsBuilder<SlMenuItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("loading"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
     }
 
     /// <summary>
@@ -181,7 +181,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlMenuItem> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
 }

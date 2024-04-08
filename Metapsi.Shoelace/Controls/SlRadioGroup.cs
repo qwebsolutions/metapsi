@@ -268,7 +268,7 @@ public static partial class SlRadioGroupControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlRadioGroup> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>

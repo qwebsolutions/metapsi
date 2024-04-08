@@ -11,14 +11,14 @@ using System;
 namespace Metapsi.Tutorial;
 public static class Tutorial
 {
-    public class TutorialHyperAppNode<TDataModel> : HyperAppNode<TDataModel>
-    {
-        public override void Attach(DocumentTag document, IHtmlElement parentNode)
-        {
-            base.Attach(document, parentNode);
-            //WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
-        }
-    }
+    //public class TutorialHyperAppNode<TDataModel> : HyperAppNode<TDataModel>
+    //{
+    //    public override void Attach(DocumentTag document, IHtmlElement parentNode)
+    //    {
+    //        base.Attach(document, parentNode);
+    //        //WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
+    //    }
+    //}
 
     public static List<string> SmallBreakpoints = new List<string> { "sm", "md" };
 
@@ -62,23 +62,23 @@ public static class Tutorial
         return documentTag;
     }
 
-    public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render = null, Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> init = null)
-    {
-        DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
-        defaultInterpolatedStringHandler.AppendLiteral("id_");
-        defaultInterpolatedStringHandler.AppendFormatted(Guid.NewGuid());
-        string mountDivId = defaultInterpolatedStringHandler.ToStringAndClear();
-        DivTag appContainer = new DivTag().SetAttribute("id", mountDivId);
-        TutorialHyperAppNode<TDataModel> hyperApp = new TutorialHyperAppNode<TDataModel>
-        {
-            Model = model,
-            Init = init,
-            Render = render,
-            TakeoverNode = appContainer
-        };
-        appContainer.AddChild(hyperApp);
-        return appContainer;
-    }
+    //public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render = null, Func<SyntaxBuilder, Var<HyperType.StateWithEffects>> init = null)
+    //{
+    //    DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
+    //    defaultInterpolatedStringHandler.AppendLiteral("id_");
+    //    defaultInterpolatedStringHandler.AppendFormatted(Guid.NewGuid());
+    //    string mountDivId = defaultInterpolatedStringHandler.ToStringAndClear();
+    //    DivTag appContainer = new DivTag().SetAttribute("id", mountDivId);
+    //    var hyperApp = new HyperAppNode<TDataModel>
+    //    {
+    //        Model = model,
+    //        Init = init,
+    //        Render = render,
+    //        TakeoverNode = appContainer
+    //    };
+    //    appContainer.AddChild(hyperApp);
+    //    return appContainer;
+    //}
 
     //private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
     //{

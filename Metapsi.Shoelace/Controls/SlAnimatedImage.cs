@@ -122,7 +122,7 @@ public static partial class SlAnimatedImageControl
     /// </summary>
     public static void SetPlay(this PropsBuilder<SlAnimatedImage> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("play"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("play"), b.Const(true));
     }
 
     /// <summary>

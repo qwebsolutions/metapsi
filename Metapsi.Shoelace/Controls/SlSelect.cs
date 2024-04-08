@@ -467,7 +467,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMultiple(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("multiple"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
     }
 
     /// <summary>
@@ -490,7 +490,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -498,7 +498,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetClearable(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("clearable"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
     }
 
     /// <summary>
@@ -506,7 +506,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
 
     /// <summary>
@@ -514,7 +514,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
     }
 
     /// <summary>
@@ -522,7 +522,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetFilled(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("filled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
     }
 
     /// <summary>
@@ -530,7 +530,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
 
     /// <summary>
@@ -598,7 +598,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlSelect> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>

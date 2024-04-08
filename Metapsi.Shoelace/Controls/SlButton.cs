@@ -471,7 +471,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCaret(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("caret"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("caret"), b.Const(true));
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -487,7 +487,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetLoading(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("loading"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
     }
 
     /// <summary>
@@ -495,7 +495,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetOutline(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("outline"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(true));
     }
 
     /// <summary>
@@ -503,7 +503,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
 
     /// <summary>
@@ -511,7 +511,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCircle(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("circle"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("circle"), b.Const(true));
     }
 
     /// <summary>
@@ -712,7 +712,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormnovalidate(this PropsBuilder<SlButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formnovalidate"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("formNoValidate"), b.Const(true));
     }
 
     /// <summary>

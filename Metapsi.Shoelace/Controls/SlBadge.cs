@@ -118,7 +118,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlBadge> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPulse(this PropsBuilder<SlBadge> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pulse"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pulse"), b.Const(true));
     }
 
 }

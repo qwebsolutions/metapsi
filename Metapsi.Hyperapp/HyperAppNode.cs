@@ -2,98 +2,147 @@
 using Metapsi.Ui;
 using System.Linq;
 using Metapsi.Dom;
+using System.Text;
+using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Hyperapp;
 
-public class HyperAppNode<TDataModel> : IHtmlNode, IHtmlComponent
+public class HyperAppNode<TModel> : IHtmlNode, IHtmlComponent
 {
-    // TODO: Model should come from outside
-    public TDataModel Model { get; set; }
+    public TModel Model { get; set; }
+    public string MountDivId { get; set; } = "hyper-node-" + Guid.NewGuid().ToString();
+    public Func<LayoutBuilder, Var<TModel>, Var<IVNode>> Render { get; set; }
+    public Func<SyntaxBuilder, Var<HyperType.StateWithEffects>> Init { get; set; }
 
-    public ModuleBuilder ModuleBuilder { get; } = new ModuleBuilder();
+    private Module Module { get; set; }
 
-    public HtmlTag TakeoverNode { get; set; }
-    public System.Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> Render { get; set; } = (b, model) => b.T("");
-    public System.Func<SyntaxBuilder, Var<TDataModel>, Var<HyperType.StateWithEffects>> Init { get; set; } = (b, model) => b.MakeStateWithEffects(model);
-
-    public virtual void Attach(DocumentTag document, IHtmlElement parentNode)
+    void IHtmlComponent.Attach(DocumentTag document, IHtmlElement parentNode)
     {
-        // Assume control over TakeoverNode
-        // If it's already added to the document, remove it
-        // as we render it from inside this app
+        this.Module = BuildHyperappModule();
 
-        document.ReplaceById(TakeoverNode.Attributes["id"], this);
-
-        var module = this.ModuleBuilder.BuildHyperapp((b, model) =>
-        {
-            b.AddSubscription<TDataModel>(
-                "SyncSharedModel",
-                (SyntaxBuilder b, Var<TDataModel> state) =>
-                {
-                    return b.Listen<TDataModel, TDataModel>(
-                        b.Const("sharedStateUpdate"),
-                        b.MakeAction((SyntaxBuilder b, Var<TDataModel> oldModel, Var<TDataModel> newModel) =>
-                        {
-                            return newModel;
-                        }));
-                });
-
-            return this.Render(b, model);
-        },
-        this.Init,
-        this.TakeoverNode.Attributes["id"]);
-
-        var moduleRequiredTags = module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
+        var moduleRequiredTags = this.Module.Consts.Where(x => x.Value is IHtmlElement).Select(x => x.Value as IHtmlElement);
 
         foreach (var requiredTag in moduleRequiredTags)
         {
             document.Head.AddChild(requiredTag);
         }
 
-        var mainScript = new HtmlTag("script");
-        mainScript.SetAttribute("type", "module");
-
-        var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(module, string.Empty);
-
-        mainScript.Children.Add(new HtmlText()
-        {
-            Text = moduleScript
-        });
-
-        var jsonModel = Metapsi.JavaScript.PrettyBuilder.Serialize(this.Model);
-
-        mainScript.Children.Add(new HtmlText()
-        {
-            Text = $"var model = {jsonModel}\n"
-        });
-
-        mainScript.Children.Add(new HtmlText()
-        {
-            Text = "\nmain(model)"
-        });
-
-        document.Head.AddChild(mainScript);
-
-        var webComponentTags = module.Consts.Where(x => x.Value is WebComponentTag);
+        var webComponentTags = this.Module.Consts.Where(x => x.Value is WebComponentTag);
         foreach (var wcTag in webComponentTags)
         {
             document.AddToFadeInList((wcTag.Value as WebComponentTag).tag);
         }
     }
-    public string ToHtml()
-    {
-        // ToString, not ToHtml, because TakeoverNode contains 'this'
-        // ToHtml will go into infinite recursion
-        return TakeoverNode.ToString();
-    }
-}
 
-public static partial class HyperAppNodeExtensions
-{
-    public static Var<TModel> BroadcastModelUpdate<TModel>(this SyntaxBuilder b, Var<TModel> model)
+    string IHtmlNode.ToHtml()
     {
-        var clone = b.Clone(model);
-        b.DispatchEvent(b.Const("sharedStateUpdate"), clone);
-        return clone;
+        DivTag mountDiv = new DivTag().SetAttribute("id", MountDivId);
+        var js = Metapsi.JavaScript.PrettyBuilder.Generate(this.Module, string.Empty);
+        js = js + "main()";
+
+
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.AppendLine(mountDiv.ToHtml());
+        htmlBuilder.AppendLine(new ScriptTag(js, "module").ToHtml());
+
+        var html = htmlBuilder.ToString();
+        return html;
+    }
+
+    public Module BuildHyperappModule()
+    {
+        if (this.Render == null)
+            this.Render = (b, model) => b.T("");
+
+        if (this.Init == null)
+            this.Init = b =>
+            {
+                if (this.Model == null)
+                    return b.MakeStateWithEffects(b.Const(string.Empty));
+                else
+                    return b.MakeStateWithEffects(b.Const(this.Model));
+            };
+
+        var module = BuildHyperappModule(this.Render, this.Init, this.MountDivId);
+
+        return module;
+    }
+
+    private static Module BuildHyperappModule<TDataModel>(
+        Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render,
+        Func<SyntaxBuilder, Var<HyperType.StateWithEffects>> initAction,
+        string mountDivId)
+    {
+        ModuleBuilder b = new ModuleBuilder();
+
+        b.Define("main", (SyntaxBuilder b, Var<TDataModel> model) =>
+        {
+            Var<HyperType.Init> init = b.MakeInit(b.Def((SyntaxBuilder b) =>
+            {
+                return b.Call(initAction);
+            }));
+
+            var onRenderError = (LayoutBuilder b, Var<TDataModel> model, Var<DynamicObject> error) =>
+            {
+                b.Log(error);
+                b.Log(model);
+
+                Var<DynamicObject> inlineStyle = b.NewObj<DynamicObject>();
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("backgroundColor"), b.Const("white"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("color"), b.Const("black"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("display"), b.Const("flex"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("flex-direction"), b.Const("row"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("width"), b.Const("100vw"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("height"), b.Const("100vh"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
+                b.SetDynamic(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
+
+                var props = b.NewObj<DynamicObject>();
+                b.SetDynamic(props, new DynamicProperty<DynamicObject>("style"), inlineStyle);
+
+                //var errorDiv = b.Div(props, b.T("An error has occurred"));
+                return b.H("div", props, b.T("An error has occurred"));
+            };
+
+            LayoutBuilder layoutBuilder = new LayoutBuilder();
+            layoutBuilder.InitializeFrom(b);
+
+            var app = b.NewObj<HyperType.App<TDataModel>>();
+            b.Set(app, x => x.init, init);
+            b.Set(app, x => x.view, layoutBuilder.Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
+            {
+                var r = b.Def(render);
+                var rootNode = b.TryCatchReturn<IVNode>(
+                    b.Def((LayoutBuilder b) => b.Call(r, model)),
+                    b.Def((LayoutBuilder b, Var<DynamicObject> error) =>
+                    {
+                        return b.Call(onRenderError, model, error);
+                    }));
+                b.DispatchEvent(b.Const("afterRender"));
+                return rootNode;
+            }));
+            b.Set(app, x => x.node, b.GetElementById(b.Const(mountDivId)));
+
+
+            var subFuncs = b.Module.Functions.Where(x => x.ReturnVariable.Type == typeof(HyperType.Subscription) && x.Parameters.Count == 1 && (x.Parameters.First().Type == typeof(TDataModel) || x.Parameters.First().Type == typeof(object)));
+            var aggSubs = b.Def("PageSubscriptions", (SyntaxBuilder b, Var<TDataModel> state) =>
+            {
+                var subscriptions = b.NewCollection<HyperType.Subscription>();
+                foreach (var subBuilder in subFuncs)
+                {
+                    var fakeFunc = new Var<Func<TDataModel, HyperType.Subscription>>(subBuilder.Name);
+                    var sub = b.Call(fakeFunc, state);
+                    b.Push(subscriptions, sub);
+                }
+                return subscriptions;
+            });
+
+            b.Set(app, x => x.subscriptions, aggSubs.As<Func<TDataModel, List<HyperType.Subscription>>>());
+
+            b.CallExternal("hyperapp", "app", app);
+        });
+
+        return b.Module;
     }
 }

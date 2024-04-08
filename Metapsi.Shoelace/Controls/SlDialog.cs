@@ -108,7 +108,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDialog> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetNoHeader(this PropsBuilder<SlDialog> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("no-header"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("noHeader"), b.Const(true));
     }
 
     /// <summary>

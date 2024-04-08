@@ -746,7 +746,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetFilled(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("filled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
     }
 
     /// <summary>
@@ -754,7 +754,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
 
     /// <summary>
@@ -792,7 +792,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetClearable(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("clearable"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
     }
 
     /// <summary>
@@ -800,7 +800,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -823,7 +823,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetReadonly(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("readonly"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
     }
 
     /// <summary>
@@ -831,7 +831,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordToggle(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("password-toggle"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordToggle"), b.Const(true));
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordVisible(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("password-visible"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordVisible"), b.Const(true));
     }
 
     /// <summary>
@@ -847,7 +847,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetNoSpinButtons(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("no-spin-buttons"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("noSpinButtons"), b.Const(true));
     }
 
     /// <summary>
@@ -870,7 +870,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>
@@ -1076,7 +1076,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutofocus(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autofocus"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
     }
 
     /// <summary>
@@ -1134,7 +1134,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSpellcheck(this PropsBuilder<SlInput> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("spellcheck"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
     }
 
     /// <summary>

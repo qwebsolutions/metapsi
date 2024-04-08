@@ -217,7 +217,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlCopyButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
     }
 
     /// <summary>

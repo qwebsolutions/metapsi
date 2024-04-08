@@ -11,10 +11,10 @@ public class Model { }
 
 public class Renderer : HyperPage<Model>
 {
-    public override string GetMountDivId()
-    {
-        return "iframeApp";
-    }
+    //public override string GetMountDivId()
+    //{
+    //    return "iframeApp";
+    //}
 
     public Var<IVNode> RenderHyperNode(LayoutBuilder b, Var<Model> model)
     {

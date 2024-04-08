@@ -242,7 +242,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlay(this PropsBuilder<SlAnimation> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("play"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("play"), b.Const(true));
     }
 
     /// <summary>

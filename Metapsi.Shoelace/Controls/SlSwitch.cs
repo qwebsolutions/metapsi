@@ -264,7 +264,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -272,7 +272,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetChecked(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("checked"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
 
     /// <summary>
@@ -295,7 +295,7 @@ public static partial class SlSwitchControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlSwitch> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>

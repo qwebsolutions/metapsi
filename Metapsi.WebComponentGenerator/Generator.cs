@@ -557,7 +557,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b)");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.AttributeName}\"), b.Const(string.Empty));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(true));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();

@@ -223,7 +223,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetNoGrouping(this PropsBuilder<SlFormatNumber> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("no-grouping"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("noGrouping"), b.Const(true));
     }
 
     /// <summary>

@@ -322,7 +322,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlRange> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>

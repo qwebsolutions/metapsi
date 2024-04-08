@@ -492,7 +492,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetFilled(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("filled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
     }
 
     /// <summary>
@@ -582,7 +582,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -590,7 +590,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetReadonly(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("readonly"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
     }
 
     /// <summary>
@@ -613,7 +613,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>
@@ -724,7 +724,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutofocus(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autofocus"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
     }
 
     /// <summary>
@@ -782,7 +782,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSpellcheck(this PropsBuilder<SlTextarea> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("spellcheck"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
     }
 
     /// <summary>

@@ -51,7 +51,7 @@ public static partial class SlDividerControl
     /// </summary>
     public static void SetVertical(this PropsBuilder<SlDivider> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("vertical"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
     }
 
 }

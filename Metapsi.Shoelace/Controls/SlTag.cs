@@ -162,7 +162,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetPill(this PropsBuilder<SlTag> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pill"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetRemovable(this PropsBuilder<SlTag> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("removable"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("removable"), b.Const(true));
     }
 
     /// <summary>

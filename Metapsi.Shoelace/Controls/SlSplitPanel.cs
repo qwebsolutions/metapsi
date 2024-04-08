@@ -187,7 +187,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetVertical(this PropsBuilder<SlSplitPanel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("vertical"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlSplitPanel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>

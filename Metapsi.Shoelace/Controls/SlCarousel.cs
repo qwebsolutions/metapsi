@@ -201,7 +201,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetLoop(this PropsBuilder<SlCarousel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("loop"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("loop"), b.Const(true));
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetNavigation(this PropsBuilder<SlCarousel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("navigation"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("navigation"), b.Const(true));
     }
 
     /// <summary>
@@ -217,7 +217,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetPagination(this PropsBuilder<SlCarousel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("pagination"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pagination"), b.Const(true));
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplay(this PropsBuilder<SlCarousel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autoplay"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autoplay"), b.Const(true));
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetMouseDragging(this PropsBuilder<SlCarousel> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mouse-dragging"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("mouseDragging"), b.Const(true));
     }
 
     /// <summary>

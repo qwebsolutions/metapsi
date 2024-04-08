@@ -290,7 +290,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlIconButton> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>

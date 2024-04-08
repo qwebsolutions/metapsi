@@ -118,7 +118,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetAllowScripts(this PropsBuilder<SlInclude> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("allow-scripts"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("allowScripts"), b.Const(true));
     }
 
     /// <summary>

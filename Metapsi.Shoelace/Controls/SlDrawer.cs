@@ -139,7 +139,7 @@ public static partial class SlDrawerControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDrawer> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ public static partial class SlDrawerControl
     /// </summary>
     public static void SetContained(this PropsBuilder<SlDrawer> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("contained"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("contained"), b.Const(true));
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public static partial class SlDrawerControl
     /// </summary>
     public static void SetNoHeader(this PropsBuilder<SlDrawer> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("no-header"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("noHeader"), b.Const(true));
     }
 
     /// <summary>

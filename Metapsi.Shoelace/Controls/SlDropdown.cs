@@ -181,7 +181,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("open"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -282,7 +282,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetStayOpenOnSelect(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("stay-open-on-select"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("stayOpenOnSelect"), b.Const(true));
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetHoist(this PropsBuilder<SlDropdown> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("hoist"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
     }
 
     /// <summary>

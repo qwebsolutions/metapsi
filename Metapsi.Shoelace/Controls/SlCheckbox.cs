@@ -280,7 +280,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetChecked(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("checked"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
 
     /// <summary>
@@ -296,7 +296,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetIndeterminate(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("indeterminate"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(true));
     }
 
     /// <summary>
@@ -319,7 +319,7 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static void SetRequired(this PropsBuilder<SlCheckbox> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("required"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
     }
 
     /// <summary>

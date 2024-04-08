@@ -145,7 +145,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttrOldValue(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("attr-old-value"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("attrOldValue"), b.Const(true));
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharData(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("char-data"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("charData"), b.Const(true));
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharDataOldValue(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("char-data-old-value"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("charDataOldValue"), b.Const(true));
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetChildList(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("child-list"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("childList"), b.Const(true));
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlMutationObserver> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
     /// <summary>

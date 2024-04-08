@@ -99,7 +99,7 @@ public static partial class SlOptionControl
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlOption> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("disabled"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
 
 }

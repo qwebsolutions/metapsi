@@ -93,16 +93,17 @@ public static partial class Control
     }
 
 
-    public static HtmlTag SandboxApp(Editor editor)
+    public static IHtmlNode SandboxApp(Editor editor)
     {
-        return Tutorial.ClientSide(
-            new SandboxModel(),
-            (LayoutBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model),
-            (SyntaxBuilder b, Var<SandboxModel> model) =>
+        return new HyperAppNode<SandboxModel>()
+        {
+            Render = (LayoutBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model),
+            Init = (SyntaxBuilder b) =>
             {
                 b.AddSubscription("ExploreSample_Sub", (SyntaxBuilder b, Var<SandboxModel> _) => b.Listen(b.Const("ExploreSample"), LoadSample(b)));
-                return b.Call(OnInit, model);
-            });
+                return b.Call(OnInit, b.Const(new SandboxModel()));
+            }
+        };
     }
 
     private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(SyntaxBuilder b)

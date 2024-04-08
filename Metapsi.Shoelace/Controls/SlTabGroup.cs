@@ -139,7 +139,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetNoScrollControls(this PropsBuilder<SlTabGroup> b)
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("no-scroll-controls"), b.Const(string.Empty));
+        b.SetDynamic(b.Props, DynamicProperty.Bool("noScrollControls"), b.Const(true));
     }
 
     /// <summary>
