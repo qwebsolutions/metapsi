@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Metapsi.Hyperapp" Version="*" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Metapsi.Hyperapp" Version="*" />
+		<PackageReference Include="Metapsi.Html" Version="*" />
+	</ItemGroup>
 
 </Project>

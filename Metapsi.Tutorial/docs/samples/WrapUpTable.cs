@@ -35,14 +35,14 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
                 {
                     b.SetClass(headerCss);
                 },
-                b.T("User")));
+                b.Text("User")));
         b.Push(gridNodes,
             b.HtmlDiv(
                 b =>
                 {
                     b.SetClass(headerCss);
                 },
-                b.T("Is logged in")));
+                b.Text("Is logged in")));
 
         b.Push(gridNodes,
             b.HtmlDiv(
@@ -50,7 +50,7 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
                 {
                     b.SetClass(headerCss + " col-span-2 ");
                 },
-                b.T("Last log in")));
+                b.Text("Last log in")));
 
         b.Foreach(
             b.Get(
@@ -71,7 +71,7 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
                         {
                             b.SetClass(rowCss);
                         },
-                        b.T(b.Get(user, x => x.Name))));
+                        b.Text(b.Get(user, x => x.Name))));
 
                 b.Push(gridNodes,
                     b.HtmlDiv(
@@ -86,7 +86,7 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
                                 {
                                     b.SetClass("text-green-500");
                                 },
-                                b.T("✓")))));
+                                b.Text("✓")))));
 
                 b.Push(gridNodes,
                     b.HtmlDiv(
@@ -94,7 +94,7 @@ public class WrapUpTable : TutorialSample<WrapUpTable.Model>
                         {
                             b.SetClass(b.Concat(rowCss, b.Const(" col-span-2 ")));
                         },
-                        b.T(
+                        b.Text(
                             b.FormatDatetime(b.Get(user, x => x.LastLogIn)))));
             });
 

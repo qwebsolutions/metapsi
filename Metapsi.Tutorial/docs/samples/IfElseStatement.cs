@@ -27,12 +27,12 @@ public class IfElseStatement : TutorialSample<IfElseStatement.Model>
             },
             b.If(
                 anyLoggedUser,
-                b => b.T(
+                b => b.Text(
                     b.Concat(
                         b.Const("There are "),
                         b.AsString(loggedUsersCount),
                         b.Const(" logged users"))),
-                b => b.T("There are no logged users")));
+                b => b.Text("There are no logged users")));
     }
 
     public override Model GetSampleData()

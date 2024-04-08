@@ -25,7 +25,7 @@ public class IfStatement : TutorialSample<IfStatement.Model>
             b => { },
             b.Optional(
                 anyLoggedUser,
-                b => b.T(
+                b => b.Text(
                     b.Concat(
                         b.Const("There are "),
                         b.AsString(loggedUsersCount),

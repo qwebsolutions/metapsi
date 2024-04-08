@@ -21,7 +21,7 @@ public class HtmlAttributesCreateLink : TutorialSample<HtmlAttributesCreateLink.
                 b.SetHref("https://www.w3schools.com/tags/tag_a.asp");
                 b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_blank"));
             },
-            b.T("link"));
+            b.Text("link"));
     }
 
     public override Model GetSampleData()

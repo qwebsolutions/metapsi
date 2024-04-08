@@ -15,7 +15,7 @@ public class CustomTagsQTag: TutorialSample<CustomTagsQTag.Model>
 
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.H("q", b.T("The obscure q tag is supposed to represent a quotation"));
+        return b.H("q", b.Text("The obscure q tag is supposed to represent a quotation"));
     }
 
     public override Model GetSampleData()

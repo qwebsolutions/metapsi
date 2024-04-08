@@ -53,7 +53,7 @@ public class HyperAppNode<TModel> : IHtmlNode, IHtmlComponent
     public Module BuildHyperappModule()
     {
         if (this.Render == null)
-            this.Render = (b, model) => b.T("");
+            this.Render = (b, model) => b.Text("");
 
         if (this.Init == null)
             this.Init = b =>
@@ -102,7 +102,7 @@ public class HyperAppNode<TModel> : IHtmlNode, IHtmlComponent
                 b.SetDynamic(props, new DynamicProperty<DynamicObject>("style"), inlineStyle);
 
                 //var errorDiv = b.Div(props, b.T("An error has occurred"));
-                return b.H("div", props, b.T("An error has occurred"));
+                return b.H("div", props, b.Text("An error has occurred"));
             };
 
             LayoutBuilder layoutBuilder = new LayoutBuilder();

@@ -29,7 +29,7 @@ public class SwitchExpression : TutorialSample<SwitchExpression.Model>
                 (0, b => b.Const("There are no logged users")),
                 (1, b => b.Const("There is one logged user")));
 
-        return b.T(loggedUsersMessage);
+        return b.Text(loggedUsersMessage);
     }
 
     public override Model GetSampleData()

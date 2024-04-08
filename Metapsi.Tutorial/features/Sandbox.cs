@@ -232,7 +232,7 @@ public static partial class Control
             b.SetPanel(b.Const(TabPanelName((CodeSample x) => x.CSharpModel)));
             b.SetSlot("nav");
         },
-        b.T("Model"));
+        b.Text("Model"));
 
 
         //var modelEditor = b.CodeEditor(editor, b =>
@@ -275,7 +275,7 @@ public static partial class Control
                 b.SetPanel(b.Const(TabPanelName((CodeSample x) => x.JsonModel)));
                 b.SetSlot("nav");
             },
-            b.T("JSON data"));
+            b.Text("JSON data"));
 
         var jsonPanel = b.SlTabPanel(
             b =>
@@ -299,7 +299,7 @@ public static partial class Control
                 b.SetPanel(b.Const(TabPanelName((CodeSample x) => x.CSharpCode)));
                 b.SetSlot("nav");
             },
-            b.T("View"));
+            b.Text("View"));
 
         var viewPanel = b.SlTabPanel(
             b =>
@@ -374,7 +374,7 @@ public static partial class Control
                     b => b.SetDisabled());
                 b.OnClickAction(compileAction);
             },
-            b.T("Run!"));
+            b.Text("Run!"));
 
         var container = b.HtmlDiv(
             b =>

@@ -318,10 +318,10 @@ public class HomeRenderer : HyperPage<HomeModel>
                         },
                         b.IonSegmentButton(
                             b => { b.SetValue("chat"); },
-                            b.IonLabel(b => { }, b.T("Chat"))),
+                            b.IonLabel(b => { }, b.Text("Chat"))),
                         b.IonSegmentButton(
                             b => { b.SetValue("notifications"); },
-                            b.IonLabel(b => { }, b.T("Notifications"))))
+                            b.IonLabel(b => { }, b.Text("Notifications"))))
 
                     )),
             b.IonContent(
@@ -337,7 +337,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                         return b.Clone(model);
                     });
                 },
-                b.T("Butonu' normal")),
+                b.Text("Butonu' normal")),
                 b.SlButton(
                     b =>
                     {
@@ -348,7 +348,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                             return b.Clone(model);
                         });
                     },
-                b.T("Butonu' primar")),
+                b.Text("Butonu' primar")),
 
                 //b.ChoicesText(b=>
                 //{
@@ -524,7 +524,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                     //    b.UseClearButton("Clear!!!");
                     //    b.Configure(x => x.options, b.MapOptions(b.Get(model, x => x.ListItems), x => x, x => x));
                     //}),
-                    b.T(b.Get(model, x=>x.SelectedItem)),
+                    b.Text(b.Get(model, x=>x.SelectedItem)),
                     b.TomSelect(b=>
                     {
 
@@ -591,7 +591,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                             {
                                 b.SetValue(item);
                             },
-                            b.T(item));
+                            b.Text(item));
                         })
                     ),
                     b.SlInput(b=>
@@ -678,7 +678,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                 //                },
                 //                b.T("Remove")))))),
 
-                b.IonText(b => { }, b.T(b.Get(model, x => x.ContentText))),
+                b.IonText(b => { }, b.Text(b.Get(model, x => x.ContentText))),
                 b.SlSplitPanel(b =>
                 {
 
@@ -694,7 +694,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                         b.SetDynamic(b.Props, Html.id, b.Const("alert-me"));
                         b.OnClickAction<HomeModel, SlButton>(OnAnyClick);
                     },
-                    b.T("Shoelace here!"))),
+                    b.Text("Shoelace here!"))),
                 b.HtmlDiv(
                     b =>
                     {
@@ -705,7 +705,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                     {
                         b.OnClickAction<HomeModel, IonButton>(OnAnyClick);
                     },
-                    b.T("Click me!")))
+                    b.Text("Click me!")))
                 )));
     }
 

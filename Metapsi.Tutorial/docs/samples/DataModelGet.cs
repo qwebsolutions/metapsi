@@ -16,7 +16,7 @@ public class DataModelGet : TutorialSample<DataModelGet.Model>
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var name = b.Get(model, x => x.Name);
-        return b.T(name);
+        return b.Text(name);
     }
 
     public override Model GetSampleData()

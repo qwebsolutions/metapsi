@@ -16,7 +16,7 @@ public class OverviewSandboxExample : TutorialSample<OverviewSandboxExample.Mode
 
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.T(b.Serialize(model));
+        return b.Text(b.Serialize(model));
     }
 
     public override Model GetSampleData()

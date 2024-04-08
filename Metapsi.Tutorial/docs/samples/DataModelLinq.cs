@@ -24,7 +24,7 @@ public class DataModelLinq : TutorialSample<DataModelLinq.Model>
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         var over21 = b.Get(model, x => x.LoggedUsers.Where(x => x.Age >= 21).Count());
-        return b.T(b.AsString(over21));
+        return b.Text(b.AsString(over21));
     }
 
     public override Model GetSampleData()

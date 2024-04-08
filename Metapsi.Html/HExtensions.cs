@@ -36,7 +36,7 @@ public static class StyledTagsExtensions
     {
         return b.HtmlSpan(
             buildSpan,
-            b.T(text));
+            b.Text(text));
     }
 
     public static Var<IVNode> HtmlSpanText(this LayoutBuilder b, Action<PropsBuilder<HtmlSpan>> buildSpan, string text)

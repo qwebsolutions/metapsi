@@ -20,7 +20,7 @@ public class IfExpression : TutorialSample<IfExpression.Model>
         var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        return b.T(
+        return b.Text(
             b.If(
                 anyLoggedUser,
                 b => b.Concat(

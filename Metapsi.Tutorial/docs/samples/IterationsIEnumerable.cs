@@ -43,7 +43,7 @@ public class IterationsIEnumerable : TutorialSample<IterationsIEnumerable.Model>
                 var userName = b.Get(user, x => x.Name);
                 b.Push(
                     textNodes,
-                    b.T(userName));
+                    b.Text(userName));
             });
 
         return b.HtmlDiv(

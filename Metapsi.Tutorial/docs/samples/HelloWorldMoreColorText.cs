@@ -20,7 +20,7 @@ public class HelloWorldMoreColorText : TutorialSample<HelloWorldMoreColorText.Mo
             {
                 b.SetClass("text-blue-600 bg-green-100 border border-red-500");
             }, 
-            b.T("Hello world"));
+            b.Text("Hello world"));
     }
 
     public override Model GetSampleData()

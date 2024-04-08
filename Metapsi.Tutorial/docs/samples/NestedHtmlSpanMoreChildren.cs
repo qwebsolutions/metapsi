@@ -22,19 +22,19 @@ public class NestedHtmlSpanMoreChildren : TutorialSample<NestedHtmlSpanMoreChild
                 {
                     b.SetClass("text-blue-600");
                 },
-                b.T("Blue text inside span")),
+                b.Text("Blue text inside span")),
             b.HtmlSpan(
                 b =>
                 {
                     b.SetClass("text-green-600");
                 },
-                b.T("Green text inside span")),
+                b.Text("Green text inside span")),
             b.HtmlSpan(
                 b =>
                 {
                     b.SetClass("text-red-600");
                 },
-                b.T("Red text inside span")));
+                b.Text("Red text inside span")));
     }
 
     public override Model GetSampleData()

@@ -22,7 +22,7 @@ public class HtmlAttributesSetClass : TutorialSample<HtmlAttributesSetClass.Mode
                 b.SetHref("https://www.w3schools.com/tags/tag_a.asp");
                 b.SetDynamic(b.Props, Hyperapp.Html.target, b.Const("_blank"));
             },
-            b.T("link"));
+            b.Text("link"));
     }
 
     public override Model GetSampleData()

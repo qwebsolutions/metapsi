@@ -16,7 +16,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Var<IVNode> T(this LayoutBuilder b, Var<string> text)
+        public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
             return b.CallExternal<IVNode>("hyperapp", "text", text);
         }
@@ -27,9 +27,9 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Var<IVNode> T(this LayoutBuilder b, string text)
+        public static Var<IVNode> Text(this LayoutBuilder b, string text)
         {
-            return b.T(b.Const(text));
+            return b.Text(b.Const(text));
         }
 
         // All parameters

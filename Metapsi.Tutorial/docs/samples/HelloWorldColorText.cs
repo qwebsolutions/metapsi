@@ -20,7 +20,7 @@ public class HelloWorldColorText : TutorialSample<HelloWorldColorText.Model>
             {
                 b.AddClass("text-blue-600");
             },
-            b.T("Hello world"));
+            b.Text("Hello world"));
     }
 
     public override Model GetSampleData()

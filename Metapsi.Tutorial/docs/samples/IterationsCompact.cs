@@ -24,7 +24,7 @@ public class IterationsCompact : TutorialSample<IterationsCompact.Model>
             b.Get(model, x => x.LoggedUsers),
             (b, user) =>
             {
-                b.Push(textNodes, b.T(user));
+                b.Push(textNodes, b.Text(user));
             });
 
         return b.HtmlDiv(

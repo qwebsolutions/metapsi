@@ -25,7 +25,7 @@ public class NestedHtmlSimpleDiv : TutorialSample<NestedHtmlSimpleDiv.Model>
                 {
                     b.SetClass("text-blue-600");
                 },
-                b.T("Text inside div")));
+                b.Text("Text inside div")));
     }
 
     public override Model GetSampleData()

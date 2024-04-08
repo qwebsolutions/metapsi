@@ -14,7 +14,7 @@ public class HelloWorldSimpleText : TutorialSample<HelloWorldSimpleText.Model>
 
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
-        return b.T("Hello world");
+        return b.Text("Hello world");
     }
 
     public override Model GetSampleData()

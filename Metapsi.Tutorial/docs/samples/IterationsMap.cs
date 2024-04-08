@@ -38,7 +38,7 @@ public class IterationsMap : TutorialSample<IterationsMap.Model>
             {
                 b.SetClass("flex flex-col");
             },
-            b.Map(status, (b, status) => b.T(status)));
+            b.Map(status, (b, status) => b.Text(status)));
     }
 
     public override Model GetSampleData()
