@@ -30,13 +30,13 @@ public class NestedHtmlWrongReturn : TutorialSample<NestedHtmlWrongReturn.Model>
                     {
                         b.SetClass("text-blue-600");
                     },
-                    b.Text("Blue text inside span")),
+                    b.HtmlSpanText("Blue text inside span")),
                 b.HtmlSpan(
                     b =>
                     {
                         b.SetClass("text-green-600");
                     },
-                    b.Text("Green text inside span"))));
+                    b.HtmlSpanText("Green text inside span"))));
 
         var mainContainer = b.HtmlDiv(
             b =>
@@ -49,7 +49,7 @@ public class NestedHtmlWrongReturn : TutorialSample<NestedHtmlWrongReturn.Model>
                 {
                     b.SetClass("text-red-600");
                 },
-                b.Text("Red text inside div")));
+                b.HtmlSpanText("Red text inside div")));
 
         return container;
     }

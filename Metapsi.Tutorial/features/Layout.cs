@@ -9,44 +9,36 @@ using System.Runtime.CompilerServices;
 using System;
 
 namespace Metapsi.Tutorial;
+
 public static class Tutorial
 {
-    //public class TutorialHyperAppNode<TDataModel> : HyperAppNode<TDataModel>
-    //{
-    //    public override void Attach(DocumentTag document, IHtmlElement parentNode)
-    //    {
-    //        base.Attach(document, parentNode);
-    //        //WaitClientSideShoelaceTags(document, parentNode, base.ModuleBuilder.Module);
-    //    }
-    //}
-
     public static List<string> SmallBreakpoints = new List<string> { "sm", "md" };
 
     public static List<string> LargeBreakpoints = new List<string> { "lg", "xl", "2xl" };
 
-    public static DocumentTag CommonLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitCommonLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
         StyleTag style = StyleTag.Create();
         style.AddSelector("a").AddProperty("--tw-prose-links", "var(--sl-color-blue-600)");
         documentTag.Head.AddModuleStylesheet();
         documentTag.Head.AddChild(style);
+        documentTag.Head.AddChild(new HtmlTag("title").WithChild(new HtmlText(pageTitle)));
         documentTag.Body.AddChild(pageContent);
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
-        return documentTag;
     }
 
-    public static DocumentTag LargeLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitLargeLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
         documentTag.AddRedirectMismatchedBreakpoint(LargeBreakpoints);
         documentTag.Head.AddModuleStylesheet();
         documentTag.Body.AddChild(pageContent);
+        documentTag.Head.AddChild(new HtmlTag("title").WithChild(new HtmlText(pageTitle)));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
-        return documentTag;
     }
 
-    public static DocumentTag SmallLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitSmallLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
         documentTag.AddChild(new HtmlTag("title").WithChild(new HtmlText() { Text = pageTitle }));
         documentTag.AddRedirectMismatchedBreakpoint(SmallBreakpoints);
@@ -58,48 +50,5 @@ public static class Tutorial
         documentTag.Body.AddChild(pageContent);
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
         documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
-        documentTag.AttachComponents();
-        return documentTag;
     }
-
-    //public static HtmlTag ClientSide<TDataModel>(TDataModel model, Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render = null, Func<SyntaxBuilder, Var<HyperType.StateWithEffects>> init = null)
-    //{
-    //    DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(3, 1);
-    //    defaultInterpolatedStringHandler.AppendLiteral("id_");
-    //    defaultInterpolatedStringHandler.AppendFormatted(Guid.NewGuid());
-    //    string mountDivId = defaultInterpolatedStringHandler.ToStringAndClear();
-    //    DivTag appContainer = new DivTag().SetAttribute("id", mountDivId);
-    //    var hyperApp = new HyperAppNode<TDataModel>
-    //    {
-    //        Model = model,
-    //        Init = init,
-    //        Render = render,
-    //        TakeoverNode = appContainer
-    //    };
-    //    appContainer.AddChild(hyperApp);
-    //    return appContainer;
-    //}
-
-    //private static void WaitClientSideShoelaceTags(DocumentTag document, IHtmlElement parentElement, Module module)
-    //{
-    //    List<string> list = (from x in module.Consts
-    //                         where x.Value is ShoelaceTag
-    //                         select (x.Value as ShoelaceTag).tag into x
-    //                         where x != "sl-tooltip"
-    //                         select x).ToList();
-    //    _ = document.Head;
-    //    HtmlTag workaroundDiv = document.Body.AddChild(new HtmlTag
-    //    {
-    //        Tag = "div"
-    //    });
-    //    workaroundDiv.SetAttribute("class", "hidden");
-    //    SlAwaitWhenDefinedScript slAwaitScript = document.GetSlAwaitWhenDefinedScript();
-    //    foreach (string shoelaceTag in list)
-    //    {
-    //        workaroundDiv.AddChild(new HtmlTag(shoelaceTag));
-    //        slAwaitScript.SlTags.Add(shoelaceTag);
-    //    }
-    //    document.StartHidden();
-    //    //document.AddShoelace();
-    //}
 }

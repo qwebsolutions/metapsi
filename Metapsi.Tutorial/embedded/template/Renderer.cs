@@ -1,5 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Hyperapp;
+using Metapsi.Html;
 using Metapsi.Syntax;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,6 @@ public class Model { }
 
 public class Renderer : HyperPage<Model>
 {
-    //public override string GetMountDivId()
-    //{
-    //    return "iframeApp";
-    //}
-
     public Var<IVNode> RenderHyperNode(LayoutBuilder b, Var<Model> model)
     {
         return null;

@@ -22,5 +22,5 @@ All samples have 3 tabs. This is related to the general architecture of Metapsi 
 Metapsi supports <strong>both server-side rendering & client side rendering</strong> as needed. Moreover you can, for example, render a server-side page containing multiple client-side nodes.
 </div>
 
-As of September 2023, the server side rendering API is actively developed, experimental & subject to change. 
+The server side rendering API is actively developed, experimental & subject to change. 
 We recommend you [jump in](/tutorial/hello-world) straight to the magic (& honestly more fun) client side rendering examples to get a feel for the syntax & capabilities.

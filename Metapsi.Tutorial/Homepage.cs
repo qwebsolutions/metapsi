@@ -31,7 +31,7 @@ public class Homepage : HtmlPage<HomepageModel>
     public override void FillHtml(HomepageModel dataModel, DocumentTag document)
     {
         document.UseWebComponentsFadeIn();
-        Tutorial.CommonLayout(document, dataModel, "Metapsi - The full stack C# framework", new HtmlTag("header").WithChild(new HtmlText("Metapsi")), HomepageContent());
+        Tutorial.InitCommonLayout(document, dataModel, "Metapsi - The full stack C# framework", new HtmlTag("header").WithChild(new HtmlText("Metapsi")), HomepageContent());
     }
 
     public IHtmlElement GithubLink()
@@ -101,7 +101,20 @@ public class Homepage : HtmlPage<HomepageModel>
     public HtmlTag HomepageContent()
     {
         DivTag pageContainer = DivTag.CreateStyled("flex flex-col mt-20", DivTag.CreateStyled("flex flex-col justify-center items-center gap-12 py-16", TopSlogan(), GithubLink()));
-        pageContainer.AddChild(DivTag.CreateStyled("flex flex-col bg-blue-50", HomeFeature("wrench", "Your tools", "Stay inside VS Code/Visual Studio, just add nugets and you're ready to go.", "No node.js, no npm required."), Separator(), HomeFeature("arrow-left-right", "Your types, everywhere", "The client-side code speaks C#. One definition, shared"), Separator(), HomeFeature("box", "Your version, always", "Resources are embedded, allowing you to upgrade & downgrade atomically", "This applies to CSS, JS, images & more"), Separator(), HomeFeature("scissors", "Your solution & nothing else", "You don't use it? Then it's not included. Each HTML page knows exactly what JS files it needs."), Separator(), HomeFeature("layers", "Your level", "Nugets build on top of each other, allowing you to work as high or low level as you need"), Separator(), HomeFeature("file-text", "Open source", "MIT licensed, just like the great projects we build upon")));
+        pageContainer.AddChild(
+            DivTag.CreateStyled(
+                "flex flex-col bg-blue-50", 
+                HomeFeature("wrench", "Your tools", "Stay inside VS Code/Visual Studio, just add nugets and you're ready to go.", "No node.js, no npm required."), 
+                Separator(), 
+                HomeFeature("arrow-left-right", "Your types, everywhere", "The client-side code speaks C#. One definition, shared"), 
+                Separator(), 
+                HomeFeature("box", "Your version, always", "Resources are embedded, allowing you to upgrade & downgrade atomically", "This applies to CSS, JS, images & more"), 
+                Separator(), 
+                HomeFeature("scissors", "Your solution & nothing else", "You don't use it? Then it's not included. Each HTML page knows exactly what JS files it needs."), 
+                Separator(), 
+                HomeFeature("layers", "Your level", "Nugets build on top of each other, allowing you to work as high or low level as you need"), 
+                Separator(), 
+                HomeFeature("file-text", "Open source", "MIT licensed, just like the great projects we build upon")));
         return pageContainer;
     }
 

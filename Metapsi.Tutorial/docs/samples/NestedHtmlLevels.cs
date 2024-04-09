@@ -1,51 +1,51 @@
-using Metapsi.Html;
-using Metapsi.Hyperapp;
-using Metapsi.Syntax;
+//using Metapsi.Html;
+//using Metapsi.Hyperapp;
+//using Metapsi.Syntax;
 
-namespace Metapsi.Tutorial.Samples;
+//namespace Metapsi.Tutorial.Samples;
 
-/// <summary>
-/// You can nest HTML elements multiple levels deep
-/// </summary>
-public class NestedHtmlLevels : TutorialSample<NestedHtmlLevels.Model>
-{
-    public class Model
-    {
-    }
+///// <summary>
+///// You can nest HTML elements multiple levels deep
+///// </summary>
+//public class NestedHtmlLevels : TutorialSample<NestedHtmlLevels.Model>
+//{
+//    public class Model
+//    {
+//    }
 
-    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
-    {
-        var container = b.HtmlDiv(b => { });
+//    public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
+//    {
+//        var container = b.HtmlDiv(b => { });
 
-        //TODO: Not sure what I was trying to show here
+//        //TODO: Not sure what I was trying to show here
 
-        //var firstRow = b.Add(
-        //    container, 
-        //    b.Span("flex flex-row justify-between"));
+//        //var firstRow = b.Add(
+//        //    container, 
+//        //    b.Span("flex flex-row justify-between"));
         
-        //b.Add(
-        //    firstRow, 
-        //    b.Text(
-        //        "Blue text inside span", 
-        //        "text-blue-600"));
+//        //b.Add(
+//        //    firstRow, 
+//        //    b.Text(
+//        //        "Blue text inside span", 
+//        //        "text-blue-600"));
 
-        //b.Add(
-        //    firstRow, 
-        //    b.Text(
-        //        "Green text inside span", 
-        //        "text-green-600"));
+//        //b.Add(
+//        //    firstRow, 
+//        //    b.Text(
+//        //        "Green text inside span", 
+//        //        "text-green-600"));
 
-        //b.Add(
-        //    container,
-        //    b.Text(
-        //        "Red text inside div",
-        //        "text-red-600"));
+//        //b.Add(
+//        //    container,
+//        //    b.Text(
+//        //        "Red text inside div",
+//        //        "text-red-600"));
 
-        return container;
-    }
+//        return container;
+//    }
 
-    public override Model GetSampleData()
-    {
-        return new Model();
-    }
-}
+//    public override Model GetSampleData()
+//    {
+//        return new Model();
+//    }
+//}

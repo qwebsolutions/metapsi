@@ -128,7 +128,10 @@ public static class ServerSideBreakpointExtensions
         model.AssumedBreakpoint = httpContext.Request.Query["bp"];
         if (!string.IsNullOrEmpty(model.AssumedBreakpoint))
         {
-            httpContext.Response.Cookies.Append("bp", model.AssumedBreakpoint);
+            httpContext.Response.Cookies.Append("bp", model.AssumedBreakpoint, new CookieOptions()
+            {
+                SameSite = SameSiteMode.Strict
+            });
         }
         else
         {

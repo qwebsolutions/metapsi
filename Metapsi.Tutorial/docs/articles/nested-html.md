@@ -1,36 +1,38 @@
 # More HTML
 
-You won't get far just writing colored text. HTML elements are nested, so we need a way to create div & spans and add children to them.
-CodeSample:NestedHtmlSimpleDiv:View
+Let's add some color to our example.
 
-As you see, creating a div is not more difficult than creating text nodes. <span class='inline-code'>Add</span> attaches the child text to the container div.
-What may come as a surprise, though, it that you don't call <span class="inline-code">div.Add</span> on the div itself, but on <span class="inline-code">b</span>, the code builder.
+CodeSample:HelloWorldColorText:View
 
-Of course you are, because there is no div & no text. Remember, you are just building a script that will run client side, sometime in the future. At this point you are only 
-declaring the structure of the script, you are not actually running it. You don't actually work with HTML at this point, but with a <span class="inline-code">StringBuilder</span>.
+Metapsi provides builder functions for all HTML tags. All nodes follow the same pattern: a function that takes a properties builder as first parameter and then a collection of children. This allows nesting the controls and keeps the mental model very close to the HTML document itself. This type of signature allows us to keep nesting controls, creating the document tree.
+
 
 CodeSample:NestedHtmlSpanMoreChildren:View
 
-And you can nest HTML elements.
 
-CodeSample:NestedHtmlLevels:View
+<div class="block-note">
+This tutorial automatically imports a subset of the 
+<a href="https://tailwindcss.com/docs/customizing-colors" target="_blank">tailwind.css</a> classes. 
+You can use, among others, <span class="inline-code">bg-</span>, <span class="inline-code">text-</span>, <span class="inline-code">border-</span> for colors gray, red, green, blue, orange & yellow with intensities from 100 to 900</div>
 
-<div class="block-note">The flex CSS classes used in this example also come from <a href="https://tailwindcss.com/docs/flex-direction" target="_blank">tailwind.css</a> </div>
 
-### Nest the calls
+### Separate calls
 
-Sometimes you need to add multiple nested tags. It is possible to create them all one by one. 
-This requires naming them (we all know that is <a href="https://twitter.com/codinghorror/status/506010907021828096" target="_blank"><i>hard</i></a>) and you might accidentally return the wrong node.
+Sometimes when you need to add multiple nested tags, you might create them separately. This is invaluable as it allows you to combine pre-built HTML nodes. The downside is that this requires naming them (we all know that is <a href="https://twitter.com/codinghorror/status/506010907021828096" target="_blank"><i>hard</i></a>) and you might accidentally return the wrong node.
 
 CodeSample:NestedHtmlWrongReturn:View
 
+<div class="block-note">HtmlSpanText is a helper function to create an empty span with text inside. This makes it easier to build the layout. <br/><br/>The flex CSS classes used in this example also come from <a href="https://tailwindcss.com/docs/flex-direction" target="_blank">tailwind.css</a> </div>
+
 Running this sample you will probably notice that something is off. <span class="inline-code">mainContainer</span> is just gone. Sure, it gets created, but it is not attached to anything and it cannot be, as it's local to our renderer, the outside world does not know about it.
 
-In case you want to actually see the nested structure you can use a function signature that also builds children.
+### The ubiquitous b
 
-CodeSample:NestedHtmlNestedCalls:View
+To fix this, you might expect to be able to call something like
 
-Sometimes it's more compact and clearer. Sometimes you go several levels deep and you might get completely lost. Use whatever style works better in each particular case
-and if it suits you you can, of course, combine them.
+<pre><code class="language-csharp">
+mainContainer.AddChild(container);
+</code></pre>
 
-CodeSample:NestedHtmlCombinedCalls:View
+The problem with that is that there is no <span class="inline-code">b</span> in the call. You need it, as there are actually no divs. Remember, you are just building a script that will run client side, sometime in the future. At this point you are only 
+declaring the structure of the script, you are not actually running it. You don't actually work with HTML but with a <span class="inline-code">StringBuilder</span>. Always start with <span class="inline-code">b</span>.

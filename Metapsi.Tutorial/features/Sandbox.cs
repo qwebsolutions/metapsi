@@ -531,6 +531,7 @@ public static partial class Control
         HashSet<string> whitelistedNamespaces = new HashSet<string>();
         whitelistedNamespaces.Add("Metapsi.Hyperapp");
         whitelistedNamespaces.Add("Metapsi.Syntax");
+        whitelistedNamespaces.Add("Metapsi.Html");
         whitelistedNamespaces.Add("Metapsi.Tutorial.Template");
         whitelistedNamespaces.Add("System.Linq");
 

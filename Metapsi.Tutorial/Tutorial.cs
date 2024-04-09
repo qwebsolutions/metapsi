@@ -120,17 +120,20 @@ public class TutorialPage : HtmlPage<TutorialModel>
         {
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))
             {
-                DocumentTag documentTag = Tutorial.SmallLayout(document, dataModel, dataModel.CurrentEntry.Title, DivTag.CreateStyled("w-full flex flex-row justify-between items-center", HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), MobileExpandCodeButton()), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", DivTag.CreateStyled("h-full", MobileSandbox(), SmallDocsPanel(dataModel))));
-                documentTag.Head.Children.Insert(0, new HtmlTag("script").SetAttribute("type", "importmap").WithChild(new HtmlText
+                // TODO: Investigate why I need to add this here, as it's added by the component as well
+                document.Head.AddChild(SlComponent.BasePathScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/"));
+
+                Tutorial.InitSmallLayout(document, dataModel, dataModel.CurrentEntry.Title, DivTag.CreateStyled("w-full flex flex-row justify-between items-center", HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), MobileExpandCodeButton()), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", DivTag.CreateStyled("h-full", MobileSandbox(), SmallDocsPanel(dataModel))));
+                document.Head.Children.Insert(0, new HtmlTag("script").SetAttribute("type", "importmap").WithChild(new HtmlText
                 {
                     Text = "{\r\n\t\t\"imports\": {\r\n\t\t\t\"codemirror/\": \"https://deno.land/x/codemirror_esm@v6.0.1/esm/\"\r\n\t\t}\r\n\t}"
                 }));
-                documentTag.Head.AddStylesheet("prism.css");
-                documentTag.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
+                document.Head.AddStylesheet("prism.css");
+                document.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
                 return;
             }
             else
-            Tutorial.LargeLayout(
+            Tutorial.InitLargeLayout(
                 document, 
                 dataModel, 
                 dataModel.CurrentEntry.Title, 
