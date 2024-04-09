@@ -1,13 +1,12 @@
 # Other HTML tags
 
 
-The <span class="inline-code">HtmlDiv</span> and <span class="inline-code">HtmlSpan</span> functions are just helpers for commonly used tags. 
-If Metapsi does not provide a builder for a particular tag, you can use the general <span class="inline-code">H</span> function to create it. This really comes in handy when using web components, which are actually completely custom tags that Metapsi could not know beforehand. For example, 
-to add a <a href="https://web-components.carbondesignsystem.com/?path=/story/introduction-welcome--page">Carbon drop down</a> 
+Functions like <span class="inline-code">HtmlDiv</span> or <span class="inline-code">SlBadge</span> are just helpers for known tags. 
+If Metapsi does not provide a builder for a particular tag, you can use the general <span class="inline-code">H</span> function to create it. This is needed when using various web component libraries, which are actually completely custom tags that Metapsi could not know beforehand. For example, to add a <a href="https://web-components.carbondesignsystem.com/?path=/story/introduction-welcome--page">Carbon drop down</a> 
 
 CodeSample:CustomTagsCarbonComponent:View
 
 
+### Why H?
 
-<div class="block-note">This tutorial uses <a href="https://shoelace.style" target="_blank">Shoelace web components</a>, for which Metapsi provides support out of the box.</div>
-
+Under the hood Metapsi uses <a href="https://github.com/jorgebucaran/hyperapp">Hyperapp</a>, a very minimal web framework that handles the virtual DOM and event handling. <span class="inline-code">H</span> is the function that creates virtual nodes. The other function that you already know is <span class="inline-code">Text</span>, which just adds the text node itself to the virtual DOM.

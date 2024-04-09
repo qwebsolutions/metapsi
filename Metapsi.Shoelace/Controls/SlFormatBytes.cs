@@ -76,6 +76,20 @@ public static partial class SlFormatBytesControl
         return b.SlNode("sl-format-bytes", buildProps, children);
     }
     /// <summary>
+    /// Formats a number as a human readable bytes value.
+    /// </summary>
+    public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-format-bytes", children);
+    }
+    /// <summary>
+    /// Formats a number as a human readable bytes value.
+    /// </summary>
+    public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-format-bytes", children);
+    }
+    /// <summary>
     /// The number to format in bytes.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlFormatBytes> b, Var<int> value)

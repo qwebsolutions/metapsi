@@ -22,12 +22,12 @@
             "Url": "/tutorial/nested-html"
           },
           {
-            "Title": "Custom tags",
-            "Url": "/tutorial/custom-tags"
-          },
-          {
             "Title": "HTML attributes",
             "Url": "/tutorial/html-attributes"
+          },
+          {
+            "Title": "Custom tags",
+            "Url": "/tutorial/custom-tags"
           },
           {
             "Title": "Data model",

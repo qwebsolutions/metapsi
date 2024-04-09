@@ -104,6 +104,20 @@ public static partial class SlDialogControl
         return b.SlNode("sl-dialog", buildProps, children);
     }
     /// <summary>
+    /// Dialogs, sometimes called "modals", appear above the page and require the user's immediate attention.
+    /// </summary>
+    public static Var<IVNode> SlDialog(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-dialog", children);
+    }
+    /// <summary>
+    /// Dialogs, sometimes called "modals", appear above the page and require the user's immediate attention.
+    /// </summary>
+    public static Var<IVNode> SlDialog(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-dialog", children);
+    }
+    /// <summary>
     /// Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state.
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDialog> b)

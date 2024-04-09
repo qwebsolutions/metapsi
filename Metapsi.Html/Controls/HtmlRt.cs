@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlRtControl
     public static Var<IVNode> HtmlRt(this LayoutBuilder b, Action<PropsBuilder<HtmlRt>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("rt", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML rt tag
+    /// </summary>
+    public static Var<IVNode> HtmlRt(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("rt", children);
+    }
+    /// <summary>
+    /// The HTML rt tag
+    /// </summary>
+    public static Var<IVNode> HtmlRt(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("rt", children);
     }
 }
 

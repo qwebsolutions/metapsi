@@ -208,6 +208,20 @@ public static partial class SlSwitchControl
         return b.SlNode("sl-switch", buildProps, children);
     }
     /// <summary>
+    /// Switches allow the user to toggle an option on or off.
+    /// </summary>
+    public static Var<IVNode> SlSwitch(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-switch", children);
+    }
+    /// <summary>
+    /// Switches allow the user to toggle an option on or off.
+    /// </summary>
+    public static Var<IVNode> SlSwitch(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-switch", children);
+    }
+    /// <summary>
     /// The name of the switch, submitted as a name/value pair with form data.
     /// </summary>
     public static void SetName(this PropsBuilder<SlSwitch> b, Var<string> value)

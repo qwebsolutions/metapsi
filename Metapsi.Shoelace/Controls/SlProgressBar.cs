@@ -77,6 +77,20 @@ public static partial class SlProgressBarControl
         return b.SlNode("sl-progress-bar", buildProps, children);
     }
     /// <summary>
+    /// Progress bars are used to show the status of an ongoing operation.
+    /// </summary>
+    public static Var<IVNode> SlProgressBar(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-progress-bar", children);
+    }
+    /// <summary>
+    /// Progress bars are used to show the status of an ongoing operation.
+    /// </summary>
+    public static Var<IVNode> SlProgressBar(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-progress-bar", children);
+    }
+    /// <summary>
     /// The current progress as a percentage, 0 to 100.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlProgressBar> b, Var<int> value)

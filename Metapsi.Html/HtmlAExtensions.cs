@@ -14,4 +14,14 @@ public static class HtmlAExtensions
     {
         b.SetHref(b.Const(href));
     }
+
+    public static void SetTarget(this PropsBuilder<HtmlA> b, Var<string> target)
+    {
+        b.SetAttribute("target", target);
+    }
+
+    public static void SetTarget(this PropsBuilder<HtmlA> b, string target)
+    {
+        b.SetTarget(b.Const(target));
+    }
 }

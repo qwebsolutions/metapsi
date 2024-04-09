@@ -126,6 +126,20 @@ public static partial class SlMutationObserverControl
         return b.SlNode("sl-mutation-observer", buildProps, children);
     }
     /// <summary>
+    /// The Mutation Observer component offers a thin, declarative interface to the [`MutationObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+    /// </summary>
+    public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-mutation-observer", children);
+    }
+    /// <summary>
+    /// The Mutation Observer component offers a thin, declarative interface to the [`MutationObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+    /// </summary>
+    public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-mutation-observer", children);
+    }
+    /// <summary>
     /// Watches for changes to attributes. To watch only specific attributes, separate them by a space, e.g. `attr="class id title"`. To watch all attributes, use `*`.
     /// </summary>
     public static void SetAttr(this PropsBuilder<SlMutationObserver> b, Var<string> value)

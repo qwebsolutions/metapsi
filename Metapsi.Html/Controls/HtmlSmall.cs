@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlSmallControl
     public static Var<IVNode> HtmlSmall(this LayoutBuilder b, Action<PropsBuilder<HtmlSmall>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("small", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML small tag
+    /// </summary>
+    public static Var<IVNode> HtmlSmall(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("small", children);
+    }
+    /// <summary>
+    /// The HTML small tag
+    /// </summary>
+    public static Var<IVNode> HtmlSmall(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("small", children);
     }
 }
 

@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlInsControl
     public static Var<IVNode> HtmlIns(this LayoutBuilder b, Action<PropsBuilder<HtmlIns>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("ins", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML ins tag
+    /// </summary>
+    public static Var<IVNode> HtmlIns(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("ins", children);
+    }
+    /// <summary>
+    /// The HTML ins tag
+    /// </summary>
+    public static Var<IVNode> HtmlIns(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("ins", children);
     }
 }
 

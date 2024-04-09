@@ -62,6 +62,20 @@ public static partial class SlTabPanelControl
         return b.SlNode("sl-tab-panel", buildProps, children);
     }
     /// <summary>
+    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    /// </summary>
+    public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tab-panel", children);
+    }
+    /// <summary>
+    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    /// </summary>
+    public static Var<IVNode> SlTabPanel(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tab-panel", children);
+    }
+    /// <summary>
     /// The tab panel's name.
     /// </summary>
     public static void SetName(this PropsBuilder<SlTabPanel> b, Var<string> value)

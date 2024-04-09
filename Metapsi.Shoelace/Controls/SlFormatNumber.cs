@@ -182,6 +182,20 @@ public static partial class SlFormatNumberControl
         return b.SlNode("sl-format-number", buildProps, children);
     }
     /// <summary>
+    /// Formats a number using the specified locale and options.
+    /// </summary>
+    public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-format-number", children);
+    }
+    /// <summary>
+    /// Formats a number using the specified locale and options.
+    /// </summary>
+    public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-format-number", children);
+    }
+    /// <summary>
     /// The number to format.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlFormatNumber> b, Var<int> value)

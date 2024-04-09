@@ -53,6 +53,20 @@ public static partial class SlBreadcrumbControl
         return b.SlNode("sl-breadcrumb", buildProps, children);
     }
     /// <summary>
+    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    /// </summary>
+    public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-breadcrumb", children);
+    }
+    /// <summary>
+    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    /// </summary>
+    public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-breadcrumb", children);
+    }
+    /// <summary>
     /// The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users.
     /// </summary>
     public static void SetLabel(this PropsBuilder<SlBreadcrumb> b, Var<string> value)

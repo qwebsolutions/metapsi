@@ -46,6 +46,20 @@ public static partial class SlButtonGroupControl
         return b.SlNode("sl-button-group", buildProps, children);
     }
     /// <summary>
+    /// Button groups can be used to group related buttons into sections.
+    /// </summary>
+    public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-button-group", children);
+    }
+    /// <summary>
+    /// Button groups can be used to group related buttons into sections.
+    /// </summary>
+    public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-button-group", children);
+    }
+    /// <summary>
     /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
     /// </summary>
     public static void SetLabel(this PropsBuilder<SlButtonGroup> b, Var<string> value)

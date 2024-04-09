@@ -135,6 +135,20 @@ public static partial class SlDrawerControl
         return b.SlNode("sl-drawer", buildProps, children);
     }
     /// <summary>
+    /// Drawers slide in from a container to expose additional options and information.
+    /// </summary>
+    public static Var<IVNode> SlDrawer(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-drawer", children);
+    }
+    /// <summary>
+    /// Drawers slide in from a container to expose additional options and information.
+    /// </summary>
+    public static Var<IVNode> SlDrawer(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-drawer", children);
+    }
+    /// <summary>
     /// Indicates whether or not the drawer is open. You can toggle this attribute to show and hide the drawer, or you can use the `show()` and `hide()` methods and this attribute will reflect the drawer's open state.
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDrawer> b)

@@ -47,6 +47,20 @@ public static partial class SlResizeObserverControl
         return b.SlNode("sl-resize-observer", buildProps, children);
     }
     /// <summary>
+    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    /// </summary>
+    public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-resize-observer", children);
+    }
+    /// <summary>
+    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    /// </summary>
+    public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-resize-observer", children);
+    }
+    /// <summary>
     /// Disables the observer.
     /// </summary>
     public static void SetDisabled(this PropsBuilder<SlResizeObserver> b)

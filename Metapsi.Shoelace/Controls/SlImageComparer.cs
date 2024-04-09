@@ -61,6 +61,20 @@ public static partial class SlImageComparerControl
         return b.SlNode("sl-image-comparer", buildProps, children);
     }
     /// <summary>
+    /// Compare visual differences between similar photos with a sliding panel.
+    /// </summary>
+    public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-image-comparer", children);
+    }
+    /// <summary>
+    /// Compare visual differences between similar photos with a sliding panel.
+    /// </summary>
+    public static Var<IVNode> SlImageComparer(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-image-comparer", children);
+    }
+    /// <summary>
     /// The position of the divider as a percentage.
     /// </summary>
     public static void SetPosition(this PropsBuilder<SlImageComparer> b, Var<int> value)

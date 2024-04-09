@@ -47,6 +47,20 @@ public static partial class SlDividerControl
         return b.SlNode("sl-divider", buildProps, children);
     }
     /// <summary>
+    /// Dividers are used to visually separate or group elements.
+    /// </summary>
+    public static Var<IVNode> SlDivider(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-divider", children);
+    }
+    /// <summary>
+    /// Dividers are used to visually separate or group elements.
+    /// </summary>
+    public static Var<IVNode> SlDivider(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-divider", children);
+    }
+    /// <summary>
     /// Draws the divider in a vertical orientation.
     /// </summary>
     public static void SetVertical(this PropsBuilder<SlDivider> b)

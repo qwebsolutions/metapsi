@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlH3Control
     public static Var<IVNode> HtmlH3(this LayoutBuilder b, Action<PropsBuilder<HtmlH3>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("h3", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML h3 tag
+    /// </summary>
+    public static Var<IVNode> HtmlH3(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("h3", children);
+    }
+    /// <summary>
+    /// The HTML h3 tag
+    /// </summary>
+    public static Var<IVNode> HtmlH3(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("h3", children);
     }
 }
 

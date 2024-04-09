@@ -77,6 +77,20 @@ public static partial class SlRadioControl
         return b.SlNode("sl-radio", buildProps, children);
     }
     /// <summary>
+    /// Radios allow the user to select a single option from a group.
+    /// </summary>
+    public static Var<IVNode> SlRadio(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-radio", children);
+    }
+    /// <summary>
+    /// Radios allow the user to select a single option from a group.
+    /// </summary>
+    public static Var<IVNode> SlRadio(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-radio", children);
+    }
+    /// <summary>
     /// The radio's value. When selected, the radio group will receive this value.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlRadio> b, Var<string> value)

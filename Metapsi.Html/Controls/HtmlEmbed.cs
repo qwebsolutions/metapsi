@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlEmbedControl
     public static Var<IVNode> HtmlEmbed(this LayoutBuilder b, Action<PropsBuilder<HtmlEmbed>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("embed", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML embed tag
+    /// </summary>
+    public static Var<IVNode> HtmlEmbed(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("embed", children);
+    }
+    /// <summary>
+    /// The HTML embed tag
+    /// </summary>
+    public static Var<IVNode> HtmlEmbed(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("embed", children);
     }
 }
 

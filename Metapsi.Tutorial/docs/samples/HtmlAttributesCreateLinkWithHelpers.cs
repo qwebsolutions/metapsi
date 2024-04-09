@@ -5,9 +5,9 @@ using Metapsi.Syntax;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// Setting attributes for a link
+/// Setting typed attributes
 /// </summary>
-public class HtmlAttributesCreateLink : TutorialSample<HtmlAttributesCreateLink.Model>
+public class HtmlAttributesCreateLinkWithHelpers : TutorialSample<HtmlAttributesCreateLinkWithHelpers.Model>
 {
     public class Model
     {
@@ -18,9 +18,9 @@ public class HtmlAttributesCreateLink : TutorialSample<HtmlAttributesCreateLink.
         return b.HtmlA(
             b =>
             {
-                b.SetAttribute("href", "https://www.w3schools.com/tags/tag_a.asp");
-                b.SetAttribute("target", b.Const("_blank"));
-                b.SetAttribute("class", "underline text-blue-500");
+                b.SetHref("https://www.w3schools.com/tags/tag_a.asp");
+                b.SetTarget("_blank");
+                b.SetClass("underline text-blue-500");
             },
             b.Text("link"));
     }

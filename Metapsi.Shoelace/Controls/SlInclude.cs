@@ -77,6 +77,20 @@ public static partial class SlIncludeControl
         return b.SlNode("sl-include", buildProps, children);
     }
     /// <summary>
+    /// Includes give you the power to embed external HTML files into the page.
+    /// </summary>
+    public static Var<IVNode> SlInclude(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-include", children);
+    }
+    /// <summary>
+    /// Includes give you the power to embed external HTML files into the page.
+    /// </summary>
+    public static Var<IVNode> SlInclude(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-include", children);
+    }
+    /// <summary>
     /// The location of the HTML file to include. Be sure you trust the content you are including as it will be executed as code and can result in XSS attacks.
     /// </summary>
     public static void SetSrc(this PropsBuilder<SlInclude> b, Var<string> value)

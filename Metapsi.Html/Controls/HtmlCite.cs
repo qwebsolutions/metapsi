@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlCiteControl
     public static Var<IVNode> HtmlCite(this LayoutBuilder b, Action<PropsBuilder<HtmlCite>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("cite", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML cite tag
+    /// </summary>
+    public static Var<IVNode> HtmlCite(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("cite", children);
+    }
+    /// <summary>
+    /// The HTML cite tag
+    /// </summary>
+    public static Var<IVNode> HtmlCite(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("cite", children);
     }
 }
 

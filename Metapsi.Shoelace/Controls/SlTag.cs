@@ -93,6 +93,20 @@ public static partial class SlTagControl
         return b.SlNode("sl-tag", buildProps, children);
     }
     /// <summary>
+    /// Tags are used as labels to organize things or to indicate a selection.
+    /// </summary>
+    public static Var<IVNode> SlTag(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tag", children);
+    }
+    /// <summary>
+    /// Tags are used as labels to organize things or to indicate a selection.
+    /// </summary>
+    public static Var<IVNode> SlTag(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tag", children);
+    }
+    /// <summary>
     /// The tag's theme variant.
     /// </summary>
     public static void SetVariantPrimary(this PropsBuilder<SlTag> b)

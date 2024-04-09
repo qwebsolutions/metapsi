@@ -115,6 +115,20 @@ public static partial class SlRadioButtonControl
         return b.SlNode("sl-radio-button", buildProps, children);
     }
     /// <summary>
+    /// Radios buttons allow the user to select a single option from a group using a button-like control.
+    /// </summary>
+    public static Var<IVNode> SlRadioButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-radio-button", children);
+    }
+    /// <summary>
+    /// Radios buttons allow the user to select a single option from a group using a button-like control.
+    /// </summary>
+    public static Var<IVNode> SlRadioButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-radio-button", children);
+    }
+    /// <summary>
     /// The radio's value. When selected, the radio group will receive this value.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlRadioButton> b, Var<string> value)

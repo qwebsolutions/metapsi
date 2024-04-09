@@ -382,6 +382,20 @@ public static partial class SlSelectControl
         return b.SlNode("sl-select", buildProps, children);
     }
     /// <summary>
+    /// Selects allow you to choose items from a menu of predefined options.
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-select", children);
+    }
+    /// <summary>
+    /// Selects allow you to choose items from a menu of predefined options.
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-select", children);
+    }
+    /// <summary>
     /// The name of the select, submitted as a name/value pair with form data.
     /// </summary>
     public static void SetName(this PropsBuilder<SlSelect> b, Var<string> value)

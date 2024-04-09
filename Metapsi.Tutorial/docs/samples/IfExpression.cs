@@ -20,14 +20,17 @@ public class IfExpression : TutorialSample<IfExpression.Model>
         var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        return b.Text(
-            b.If(
-                anyLoggedUser,
-                b => b.Concat(
-                    b.Const("There are "),
-                    b.AsString(loggedUsersCount),
-                    b.Const(" logged users")),
-                b => b.Const("There are no logged users")));
+        var statusText = b.If(
+            anyLoggedUser,
+            b =>
+            b.Concat(
+                b.Const("There are "),
+                b.AsString(loggedUsersCount),
+                b.Const(" logged users")),
+            b =>
+            b.Const("There are no logged users"));
+
+        return b.Text(statusText);
     }
 
     public override Model GetSampleData()

@@ -619,6 +619,20 @@ public static partial class SlInputControl
         return b.SlNode("sl-input", buildProps, children);
     }
     /// <summary>
+    /// Inputs collect data from the user.
+    /// </summary>
+    public static Var<IVNode> SlInput(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-input", children);
+    }
+    /// <summary>
+    /// Inputs collect data from the user.
+    /// </summary>
+    public static Var<IVNode> SlInput(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-input", children);
+    }
+    /// <summary>
     /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
     /// </summary>
     public static void SetTypeDate(this PropsBuilder<SlInput> b)

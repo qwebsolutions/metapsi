@@ -39,4 +39,22 @@ public static partial class SlNodeExtensions
         ImportShoelaceTag(b, tag);
         return b.H(tag, buildProps, children);
     }
+
+    public static Var<IVNode> SlNode(
+        this LayoutBuilder b,
+        string tag,
+        Var<List<IVNode>> children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.H(tag, children);
+    }
+
+    public static Var<IVNode> SlNode(
+        this LayoutBuilder b,
+        string tag,
+        Var<IVNode>[] children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.H(tag, children);
+    }
 }

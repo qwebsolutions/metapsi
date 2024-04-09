@@ -30,5 +30,19 @@ public static partial class SlSpinnerControl
     {
         return b.SlNode("sl-spinner", buildProps, children);
     }
+    /// <summary>
+    /// Spinners are used to show the progress of an indeterminate operation.
+    /// </summary>
+    public static Var<IVNode> SlSpinner(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-spinner", children);
+    }
+    /// <summary>
+    /// Spinners are used to show the progress of an indeterminate operation.
+    /// </summary>
+    public static Var<IVNode> SlSpinner(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-spinner", children);
+    }
 }
 

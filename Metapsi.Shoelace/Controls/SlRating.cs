@@ -149,6 +149,20 @@ public static partial class SlRatingControl
         return b.SlNode("sl-rating", buildProps, children);
     }
     /// <summary>
+    /// Ratings give users a way to quickly view and provide feedback.
+    /// </summary>
+    public static Var<IVNode> SlRating(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-rating", children);
+    }
+    /// <summary>
+    /// Ratings give users a way to quickly view and provide feedback.
+    /// </summary>
+    public static Var<IVNode> SlRating(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-rating", children);
+    }
+    /// <summary>
     /// A label that describes the rating to assistive devices.
     /// </summary>
     public static void SetLabel(this PropsBuilder<SlRating> b, Var<string> value)

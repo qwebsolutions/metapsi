@@ -131,6 +131,20 @@ public static partial class SlMenuItemControl
         return b.SlNode("sl-menu-item", buildProps, children);
     }
     /// <summary>
+    /// Menu items provide options for the user to pick from in a menu.
+    /// </summary>
+    public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-menu-item", children);
+    }
+    /// <summary>
+    /// Menu items provide options for the user to pick from in a menu.
+    /// </summary>
+    public static Var<IVNode> SlMenuItem(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-menu-item", children);
+    }
+    /// <summary>
     /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
     /// </summary>
     public static void SetTypeNormal(this PropsBuilder<SlMenuItem> b)

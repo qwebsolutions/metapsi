@@ -92,6 +92,20 @@ public static partial class SlRelativeTimeControl
         return b.SlNode("sl-relative-time", buildProps, children);
     }
     /// <summary>
+    /// Outputs a localized time phrase relative to the current date and time.
+    /// </summary>
+    public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-relative-time", children);
+    }
+    /// <summary>
+    /// Outputs a localized time phrase relative to the current date and time.
+    /// </summary>
+    public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-relative-time", children);
+    }
+    /// <summary>
     /// The date from which to calculate time from. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
     /// </summary>
     public static void SetDate(this PropsBuilder<SlRelativeTime> b, Var<DateTime> value)

@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlSelectControl
     public static Var<IVNode> HtmlSelect(this LayoutBuilder b, Action<PropsBuilder<HtmlSelect>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("select", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML select tag
+    /// </summary>
+    public static Var<IVNode> HtmlSelect(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("select", children);
+    }
+    /// <summary>
+    /// The HTML select tag
+    /// </summary>
+    public static Var<IVNode> HtmlSelect(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("select", children);
     }
 }
 

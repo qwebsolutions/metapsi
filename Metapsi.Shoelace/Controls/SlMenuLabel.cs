@@ -30,5 +30,19 @@ public static partial class SlMenuLabelControl
     {
         return b.SlNode("sl-menu-label", buildProps, children);
     }
+    /// <summary>
+    /// Menu labels are used to describe a group of menu items.
+    /// </summary>
+    public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-menu-label", children);
+    }
+    /// <summary>
+    /// Menu labels are used to describe a group of menu items.
+    /// </summary>
+    public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-menu-label", children);
+    }
 }
 

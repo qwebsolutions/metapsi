@@ -61,6 +61,20 @@ public static partial class SlProgressRingControl
         return b.SlNode("sl-progress-ring", buildProps, children);
     }
     /// <summary>
+    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    /// </summary>
+    public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-progress-ring", children);
+    }
+    /// <summary>
+    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    /// </summary>
+    public static Var<IVNode> SlProgressRing(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-progress-ring", children);
+    }
+    /// <summary>
     /// The current progress as a percentage, 0 to 100.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlProgressRing> b, Var<int> value)

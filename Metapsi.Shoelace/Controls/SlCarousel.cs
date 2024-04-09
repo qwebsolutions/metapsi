@@ -197,6 +197,20 @@ public static partial class SlCarouselControl
         return b.SlNode("sl-carousel", buildProps, children);
     }
     /// <summary>
+    /// Carousels display an arbitrary number of content slides along a horizontal or vertical axis.
+    /// </summary>
+    public static Var<IVNode> SlCarousel(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-carousel", children);
+    }
+    /// <summary>
+    /// Carousels display an arbitrary number of content slides along a horizontal or vertical axis.
+    /// </summary>
+    public static Var<IVNode> SlCarousel(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-carousel", children);
+    }
+    /// <summary>
     /// When set, allows the user to navigate the carousel in the same direction indefinitely.
     /// </summary>
     public static void SetLoop(this PropsBuilder<SlCarousel> b)

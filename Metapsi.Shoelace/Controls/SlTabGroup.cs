@@ -91,6 +91,20 @@ public static partial class SlTabGroupControl
         return b.SlNode("sl-tab-group", buildProps, children);
     }
     /// <summary>
+    /// Tab groups organize content into a container that shows one section at a time.
+    /// </summary>
+    public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tab-group", children);
+    }
+    /// <summary>
+    /// Tab groups organize content into a container that shows one section at a time.
+    /// </summary>
+    public static Var<IVNode> SlTabGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tab-group", children);
+    }
+    /// <summary>
     /// The placement of the tabs.
     /// </summary>
     public static void SetPlacementTop(this PropsBuilder<SlTabGroup> b)

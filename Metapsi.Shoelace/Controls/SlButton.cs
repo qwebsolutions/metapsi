@@ -395,6 +395,20 @@ public static partial class SlButtonControl
         return b.SlNode("sl-button", buildProps, children);
     }
     /// <summary>
+    /// Buttons represent actions that are available to the user.
+    /// </summary>
+    public static Var<IVNode> SlButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-button", children);
+    }
+    /// <summary>
+    /// Buttons represent actions that are available to the user.
+    /// </summary>
+    public static Var<IVNode> SlButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-button", children);
+    }
+    /// <summary>
     /// The button's theme variant.
     /// </summary>
     public static void SetVariantDefault(this PropsBuilder<SlButton> b)

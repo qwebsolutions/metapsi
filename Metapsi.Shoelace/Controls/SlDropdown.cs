@@ -177,6 +177,20 @@ public static partial class SlDropdownControl
         return b.SlNode("sl-dropdown", buildProps, children);
     }
     /// <summary>
+    /// Dropdowns expose additional content that "drops down" in a panel.
+    /// </summary>
+    public static Var<IVNode> SlDropdown(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-dropdown", children);
+    }
+    /// <summary>
+    /// Dropdowns expose additional content that "drops down" in a panel.
+    /// </summary>
+    public static Var<IVNode> SlDropdown(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-dropdown", children);
+    }
+    /// <summary>
     /// Indicates whether or not the dropdown is open. You can toggle this attribute to show and hide the dropdown, or you can use the `show()` and `hide()` methods and this attribute will reflect the dropdown's open state.
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDropdown> b)

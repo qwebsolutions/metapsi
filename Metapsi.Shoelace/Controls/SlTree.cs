@@ -57,6 +57,20 @@ public static partial class SlTreeControl
         return b.SlNode("sl-tree", buildProps, children);
     }
     /// <summary>
+    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    /// </summary>
+    public static Var<IVNode> SlTree(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tree", children);
+    }
+    /// <summary>
+    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    /// </summary>
+    public static Var<IVNode> SlTree(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tree", children);
+    }
+    /// <summary>
     /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
     /// </summary>
     public static void SetSelectionSingle(this PropsBuilder<SlTree> b)

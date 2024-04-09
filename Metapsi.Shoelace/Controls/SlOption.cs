@@ -80,6 +80,20 @@ public static partial class SlOptionControl
         return b.SlNode("sl-option", buildProps, children);
     }
     /// <summary>
+    /// Options define the selectable items within various form controls such as [select](/components/select).
+    /// </summary>
+    public static Var<IVNode> SlOption(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-option", children);
+    }
+    /// <summary>
+    /// Options define the selectable items within various form controls such as [select](/components/select).
+    /// </summary>
+    public static Var<IVNode> SlOption(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-option", children);
+    }
+    /// <summary>
     /// The option's value. When selected, the containing form control will receive this value. The value must be unique from other options in the same group. Values may not contain spaces, as spaces are used as delimiters when listing multiple values.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlOption> b, Var<string> value)

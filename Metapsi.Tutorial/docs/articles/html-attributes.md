@@ -5,13 +5,17 @@ Let's create a link.
 
 CodeSample:HtmlAttributesCreateLink:View
 
-You set attributes with the <span class="inline-code">b.SetAttr()</span> call using one of the predefined attributes in the <span class="inline-code">Html</span> static class.
+You set attributes with the <span class="inline-code">b.SetAttribute()</span> call. That's simple, but quite verbose.
 
-<div class="block-note">Not all attributes are predefined. There is a much lower level concept, DynamicProperty, on which attributes are based. We don't cover that know, it's enough to know that any attribute can be set, even in web components.</div>
+## Typed builders
 
-It doesn't really look like a link, though. Maybe we can fix that?
-Up until now setting the CSS class was hidden from us by the call that builds the tag and sets the class attribute automatically. We can now presume that, under the hood, the CSS class works like any other attribute.
+Some attributes are more common that others and they might only work in a specific context. For our particular example, an HTML <span class='inline-code'>&lt;a&gt;</span> tag requently needs setting the <span class='inline-code'>href</span> and <span class='inline-code'>target</span> attributes. For this reason some node builders offer specific helper functions for a quicker development experience.
 
-CodeSample:HtmlAttributesSetClass:View
 
-<div class="block-note"><i>class</i> is a reserved keyword in C# so we use the <i>@</i> prefix.</div>
+CodeSample:HtmlAttributesCreateLinkWithHelpers:View
+
+This especially comes in handy when exploring the supported web components.
+
+CodeSample:HtmlAttributesWebComponents:View
+
+<div class="block-note">This tutorial itself uses <a href="https://shoelace.style" target="_blank">Shoelace web components</a>, for which Metapsi provides support out of the box through the Metapsi.Shoelace nuget</div>

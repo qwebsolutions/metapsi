@@ -46,6 +46,20 @@ public static partial class SlSkeletonControl
         return b.SlNode("sl-skeleton", buildProps, children);
     }
     /// <summary>
+    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    /// </summary>
+    public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-skeleton", children);
+    }
+    /// <summary>
+    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    /// </summary>
+    public static Var<IVNode> SlSkeleton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-skeleton", children);
+    }
+    /// <summary>
     /// Determines which effect the skeleton will use.
     /// </summary>
     public static void SetEffectPulse(this PropsBuilder<SlSkeleton> b)

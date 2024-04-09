@@ -224,6 +224,20 @@ public static partial class SlCheckboxControl
         return b.SlNode("sl-checkbox", buildProps, children);
     }
     /// <summary>
+    /// Checkboxes allow the user to toggle an option on or off.
+    /// </summary>
+    public static Var<IVNode> SlCheckbox(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-checkbox", children);
+    }
+    /// <summary>
+    /// Checkboxes allow the user to toggle an option on or off.
+    /// </summary>
+    public static Var<IVNode> SlCheckbox(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-checkbox", children);
+    }
+    /// <summary>
     /// The name of the checkbox, submitted as a name/value pair with form data.
     /// </summary>
     public static void SetName(this PropsBuilder<SlCheckbox> b, Var<string> value)

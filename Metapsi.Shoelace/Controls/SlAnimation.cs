@@ -223,6 +223,20 @@ public static partial class SlAnimationControl
         return b.SlNode("sl-animation", buildProps, children);
     }
     /// <summary>
+    /// Animate elements declaratively with nearly 100 baked-in presets, or roll your own with custom keyframes. Powered by the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+    /// </summary>
+    public static Var<IVNode> SlAnimation(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-animation", children);
+    }
+    /// <summary>
+    /// Animate elements declaratively with nearly 100 baked-in presets, or roll your own with custom keyframes. Powered by the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+    /// </summary>
+    public static Var<IVNode> SlAnimation(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-animation", children);
+    }
+    /// <summary>
     /// The name of the built-in animation to use. For custom animations, use the `keyframes` prop.
     /// </summary>
     public static void SetName(this PropsBuilder<SlAnimation> b, Var<string> value)

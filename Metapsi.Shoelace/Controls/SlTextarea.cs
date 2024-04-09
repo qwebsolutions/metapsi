@@ -436,6 +436,20 @@ public static partial class SlTextareaControl
         return b.SlNode("sl-textarea", buildProps, children);
     }
     /// <summary>
+    /// Textareas collect data from the user and allow multiple lines of text.
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-textarea", children);
+    }
+    /// <summary>
+    /// Textareas collect data from the user and allow multiple lines of text.
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-textarea", children);
+    }
+    /// <summary>
     /// The name of the textarea, submitted as a name/value pair with form data.
     /// </summary>
     public static void SetName(this PropsBuilder<SlTextarea> b, Var<string> value)

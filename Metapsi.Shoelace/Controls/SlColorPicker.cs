@@ -305,6 +305,20 @@ public static partial class SlColorPickerControl
         return b.SlNode("sl-color-picker", buildProps, children);
     }
     /// <summary>
+    /// Color pickers allow the user to select a color.
+    /// </summary>
+    public static Var<IVNode> SlColorPicker(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-color-picker", children);
+    }
+    /// <summary>
+    /// Color pickers allow the user to select a color.
+    /// </summary>
+    public static Var<IVNode> SlColorPicker(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-color-picker", children);
+    }
+    /// <summary>
     /// The current value of the color picker. The value's format will vary based the `format` attribute. To get the value in a specific format, use the `getFormattedValue()` method. The value is submitted as a name/value pair with form data.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlColorPicker> b, Var<string> value)

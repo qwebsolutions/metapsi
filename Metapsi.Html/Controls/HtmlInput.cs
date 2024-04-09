@@ -3,6 +3,8 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Ui;
+using Metapsi.Html;
+using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
@@ -26,6 +28,20 @@ public static partial class HtmlInputControl
     public static Var<IVNode> HtmlInput(this LayoutBuilder b, Action<PropsBuilder<HtmlInput>> buildProps, params Var<IVNode>[] children)
     {
         return b.H("input", buildProps, children);
+    }
+    /// <summary>
+    /// The HTML input tag
+    /// </summary>
+    public static Var<IVNode> HtmlInput(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("input", children);
+    }
+    /// <summary>
+    /// The HTML input tag
+    /// </summary>
+    public static Var<IVNode> HtmlInput(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("input", children);
     }
 }
 

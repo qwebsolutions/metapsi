@@ -91,6 +91,20 @@ public static partial class SlBreadcrumbItemControl
         return b.SlNode("sl-breadcrumb-item", buildProps, children);
     }
     /// <summary>
+    /// Breadcrumb Items are used inside [breadcrumbs](/components/breadcrumb) to represent different links.
+    /// </summary>
+    public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-breadcrumb-item", children);
+    }
+    /// <summary>
+    /// Breadcrumb Items are used inside [breadcrumbs](/components/breadcrumb) to represent different links.
+    /// </summary>
+    public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-breadcrumb-item", children);
+    }
+    /// <summary>
     /// Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead.
     /// </summary>
     public static void SetHref(this PropsBuilder<SlBreadcrumbItem> b, Var<string> value)

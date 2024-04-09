@@ -88,6 +88,20 @@ public static partial class SlAnimatedImageControl
         return b.SlNode("sl-animated-image", buildProps, children);
     }
     /// <summary>
+    /// A component for displaying animated GIFs and WEBPs that play and pause on interaction.
+    /// </summary>
+    public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-animated-image", children);
+    }
+    /// <summary>
+    /// A component for displaying animated GIFs and WEBPs that play and pause on interaction.
+    /// </summary>
+    public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-animated-image", children);
+    }
+    /// <summary>
     /// The path to the image to load.
     /// </summary>
     public static void SetSrc(this PropsBuilder<SlAnimatedImage> b, Var<string> value)

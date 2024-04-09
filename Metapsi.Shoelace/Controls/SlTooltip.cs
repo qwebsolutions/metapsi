@@ -172,6 +172,20 @@ public static partial class SlTooltipControl
         return b.SlNode("sl-tooltip", buildProps, children);
     }
     /// <summary>
+    /// Tooltips display additional information based on a specific action.
+    /// </summary>
+    public static Var<IVNode> SlTooltip(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tooltip", children);
+    }
+    /// <summary>
+    /// Tooltips display additional information based on a specific action.
+    /// </summary>
+    public static Var<IVNode> SlTooltip(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tooltip", children);
+    }
+    /// <summary>
     /// The tooltip's content. If you need to display HTML, use the `content` slot instead.
     /// </summary>
     public static void SetContent(this PropsBuilder<SlTooltip> b, Var<string> value)

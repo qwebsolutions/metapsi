@@ -115,6 +115,20 @@ public static partial class SlAlertControl
         return b.SlNode("sl-alert", buildProps, children);
     }
     /// <summary>
+    /// Alerts are used to display important messages inline or as toast notifications.
+    /// </summary>
+    public static Var<IVNode> SlAlert(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-alert", children);
+    }
+    /// <summary>
+    /// Alerts are used to display important messages inline or as toast notifications.
+    /// </summary>
+    public static Var<IVNode> SlAlert(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-alert", children);
+    }
+    /// <summary>
     /// Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert, or you can use the `show()` and `hide()` methods and this attribute will reflect the alert's open state.
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlAlert> b)

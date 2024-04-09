@@ -30,5 +30,19 @@ public static partial class SlCarouselItemControl
     {
         return b.SlNode("sl-carousel-item", buildProps, children);
     }
+    /// <summary>
+    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    /// </summary>
+    public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-carousel-item", children);
+    }
+    /// <summary>
+    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    /// </summary>
+    public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-carousel-item", children);
+    }
 }
 

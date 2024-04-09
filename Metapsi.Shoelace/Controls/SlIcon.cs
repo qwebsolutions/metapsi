@@ -98,6 +98,20 @@ public static partial class SlIconControl
         return b.SlNode("sl-icon", buildProps, children);
     }
     /// <summary>
+    /// Icons are symbols that can be used to represent various options within an application.
+    /// </summary>
+    public static Var<IVNode> SlIcon(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-icon", children);
+    }
+    /// <summary>
+    /// Icons are symbols that can be used to represent various options within an application.
+    /// </summary>
+    public static Var<IVNode> SlIcon(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-icon", children);
+    }
+    /// <summary>
     /// The name of the icon to draw. Available names depend on the icon library being used.
     /// </summary>
     public static void SetName(this PropsBuilder<SlIcon> b, Var<string> value)

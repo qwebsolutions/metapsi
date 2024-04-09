@@ -136,6 +136,20 @@ public static partial class SlQrCodeControl
         return b.SlNode("sl-qr-code", buildProps, children);
     }
     /// <summary>
+    /// Generates a [QR code](https://www.qrcode.com/) and renders it using the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+    /// </summary>
+    public static Var<IVNode> SlQrCode(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-qr-code", children);
+    }
+    /// <summary>
+    /// Generates a [QR code](https://www.qrcode.com/) and renders it using the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+    /// </summary>
+    public static Var<IVNode> SlQrCode(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-qr-code", children);
+    }
+    /// <summary>
     /// The QR code's value.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlQrCode> b, Var<string> value)

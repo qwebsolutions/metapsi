@@ -183,6 +183,20 @@ public static partial class SlCopyButtonControl
         return b.SlNode("sl-copy-button", buildProps, children);
     }
     /// <summary>
+    /// Copies text data to the clipboard when the user clicks the trigger.
+    /// </summary>
+    public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-copy-button", children);
+    }
+    /// <summary>
+    /// Copies text data to the clipboard when the user clicks the trigger.
+    /// </summary>
+    public static Var<IVNode> SlCopyButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-copy-button", children);
+    }
+    /// <summary>
     /// The text value to copy.
     /// </summary>
     public static void SetValue(this PropsBuilder<SlCopyButton> b, Var<string> value)

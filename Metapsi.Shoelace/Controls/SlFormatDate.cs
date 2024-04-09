@@ -211,6 +211,20 @@ public static partial class SlFormatDateControl
         return b.SlNode("sl-format-date", buildProps, children);
     }
     /// <summary>
+    /// Formats a date/time using the specified locale and options.
+    /// </summary>
+    public static Var<IVNode> SlFormatDate(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-format-date", children);
+    }
+    /// <summary>
+    /// Formats a date/time using the specified locale and options.
+    /// </summary>
+    public static Var<IVNode> SlFormatDate(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-format-date", children);
+    }
+    /// <summary>
     /// The date/time to format. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
     /// </summary>
     public static void SetDate(this PropsBuilder<SlFormatDate> b, Var<DateTime> value)

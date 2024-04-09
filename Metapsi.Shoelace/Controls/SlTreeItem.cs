@@ -113,6 +113,20 @@ public static partial class SlTreeItemControl
         return b.SlNode("sl-tree-item", buildProps, children);
     }
     /// <summary>
+    /// A tree item serves as a hierarchical node that lives inside a [tree](/components/tree).
+    /// </summary>
+    public static Var<IVNode> SlTreeItem(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-tree-item", children);
+    }
+    /// <summary>
+    /// A tree item serves as a hierarchical node that lives inside a [tree](/components/tree).
+    /// </summary>
+    public static Var<IVNode> SlTreeItem(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-tree-item", children);
+    }
+    /// <summary>
     /// Expands the tree item.
     /// </summary>
     public static void SetExpanded(this PropsBuilder<SlTreeItem> b)

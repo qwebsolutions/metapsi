@@ -153,6 +153,20 @@ public static partial class SlSplitPanelControl
         return b.SlNode("sl-split-panel", buildProps, children);
     }
     /// <summary>
+    /// Split panels display two adjacent panels, allowing the user to reposition them.
+    /// </summary>
+    public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-split-panel", children);
+    }
+    /// <summary>
+    /// Split panels display two adjacent panels, allowing the user to reposition them.
+    /// </summary>
+    public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-split-panel", children);
+    }
+    /// <summary>
     /// The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size.
     /// </summary>
     public static void SetPosition(this PropsBuilder<SlSplitPanel> b, Var<int> value)

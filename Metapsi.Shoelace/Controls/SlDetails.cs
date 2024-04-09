@@ -104,6 +104,20 @@ public static partial class SlDetailsControl
         return b.SlNode("sl-details", buildProps, children);
     }
     /// <summary>
+    /// Details show a brief summary and expand to show additional content.
+    /// </summary>
+    public static Var<IVNode> SlDetails(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-details", children);
+    }
+    /// <summary>
+    /// Details show a brief summary and expand to show additional content.
+    /// </summary>
+    public static Var<IVNode> SlDetails(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-details", children);
+    }
+    /// <summary>
     /// Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state.
     /// </summary>
     public static void SetOpen(this PropsBuilder<SlDetails> b)

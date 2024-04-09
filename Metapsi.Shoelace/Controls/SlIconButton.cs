@@ -167,6 +167,20 @@ public static partial class SlIconButtonControl
         return b.SlNode("sl-icon-button", buildProps, children);
     }
     /// <summary>
+    /// Icons buttons are simple, icon-only buttons that can be used for actions and in toolbars.
+    /// </summary>
+    public static Var<IVNode> SlIconButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-icon-button", children);
+    }
+    /// <summary>
+    /// Icons buttons are simple, icon-only buttons that can be used for actions and in toolbars.
+    /// </summary>
+    public static Var<IVNode> SlIconButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-icon-button", children);
+    }
+    /// <summary>
     /// The name of the icon to draw. Available names depend on the icon library being used.
     /// </summary>
     public static void SetName(this PropsBuilder<SlIconButton> b, Var<string> value)

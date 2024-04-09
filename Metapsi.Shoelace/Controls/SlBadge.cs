@@ -78,6 +78,20 @@ public static partial class SlBadgeControl
         return b.SlNode("sl-badge", buildProps, children);
     }
     /// <summary>
+    /// Badges are used to draw attention and display statuses or counts.
+    /// </summary>
+    public static Var<IVNode> SlBadge(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-badge", children);
+    }
+    /// <summary>
+    /// Badges are used to draw attention and display statuses or counts.
+    /// </summary>
+    public static Var<IVNode> SlBadge(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-badge", children);
+    }
+    /// <summary>
     /// The badge's theme variant.
     /// </summary>
     public static void SetVariantPrimary(this PropsBuilder<SlBadge> b)

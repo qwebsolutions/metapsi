@@ -45,5 +45,19 @@ public static partial class SlCardControl
     {
         return b.SlNode("sl-card", buildProps, children);
     }
+    /// <summary>
+    /// Cards can be used to group related subjects in a container.
+    /// </summary>
+    public static Var<IVNode> SlCard(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-card", children);
+    }
+    /// <summary>
+    /// Cards can be used to group related subjects in a container.
+    /// </summary>
+    public static Var<IVNode> SlCard(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-card", children);
+    }
 }
 

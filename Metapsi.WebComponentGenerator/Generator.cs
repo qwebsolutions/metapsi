@@ -112,6 +112,22 @@ public static class Generator
         codeBuilder.AppendLine($"        return b.{converter.NodeConstructor}(\"{webComponent.Tag}\", buildProps, children);");
         codeBuilder.AppendLine("    }");
 
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, Var<List<IVNode>> children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.{converter.NodeConstructor}(\"{webComponent.Tag}\", children);");
+        codeBuilder.AppendLine("    }");
+
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, params Var<IVNode>[] children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.{converter.NodeConstructor}(\"{webComponent.Tag}\", children);");
+        codeBuilder.AppendLine("    }");
+
         foreach (var property in webComponent.Properties)
         {
             if (!string.IsNullOrEmpty(property.AttributeName))

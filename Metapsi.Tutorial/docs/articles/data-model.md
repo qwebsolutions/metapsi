@@ -24,12 +24,12 @@ It's not a magic variable and it does not have a predefined name. It's just hidd
 
 The actual function signature of the rendering function is
 
-<pre class="language-csharp"><code>public Var&lt;HyperNode&gt; Render(BlockBuilder b, Var&lt;Model&gt; model) 
+<pre class="language-csharp"><code>public Var&lt;IVNode&gt; Render(LayoutBuilder b, Var&lt;Model&gt; model) 
 { 
-// the code in the sample goes here
+    // the code in the sample goes here
 }</code></pre>
 
-... which could be a bit confusing at this point. By now you might have a vague understanding of what <span class="inline-code">BlockBuilder</span> is, but <span class="inline-code">Var&lt;Model&gt;</span>?!
+... which could be a bit confusing at this point. By now you might have a vague understanding of what <span class="inline-code">b</span> is: a code builder that in this particular case knows about layout functions. What about <span class="inline-code">Var&lt;Model&gt;</span>?
 
 Just like the rendering function signature is hidden in the samples, the model definition is also hidden. In the previous code sample it actually is
 
@@ -44,7 +44,7 @@ So <span class="inline-code">Model</span> is the implicit class name of all mode
 
 <span class="inline-code">Var&lt;...&gt;</span> is a generic type wrapper that tracks the mapping of C# types to the generated JavaScript code.
 
-<span class="inline-code">HyperNode</span> is <span class="text-sm text-gray-600">the node in </span><span class="text-sm text-gray-500">the virtual</span> <span class="text-sm text-gray-400"> dom</span> <span class="text-xs text-gray-300">of Hyperapp...</span> **Nevermind!** We'll get to that later!
+The returned <span class="inline-code">IVNode</span> is the virtual node built by Hyperapp.
 
 ### Getter
 
@@ -65,14 +65,14 @@ While this is about as clear, there are several fundamental differences in the d
 * The code editor offers code-completion
 * The code editor updates correctly all properties when they are renamed
 
-This syntax is based on the <span class="inline-code">System.Linq.Expressions</span> standard namespace.
+This syntax is based on the <span class="inline-code">System.Linq.Expressions</span> namespace.
 
 ### Linq expressions
 
 Considering that the getter syntax is based on LINQ expressions, there is nothing stopping us from using their full power.
 
-CodeSample:DataModelLinq:Json
+CodeSample:DataModelLinq:View
 
 <div class="block-note"><span class="inline-code">b.AsString(...)</span> converts <i>any</i> type to string.</div>
 
-You can run C# LINQ expressions client side. Take your time. Let that sink in. 
+You can **run C# LINQ expressions client side**. Take your time. Let that sink in. 

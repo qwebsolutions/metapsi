@@ -167,6 +167,20 @@ public static partial class SlRadioGroupControl
         return b.SlNode("sl-radio-group", buildProps, children);
     }
     /// <summary>
+    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    /// </summary>
+    public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-radio-group", children);
+    }
+    /// <summary>
+    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    /// </summary>
+    public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-radio-group", children);
+    }
+    /// <summary>
     /// The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead.
     /// </summary>
     public static void SetLabel(this PropsBuilder<SlRadioGroup> b, Var<string> value)

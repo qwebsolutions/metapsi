@@ -1,6 +1,8 @@
 ﻿using Metapsi;
 using Metapsi.Hyperapp;
 using Metapsi.Html;
+using Metapsi.Shoelace;
+using Metapsi.Ionic;
 using Metapsi.Syntax;
 using System.Collections.Generic;
 using System.Linq;

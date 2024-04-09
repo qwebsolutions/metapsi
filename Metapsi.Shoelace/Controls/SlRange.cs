@@ -258,6 +258,20 @@ public static partial class SlRangeControl
         return b.SlNode("sl-range", buildProps, children);
     }
     /// <summary>
+    /// Ranges allow the user to select a single value within a given range using a slider.
+    /// </summary>
+    public static Var<IVNode> SlRange(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.SlNode("sl-range", children);
+    }
+    /// <summary>
+    /// Ranges allow the user to select a single value within a given range using a slider.
+    /// </summary>
+    public static Var<IVNode> SlRange(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.SlNode("sl-range", children);
+    }
+    /// <summary>
     /// The name of the range, submitted as a name/value pair with form data.
     /// </summary>
     public static void SetName(this PropsBuilder<SlRange> b, Var<string> value)

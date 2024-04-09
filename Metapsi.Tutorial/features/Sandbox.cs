@@ -532,6 +532,8 @@ public static partial class Control
         whitelistedNamespaces.Add("Metapsi.Hyperapp");
         whitelistedNamespaces.Add("Metapsi.Syntax");
         whitelistedNamespaces.Add("Metapsi.Html");
+        whitelistedNamespaces.Add("Metapsi.Shoelace");
+        whitelistedNamespaces.Add("Metapsi.Ionic");
         whitelistedNamespaces.Add("Metapsi.Tutorial.Template");
         whitelistedNamespaces.Add("System.Linq");
 

@@ -21,15 +21,19 @@ public class IfStatement : TutorialSample<IfStatement.Model>
         var anyLoggedUser = b.Get(model, x => x.LoggedUsers.Any());
         var loggedUsersCount = b.Get(model, x => x.LoggedUsers.Count());
 
-        return b.HtmlSpan(
-            b => { },
-            b.Optional(
-                anyLoggedUser,
-                b => b.Text(
+        var nodeChildren = b.NewCollection<IVNode>();
+
+        b.If(anyLoggedUser,
+            b =>
+            b.Push(
+                nodeChildren,
+                b.Text(
                     b.Concat(
                         b.Const("There are "),
                         b.AsString(loggedUsersCount),
                         b.Const(" logged users")))));
+
+        return b.HtmlSpan(nodeChildren);
     }
 
     public override Model GetSampleData()
