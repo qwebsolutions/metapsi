@@ -26,7 +26,7 @@ public class IterationsSimple : TutorialSample<IterationsSimple.Model>
             {
                 b.Push(
                     textNodes,
-                    b.Text(
+                    b.HtmlSpanText(
                         b.Concat(
                             b.AsString(index),
                             b.Const(". "),

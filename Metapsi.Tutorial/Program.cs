@@ -146,7 +146,7 @@ public static partial class Program
                             await typeof(Program).Assembly.GetEmbeddedTextFile(file));
                     }
 
-                    var dotnetRestore = System.Diagnostics.Process.Start("dotnet", $"restore {arguments.TemplateSlnFolder}");
+                    var dotnetRestore = System.Diagnostics.Process.Start("dotnet", $"restore {arguments.TemplateSlnFolder} -f");
 
                     await dotnetRestore.WaitForExitAsync();
 

@@ -106,8 +106,13 @@ public static class StyledTagsExtensions
         return b.HtmlSpanText(buildSpan, b.Const(text));
     }
 
+    public static Var<IVNode> HtmlSpanText(this LayoutBuilder b, Var<string> text)
+    {
+        return b.HtmlSpanText(b => { }, text);
+    }
+
     public static Var<IVNode> HtmlSpanText(this LayoutBuilder b, string text)
     {
-        return b.HtmlSpanText(b => { }, b.Const(text));
+        return b.HtmlSpanText(b.Const(text));
     }
 }
