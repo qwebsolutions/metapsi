@@ -18,26 +18,22 @@ namespace Metapsi
 
         public async Task ExecuteAsync(HttpContext httpContext)
         {
+            var renderers = httpContext.Items["Metapsi.Renderers"] as Dictionary<Type, Delegate>;
+
+            var html = string.Empty;
+
             try
             {
-                var renderers = httpContext.Items["Metapsi.Renderers"] as Dictionary<Type, Delegate>;
-                var html = renderers[typeof(TModel)].DynamicInvoke(this.model) as string;
-
-                httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
-                httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
-                await httpContext.Response.WriteAsync(html);
+                html = renderers[typeof(TModel)].DynamicInvoke(this.model) as string;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-#if DEBUG
-                httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
-                await httpContext.Response.WriteAsync($"<html><body><pre>{ex.ToString()}</pre></body></html>");
-#else
-                httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
-                await httpContext.Response.WriteAsync("<html><body>Something went wrong...</body></html>");
-#endif
+                html = renderers[typeof(System.Exception)].DynamicInvoke(ex) as string;
             }
+
+            httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
+            httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
+            await httpContext.Response.WriteAsync(html);
         }
     }
 

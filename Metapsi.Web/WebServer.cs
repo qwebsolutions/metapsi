@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Metapsi
@@ -267,7 +268,21 @@ namespace Metapsi
             }
 
             references.WebApplication = app;
+
+            references.RegisterPageBuilder<System.Exception>(DefaultExceptionHandler);
+
             return references;
+        }
+
+        public static string DefaultExceptionHandler(System.Exception ex)
+        {
+            Console.WriteLine(ex);
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("<html>");
+            builder.AppendLine("<head><title>Error</title></head>");
+            builder.AppendLine($"<body><pre>{ex}</pre></body>");
+            builder.AppendLine("</html>");
+            return builder.ToString();
         }
 
         public static T Unescape<T>(T segment)
@@ -398,9 +413,20 @@ namespace Metapsi
                 var nestedTypeNames = type.NestedTypeNames();
                 string path = string.Join("/", nestedTypeNames);
 
-                var get = new THandler().OnGet;
+                var get = async (CommandContext commandContext, HttpContext httpContext) =>
+                {
+                    try
+                    {
+                        return await new THandler().OnGet(commandContext, httpContext);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        return Page.Result(ex);
+                    }
+                };
 
-                routeBuilder.MapGet(path, new THandler().OnGet);
+                routeBuilder.MapGet(path, get);
             }
         }
 
@@ -414,7 +440,18 @@ namespace Metapsi
                 var nestedTypeNames = type.NestedTypeNames();
                 string nestedPath = string.Join("/", nestedTypeNames);
 
-                var get = new THandler().OnGet;
+                var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1) =>
+                {
+                    try
+                    {
+                        return await new THandler().OnGet(commandContext, httpContext, p1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        return Page.Result(ex);
+                    }
+                };
 
                 var requestPath = $"{nestedPath}/{{{DataParametersPath(get)}}}";
 
@@ -432,8 +469,18 @@ namespace Metapsi
                 var nestedTypeNames = type.NestedTypeNames();
                 string nestedPath = string.Join("/", nestedTypeNames);
 
-                var get = new THandler().OnGet;
-
+                var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1, T2 p2) =>
+                {
+                    try
+                    {
+                        return await new THandler().OnGet(commandContext, httpContext, p1, p2);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        return Page.Result(ex);
+                    }
+                };
 
                 var paramNames = DataParameterNames(get);
                 var paramsPath = string.Join("/", paramNames.Select(x => $"{{{x}}}"));
@@ -456,10 +503,18 @@ namespace Metapsi
 
                 routeBuilder.MapPost(nestedPath, async (CommandContext commandContext, HttpContext httpContext) =>
                 {
-                    T1 payload = await httpContext.Payload<T1>();
+                    try
+                    {
+                        T1 payload = await httpContext.Payload<T1>();
 
-                    var post = await new THandler().OnPost(commandContext, httpContext, payload);
-                    return post;
+                        var post = await new THandler().OnPost(commandContext, httpContext, payload);
+                        return post;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        return Page.Result(ex);
+                    }
                 });
             }
         }
