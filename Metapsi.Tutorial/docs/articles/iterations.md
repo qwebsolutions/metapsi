@@ -26,7 +26,6 @@ CodeSample:IterationsMap:View
 <div class="block-note"><span class="inline-code">Map</span> is the common name used in functional programming and in JavaScript also. 
 It is equivalent to the C# <span class="inline-code">Select</span> LINQ function.</div>
 
-This code sample maps each user to a string message, then maps that resulting string collection to actual text controls which can all be added to the parent container at once using
-<span class="inline-code">AddChildren</span>.
+This code sample maps each user to a string message, then maps that resulting string collection to actual text controls which can all be added to the parent container at once.
 
 
