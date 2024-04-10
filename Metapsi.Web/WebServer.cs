@@ -31,7 +31,6 @@ namespace Metapsi
             public ImplementationGroup ImplementationGroup { get; set; }
             public string WebRootPath { get; set; }
             public int Port { get; set; }
-            public Dictionary<string, byte[]> StaticFiles { get; set; } = new Dictionary<string, byte[]>();
             public Dictionary<Type, Delegate> Renderers { get; set; } = new();
         }
 
@@ -183,11 +182,17 @@ namespace Metapsi
             {
                 var handled = false;
 
+                // Try EmbeddedStaticFiles
+
                 if (!string.IsNullOrEmpty(context.Request.Path))
                 {
                     var fileName = context.Request.Path.Value.ToLower().Trim('/');
-                    if (references.StaticFiles.ContainsKey(fileName))
+
+                    var bytes = await StaticFiles.Get(fileName);
+                    if (bytes != null)
                     {
+                        handled = true;
+
                         var contentType = GetMimeTypeForFileExtension(fileName);
 
                         switch (contentType)
@@ -200,8 +205,6 @@ namespace Metapsi
                                 break;
                             default:
                                 {
-                                    byte[] bytes = references.StaticFiles[fileName];
-
 #if !DEBUG
                                     context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
 #endif
@@ -371,21 +374,6 @@ namespace Metapsi
             return userClaims.Identity.IsAuthenticated;
         }
 
-        public static void RegisterStaticFiles(this WebServer.References references, Assembly assembly)
-        {
-            var allResources = assembly.GetManifestResourceNames();
-
-            foreach (var r in allResources)
-            {
-                var stream = assembly.GetManifestResourceStream(r);
-                using (var ms = new MemoryStream())
-                {
-                    stream.CopyTo(ms);
-                    references.StaticFiles[r.ToLower()] = ms.ToArray();
-                }
-            }
-        }
-
         public static string GetMimeTypeForFileExtension(string filePath)
         {
             const string DefaultContentType = "application/octet-stream";
@@ -494,25 +482,18 @@ namespace Metapsi
 
         public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
         {
-            // Auto register static files of renderer method assembly
-            if (builder.Method.DeclaringType != null)
-            {
-                references.RegisterStaticFiles(builder.Method.DeclaringType.Assembly);
-            }
             references.Renderers[typeof(TModel)] = builder;
         }
 
         public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
             where TRenderer : IPageTemplate<TModel>, new()
         {
-            references.RegisterStaticFiles(typeof(TRenderer).Assembly);
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
         }
 
         public static void RegisterRenderer<TModel, TRenderer>(this References references)
             where TRenderer : IPageTemplate<TModel>, new()
         {
-            references.RegisterStaticFiles(typeof(TRenderer).Assembly);
             references.Renderers[typeof(TModel)] = new TRenderer().Render;
         }
 

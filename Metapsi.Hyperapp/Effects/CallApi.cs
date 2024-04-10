@@ -59,6 +59,8 @@ namespace Metapsi.Hyperapp
                     b.Set(fetchOptions, x => x.method, "GET");
                 });
 
+            StaticFiles.Add(typeof(CallApiExtensions).Assembly, "fetch.js");
+
             b.Fetch(
                 b.Get(callApiParameters, x => x.Url),
                 fetchOptions,

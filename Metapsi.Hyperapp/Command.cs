@@ -26,6 +26,7 @@ namespace Metapsi.Hyperapp
             Request<TResult> request,
             Var<System.Action<TResult>> onResult, Var<System.Action<ApiError>> onError)
         {
+            StaticFiles.Add(typeof(HyperType).Assembly, "fetch.js");
             var url = b.Const($"/api/{request.Name}/");
             b.CallExternal("fetch", "getRequest", url, onResult, onError);
         }
@@ -64,6 +65,7 @@ namespace Metapsi.Hyperapp
 
         public static void FetchCommand<T1>(this SyntaxBuilder b, Command<T1> command, Var<T1> p1, Var<System.Action> onResult, Var<System.Action<ApiError>> onError)
         {
+            StaticFiles.Add(typeof(HyperType).Assembly, "fetch.js");
             if (Api.AreScalarTypes(typeof(T1)))
             {
                 var url = b.Concat(b.Const($"/api/{command.Name}/"), p1.As<string>());
@@ -102,6 +104,7 @@ namespace Metapsi.Hyperapp
             Var<T1> p1,
             Var<System.Action<TResult>> onResult, Var<System.Action<ApiError>> onError)
         {
+            StaticFiles.Add(typeof(HyperType).Assembly, "fetch.js");
             if (Api.AreScalarTypes(typeof(T1)))
             {
                 var url = b.Concat(b.Const($"/api/{request.Name}/"), p1.As<string>());

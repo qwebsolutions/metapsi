@@ -24,6 +24,7 @@ namespace Metapsi.Hyperapp
             Var<Action<TResult>> onResult, 
             Var<Action<ApiError>> onError)
         {
+            StaticFiles.Add(typeof(FetchExtensions).Assembly, "fetch.js");
             b.CallExternal("fetch", "Fetch", url, options, onResult, onError);
         }
     }

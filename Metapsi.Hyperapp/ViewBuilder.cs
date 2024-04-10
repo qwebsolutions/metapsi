@@ -19,58 +19,6 @@ namespace Metapsi.Hyperapp
     {
         public const string VoidNodeTag = "--void--";
 
-        //public static void AddChildren(this LayoutBuilder b, Var<HyperNode> parent, params Func<LayoutBuilder, Var<HyperNode>>[] children)
-        //{
-        //    foreach (var buildChild in children)
-        //    {
-        //        b.AddIfNotVoid(parent, b.Call(buildChild));
-        //    }
-        //}
-
-        //public static void AddChildren(this LayoutBuilder b, Var<HyperNode> parent, Var<List<HyperNode>> children)
-        //{
-        //    b.Foreach(children, (b, c) => b.AddIfNotVoid(parent, c));
-        //}
-
-        //public static Var<HyperNode> Node(this LayoutBuilder b, string tag, string classNames = null)
-        //{
-        //    Var<List<HyperNode>> newNodeChildren = b.NewCollection<HyperNode>();
-        //    var props = b.NewObj<DynamicObject>();
-        //    var newNode = b.CallExternal<HyperNode>("hyperapp", "h", b.Const(tag), props, newNodeChildren);
-
-        //    if (!string.IsNullOrWhiteSpace(classNames))
-        //    {
-        //        b.SetAttr(newNode, Html.@class, b.Const(classNames));
-        //    }
-
-        //    return newNode;
-        //}
-
-        //public static Var<HyperNode> Node(this LayoutBuilder b, string tag, Var<string> classNames)
-        //{
-        //    Var<List<HyperNode>> newNodeChildren = b.NewCollection<HyperNode>();
-        //    var props = b.NewObj<DynamicObject>();
-        //    var newNode = b.CallExternal<HyperNode>("hyperapp", "h", b.Const(tag), props, newNodeChildren);
-
-        //    b.If(b.HasValue(classNames),
-        //        b =>
-        //        {
-        //            b.SetAttr(newNode, Html.@class, classNames);
-        //        });
-
-        //    return newNode;
-        //}
-
-        //public static Var<HyperNode> Node(this LayoutBuilder b, string tag, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
-        //{
-        //    var node = b.Node(tag, classNames);
-        //    foreach (var buildChild in children)
-        //    {
-        //        b.AddIfNotVoid(node, b.Call(buildChild));
-        //    }
-        //    return node;
-        //}
-
         /// <summary>
         /// Void nodes do not get added AT ALL to the DOM
         /// They're not just invisible/hidden, they are markers for 'do not add the result of this builder'
@@ -81,196 +29,6 @@ namespace Metapsi.Hyperapp
         {
             return b.CallExternal<IVNode>("hyperapp", "h", b.Const(VoidNodeTag), b.NewObj<DynamicObject>());
         }
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b, string classNames, Var<List<HyperNode>> children)
-        //{
-        //    var container = b.Node("div", classNames);
-        //    b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
-        //    return container;
-        //}
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
-        //{
-        //    return b.Div(b.Const(classNames), children);
-        //}
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b, Var<string> classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
-        //{
-        //    var container = b.Node("div", classNames);
-        //    foreach (var buildChild in children)
-        //    {
-        //        b.AddIfNotVoid(container, b.Call(buildChild));
-        //    }
-        //    return container;
-        //}
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b)
-        //{
-        //    return b.Node("div");
-        //}
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b, string classNames)
-        //{
-        //    return b.Node("div", classNames);
-        //}
-
-        //public static Var<HyperNode> Div(this LayoutBuilder b, Var<string> classNames)
-        //{
-        //    return b.Node("div", classNames);
-        //}
-
-        //public static Var<HyperNode> Span(this LayoutBuilder b)
-        //{
-        //    return b.Node("span");
-        //}
-
-        //public static Var<HyperNode> Span(this LayoutBuilder b, Var<string> classNames)
-        //{
-        //    return b.Node("span", classNames);
-        //}
-
-        //public static Var<HyperNode> Span(this LayoutBuilder b, string classNames)
-        //{
-        //    return b.Node("span", classNames);
-        //}
-
-        //public static Var<HyperNode> Span(this LayoutBuilder b, string classNames, Var<List<HyperNode>> children)
-        //{
-        //    var container = b.Node("span", classNames);
-        //    b.Foreach(children, (b, c) => b.AddIfNotVoid(container, c));
-        //    return container;
-        //}
-
-        //public static Var<HyperNode> Span(this LayoutBuilder b, string classNames, params Func<LayoutBuilder, Var<HyperNode>>[] children)
-        //{
-        //    var span = b.Node("span", classNames);
-
-        //    foreach (var buildChild in children)
-        //    {
-        //        b.AddIfNotVoid(span, b.Call(buildChild));
-        //    }
-        //    return span;
-        //}
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text, Var<string> classNames)
-        //{
-        //    var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
-        //    var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
-        //    var span = b.Span(classNames);
-        //    b.Add(span, textNode);
-        //    return span;
-        //}
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text, string classNames)
-        //{
-        //    return b.Text(text, b.Const(classNames));
-        //}
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, string text, string classNames)
-        //{
-        //    return b.Text(b.Const(text), b.Const(classNames));
-        //}
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, string text)
-        //{
-        //    return b.Text(b.Const(text), b.Const(""));
-        //}
-
-
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, Var<DateTime> dateTime)
-        //{
-        //    var dateString = dateTime.As<string>();// for JS it IS a string
-        //    var dateDate = b.ParseDate(dateString);
-        //    var dateStringLocale = b.ItalianFormat(dateDate);
-        //    return b.Text(dateStringLocale);
-        //}
-
-        //public static Var<HyperNode> TextNode(this LayoutBuilder b, string text)
-        //{
-        //    return TextNode(b, b.Const(text));
-        //}
-
-        //public static Var<HyperNode> TextNode(this LayoutBuilder b, Var<string> text)
-        //{
-        //    var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
-        //    return b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
-        //}
-
-        //public static Var<HyperNode> Text(this LayoutBuilder b, Var<string> text)
-        //{
-        //    var checkedText = b.If(b.HasValue(text), b => text, b => b.Const(""));
-        //    var textNode = b.CallExternal<HyperNode>("hyperapp", "text", checkedText);
-        //    var span = b.Span();
-        //    b.Add(span, textNode);
-        //    return span;
-        //}
-
-        ///// <summary>
-        ///// Adds child & returns it
-        ///// </summary>
-        ///// <param name="b"></param>
-        ///// <param name="parent"></param>
-        ///// <param name="child"></param>
-        ///// <returns></returns>
-        //public static Var<HyperNode> Add(this LayoutBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
-        //{
-        //    var children = b.Get(parent, x => x.children);
-        //    b.Push(children, child);
-        //    return child;
-        //}
-
-        //public static void Add(this LayoutBuilder b, Var<HyperNode> parent, Var<TextNode> child)
-        //{
-        //    var children = b.Get(parent, x => x.children);
-        //    b.Push(children, child.As<HyperNode>());// <- this conversion makes no statical sense
-        //}
-
-        //public static void AddIfNotVoid(this LayoutBuilder b, Var<HyperNode> parent, Var<HyperNode> child)
-        //{
-        //    b.If(b.Not(b.AreEqual(b.Get(child, x => x.tag), b.Const(VoidNodeTag))),
-        //        b => b.Add(parent, child));
-        //}
-
-        //public static Var<HyperNode> Optional(this LayoutBuilder b, Var<bool> ifValue, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
-        //{
-        //    return b.If(
-        //        ifValue,
-        //        b => b.Call(buildControl),
-        //        b => b.VoidNode());
-        //}
-
-        //public static Var<HyperNode> ShowIfAny<T>(this LayoutBuilder b, Var<IEnumerable<T>> collection, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
-        //{
-        //    return b.Optional(
-        //        b.Get(collection, x => x.Any()),
-        //        b => buildControl(b));
-        //}
-
-        //public static Var<HyperNode> ShowIfAny<T>(this LayoutBuilder b, Var<List<T>> collection, System.Func<LayoutBuilder, Var<HyperNode>> buildControl)
-        //{
-        //    return b.Optional(
-        //        b.Get(collection, x => x.Any()),
-        //        b => buildControl(b));
-        //}
-
-        //public static Var<HyperNode> ListIfAny<T>(
-        //    this LayoutBuilder b,
-        //    Var<List<T>> collection,
-        //    System.Func<LayoutBuilder, Var<HyperNode>> renderContainer,
-        //    System.Func<LayoutBuilder, Var<T>, Var<HyperNode>> renderItem,
-        //    System.Func<LayoutBuilder, Var<HyperNode>> renderEmpty)
-        //{
-        //    return b.If(
-        //        b.Get(collection, x => x.Any()),
-        //        b =>
-        //        {
-        //            var container = renderContainer(b);
-        //            b.AddChildren(container, b.Map(collection, renderItem));
-        //            return container;
-        //        },
-        //        b => renderEmpty(b));
-        //}
 
         public static Var<string> Url(this SyntaxBuilder b, Delegate handler)
         {
@@ -318,120 +76,6 @@ namespace Metapsi.Hyperapp
 
             return methodPath.Replace("//", "/");
         }
-
-        //public static void Add(this LayoutBuilder b, Var<HyperNode> parent, Var<string> text)
-        //{
-        //    var children = b.Get(parent, x => x.children);
-        //    b.Push(children, b.Text(text).As<HyperNode>());
-        //}
-
-        //public static void SetAttr<TProp>(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    DynamicProperty<TProp> property,
-        //    Var<TProp> value)
-        //{
-        //    var props = b.Get(node, x => x.props);
-        //    b.SetDynamic(props, property, value);
-        //}
-
-        //public static void SetAttrIfNotEmptyString(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    DynamicProperty<string> property,
-        //    Var<string> value)
-        //{
-        //    b.If(
-        //        b.HasValue(value),
-        //        b =>
-        //        {
-        //            var props = b.Get(node, x => x.props);
-        //            b.SetDynamic(props, property, value);
-        //        });
-        //}
-
-        //public static void SetAttr<TProp>(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    DynamicProperty<TProp> property,
-        //    TProp value)
-        //{
-        //    b.SetAttr(node, property, b.Const(value));
-        //}
-
-        //public static Var<TProp> GetAttr<TProp>(
-        //    this SyntaxBuilder b,
-        //    Var<HyperNode> node,
-        //    DynamicProperty<TProp> property)
-        //{
-        //    var props = b.Get(node, x => x.props);
-        //    return b.GetDynamic(props, property);
-        //}
-
-        //public static Var<HyperNode> AddClass(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    Var<string> newClass)
-        //{
-        //    var props = b.Get(node, x => x.props);
-        //    var current = b.GetDynamic(props, Html.@class);
-        //    var withSpacer = b.Concat(current, b.Const(" "));
-        //    var withNew = b.Concat(withSpacer, newClass);
-        //    b.SetDynamic(props, Html.@class, withNew);
-        //    return node;
-        //}
-
-        //public static Var<HyperNode> AddClass(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    string newClass)
-        //{
-        //    return b.AddClass(node, b.Const(newClass));
-        //}
-
-        //public static Var<HyperNode> AddStyle(
-        //    this LayoutBuilder b,
-        //    Var<HyperNode> node,
-        //    string property,
-        //    Var<string> value)
-        //{
-        //    var props = b.Get(node, x => x.props);
-        //    var style = b.Ref(b.GetDynamic(props, new DynamicProperty<DynamicObject>("style")));
-
-        //    b.If(
-        //        b.Not(b.HasObject(b.GetRef(style))),
-        //        b =>
-        //        {
-        //            b.SetRef(style, b.NewObj<DynamicObject>());
-        //        });
-
-        //    b.SetDynamic(b.GetRef(style), new DynamicProperty<string>(property), value);
-
-        //    b.SetAttr(node, new DynamicProperty<DynamicObject>("style"), b.GetRef(style));
-
-        //    return node;
-        //}
-
-        //public static Var<HyperNode> AddStyle(
-        //  this LayoutBuilder b,
-        //  Var<HyperNode> node,
-        //  string property,
-        //  string value)
-        //{
-        //    return b.AddStyle(node, property, b.Const(value));
-        //}
-
-        //public static Var<Guid> ToId(this LayoutBuilder b, Var<string> value)
-        //{
-        //    return b.If(b.HasValue(value), b => value.As<Guid>(), b => b.EmptyId());
-        //}
-
-        //public static Var<HyperNode> Image(this LayoutBuilder b, Var<string> src, string stylingClasses = null)
-        //{
-        //    var image = b.Node("img", stylingClasses);
-        //    b.SetAttr(image, Html.src, src);
-        //    return image;
-        //}
 
         public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
         {
@@ -553,7 +197,32 @@ namespace Metapsi.Hyperapp
         public static void AddModuleStylesheet(this LayoutBuilder b, Assembly assembly)
         {
             var cssName = b.GetModuleStylesheetName(assembly);
+            
+            // Use resource file name for embedding
+            StaticFiles.Add(assembly, cssName.Trim('/'));
+
             b.AddStylesheet(cssName);
+        }
+
+
+        /// <summary>
+        /// Adds embedded resource script. File name is case-sensitive
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="assembly"></param>
+        /// <param name="src"></param>
+        /// <param name="type"></param>
+        public static void AddScript(this LayoutBuilder b, Assembly assembly, string src, string type = "")
+        {
+            // Use resource file name for embedding
+            StaticFiles.Add(assembly, src.Trim('/'));
+            
+            // Use URL for script path
+            if (!src.StartsWith('/'))
+            {
+                src = "/" + src.ToLowerInvariant();
+            }
+            b.Const(new ExternalScriptTag(src, type));
         }
 
         public static void AddScript(this LayoutBuilder b, string src, string type = "")

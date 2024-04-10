@@ -68,11 +68,13 @@ namespace Metapsi.Dom
 
         public static Var<TOut> CallDomFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
+            StaticFiles.Add(typeof(FunctionImports).Assembly, "metapsi.dom.js");
             return b.CallExternal<TOut>(ModuleName, function, arguments);
         }
 
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
+            StaticFiles.Add(typeof(FunctionImports).Assembly, "metapsi.dom.js");
             b.CallExternal(ModuleName, function, arguments);
         }
 

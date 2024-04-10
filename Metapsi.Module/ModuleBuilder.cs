@@ -250,36 +250,6 @@ namespace Metapsi.Syntax
             return Const(value, NewName());
         }
 
-        //public Const<T> Const<T>(T value)
-        //{
-        //    IConstant c = null;
-        //    if (value is IFunction)
-        //    {
-        //        string functionName = (value as IFunction).Name;
-        //        c = Module.Constants.SingleOrDefault(x => x.Name == functionName);
-        //        if (c == null)
-        //        {
-        //            c = new Const<T>() { Name = functionName, Value = value };
-        //            Module.Constants.Add(c);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        c = Module.Constants.SingleOrDefault(x => x.Value.Equals(value));
-        //        if (c == null)
-        //        {
-        //            c = new Const<T>()
-        //            {
-        //                Name = NewName(),
-        //                Value = value
-        //            };
-        //            Module.Constants.Add(c);
-        //        }
-        //    }
-
-        //    return c as Const<T>;
-        //}
-
         public IVariable AddImport(string module, string symbol)
         {
             Import import = new Import(module, symbol);

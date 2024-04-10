@@ -1,6 +1,5 @@
 ﻿using Metapsi.Syntax;
 using Metapsi.Ui;
-using static ServerExtensions;
 using System;
 using Microsoft.AspNetCore.Components.Forms;
 

@@ -7,12 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="js\metapsi.core.js" LogicalName="metapsi.core.js" />
-		<EmbeddedResource Include="js\uuid.js" LogicalName="uuid.js" />
-		<EmbeddedResource Include="js\linq.js" LogicalName="linq.js" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
 	</ItemGroup>
 

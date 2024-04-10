@@ -9,6 +9,7 @@ namespace Metapsi.Hyperapp
             Var<int> delayMs,
             Var<HyperType.Action<TState>> action)
         {
+            StaticFiles.Add(typeof(Effect).Assembly, "Debounce.js");
             var debounceProps = b.NewObj<DynamicObject>();
             b.SetDynamic(debounceProps, new DynamicProperty<int>("wait"), delayMs);
             b.SetDynamic(debounceProps, new DynamicProperty<HyperType.Action<TState>>("action"), action);

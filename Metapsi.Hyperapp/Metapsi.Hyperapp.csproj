@@ -28,17 +28,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
+		<EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />
+		<EmbeddedResource Include="embedded\linq.js" LogicalName="linq.js" />
 		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
 		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
-		<EmbeddedResource Include="static\connect.js" LogicalName="connect.js" />
-		<EmbeddedResource Include="static\cy.js" LogicalName="cy.js" />
-		<EmbeddedResource Include="static\cytoscape.min.js" LogicalName="cytoscape.min.js" />
-		<EmbeddedResource Include="static\leader-line.min.js" LogicalName="leader-line.min.js" />
 		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
-		<EmbeddedResource Include="static\index.html" LogicalName="index.html" />
-		<EmbeddedResource Include="static\Poppins-Regular.ttf" LogicalName="Poppins-Regular.ttf" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
-  </ItemGroup>	
+  </ItemGroup>
 
 </Project>
