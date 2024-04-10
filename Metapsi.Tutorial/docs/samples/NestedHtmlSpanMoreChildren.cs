@@ -16,7 +16,7 @@ public class NestedHtmlSpanMoreChildren : TutorialSample<NestedHtmlSpanMoreChild
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
     {
         return b.HtmlSpan(
-            b => { },
+            // no properties to set so we can skip b => { }
             b.HtmlSpan(
                 b =>
                 {

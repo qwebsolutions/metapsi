@@ -27,7 +27,7 @@ It might be tempting to "clarify" execution by using a different builder name.
 <pre><code class="language-csharp">
 b.If(
     anyLoggedUser,
-    whenAnyLogged =>
+    whenAnyLogged => // this line should also use b =>
     {
         b.Push(...)
     });
@@ -46,7 +46,7 @@ if(anyLoggedUser){
 </code></pre>
 
 You will not see a compile error, you will not see a runtime error and you might even not notice the wrong output for a long time. 
-Always naming the code builder <span class="inline-code">b</span> is much safer.
+Naming the code builder <span class="inline-code">b</span> in any context is much safer.
     
 ### Else
 
@@ -87,6 +87,6 @@ The default action is mandatory, the other actions are not.</div>
 
 ### Optional
 
-As it is very common to render based on a condition, Metapsi provides a special function called <span class="inline-code">Optional</span> that renders the provided virtual node just if the condition passes, otherwise it implicitly renders a hidden node.
+As it is very common to render based on a condition, Metapsi provides a special function called <span class="inline-code">Optional</span> that renders the provided virtual node just if the condition passes, otherwise it implicitly returns a hidden virtual node.
 
 CodeSample:OptionalRendering:View

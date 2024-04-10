@@ -4,7 +4,7 @@ Let's add some color to our example.
 
 CodeSample:HelloWorldColorText:View
 
-Metapsi provides builder functions for all HTML tags. All nodes follow the same pattern: a function that takes a properties builder as first parameter and then a collection of children. This allows nesting the controls and keeps the mental model very close to the HTML document itself. This type of signature allows us to keep nesting controls, creating the document tree.
+Metapsi provides builder functions for all HTML tags. All nodes follow the same pattern: a function that takes a properties builder as first parameter and then a collection of children, with all arguments being optional.  This type of signature allows us to keep nesting controls, creating the document tree, following a simple mental model that is very close to the HTML specification. 
 
 
 CodeSample:NestedHtmlSpanMoreChildren:View

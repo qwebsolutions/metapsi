@@ -5,7 +5,7 @@ Let's declare a data model.
 
 CodeSample:DataModelDeclare
 
-Checkout the model definition. We just declared a simple string property <span class="inline-code">Name</span>.
+Check out the model definition. We just declared a simple string property <span class="inline-code">Name</span>.
 In real life data could come from a database or maybe from an API call. In this tutorial we just use the JSON format. Load the sample in the sandbox, edit the name in the 'JSON model data' field & run it to see the results.
 
 Yeah, it doesn't do much, it just outputs the JSON model itself.
@@ -21,6 +21,9 @@ There are several things to notice regarding this otherwise very short code.
 What is <span class="inline-code">model</span> and where does it come from?
 
 It's not a magic variable and it does not have a predefined name. It's just hidden in our code samples to keep them shorter.
+
+<div class="block-note">In case you want a clearer overview of the pattern you can find all the samples 
+<a href="https://github.com/qwebsolutions/metapsi/tree/main/Metapsi.Tutorial/docs/samples" target="_blank">here</a>.</div>
 
 The actual function signature of the rendering function is
 
