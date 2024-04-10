@@ -448,7 +448,6 @@ namespace Metapsi
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex);
                         return Page.Result(ex);
                     }
                 };
@@ -477,7 +476,6 @@ namespace Metapsi
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex);
                         return Page.Result(ex);
                     }
                 };
@@ -512,7 +510,6 @@ namespace Metapsi
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex);
                         return Page.Result(ex);
                     }
                 });
