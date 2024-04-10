@@ -6,10 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="System.Threading.Channels" Version="7.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
 	</ItemGroup>
 
