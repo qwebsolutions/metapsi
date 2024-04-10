@@ -36,7 +36,7 @@ echo "$revision"
 git tag -a $2 -m 'version '$2
 git push origin $2
 
-remoteCommand="cd "$REMOTE_REPO"; git fetch --all --tags; git checkout "$2"; cd PublishScripts; chmod +x publishAlg.sh; ./publishAlgPushLocal.sh "$1" "$2" "$3";"
+remoteCommand="cd "$REMOTE_REPO"; git fetch --all --tags; git checkout "$2"; cd PublishScripts; chmod +x publishAlg.sh; chmod +x publishAlgPushLocal.sh; ./publishAlgPushLocal.sh "$1" "$2" "$3";"
 echo $remoteCommand
 
 ssh $REMOTE_USER@$REMOTE_MACHINE $remoteCommand
