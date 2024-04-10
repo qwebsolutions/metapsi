@@ -5,10 +5,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Metapsi.Hyperapp" Version="0.7.3" />
-		<PackageReference Include="Metapsi.Html" Version="0.7.3" />
-		<PackageReference Include="Metapsi.Shoelace" Version="0.7.3" />
-		<PackageReference Include="Metapsi.Ionic" Version="0.7.3" />
+		<PackageReference Include="Metapsi.Hyperapp" Version="0.8.0" />
+		<PackageReference Include="Metapsi.Html" Version="0.8.0" />
+		<PackageReference Include="Metapsi.Shoelace" Version="0.8.0" />
+		<PackageReference Include="Metapsi.Ionic" Version="0.8.0" />
 	</ItemGroup>
 
 </Project>
