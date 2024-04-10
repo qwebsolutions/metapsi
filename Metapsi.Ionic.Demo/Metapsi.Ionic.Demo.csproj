@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Metapsi.ChoicesJs\Metapsi.ChoicesJs.csproj" />
     <ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
     <ProjectReference Include="..\Metapsi.Ionic\Metapsi.Ionic.csproj" />
     <ProjectReference Include="..\Metapsi.Mds\Metapsi.Mds.csproj" />

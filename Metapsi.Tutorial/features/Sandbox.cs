@@ -58,6 +58,8 @@ public static partial class Control
 
         if (editor == Editor.Monaco)
         {
+            StaticFiles.Add(typeof(Control).Assembly, "codicon.ttf");
+            StaticFiles.Add(typeof(Control).Assembly, "metapsi.monaco.js");
             Var<MonacoProps> monacoProps = b.NewObj<MonacoProps>();
             b.Set(monacoProps, (MonacoProps x) => x.EditorId, b.Get(props, (EditorProps x) => x.EditorId));
             b.Set(monacoProps, (MonacoProps x) => x.value, b.Get(props, (EditorProps x) => x.value));
@@ -66,6 +68,7 @@ public static partial class Control
         }
         else
         {
+            StaticFiles.Add(typeof(Control).Assembly, "metapsi.codemirror.js");
             Var<CodeMirrorProps> codeMirrorProps = b.NewObj<CodeMirrorProps>();
             b.Set(codeMirrorProps, (CodeMirrorProps x) => x.EditorId, b.Get(props, (EditorProps x) => x.EditorId));
             b.Set(codeMirrorProps, (CodeMirrorProps x) => x.value, b.Get(props, (EditorProps x) => x.value));
@@ -115,14 +118,11 @@ public static partial class Control
                 b.MakeEffect<SandboxModel>(
                     b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
                     {
-                        b.SlAwaitWhenUpdated(b.Const(Control.TabPanelName(x => x.CSharpModel)), (b =>
+                        var resetModel = b.NewObj<SandboxModel>();
+                        b.Set(resetModel, x => x.CodeSample, newSample);
+                        b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> prevState) =>
                         {
-                            var resetModel = b.NewObj<SandboxModel>();
-                            b.Set(resetModel, x => x.CodeSample, newSample);
-                            b.Dispatch(dispatcher, b.MakeAction((SyntaxBuilder b, Var<SandboxModel> prevState) =>
-                            {
-                                return resetModel;
-                            }));
+                            return resetModel;
                         }));
                     })));
         });

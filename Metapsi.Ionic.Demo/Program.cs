@@ -87,14 +87,6 @@ public class Program
             },
             WebServer.Authorization.Public,
             WebServer.SwaggerTryout.Block);
-
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.Ionic.AccordionGroupChangeEventDetail).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.Dom.ClickTarget).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.Syntax.Block).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.Hyperapp.HyperType).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Program).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.ChoicesJs.Control).Assembly);
-        webServerRefs.RegisterStaticFiles(typeof(Metapsi.TomSelect.Control).Assembly);
     }
 }
 
@@ -303,6 +295,9 @@ public class HomeRenderer : HyperPage<HomeModel>
 
     public override Var<IVNode> OnRender(LayoutBuilder b, Var<HomeModel> model)
     {
+        b.AddModuleStylesheet();
+        StaticFiles.Add(typeof(HomeRenderer).Assembly, "DataSourceApi.js");
+
         return b.IonApp(b => { },
             b.IonHeader(b => { },
                 b.IonToolbar(
@@ -350,180 +345,11 @@ public class HomeRenderer : HyperPage<HomeModel>
                     },
                 b.Text("Butonu' primar")),
 
-                //b.ChoicesText(b=>
-                //{
-                //    //b.AddClass("p-4");
-                //    //b.Configure(x => x.classNames, new ClassNames()
-                //    //{
-                //    //    listItems = "metapsi-choices__list--multiple"
-                //    //});
-
-                //    b.Configure(x => x.removeItemButton, true);
-                //    b.Configure(x => x.items, b.Get(model, x => x.ListItems));
-                //    b.Log(b.Get(model, x => x.ListItems));
-                //    b.OnRemoveItem(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<RemoveItemArgs> payload) =>
-                //    {
-                //        b.Remove(b.Get(model, x => x.ListItems), b.Get(payload, x => x.value));
-                //        return b.Clone(model);
-                //    }));
-
-                //    b.OnChange(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<string> args) =>
-                //    {
-                //        b.Log("change", args);
-                //        return b.Clone(model);
-                //    }));
-
-                //    //b.OnAddItem(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<AddItemArgs> args) =>
-                //    //{
-                //    //    b.Log(args);
-                //    //    //b.Push(b.Get(model, x => x.ListItems), b.Get(args, x => x.value));
-                //    //    return b.Clone(model);
-                //    //}));
-                //}),
-                //b.Choices(b =>
-                //{
-                //    //b.AddClass("p-4");
-
-                //    b.Configure(x => x.placeholder, true);
-                //    b.Configure(x => x.placeholderValue, "Referal");
-                //    b.Configure(x => x.searchPlaceholderValue, "Search some name");
-
-                //    b.OnChoice(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<Choice> choice) =>
-                //    {
-                //        //b.Set(model, x => x.SelectedItem, b.Get(choice, x => x.value));
-                //        b.Log(choice);
-                //        return b.Clone(model);
-                //    }));
-
-                //    b.OnRemoveItem(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<RemoveItemArgs> plm) =>
-                //    {
-                //        b.Log(plm);
-                //        return b.Clone(model);
-                //    }));
-
-                //    b.OnChange(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<string> args) =>
-                //    {
-                //        b.Log("change", args);
-                //        return b.Clone(model);
-                //    }));
-
-                //    //b.OnSearch(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<SearchArgs> args) =>
-                //    //{
-                //    //    b.Log(args);
-                //    //    return b.MakeStateWithEffects(
-                //    //        b.Clone(model),
-                //    //        b.MakeEffect(b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher<HomeModel>> dispatcher) =>
-                //    //        {
-                //    //            var setRemoteDataSourceAction = b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<List<string>> remoteData) =>
-                //    //            {
-                //    //                b.Log("remoteData", remoteData);
-                //    //                b.Set(model, x => x.ListItems, remoteData);
-                //    //                return b.Clone(model);
-                //    //            });
-
-                //    //            b.CallExternal("DataSourceApi", "GetRemoteDataSource", args, b.Def((SyntaxBuilder b, Var<List<string>> remoteData) =>
-                //    //            {
-                //    //                b.Dispatch(dispatcher, setRemoteDataSourceAction, remoteData);
-                //    //            }));
-                //    //        })));
-                //    //}));
-
-                //    var callApiAction = b.MakeAction((SyntaxBuilder b, Var<HomeModel> model) =>
-                //    {
-                //        //b.Log(args);
-                //        return b.MakeStateWithEffects(
-                //            b.Clone(model),
-                //            b.MakeEffect(b.Def(
-                //            b.CallApi(
-                //                Program.SearchApi,
-                //                b.Get(model, x => x.SearchValue),
-                //                b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<List<string>> remoteData) =>
-                //                {
-                //                    b.Log("remoteData", remoteData);
-                //                    b.Set(model, x => x.ListItems, remoteData);
-                //                    return b.Clone(model);
-                //                }),
-                //                b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<ApiError> remoteData) =>
-                //                {
-                //                    b.Log("remoteData", remoteData);
-                //                    //b.Set(model, x => x.ListItems, remoteData);
-                //                    return b.Clone(model);
-                //                })))));
-                //    });
-
-                //    b.OnSearch(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<SearchArgs> args) =>
-                //    {
-                //        b.Set(model, x => x.SearchValue, b.Get(args, x => x.value));
-                //        return b.MakeStateWithEffects(
-                //            b.Clone(model),
-                //            b.Debounce(b.Const(1000), callApiAction));
-                //    }));
-
-                //    b.Configure(x => x.removeItems, true);
-                //    b.Configure(x => x.removeItemButton, true);
-                //    b.Configure(x => x.shouldSort, true);
-                //    b.Configure(x => x.searchChoices, false);
-
-                //    //var choices = b.NewCollection<Choice>();
-                //    //b.Push(choices, b.NewObj<Choice>(b =>
-                //    //{
-                //    //    b.Set(x => x.value, b.Const(string.Empty));
-                //    //    b.Set(x => x.label, b.Const("Not selected placeholder here"));
-                //    //}));
-                //    //b.PushRange(choices, b.MapChoices(b.Get(model, x => x.ListItems), x => x, x => x, b.Const(string.Empty)));
-
-                //    //b.Configure(x => x.choices, choices);
-
-                //    b.Configure(
-                //        x => x.choices,
-                //        b.MapChoices(
-                //            b.Get(model, x => x.ListItems),
-                //            x => x,
-                //            x => x,
-                //            b.Get(model, x => x.SelectedItem)));
-                //}),
-                //b.ChoicesSelectMultiple(b =>
-                //{
-                //    //b.AddClass("p-4");
-
-                //    b.Configure(x => x.removeItemButton, true);
-                //    b.Configure(x => x.choices, b.MapChoices(b.Get(model, x => x.ListItems), x => x, x => x, b.Const(string.Empty)));
-
-                //    b.OnChoice(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<Choice> choice) =>
-                //    {
-                //        b.Log(choice);
-                //        return b.Clone(model);
-                //    }));
-
-                //    b.OnChange(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<string> args) =>
-                //    {
-                //        b.Log("change", args);
-                //        return b.Clone(model);
-                //    }));
-
-                //    b.OnSearch(b.MakeAction((SyntaxBuilder b, Var<HomeModel> model, Var<SearchArgs> args) =>
-                //    {
-                //        b.Log(args);
-                //        return b.Clone(model);
-                //    }));
-
-                //}),
                 b.HtmlDiv(
                     b=>
                     {
                         b.SetClass("flex flex-row gap-4 p-12");
                     },
-                    //b.TomSelect(b =>
-                    //{
-                    //    b.UseClearButton("Clear!!!");
-                    //    b.Configure(x => x.options, b.MapOptions(b.Get(model, x => x.ListItems), x => x, x => x));
-                    //}),
-                    //b.TomSelect(b =>
-                    //{
-                    //    b.UseBootstrap4Styles();
-                    //    b.UseClearButton("Clear!!!");
-                    //    b.Configure(x => x.options, b.MapOptions(b.Get(model, x => x.ListItems), x => x, x => x));
-                    //}),
                     b.Text(b.Get(model, x=>x.SelectedItem)),
                     b.TomSelect(b=>
                     {

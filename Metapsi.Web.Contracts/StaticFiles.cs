@@ -21,7 +21,13 @@ public static class StaticFiles
 
     private static List<EmbeddedStaticFileReference> staticFileReferences = new();
 
-    // This keeps references to the assembly because it can be called multiple times
+    public static void AddAll(Assembly assembly)
+    {
+        foreach (var resourceName in assembly.GetManifestResourceNames())
+        {
+            Add(assembly, resourceName);
+        }
+    }
 
     public static void Add(Assembly assembly, string resourceName)
     {

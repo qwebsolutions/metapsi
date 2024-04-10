@@ -18,5 +18,5 @@
 		<EmbeddedResource Include="js\metapsi.dom.js" LogicalName="metapsi.dom.js" />
 	</ItemGroup>
 
-
+	
 </Project>

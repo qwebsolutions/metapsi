@@ -50,13 +50,8 @@ public static partial class Program
         await CodeSampleRenderer.LoadAllCodeSamples();
 
         var apiEndpoint = webServer.WebApplication.MapGroup("api");
-
-        webServer.RegisterStaticFiles(typeof(Program).Assembly);
-        webServer.RegisterStaticFiles(typeof(DomElement).Assembly);
-        webServer.RegisterStaticFiles(typeof(Metapsi.Syntax.Module).Assembly);
-        webServer.RegisterStaticFiles(typeof(IVNode).Assembly);
-        webServer.RegisterStaticFiles(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly);
-
+        StaticFiles.AddAll(typeof(Program).Assembly);
+        StaticFiles.AddAll(typeof(Metapsi.Hyperapp.HyperType).Assembly);
 
         webServer.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Metapsi.Tutorial.Routes.Home>()));
 
@@ -101,7 +96,8 @@ public static partial class Program
         {
             var contentType = WebServer.GetMimeTypeForFileExtension(".ttf");
             context.Response.ContentType = contentType;
-            await context.Response.BodyWriter.WriteAsync(webServer.StaticFiles["codicon.ttf"]);
+            var font = await StaticFiles.Get("codicon.ttf");
+            await context.Response.BodyWriter.WriteAsync(font);
         });
 
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
