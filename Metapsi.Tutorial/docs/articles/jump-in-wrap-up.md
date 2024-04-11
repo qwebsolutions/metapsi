@@ -16,4 +16,4 @@ There are several things to notice:
 
 #### Hope you had fun
 
-The advanced tutorial is coming soon. We'll cover setters (yes, surprisingly, that is quite an advanced topic), event handling, virtual DOM and more. Stay tuned.
+This section covered the basics of client-side rendering. What you learned so far will get you a long way in styling controls and structuring layout. The problem is, everything is still read-only. In the next section we will move on to user interaction. We will explore event handling and setters (yes, surprisingly, that is quite an advanced topic). Are you ready?

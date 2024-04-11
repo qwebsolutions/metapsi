@@ -46,6 +46,19 @@
             "Url": "/tutorial/jump-in-wrap-up"
           }
         ]
+      },
+      {
+        "Title": "User interaction",
+        "Children": [
+          {
+            "Title": "Event handlers",
+            "Url": "/tutorial/event-handlers"
+          },
+          {
+            "Title": "Model update",
+            "Url": "/tutorial/model-update"
+          }
+        ]
       }
     ]
   }
