@@ -3,24 +3,30 @@
 
 CodeSample:UpdateModelActionSameReference:View
 
-In order to show that the model update works, we display the current value in a separate span text. In the action we use a linq expression to take the current value from the model incremented by 1, which we then set on the model. This is equivalent to <span class='inline-code'>model.Value++</span> (in both C# and JavaScript)
+In order to show that the model update works, we display the model value in a separate span text. 
 
 ### Setters
 
-In order to set a value we need to use the object on which we set it (model), the typed name of the property (Value) and the value itself. 
+To set a value we need to use the object on which we set it (model), the typed name of the property (Text) and the value itself (newValue). The property is not specified by a string, but by a Linq expression that allows us to keep track of the type. The resulting generated code is logically equivalent to  <span class='inline-code'>model.Text = newValue</span>.
 
-## BUT THAT'S SO VERBOSE!!!
+Remember, we're writing a code builder, not the code itself. We need to <span class='inline-code'>b</span>. At this point <span class='inline-code'>model</span> is just a placeholder for a variable that will exist when the code is run client-side.
 
-We cannot just run <span class='inline-code'>model.Value++</span> because, remember, we're writing a code builder, not the code itself. We need to <span class='inline-code'>b</span>. 
-
-It is verbose, but
+The setter syntax is a bit verbose, but:
 * It keeps the code C# typed
-* You make up for it by having the client-side and server-side logic tighly integrated
+* You make up for it by having the client-side and server-side logic tightly integrated
 * You don't update the model explicitly as often as you think
 
 
-Oh, and we displayed the value to see if the update works. It doesn't.
+Oh, and we displayed the value to see if the update works. **It doesn't.**
 
 CodeSample:UpdateModelAction:View
 
 As long as you return the exact same object there is no 'old version' and 'new version' to be compared. The reference is the same. To get a layout update you need to return a clone of the object, which is a new reference.
+
+### The initial value
+
+There's another problem, but quite a bit more subtle. If you edit the model in the 'JSON data, the control is not initialized with that value. That is because we did not set the value of the control when rendering it.
+
+CodeSample:UpdateModelActionWithSetValue:View
+
+Notice <span class='inline-code'>b.SetValue(b.Get(model, x => x.Text));</span>. This saves us from a lot of headaches, because we know the control is always in sync with the model, even when no action was yet performed. This is somewhat a guarantee that the model and the control are ...bound together.

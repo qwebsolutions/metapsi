@@ -5,9 +5,9 @@ using Metapsi.Syntax;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// Not getting along
+/// Text binding on model
 /// </summary>
-public class UpdateModelActionSameReference : TutorialSample<UpdateModelActionSameReference.Model>
+public class BindingOnModel : TutorialSample<BindingOnModel.Model>
 {
     public class Model
     {
@@ -27,11 +27,7 @@ public class UpdateModelActionSameReference : TutorialSample<UpdateModelActionSa
                     {
                         b.SetClass("rounded p-2 border border-gray-200");
                         b.SetPlaceholder("Here you can write some text");
-                        b.OnInputAction((SyntaxBuilder b, Var<Model> model, Var<string> inputValue) =>
-                        {
-                            b.Set(model, x => x.Text, inputValue);
-                            return model;
-                        });
+                        b.BindTo(model, x => x.Text); // This adds both b.SetValue() and b.OnInputAction()
                     }),
                 b.HtmlSpanText(
                     b.Concat(

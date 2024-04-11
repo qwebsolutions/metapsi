@@ -19,3 +19,11 @@ Yes, actions are configured the same way as any property of the control, like <s
 ### The page is read-only
 
 A <span class='inline-code'>SyntaxBuilder</span> is the most basic JavaScript builder possible. It can use logical operations, but it does not have access to the layout of the page. With the <span class='inline-code'>SyntaxBuilder</span> you can only perform operations on the received model. Because we return the exact model that we received no page refresh is triggered.
+
+### Event args
+
+Actions can also receive arguments, if needed.
+
+CodeSample:ActionWithArguments:View
+
+How do we use the arguments to make model updates, though?

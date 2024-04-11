@@ -57,6 +57,14 @@
           {
             "Title": "Model update",
             "Url": "/tutorial/model-update"
+          },
+          {
+            "Title": "Binding",
+            "Url": "/tutorial/model-binding"
+          },
+          {
+            "Title": "Wrap up",
+            "Url": "/tutorial/interaction-wrap-up"
           }
         ]
       }

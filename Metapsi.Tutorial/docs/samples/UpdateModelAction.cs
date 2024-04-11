@@ -5,13 +5,13 @@ using Metapsi.Syntax;
 namespace Metapsi.Tutorial.Samples;
 
 /// <summary>
-/// Diligent button
+/// A real team
 /// </summary>
 public class UpdateModelAction : TutorialSample<UpdateModelAction.Model>
 {
     public class Model
     {
-        public int Value { get; set; }
+        public string Text { get; set; }
     }
 
     public static Var<IVNode> Render(LayoutBuilder b, Var<Model> model)
@@ -22,27 +22,25 @@ public class UpdateModelAction : TutorialSample<UpdateModelAction.Model>
                 {
                     b.SetClass("flex flex-row items-center gap-8 p-2");
                 },
-                b.HtmlButton(
+                b.HtmlInput(
                     b =>
                     {
-                        b.SetClass("bg-green-600 rounded shadow p-2 text-white");
-
-                        b.OnClickAction((SyntaxBuilder b, Var<Model> model) =>
+                        b.SetClass("rounded p-2 border border-gray-200");
+                        b.SetPlaceholder("Here you can write some text");
+                        b.OnInputAction((SyntaxBuilder b, Var<Model> model, Var<string> inputValue) =>
                         {
-                            var incremented = b.Get(model, x => x.Value + 1);
-                            b.Set(model, x => x.Value, incremented);
+                            b.Set(model, x => x.Text, inputValue);
                             return b.Clone(model);
                         });
-                    },
-                    b.Text("Go up!")),
+                    }),
                 b.HtmlSpanText(
                     b.Concat(
-                        b.Const("from "),
-                        b.AsString(b.Get(model, x => x.Value)))));
+                        b.Const("You wrote:"),
+                        b.AsString(b.Get(model, x => x.Text))))); ;
     }
 
     public override Model GetSampleData()
     {
-        return new Model() { Value = 1 };
+        return new Model() { Text = string.Empty };
     }
 }

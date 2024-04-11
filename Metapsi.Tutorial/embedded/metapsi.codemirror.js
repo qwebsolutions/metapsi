@@ -10,7 +10,6 @@ export const AttachCodeMirror = (props) => {
 
     // Container is not yet on screen, need to attach later
     if (!container) {
-        console.log("Not added");
         return;
     }
 

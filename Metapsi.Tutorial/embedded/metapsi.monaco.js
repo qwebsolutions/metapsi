@@ -7,10 +7,10 @@ export const AttachMonaco = (props) => {
 
     // Container is not yet on screen, need to attach later
     if (!container) {
-        console.log("Not added");
+        //console.log("Not added");
         return;
     }
-    console.log("adding");
+    //console.log("adding");
 
     // Only attach if not already attached before
     if (!editors.has(props.EditorId)) {

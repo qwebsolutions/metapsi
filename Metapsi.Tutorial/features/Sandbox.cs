@@ -211,7 +211,6 @@ public static partial class Control
         where TControl : new()
     {
         b.OnEventAction("editor-change", onEdit, "detail");
-        b.Log("MonacoOnEdit attached", b.Props);
     }
 
     public static void BindToSample<TControl>(
@@ -221,7 +220,6 @@ public static partial class Control
     {
         b.MonacoOnEdit(b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<string> newText) =>
         {
-            b.Log("Bind to sample: ", newText);
             var codeSample = b.Get(model, x => x.CodeSample);
             b.Set(codeSample, property, newText);
             return b.Clone(model);
@@ -411,7 +409,7 @@ public static partial class Control
             },
             b =>
             {
-                b.Log("iframe not found!");
+                //b.Log("iframe not found!");
             });
     }
 
@@ -536,10 +534,12 @@ public static partial class Control
         whitelistedNamespaces.Add("Metapsi.Hyperapp");
         whitelistedNamespaces.Add("Metapsi.Syntax");
         whitelistedNamespaces.Add("Metapsi.Html");
+        whitelistedNamespaces.Add("Metapsi.Dom");
         whitelistedNamespaces.Add("Metapsi.Shoelace");
         whitelistedNamespaces.Add("Metapsi.Ionic");
         whitelistedNamespaces.Add("Metapsi.Tutorial.Template");
         whitelistedNamespaces.Add("System.Linq");
+        whitelistedNamespaces.Add("System.Collection.Generic");
 
         // Is syntax error, could be valid, move on
         if (symbolInfo.Symbol == null)
