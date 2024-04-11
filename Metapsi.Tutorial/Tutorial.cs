@@ -116,6 +116,9 @@ public class TutorialPage : HtmlPage<TutorialModel>
     public override void FillHtml(TutorialModel dataModel, DocumentTag document)
     {
         document.UseWebComponentsFadeIn();
+        document.Head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css");
+        document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js", "module"));
+
         document.WithBreakpointProbingPage(dataModel, delegate (TutorialModel dataModel)
         {
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))

@@ -81,6 +81,8 @@ public static partial class Control
             {
                 b.SetClass(b.Get(props, x => x.Class));
                 b.SetId(b.Get(props, x => x.EditorId));
+                // TODO: Find a better way
+                b.SetProperty(b.Props, b.Const("oneditor-change"), b.GetProperty<object>(props, b.Const("oneditor-change")));
             });
     }
 
@@ -209,6 +211,7 @@ public static partial class Control
         where TControl : new()
     {
         b.OnEventAction("editor-change", onEdit, "detail");
+        b.Log("MonacoOnEdit attached", b.Props);
     }
 
     public static void BindToSample<TControl>(
@@ -218,6 +221,7 @@ public static partial class Control
     {
         b.MonacoOnEdit(b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<string> newText) =>
         {
+            b.Log("Bind to sample: ", newText);
             var codeSample = b.Get(model, x => x.CodeSample);
             b.Set(codeSample, property, newText);
             return b.Clone(model);
