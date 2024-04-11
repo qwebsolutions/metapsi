@@ -21,8 +21,10 @@ namespace Metapsi.Dom
 
     public class DomElement : IDomElement
     {
-        public string innerHTML { get; set; }
-        public List<DomElement> children { get; set; }
+        public string id { get; }
+        public string @class { get; }
+        public string innerHTML { get; }
+        public List<DomElement> children { get; }
     }
 
     public class ClickTarget

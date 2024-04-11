@@ -92,6 +92,25 @@ public static class Binding
         b.BindTo(state, b.Def(onEntity), onProperty, converter);
     }
 
+    public static void BindTo<TControl, TState, TValue>(
+        this PropsBuilder<TControl> b,
+        Var<TState> state,
+        System.Linq.Expressions.Expression<System.Func<TState, TValue>> onProperty,
+        Converter<TValue> converter)
+        where TControl : IAllowsBinding<TControl>, new()
+    {
+        b.BindTo<TControl, TState, TState, TValue>(state, (SyntaxBuilder b, Var<TState> model) => model, onProperty, converter);
+    }
+
+    public static void BindTo<TControl, TState>(
+        this PropsBuilder<TControl> b,
+        Var<TState> state,
+        System.Linq.Expressions.Expression<System.Func<TState, string>> onProperty)
+        where TControl : IAllowsBinding<TControl>, new()
+    {
+        b.BindTo<TControl, TState, TState>(state, (SyntaxBuilder b, Var<TState> model) => model, onProperty);
+    }
+
     public static void BindTo<TControl, TState, TEntity>(
         this PropsBuilder<TControl> b,
         Var<TState> state,
@@ -151,6 +170,16 @@ public static class Binding
         where TControl : IAllowsBinding<TControl>, new()
     {
         b.BindTo(state, b.Def(onEntity), onProperty, Converter.IntConverter);
+    }
+
+    public static void BindTo<TControl, TState, TEntity>(
+        this PropsBuilder<TControl> b,
+        Var<TState> state,
+        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
+        where TControl : IAllowsBinding<TControl>, new()
+    {
+        b.BindTo(state, b.Def(onEntity), onProperty, Converter.BoolConverter);
     }
 
     public static void BindTo<TControl, TState, TEntity>(

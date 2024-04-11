@@ -14,6 +14,11 @@ namespace Metapsi.Syntax
             return b.CallExternal<T>(ModuleName, nameof(GetProperty), from, propertyName);
         }
 
+        public static Var<T> GetProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
+        {
+            return b.GetProperty<T>(from, b.Const(propertyName));
+        }
+
         public static void SetProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
         {
             b.CallExternal(ModuleName, nameof(SetProperty), into, propertyName, value);
