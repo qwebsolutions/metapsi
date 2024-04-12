@@ -113,7 +113,7 @@ public static class ServerSideBreakpointExtensions
     public static void BreakpointProbingPage(DocumentTag documentTag)
     {
         var titleTag = documentTag.Head.AddChild(new HtmlTag() { Tag = "title" });
-        titleTag.AddText("Metapsi - Redirecting ...");
+        titleTag.AddText("Metapsi");
 
         documentTag.AddJs(delegate (SyntaxBuilder b)
         {
