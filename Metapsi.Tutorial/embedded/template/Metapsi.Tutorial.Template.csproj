@@ -5,12 +5,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Metapsi.Ui" Version="0.8.4" />
-		<PackageReference Include="Metapsi.Hyperapp" Version="0.8.4" />
-		<PackageReference Include="Metapsi.Html" Version="0.8.4" />
-		<PackageReference Include="Metapsi.Shoelace" Version="0.8.4" />
-		<PackageReference Include="Metapsi.Ionic" Version="0.8.4" />
-		<PackageReference Include="Metapsi.Dom" Version="0.8.4" />
+		<PackageReference Include="Metapsi.Ui" Version="0.8.5" />
+		<PackageReference Include="Metapsi.Hyperapp" Version="0.8.5" />
+		<PackageReference Include="Metapsi.Html" Version="0.8.5" />
+		<PackageReference Include="Metapsi.Shoelace" Version="0.8.5" />
+		<PackageReference Include="Metapsi.Ionic" Version="0.8.5" />
+		<PackageReference Include="Metapsi.Dom" Version="0.8.5" />
 	</ItemGroup>
 
 </Project>
