@@ -5,6 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Metapsi.Ui" Version="0.8.4" />
 		<PackageReference Include="Metapsi.Hyperapp" Version="0.8.4" />
 		<PackageReference Include="Metapsi.Html" Version="0.8.4" />
 		<PackageReference Include="Metapsi.Shoelace" Version="0.8.4" />
