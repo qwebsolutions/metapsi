@@ -132,4 +132,9 @@ public static class GlobalAttributeExtensions
     {
         b.SetAttribute("innerHTML", innerHtml);
     }
+
+    public static void SetInnerHtml<T>(this PropsBuilder<T> b, string innerHtml)
+    {
+        b.SetInnerHtml(b.Const(innerHtml));
+    }
 }

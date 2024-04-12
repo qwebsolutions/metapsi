@@ -557,9 +557,7 @@ public class ErrorPage : HtmlPage<List<string>>
 {
     public override void FillHtml(List<string> dataModel, DocumentTag document)
     {
-        var script = document.Head.AddChild(new HtmlTag("link"));
-        script.SetAttribute("rel", "stylesheet");
-        script.SetAttribute("href", "/metapsi.tutorial.css");
+        document.Head.AddStylesheet("/metapsi.tutorial.css");
 
         foreach (var error in dataModel)
         {
