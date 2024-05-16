@@ -15,6 +15,7 @@ namespace Metapsi.Hyperapp
             public Func<TState, IVNode> view { get; set; }
             public DomElement node { get; set; }
             public Func<TState, List<Subscription>> subscriptions { get; set; }
+            public Func<Dispatcher<TState>, Dispatcher<TState>> dispatch { get; set; }
         }
 
         public class Init { }
@@ -103,7 +104,15 @@ namespace Metapsi.Hyperapp
             Var<TState> state,
             params System.Action<SyntaxBuilder>[] effects)
         {
-            return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect<TState>).ToArray());
+            return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect).ToArray());
+        }
+
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(
+            this SyntaxBuilder b,
+            Var<TState> state,
+            params System.Action<SyntaxBuilder, Var<HyperType.Dispatcher<TState>>>[] effects)
+        {
+            return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect).ToArray());
         }
 
         public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, params Var<Effect>[] effects)
@@ -219,13 +228,19 @@ namespace Metapsi.Hyperapp
         public class Effect { }
         //public class Effect<TInput> { }
 
-        public static Var<HyperType.Effect> MakeEffect<TState>(
+        public static Var<HyperType.Effect> MakeEffect(
             this SyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
         {
             return b.Def(effecterAction).As<HyperType.Effect>();
         }
 
         public static Var<HyperType.Effect> MakeEffect<TState>(
+            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>> effecterAction)
+        {
+            return b.Def(effecterAction).As<HyperType.Effect>();
+        }
+
+        public static Var<HyperType.Effect> MakeEffect(
             this SyntaxBuilder b, Var<System.Action> effecterAction)
         {
             return effecterAction.As<HyperType.Effect>();

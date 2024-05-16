@@ -108,7 +108,7 @@ public class HyperAppNode<TModel> : IHtmlNode, IHtmlComponent
             LayoutBuilder layoutBuilder = new LayoutBuilder();
             layoutBuilder.InitializeFrom(b);
 
-            var app = b.NewObj<HyperType.App<TDataModel>>();
+            var app = b.NewObj<DynamicObject>().As<HyperType.App<TDataModel>>();
             b.Set(app, x => x.init, init);
             b.Set(app, x => x.view, layoutBuilder.Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
             {

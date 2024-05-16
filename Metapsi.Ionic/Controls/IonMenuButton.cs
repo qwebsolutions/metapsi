@@ -12,102 +12,121 @@ namespace Metapsi.Ionic;
 public partial class IonMenuButton : IonComponent
 {
     public IonMenuButton() : base("ion-menu-button") { }
+}
+
+public static partial class IonMenuButtonControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonMenuButton(this HtmlBuilder b, Action<AttributesBuilder<IonMenuButton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-menu-button", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonMenuButton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-menu-button", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// Automatically hides the menu button when the corresponding menu is not active
     /// </summary>
-    public bool autoHide
+    public static void SetAutoHide(this AttributesBuilder<IonMenuButton> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("autoHide");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("autoHide", value.ToString());
-        }
+        b.SetAttribute("auto-hide", "");
+    }
+    /// <summary>
+    /// Automatically hides the menu button when the corresponding menu is not active
+    /// </summary>
+    public static void SetAutoHide(this AttributesBuilder<IonMenuButton> b, bool value)
+    {
+        if (value) b.SetAttribute("auto-hide", "");
     }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public string color
+    public static void SetColor(this AttributesBuilder<IonMenuButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("color");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("color", value.ToString());
-        }
+        b.SetAttribute("color", value);
     }
 
     /// <summary>
     /// If `true`, the user cannot interact with the menu button.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonMenuButton> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the menu button.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonMenuButton> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle
     /// </summary>
-    public string menu
+    public static void SetMenu(this AttributesBuilder<IonMenuButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("menu");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("menu", value.ToString());
-        }
+        b.SetAttribute("menu", value);
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonMenuButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonMenuButton> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonMenuButton> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public string type
+    public static void SetType(this AttributesBuilder<IonMenuButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
+        b.SetAttribute("type", value);
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeButton(this AttributesBuilder<IonMenuButton> b)
+    {
+        b.SetAttribute("type", "button");
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeReset(this AttributesBuilder<IonMenuButton> b)
+    {
+        b.SetAttribute("type", "reset");
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeSubmit(this AttributesBuilder<IonMenuButton> b)
+    {
+        b.SetAttribute("type", "submit");
     }
 
-}
-
-public static partial class IonMenuButtonControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -123,9 +142,23 @@ public static partial class IonMenuButtonControl
         return b.IonicNode("ion-menu-button", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonMenuButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-menu-button", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonMenuButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-menu-button", children);
+    }
+    /// <summary>
     /// Automatically hides the menu button when the corresponding menu is not active
     /// </summary>
-    public static void SetAutoHide(this PropsBuilder<IonMenuButton> b)
+    public static void SetAutoHide<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("autoHide"), b.Const(true));
     }
@@ -133,77 +166,77 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDanger(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDark(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorLight(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorMedium(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorPrimary(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSecondary(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSuccess(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorTertiary(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorWarning(this PropsBuilder<IonMenuButton> b)
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonMenuButton> b, Var<string> value)
+    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonMenuButton> b, string value)
+    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
     }
@@ -211,7 +244,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// If `true`, the user cannot interact with the menu button.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonMenuButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -219,14 +252,14 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle
     /// </summary>
-    public static void SetMenu(this PropsBuilder<IonMenuButton> b, Var<string> value)
+    public static void SetMenu<T>(this PropsBuilder<T> b, Var<string> value) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("menu"), value);
     }
     /// <summary>
     /// Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle
     /// </summary>
-    public static void SetMenu(this PropsBuilder<IonMenuButton> b, string value)
+    public static void SetMenu<T>(this PropsBuilder<T> b, string value) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("menu"), b.Const(value));
     }
@@ -234,14 +267,14 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonMenuButton> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonMenuButton> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -249,21 +282,21 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeButton(this PropsBuilder<IonMenuButton> b)
+    public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("button"));
     }
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeReset(this PropsBuilder<IonMenuButton> b)
+    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("reset"));
     }
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeSubmit(this PropsBuilder<IonMenuButton> b)
+    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("submit"));
     }

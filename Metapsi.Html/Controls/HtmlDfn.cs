@@ -18,6 +18,20 @@ public static partial class HtmlDfnControl
     /// <summary>
     /// The HTML dfn tag
     /// </summary>
+    public static IHtmlNode HtmlDfn(this HtmlBuilder b, Action<AttributesBuilder<HtmlDfn>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("dfn", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML dfn tag
+    /// </summary>
+    public static IHtmlNode HtmlDfn(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("dfn", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML dfn tag
+    /// </summary>
     public static Var<IVNode> HtmlDfn(this LayoutBuilder b, Action<PropsBuilder<HtmlDfn>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("dfn", buildProps, children);

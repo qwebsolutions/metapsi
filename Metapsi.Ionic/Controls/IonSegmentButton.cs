@@ -12,86 +12,148 @@ namespace Metapsi.Ionic;
 public partial class IonSegmentButton : IonComponent
 {
     public IonSegmentButton() : base("ion-segment-button") { }
+}
+
+public static partial class IonSegmentButtonControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSegmentButton(this HtmlBuilder b, Action<AttributesBuilder<IonSegmentButton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-segment-button", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSegmentButton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-segment-button", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// If `true`, the user cannot interact with the segment button.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonSegmentButton> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the segment button.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonSegmentButton> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public string layout
+    public static void SetLayout(this AttributesBuilder<IonSegmentButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("layout");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("layout", value.ToString());
-        }
+        b.SetAttribute("layout", value);
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutIconBottom(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "icon-bottom");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutIconEnd(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "icon-end");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutIconHide(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "icon-hide");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutIconStart(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "icon-start");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutIconTop(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "icon-top");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the segment.
+    /// </summary>
+    public static void SetLayoutLabelHide(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("layout", "label-hide");
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonSegmentButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public string type
+    public static void SetType(this AttributesBuilder<IonSegmentButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
+        b.SetAttribute("type", value);
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeButton(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("type", "button");
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeReset(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("type", "reset");
+    }
+    /// <summary>
+    /// The type of the button.
+    /// </summary>
+    public static void SetTypeSubmit(this AttributesBuilder<IonSegmentButton> b)
+    {
+        b.SetAttribute("type", "submit");
     }
 
     /// <summary>
     /// The value of the segment button.
     /// </summary>
-    public string value
+    public static void SetValue(this AttributesBuilder<IonSegmentButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
+        b.SetAttribute("value", value);
     }
 
-}
-
-public static partial class IonSegmentButtonControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -107,9 +169,23 @@ public static partial class IonSegmentButtonControl
         return b.IonicNode("ion-segment-button", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSegmentButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-segment-button", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSegmentButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-segment-button", children);
+    }
+    /// <summary>
     /// If `true`, the user cannot interact with the segment button.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonSegmentButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -117,42 +193,42 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutIconBottom(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutIconBottom<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-bottom"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutIconEnd(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutIconEnd<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-end"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutIconHide(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutIconHide<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-hide"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutIconStart(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutIconStart<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-start"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutIconTop(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutIconTop<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-top"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the segment.
     /// </summary>
-    public static void SetLayoutLabelHide(this PropsBuilder<IonSegmentButton> b)
+    public static void SetLayoutLabelHide<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("label-hide"));
     }
@@ -160,14 +236,14 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonSegmentButton> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonSegmentButton> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -175,21 +251,21 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeButton(this PropsBuilder<IonSegmentButton> b)
+    public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("button"));
     }
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeReset(this PropsBuilder<IonSegmentButton> b)
+    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("reset"));
     }
     /// <summary>
     /// The type of the button.
     /// </summary>
-    public static void SetTypeSubmit(this PropsBuilder<IonSegmentButton> b)
+    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("submit"));
     }
@@ -197,28 +273,28 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// The value of the segment button.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegmentButton> b, Var<int> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
     /// <summary>
     /// The value of the segment button.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegmentButton> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
     /// <summary>
     /// The value of the segment button.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegmentButton> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
     /// <summary>
     /// The value of the segment button.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegmentButton> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonSegmentButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }

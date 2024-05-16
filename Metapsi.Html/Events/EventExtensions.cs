@@ -71,7 +71,7 @@ public static partial class EventExtensions
     {
         return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<DomEvent> @event) =>
         {
-            b.StopPropagation(@event);
+            //b.StopPropagation(@event);
             var detail = b.Call(getDetail, @event);
             return b.MakeActionDescriptor(action, detail);
         });

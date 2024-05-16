@@ -12,119 +12,136 @@ namespace Metapsi.Ionic;
 public partial class IonAccordionGroup : IonComponent
 {
     public IonAccordionGroup() : base("ion-accordion-group") { }
+}
+
+public static partial class IonAccordionGroupControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, Action<AttributesBuilder<IonAccordionGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-accordion-group", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-accordion-group", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// If `true`, all accordions inside of the accordion group will animate when expanding or collapsing.
     /// </summary>
-    public bool animated
+    public static void SetAnimated(this AttributesBuilder<IonAccordionGroup> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("animated");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("animated", value.ToString());
-        }
+        b.SetAttribute("animated", "");
+    }
+    /// <summary>
+    /// If `true`, all accordions inside of the accordion group will animate when expanding or collapsing.
+    /// </summary>
+    public static void SetAnimated(this AttributesBuilder<IonAccordionGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("animated", "");
     }
 
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonAccordionGroup> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonAccordionGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`.
     /// </summary>
-    public string expand
+    public static void SetExpand(this AttributesBuilder<IonAccordionGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("expand");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("expand", value.ToString());
-        }
+        b.SetAttribute("expand", value);
+    }
+    /// <summary>
+    /// Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`.
+    /// </summary>
+    public static void SetExpandCompact(this AttributesBuilder<IonAccordionGroup> b)
+    {
+        b.SetAttribute("expand", "compact");
+    }
+    /// <summary>
+    /// Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`.
+    /// </summary>
+    public static void SetExpandInset(this AttributesBuilder<IonAccordionGroup> b)
+    {
+        b.SetAttribute("expand", "inset");
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonAccordionGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonAccordionGroup> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonAccordionGroup> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// If `true`, the accordion group can have multiple accordion components expanded at the same time.
     /// </summary>
-    public bool multiple
+    public static void SetMultiple(this AttributesBuilder<IonAccordionGroup> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("multiple");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("multiple", value.ToString());
-        }
+        b.SetAttribute("multiple", "");
+    }
+    /// <summary>
+    /// If `true`, the accordion group can have multiple accordion components expanded at the same time.
+    /// </summary>
+    public static void SetMultiple(this AttributesBuilder<IonAccordionGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("multiple", "");
     }
 
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
     /// </summary>
-    public bool @readonly
+    public static void SetReadonly(this AttributesBuilder<IonAccordionGroup> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("readonly");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("readonly", value.ToString());
-        }
+        b.SetAttribute("readonly", "");
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<IonAccordionGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("readonly", "");
     }
 
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public string value
+    public static void SetValue(this AttributesBuilder<IonAccordionGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
+        b.SetAttribute("value", value);
     }
 
-}
-
-public static partial class IonAccordionGroupControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -140,9 +157,23 @@ public static partial class IonAccordionGroupControl
         return b.IonicNode("ion-accordion-group", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonAccordionGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-accordion-group", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonAccordionGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-accordion-group", children);
+    }
+    /// <summary>
     /// If `true`, all accordions inside of the accordion group will animate when expanding or collapsing.
     /// </summary>
-    public static void SetAnimated(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
@@ -150,7 +181,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -158,14 +189,14 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`.
     /// </summary>
-    public static void SetExpandCompact(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetExpandCompact<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.String("expand"), b.Const("compact"));
     }
     /// <summary>
     /// Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`.
     /// </summary>
-    public static void SetExpandInset(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetExpandInset<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.String("expand"), b.Const("inset"));
     }
@@ -173,14 +204,14 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -188,7 +219,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// If `true`, the accordion group can have multiple accordion components expanded at the same time.
     /// </summary>
-    public static void SetMultiple(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
     }
@@ -196,7 +227,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
     /// </summary>
-    public static void SetReadonly(this PropsBuilder<IonAccordionGroup> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
     }
@@ -204,28 +235,28 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonAccordionGroup> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonAccordionGroup> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonAccordionGroup> b, Var<List<string>> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), value);
     }
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonAccordionGroup> b, List<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, List<string> value) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), b.Const(value));
     }
@@ -233,14 +264,14 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// Emitted when the value property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the value property.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonAccordionGroup> b, Var<HyperType.Action<TModel, AccordionGroupChangeEventDetail>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, AccordionGroupChangeEventDetail>> action) where TComponent: IonAccordionGroup
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the value property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the value property.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonAccordionGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<AccordionGroupChangeEventDetail>, Var<TModel>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<AccordionGroupChangeEventDetail>, Var<TModel>> action) where TComponent: IonAccordionGroup
     {
         b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }

@@ -18,6 +18,20 @@ public static partial class HtmlLinkControl
     /// <summary>
     /// The HTML link tag
     /// </summary>
+    public static IHtmlNode HtmlLink(this HtmlBuilder b, Action<AttributesBuilder<HtmlLink>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("link", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML link tag
+    /// </summary>
+    public static IHtmlNode HtmlLink(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("link", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML link tag
+    /// </summary>
     public static Var<IVNode> HtmlLink(this LayoutBuilder b, Action<PropsBuilder<HtmlLink>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("link", buildProps, children);

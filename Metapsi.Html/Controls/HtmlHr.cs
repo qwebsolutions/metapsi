@@ -18,6 +18,20 @@ public static partial class HtmlHrControl
     /// <summary>
     /// The HTML hr tag
     /// </summary>
+    public static IHtmlNode HtmlHr(this HtmlBuilder b, Action<AttributesBuilder<HtmlHr>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("hr", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML hr tag
+    /// </summary>
+    public static IHtmlNode HtmlHr(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("hr", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML hr tag
+    /// </summary>
     public static Var<IVNode> HtmlHr(this LayoutBuilder b, Action<PropsBuilder<HtmlHr>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("hr", buildProps, children);

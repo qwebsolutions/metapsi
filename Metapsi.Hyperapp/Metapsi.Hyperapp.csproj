@@ -34,6 +34,7 @@
 		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
 		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
+		<EmbeddedResource Include="embedded\HyperappCustomElement.js" LogicalName="HyperappCustomElement.js" />
 		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
   </ItemGroup>

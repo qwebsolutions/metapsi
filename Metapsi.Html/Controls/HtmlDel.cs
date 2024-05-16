@@ -18,6 +18,20 @@ public static partial class HtmlDelControl
     /// <summary>
     /// The HTML del tag
     /// </summary>
+    public static IHtmlNode HtmlDel(this HtmlBuilder b, Action<AttributesBuilder<HtmlDel>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("del", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML del tag
+    /// </summary>
+    public static IHtmlNode HtmlDel(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("del", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML del tag
+    /// </summary>
     public static Var<IVNode> HtmlDel(this LayoutBuilder b, Action<PropsBuilder<HtmlDel>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("del", buildProps, children);

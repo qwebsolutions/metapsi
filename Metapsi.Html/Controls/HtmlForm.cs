@@ -18,6 +18,20 @@ public static partial class HtmlFormControl
     /// <summary>
     /// The HTML form tag
     /// </summary>
+    public static IHtmlNode HtmlForm(this HtmlBuilder b, Action<AttributesBuilder<HtmlForm>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("form", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML form tag
+    /// </summary>
+    public static IHtmlNode HtmlForm(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("form", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML form tag
+    /// </summary>
     public static Var<IVNode> HtmlForm(this LayoutBuilder b, Action<PropsBuilder<HtmlForm>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("form", buildProps, children);

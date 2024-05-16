@@ -82,6 +82,12 @@ namespace Metapsi.Syntax
             return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
         }
 
+        public Var<Func<P1, TOut>> Define<TSyntaxBuilder, P1, TOut>(string funcName, System.Func<TSyntaxBuilder, Var<P1>, Var<TOut>> builder)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
+        }
+
         internal IVariable DefineFunc<TDelegate>(string functionName, TDelegate builder)
             where TDelegate : Delegate
         {

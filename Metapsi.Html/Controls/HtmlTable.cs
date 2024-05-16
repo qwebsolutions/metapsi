@@ -18,6 +18,20 @@ public static partial class HtmlTableControl
     /// <summary>
     /// The HTML table tag
     /// </summary>
+    public static IHtmlNode HtmlTable(this HtmlBuilder b, Action<AttributesBuilder<HtmlTable>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("table", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML table tag
+    /// </summary>
+    public static IHtmlNode HtmlTable(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("table", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML table tag
+    /// </summary>
     public static Var<IVNode> HtmlTable(this LayoutBuilder b, Action<PropsBuilder<HtmlTable>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("table", buildProps, children);

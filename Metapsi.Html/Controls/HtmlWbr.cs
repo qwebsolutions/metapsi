@@ -18,6 +18,20 @@ public static partial class HtmlWbrControl
     /// <summary>
     /// The HTML wbr tag
     /// </summary>
+    public static IHtmlNode HtmlWbr(this HtmlBuilder b, Action<AttributesBuilder<HtmlWbr>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("wbr", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML wbr tag
+    /// </summary>
+    public static IHtmlNode HtmlWbr(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("wbr", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML wbr tag
+    /// </summary>
     public static Var<IVNode> HtmlWbr(this LayoutBuilder b, Action<PropsBuilder<HtmlWbr>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("wbr", buildProps, children);

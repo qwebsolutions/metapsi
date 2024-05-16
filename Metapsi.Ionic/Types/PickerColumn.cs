@@ -34,7 +34,7 @@ public class PickerColumn
     /// <summary>
     /// string | string[]
     /// </summary>
-    public object cssClass { get; set; }
+    public string cssClass { get; set; }
     /// <summary>
     /// string
     /// </summary>

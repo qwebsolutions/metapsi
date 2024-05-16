@@ -18,6 +18,20 @@ public static partial class HtmlAControl
     /// <summary>
     /// The HTML a tag
     /// </summary>
+    public static IHtmlNode HtmlA(this HtmlBuilder b, Action<AttributesBuilder<HtmlA>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("a", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML a tag
+    /// </summary>
+    public static IHtmlNode HtmlA(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("a", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML a tag
+    /// </summary>
     public static Var<IVNode> HtmlA(this LayoutBuilder b, Action<PropsBuilder<HtmlA>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("a", buildProps, children);

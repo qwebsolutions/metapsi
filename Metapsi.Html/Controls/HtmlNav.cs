@@ -18,6 +18,20 @@ public static partial class HtmlNavControl
     /// <summary>
     /// The HTML nav tag
     /// </summary>
+    public static IHtmlNode HtmlNav(this HtmlBuilder b, Action<AttributesBuilder<HtmlNav>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("nav", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML nav tag
+    /// </summary>
+    public static IHtmlNode HtmlNav(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("nav", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML nav tag
+    /// </summary>
     public static Var<IVNode> HtmlNav(this LayoutBuilder b, Action<PropsBuilder<HtmlNav>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("nav", buildProps, children);

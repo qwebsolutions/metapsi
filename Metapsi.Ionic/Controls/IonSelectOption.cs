@@ -12,41 +12,47 @@ namespace Metapsi.Ionic;
 public partial class IonSelectOption : IonComponent
 {
     public IonSelectOption() : base("ion-select-option") { }
+}
+
+public static partial class IonSelectOptionControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSelectOption(this HtmlBuilder b, Action<AttributesBuilder<IonSelectOption>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-select-option", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSelectOption(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-select-option", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonSelectOption> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonSelectOption> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// The text value of the option.
     /// </summary>
-    public object value
+    public static void SetValue(this AttributesBuilder<IonSelectOption> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
+        b.SetAttribute("value", value);
     }
 
-}
-
-public static partial class IonSelectOptionControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -62,9 +68,23 @@ public static partial class IonSelectOptionControl
         return b.IonicNode("ion-select-option", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSelectOption(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-select-option", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSelectOption(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-select-option", children);
+    }
+    /// <summary>
     /// If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonSelectOption> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSelectOption
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -72,14 +92,14 @@ public static partial class IonSelectOptionControl
     /// <summary>
     /// The text value of the option.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSelectOption> b, Var<object> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonSelectOption
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
     }
     /// <summary>
     /// The text value of the option.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSelectOption> b, object value)
+    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonSelectOption
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
     }

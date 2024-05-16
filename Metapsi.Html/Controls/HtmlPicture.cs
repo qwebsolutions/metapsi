@@ -18,6 +18,20 @@ public static partial class HtmlPictureControl
     /// <summary>
     /// The HTML picture tag
     /// </summary>
+    public static IHtmlNode HtmlPicture(this HtmlBuilder b, Action<AttributesBuilder<HtmlPicture>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("picture", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML picture tag
+    /// </summary>
+    public static IHtmlNode HtmlPicture(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("picture", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML picture tag
+    /// </summary>
     public static Var<IVNode> HtmlPicture(this LayoutBuilder b, Action<PropsBuilder<HtmlPicture>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("picture", buildProps, children);

@@ -12,113 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonMenu : IonComponent
 {
     public IonMenu() : base("ion-menu") { }
-    /// <summary>
-    /// The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`.
-    /// </summary>
-    public string contentId
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("contentId");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("contentId", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the menu is disabled.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
-    /// </summary>
-    public int maxEdgeStart
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("maxEdgeStart");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("maxEdgeStart", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// An id for the menu.
-    /// </summary>
-    public string menuId
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("menuId");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("menuId", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Which side of the view the menu should be placed.
-    /// </summary>
-    public string side
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("side");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("side", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, swiping the menu is enabled.
-    /// </summary>
-    public bool swipeGesture
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("swipeGesture");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("swipeGesture", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
-    /// </summary>
-    public string type
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -164,6 +57,125 @@ public static partial class IonMenuControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonMenu(this HtmlBuilder b, Action<AttributesBuilder<IonMenu>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-menu", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonMenu(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-menu", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`.
+    /// </summary>
+    public static void SetContentId(this AttributesBuilder<IonMenu> b, string value)
+    {
+        b.SetAttribute("content-id", value);
+    }
+
+    /// <summary>
+    /// If `true`, the menu is disabled.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the menu is disabled.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonMenu> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
+    /// </summary>
+    public static void SetMaxEdgeStart(this AttributesBuilder<IonMenu> b, string value)
+    {
+        b.SetAttribute("max-edge-start", value);
+    }
+
+    /// <summary>
+    /// An id for the menu.
+    /// </summary>
+    public static void SetMenuId(this AttributesBuilder<IonMenu> b, string value)
+    {
+        b.SetAttribute("menu-id", value);
+    }
+
+    /// <summary>
+    /// Which side of the view the menu should be placed.
+    /// </summary>
+    public static void SetSide(this AttributesBuilder<IonMenu> b, string value)
+    {
+        b.SetAttribute("side", value);
+    }
+    /// <summary>
+    /// Which side of the view the menu should be placed.
+    /// </summary>
+    public static void SetSideEnd(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("side", "end");
+    }
+    /// <summary>
+    /// Which side of the view the menu should be placed.
+    /// </summary>
+    public static void SetSideStart(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("side", "start");
+    }
+
+    /// <summary>
+    /// If `true`, swiping the menu is enabled.
+    /// </summary>
+    public static void SetSwipeGesture(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("swipe-gesture", "");
+    }
+    /// <summary>
+    /// If `true`, swiping the menu is enabled.
+    /// </summary>
+    public static void SetSwipeGesture(this AttributesBuilder<IonMenu> b, bool value)
+    {
+        if (value) b.SetAttribute("swipe-gesture", "");
+    }
+
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public static void SetType(this AttributesBuilder<IonMenu> b, string value)
+    {
+        b.SetAttribute("type", value);
+    }
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public static void SetTypeOverlay(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("type", "overlay");
+    }
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public static void SetTypePush(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("type", "push");
+    }
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public static void SetTypeReveal(this AttributesBuilder<IonMenu> b)
+    {
+        b.SetAttribute("type", "reveal");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonMenu(this LayoutBuilder b, Action<PropsBuilder<IonMenu>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-menu", buildProps, children);
@@ -176,16 +188,30 @@ public static partial class IonMenuControl
         return b.IonicNode("ion-menu", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonMenu(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-menu", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonMenu(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-menu", children);
+    }
+    /// <summary>
     /// The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`.
     /// </summary>
-    public static void SetContentId(this PropsBuilder<IonMenu> b, Var<string> value)
+    public static void SetContentId<T>(this PropsBuilder<T> b, Var<string> value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), value);
     }
     /// <summary>
     /// The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`.
     /// </summary>
-    public static void SetContentId(this PropsBuilder<IonMenu> b, string value)
+    public static void SetContentId<T>(this PropsBuilder<T> b, string value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), b.Const(value));
     }
@@ -193,7 +219,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// If `true`, the menu is disabled.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonMenu> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -201,14 +227,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
     /// </summary>
-    public static void SetMaxEdgeStart(this PropsBuilder<IonMenu> b, Var<int> value)
+    public static void SetMaxEdgeStart<T>(this PropsBuilder<T> b, Var<int> value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("maxEdgeStart"), value);
     }
     /// <summary>
     /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
     /// </summary>
-    public static void SetMaxEdgeStart(this PropsBuilder<IonMenu> b, int value)
+    public static void SetMaxEdgeStart<T>(this PropsBuilder<T> b, int value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("maxEdgeStart"), b.Const(value));
     }
@@ -216,14 +242,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// An id for the menu.
     /// </summary>
-    public static void SetMenuId(this PropsBuilder<IonMenu> b, Var<string> value)
+    public static void SetMenuId<T>(this PropsBuilder<T> b, Var<string> value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("menuId"), value);
     }
     /// <summary>
     /// An id for the menu.
     /// </summary>
-    public static void SetMenuId(this PropsBuilder<IonMenu> b, string value)
+    public static void SetMenuId<T>(this PropsBuilder<T> b, string value) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("menuId"), b.Const(value));
     }
@@ -231,14 +257,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// Which side of the view the menu should be placed.
     /// </summary>
-    public static void SetSideEnd(this PropsBuilder<IonMenu> b)
+    public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("end"));
     }
     /// <summary>
     /// Which side of the view the menu should be placed.
     /// </summary>
-    public static void SetSideStart(this PropsBuilder<IonMenu> b)
+    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("start"));
     }
@@ -246,7 +272,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// If `true`, swiping the menu is enabled.
     /// </summary>
-    public static void SetSwipeGesture(this PropsBuilder<IonMenu> b)
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
     }
@@ -254,29 +280,36 @@ public static partial class IonMenuControl
     /// <summary>
     /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
     /// </summary>
-    public static void SetType(this PropsBuilder<IonMenu> b, Var<string> value)
+    public static void SetTypeOverlay<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), value);
+        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("overlay"));
     }
     /// <summary>
     /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
     /// </summary>
-    public static void SetType(this PropsBuilder<IonMenu> b, string value)
+    public static void SetTypePush<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const(value));
+        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("push"));
+    }
+    /// <summary>
+    /// The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`.
+    /// </summary>
+    public static void SetTypeReveal<T>(this PropsBuilder<T> b) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("reveal"));
     }
 
     /// <summary>
     /// Emitted when the menu is closed.
     /// </summary>
-    public static void OnIonDidClose<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionDidClose", action);
     }
     /// <summary>
     /// Emitted when the menu is closed.
     /// </summary>
-    public static void OnIonDidClose<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionDidClose", b.MakeAction(action));
     }
@@ -284,14 +317,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// Emitted when the menu is open.
     /// </summary>
-    public static void OnIonDidOpen<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonDidOpen<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionDidOpen", action);
     }
     /// <summary>
     /// Emitted when the menu is open.
     /// </summary>
-    public static void OnIonDidOpen<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonDidOpen<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionDidOpen", b.MakeAction(action));
     }
@@ -299,14 +332,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// Emitted when the menu is about to be closed.
     /// </summary>
-    public static void OnIonWillClose<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionWillClose", action);
     }
     /// <summary>
     /// Emitted when the menu is about to be closed.
     /// </summary>
-    public static void OnIonWillClose<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionWillClose", b.MakeAction(action));
     }
@@ -314,14 +347,14 @@ public static partial class IonMenuControl
     /// <summary>
     /// Emitted when the menu is about to be opened.
     /// </summary>
-    public static void OnIonWillOpen<TModel>(this PropsBuilder<IonMenu> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonWillOpen<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionWillOpen", action);
     }
     /// <summary>
     /// Emitted when the menu is about to be opened.
     /// </summary>
-    public static void OnIonWillOpen<TModel>(this PropsBuilder<IonMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonWillOpen<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
     {
         b.OnEventAction("onionWillOpen", b.MakeAction(action));
     }

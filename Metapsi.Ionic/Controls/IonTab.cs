@@ -12,36 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonTab : IonComponent
 {
     public IonTab() : base("ion-tab") { }
-    /// <summary>
-    /// The component to display inside of the tab.
-    /// </summary>
-    public string component
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("component");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("component", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
-    /// </summary>
-    public string tab
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("tab");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("tab", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -57,6 +27,36 @@ public static partial class IonTabControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonTab(this HtmlBuilder b, Action<AttributesBuilder<IonTab>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tab", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonTab(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tab", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The component to display inside of the tab.
+    /// </summary>
+    public static void SetComponent(this AttributesBuilder<IonTab> b, string value)
+    {
+        b.SetAttribute("component", value);
+    }
+
+    /// <summary>
+    /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
+    /// </summary>
+    public static void SetTab(this AttributesBuilder<IonTab> b, string value)
+    {
+        b.SetAttribute("tab", value);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonTab(this LayoutBuilder b, Action<PropsBuilder<IonTab>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-tab", buildProps, children);
@@ -69,44 +69,58 @@ public static partial class IonTabControl
         return b.IonicNode("ion-tab", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTab(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-tab", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTab(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-tab", children);
+    }
+    /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, Var<Metapsi.Ionic.Function> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), value);
     }
     /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, Metapsi.Ionic.Function value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), b.Const(value));
     }
     /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, Var<HTMLElement> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<HTMLElement> value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), value);
     }
     /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, HTMLElement value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, HTMLElement value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), b.Const(value));
     }
     /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, Var<string> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("component"), value);
     }
     /// <summary>
     /// The component to display inside of the tab.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonTab> b, string value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, string value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(value));
     }
@@ -114,14 +128,14 @@ public static partial class IonTabControl
     /// <summary>
     /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
     /// </summary>
-    public static void SetTab(this PropsBuilder<IonTab> b, Var<string> value)
+    public static void SetTab<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), value);
     }
     /// <summary>
     /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
     /// </summary>
-    public static void SetTab(this PropsBuilder<IonTab> b, string value)
+    public static void SetTab<T>(this PropsBuilder<T> b, string value) where T: IonTab
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), b.Const(value));
     }

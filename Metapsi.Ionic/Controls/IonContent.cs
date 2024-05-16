@@ -12,101 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonContent : IonComponent
 {
     public IonContent() : base("ion-content") { }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public string color
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("color");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("color", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
-    /// </summary>
-    public bool forceOverscroll
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("forceOverscroll");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("forceOverscroll", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
-    /// </summary>
-    public bool fullscreen
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("fullscreen");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("fullscreen", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
-    /// </summary>
-    public bool scrollEvents
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("scrollEvents");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("scrollEvents", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
-    /// </summary>
-    public bool scrollX
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("scrollX");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("scrollX", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
-    /// </summary>
-    public bool scrollY
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("scrollY");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("scrollY", value.ToString());
-        }
-    }
-
     /// <summary> 
     /// Content is placed in the scrollable area if provided without a slot.
     /// </summary>
@@ -160,6 +65,103 @@ public static partial class IonContentControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonContent(this HtmlBuilder b, Action<AttributesBuilder<IonContent>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-content", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonContent(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-content", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// </summary>
+    public static void SetColor(this AttributesBuilder<IonContent> b, string value)
+    {
+        b.SetAttribute("color", value);
+    }
+
+    /// <summary>
+    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
+    /// </summary>
+    public static void SetForceOverscroll(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("force-overscroll", "");
+    }
+    /// <summary>
+    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
+    /// </summary>
+    public static void SetForceOverscroll(this AttributesBuilder<IonContent> b, bool value)
+    {
+        if (value) b.SetAttribute("force-overscroll", "");
+    }
+
+    /// <summary>
+    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+    /// </summary>
+    public static void SetFullscreen(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("fullscreen", "");
+    }
+    /// <summary>
+    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+    /// </summary>
+    public static void SetFullscreen(this AttributesBuilder<IonContent> b, bool value)
+    {
+        if (value) b.SetAttribute("fullscreen", "");
+    }
+
+    /// <summary>
+    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
+    /// </summary>
+    public static void SetScrollEvents(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("scroll-events", "");
+    }
+    /// <summary>
+    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
+    /// </summary>
+    public static void SetScrollEvents(this AttributesBuilder<IonContent> b, bool value)
+    {
+        if (value) b.SetAttribute("scroll-events", "");
+    }
+
+    /// <summary>
+    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
+    /// </summary>
+    public static void SetScrollX(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("scroll-x", "");
+    }
+    /// <summary>
+    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
+    /// </summary>
+    public static void SetScrollX(this AttributesBuilder<IonContent> b, bool value)
+    {
+        if (value) b.SetAttribute("scroll-x", "");
+    }
+
+    /// <summary>
+    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
+    /// </summary>
+    public static void SetScrollY(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("scroll-y", "");
+    }
+    /// <summary>
+    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
+    /// </summary>
+    public static void SetScrollY(this AttributesBuilder<IonContent> b, bool value)
+    {
+        if (value) b.SetAttribute("scroll-y", "");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonContent(this LayoutBuilder b, Action<PropsBuilder<IonContent>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-content", buildProps, children);
@@ -172,79 +174,93 @@ public static partial class IonContentControl
         return b.IonicNode("ion-content", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonContent(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-content", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonContent(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-content", children);
+    }
+    /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDanger(this PropsBuilder<IonContent> b)
+    public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDark(this PropsBuilder<IonContent> b)
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorLight(this PropsBuilder<IonContent> b)
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorMedium(this PropsBuilder<IonContent> b)
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorPrimary(this PropsBuilder<IonContent> b)
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSecondary(this PropsBuilder<IonContent> b)
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSuccess(this PropsBuilder<IonContent> b)
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorTertiary(this PropsBuilder<IonContent> b)
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorWarning(this PropsBuilder<IonContent> b)
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonContent> b, Var<string> value)
+    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonContent
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonContent> b, string value)
+    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonContent
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
     }
@@ -252,7 +268,7 @@ public static partial class IonContentControl
     /// <summary>
     /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
     /// </summary>
-    public static void SetForceOverscroll(this PropsBuilder<IonContent> b)
+    public static void SetForceOverscroll<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("forceOverscroll"), b.Const(true));
     }
@@ -260,7 +276,7 @@ public static partial class IonContentControl
     /// <summary>
     /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
     /// </summary>
-    public static void SetFullscreen(this PropsBuilder<IonContent> b)
+    public static void SetFullscreen<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("fullscreen"), b.Const(true));
     }
@@ -268,7 +284,7 @@ public static partial class IonContentControl
     /// <summary>
     /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
     /// </summary>
-    public static void SetScrollEvents(this PropsBuilder<IonContent> b)
+    public static void SetScrollEvents<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollEvents"), b.Const(true));
     }
@@ -276,7 +292,7 @@ public static partial class IonContentControl
     /// <summary>
     /// If you want to enable the content scrolling in the X axis, set this property to `true`.
     /// </summary>
-    public static void SetScrollX(this PropsBuilder<IonContent> b)
+    public static void SetScrollX<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollX"), b.Const(true));
     }
@@ -284,7 +300,7 @@ public static partial class IonContentControl
     /// <summary>
     /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
     /// </summary>
-    public static void SetScrollY(this PropsBuilder<IonContent> b)
+    public static void SetScrollY<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollY"), b.Const(true));
     }
@@ -292,14 +308,14 @@ public static partial class IonContentControl
     /// <summary>
     /// Emitted while scrolling. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScroll<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollDetail>> action)
+    public static void OnIonScroll<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, ScrollDetail>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScroll", action, "detail");
     }
     /// <summary>
     /// Emitted while scrolling. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScroll<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollDetail>, Var<TModel>> action)
+    public static void OnIonScroll<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollDetail>, Var<TModel>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScroll", b.MakeAction(action), "detail");
     }
@@ -307,14 +323,14 @@ public static partial class IonContentControl
     /// <summary>
     /// Emitted when the scroll has ended. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScrollEnd<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action)
+    public static void OnIonScrollEnd<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScrollEnd", action, "detail");
     }
     /// <summary>
     /// Emitted when the scroll has ended. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScrollEnd<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action)
+    public static void OnIonScrollEnd<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScrollEnd", b.MakeAction(action), "detail");
     }
@@ -322,14 +338,14 @@ public static partial class IonContentControl
     /// <summary>
     /// Emitted when the scroll has started. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScrollStart<TModel>(this PropsBuilder<IonContent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action)
+    public static void OnIonScrollStart<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, ScrollBaseDetail>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScrollStart", action, "detail");
     }
     /// <summary>
     /// Emitted when the scroll has started. This event is disabled by default. Set `scrollEvents` to `true` to enable.
     /// </summary>
-    public static void OnIonScrollStart<TModel>(this PropsBuilder<IonContent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action)
+    public static void OnIonScrollStart<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ScrollBaseDetail>, Var<TModel>> action) where TComponent: IonContent
     {
         b.OnEventAction("onionScrollStart", b.MakeAction(action), "detail");
     }

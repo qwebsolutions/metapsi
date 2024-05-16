@@ -55,10 +55,10 @@ public static class Program
 
     public static List<string> SkippedTags = new List<string>()
     {
-        "html",
-        "head",
-        "body",
-        "meta",
-        "noscript"
+        //"html",
+        //"head",
+        //"body",
+        //"meta",
+        //"noscript"
     };
 }

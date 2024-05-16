@@ -5,7 +5,7 @@ public class SearchbarChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public object value { get; set; }
+    public DynamicObject value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

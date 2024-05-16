@@ -53,6 +53,20 @@ public static partial class IonTabsControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonTabs(this HtmlBuilder b, Action<AttributesBuilder<IonTabs>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tabs", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonTabs(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tabs", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonTabs(this LayoutBuilder b, Action<PropsBuilder<IonTabs>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-tabs", buildProps, children);
@@ -63,6 +77,20 @@ public static partial class IonTabsControl
     public static Var<IVNode> IonTabs(this LayoutBuilder b, Action<PropsBuilder<IonTabs>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-tabs", buildProps, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTabs(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-tabs", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTabs(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-tabs", children);
     }
     /// <summary>
     /// Emitted when the navigation has finished transitioning to a new component.
@@ -81,14 +109,14 @@ public static partial class IonTabsControl
     /// <summary>
     /// Emitted when the navigation has finished transitioning to a new component.
     /// </summary>
-    public static void OnIonTabsDidChange<TModel>(this PropsBuilder<IonTabs> b, Var<HyperType.Action<TModel, IonTabsIonTabsDidChangeDetail>> action)
+    public static void OnIonTabsDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, IonTabsIonTabsDidChangeDetail>> action) where TComponent: IonTabs
     {
         b.OnEventAction("onionTabsDidChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the navigation has finished transitioning to a new component.
     /// </summary>
-    public static void OnIonTabsDidChange<TModel>(this PropsBuilder<IonTabs> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsDidChangeDetail>, Var<TModel>> action)
+    public static void OnIonTabsDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsDidChangeDetail>, Var<TModel>> action) where TComponent: IonTabs
     {
         b.OnEventAction("onionTabsDidChange", b.MakeAction(action), "detail");
     }
@@ -96,14 +124,14 @@ public static partial class IonTabsControl
     /// <summary>
     /// Emitted when the navigation is about to transition to a new component.
     /// </summary>
-    public static void OnIonTabsWillChange<TModel>(this PropsBuilder<IonTabs> b, Var<HyperType.Action<TModel, IonTabsIonTabsWillChangeDetail>> action)
+    public static void OnIonTabsWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, IonTabsIonTabsWillChangeDetail>> action) where TComponent: IonTabs
     {
         b.OnEventAction("onionTabsWillChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the navigation is about to transition to a new component.
     /// </summary>
-    public static void OnIonTabsWillChange<TModel>(this PropsBuilder<IonTabs> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsWillChangeDetail>, Var<TModel>> action)
+    public static void OnIonTabsWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<IonTabsIonTabsWillChangeDetail>, Var<TModel>> action) where TComponent: IonTabs
     {
         b.OnEventAction("onionTabsWillChange", b.MakeAction(action), "detail");
     }

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Sqlite
 {
-
     public class OpenTransaction
     {
         public SQLiteConnection Connection { get; set; }
@@ -17,15 +16,6 @@ namespace Metapsi.Sqlite
 
     public static partial class Db
     {
-        public static List<Type> SupportedScalarTypes = new List<Type>()
-        {
-            typeof(bool),
-            typeof(int),
-            typeof(string),
-            typeof(Guid),
-            typeof(DateTime)
-        };
-
         public static string ToConnectionString(string filePath)
         {
             if(filePath.Contains("Data Source"))
@@ -43,6 +33,8 @@ namespace Metapsi.Sqlite
 
         public static async Task<TResult> WithRollback<TResult>(string filePath, Func<OpenTransaction, Task<TResult>> dbQuery)
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             TResult result;
 
             using (SQLiteConnection conn = ToConnection(filePath))
@@ -57,11 +49,15 @@ namespace Metapsi.Sqlite
                 transaction.Rollback();
             }
 
+            System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback<{typeof(TResult).Name}> {sw.ElapsedMilliseconds}");
+
             return result;
         }
 
         public static async Task WithCommit(string filePath, Func<OpenTransaction, Task> dbAction)
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             using (SQLiteConnection conn = ToConnection(filePath))
             {
                 await conn.OpenAsync();
@@ -73,10 +69,13 @@ namespace Metapsi.Sqlite
                 });
                 transaction.Commit();
             }
+            System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithCommit {sw.ElapsedMilliseconds}");
         }
 
         public static async Task<TResult> WithCommit<TResult>(string filePath, Func<OpenTransaction, Task<TResult>> dbAction)
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             using (SQLiteConnection conn = ToConnection(filePath))
             {
                 await conn.OpenAsync();
@@ -87,6 +86,9 @@ namespace Metapsi.Sqlite
                     Transaction = transaction
                 });
                 transaction.Commit();
+
+
+                System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithCommit<{typeof(TResult).Name}> {sw.ElapsedMilliseconds}");
 
                 return result;
             }

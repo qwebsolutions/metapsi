@@ -18,6 +18,20 @@ public static partial class HtmlBdoControl
     /// <summary>
     /// The HTML bdo tag
     /// </summary>
+    public static IHtmlNode HtmlBdo(this HtmlBuilder b, Action<AttributesBuilder<HtmlBdo>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("bdo", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML bdo tag
+    /// </summary>
+    public static IHtmlNode HtmlBdo(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("bdo", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML bdo tag
+    /// </summary>
     public static Var<IVNode> HtmlBdo(this LayoutBuilder b, Action<PropsBuilder<HtmlBdo>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("bdo", buildProps, children);

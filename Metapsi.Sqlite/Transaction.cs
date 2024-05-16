@@ -22,7 +22,7 @@ namespace Metapsi.Sqlite
             Type recordType,
             System.Collections.IEnumerable collection)
         {
-            IEnumerable<string> fieldNames = recordType.GetProperties().Where(x => Db.SupportedScalarTypes.Contains(x.PropertyType)).Select(x => x.Name);
+            IEnumerable<string> fieldNames = recordType.GetProperties().Where(x => Ddl.SupportedScalarTypes.Contains(x.PropertyType)).Select(x => x.Name);
             string joinedFields = string.Join(", ", fieldNames);
             string joinedParameters = string.Join(", ", fieldNames.Select(x => $"@{x}"));
             string insertStatement = $"insert into {recordType.Name} ({joinedFields}) values ({joinedParameters})";

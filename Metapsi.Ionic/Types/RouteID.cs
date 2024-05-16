@@ -9,9 +9,9 @@ public class RouteID
     /// <summary>
     /// HTMLElement | undefined
     /// </summary>
-    public object element { get; set; }
+    public DynamicObject element { get; set; }
     /// <summary>
     /// { [key: string]: any }
     /// </summary>
-    public object @params { get; set; }
+    public DynamicObject @params { get; set; }
 }

@@ -18,6 +18,20 @@ public static partial class HtmlBrControl
     /// <summary>
     /// The HTML br tag
     /// </summary>
+    public static IHtmlNode HtmlBr(this HtmlBuilder b, Action<AttributesBuilder<HtmlBr>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("br", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML br tag
+    /// </summary>
+    public static IHtmlNode HtmlBr(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("br", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML br tag
+    /// </summary>
     public static Var<IVNode> HtmlBr(this LayoutBuilder b, Action<PropsBuilder<HtmlBr>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("br", buildProps, children);

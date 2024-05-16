@@ -13,5 +13,5 @@ public class ItemReorderEventDetail
     /// <summary>
     /// (data?: boolean | any[]) =&gt; any
     /// </summary>
-    public object complete { get; set; }
+    public DynamicObject complete { get; set; }
 }

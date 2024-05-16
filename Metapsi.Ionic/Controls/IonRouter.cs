@@ -12,37 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonRouter : IonComponent
 {
     public IonRouter() : base("ion-router") { }
-    /// <summary>
-    /// The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths.
-    /// </summary>
-    public string root
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("root");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("root", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
-    /// </summary>
-    public bool useHash
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("useHash");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("useHash", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -66,6 +35,43 @@ public static partial class IonRouterControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonRouter(this HtmlBuilder b, Action<AttributesBuilder<IonRouter>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-router", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonRouter(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-router", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths.
+    /// </summary>
+    public static void SetRoot(this AttributesBuilder<IonRouter> b, string value)
+    {
+        b.SetAttribute("root", value);
+    }
+
+    /// <summary>
+    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
+    /// </summary>
+    public static void SetUseHash(this AttributesBuilder<IonRouter> b)
+    {
+        b.SetAttribute("use-hash", "");
+    }
+    /// <summary>
+    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
+    /// </summary>
+    public static void SetUseHash(this AttributesBuilder<IonRouter> b, bool value)
+    {
+        if (value) b.SetAttribute("use-hash", "");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonRouter(this LayoutBuilder b, Action<PropsBuilder<IonRouter>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-router", buildProps, children);
@@ -78,16 +84,30 @@ public static partial class IonRouterControl
         return b.IonicNode("ion-router", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRouter(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-router", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRouter(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-router", children);
+    }
+    /// <summary>
     /// The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths.
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonRouter> b, Var<string> value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRouter
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("root"), value);
     }
     /// <summary>
     /// The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths.
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonRouter> b, string value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, string value) where T: IonRouter
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("root"), b.Const(value));
     }
@@ -95,7 +115,7 @@ public static partial class IonRouterControl
     /// <summary>
     /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
     /// </summary>
-    public static void SetUseHash(this PropsBuilder<IonRouter> b)
+    public static void SetUseHash<T>(this PropsBuilder<T> b) where T: IonRouter
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("useHash"), b.Const(true));
     }
@@ -103,14 +123,14 @@ public static partial class IonRouterControl
     /// <summary>
     /// Emitted when the route had changed
     /// </summary>
-    public static void OnIonRouteDidChange<TModel>(this PropsBuilder<IonRouter> b, Var<HyperType.Action<TModel, RouterEventDetail>> action)
+    public static void OnIonRouteDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RouterEventDetail>> action) where TComponent: IonRouter
     {
         b.OnEventAction("onionRouteDidChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the route had changed
     /// </summary>
-    public static void OnIonRouteDidChange<TModel>(this PropsBuilder<IonRouter> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action)
+    public static void OnIonRouteDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action) where TComponent: IonRouter
     {
         b.OnEventAction("onionRouteDidChange", b.MakeAction(action), "detail");
     }
@@ -118,14 +138,14 @@ public static partial class IonRouterControl
     /// <summary>
     /// Event emitted when the route is about to change
     /// </summary>
-    public static void OnIonRouteWillChange<TModel>(this PropsBuilder<IonRouter> b, Var<HyperType.Action<TModel, RouterEventDetail>> action)
+    public static void OnIonRouteWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RouterEventDetail>> action) where TComponent: IonRouter
     {
         b.OnEventAction("onionRouteWillChange", action, "detail");
     }
     /// <summary>
     /// Event emitted when the route is about to change
     /// </summary>
-    public static void OnIonRouteWillChange<TModel>(this PropsBuilder<IonRouter> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action)
+    public static void OnIonRouteWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RouterEventDetail>, Var<TModel>> action) where TComponent: IonRouter
     {
         b.OnEventAction("onionRouteWillChange", b.MakeAction(action), "detail");
     }

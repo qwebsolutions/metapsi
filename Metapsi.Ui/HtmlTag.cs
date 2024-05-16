@@ -43,6 +43,27 @@ public abstract class BaseTag : IHtmlElement
     public abstract HtmlTag GetTag();
 }
 
+public static class SelfClosing
+{
+    public static HashSet<string> Tags = new HashSet<string>()
+    {
+        "area",
+        "base",
+        "br",
+        "col",
+        "embed",
+        "hr",
+        "img",
+        "input",
+        "link",
+        "meta",
+        "param",
+        "source",
+        "track",
+        "wbr",
+    };
+}
+
 public class HtmlTag : IHtmlElement
 {
     public string Tag { get; set; } = string.Empty;
@@ -92,11 +113,15 @@ public class HtmlTag : IHtmlElement
             builder.Append($" {attribute.Key}=\"{attribute.Value}\"");
         }
         builder.Append(">");
-        foreach (var child in this.Children)
+
+        if (!SelfClosing.Tags.Contains(this.Tag))
         {
-            builder.Append(child.ToHtml());
+            foreach (var child in this.Children)
+            {
+                builder.Append(child.ToHtml());
+            }
+            builder.Append($"</{this.Tag}>");
         }
-        builder.Append($"</{this.Tag}>");
 
         return builder.ToString();
     }

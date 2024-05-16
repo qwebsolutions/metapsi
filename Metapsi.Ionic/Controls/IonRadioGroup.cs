@@ -12,71 +12,63 @@ namespace Metapsi.Ionic;
 public partial class IonRadioGroup : IonComponent
 {
     public IonRadioGroup() : base("ion-radio-group") { }
+}
+
+public static partial class IonRadioGroupControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<IonRadioGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-radio-group", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonRadioGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-radio-group", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// If `true`, the radios can be deselected.
     /// </summary>
-    public bool allowEmptySelection
+    public static void SetAllowEmptySelection(this AttributesBuilder<IonRadioGroup> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("allowEmptySelection");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("allowEmptySelection", value.ToString());
-        }
+        b.SetAttribute("allow-empty-selection", "");
+    }
+    /// <summary>
+    /// If `true`, the radios can be deselected.
+    /// </summary>
+    public static void SetAllowEmptySelection(this AttributesBuilder<IonRadioGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("allow-empty-selection", "");
     }
 
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
     /// </summary>
-    public string compareWith
+    public static void SetCompareWith(this AttributesBuilder<IonRadioGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("compareWith");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("compareWith", value.ToString());
-        }
+        b.SetAttribute("compare-with", value);
     }
 
     /// <summary>
     /// The name of the control, which is submitted with the form data.
     /// </summary>
-    public string name
+    public static void SetName(this AttributesBuilder<IonRadioGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
+        b.SetAttribute("name", value);
     }
 
     /// <summary>
     /// the value of the radio group.
     /// </summary>
-    public object value
+    public static void SetValue(this AttributesBuilder<IonRadioGroup> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
+        b.SetAttribute("value", value);
     }
 
-}
-
-public static partial class IonRadioGroupControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -92,9 +84,23 @@ public static partial class IonRadioGroupControl
         return b.IonicNode("ion-radio-group", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRadioGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-radio-group", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRadioGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-radio-group", children);
+    }
+    /// <summary>
     /// If `true`, the radios can be deselected.
     /// </summary>
-    public static void SetAllowEmptySelection(this PropsBuilder<IonRadioGroup> b)
+    public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("allowEmptySelection"), b.Const(true));
     }
@@ -102,28 +108,28 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
     /// </summary>
-    public static void SetCompareWith(this PropsBuilder<IonRadioGroup> b, Var<Func<object,object,bool>> f)
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<Func<object,object,bool>> f) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,bool>>("compareWith"), f);
     }
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
     /// </summary>
-    public static void SetCompareWith(this PropsBuilder<IonRadioGroup> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<bool>> f)
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<bool>> f) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,bool>>("compareWith"), b.Def(f));
     }
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
     /// </summary>
-    public static void SetCompareWith(this PropsBuilder<IonRadioGroup> b, Var<string> value)
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), value);
     }
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.
     /// </summary>
-    public static void SetCompareWith(this PropsBuilder<IonRadioGroup> b, string value)
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, string value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), b.Const(value));
     }
@@ -131,14 +137,14 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// The name of the control, which is submitted with the form data.
     /// </summary>
-    public static void SetName(this PropsBuilder<IonRadioGroup> b, Var<string> value)
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
     }
     /// <summary>
     /// The name of the control, which is submitted with the form data.
     /// </summary>
-    public static void SetName(this PropsBuilder<IonRadioGroup> b, string value)
+    public static void SetName<T>(this PropsBuilder<T> b, string value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
     }
@@ -146,14 +152,14 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// the value of the radio group.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonRadioGroup> b, Var<object> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
     }
     /// <summary>
     /// the value of the radio group.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonRadioGroup> b, object value)
+    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
     }
@@ -161,14 +167,14 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// Emitted when the value has changed.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonRadioGroup> b, Var<HyperType.Action<TModel, RadioGroupChangeEventDetail>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RadioGroupChangeEventDetail>> action) where TComponent: IonRadioGroup
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the value has changed.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RadioGroupChangeEventDetail>, Var<TModel>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RadioGroupChangeEventDetail>, Var<TModel>> action) where TComponent: IonRadioGroup
     {
         b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }

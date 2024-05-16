@@ -1,4 +1,28 @@
-﻿namespace Metapsi.Ui;
+﻿using System.Collections.Generic;
+using System.Text;
+
+namespace Metapsi.Ui;
+
+public class HtmlDocument : IHtmlNode
+{
+    public Dictionary<string, string> Attributes { get; set; } = new();
+
+    public HtmlTag Head { get; set; } = new HtmlTag("head");
+    public HtmlTag Body { get; set; } = new HtmlTag("body");
+
+    public string ToHtml()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine("<!DOCTYPE html>");
+        stringBuilder.AppendLine(
+            new HtmlTag("html")
+            {
+                Attributes = this.Attributes,
+                Children = new List<IHtmlNode>() { Head, Body }
+            }.ToHtml());
+        return stringBuilder.ToString();
+    }
+}
 
 public class DocumentTag : HtmlTag
 {

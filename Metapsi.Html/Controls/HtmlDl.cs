@@ -18,6 +18,20 @@ public static partial class HtmlDlControl
     /// <summary>
     /// The HTML dl tag
     /// </summary>
+    public static IHtmlNode HtmlDl(this HtmlBuilder b, Action<AttributesBuilder<HtmlDl>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("dl", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML dl tag
+    /// </summary>
+    public static IHtmlNode HtmlDl(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("dl", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML dl tag
+    /// </summary>
     public static Var<IVNode> HtmlDl(this LayoutBuilder b, Action<PropsBuilder<HtmlDl>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("dl", buildProps, children);

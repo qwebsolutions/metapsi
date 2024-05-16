@@ -12,70 +12,61 @@ namespace Metapsi.Ionic;
 public partial class IonNavLink : IonComponent
 {
     public IonNavLink() : base("ion-nav-link") { }
+}
+
+public static partial class IonNavLinkControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonNavLink(this HtmlBuilder b, Action<AttributesBuilder<IonNavLink>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-nav-link", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonNavLink(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-nav-link", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public string component
+    public static void SetComponent(this AttributesBuilder<IonNavLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("component");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("component", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`.
-    /// </summary>
-    public object componentProps
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("componentProps");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("componentProps", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The transition animation when navigating to another page.
-    /// </summary>
-    public System.Func<object,object,Animation> routerAnimation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("routerAnimation", value.ToString());
-        }
+        b.SetAttribute("component", value);
     }
 
     /// <summary>
     /// The transition direction when navigating to another page.
     /// </summary>
-    public string routerDirection
+    public static void SetRouterDirection(this AttributesBuilder<IonNavLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("routerDirection");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("routerDirection", value.ToString());
-        }
+        b.SetAttribute("router-direction", value);
+    }
+    /// <summary>
+    /// The transition direction when navigating to another page.
+    /// </summary>
+    public static void SetRouterDirectionBack(this AttributesBuilder<IonNavLink> b)
+    {
+        b.SetAttribute("router-direction", "back");
+    }
+    /// <summary>
+    /// The transition direction when navigating to another page.
+    /// </summary>
+    public static void SetRouterDirectionForward(this AttributesBuilder<IonNavLink> b)
+    {
+        b.SetAttribute("router-direction", "forward");
+    }
+    /// <summary>
+    /// The transition direction when navigating to another page.
+    /// </summary>
+    public static void SetRouterDirectionRoot(this AttributesBuilder<IonNavLink> b)
+    {
+        b.SetAttribute("router-direction", "root");
     }
 
-}
-
-public static partial class IonNavLinkControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -91,58 +82,72 @@ public static partial class IonNavLinkControl
         return b.IonicNode("ion-nav-link", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonNavLink(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-nav-link", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonNavLink(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-nav-link", children);
+    }
+    /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, Var<Metapsi.Ionic.Function> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), value);
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, Metapsi.Ionic.Function value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), b.Const(value));
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, Var<HTMLElement> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<HTMLElement> value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), value);
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, HTMLElement value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, HTMLElement value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), b.Const(value));
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, Var<ViewController> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<ViewController> value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<ViewController>("component"), value);
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, ViewController value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, ViewController value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<ViewController>("component"), b.Const(value));
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, Var<string> value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("component"), value);
     }
     /// <summary>
     /// Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponent(this PropsBuilder<IonNavLink> b, string value)
+    public static void SetComponent<T>(this PropsBuilder<T> b, string value) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(value));
     }
@@ -150,29 +155,29 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponentProps(this PropsBuilder<IonNavLink> b, Var<object> value)
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("componentProps"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), value);
     }
     /// <summary>
     /// Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponentProps(this PropsBuilder<IonNavLink> b, object value)
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("componentProps"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(value));
     }
 
     /// <summary>
     /// The transition animation when navigating to another page.
     /// </summary>
-    public static void SetRouterAnimation(this PropsBuilder<IonNavLink> b, Var<Func<object,object,Animation>> f)
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), f);
     }
     /// <summary>
     /// The transition animation when navigating to another page.
     /// </summary>
-    public static void SetRouterAnimation(this PropsBuilder<IonNavLink> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f)
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonNavLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), b.Def(f));
     }
@@ -180,21 +185,21 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// The transition direction when navigating to another page.
     /// </summary>
-    public static void SetRouterDirectionBack(this PropsBuilder<IonNavLink> b)
+    public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("back"));
     }
     /// <summary>
     /// The transition direction when navigating to another page.
     /// </summary>
-    public static void SetRouterDirectionForward(this PropsBuilder<IonNavLink> b)
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("forward"));
     }
     /// <summary>
     /// The transition direction when navigating to another page.
     /// </summary>
-    public static void SetRouterDirectionRoot(this PropsBuilder<IonNavLink> b)
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("root"));
     }

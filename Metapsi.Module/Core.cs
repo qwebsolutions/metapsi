@@ -19,6 +19,26 @@ namespace Metapsi.Syntax
             return b.GetProperty<T>(from, b.Const(propertyName));
         }
 
+        public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
+            where T : new()
+        {
+            var props = b.GetProperty<T>(from, propertyName);
+            b.If(
+                b.Not(b.HasObject(props)),
+                b =>
+                {
+                    b.SetProperty(from, propertyName, b.NewObj<T>());
+                });
+
+            return b.GetProperty<T>(from, propertyName);
+        }
+
+        public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
+            where T : new()
+        {
+            return b.GetOrCreateProperty<T>(from, b.Const(propertyName));
+        }
+
         public static void SetProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
         {
             b.CallExternal(ModuleName, nameof(SetProperty), into, propertyName, value);
@@ -347,6 +367,81 @@ namespace Metapsi.Syntax
             {
                 return b.CallExternal<T>(ModuleName, "CloneObject", v);
             }
+        }
+
+        public enum CopyType
+        {
+            Reference,
+            Clone
+        }
+
+        /// <summary>
+        /// Copies the common public properties 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="into"></param>
+        /// <param name="source"></param>
+        public static void CopyProperties<TInto,TFrom>(this SyntaxBuilder b, Var<TInto> into, Var<TFrom> source, CopyType copyType = CopyType.Reference)
+        {
+            var intoProperties = typeof(TInto).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var fromProperties = typeof(TFrom).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+
+            var commonProperties = intoProperties.Select(x=>x.Name).Intersect(fromProperties.Select(x=>x.Name));
+
+            foreach (var propertyName in commonProperties)
+            {
+                var sourceValue = b.GetProperty<object>(source, b.Const(propertyName));
+                if(copyType == CopyType.Clone)
+                {
+                    sourceValue = b.Clone(sourceValue);
+                }
+                b.SetProperty(into, b.Const(propertyName), sourceValue);
+            }
+        }
+
+        /// <summary>
+        /// Copies the properties of TInto from any source
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="into"></param>
+        /// <param name="source"></param>
+        public static void CopyProperties<TInto>(this SyntaxBuilder b, Var<TInto> into, IVariable source, CopyType copyType = CopyType.Reference)
+        {
+            var intoProperties = typeof(TInto).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+
+            foreach (var property in intoProperties)
+            {
+                var sourceValue = b.GetProperty<object>(source, b.Const(property.Name));
+                if (copyType == CopyType.Clone)
+                {
+                    sourceValue = b.Clone(sourceValue);
+                }
+                b.SetProperty(into, b.Const(property.Name), sourceValue);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new T object with properties copied from a source object
+        /// </summary>
+        public static Var<TObj> NewObjFrom<TObj, TFrom>(this SyntaxBuilder b, Var<TFrom> from, CopyType copyType = CopyType.Reference)
+            where TObj : new()
+        {
+            var outObject = b.NewObj<TObj>();
+            b.CopyProperties(outObject, from, copyType);
+            return outObject;
+        }
+
+        /// <summary>
+        /// Creates a new T object with properties copied from a source object of any type
+        /// </summary>
+        public static Var<TObj> NewObjFrom<TObj>(this SyntaxBuilder b, IVariable from, CopyType copyType = CopyType.Reference)
+            where TObj : new()
+        {
+            var outObject = b.NewObj<TObj>();
+            b.CopyProperties(outObject, from, copyType);
+            return outObject;
         }
 
         public static Var<T> Deserialize<T>(this SyntaxBuilder b, Var<string> json)

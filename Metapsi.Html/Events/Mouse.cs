@@ -24,6 +24,14 @@ public static partial class EventExtensionsClick
         b.OnEventAction("click", b.MakeAction(onClick));
     }
 
+    public static void OnClickAction<TState, TControl>(
+        this PropsBuilder<TControl> b,
+        System.Func<SyntaxBuilder, Var<TState>, Var<HyperType.StateWithEffects>> onClick)
+        where TControl : new()
+    {
+        b.OnEventAction("click", b.MakeAction(onClick));
+    }
+
     // Click with event payload
 
     public static void OnClickAction<TState, TControl>(

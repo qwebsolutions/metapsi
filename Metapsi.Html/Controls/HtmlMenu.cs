@@ -18,6 +18,20 @@ public static partial class HtmlMenuControl
     /// <summary>
     /// The HTML menu tag
     /// </summary>
+    public static IHtmlNode HtmlMenu(this HtmlBuilder b, Action<AttributesBuilder<HtmlMenu>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("menu", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML menu tag
+    /// </summary>
+    public static IHtmlNode HtmlMenu(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("menu", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML menu tag
+    /// </summary>
     public static Var<IVNode> HtmlMenu(this LayoutBuilder b, Action<PropsBuilder<HtmlMenu>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("menu", buildProps, children);

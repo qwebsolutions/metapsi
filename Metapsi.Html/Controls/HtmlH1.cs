@@ -18,6 +18,20 @@ public static partial class HtmlH1Control
     /// <summary>
     /// The HTML h1 tag
     /// </summary>
+    public static IHtmlNode HtmlH1(this HtmlBuilder b, Action<AttributesBuilder<HtmlH1>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("h1", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML h1 tag
+    /// </summary>
+    public static IHtmlNode HtmlH1(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("h1", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML h1 tag
+    /// </summary>
     public static Var<IVNode> HtmlH1(this LayoutBuilder b, Action<PropsBuilder<HtmlH1>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("h1", buildProps, children);

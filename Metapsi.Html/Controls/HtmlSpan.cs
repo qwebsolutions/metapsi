@@ -18,6 +18,20 @@ public static partial class HtmlSpanControl
     /// <summary>
     /// The HTML span tag
     /// </summary>
+    public static IHtmlNode HtmlSpan(this HtmlBuilder b, Action<AttributesBuilder<HtmlSpan>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("span", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML span tag
+    /// </summary>
+    public static IHtmlNode HtmlSpan(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("span", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML span tag
+    /// </summary>
     public static Var<IVNode> HtmlSpan(this LayoutBuilder b, Action<PropsBuilder<HtmlSpan>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("span", buildProps, children);

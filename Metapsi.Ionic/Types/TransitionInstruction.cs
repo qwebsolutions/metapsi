@@ -5,7 +5,7 @@ public class TransitionInstruction
     /// <summary>
     /// NavOptions | undefined | null
     /// </summary>
-    public object opts { get; set; }
+    public DynamicObject opts { get; set; }
     /// <summary>
     /// / The index where to insert views. A negative number means at the end /
     /// number
@@ -14,7 +14,7 @@ public class TransitionInstruction
     /// <summary>
     /// any[]
     /// </summary>
-    public System.Collections.Generic.List<object> insertViews { get; set; }
+    public System.Collections.Generic.List<DynamicObject> insertViews { get; set; }
     /// <summary>
     /// ViewController
     /// </summary>
@@ -32,11 +32,11 @@ public class TransitionInstruction
     /// <summary>
     /// (hasCompleted: boolean) =&gt; void
     /// </summary>
-    public object resolve { get; set; }
+    public DynamicObject resolve { get; set; }
     /// <summary>
     /// (rejectReason: string) =&gt; void
     /// </summary>
-    public object reject { get; set; }
+    public DynamicObject reject { get; set; }
     /// <summary>
     /// TransitionDoneFn
     /// </summary>

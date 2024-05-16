@@ -5,6 +5,11 @@ namespace Metapsi.Html;
 
 public static class HtmlImgExtensions
 {
+    public static void SetSrc(this AttributesBuilder<HtmlImg> b, string src)
+    {
+        b.SetAttribute("src", src);
+    }
+
     public static void SetSrc(this PropsBuilder<HtmlImg> b, Var<string> src)
     {
         b.SetAttribute("src", src);

@@ -6,6 +6,7 @@ namespace Metapsi.Hyperapp
     public class ApiError
     {
         public string ErrorMessage { get; set; }
+        public string message { get; set; }
     }
 
     public class FetchOptions

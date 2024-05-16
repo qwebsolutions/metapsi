@@ -18,6 +18,20 @@ public static partial class HtmlArticleControl
     /// <summary>
     /// The HTML article tag
     /// </summary>
+    public static IHtmlNode HtmlArticle(this HtmlBuilder b, Action<AttributesBuilder<HtmlArticle>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("article", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML article tag
+    /// </summary>
+    public static IHtmlNode HtmlArticle(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("article", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML article tag
+    /// </summary>
     public static Var<IVNode> HtmlArticle(this LayoutBuilder b, Action<PropsBuilder<HtmlArticle>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("article", buildProps, children);

@@ -39,13 +39,13 @@ public static class Generator
             codeBuilder.AppendLine($"    public {webComponent.Name}() : base(\"{webComponent.Tag}\") {{ }}");
         }
 
-        foreach (var property in webComponent.Properties)
-        {
-            if (converter.IncludeClassProperty(webComponent, property))
-            {
-                codeBuilder.AppendLine(GenerateClassProperty(webComponent, property, property.TypeScriptType, converter));
-            }
-        }
+        //foreach (var property in webComponent.Properties)
+        //{
+        //    if (converter.IncludeClassProperty(webComponent, property))
+        //    {
+        //        codeBuilder.AppendLine(GenerateClassProperty(webComponent, property, property.TypeScriptType, converter));
+        //    }
+        //}
 
         if (webComponent.Slots.Any())
         {
@@ -96,6 +96,41 @@ public static class Generator
 
         codeBuilder.AppendLine($"public static partial class {webComponent.Name}Control");
         codeBuilder.AppendLine("{");
+
+        // Server-side rendering
+
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static IHtmlNode {webComponent.Name}(this HtmlBuilder b, Action<AttributesBuilder<{webComponent.Name}>> buildAttributes, params IHtmlNode[] children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.Tag(\"{webComponent.Tag}\", buildAttributes, children);");
+        codeBuilder.AppendLine("    }");
+
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static IHtmlNode {webComponent.Name}(this HtmlBuilder b, params IHtmlNode[] children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.Tag(\"{webComponent.Tag}\", new Dictionary<string, string>(), children);");
+        codeBuilder.AppendLine("    }");
+
+        foreach (var property in webComponent.Properties)
+        {
+            if (!string.IsNullOrWhiteSpace(property.AttributeName))
+            {
+                var propertyCode = GenerateServerSideAttributeSetter(webComponent, property, converter);
+                if (string.IsNullOrEmpty(propertyCode))
+                {
+                    throw new NotImplementedException();
+                }
+
+                codeBuilder.AppendLine(propertyCode);
+            }
+        }
+
+        // Client side rendering
+
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {webComponent.Description}");
         codeBuilder.AppendLine("    /// </summary>");
@@ -130,16 +165,13 @@ public static class Generator
 
         foreach (var property in webComponent.Properties)
         {
-            if (!string.IsNullOrEmpty(property.AttributeName))
+            var propertyCode = GenerateClientSidePropertySetter(webComponent, property, property.TypeScriptType, converter);
+            if (string.IsNullOrEmpty(propertyCode))
             {
-                var propertyCode = GenerateClientSidePropertySetter(webComponent, property, property.TypeScriptType, converter);
-                if (string.IsNullOrEmpty(propertyCode))
-                {
-                    throw new NotImplementedException();
-                }
-
-                codeBuilder.AppendLine(propertyCode);
+                throw new NotImplementedException();
             }
+
+            codeBuilder.AppendLine(propertyCode);
         }
 
         var anonEventDetails = webComponent.Events.Where(x => x.Type is TypeScriptAnonymousType);
@@ -239,141 +271,213 @@ public static class Generator
         return false;
     }
 
-    public static string GenerateClassProperty(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
+    public static string GenerateServerSideAttributeSetter(WebComponent component, WebComponentProperty property, CSharpConverter cSharpConverter)
     {
-        if (IsConvertibleToString(propertyType, converter))
-            return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
-            {
-                Description = property.Description,
-                PropertyName = property.PropertyName,
-                AttributeName = property.AttributeName,
-                TypeScriptType = new TypeScriptObjectType()
-                {
-                    TypeName = "string"
-                }
-            }, converter);
-
-        // Do not generate code for 'undefined' value
-        if (IsUndefinedType(propertyType))
-        {
-            return string.Empty;
-        }
-
-        // Do not generate code for 'null' value
-        if (IsNullType(propertyType))
-        {
-            return string.Empty;
-        }
-
-        if (IsBoolType(propertyType))
-        {
-            return GenerateScalarClassProperty(webComponent, property, converter);
-        }
-
-        if (IsObjectType(propertyType))
-        {
-            TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)propertyType;
-            return GenerateScalarClassProperty(webComponent, property, converter);
-        }
-
-        if (IsMultiTypeUnion(propertyType))
-        {
-            TypeScriptUnion typeScriptUnion = (TypeScriptUnion)propertyType;
-            var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
-            if (withoutUndefined.Count() == 1)
-            {
-                return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
-                {
-                    Description = property.Description,
-                    PropertyName = property.PropertyName,
-                    AttributeName = property.AttributeName,
-                    TypeScriptType = withoutUndefined.Single()
-                }, converter);
-            }
-            return string.Empty;
-        }
-
-        if (IsCollectionType(propertyType))
-        {
-            // Do not generate server-side property as it's an object. Use only client-side
-            return string.Empty;
-        }
-
-        //if (IsCollectionType(propertyType))
-        //{
-        //    return GenerateCollectionProperty(webComponent, property, propertyType as TypeScriptCollection, converter);
-        //}
-
-        //if (IsObjectType(propertyType))
-        //{
-        //    return GenerateValueProperty(webComponent, property, propertyType as TypeScriptObjectType, converter);
-        //}
-
-        if (IsFuncType(propertyType))
-        {
-            TypeScriptFunction function = (TypeScriptFunction)propertyType;
-
-            var funcParams = function.Parameters.Select(x => x.Type.ToCSharpType(converter)).ToList();
-            funcParams.Add(function.ReturnType.ToCSharpType(converter));
-
-            var genericType = $"System.Func<{string.Join(",", funcParams)}>";
-
-            return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
-            {
-                TypeScriptType = new TypeScriptObjectType() { TypeName = genericType },
-                Description = property.Description,
-                PropertyName  = property.PropertyName,
-                AttributeName = property.AttributeName
-            }, converter);
-        }
-
-        //if (IsDictionary(propertyType))
-        //{
-        //    return GenerateDictionaryProperty(webComponent, property, propertyType as TypeScriptDictionary, converter);
-        //}
-
-        //if (IsAnonymousType(propertyType))
-        //{
-        //    return GenerateAnonymousTypeProperty(webComponent, property, propertyType as TypeScriptAnonymousType, converter);
-        //}
-
-        throw new NotImplementedException();
-    }
-
-    public static string GenerateScalarClassProperty(WebComponent webComponent, WebComponentProperty property, CSharpConverter converter)
-    {
-        var cSharpType = converter.ToCSharpType(property.TypeScriptType, converter);
-
         StringBuilder codeBuilder = new StringBuilder();
 
-        var propertyName =  Utils.FixReservedKeyword(property.PropertyName);
-        if (propertyName == "GetTag")
-        {
-            propertyName = "GetTagFn";
-        }
+        // If boolean property, generate setter with no value and setter that doesn't set value if false
 
-        codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {property.Description}");
-        codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public {cSharpType} {propertyName}");
-        codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine("        get");
-        codeBuilder.AppendLine("        {");
-        codeBuilder.AppendLine($"            return this.GetTag().GetAttribute<{cSharpType}>(\"{property.AttributeName}\");");
-        codeBuilder.AppendLine("        }");
-        codeBuilder.AppendLine("        set");
-        codeBuilder.AppendLine("        {");
-        if (cSharpType == "bool")
+        if (cSharpConverter.ToCSharpType(property.TypeScriptType, cSharpConverter) == "bool")
         {
-            // Bool properties should not be set at all if they are false
-            codeBuilder.AppendLine("            if (!value) return;");
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {property.Description}");
+            codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this AttributesBuilder<{component.Name}> b)");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.SetAttribute(\"{property.AttributeName}\", \"\");");
+            codeBuilder.AppendLine("    }");
+
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {property.Description}");
+            codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this AttributesBuilder<{component.Name}> b, bool value)");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        if (value) b.SetAttribute(\"{property.AttributeName}\", \"\");");
+            codeBuilder.AppendLine("    }");
         }
-        codeBuilder.AppendLine($"            this.GetTag().SetAttribute(\"{property.AttributeName}\", value.ToString());");
-        codeBuilder.AppendLine("        }");
-        codeBuilder.AppendLine("    }");
+        else
+        {
+            // Generate simple string property
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {property.Description}");
+            codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this AttributesBuilder<{component.Name}> b, string value)");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.SetAttribute(\"{property.AttributeName}\", value);");
+            codeBuilder.AppendLine("    }");
+
+            if (IsMultiTypeUnion(property.TypeScriptType))
+            {
+                TypeScriptUnion typeScriptUnion = (property.TypeScriptType as TypeScriptUnion);
+
+                List<string> stringSabotageTypes = new List<string>() { "null", "undefined", "List<string>" };
+
+                var stringOptions = typeScriptUnion.Options.Where(x => !stringSabotageTypes.Contains(cSharpConverter.ToCSharpType(x, cSharpConverter)));
+
+                var allAreLiterals = stringOptions.All(x => x is TypeScriptLiteral);
+
+                if (allAreLiterals)
+                {
+                    // For non-literals we already generated above
+
+                    if (stringOptions.All(x => cSharpConverter.ToCSharpType(x, cSharpConverter) == "string"))
+                    {
+                        foreach (var option in stringOptions)
+                        {
+                            TypeScriptLiteral typeScriptLiteral = option as TypeScriptLiteral;
+
+                            // Generate union string property
+                            codeBuilder.AppendLine("    /// <summary>");
+                            codeBuilder.AppendLine($"    /// {property.Description}");
+                            codeBuilder.AppendLine("    /// </summary>");
+                            codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}(this AttributesBuilder<{component.Name}> b)");
+                            codeBuilder.AppendLine("    {");
+                            codeBuilder.AppendLine($"        b.SetAttribute(\"{property.AttributeName}\", \"{typeScriptLiteral.StringValue()}\");");
+                            codeBuilder.AppendLine("    }");
+                        }
+                    }
+                }
+            }
+        }
 
         return codeBuilder.ToString();
     }
+
+    //public static string GenerateClassProperty(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
+    //{
+    //    if (IsConvertibleToString(propertyType, converter))
+    //        return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+    //        {
+    //            Description = property.Description,
+    //            PropertyName = property.PropertyName,
+    //            AttributeName = property.AttributeName,
+    //            TypeScriptType = new TypeScriptObjectType()
+    //            {
+    //                TypeName = "string"
+    //            }
+    //        }, converter);
+
+    //    // Do not generate code for 'undefined' value
+    //    if (IsUndefinedType(propertyType))
+    //    {
+    //        return string.Empty;
+    //    }
+
+    //    // Do not generate code for 'null' value
+    //    if (IsNullType(propertyType))
+    //    {
+    //        return string.Empty;
+    //    }
+
+    //    if (IsBoolType(propertyType))
+    //    {
+    //        return GenerateScalarClassProperty(webComponent, property, converter);
+    //    }
+
+    //    if (IsObjectType(propertyType))
+    //    {
+    //        TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)propertyType;
+    //        return GenerateScalarClassProperty(webComponent, property, converter);
+    //    }
+
+    //    if (IsMultiTypeUnion(propertyType))
+    //    {
+    //        TypeScriptUnion typeScriptUnion = (TypeScriptUnion)propertyType;
+    //        var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
+    //        if (withoutUndefined.Count() == 1)
+    //        {
+    //            return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+    //            {
+    //                Description = property.Description,
+    //                PropertyName = property.PropertyName,
+    //                AttributeName = property.AttributeName,
+    //                TypeScriptType = withoutUndefined.Single()
+    //            }, converter);
+    //        }
+    //        return string.Empty;
+    //    }
+
+    //    if (IsCollectionType(propertyType))
+    //    {
+    //        // Do not generate server-side property as it's an object. Use only client-side
+    //        return string.Empty;
+    //    }
+
+    //    //if (IsCollectionType(propertyType))
+    //    //{
+    //    //    return GenerateCollectionProperty(webComponent, property, propertyType as TypeScriptCollection, converter);
+    //    //}
+
+    //    //if (IsObjectType(propertyType))
+    //    //{
+    //    //    return GenerateValueProperty(webComponent, property, propertyType as TypeScriptObjectType, converter);
+    //    //}
+
+    //    if (IsFuncType(propertyType))
+    //    {
+    //        TypeScriptFunction function = (TypeScriptFunction)propertyType;
+
+    //        var funcParams = function.Parameters.Select(x => x.Type.ToCSharpType(converter)).ToList();
+    //        funcParams.Add(function.ReturnType.ToCSharpType(converter));
+
+    //        var genericType = $"System.Func<{string.Join(",", funcParams)}>";
+
+    //        return GenerateScalarClassProperty(webComponent, new WebComponentProperty()
+    //        {
+    //            TypeScriptType = new TypeScriptObjectType() { TypeName = genericType },
+    //            Description = property.Description,
+    //            PropertyName  = property.PropertyName,
+    //            AttributeName = property.AttributeName
+    //        }, converter);
+    //    }
+
+    //    //if (IsDictionary(propertyType))
+    //    //{
+    //    //    return GenerateDictionaryProperty(webComponent, property, propertyType as TypeScriptDictionary, converter);
+    //    //}
+
+    //    //if (IsAnonymousType(propertyType))
+    //    //{
+    //    //    return GenerateAnonymousTypeProperty(webComponent, property, propertyType as TypeScriptAnonymousType, converter);
+    //    //}
+
+    //    throw new NotImplementedException();
+    //}
+
+    //public static string GenerateScalarClassProperty(WebComponent webComponent, WebComponentProperty property, CSharpConverter converter)
+    //{
+    //    var cSharpType = converter.ToCSharpType(property.TypeScriptType, converter);
+
+    //    StringBuilder codeBuilder = new StringBuilder();
+
+    //    var propertyName =  Utils.FixReservedKeyword(property.PropertyName);
+    //    if (propertyName == "GetTag")
+    //    {
+    //        propertyName = "GetTagFn";
+    //    }
+
+    //    codeBuilder.AppendLine("    /// <summary>");
+    //    codeBuilder.AppendLine($"    /// {property.Description}");
+    //    codeBuilder.AppendLine("    /// </summary>");
+    //    codeBuilder.AppendLine($"    public {cSharpType} {propertyName}");
+    //    codeBuilder.AppendLine("    {");
+    //    codeBuilder.AppendLine("        get");
+    //    codeBuilder.AppendLine("        {");
+    //    codeBuilder.AppendLine($"            return this.GetTag().GetAttribute<{cSharpType}>(\"{property.AttributeName}\");");
+    //    codeBuilder.AppendLine("        }");
+    //    codeBuilder.AppendLine("        set");
+    //    codeBuilder.AppendLine("        {");
+    //    if (cSharpType == "bool")
+    //    {
+    //        // Bool properties should not be set at all if they are false
+    //        codeBuilder.AppendLine("            if (!value) return;");
+    //    }
+    //    codeBuilder.AppendLine($"            this.GetTag().SetAttribute(\"{property.AttributeName}\", value.ToString());");
+    //    codeBuilder.AppendLine("        }");
+    //    codeBuilder.AppendLine("    }");
+
+    //    return codeBuilder.ToString();
+    //}
 
     public static string GenerateClientSidePropertySetter(WebComponent webComponent, WebComponentProperty property, ITypeScriptType propertyType, CSharpConverter converter)
     {
@@ -450,7 +554,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// <summary>");
             codeBuilder.AppendLine($"    /// {@event.Comment}");
             codeBuilder.AppendLine("    /// </summary>");
-            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, Var<HyperType.Action<TModel>> action)");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: {webComponent.Name}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action);");
             codeBuilder.AppendLine("    }");
@@ -458,7 +562,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// <summary>");
             codeBuilder.AppendLine($"    /// {@event.Comment}");
             codeBuilder.AppendLine("    /// </summary>");
-            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: {webComponent.Name}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", b.MakeAction(action));");
             codeBuilder.AppendLine("    }");
@@ -468,7 +572,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// <summary>");
             codeBuilder.AppendLine($"    /// {@event.Comment}");
             codeBuilder.AppendLine("    /// </summary>");
-            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, Var<HyperType.Action<TModel, {csharpType}>> action)");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, {csharpType}>> action) where TComponent: {webComponent.Name}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action{detailPath});");
             codeBuilder.AppendLine("    }");
@@ -476,7 +580,7 @@ public static class Generator
             codeBuilder.AppendLine("    /// <summary>");
             codeBuilder.AppendLine($"    /// {@event.Comment}");
             codeBuilder.AppendLine("    /// </summary>");
-            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TModel>(this PropsBuilder<{webComponent.Name}> b, System.Func<SyntaxBuilder, Var<TModel>, Var<{csharpType}>, Var<TModel>> action)");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<{csharpType}>, Var<TModel>> action) where TComponent: {webComponent.Name}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", b.MakeAction(action){detailPath});");
             codeBuilder.AppendLine("    }");
@@ -571,7 +675,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(true));");
         codeBuilder.AppendLine("    }");
@@ -594,17 +698,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<{propertyType.ToCSharpType(converter)}> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.AttributeName}\"), value);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {propertyType.ToCSharpType(converter)} value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {propertyType.ToCSharpType(converter)} value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.AttributeName}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.PropertyName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -620,7 +724,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<{propertyType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<{propertyType.ToCSharpType(converter)}> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine($"        throw new NotImplementedException();");
         codeBuilder.AppendLine("    }");
@@ -640,14 +744,14 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {parameters})");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {parameters}) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
         codeBuilder.AppendLine($"        var _dynamicParameter = b.NewObj<DynamicObject>();");
         foreach (var anonProperty in propertyType.properties)
         {
             codeBuilder.AppendLine($"        b.SetDynamic(_dynamicParameter, new DynamicProperty<{anonProperty.type.ToCSharpType(converter)}>(\"{anonProperty.name}\"), {anonProperty.name});");
         }
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>(\"{property.AttributeName}\"), _dynamicParameter);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>(\"{property.PropertyName}\"), _dynamicParameter);");
         codeBuilder.AppendLine("    }");
         return codeBuilder.ToString();
     }
@@ -679,17 +783,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, Var<List<{propertyType.ItemType.ToCSharpType(converter)}>> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<List<{propertyType.ItemType.ToCSharpType(converter)}>> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.AttributeName}\"), value);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, List<{propertyType.ItemType.ToCSharpType(converter)}> value)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, List<{propertyType.ItemType.ToCSharpType(converter)}> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.AttributeName}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.PropertyName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -714,17 +818,17 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {clientSideFunc} f)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {clientSideFunc} f) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.AttributeName}\"), f);");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.PropertyName}\"), f);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}(this PropsBuilder<{component.Name}> b, {serverSideFunc} f)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {serverSideFunc} f) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.AttributeName}\"), b.Def(f));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.PropertyName}\"), b.Def(f));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -737,9 +841,9 @@ public static class Generator
         codeBuilder.AppendLine("    /// <summary>");
         codeBuilder.AppendLine($"    /// {property.Description}");
         codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.AttributeName)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}(this PropsBuilder<{component.Name}> b)");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}<T>(this PropsBuilder<T> b) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.AttributeName}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.PropertyName}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -747,11 +851,18 @@ public static class Generator
 
     public static string GenerateClientSideMultiTypeUnionPropertySetter(WebComponent component, WebComponentProperty property, TypeScriptUnion optionType, CSharpConverter converter)
     {
-        StringBuilder codeBuilder = new StringBuilder();
+        HashSet<string> generatedSetters = new HashSet<string>();
 
+        StringBuilder codeBuilder = new StringBuilder();
         foreach (var option in optionType.Options)
         {
-            codeBuilder.Append(GenerateClientSidePropertySetter(component, property, option, converter));
+            // Sometimes unions with nullable generate the same thing. Cheap solution, but we just ignore it if it's repeated
+            var setter = GenerateClientSidePropertySetter(component, property, option, converter);
+            if (!generatedSetters.Contains(setter))
+            {
+                codeBuilder.Append(setter);
+                generatedSetters.Add(setter);
+            }
         }
 
         return codeBuilder.ToString();

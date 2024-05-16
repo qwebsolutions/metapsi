@@ -5,11 +5,11 @@ public class RouterEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public object from { get; set; }
+    public DynamicObject from { get; set; }
     /// <summary>
     /// string | null
     /// </summary>
-    public object redirectedFrom { get; set; }
+    public DynamicObject redirectedFrom { get; set; }
     /// <summary>
     /// string
     /// </summary>

@@ -18,6 +18,20 @@ public static partial class HtmlSampControl
     /// <summary>
     /// The HTML samp tag
     /// </summary>
+    public static IHtmlNode HtmlSamp(this HtmlBuilder b, Action<AttributesBuilder<HtmlSamp>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("samp", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML samp tag
+    /// </summary>
+    public static IHtmlNode HtmlSamp(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("samp", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML samp tag
+    /// </summary>
     public static Var<IVNode> HtmlSamp(this LayoutBuilder b, Action<PropsBuilder<HtmlSamp>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("samp", buildProps, children);

@@ -28,6 +28,11 @@ public static class Program
 
         var packageMetadata = await new HttpClient().GetStringAsync(metadataFileUrl);
 
+        var ionicGeneratorFolder = Utils.SearchUpfolder(System.IO.Path.GetDirectoryName(Directory.GetCurrentDirectory()), "Metapsi.Ionic.Generate");
+
+        await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(ionicGeneratorFolder, "docs" + version + ".json"), packageMetadata);
+
+
         var ionicProjectFolder = Utils.SearchUpfolder(System.IO.Path.GetDirectoryName(Directory.GetCurrentDirectory()), "Metapsi.Ionic");
 
         if (string.IsNullOrEmpty(ionicProjectFolder))
@@ -69,7 +74,7 @@ public static class Program
                 }
 
                 if (defaultConversion.Trim().StartsWith("Promise<"))
-                    return "object";
+                    return "DynamicObject";
 
                 return defaultConversion;
             }
@@ -221,7 +226,7 @@ public static class Program
                     var csType = tsType;
 
                     if (tsType == "any")
-                        csType = "object";
+                        csType = "DynamicObject";
 
                     if (tsType == "number")
                         csType = "int";
@@ -230,26 +235,36 @@ public static class Program
                         csType = "bool";
 
                     if (tsType == "T")
-                        csType = "object";
+                        csType = "DynamicObject";
 
                     if (tsType.Contains("|"))
-                        csType = "object";
-
-                    if (tsType.Contains("{"))
-                        csType = "object";
-
-                    if (tsType.Contains("<"))
-                        csType = "object";
-
-                    if (tsType.Contains("=>"))
-                        csType = "object";
-
-                    if (csType.Contains("[]"))
+                    {
+                        csType = "DynamicObject";
+                        if(tsType == "LiteralUnion<'cancel' | 'destructive' | 'selected', string>")
+                        {
+                            csType = "string";
+                        }
+                        else if (tsType == "LiteralUnion<'cancel' | 'destructive', string>")
+                        {
+                            csType = "string";
+                        }
+                        else if(tsType == "string | string[]")
+                        {
+                            csType = "string";
+                        }
+                    }
+                    else if (tsType.Contains("{"))
+                        csType = "DynamicObject";
+                    else if (tsType.Contains("<"))
+                        csType = "DynamicObject";
+                    else if (tsType.Contains("=>"))
+                        csType = "DynamicObject";
+                    else if (csType.Contains("[]"))
                     {
                         var itemType = tsType.Replace("[]", string.Empty);
                         if (itemType == "any")
                         {
-                            itemType = "object";
+                            itemType = "DynamicObject";
                         }
                         csType = $"System.Collections.Generic.List<{itemType}>";
                     }
@@ -284,6 +299,17 @@ public static class Program
 
             await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(typeLibraryOutputFolder, $"{typeName}.cs"), csharpCode);
         }
+
+        StringBuilder importsBuilder = new StringBuilder();
+        importsBuilder.AppendLine("namespace Metapsi.Ionic;");
+        importsBuilder.AppendLine();
+        importsBuilder.AppendLine("public static partial class Cdn");
+        importsBuilder.AppendLine("{");
+        importsBuilder.AppendLine($"    public static string Version = \"{version}\";");
+        importsBuilder.AppendLine("}");
+
+        await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"CdnPaths.cs"), importsBuilder.ToString());
+
 
         var csProjPath = System.IO.Path.Combine(ionicProjectFolder, "Metapsi.Ionic.csproj");
         var projectDescription = $"Use Ionic {version} with Metapsi for client-side generated web pages (https://ionicframework.com)";

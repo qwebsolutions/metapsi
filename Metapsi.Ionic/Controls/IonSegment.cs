@@ -12,119 +12,122 @@ namespace Metapsi.Ionic;
 public partial class IonSegment : IonComponent
 {
     public IonSegment() : base("ion-segment") { }
+}
+
+public static partial class IonSegmentControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSegment(this HtmlBuilder b, Action<AttributesBuilder<IonSegment>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-segment", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonSegment(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-segment", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public string color
+    public static void SetColor(this AttributesBuilder<IonSegment> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("color");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("color", value.ToString());
-        }
+        b.SetAttribute("color", value);
     }
 
     /// <summary>
     /// If `true`, the user cannot interact with the segment.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonSegment> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the segment.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonSegment> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonSegment> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonSegment> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonSegment> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
     /// </summary>
-    public bool scrollable
+    public static void SetScrollable(this AttributesBuilder<IonSegment> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("scrollable");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("scrollable", value.ToString());
-        }
+        b.SetAttribute("scrollable", "");
+    }
+    /// <summary>
+    /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
+    /// </summary>
+    public static void SetScrollable(this AttributesBuilder<IonSegment> b, bool value)
+    {
+        if (value) b.SetAttribute("scrollable", "");
     }
 
     /// <summary>
     /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
     /// </summary>
-    public bool selectOnFocus
+    public static void SetSelectOnFocus(this AttributesBuilder<IonSegment> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("selectOnFocus");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("selectOnFocus", value.ToString());
-        }
+        b.SetAttribute("select-on-focus", "");
+    }
+    /// <summary>
+    /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
+    /// </summary>
+    public static void SetSelectOnFocus(this AttributesBuilder<IonSegment> b, bool value)
+    {
+        if (value) b.SetAttribute("select-on-focus", "");
     }
 
     /// <summary>
     /// If `true`, users will be able to swipe between segment buttons to activate them.
     /// </summary>
-    public bool swipeGesture
+    public static void SetSwipeGesture(this AttributesBuilder<IonSegment> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("swipeGesture");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("swipeGesture", value.ToString());
-        }
+        b.SetAttribute("swipe-gesture", "");
+    }
+    /// <summary>
+    /// If `true`, users will be able to swipe between segment buttons to activate them.
+    /// </summary>
+    public static void SetSwipeGesture(this AttributesBuilder<IonSegment> b, bool value)
+    {
+        if (value) b.SetAttribute("swipe-gesture", "");
     }
 
     /// <summary>
     /// the value of the segment.
     /// </summary>
-    public string value
+    public static void SetValue(this AttributesBuilder<IonSegment> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
+        b.SetAttribute("value", value);
     }
 
-}
-
-public static partial class IonSegmentControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -140,79 +143,93 @@ public static partial class IonSegmentControl
         return b.IonicNode("ion-segment", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSegment(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-segment", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonSegment(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-segment", children);
+    }
+    /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDanger(this PropsBuilder<IonSegment> b)
+    public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDark(this PropsBuilder<IonSegment> b)
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorLight(this PropsBuilder<IonSegment> b)
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorMedium(this PropsBuilder<IonSegment> b)
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorPrimary(this PropsBuilder<IonSegment> b)
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSecondary(this PropsBuilder<IonSegment> b)
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSuccess(this PropsBuilder<IonSegment> b)
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorTertiary(this PropsBuilder<IonSegment> b)
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorWarning(this PropsBuilder<IonSegment> b)
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonSegment> b, Var<string> value)
+    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonSegment> b, string value)
+    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
     }
@@ -220,7 +237,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// If `true`, the user cannot interact with the segment.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonSegment> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -228,14 +245,14 @@ public static partial class IonSegmentControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonSegment> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonSegment> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -243,7 +260,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
     /// </summary>
-    public static void SetScrollable(this PropsBuilder<IonSegment> b)
+    public static void SetScrollable<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollable"), b.Const(true));
     }
@@ -251,7 +268,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
     /// </summary>
-    public static void SetSelectOnFocus(this PropsBuilder<IonSegment> b)
+    public static void SetSelectOnFocus<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("selectOnFocus"), b.Const(true));
     }
@@ -259,7 +276,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// If `true`, users will be able to swipe between segment buttons to activate them.
     /// </summary>
-    public static void SetSwipeGesture(this PropsBuilder<IonSegment> b)
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
     }
@@ -267,28 +284,28 @@ public static partial class IonSegmentControl
     /// <summary>
     /// the value of the segment.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegment> b, Var<int> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
     /// <summary>
     /// the value of the segment.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegment> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
     /// <summary>
     /// the value of the segment.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegment> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
     /// <summary>
     /// the value of the segment.
     /// </summary>
-    public static void SetValue(this PropsBuilder<IonSegment> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonSegment
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
@@ -296,14 +313,14 @@ public static partial class IonSegmentControl
     /// <summary>
     /// Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonSegment> b, Var<HyperType.Action<TModel, SegmentChangeEventDetail>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SegmentChangeEventDetail>> action) where TComponent: IonSegment
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
     /// Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`.
     /// </summary>
-    public static void OnIonChange<TModel>(this PropsBuilder<IonSegment> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SegmentChangeEventDetail>, Var<TModel>> action)
+    public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SegmentChangeEventDetail>, Var<TModel>> action) where TComponent: IonSegment
     {
         b.OnEventAction("onionChange", b.MakeAction(action), "detail");
     }

@@ -12,100 +12,85 @@ namespace Metapsi.Ionic;
 public partial class IonRouterLink : IonComponent
 {
     public IonRouterLink() : base("ion-router-link") { }
+}
+
+public static partial class IonRouterLinkControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonRouterLink(this HtmlBuilder b, Action<AttributesBuilder<IonRouterLink>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-router-link", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonRouterLink(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-router-link", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public string color
+    public static void SetColor(this AttributesBuilder<IonRouterLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("color");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("color", value.ToString());
-        }
+        b.SetAttribute("color", value);
     }
 
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public string href
+    public static void SetHref(this AttributesBuilder<IonRouterLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("href");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("href", value.ToString());
-        }
+        b.SetAttribute("href", value);
     }
 
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public string rel
+    public static void SetRel(this AttributesBuilder<IonRouterLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("rel");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("rel", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
-    /// </summary>
-    public System.Func<object,object,Animation> routerAnimation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("routerAnimation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("routerAnimation", value.ToString());
-        }
+        b.SetAttribute("rel", value);
     }
 
     /// <summary>
     /// When using a router, it specifies the transition direction when navigating to another page using `href`.
     /// </summary>
-    public string routerDirection
+    public static void SetRouterDirection(this AttributesBuilder<IonRouterLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("routerDirection");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("routerDirection", value.ToString());
-        }
+        b.SetAttribute("router-direction", value);
+    }
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public static void SetRouterDirectionBack(this AttributesBuilder<IonRouterLink> b)
+    {
+        b.SetAttribute("router-direction", "back");
+    }
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public static void SetRouterDirectionForward(this AttributesBuilder<IonRouterLink> b)
+    {
+        b.SetAttribute("router-direction", "forward");
+    }
+    /// <summary>
+    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// </summary>
+    public static void SetRouterDirectionRoot(this AttributesBuilder<IonRouterLink> b)
+    {
+        b.SetAttribute("router-direction", "root");
     }
 
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public string target
+    public static void SetTarget(this AttributesBuilder<IonRouterLink> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("target");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("target", value.ToString());
-        }
+        b.SetAttribute("target", value);
     }
 
-}
-
-public static partial class IonRouterLinkControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -121,79 +106,93 @@ public static partial class IonRouterLinkControl
         return b.IonicNode("ion-router-link", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRouterLink(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-router-link", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonRouterLink(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-router-link", children);
+    }
+    /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDanger(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDark(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorLight(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorMedium(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorPrimary(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSecondary(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSuccess(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorTertiary(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorWarning(this PropsBuilder<IonRouterLink> b)
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonRouterLink> b, Var<string> value)
+    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonRouterLink> b, string value)
+    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
     }
@@ -201,14 +200,14 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public static void SetHref(this PropsBuilder<IonRouterLink> b, Var<string> value)
+    public static void SetHref<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("href"), value);
     }
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public static void SetHref(this PropsBuilder<IonRouterLink> b, string value)
+    public static void SetHref<T>(this PropsBuilder<T> b, string value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(value));
     }
@@ -216,14 +215,14 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public static void SetRel(this PropsBuilder<IonRouterLink> b, Var<string> value)
+    public static void SetRel<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), value);
     }
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public static void SetRel(this PropsBuilder<IonRouterLink> b, string value)
+    public static void SetRel<T>(this PropsBuilder<T> b, string value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(value));
     }
@@ -231,14 +230,14 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// When using a router, it specifies the transition animation when navigating to another page using `href`.
     /// </summary>
-    public static void SetRouterAnimation(this PropsBuilder<IonRouterLink> b, Var<Func<object,object,Animation>> f)
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), f);
     }
     /// <summary>
     /// When using a router, it specifies the transition animation when navigating to another page using `href`.
     /// </summary>
-    public static void SetRouterAnimation(this PropsBuilder<IonRouterLink> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f)
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), b.Def(f));
     }
@@ -246,21 +245,21 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// When using a router, it specifies the transition direction when navigating to another page using `href`.
     /// </summary>
-    public static void SetRouterDirectionBack(this PropsBuilder<IonRouterLink> b)
+    public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("back"));
     }
     /// <summary>
     /// When using a router, it specifies the transition direction when navigating to another page using `href`.
     /// </summary>
-    public static void SetRouterDirectionForward(this PropsBuilder<IonRouterLink> b)
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("forward"));
     }
     /// <summary>
     /// When using a router, it specifies the transition direction when navigating to another page using `href`.
     /// </summary>
-    public static void SetRouterDirectionRoot(this PropsBuilder<IonRouterLink> b)
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("root"));
     }
@@ -268,14 +267,14 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public static void SetTarget(this PropsBuilder<IonRouterLink> b, Var<string> value)
+    public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("target"), value);
     }
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public static void SetTarget(this PropsBuilder<IonRouterLink> b, string value)
+    public static void SetTarget<T>(this PropsBuilder<T> b, string value) where T: IonRouterLink
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(value));
     }

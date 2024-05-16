@@ -34,7 +34,7 @@ namespace Metapsi.Sqlite
         {
             IEnumerable<string> allFieldNames = await transaction.Connection.QueryAsync<string>($"select name from PRAGMA_TABLE_INFO('{recordType.Name}');", transaction: transaction);
 
-            var recordProperties = recordType.GetProperties().Where(x => Db.SupportedScalarTypes.Contains(x.PropertyType)).Select(x => x.Name);
+            var recordProperties = recordType.GetProperties().Where(x => Ddl.SupportedScalarTypes.Contains(x.PropertyType)).Select(x => x.Name);
 
             var fieldsDiff = DiffFields(recordProperties, allFieldNames);
 

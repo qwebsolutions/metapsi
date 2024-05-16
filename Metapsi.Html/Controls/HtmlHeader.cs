@@ -18,6 +18,20 @@ public static partial class HtmlHeaderControl
     /// <summary>
     /// The HTML header tag
     /// </summary>
+    public static IHtmlNode HtmlHeader(this HtmlBuilder b, Action<AttributesBuilder<HtmlHeader>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("header", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML header tag
+    /// </summary>
+    public static IHtmlNode HtmlHeader(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("header", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML header tag
+    /// </summary>
     public static Var<IVNode> HtmlHeader(this LayoutBuilder b, Action<PropsBuilder<HtmlHeader>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("header", buildProps, children);

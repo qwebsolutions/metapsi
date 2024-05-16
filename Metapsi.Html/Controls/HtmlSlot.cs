@@ -18,6 +18,20 @@ public static partial class HtmlSlotControl
     /// <summary>
     /// The HTML slot tag
     /// </summary>
+    public static IHtmlNode HtmlSlot(this HtmlBuilder b, Action<AttributesBuilder<HtmlSlot>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("slot", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML slot tag
+    /// </summary>
+    public static IHtmlNode HtmlSlot(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("slot", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML slot tag
+    /// </summary>
     public static Var<IVNode> HtmlSlot(this LayoutBuilder b, Action<PropsBuilder<HtmlSlot>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("slot", buildProps, children);

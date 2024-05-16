@@ -18,6 +18,20 @@ public static partial class HtmlMarkControl
     /// <summary>
     /// The HTML mark tag
     /// </summary>
+    public static IHtmlNode HtmlMark(this HtmlBuilder b, Action<AttributesBuilder<HtmlMark>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("mark", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML mark tag
+    /// </summary>
+    public static IHtmlNode HtmlMark(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("mark", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML mark tag
+    /// </summary>
     public static Var<IVNode> HtmlMark(this LayoutBuilder b, Action<PropsBuilder<HtmlMark>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("mark", buildProps, children);

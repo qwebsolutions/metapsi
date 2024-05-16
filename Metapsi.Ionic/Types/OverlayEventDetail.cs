@@ -5,7 +5,7 @@ public class OverlayEventDetail
     /// <summary>
     /// T
     /// </summary>
-    public object data { get; set; }
+    public DynamicObject data { get; set; }
     /// <summary>
     /// string
     /// </summary>

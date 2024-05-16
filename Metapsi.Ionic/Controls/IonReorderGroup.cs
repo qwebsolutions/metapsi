@@ -12,22 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonReorderGroup : IonComponent
 {
     public IonReorderGroup() : base("ion-reorder-group") { }
-    /// <summary>
-    /// If `true`, the reorder will be hidden.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -44,6 +28,35 @@ public static partial class IonReorderGroupControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonReorderGroup(this HtmlBuilder b, Action<AttributesBuilder<IonReorderGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-reorder-group", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonReorderGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-reorder-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// If `true`, the reorder will be hidden.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonReorderGroup> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the reorder will be hidden.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonReorderGroup> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonReorderGroup(this LayoutBuilder b, Action<PropsBuilder<IonReorderGroup>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-reorder-group", buildProps, children);
@@ -56,9 +69,23 @@ public static partial class IonReorderGroupControl
         return b.IonicNode("ion-reorder-group", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonReorderGroup(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-reorder-group", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonReorderGroup(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-reorder-group", children);
+    }
+    /// <summary>
     /// If `true`, the reorder will be hidden.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonReorderGroup> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonReorderGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -66,14 +93,14 @@ public static partial class IonReorderGroupControl
     /// <summary>
     /// Event that needs to be listened to in order to complete the reorder action. Once the event has been emitted, the `complete()` method then needs to be called in order to finalize the reorder action.
     /// </summary>
-    public static void OnIonItemReorder<TModel>(this PropsBuilder<IonReorderGroup> b, Var<HyperType.Action<TModel, ItemReorderEventDetail>> action)
+    public static void OnIonItemReorder<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, ItemReorderEventDetail>> action) where TComponent: IonReorderGroup
     {
         b.OnEventAction("onionItemReorder", action, "detail");
     }
     /// <summary>
     /// Event that needs to be listened to in order to complete the reorder action. Once the event has been emitted, the `complete()` method then needs to be called in order to finalize the reorder action.
     /// </summary>
-    public static void OnIonItemReorder<TModel>(this PropsBuilder<IonReorderGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ItemReorderEventDetail>, Var<TModel>> action)
+    public static void OnIonItemReorder<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ItemReorderEventDetail>, Var<TModel>> action) where TComponent: IonReorderGroup
     {
         b.OnEventAction("onionItemReorder", b.MakeAction(action), "detail");
     }

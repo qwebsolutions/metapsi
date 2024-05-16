@@ -5,5 +5,5 @@ public class AccordionGroupChangeEventDetail
     /// <summary>
     /// T
     /// </summary>
-    public object value { get; set; }
+    public DynamicObject value { get; set; }
 }

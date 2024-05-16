@@ -18,6 +18,20 @@ public static partial class HtmlKbdControl
     /// <summary>
     /// The HTML kbd tag
     /// </summary>
+    public static IHtmlNode HtmlKbd(this HtmlBuilder b, Action<AttributesBuilder<HtmlKbd>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("kbd", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML kbd tag
+    /// </summary>
+    public static IHtmlNode HtmlKbd(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("kbd", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML kbd tag
+    /// </summary>
     public static Var<IVNode> HtmlKbd(this LayoutBuilder b, Action<PropsBuilder<HtmlKbd>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("kbd", buildProps, children);

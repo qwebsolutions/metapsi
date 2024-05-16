@@ -18,6 +18,20 @@ public static partial class HtmlObjectControl
     /// <summary>
     /// The HTML object tag
     /// </summary>
+    public static IHtmlNode HtmlObject(this HtmlBuilder b, Action<AttributesBuilder<HtmlObject>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("object", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML object tag
+    /// </summary>
+    public static IHtmlNode HtmlObject(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("object", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML object tag
+    /// </summary>
     public static Var<IVNode> HtmlObject(this LayoutBuilder b, Action<PropsBuilder<HtmlObject>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("object", buildProps, children);

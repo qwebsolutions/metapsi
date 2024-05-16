@@ -12,26 +12,39 @@ namespace Metapsi.Ionic;
 public partial class IonGrid : IonComponent
 {
     public IonGrid() : base("ion-grid") { }
-    /// <summary>
-    /// If `true`, the grid will have a fixed width based on the screen size.
-    /// </summary>
-    public bool @fixed
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("fixed");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("fixed", value.ToString());
-        }
-    }
-
 }
 
 public static partial class IonGridControl
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonGrid(this HtmlBuilder b, Action<AttributesBuilder<IonGrid>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-grid", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonGrid(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-grid", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// If `true`, the grid will have a fixed width based on the screen size.
+    /// </summary>
+    public static void SetFixed(this AttributesBuilder<IonGrid> b)
+    {
+        b.SetAttribute("fixed", "");
+    }
+    /// <summary>
+    /// If `true`, the grid will have a fixed width based on the screen size.
+    /// </summary>
+    public static void SetFixed(this AttributesBuilder<IonGrid> b, bool value)
+    {
+        if (value) b.SetAttribute("fixed", "");
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -47,9 +60,23 @@ public static partial class IonGridControl
         return b.IonicNode("ion-grid", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonGrid(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-grid", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonGrid(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-grid", children);
+    }
+    /// <summary>
     /// If `true`, the grid will have a fixed width based on the screen size.
     /// </summary>
-    public static void SetFixed(this PropsBuilder<IonGrid> b)
+    public static void SetFixed<T>(this PropsBuilder<T> b) where T: IonGrid
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("fixed"), b.Const(true));
     }

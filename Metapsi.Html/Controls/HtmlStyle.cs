@@ -18,6 +18,20 @@ public static partial class HtmlStyleControl
     /// <summary>
     /// The HTML style tag
     /// </summary>
+    public static IHtmlNode HtmlStyle(this HtmlBuilder b, Action<AttributesBuilder<HtmlStyle>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("style", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML style tag
+    /// </summary>
+    public static IHtmlNode HtmlStyle(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("style", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML style tag
+    /// </summary>
     public static Var<IVNode> HtmlStyle(this LayoutBuilder b, Action<PropsBuilder<HtmlStyle>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("style", buildProps, children);

@@ -18,6 +18,20 @@ public static partial class HtmlDatalistControl
     /// <summary>
     /// The HTML datalist tag
     /// </summary>
+    public static IHtmlNode HtmlDatalist(this HtmlBuilder b, Action<AttributesBuilder<HtmlDatalist>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("datalist", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML datalist tag
+    /// </summary>
+    public static IHtmlNode HtmlDatalist(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("datalist", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML datalist tag
+    /// </summary>
     public static Var<IVNode> HtmlDatalist(this LayoutBuilder b, Action<PropsBuilder<HtmlDatalist>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("datalist", buildProps, children);

@@ -12,22 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonItemSliding : IonComponent
 {
     public IonItemSliding() : base("ion-item-sliding") { }
-    /// <summary>
-    /// If `true`, the user cannot interact with the sliding item.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -64,6 +48,35 @@ public static partial class IonItemSlidingControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonItemSliding(this HtmlBuilder b, Action<AttributesBuilder<IonItemSliding>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-item-sliding", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonItemSliding(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-item-sliding", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the sliding item.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonItemSliding> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the sliding item.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonItemSliding> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonItemSliding(this LayoutBuilder b, Action<PropsBuilder<IonItemSliding>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-item-sliding", buildProps, children);
@@ -76,9 +89,23 @@ public static partial class IonItemSlidingControl
         return b.IonicNode("ion-item-sliding", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonItemSliding(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-item-sliding", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonItemSliding(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-item-sliding", children);
+    }
+    /// <summary>
     /// If `true`, the user cannot interact with the sliding item.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonItemSliding> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonItemSliding
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -86,14 +113,14 @@ public static partial class IonItemSlidingControl
     /// <summary>
     /// Emitted when the sliding position changes.
     /// </summary>
-    public static void OnIonDrag<TModel>(this PropsBuilder<IonItemSliding> b, Var<HyperType.Action<TModel, object>> action)
+    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonItemSliding
     {
         b.OnEventAction("onionDrag", action, "detail");
     }
     /// <summary>
     /// Emitted when the sliding position changes.
     /// </summary>
-    public static void OnIonDrag<TModel>(this PropsBuilder<IonItemSliding> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action)
+    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonItemSliding
     {
         b.OnEventAction("onionDrag", b.MakeAction(action), "detail");
     }

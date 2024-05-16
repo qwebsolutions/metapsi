@@ -12,72 +12,84 @@ namespace Metapsi.Ionic;
 public partial class IonChip : IonComponent
 {
     public IonChip() : base("ion-chip") { }
+}
+
+public static partial class IonChipControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonChip(this HtmlBuilder b, Action<AttributesBuilder<IonChip>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-chip", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonChip(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-chip", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public string color
+    public static void SetColor(this AttributesBuilder<IonChip> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("color");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("color", value.ToString());
-        }
+        b.SetAttribute("color", value);
     }
 
     /// <summary>
     /// If `true`, the user cannot interact with the chip.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonChip> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the chip.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonChip> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonChip> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonChip> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonChip> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// Display an outline style button.
     /// </summary>
-    public bool outline
+    public static void SetOutline(this AttributesBuilder<IonChip> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("outline");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("outline", value.ToString());
-        }
+        b.SetAttribute("outline", "");
+    }
+    /// <summary>
+    /// Display an outline style button.
+    /// </summary>
+    public static void SetOutline(this AttributesBuilder<IonChip> b, bool value)
+    {
+        if (value) b.SetAttribute("outline", "");
     }
 
-}
-
-public static partial class IonChipControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -93,79 +105,93 @@ public static partial class IonChipControl
         return b.IonicNode("ion-chip", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonChip(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-chip", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonChip(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-chip", children);
+    }
+    /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDanger(this PropsBuilder<IonChip> b)
+    public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorDark(this PropsBuilder<IonChip> b)
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorLight(this PropsBuilder<IonChip> b)
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorMedium(this PropsBuilder<IonChip> b)
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorPrimary(this PropsBuilder<IonChip> b)
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSecondary(this PropsBuilder<IonChip> b)
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorSuccess(this PropsBuilder<IonChip> b)
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorTertiary(this PropsBuilder<IonChip> b)
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColorWarning(this PropsBuilder<IonChip> b)
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonChip> b, Var<string> value)
+    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonChip
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
     }
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
     /// </summary>
-    public static void SetColor(this PropsBuilder<IonChip> b, string value)
+    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonChip
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
     }
@@ -173,7 +199,7 @@ public static partial class IonChipControl
     /// <summary>
     /// If `true`, the user cannot interact with the chip.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonChip> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -181,14 +207,14 @@ public static partial class IonChipControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonChip> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonChip> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -196,7 +222,7 @@ public static partial class IonChipControl
     /// <summary>
     /// Display an outline style button.
     /// </summary>
-    public static void SetOutline(this PropsBuilder<IonChip> b)
+    public static void SetOutline<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(true));
     }

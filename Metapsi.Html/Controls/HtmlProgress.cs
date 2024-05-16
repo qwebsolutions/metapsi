@@ -18,6 +18,20 @@ public static partial class HtmlProgressControl
     /// <summary>
     /// The HTML progress tag
     /// </summary>
+    public static IHtmlNode HtmlProgress(this HtmlBuilder b, Action<AttributesBuilder<HtmlProgress>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("progress", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML progress tag
+    /// </summary>
+    public static IHtmlNode HtmlProgress(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("progress", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML progress tag
+    /// </summary>
     public static Var<IVNode> HtmlProgress(this LayoutBuilder b, Action<PropsBuilder<HtmlProgress>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("progress", buildProps, children);

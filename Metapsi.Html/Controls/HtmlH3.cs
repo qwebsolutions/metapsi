@@ -18,6 +18,20 @@ public static partial class HtmlH3Control
     /// <summary>
     /// The HTML h3 tag
     /// </summary>
+    public static IHtmlNode HtmlH3(this HtmlBuilder b, Action<AttributesBuilder<HtmlH3>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("h3", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML h3 tag
+    /// </summary>
+    public static IHtmlNode HtmlH3(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("h3", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML h3 tag
+    /// </summary>
     public static Var<IVNode> HtmlH3(this LayoutBuilder b, Action<PropsBuilder<HtmlH3>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("h3", buildProps, children);

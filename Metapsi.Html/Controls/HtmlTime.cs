@@ -18,6 +18,20 @@ public static partial class HtmlTimeControl
     /// <summary>
     /// The HTML time tag
     /// </summary>
+    public static IHtmlNode HtmlTime(this HtmlBuilder b, Action<AttributesBuilder<HtmlTime>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("time", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML time tag
+    /// </summary>
+    public static IHtmlNode HtmlTime(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("time", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML time tag
+    /// </summary>
     public static Var<IVNode> HtmlTime(this LayoutBuilder b, Action<PropsBuilder<HtmlTime>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("time", buildProps, children);

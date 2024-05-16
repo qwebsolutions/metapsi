@@ -18,6 +18,20 @@ public static partial class HtmlDataControl
     /// <summary>
     /// The HTML data tag
     /// </summary>
+    public static IHtmlNode HtmlData(this HtmlBuilder b, Action<AttributesBuilder<HtmlData>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("data", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML data tag
+    /// </summary>
+    public static IHtmlNode HtmlData(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("data", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML data tag
+    /// </summary>
     public static Var<IVNode> HtmlData(this LayoutBuilder b, Action<PropsBuilder<HtmlData>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("data", buildProps, children);

@@ -5,7 +5,7 @@ public class AlertInput
     /// <summary>
     /// TextFieldTypes | 'checkbox' | 'radio' | 'textarea'
     /// </summary>
-    public object type { get; set; }
+    public DynamicObject type { get; set; }
     /// <summary>
     /// string
     /// </summary>
@@ -17,7 +17,7 @@ public class AlertInput
     /// <summary>
     /// any
     /// </summary>
-    public object value { get; set; }
+    public DynamicObject value { get; set; }
     /// <summary>
     /// / The label text to display next to the input, if the input type is `radio` or `checkbox`./
     /// string
@@ -38,23 +38,23 @@ public class AlertInput
     /// <summary>
     /// (input: AlertInput) =&gt; void
     /// </summary>
-    public object handler { get; set; }
+    public DynamicObject handler { get; set; }
     /// <summary>
     /// string | number
     /// </summary>
-    public object min { get; set; }
+    public DynamicObject min { get; set; }
     /// <summary>
     /// string | number
     /// </summary>
-    public object max { get; set; }
+    public DynamicObject max { get; set; }
     /// <summary>
     /// string | string[]
     /// </summary>
-    public object cssClass { get; set; }
+    public string cssClass { get; set; }
     /// <summary>
     /// { [key: string]: any }
     /// </summary>
-    public object attributes { get; set; }
+    public DynamicObject attributes { get; set; }
     /// <summary>
     /// number
     /// </summary>

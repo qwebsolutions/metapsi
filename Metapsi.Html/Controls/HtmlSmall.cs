@@ -18,6 +18,20 @@ public static partial class HtmlSmallControl
     /// <summary>
     /// The HTML small tag
     /// </summary>
+    public static IHtmlNode HtmlSmall(this HtmlBuilder b, Action<AttributesBuilder<HtmlSmall>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("small", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML small tag
+    /// </summary>
+    public static IHtmlNode HtmlSmall(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("small", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML small tag
+    /// </summary>
     public static Var<IVNode> HtmlSmall(this LayoutBuilder b, Action<PropsBuilder<HtmlSmall>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("small", buildProps, children);

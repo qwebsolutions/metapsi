@@ -12,83 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonNav : IonComponent
 {
     public IonNav() : base("ion-nav") { }
-    /// <summary>
-    /// If `true`, the nav should animate the transition of components.
-    /// </summary>
-    public bool animated
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("animated");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("animated", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default `ion-nav` animates transition between pages based in the mode (ios or material design). However, this property allows to create custom transition using `AnimationBuilder` functions.
-    /// </summary>
-    public System.Func<object,object,Animation> animation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("animation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("animation", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Root NavComponent to load
-    /// </summary>
-    public string root
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("root");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("root", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Any parameters for the root component
-    /// </summary>
-    public object rootParams
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("rootParams");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("rootParams", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If the nav component should allow for swipe-to-go-back.
-    /// </summary>
-    public bool swipeGesture
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("swipeGesture");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("swipeGesture", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -108,6 +31,11 @@ public partial class IonNav : IonComponent
         /// <para>index The index of the view.</para>
         /// </summary>
         public const string GetByIndex = "getByIndex";
+        /// <summary> 
+        /// Returns the number of views in the stack.
+        /// <para>() =&gt; Promise&lt;number&gt;</para>
+        /// </summary>
+        public const string GetLength = "getLength";
         /// <summary> 
         /// Get the previous view.
         /// <para>(view?: ViewController) =&gt; Promise&lt;ViewController | undefined&gt;</para>
@@ -198,6 +126,58 @@ public static partial class IonNavControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonNav(this HtmlBuilder b, Action<AttributesBuilder<IonNav>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-nav", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonNav(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-nav", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// If `true`, the nav should animate the transition of components.
+    /// </summary>
+    public static void SetAnimated(this AttributesBuilder<IonNav> b)
+    {
+        b.SetAttribute("animated", "");
+    }
+    /// <summary>
+    /// If `true`, the nav should animate the transition of components.
+    /// </summary>
+    public static void SetAnimated(this AttributesBuilder<IonNav> b, bool value)
+    {
+        if (value) b.SetAttribute("animated", "");
+    }
+
+    /// <summary>
+    /// Root NavComponent to load
+    /// </summary>
+    public static void SetRoot(this AttributesBuilder<IonNav> b, string value)
+    {
+        b.SetAttribute("root", value);
+    }
+
+    /// <summary>
+    /// If the nav component should allow for swipe-to-go-back.
+    /// </summary>
+    public static void SetSwipeGesture(this AttributesBuilder<IonNav> b)
+    {
+        b.SetAttribute("swipe-gesture", "");
+    }
+    /// <summary>
+    /// If the nav component should allow for swipe-to-go-back.
+    /// </summary>
+    public static void SetSwipeGesture(this AttributesBuilder<IonNav> b, bool value)
+    {
+        if (value) b.SetAttribute("swipe-gesture", "");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonNav(this LayoutBuilder b, Action<PropsBuilder<IonNav>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-nav", buildProps, children);
@@ -210,9 +190,23 @@ public static partial class IonNavControl
         return b.IonicNode("ion-nav", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonNav(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-nav", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonNav(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-nav", children);
+    }
+    /// <summary>
     /// If `true`, the nav should animate the transition of components.
     /// </summary>
-    public static void SetAnimated(this PropsBuilder<IonNav> b)
+    public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonNav
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
@@ -220,14 +214,14 @@ public static partial class IonNavControl
     /// <summary>
     /// By default `ion-nav` animates transition between pages based in the mode (ios or material design). However, this property allows to create custom transition using `AnimationBuilder` functions.
     /// </summary>
-    public static void SetAnimation(this PropsBuilder<IonNav> b, Var<Func<object,object,Animation>> f)
+    public static void SetAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("animation"), f);
     }
     /// <summary>
     /// By default `ion-nav` animates transition between pages based in the mode (ios or material design). However, this property allows to create custom transition using `AnimationBuilder` functions.
     /// </summary>
-    public static void SetAnimation(this PropsBuilder<IonNav> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f)
+    public static void SetAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("animation"), b.Def(f));
     }
@@ -235,56 +229,56 @@ public static partial class IonNavControl
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, Var<Metapsi.Ionic.Function> value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("root"), value);
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, Metapsi.Ionic.Function value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("root"), b.Const(value));
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, Var<HTMLElement> value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Var<HTMLElement> value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("root"), value);
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, HTMLElement value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, HTMLElement value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("root"), b.Const(value));
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, Var<ViewController> value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Var<ViewController> value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<ViewController>("root"), value);
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, ViewController value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, ViewController value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<ViewController>("root"), b.Const(value));
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, Var<string> value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, Var<string> value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("root"), value);
     }
     /// <summary>
     /// Root NavComponent to load
     /// </summary>
-    public static void SetRoot(this PropsBuilder<IonNav> b, string value)
+    public static void SetRoot<T>(this PropsBuilder<T> b, string value) where T: IonNav
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("root"), b.Const(value));
     }
@@ -292,22 +286,22 @@ public static partial class IonNavControl
     /// <summary>
     /// Any parameters for the root component
     /// </summary>
-    public static void SetRootParams(this PropsBuilder<IonNav> b, Var<object> value)
+    public static void SetRootParams<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("rootParams"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("rootParams"), value);
     }
     /// <summary>
     /// Any parameters for the root component
     /// </summary>
-    public static void SetRootParams(this PropsBuilder<IonNav> b, object value)
+    public static void SetRootParams<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("rootParams"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("rootParams"), b.Const(value));
     }
 
     /// <summary>
     /// If the nav component should allow for swipe-to-go-back.
     /// </summary>
-    public static void SetSwipeGesture(this PropsBuilder<IonNav> b)
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonNav
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
     }
@@ -315,14 +309,14 @@ public static partial class IonNavControl
     /// <summary>
     /// Event fired when the nav has changed components
     /// </summary>
-    public static void OnIonNavDidChange<TModel>(this PropsBuilder<IonNav> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonNavDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonNav
     {
         b.OnEventAction("onionNavDidChange", action);
     }
     /// <summary>
     /// Event fired when the nav has changed components
     /// </summary>
-    public static void OnIonNavDidChange<TModel>(this PropsBuilder<IonNav> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonNavDidChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonNav
     {
         b.OnEventAction("onionNavDidChange", b.MakeAction(action));
     }
@@ -330,14 +324,14 @@ public static partial class IonNavControl
     /// <summary>
     /// Event fired when the nav will change components
     /// </summary>
-    public static void OnIonNavWillChange<TModel>(this PropsBuilder<IonNav> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonNavWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonNav
     {
         b.OnEventAction("onionNavWillChange", action);
     }
     /// <summary>
     /// Event fired when the nav will change components
     /// </summary>
-    public static void OnIonNavWillChange<TModel>(this PropsBuilder<IonNav> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonNavWillChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonNav
     {
         b.OnEventAction("onionNavWillChange", b.MakeAction(action));
     }

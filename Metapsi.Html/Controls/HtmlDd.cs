@@ -18,6 +18,20 @@ public static partial class HtmlDdControl
     /// <summary>
     /// The HTML dd tag
     /// </summary>
+    public static IHtmlNode HtmlDd(this HtmlBuilder b, Action<AttributesBuilder<HtmlDd>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("dd", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML dd tag
+    /// </summary>
+    public static IHtmlNode HtmlDd(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("dd", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML dd tag
+    /// </summary>
     public static Var<IVNode> HtmlDd(this LayoutBuilder b, Action<PropsBuilder<HtmlDd>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("dd", buildProps, children);

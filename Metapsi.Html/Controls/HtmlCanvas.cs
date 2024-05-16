@@ -18,6 +18,20 @@ public static partial class HtmlCanvasControl
     /// <summary>
     /// The HTML canvas tag
     /// </summary>
+    public static IHtmlNode HtmlCanvas(this HtmlBuilder b, Action<AttributesBuilder<HtmlCanvas>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("canvas", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML canvas tag
+    /// </summary>
+    public static IHtmlNode HtmlCanvas(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("canvas", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML canvas tag
+    /// </summary>
     public static Var<IVNode> HtmlCanvas(this LayoutBuilder b, Action<PropsBuilder<HtmlCanvas>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("canvas", buildProps, children);

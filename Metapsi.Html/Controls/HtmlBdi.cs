@@ -18,6 +18,20 @@ public static partial class HtmlBdiControl
     /// <summary>
     /// The HTML bdi tag
     /// </summary>
+    public static IHtmlNode HtmlBdi(this HtmlBuilder b, Action<AttributesBuilder<HtmlBdi>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("bdi", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML bdi tag
+    /// </summary>
+    public static IHtmlNode HtmlBdi(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("bdi", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML bdi tag
+    /// </summary>
     public static Var<IVNode> HtmlBdi(this LayoutBuilder b, Action<PropsBuilder<HtmlBdi>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("bdi", buildProps, children);

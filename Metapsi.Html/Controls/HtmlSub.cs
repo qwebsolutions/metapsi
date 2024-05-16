@@ -18,6 +18,20 @@ public static partial class HtmlSubControl
     /// <summary>
     /// The HTML sub tag
     /// </summary>
+    public static IHtmlNode HtmlSub(this HtmlBuilder b, Action<AttributesBuilder<HtmlSub>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sub", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML sub tag
+    /// </summary>
+    public static IHtmlNode HtmlSub(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sub", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML sub tag
+    /// </summary>
     public static Var<IVNode> HtmlSub(this LayoutBuilder b, Action<PropsBuilder<HtmlSub>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("sub", buildProps, children);

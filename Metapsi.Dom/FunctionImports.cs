@@ -95,6 +95,11 @@ namespace Metapsi.Dom
             return b.CallDomFunction<DomElement>(nameof(GetElementById), id);
         }
 
+        public static Var<DomElement> GetElementById(this SyntaxBuilder b, string id)
+        {
+            return b.GetElementById(b.Const(id));
+        }
+
         public static Var<DomElement> CreateElement(this SyntaxBuilder b, Var<string> tag)
         {
             return b.CallDomFunction<DomElement>(nameof(CreateElement), tag);

@@ -18,6 +18,20 @@ public static partial class HtmlThControl
     /// <summary>
     /// The HTML th tag
     /// </summary>
+    public static IHtmlNode HtmlTh(this HtmlBuilder b, Action<AttributesBuilder<HtmlTh>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("th", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML th tag
+    /// </summary>
+    public static IHtmlNode HtmlTh(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("th", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML th tag
+    /// </summary>
     public static Var<IVNode> HtmlTh(this LayoutBuilder b, Action<PropsBuilder<HtmlTh>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("th", buildProps, children);

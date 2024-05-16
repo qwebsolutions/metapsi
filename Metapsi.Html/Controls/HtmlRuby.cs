@@ -18,6 +18,20 @@ public static partial class HtmlRubyControl
     /// <summary>
     /// The HTML ruby tag
     /// </summary>
+    public static IHtmlNode HtmlRuby(this HtmlBuilder b, Action<AttributesBuilder<HtmlRuby>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ruby", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML ruby tag
+    /// </summary>
+    public static IHtmlNode HtmlRuby(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ruby", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML ruby tag
+    /// </summary>
     public static Var<IVNode> HtmlRuby(this LayoutBuilder b, Action<PropsBuilder<HtmlRuby>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("ruby", buildProps, children);

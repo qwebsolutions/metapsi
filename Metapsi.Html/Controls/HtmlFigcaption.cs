@@ -18,6 +18,20 @@ public static partial class HtmlFigcaptionControl
     /// <summary>
     /// The HTML figcaption tag
     /// </summary>
+    public static IHtmlNode HtmlFigcaption(this HtmlBuilder b, Action<AttributesBuilder<HtmlFigcaption>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("figcaption", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML figcaption tag
+    /// </summary>
+    public static IHtmlNode HtmlFigcaption(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("figcaption", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML figcaption tag
+    /// </summary>
     public static Var<IVNode> HtmlFigcaption(this LayoutBuilder b, Action<PropsBuilder<HtmlFigcaption>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("figcaption", buildProps, children);

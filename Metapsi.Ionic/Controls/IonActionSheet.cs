@@ -12,207 +12,6 @@ namespace Metapsi.Ionic;
 public partial class IonActionSheet : IonComponent
 {
     public IonActionSheet() : base("ion-action-sheet") { }
-    /// <summary>
-    /// If `true`, the action sheet will animate.
-    /// </summary>
-    public bool animated
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("animated");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("animated", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the action sheet will be dismissed when the backdrop is clicked.
-    /// </summary>
-    public bool backdropDismiss
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("backdropDismiss");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("backdropDismiss", value.ToString());
-        }
-    }
-
-
-    /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
-    /// </summary>
-    public string cssClass
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("cssClass");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("cssClass", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Animation to use when the action sheet is presented.
-    /// </summary>
-    public System.Func<object,object,Animation> enterAnimation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("enterAnimation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("enterAnimation", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Title for the action sheet.
-    /// </summary>
-    public string header
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("header");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("header", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Additional attributes to pass to the action sheet.
-    /// </summary>
-    public object htmlAttributes
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("htmlAttributes");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("htmlAttributes", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the action sheet will open. If `false`, the action sheet will close. Use this if you need finer grained control over presentation, otherwise just use the actionSheetController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the action sheet dismisses. You will need to do that in your code.
-    /// </summary>
-    public bool isOpen
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("isOpen");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("isOpen", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-    /// </summary>
-    public bool keyboardClose
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("keyboardClose");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("keyboardClose", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Animation to use when the action sheet is dismissed.
-    /// </summary>
-    public System.Func<object,object,Animation> leaveAnimation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<object,object,Animation>>("leaveAnimation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("leaveAnimation", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The mode determines which platform styles to use.
-    /// </summary>
-    public string mode
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Subtitle for the action sheet.
-    /// </summary>
-    public string subHeader
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("subHeader");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("subHeader", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// If `true`, the action sheet will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
-    /// </summary>
-    public bool translucent
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("translucent");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("translucent", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// An ID corresponding to the trigger element that causes the action sheet to open when clicked.
-    /// </summary>
-    public string trigger
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("trigger");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("trigger", value.ToString());
-        }
-    }
-
     public static class Method
     {
         /// <summary> 
@@ -245,6 +44,149 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// 
     /// </summary>
+    public static IHtmlNode IonActionSheet(this HtmlBuilder b, Action<AttributesBuilder<IonActionSheet>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-action-sheet", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonActionSheet(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-action-sheet", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// If `true`, the action sheet will animate.
+    /// </summary>
+    public static void SetAnimated(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("animated", "");
+    }
+    /// <summary>
+    /// If `true`, the action sheet will animate.
+    /// </summary>
+    public static void SetAnimated(this AttributesBuilder<IonActionSheet> b, bool value)
+    {
+        if (value) b.SetAttribute("animated", "");
+    }
+
+    /// <summary>
+    /// If `true`, the action sheet will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("backdrop-dismiss", "");
+    }
+    /// <summary>
+    /// If `true`, the action sheet will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss(this AttributesBuilder<IonActionSheet> b, bool value)
+    {
+        if (value) b.SetAttribute("backdrop-dismiss", "");
+    }
+
+    /// <summary>
+    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// </summary>
+    public static void SetCssClass(this AttributesBuilder<IonActionSheet> b, string value)
+    {
+        b.SetAttribute("css-class", value);
+    }
+
+    /// <summary>
+    /// Title for the action sheet.
+    /// </summary>
+    public static void SetHeader(this AttributesBuilder<IonActionSheet> b, string value)
+    {
+        b.SetAttribute("header", value);
+    }
+
+    /// <summary>
+    /// If `true`, the action sheet will open. If `false`, the action sheet will close. Use this if you need finer grained control over presentation, otherwise just use the actionSheetController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the action sheet dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("is-open", "");
+    }
+    /// <summary>
+    /// If `true`, the action sheet will open. If `false`, the action sheet will close. Use this if you need finer grained control over presentation, otherwise just use the actionSheetController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the action sheet dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen(this AttributesBuilder<IonActionSheet> b, bool value)
+    {
+        if (value) b.SetAttribute("is-open", "");
+    }
+
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("keyboard-close", "");
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose(this AttributesBuilder<IonActionSheet> b, bool value)
+    {
+        if (value) b.SetAttribute("keyboard-close", "");
+    }
+
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetMode(this AttributesBuilder<IonActionSheet> b, string value)
+    {
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("mode", "md");
+    }
+
+    /// <summary>
+    /// Subtitle for the action sheet.
+    /// </summary>
+    public static void SetSubHeader(this AttributesBuilder<IonActionSheet> b, string value)
+    {
+        b.SetAttribute("sub-header", value);
+    }
+
+    /// <summary>
+    /// If `true`, the action sheet will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent(this AttributesBuilder<IonActionSheet> b)
+    {
+        b.SetAttribute("translucent", "");
+    }
+    /// <summary>
+    /// If `true`, the action sheet will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent(this AttributesBuilder<IonActionSheet> b, bool value)
+    {
+        if (value) b.SetAttribute("translucent", "");
+    }
+
+    /// <summary>
+    /// An ID corresponding to the trigger element that causes the action sheet to open when clicked.
+    /// </summary>
+    public static void SetTrigger(this AttributesBuilder<IonActionSheet> b, string value)
+    {
+        b.SetAttribute("trigger", value);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static Var<IVNode> IonActionSheet(this LayoutBuilder b, Action<PropsBuilder<IonActionSheet>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-action-sheet", buildProps, children);
@@ -257,9 +199,23 @@ public static partial class IonActionSheetControl
         return b.IonicNode("ion-action-sheet", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonActionSheet(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-action-sheet", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonActionSheet(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-action-sheet", children);
+    }
+    /// <summary>
     /// If `true`, the action sheet will animate.
     /// </summary>
-    public static void SetAnimated(this PropsBuilder<IonActionSheet> b)
+    public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
@@ -267,7 +223,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// If `true`, the action sheet will be dismissed when the backdrop is clicked.
     /// </summary>
-    public static void SetBackdropDismiss(this PropsBuilder<IonActionSheet> b)
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
     }
@@ -275,28 +231,28 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons(this PropsBuilder<IonActionSheet> b, Var<List<string>> value)
+    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), value);
     }
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons(this PropsBuilder<IonActionSheet> b, List<string> value)
+    public static void SetButtons<T>(this PropsBuilder<T> b, List<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), b.Const(value));
     }
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons(this PropsBuilder<IonActionSheet> b, Var<List<ActionSheetButton>> value)
+    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<ActionSheetButton>> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<ActionSheetButton>>("buttons"), value);
     }
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons(this PropsBuilder<IonActionSheet> b, List<ActionSheetButton> value)
+    public static void SetButtons<T>(this PropsBuilder<T> b, List<ActionSheetButton> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<ActionSheetButton>>("buttons"), b.Const(value));
     }
@@ -304,28 +260,28 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass(this PropsBuilder<IonActionSheet> b, Var<string> value)
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), value);
     }
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass(this PropsBuilder<IonActionSheet> b, string value)
+    public static void SetCssClass<T>(this PropsBuilder<T> b, string value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(value));
     }
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass(this PropsBuilder<IonActionSheet> b, Var<List<string>> value)
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), value);
     }
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass(this PropsBuilder<IonActionSheet> b, List<string> value)
+    public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(value));
     }
@@ -333,14 +289,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Animation to use when the action sheet is presented.
     /// </summary>
-    public static void SetEnterAnimation(this PropsBuilder<IonActionSheet> b, Var<Func<object,object,Animation>> f)
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), f);
     }
     /// <summary>
     /// Animation to use when the action sheet is presented.
     /// </summary>
-    public static void SetEnterAnimation(this PropsBuilder<IonActionSheet> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f)
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), b.Def(f));
     }
@@ -348,14 +304,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Title for the action sheet.
     /// </summary>
-    public static void SetHeader(this PropsBuilder<IonActionSheet> b, Var<string> value)
+    public static void SetHeader<T>(this PropsBuilder<T> b, Var<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("header"), value);
     }
     /// <summary>
     /// Title for the action sheet.
     /// </summary>
-    public static void SetHeader(this PropsBuilder<IonActionSheet> b, string value)
+    public static void SetHeader<T>(this PropsBuilder<T> b, string value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("header"), b.Const(value));
     }
@@ -363,22 +319,22 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Additional attributes to pass to the action sheet.
     /// </summary>
-    public static void SetHtmlAttributes(this PropsBuilder<IonActionSheet> b, Var<object> value)
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonActionSheet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("htmlAttributes"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), value);
     }
     /// <summary>
     /// Additional attributes to pass to the action sheet.
     /// </summary>
-    public static void SetHtmlAttributes(this PropsBuilder<IonActionSheet> b, object value)
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonActionSheet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("htmlAttributes"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(value));
     }
 
     /// <summary>
     /// If `true`, the action sheet will open. If `false`, the action sheet will close. Use this if you need finer grained control over presentation, otherwise just use the actionSheetController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the action sheet dismisses. You will need to do that in your code.
     /// </summary>
-    public static void SetIsOpen(this PropsBuilder<IonActionSheet> b)
+    public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
     }
@@ -386,7 +342,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
     /// </summary>
-    public static void SetKeyboardClose(this PropsBuilder<IonActionSheet> b)
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
     }
@@ -394,14 +350,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Animation to use when the action sheet is dismissed.
     /// </summary>
-    public static void SetLeaveAnimation(this PropsBuilder<IonActionSheet> b, Var<Func<object,object,Animation>> f)
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), f);
     }
     /// <summary>
     /// Animation to use when the action sheet is dismissed.
     /// </summary>
-    public static void SetLeaveAnimation(this PropsBuilder<IonActionSheet> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f)
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), b.Def(f));
     }
@@ -409,14 +365,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonActionSheet> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonActionSheet> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -424,14 +380,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Subtitle for the action sheet.
     /// </summary>
-    public static void SetSubHeader(this PropsBuilder<IonActionSheet> b, Var<string> value)
+    public static void SetSubHeader<T>(this PropsBuilder<T> b, Var<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), value);
     }
     /// <summary>
     /// Subtitle for the action sheet.
     /// </summary>
-    public static void SetSubHeader(this PropsBuilder<IonActionSheet> b, string value)
+    public static void SetSubHeader<T>(this PropsBuilder<T> b, string value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), b.Const(value));
     }
@@ -439,7 +395,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// If `true`, the action sheet will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
     /// </summary>
-    public static void SetTranslucent(this PropsBuilder<IonActionSheet> b)
+    public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
     }
@@ -447,14 +403,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// An ID corresponding to the trigger element that causes the action sheet to open when clicked.
     /// </summary>
-    public static void SetTrigger(this PropsBuilder<IonActionSheet> b, Var<string> value)
+    public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), value);
     }
     /// <summary>
     /// An ID corresponding to the trigger element that causes the action sheet to open when clicked.
     /// </summary>
-    public static void SetTrigger(this PropsBuilder<IonActionSheet> b, string value)
+    public static void SetTrigger<T>(this PropsBuilder<T> b, string value) where T: IonActionSheet
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(value));
     }
@@ -462,14 +418,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted after the action sheet has dismissed. Shorthand for ionActionSheetDidDismiss.
     /// </summary>
-    public static void OnDidDismiss<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
+    public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the action sheet has dismissed. Shorthand for ionActionSheetDidDismiss.
     /// </summary>
-    public static void OnDidDismiss<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
+    public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("ondidDismiss", b.MakeAction(action), "detail");
     }
@@ -477,14 +433,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted after the action sheet has presented. Shorthand for ionActionSheetWillDismiss.
     /// </summary>
-    public static void OnDidPresent<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel>> action)
+    public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
     /// Emitted after the action sheet has presented. Shorthand for ionActionSheetWillDismiss.
     /// </summary>
-    public static void OnDidPresent<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("ondidPresent", b.MakeAction(action));
     }
@@ -492,14 +448,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted after the action sheet has dismissed.
     /// </summary>
-    public static void OnIonActionSheetDidDismiss<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
+    public static void OnIonActionSheetDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetDidDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted after the action sheet has dismissed.
     /// </summary>
-    public static void OnIonActionSheetDidDismiss<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
+    public static void OnIonActionSheetDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetDidDismiss", b.MakeAction(action), "detail");
     }
@@ -507,14 +463,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted after the action sheet has presented.
     /// </summary>
-    public static void OnIonActionSheetDidPresent<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonActionSheetDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetDidPresent", action);
     }
     /// <summary>
     /// Emitted after the action sheet has presented.
     /// </summary>
-    public static void OnIonActionSheetDidPresent<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonActionSheetDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetDidPresent", b.MakeAction(action));
     }
@@ -522,14 +478,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted before the action sheet has dismissed.
     /// </summary>
-    public static void OnIonActionSheetWillDismiss<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
+    public static void OnIonActionSheetWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetWillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the action sheet has dismissed.
     /// </summary>
-    public static void OnIonActionSheetWillDismiss<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
+    public static void OnIonActionSheetWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetWillDismiss", b.MakeAction(action), "detail");
     }
@@ -537,14 +493,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted before the action sheet has presented.
     /// </summary>
-    public static void OnIonActionSheetWillPresent<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel>> action)
+    public static void OnIonActionSheetWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetWillPresent", action);
     }
     /// <summary>
     /// Emitted before the action sheet has presented.
     /// </summary>
-    public static void OnIonActionSheetWillPresent<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnIonActionSheetWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onionActionSheetWillPresent", b.MakeAction(action));
     }
@@ -552,14 +508,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted before the action sheet has dismissed. Shorthand for ionActionSheetWillDismiss.
     /// </summary>
-    public static void OnWillDismiss<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action)
+    public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
     /// Emitted before the action sheet has dismissed. Shorthand for ionActionSheetWillDismiss.
     /// </summary>
-    public static void OnWillDismiss<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action)
+    public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onwillDismiss", b.MakeAction(action), "detail");
     }
@@ -567,14 +523,14 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Emitted before the action sheet has presented. Shorthand for ionActionSheetWillPresent.
     /// </summary>
-    public static void OnWillPresent<TModel>(this PropsBuilder<IonActionSheet> b, Var<HyperType.Action<TModel>> action)
+    public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
     /// Emitted before the action sheet has presented. Shorthand for ionActionSheetWillPresent.
     /// </summary>
-    public static void OnWillPresent<TModel>(this PropsBuilder<IonActionSheet> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonActionSheet
     {
         b.OnEventAction("onwillPresent", b.MakeAction(action));
     }

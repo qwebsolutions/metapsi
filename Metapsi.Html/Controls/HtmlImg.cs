@@ -18,6 +18,20 @@ public static partial class HtmlImgControl
     /// <summary>
     /// The HTML img tag
     /// </summary>
+    public static IHtmlNode HtmlImg(this HtmlBuilder b, Action<AttributesBuilder<HtmlImg>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("img", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML img tag
+    /// </summary>
+    public static IHtmlNode HtmlImg(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("img", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML img tag
+    /// </summary>
     public static Var<IVNode> HtmlImg(this LayoutBuilder b, Action<PropsBuilder<HtmlImg>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("img", buildProps, children);

@@ -10,18 +10,13 @@ namespace Metapsi.Sqlite
 {
     public static class DbAccess
     {
-        public static IEnumerable<string> FieldNames(object o)
-        {
-            return o.GetType().GetProperties().Where(x => Db.SupportedScalarTypes.Contains(x.PropertyType)).Select(x => x.Name);
-        }
-
         public static string GetInsertStatement(object o)
         {
             string tableName = o.GetType().Name;
-            IEnumerable<string> fieldNames = FieldNames(o);
-            string joinedFields = string.Join(", ", fieldNames);
+            IEnumerable<string> fieldNames = Ddl.FieldNames(o);
+            string joinedFields = string.Join(", ", fieldNames.Select(x => Ddl.QuoteIdentifier(x)));
             string joinedParameters = string.Join(", ", fieldNames.Select(x => $"@{x}"));
-            string insertStatement = $"insert into {tableName} ({joinedFields}) values ({joinedParameters})";
+            string insertStatement = $"insert into \"{tableName}\" ({joinedFields}) values ({joinedParameters})";
             return insertStatement;
         }
 
@@ -60,7 +55,7 @@ namespace Metapsi.Sqlite
         {
             string tableName = o.GetType().Name;
 
-            transaction.Connection.Execute($"delete from {tableName} where Id = @Id", o, transaction);
+            transaction.Connection.Execute($"delete from {Ddl.QuoteIdentifier(tableName)} where Id = @Id", o, transaction);
             string insertStatement = GetInsertStatement(o);
             transaction.Connection.Execute(insertStatement, o, transaction);
         }
@@ -79,7 +74,7 @@ namespace Metapsi.Sqlite
             string tableName = typeof(T).Name;
             if (hashSet.Count == 1)
             {
-                transaction.Connection.Execute($"delete from {tableName} where {parentProperty} = @Id",
+                transaction.Connection.Execute($"delete from {Ddl.QuoteIdentifier(tableName)} where {Ddl.QuoteIdentifier(parentProperty)} = @Id",
                     new
                     {
                         Id = hashSet.Single().ToString()
@@ -88,7 +83,7 @@ namespace Metapsi.Sqlite
             }
 
             IEnumerable<string> fieldNames = typeof(T).GetProperties().Select(x => x.Name);
-            string joinedFields = string.Join(", ", fieldNames);
+            string joinedFields = string.Join(", ", fieldNames.Select(x=>Ddl.QuoteIdentifier(x)));
             string joinedParameters = string.Join(", ", fieldNames.Select(x => $"@{x}"));
             string insertStatement = $"insert into {tableName} ({joinedFields}) values ({joinedParameters})";
 
@@ -101,7 +96,7 @@ namespace Metapsi.Sqlite
         public static void Delete(object o, SQLiteTransaction transaction)
         {
             string tableName = o.GetType().Name;
-            transaction.Connection.Execute($"delete from {tableName} where Id = @Id", o, transaction);
+            transaction.Connection.Execute($"delete from {Ddl.QuoteIdentifier(tableName)} where Id = @Id", o, transaction);
         }
 
         public static void DeleteCollection(
@@ -111,7 +106,7 @@ namespace Metapsi.Sqlite
             SQLiteTransaction transaction)
         {
             transaction.Connection.Execute(
-                $"delete from {itemType.Name} where {parentProperty} = @ParentId",
+                $"delete from {Ddl.QuoteIdentifier(itemType.Name)} where {Ddl.QuoteIdentifier(parentProperty)} = @ParentId",
                 new
                 {
                     ParentId = parentPropertyValue

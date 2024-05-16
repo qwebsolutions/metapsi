@@ -18,6 +18,20 @@ public static partial class HtmlTrControl
     /// <summary>
     /// The HTML tr tag
     /// </summary>
+    public static IHtmlNode HtmlTr(this HtmlBuilder b, Action<AttributesBuilder<HtmlTr>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("tr", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML tr tag
+    /// </summary>
+    public static IHtmlNode HtmlTr(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("tr", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML tr tag
+    /// </summary>
     public static Var<IVNode> HtmlTr(this LayoutBuilder b, Action<PropsBuilder<HtmlTr>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("tr", buildProps, children);

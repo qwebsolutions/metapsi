@@ -6,7 +6,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+		<EmbeddedResource Include="embedded\Metapsi.Html.js" LogicalName="Metapsi.Html.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 	</ItemGroup>
 
 </Project>

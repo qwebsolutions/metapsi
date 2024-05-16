@@ -18,6 +18,20 @@ public static partial class HtmlSourceControl
     /// <summary>
     /// The HTML source tag
     /// </summary>
+    public static IHtmlNode HtmlSource(this HtmlBuilder b, Action<AttributesBuilder<HtmlSource>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("source", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML source tag
+    /// </summary>
+    public static IHtmlNode HtmlSource(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("source", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML source tag
+    /// </summary>
     public static Var<IVNode> HtmlSource(this LayoutBuilder b, Action<PropsBuilder<HtmlSource>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("source", buildProps, children);

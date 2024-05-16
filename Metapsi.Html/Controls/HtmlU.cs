@@ -18,6 +18,20 @@ public static partial class HtmlUControl
     /// <summary>
     /// The HTML u tag
     /// </summary>
+    public static IHtmlNode HtmlU(this HtmlBuilder b, Action<AttributesBuilder<HtmlU>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("u", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML u tag
+    /// </summary>
+    public static IHtmlNode HtmlU(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("u", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML u tag
+    /// </summary>
     public static Var<IVNode> HtmlU(this LayoutBuilder b, Action<PropsBuilder<HtmlU>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("u", buildProps, children);

@@ -18,6 +18,20 @@ public static partial class HtmlPControl
     /// <summary>
     /// The HTML p tag
     /// </summary>
+    public static IHtmlNode HtmlP(this HtmlBuilder b, Action<AttributesBuilder<HtmlP>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("p", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML p tag
+    /// </summary>
+    public static IHtmlNode HtmlP(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("p", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML p tag
+    /// </summary>
     public static Var<IVNode> HtmlP(this LayoutBuilder b, Action<PropsBuilder<HtmlP>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("p", buildProps, children);

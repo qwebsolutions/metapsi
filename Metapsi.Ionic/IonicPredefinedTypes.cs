@@ -33,3 +33,18 @@ public class PickerColumnOption
     /// </summary>
     public string ariaLabel { get; set; }
 }
+
+public class DateTimeFormatOptions
+{
+
+}
+
+public class PickerColumnValue
+{
+
+}
+
+public class HTMLIonPickerColumnElement
+{
+
+}

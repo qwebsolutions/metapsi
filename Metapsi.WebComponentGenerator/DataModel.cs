@@ -146,6 +146,13 @@ public class CSharpConverter
                 }
             case TypeScriptFunctionParameter parameter:
                 return parameter.Type.ToCSharpType(converter);
+
+            case TypeScriptLiteral literal:
+                {
+                    if (literal.Type == "string")
+                        return "string";
+                }
+                break;
         }
 
         throw new NotImplementedException();

@@ -18,6 +18,20 @@ public static partial class HtmlTextareaControl
     /// <summary>
     /// The HTML textarea tag
     /// </summary>
+    public static IHtmlNode HtmlTextarea(this HtmlBuilder b, Action<AttributesBuilder<HtmlTextarea>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("textarea", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML textarea tag
+    /// </summary>
+    public static IHtmlNode HtmlTextarea(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("textarea", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML textarea tag
+    /// </summary>
     public static Var<IVNode> HtmlTextarea(this LayoutBuilder b, Action<PropsBuilder<HtmlTextarea>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("textarea", buildProps, children);

@@ -18,6 +18,20 @@ public static partial class HtmlSupControl
     /// <summary>
     /// The HTML sup tag
     /// </summary>
+    public static IHtmlNode HtmlSup(this HtmlBuilder b, Action<AttributesBuilder<HtmlSup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sup", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML sup tag
+    /// </summary>
+    public static IHtmlNode HtmlSup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sup", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML sup tag
+    /// </summary>
     public static Var<IVNode> HtmlSup(this LayoutBuilder b, Action<PropsBuilder<HtmlSup>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("sup", buildProps, children);

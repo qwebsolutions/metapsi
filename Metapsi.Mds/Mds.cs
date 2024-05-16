@@ -427,18 +427,19 @@ namespace Metapsi
 
         public static void CreateServiceLogDbFile(string serviceLogDbFile)
         {
-            if (!string.IsNullOrEmpty(serviceLogDbFile))
+            for (int i = 0; i <= 5; i++)
             {
-                if (!System.IO.File.Exists(serviceLogDbFile))
+                try
                 {
                     string folderPath = System.IO.Path.GetDirectoryName(serviceLogDbFile);
                     System.IO.Directory.CreateDirectory(folderPath);
 
-                    using (var connection = new SQLiteConnection($"Data Source = {serviceLogDbFile}"))
+                    using (var connection = new SQLiteConnection($"Data Source = {serviceLogDbFile};"))
                     {
                         connection.Open();
+                        connection.Execute("PRAGMA journal_mode=WAL;");
 
-                        connection.Execute(@"CREATE TABLE ""Log"" (
+                        connection.Execute(@"CREATE TABLE IF NOT EXISTS ""Log"" (
                                 ""Id"" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                 ""ProcessStartTimestamp"" TEXT NOT NULL,
                                 ""LogTimestamp"" TEXT NOT NULL,
@@ -448,30 +449,57 @@ namespace Metapsi
                                 ""Processed"" INTEGER )");
                         Console.WriteLine($"Service log db created {serviceLogDbFile}");
                     }
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("CreateServiceLogDbFile:\n" + ex);
+                    string folderPath = System.IO.Path.GetDirectoryName(serviceLogDbFile);
+                    System.IO.Directory.CreateDirectory(folderPath);
+                    System.IO.File.AppendAllText(System.IO.Path.Combine(folderPath, "log.txt"), "CreateServiceLogDbFile:\n" + ex);
+                    Task.Delay(300).Wait();
                 }
             }
         }
 
         public static void CreateServiceCommandDbFile(string serviceCommandDbFile)
         {
+
             if (!string.IsNullOrEmpty(serviceCommandDbFile))
             {
                 if (!System.IO.File.Exists(serviceCommandDbFile))
                 {
-                    string folderPath = System.IO.Path.GetDirectoryName(serviceCommandDbFile);
-                    System.IO.Directory.CreateDirectory(folderPath);
-
-                    using (var connection = new SQLiteConnection($"Data Source = {serviceCommandDbFile}"))
+                    for (int i = 0; i <= 5; i++)
                     {
-                        connection.Open();
+                        try
+                        {
 
-                        connection.Execute(@"CREATE TABLE ""Command"" (
+                            string folderPath = System.IO.Path.GetDirectoryName(serviceCommandDbFile);
+                            System.IO.Directory.CreateDirectory(folderPath);
+
+                            using (var connection = new SQLiteConnection($"Data Source = {serviceCommandDbFile}"))
+                            {
+                                connection.Open();
+                                connection.Execute("PRAGMA journal_mode=WAL;");
+
+                                connection.Execute(@"CREATE TABLE IF NOT EXISTS ""Command"" (
                                 ""Id""    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                 ""CommandTimestamp"" TEXT,
                                 ""CommandDataType""  TEXT,
                                 ""CommandData"" TEXT,
                                 ""Processed"" INTEGER)");
-                        Console.WriteLine($"Service command db created {serviceCommandDbFile}");
+                                Console.WriteLine($"Service command db created {serviceCommandDbFile}");
+                            }
+                            continue;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.Error.WriteLine("CreateServiceCommandDbFile:\n" + ex);
+                            string folderPath = System.IO.Path.GetDirectoryName(serviceCommandDbFile);
+                            System.IO.Directory.CreateDirectory(folderPath);
+                            System.IO.File.AppendAllText(System.IO.Path.Combine(folderPath, "log.txt"), "CreateServiceCommandDbFile:\n" + ex);
+                            Task.Delay(300).Wait();
+                        }
                     }
                 }
             }

@@ -18,6 +18,20 @@ public static partial class HtmlOlControl
     /// <summary>
     /// The HTML ol tag
     /// </summary>
+    public static IHtmlNode HtmlOl(this HtmlBuilder b, Action<AttributesBuilder<HtmlOl>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ol", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML ol tag
+    /// </summary>
+    public static IHtmlNode HtmlOl(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ol", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML ol tag
+    /// </summary>
     public static Var<IVNode> HtmlOl(this LayoutBuilder b, Action<PropsBuilder<HtmlOl>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("ol", buildProps, children);

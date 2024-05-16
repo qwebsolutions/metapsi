@@ -18,6 +18,20 @@ public static partial class HtmlInputControl
     /// <summary>
     /// The HTML input tag
     /// </summary>
+    public static IHtmlNode HtmlInput(this HtmlBuilder b, Action<AttributesBuilder<HtmlInput>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("input", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML input tag
+    /// </summary>
+    public static IHtmlNode HtmlInput(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("input", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML input tag
+    /// </summary>
     public static Var<IVNode> HtmlInput(this LayoutBuilder b, Action<PropsBuilder<HtmlInput>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("input", buildProps, children);

@@ -18,6 +18,20 @@ public static partial class HtmlParamControl
     /// <summary>
     /// The HTML param tag
     /// </summary>
+    public static IHtmlNode HtmlParam(this HtmlBuilder b, Action<AttributesBuilder<HtmlParam>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("param", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML param tag
+    /// </summary>
+    public static IHtmlNode HtmlParam(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("param", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML param tag
+    /// </summary>
     public static Var<IVNode> HtmlParam(this LayoutBuilder b, Action<PropsBuilder<HtmlParam>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("param", buildProps, children);

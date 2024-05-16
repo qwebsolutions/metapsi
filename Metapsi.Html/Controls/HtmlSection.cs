@@ -18,6 +18,20 @@ public static partial class HtmlSectionControl
     /// <summary>
     /// The HTML section tag
     /// </summary>
+    public static IHtmlNode HtmlSection(this HtmlBuilder b, Action<AttributesBuilder<HtmlSection>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("section", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML section tag
+    /// </summary>
+    public static IHtmlNode HtmlSection(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("section", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML section tag
+    /// </summary>
     public static Var<IVNode> HtmlSection(this LayoutBuilder b, Action<PropsBuilder<HtmlSection>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("section", buildProps, children);

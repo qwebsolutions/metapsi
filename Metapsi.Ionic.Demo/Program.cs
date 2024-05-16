@@ -21,6 +21,7 @@ public class Parameters
     public int Port { get; set; }
 }
 
+
 public class Program
 {
     public static async Task Main()
@@ -60,6 +61,11 @@ public class Program
         return top;
     }
 
+    public static void InitHtml(HtmlBuilder b, string title)
+    {
+        b.HeadAppend(b.HtmlTitle(b.Text(title)));
+    }
+
     public static async Task SetupService(Mds.ServiceSetup serviceSetup)
     {
         var parameters = serviceSetup.ParametersAs<Parameters>();
@@ -70,8 +76,11 @@ public class Program
         parameters.Port,
         "");
 
-        webServerRefs.WebApplication.RegisterGetHandler<HomeHandler, Home>();
-        webServerRefs.RegisterPageBuilder<HomeRenderer, HomeModel>();
+        //webServerRefs.WebApplication.RegisterGetHandler<HomeHandler, Home>();
+        //webServerRefs.RegisterPageBuilder<HomeModel>(model =>
+        //{
+        //    return htmlDocument.ToHtml();
+        //});
 
         webServerRefs.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Home>())).AllowAnonymous().ExcludeFromDescription();
         webServerRefs.WebApplication.MapGet("/query", (string q) =>
@@ -87,6 +96,97 @@ public class Program
             },
             WebServer.Authorization.Public,
             WebServer.SwaggerTryout.Block);
+    }
+}
+
+public static class CheckboxTests
+{
+    public static Var<IVNode> ToDoApp(this LayoutBuilder b, Var<HomeModel> model)
+    {
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col gap-6 p-4");
+            },
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("flex flex-row gap-6 p-4");
+                }
+                //b.HtmlSpanText("My TO DO list"),
+                //b.HtmlButton(
+                //    b =>
+                //    {
+                //        b.SetClass("rounded border border-gray-200 p-2");
+                //        b.OnClickAction((SyntaxBuilder b, Var<HomeModel> model) =>
+                //        {
+                //            var newToDo = b.NewObj<HomeModel.ToDoItem>();
+                //            //b.Set(newToDo, x => x.Id, b.NewId());
+                //            b.Push(b.Get(model, x => x.ToDoList), newToDo);
+                //            return b.Clone(model);
+                //        });
+                //    },
+                //    b.Text("+"))
+                   ),
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("flex flex-col gap-2 p-4");
+                },
+                b.Map(
+                    b.Get(model, x => x.ToDoList.OrderBy(x => x.Done).ToList()),
+                    (b, toDo) =>
+                    {
+                        var id = b.Get(toDo, x => x.Id);
+                        var done = b.Get(toDo, x => x.Done);
+                        b.Log("done is", done);
+
+                        var getToDo = (SyntaxBuilder b, Var<HomeModel> model) =>
+                        {
+                            //b.Log("searched id", id);
+                            var found = b.Get(model, id, (model, id) => model.ToDoList.Single(x => x.Id == id));
+                            //b.Log("found item", found);
+                            return found;
+                        };
+
+                        return b.HtmlDiv(
+                            b =>
+                            {
+                                b.SetClass("flex flex-row gap-2");
+                            },
+                            b.HtmlCheckbox(
+                                b =>
+                                {
+                                    //b.SetDynamic(b.Props, DynamicProperty.String("key"), b.Concat(b.Const("checkbox-"), b.AsString(id)));
+                                    b.SetId(b.Concat(b.Const("checkbox-"), b.AsString(id)));
+                                    b.SetChecked(done);
+                                    b.OnClickAction((SyntaxBuilder b, Var<HomeModel> model, Var<DomEvent> eventArgs) =>
+                                    {
+                                        var target = b.Get(eventArgs, x => x.target);
+                                        b.Log(target);
+                                        var newValue = b.GetProperty<bool>(target, "checked");
+                                        b.Log("newValue", newValue);
+                                        b.Set(getToDo(b, model), x => x.Done, newValue);
+                                        var localToDo = b.Get(
+                                            model,
+                                            b.Get(toDo, x => x.Id),
+                                            (model, id) => model.ToDoList.Single(x => x.Id == id));
+                                        b.Set(localToDo, x => x.Done, newValue);
+                                        return b.Clone(model);
+                                    });
+                                    //b.BindTo(model, getToDo, x => x.Done);
+                                }),
+                            b.Optional(
+                                b.Const( true),
+                                b => b.HtmlSpanText(b.Get(toDo, x => x.Action))
+                                //b => b.HtmlInput(
+                                //    b =>
+                                //    {
+                                //        b.SetClass("rounded border border-gray-200 p-2");
+                                //        b.BindTo(model, getToDo, x => x.Action);
+                                //    }
+                                    ));
+                    })));
     }
 }
 
@@ -295,6 +395,11 @@ public class HomeRenderer : HyperPage<HomeModel>
 
     public override Var<IVNode> OnRender(LayoutBuilder b, Var<HomeModel> model)
     {
+        return b.ToDoApp(model);
+    }
+
+    public /*override*/ Var<IVNode> OnRenderIonic(LayoutBuilder b, Var<HomeModel> model)
+    {
         b.AddModuleStylesheet();
         StaticFiles.Add(typeof(HomeRenderer).Assembly, "DataSourceApi.js");
 
@@ -473,7 +578,7 @@ public class HomeRenderer : HyperPage<HomeModel>
                     b.OnIonChange((SyntaxBuilder b, Var<HomeModel> model, Var<DatetimeChangeEventDetail> selectedDate) =>
                     {
                         b.Log(selectedDate);
-                        b.Set(model, x => x.ContentText, b.Get(selectedDate, x => x.value));
+                        b.Set(model, x => x.ContentText, b.Get(selectedDate, x => x.value).As<string>());
                         return b.Clone(model);
                     });
                 })),
@@ -544,6 +649,21 @@ public class HomeRenderer : HyperPage<HomeModel>
 
 public class HomeModel
 {
+    public class ToDoItem
+    {
+        public string Id { get; set; }
+        public bool Done { get; set; }
+        public string Action { get; set; } = "";
+    }
+
+    public List<ToDoItem> ToDoList { get; set; } = System.Linq.Enumerable.Range(0, 5).Select(x =>
+        new ToDoItem()
+        {
+            Id = "action" + x,
+            Action = "action" + x,
+            Done = false
+        }).ToList();
+
     public string ContentText { get; set; } = "Text here";
     public List<string> ListItems { get; set; } = new()
     {

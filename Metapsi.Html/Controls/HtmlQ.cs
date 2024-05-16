@@ -18,6 +18,20 @@ public static partial class HtmlQControl
     /// <summary>
     /// The HTML q tag
     /// </summary>
+    public static IHtmlNode HtmlQ(this HtmlBuilder b, Action<AttributesBuilder<HtmlQ>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("q", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML q tag
+    /// </summary>
+    public static IHtmlNode HtmlQ(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("q", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML q tag
+    /// </summary>
     public static Var<IVNode> HtmlQ(this LayoutBuilder b, Action<PropsBuilder<HtmlQ>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("q", buildProps, children);

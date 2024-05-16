@@ -43,5 +43,10 @@ namespace Metapsi
         {
             return new PageResult<T>(model);
         }
+
+        public static IResult Model<T>(T model)
+        {
+            return new PageResult<T>(model);
+        }
     }
 }

@@ -18,6 +18,20 @@ public static partial class HtmlUlControl
     /// <summary>
     /// The HTML ul tag
     /// </summary>
+    public static IHtmlNode HtmlUl(this HtmlBuilder b, Action<AttributesBuilder<HtmlUl>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ul", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML ul tag
+    /// </summary>
+    public static IHtmlNode HtmlUl(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ul", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML ul tag
+    /// </summary>
     public static Var<IVNode> HtmlUl(this LayoutBuilder b, Action<PropsBuilder<HtmlUl>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("ul", buildProps, children);

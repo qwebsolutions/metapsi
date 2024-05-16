@@ -18,6 +18,20 @@ public static partial class HtmlAddressControl
     /// <summary>
     /// The HTML address tag
     /// </summary>
+    public static IHtmlNode HtmlAddress(this HtmlBuilder b, Action<AttributesBuilder<HtmlAddress>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("address", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML address tag
+    /// </summary>
+    public static IHtmlNode HtmlAddress(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("address", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML address tag
+    /// </summary>
     public static Var<IVNode> HtmlAddress(this LayoutBuilder b, Action<PropsBuilder<HtmlAddress>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("address", buildProps, children);

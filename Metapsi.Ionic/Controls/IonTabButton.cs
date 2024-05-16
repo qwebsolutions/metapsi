@@ -12,147 +12,166 @@ namespace Metapsi.Ionic;
 public partial class IonTabButton : IonComponent
 {
     public IonTabButton() : base("ion-tab-button") { }
+}
+
+public static partial class IonTabButtonControl
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonTabButton(this HtmlBuilder b, Action<AttributesBuilder<IonTabButton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tab-button", buildAttributes, children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IHtmlNode IonTabButton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ion-tab-button", new Dictionary<string, string>(), children);
+    }
     /// <summary>
     /// If `true`, the user cannot interact with the tab button.
     /// </summary>
-    public bool disabled
+    public static void SetDisabled(this AttributesBuilder<IonTabButton> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
+        b.SetAttribute("disabled", "");
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the tab button.
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<IonTabButton> b, bool value)
+    {
+        if (value) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
     /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
     /// </summary>
-    public string download
+    public static void SetDownload(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("download");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("download", value.ToString());
-        }
+        b.SetAttribute("download", value);
     }
 
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public string href
+    public static void SetHref(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("href");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("href", value.ToString());
-        }
+        b.SetAttribute("href", value);
     }
 
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public string layout
+    public static void SetLayout(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("layout");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("layout", value.ToString());
-        }
+        b.SetAttribute("layout", value);
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutIconBottom(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "icon-bottom");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutIconEnd(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "icon-end");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutIconHide(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "icon-hide");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutIconStart(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "icon-start");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutIconTop(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "icon-top");
+    }
+    /// <summary>
+    /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
+    /// </summary>
+    public static void SetLayoutLabelHide(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("layout", "label-hide");
     }
 
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public string mode
+    public static void SetMode(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("mode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("mode", value.ToString());
-        }
+        b.SetAttribute("mode", value);
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeIos(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("mode", "ios");
+    }
+    /// <summary>
+    /// The mode determines which platform styles to use.
+    /// </summary>
+    public static void SetModeMd(this AttributesBuilder<IonTabButton> b)
+    {
+        b.SetAttribute("mode", "md");
     }
 
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public string rel
+    public static void SetRel(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("rel");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("rel", value.ToString());
-        }
+        b.SetAttribute("rel", value);
     }
 
     /// <summary>
     /// The selected tab component
     /// </summary>
-    public bool selected
+    public static void SetSelected(this AttributesBuilder<IonTabButton> b)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("selected");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("selected", value.ToString());
-        }
+        b.SetAttribute("selected", "");
+    }
+    /// <summary>
+    /// The selected tab component
+    /// </summary>
+    public static void SetSelected(this AttributesBuilder<IonTabButton> b, bool value)
+    {
+        if (value) b.SetAttribute("selected", "");
     }
 
     /// <summary>
     /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
     /// </summary>
-    public string tab
+    public static void SetTab(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("tab");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("tab", value.ToString());
-        }
+        b.SetAttribute("tab", value);
     }
 
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public string target
+    public static void SetTarget(this AttributesBuilder<IonTabButton> b, string value)
     {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("target");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("target", value.ToString());
-        }
+        b.SetAttribute("target", value);
     }
 
-}
-
-public static partial class IonTabButtonControl
-{
     /// <summary>
     /// 
     /// </summary>
@@ -168,9 +187,23 @@ public static partial class IonTabButtonControl
         return b.IonicNode("ion-tab-button", buildProps, children);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTabButton(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.IonicNode("ion-tab-button", children);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Var<IVNode> IonTabButton(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.IonicNode("ion-tab-button", children);
+    }
+    /// <summary>
     /// If `true`, the user cannot interact with the tab button.
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<IonTabButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
@@ -178,14 +211,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
     /// </summary>
-    public static void SetDownload(this PropsBuilder<IonTabButton> b, Var<string> value)
+    public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("download"), value);
     }
     /// <summary>
     /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
     /// </summary>
-    public static void SetDownload(this PropsBuilder<IonTabButton> b, string value)
+    public static void SetDownload<T>(this PropsBuilder<T> b, string value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(value));
     }
@@ -193,14 +226,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public static void SetHref(this PropsBuilder<IonTabButton> b, Var<string> value)
+    public static void SetHref<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("href"), value);
     }
     /// <summary>
     /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     /// </summary>
-    public static void SetHref(this PropsBuilder<IonTabButton> b, string value)
+    public static void SetHref<T>(this PropsBuilder<T> b, string value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(value));
     }
@@ -208,42 +241,42 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutIconBottom(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutIconBottom<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-bottom"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutIconEnd(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutIconEnd<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-end"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutIconHide(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutIconHide<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-hide"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutIconStart(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutIconStart<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-start"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutIconTop(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutIconTop<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("icon-top"));
     }
     /// <summary>
     /// Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`.
     /// </summary>
-    public static void SetLayoutLabelHide(this PropsBuilder<IonTabButton> b)
+    public static void SetLayoutLabelHide<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("layout"), b.Const("label-hide"));
     }
@@ -251,14 +284,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeIos(this PropsBuilder<IonTabButton> b)
+    public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
     }
     /// <summary>
     /// The mode determines which platform styles to use.
     /// </summary>
-    public static void SetModeMd(this PropsBuilder<IonTabButton> b)
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
     }
@@ -266,14 +299,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public static void SetRel(this PropsBuilder<IonTabButton> b, Var<string> value)
+    public static void SetRel<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), value);
     }
     /// <summary>
     /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
     /// </summary>
-    public static void SetRel(this PropsBuilder<IonTabButton> b, string value)
+    public static void SetRel<T>(this PropsBuilder<T> b, string value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(value));
     }
@@ -281,7 +314,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// The selected tab component
     /// </summary>
-    public static void SetSelected(this PropsBuilder<IonTabButton> b)
+    public static void SetSelected<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("selected"), b.Const(true));
     }
@@ -289,14 +322,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
     /// </summary>
-    public static void SetTab(this PropsBuilder<IonTabButton> b, Var<string> value)
+    public static void SetTab<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), value);
     }
     /// <summary>
     /// A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them.
     /// </summary>
-    public static void SetTab(this PropsBuilder<IonTabButton> b, string value)
+    public static void SetTab<T>(this PropsBuilder<T> b, string value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), b.Const(value));
     }
@@ -304,14 +337,14 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public static void SetTarget(this PropsBuilder<IonTabButton> b, Var<string> value)
+    public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("target"), value);
     }
     /// <summary>
     /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
     /// </summary>
-    public static void SetTarget(this PropsBuilder<IonTabButton> b, string value)
+    public static void SetTarget<T>(this PropsBuilder<T> b, string value) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(value));
     }

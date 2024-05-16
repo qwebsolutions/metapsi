@@ -18,6 +18,20 @@ public static partial class HtmlEmControl
     /// <summary>
     /// The HTML em tag
     /// </summary>
+    public static IHtmlNode HtmlEm(this HtmlBuilder b, Action<AttributesBuilder<HtmlEm>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("em", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML em tag
+    /// </summary>
+    public static IHtmlNode HtmlEm(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("em", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML em tag
+    /// </summary>
     public static Var<IVNode> HtmlEm(this LayoutBuilder b, Action<PropsBuilder<HtmlEm>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("em", buildProps, children);

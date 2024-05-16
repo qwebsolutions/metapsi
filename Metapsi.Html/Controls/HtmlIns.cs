@@ -18,6 +18,20 @@ public static partial class HtmlInsControl
     /// <summary>
     /// The HTML ins tag
     /// </summary>
+    public static IHtmlNode HtmlIns(this HtmlBuilder b, Action<AttributesBuilder<HtmlIns>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("ins", buildAttributes, children);
+    }
+    /// <summary>
+    /// The HTML ins tag
+    /// </summary>
+    public static IHtmlNode HtmlIns(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("ins", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// The HTML ins tag
+    /// </summary>
     public static Var<IVNode> HtmlIns(this LayoutBuilder b, Action<PropsBuilder<HtmlIns>> buildProps, Var<List<IVNode>> children)
     {
         return b.H("ins", buildProps, children);
