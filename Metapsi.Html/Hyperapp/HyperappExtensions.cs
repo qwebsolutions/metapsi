@@ -115,7 +115,6 @@ public static class HyperappExtensions
                                 b.Not(b.HasObject(alreadyPresent)),
                                 b =>
                                 {
-
                                     var element = b.CreateElement(b.Const("script"));
                                     b.SetAttribute(element, b.Const("src"), b.Const(externalScriptTag.src));
                                     if (!string.IsNullOrEmpty(externalScriptTag.type))
@@ -124,6 +123,19 @@ public static class HyperappExtensions
                                     }
                                     b.AppendChild(head, element);
                                 });
+                        }
+                        break;
+                    case ScriptTag scriptTag:
+                        {
+                            // TODO: Check if it already exists as well
+                            var element = b.CreateElement(b.Const("script"));
+
+                            b.SetAttribute(element, b.Const("innerText"), b.Const(scriptTag.content));
+                            if (!string.IsNullOrEmpty(scriptTag.type))
+                            {
+                                b.SetAttribute(element, b.Const("type"), b.Const(scriptTag.type));
+                            }
+                            b.AppendChild(head, element);
                         }
                         break;
                 }
