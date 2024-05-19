@@ -130,7 +130,7 @@ public static class HyperappExtensions
                             // TODO: Check if it already exists as well
                             var element = b.CreateElement(b.Const("script"));
 
-                            b.SetAttribute(element, b.Const("innerText"), b.Const(scriptTag.content));
+                            b.SetAttribute(element, b.Const("innerHTML"), b.Const(scriptTag.content));
                             if (!string.IsNullOrEmpty(scriptTag.type))
                             {
                                 b.SetAttribute(element, b.Const("type"), b.Const(scriptTag.type));
