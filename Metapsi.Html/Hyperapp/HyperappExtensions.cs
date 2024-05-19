@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using Metapsi.Dom;
-using static Metapsi.Hyperapp.HyperType;
 
 namespace Metapsi.Html;
 
@@ -54,21 +53,12 @@ public static class HyperappExtensions
             b.Set(appConfig, x => x.init, b.Call(init));
             b.Set(appConfig, x => x.view, b.Def(view));
             b.Set(appConfig, x => x.node, b.GetElementById(b.Const(mountDivId)));
-
-            //b.Set(appConfig, x => x.subscriptions, b.Def((SyntaxBuilder b, Var<TModel> model) =>
-            //{
-            //    var clientSideSubscriptions = b.NewCollection<HyperType.Subscription>();
-            //    foreach (var subscription in subscriptions)
-            //    {
-            //        b.Push(clientSideSubscriptions, b.Call(subscription));
-            //    }
-            //    return clientSideSubscriptions;
-            //}));
-
             b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptionsFunction<TModel>(subscriptions.ToList()));
 
             return b.App(appConfig);
         });
+
+        var usesExternalResources = GenerateAddExternalResources(moduleBuilder);
 
         var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module, "");
 
@@ -84,8 +74,63 @@ public static class HyperappExtensions
                     b.SetAttribute("type", "module");
                 },
                 b.Text(moduleScript),
+                usesExternalResources ? b.Text("addExternalResources();") : b.Text(string.Empty),
                 b.Text("var dispatch = main()"))
         };
+    }
+
+    public static bool GenerateAddExternalResources(ModuleBuilder b)
+    {
+        var distinctTags = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
+
+        if (!distinctTags.Any())
+            return false;
+
+        var addExternalResourcesFn = b.Define("addExternalResources", b =>
+        {
+            var head = b.QuerySelector("head");
+            foreach (var tag in distinctTags)
+            {
+                switch (tag.Value)
+                {
+                    case LinkTag linkTag:
+                        {
+                            var alreadyPresent = b.QuerySelector(head, $"link[href='{linkTag.href}']");
+                            b.If(
+                                b.Not(b.HasObject(alreadyPresent)),
+                                b =>
+                                {
+
+                                    var element = b.CreateElement(b.Const("link"));
+                                    b.SetAttribute(element, b.Const("rel"), b.Const(linkTag.rel));
+                                    b.SetAttribute(element, b.Const("href"), b.Const(linkTag.href));
+                                    b.AppendChild(head, element);
+                                });
+                        }
+                        break;
+                    case ExternalScriptTag externalScriptTag:
+                        {
+                            var alreadyPresent = b.QuerySelector(head, $"script[src='{externalScriptTag.src}']");
+                            b.If(
+                                b.Not(b.HasObject(alreadyPresent)),
+                                b =>
+                                {
+
+                                    var element = b.CreateElement(b.Const("script"));
+                                    b.SetAttribute(element, b.Const("src"), b.Const(externalScriptTag.src));
+                                    if (!string.IsNullOrEmpty(externalScriptTag.type))
+                                    {
+                                        b.SetAttribute(element, b.Const("type"), b.Const(externalScriptTag.type));
+                                    }
+                                    b.AppendChild(head, element);
+                                });
+                        }
+                        break;
+                }
+            }
+        });
+
+        return true;
     }
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptionsFunction<TModel>(

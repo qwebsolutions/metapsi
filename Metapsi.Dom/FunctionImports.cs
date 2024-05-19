@@ -100,6 +100,36 @@ namespace Metapsi.Dom
             return b.GetElementById(b.Const(id));
         }
 
+        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<DomElement> parent, Var<string> selector)
+        {
+            return b.CallOnObject<DomElement>(parent, "querySelector", selector);
+        }
+
+        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<DomElement> parent, string selector)
+        {
+            return b.QuerySelector(parent, b.Const(selector));
+        }
+
+        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<string> selector)
+        {
+            return b.QuerySelector(b.Document().As<DomElement>(), selector);
+        }
+
+        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, string selector)
+        {
+            return b.QuerySelector(b.Const(selector));
+        }
+
+        public static Var<List<DomElement>> GetElementsByTagName(this SyntaxBuilder b, Var<DomElement> parent, Var<string> tagName)
+        {
+            return b.CallOnObject<List<DomElement>>(parent, "getElementsByTagName", tagName);
+        }
+
+        public static Var<List<DomElement>> GetElementsByTagName(this SyntaxBuilder b, Var<DomElement> parent, string tagName)
+        {
+            return b.GetElementsByTagName(parent, b.Const(tagName));
+        }
+
         public static Var<DomElement> CreateElement(this SyntaxBuilder b, Var<string> tag)
         {
             return b.CallDomFunction<DomElement>(nameof(CreateElement), tag);
