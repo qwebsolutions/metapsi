@@ -135,6 +135,16 @@ namespace Metapsi.Dom
             return b.CallDomFunction<DomElement>(nameof(CreateElement), tag);
         }
 
+        public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, Var<string> content)
+        {
+            return b.CallOnObject<DomElement>(b.Document(), "createTextNode", b.Const(content));
+        }
+
+        public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, string content)
+        {
+            return b.CreateTextNode(b.Const(content));
+        }
+
         public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName)
         {
             return b.CallDomFunction<T>(nameof(GetAttribute), domElement, attributeName);
