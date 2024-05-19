@@ -137,7 +137,7 @@ namespace Metapsi.Dom
 
         public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, Var<string> content)
         {
-            return b.CallOnObject<DomElement>(b.Document(), "createTextNode", b.Const(content));
+            return b.CallOnObject<DomElement>(b.Document(), "createTextNode", content);
         }
 
         public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, string content)
