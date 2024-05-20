@@ -21,6 +21,12 @@ using System.Threading.Tasks;
 
 namespace Metapsi
 {
+
+    internal class RenderersService
+    {
+        public Dictionary<Type, Delegate> Renderers { get; set; } = new();
+    }
+
     public static class WebServer
     {
         public static HashSet<string> WebRootPaths { get; set; } = new HashSet<string>();
@@ -32,7 +38,7 @@ namespace Metapsi
             public ImplementationGroup ImplementationGroup { get; set; }
             public string WebRootPath { get; set; }
             public int Port { get; set; }
-            public Dictionary<Type, Delegate> Renderers { get; set; } = new();
+            //public Dictionary<Type, Delegate> Renderers { get; set; } = new();
         }
 
         public enum SwaggerTryout
@@ -104,7 +110,7 @@ namespace Metapsi
                 WebRootPaths.Add(webRootPath);
             }
 
-            //TODO: This should now be default
+            //TODO: This should not be default
             builder.Services.AddCors(b =>
             {
                 b.AddPolicy("allow-everything", b =>
@@ -119,6 +125,8 @@ namespace Metapsi
             {
                 options.ShutdownTimeout = TimeSpan.FromSeconds(30);
             });
+
+            builder.Services.AddSingleton<RenderersService>();
 
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();
@@ -139,37 +147,37 @@ namespace Metapsi
 
             app.UseCors("allow-everything");
 
-            app.Use(async (context, next) =>
-            {
-                context.Items["Metapsi.Renderers"] = references.Renderers;
-                await next(context);
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    context.Items["Metapsi.Renderers"] = references.Renderers;
+            //    await next(context);
+            //});
 
-            // some JS files need path updates
-            app.Use(async (context, next) =>
-            {
-                if (!string.IsNullOrWhiteSpace(context.GetHostedRootPath()) && context.Request.Path.Value.EndsWith(".js"))
-                {
-                    string fileWebPath = context.Request.Path.Value;
-                    fileWebPath = fileWebPath.Replace(context.GetHostedRootPath() + "/", string.Empty);
-                    var fileSegments = new List<string>();
-                    fileSegments.Add(webRootPath);
-                    fileSegments.AddRange(fileWebPath.Split("/", StringSplitOptions.RemoveEmptyEntries).ToArray());
-                    string filePath = System.IO.Path.Combine(fileSegments.ToArray());
-                    if (!File.Exists(filePath))
-                    {
-                        context.Response.StatusCode = 404;
-                        return;
-                    }
-                    var allContent = await System.IO.File.ReadAllTextAsync(filePath);
-                    allContent = allContent.Replace("/static/", context.GetHostedRootPath() + "/static/");
-                    context.Response.ContentType = "text/javascript";
-                    await context.Response.WriteAsync(allContent);
-                    return;
-                }
-                // if not a js file served through proxy just move on
-                await next(context);
-            });
+            //// some JS files need path updates
+            //app.Use(async (context, next) =>
+            //{
+            //    if (!string.IsNullOrWhiteSpace(context.GetHostedRootPath()) && context.Request.Path.Value.EndsWith(".js"))
+            //    {
+            //        string fileWebPath = context.Request.Path.Value;
+            //        fileWebPath = fileWebPath.Replace(context.GetHostedRootPath() + "/", string.Empty);
+            //        var fileSegments = new List<string>();
+            //        fileSegments.Add(webRootPath);
+            //        fileSegments.AddRange(fileWebPath.Split("/", StringSplitOptions.RemoveEmptyEntries).ToArray());
+            //        string filePath = System.IO.Path.Combine(fileSegments.ToArray());
+            //        if (!File.Exists(filePath))
+            //        {
+            //            context.Response.StatusCode = 404;
+            //            return;
+            //        }
+            //        var allContent = await System.IO.File.ReadAllTextAsync(filePath);
+            //        allContent = allContent.Replace("/static/", context.GetHostedRootPath() + "/static/");
+            //        context.Response.ContentType = "text/javascript";
+            //        await context.Response.WriteAsync(allContent);
+            //        return;
+            //    }
+            //    // if not a js file served through proxy just move on
+            //    await next(context);
+            //});
 
             HashSet<string> staticFileExtensions = new HashSet<string>
             {
@@ -178,48 +186,7 @@ namespace Metapsi
                 ".ico"
             };
 
-            // Embedded static files
-            app.Use(async (context, next) =>
-            {
-                var handled = false;
-
-                // Try EmbeddedStaticFiles
-
-                if (!string.IsNullOrEmpty(context.Request.Path))
-                {
-                    var fileName = context.Request.Path.Value.ToLower().Trim('/');
-
-                    var bytes = await StaticFiles.Get(fileName);
-                    if (bytes != null)
-                    {
-                        handled = true;
-
-                        var contentType = GetMimeTypeForFileExtension(fileName);
-
-                        switch (contentType)
-                        {
-                            case "text/html":
-                                {
-                                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                                    handled = true;
-                                }
-                                break;
-                            default:
-                                {
-#if !DEBUG
-                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
-#endif
-                                    context.Response.ContentType = contentType;
-                                    await context.Response.BodyWriter.WriteAsync(bytes);
-                                    handled = true;
-                                }
-                                break;
-                        }
-                    }
-                }
-                if (!handled)
-                    await next(context);
-            });
+            app.UseEmbeddedFiles();
 
             app.UseStaticFiles();
 
@@ -269,7 +236,7 @@ namespace Metapsi
 
             references.WebApplication = app;
 
-            references.RegisterPageBuilder<System.Exception>(DefaultExceptionHandler);
+            //references.RegisterPageBuilder<System.Exception>(DefaultExceptionHandler);
 
             return references;
         }
@@ -389,19 +356,7 @@ namespace Metapsi
             return userClaims.Identity.IsAuthenticated;
         }
 
-        public static string GetMimeTypeForFileExtension(string filePath)
-        {
-            const string DefaultContentType = "application/octet-stream";
 
-            var provider = new FileExtensionContentTypeProvider();
-
-            if (!provider.TryGetContentType(filePath, out string contentType))
-            {
-                contentType = DefaultContentType;
-            }
-
-            return contentType;
-        }
 
         public static void RegisterGetHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
             where THandler : Http.Get<TRoute>, new()
@@ -532,22 +487,27 @@ namespace Metapsi
             return string.Join("/", DataParameterNames(d));
         }
 
-        public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
+        public static void UseRenderer<TModel>(this WebApplication app, Func<TModel, string> renderer)
         {
-            references.Renderers[typeof(TModel)] = builder;
+            app.Services.GetService<RenderersService>().Renderers[typeof(TModel)] = renderer;
         }
 
-        public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
-            where TRenderer : IPageTemplate<TModel>, new()
-        {
-            references.Renderers[typeof(TModel)] = new TRenderer().Render;
-        }
+        //public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
+        //{
+        //    references.Renderers[typeof(TModel)] = builder;
+        //}
 
-        public static void RegisterRenderer<TModel, TRenderer>(this References references)
-            where TRenderer : IPageTemplate<TModel>, new()
-        {
-            references.Renderers[typeof(TModel)] = new TRenderer().Render;
-        }
+        //public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
+        //    where TRenderer : IPageTemplate<TModel>, new()
+        //{
+        //    references.Renderers[typeof(TModel)] = new TRenderer().Render;
+        //}
+
+        //public static void RegisterRenderer<TModel, TRenderer>(this References references)
+        //    where TRenderer : IPageTemplate<TModel>, new()
+        //{
+        //    references.Renderers[typeof(TModel)] = new TRenderer().Render;
+        //}
 
         public static void MapServerAction(IEndpointRouteBuilder apiEndpoint)
         {

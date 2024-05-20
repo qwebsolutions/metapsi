@@ -26,7 +26,7 @@ public static partial class SubscribeTo
     }
 }
 
-public static class HyperappExtensions
+public static partial class HyperappExtensions
 {
     internal class HyperAppNode : IHtmlNode
     {
@@ -74,8 +74,8 @@ public static class HyperappExtensions
                     b.SetAttribute("type", "module");
                 },
                 b.Text(moduleScript),
-                usesExternalResources ? b.Text("addExternalResources();") : b.Text(string.Empty),
-                b.Text("var dispatch = main()"))
+                usesExternalResources ? b.Text("addExternalResources(() => {var dispatch = main()});") : b.Text(string.Empty),
+                !usesExternalResources ? b.Text("var dispatch = main()") : b.Text(string.Empty))
         };
     }
 
@@ -86,8 +86,10 @@ public static class HyperappExtensions
         if (!distinctTags.Any())
             return false;
 
-        var addExternalResourcesFn = b.Define("addExternalResources", b =>
+        var addExternalResourcesFn = b.Define("addExternalResources", (SyntaxBuilder b, Var<Action> callback) =>
         {
+            var scriptLoadPromises = b.NewCollection<Promise>();
+
             var head = b.QuerySelector("head");
             foreach (var tag in distinctTags)
             {
@@ -110,19 +112,33 @@ public static class HyperappExtensions
                         break;
                     case ExternalScriptTag externalScriptTag:
                         {
-                            var alreadyPresent = b.QuerySelector(head, $"script[src='{externalScriptTag.src}']");
-                            b.If(
-                                b.Not(b.HasObject(alreadyPresent)),
-                                b =>
-                                {
-                                    var element = b.CreateElement(b.Const("script"));
-                                    b.SetAttribute(element, b.Const("src"), b.Const(externalScriptTag.src));
-                                    if (!string.IsNullOrEmpty(externalScriptTag.type))
+                            var callbacks = b.Def((SyntaxBuilder b, Var<Action<object>> resolve, Var<Action<object>> reject) =>
+                            {
+                                var alreadyPresent = b.QuerySelector(head, $"script[src='{externalScriptTag.src}']");
+                                b.If(
+                                    b.Not(b.HasObject(alreadyPresent)),
+                                    b =>
                                     {
-                                        b.SetAttribute(element, b.Const("type"), b.Const(externalScriptTag.type));
-                                    }
-                                    b.AppendChild(head, element);
-                                });
+                                        var element = b.CreateElement(b.Const("script"));
+                                        b.SetAttribute(element, b.Const("src"), b.Const(externalScriptTag.src));
+                                        if (!string.IsNullOrEmpty(externalScriptTag.type))
+                                        {
+                                            b.SetAttribute(element, b.Const("type"), b.Const(externalScriptTag.type));
+                                        }
+                                        b.AppendChild(head, element);
+                                        b.AddEventListener(element, b.Const("load"), b.Def((SyntaxBuilder b) =>
+                                        {
+                                            b.Call(resolve, b.NewObj<object>());
+                                        }));
+                                    },
+                                    b=>
+                                    {
+                                        b.Call(resolve, b.NewObj<object>());
+                                    });
+                            });
+
+                            var promise = b.NewPromise(callbacks);
+                            b.Push(scriptLoadPromises, promise);
                         }
                         break;
                     case ScriptTag scriptTag:
@@ -140,6 +156,17 @@ public static class HyperappExtensions
                         break;
                 }
             }
+
+            b.Then(
+                b.PromiseAll(scriptLoadPromises),
+                b.Def((SyntaxBuilder b, Var<object> success) =>
+                {
+                    b.Call(callback);
+                }),
+                b.Def((SyntaxBuilder b, Var<object> failure) =>
+                {
+
+                }));
         });
 
         return true;

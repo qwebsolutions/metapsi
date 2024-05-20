@@ -18,7 +18,8 @@ namespace Metapsi
 
         public async Task ExecuteAsync(HttpContext httpContext)
         {
-            var renderers = httpContext.Items["Metapsi.Renderers"] as Dictionary<Type, Delegate>;
+            var renderersService = httpContext.RequestServices.GetService(typeof(RenderersService));
+            var renderers = (renderersService as RenderersService).Renderers;
 
             var html = string.Empty;
 

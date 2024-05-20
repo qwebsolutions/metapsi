@@ -63,3 +63,7 @@ export const defineHyperappCustomElement = (tagName, view) => {
             }
         });
 }
+
+export const NewPromise = (callback) => new Promise(callback)
+export const GetStaticPromise = () => Promise;
+
