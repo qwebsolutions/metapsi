@@ -94,22 +94,22 @@ public static partial class Program
 
         webServer.WebApplication.MapGet("/codicon.ttf", async (HttpContext context) =>
         {
-            var contentType = WebServer.GetMimeTypeForFileExtension(".ttf");
+            var contentType = WebServerExtensions.GetMimeTypeForFileExtension(".ttf");
             context.Response.ContentType = contentType;
             var font = await StaticFiles.Get("codicon.ttf");
             await context.Response.BodyWriter.WriteAsync(font);
         });
-
+      
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
-        webServer.RegisterPageBuilder<TutorialModel>(new TutorialPage().Render);
+        webServer.WebApplication.UseRenderer<TutorialModel>(new TutorialPage().Render);
 
         webServer.WebApplication.RegisterGetHandler<HomepageHandler, Metapsi.Tutorial.Routes.Home>();
-        webServer.RegisterPageBuilder<HomepageModel>(new Homepage().Render);
+        webServer.WebApplication.UseRenderer<HomepageModel>(new Homepage().Render);
 
         webServer.WebApplication.UseExceptionHandler(
             exceptionHandlerApp => exceptionHandlerApp.Run(
                 async context => await Results.Problem().ExecuteAsync(context)));
-
+        
 
         webServer.WebApplication.MapFallback((HttpContext context) =>
         {
