@@ -80,6 +80,22 @@ namespace Metapsi.Dom
             b.CallExternal(ModuleName, function, arguments);
         }
 
+        public static Var<object> Self(this SyntaxBuilder b)
+        {
+            return b.CallDomFunction<object>(nameof(Self));
+        }
+
+        /// <summary>
+        /// 'Returns' a non-existing variable so it can be used in expressions
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static IVariable Throw(this SyntaxBuilder b, Var<string> errorMessage)
+        {
+            return b.CallDomFunction<IVariable>(nameof(Throw), errorMessage);
+        }
+
         public static Var<Window> Window(this SyntaxBuilder b)
         {
             return b.CallDomFunction<Window>(nameof(Window));

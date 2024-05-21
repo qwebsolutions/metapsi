@@ -9,7 +9,7 @@ namespace Metapsi
 {
     public static class WebServerExtensions
     {
-        public static void AddMetapsiWebServices(
+        public static WebApplicationBuilder AddMetapsiWebServices(
            this WebApplicationBuilder builder,
            ApplicationSetup applicationSetup,
            ImplementationGroup ig)
@@ -30,11 +30,15 @@ namespace Metapsi
             {
                 options.ShutdownTimeout = TimeSpan.FromSeconds(30);
             });
+            return builder;
         }
 
-        public static void UseMetapsi(this WebApplication webApplication, ApplicationSetup applicationSetup)
+        public static WebApplication UseMetapsi(this WebApplication webApplication, ApplicationSetup applicationSetup)
         {
+            webApplication.UseEmbeddedFiles();
+            webApplication.BindStart(applicationSetup);
             webApplication.BindStop(applicationSetup);
+            return webApplication;
         }
 
         public static void BindStop(this WebApplication webApp, ApplicationSetup applicationSetup)
@@ -43,6 +47,14 @@ namespace Metapsi
             applicationSetup.MapEvent<ApplicationIsShuttingDown>(e =>
             {
                 webApp.StopAsync();
+            });
+        }
+
+        public static void BindStart(this WebApplication webApp, ApplicationSetup applicationSetup)
+        {
+            applicationSetup.MapEvent<ApplicationRevived>(e =>
+            {
+                webApp.RunAsync();
             });
         }
 

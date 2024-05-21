@@ -345,7 +345,7 @@ public static partial class Control
 
             return b.MakeStateWithEffects(
                 b.Clone(model),
-                b.CallApiEffect(
+                b.PostJson(
                     SandboxApi.CompileSample,
                     sample,
                     b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<CompileResponse> response) =>
@@ -354,13 +354,14 @@ public static partial class Control
                         b.Set(model, x => x.ResultHtml, b.Get(response, x => x.ResultHtml));
                         return b.Clone(model);
                     }),
-                    b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<ApiError> error) =>
+                    b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<ClientSideException> error) =>
                     {
-                        b.Log(b.Get(error, x => x.ErrorMessage));
+                        b.Log(b.Get(error, x => x.message));
                         b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(false));
                         b.Set(model, x => x.ResultHtml, b.Const("Compile error"));
                         return b.Clone(model);
-                    })));
+                    }))
+                );
         });
 
         var compileButton = b.SlButton(

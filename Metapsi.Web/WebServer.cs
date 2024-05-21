@@ -38,19 +38,6 @@ namespace Metapsi
             public ImplementationGroup ImplementationGroup { get; set; }
             public string WebRootPath { get; set; }
             public int Port { get; set; }
-            //public Dictionary<Type, Delegate> Renderers { get; set; } = new();
-        }
-
-        public enum SwaggerTryout
-        {
-            Allow,
-            Block
-        }
-
-        public enum Authorization
-        {
-            Require,
-            Public
         }
 
         public class HttpRequestEvent : IData
@@ -212,9 +199,6 @@ namespace Metapsi
             app.UseForwardedHeaders();
             app.UseHttpLogging();
 
-            MapServerAction(app.MapGroup("api"));
-
-
             if (buildApp != null)
                 buildApp(app);
 
@@ -274,11 +258,11 @@ namespace Metapsi
             throw new Exception($"Relative path not found: {relativePath}");
         }
 
-        public static void ThrowSwaggerException(HttpContext httpContext, SwaggerTryout tryout)
-        {
-            if (tryout == SwaggerTryout.Block && IsSwaggerUi(httpContext))
-                throw new NotSupportedException("This method performs permanent changes so it cannot be tested");
-        }
+        //public static void ThrowSwaggerException(HttpContext httpContext, SwaggerTryout tryout)
+        //{
+        //    if (tryout == SwaggerTryout.Block && IsSwaggerUi(httpContext))
+        //        throw new NotSupportedException("This method performs permanent changes so it cannot be tested");
+        //}
 
         public static bool IsSwaggerUi(HttpContext httpContext)
         {
@@ -487,122 +471,105 @@ namespace Metapsi
             return string.Join("/", DataParameterNames(d));
         }
 
-        public static void UseRenderer<TModel>(this WebApplication app, Func<TModel, string> renderer)
+        public static void UseRenderer<TModel>(this IEndpointRouteBuilder uiEndpoint, Func<TModel, string> renderer)
         {
-            app.Services.GetService<RenderersService>().Renderers[typeof(TModel)] = renderer;
+            uiEndpoint.ServiceProvider.GetService<RenderersService>().Renderers[typeof(TModel)] = renderer;
         }
 
-        //public static void RegisterPageBuilder<TModel>(this References references, Func<TModel, string> builder)
+        //public static void MapServerAction(IEndpointRouteBuilder apiEndpoint)
         //{
-        //    references.Renderers[typeof(TModel)] = builder;
+        //    apiEndpoint.MapRequest(Metapsi.Ui.ServerActionEndpoint.ServerAction, async (CommandContext commandContext, HttpContext httpContext, ServerActionInput input) =>
+        //    {
+        //        try
+        //        {
+        //            var handlerClass = Type.GetType(input.QualifiedHandlerClass);
+        //            var method = handlerClass.GetMethod(
+        //                input.HandlerMethod,
+        //                System.Reflection.BindingFlags.Public |
+        //                System.Reflection.BindingFlags.NonPublic |
+        //                System.Reflection.BindingFlags.Static |
+        //                System.Reflection.BindingFlags.Instance);
+
+        //            var methodParameters = method.GetParameters();
+
+        //            if (!methodParameters.Any())
+        //                throw new NotSupportedException("Server action must receive the model as parameter");
+
+
+        //            var stateParameter = methodParameters.FirstOrDefault(x => x.ParameterType != typeof(CommandContext) && x.ParameterType != typeof(HttpContext));
+        //            if (stateParameter == null)
+        //            {
+        //                throw new NotSupportedException("Server action must receive the model as parameter");
+        //            }
+
+        //            var payloadParameter = methodParameters.FirstOrDefault(
+        //                x => x.ParameterType != typeof(CommandContext)
+        //                && x.ParameterType != typeof(HttpContext)
+        //                && x.ParameterType != stateParameter.ParameterType);
+
+        //            List<object> invokeParameters = new();
+
+
+        //            foreach (var parameterInfo in methodParameters)
+        //            {
+        //                if (parameterInfo.ParameterType == typeof(CommandContext))
+        //                {
+        //                    invokeParameters.Add(commandContext);
+        //                }
+
+        //                if (parameterInfo.ParameterType == typeof(HttpContext))
+        //                {
+        //                    invokeParameters.Add(httpContext);
+        //                }
+
+        //                if (parameterInfo == stateParameter)
+        //                {
+        //                    var stateObject = Metapsi.Serialize.FromJson(parameterInfo.ParameterType, input.SerializedModel);
+        //                    invokeParameters.Add(stateObject);
+        //                }
+
+        //                if (parameterInfo == payloadParameter)
+        //                {
+        //                    var payloadObject = Metapsi.Serialize.FromJson(parameterInfo.ParameterType, input.SerializedPayload);
+        //                    invokeParameters.Add(payloadObject);
+        //                }
+        //            }
+
+        //            object result;
+
+        //            if (method.IsStatic)
+        //            {
+        //                result = method.Invoke(null, invokeParameters.ToArray());
+        //            }
+        //            else
+        //            {
+        //                var invokeInstance = Activator.CreateInstance(handlerClass);
+        //                result = method.Invoke(invokeInstance, invokeParameters.ToArray());
+        //            }
+
+        //            var isAsync = method.ReturnType.Namespace == "System.Threading.Tasks";
+
+        //            if (isAsync)
+        //                result = await (dynamic)result;
+
+        //            var serializedResult = Metapsi.Serialize.ToJson(result);
+
+        //            return new Metapsi.Ui.ServerActionResponse()
+        //            {
+        //                SerializedModel = serializedResult
+        //            };
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return new Metapsi.Ui.ServerActionResponse()
+        //            {
+        //                ResultCode = ApiResultCode.Error,
+        //                ErrorMessage = ex.Message
+        //            };
+        //        }
+        //    },
+        //    WebServer.Authorization.Public);
         //}
-
-        //public static void RegisterPageBuilder<TRenderer, TModel>(this References references)
-        //    where TRenderer : IPageTemplate<TModel>, new()
-        //{
-        //    references.Renderers[typeof(TModel)] = new TRenderer().Render;
-        //}
-
-        //public static void RegisterRenderer<TModel, TRenderer>(this References references)
-        //    where TRenderer : IPageTemplate<TModel>, new()
-        //{
-        //    references.Renderers[typeof(TModel)] = new TRenderer().Render;
-        //}
-
-        public static void MapServerAction(IEndpointRouteBuilder apiEndpoint)
-        {
-            apiEndpoint.MapRequest(Metapsi.Ui.ServerActionEndpoint.ServerAction, async (CommandContext commandContext, HttpContext httpContext, ServerActionInput input) =>
-            {
-                try
-                {
-                    var handlerClass = Type.GetType(input.QualifiedHandlerClass);
-                    var method = handlerClass.GetMethod(
-                        input.HandlerMethod,
-                        System.Reflection.BindingFlags.Public |
-                        System.Reflection.BindingFlags.NonPublic |
-                        System.Reflection.BindingFlags.Static |
-                        System.Reflection.BindingFlags.Instance);
-
-                    var methodParameters = method.GetParameters();
-
-                    if (!methodParameters.Any())
-                        throw new NotSupportedException("Server action must receive the model as parameter");
-
-
-                    var stateParameter = methodParameters.FirstOrDefault(x => x.ParameterType != typeof(CommandContext) && x.ParameterType != typeof(HttpContext));
-                    if (stateParameter == null)
-                    {
-                        throw new NotSupportedException("Server action must receive the model as parameter");
-                    }
-
-                    var payloadParameter = methodParameters.FirstOrDefault(
-                        x => x.ParameterType != typeof(CommandContext)
-                        && x.ParameterType != typeof(HttpContext)
-                        && x.ParameterType != stateParameter.ParameterType);
-
-                    List<object> invokeParameters = new();
-
-
-                    foreach (var parameterInfo in methodParameters)
-                    {
-                        if (parameterInfo.ParameterType == typeof(CommandContext))
-                        {
-                            invokeParameters.Add(commandContext);
-                        }
-
-                        if (parameterInfo.ParameterType == typeof(HttpContext))
-                        {
-                            invokeParameters.Add(httpContext);
-                        }
-
-                        if (parameterInfo == stateParameter)
-                        {
-                            var stateObject = Metapsi.Serialize.FromJson(parameterInfo.ParameterType, input.SerializedModel);
-                            invokeParameters.Add(stateObject);
-                        }
-
-                        if (parameterInfo == payloadParameter)
-                        {
-                            var payloadObject = Metapsi.Serialize.FromJson(parameterInfo.ParameterType, input.SerializedPayload);
-                            invokeParameters.Add(payloadObject);
-                        }
-                    }
-
-                    object result;
-
-                    if (method.IsStatic)
-                    {
-                        result = method.Invoke(null, invokeParameters.ToArray());
-                    }
-                    else
-                    {
-                        var invokeInstance = Activator.CreateInstance(handlerClass);
-                        result = method.Invoke(invokeInstance, invokeParameters.ToArray());
-                    }
-
-                    var isAsync = method.ReturnType.Namespace == "System.Threading.Tasks";
-
-                    if (isAsync)
-                        result = await (dynamic)result;
-
-                    var serializedResult = Metapsi.Serialize.ToJson(result);
-
-                    return new Metapsi.Ui.ServerActionResponse()
-                    {
-                        SerializedModel = serializedResult
-                    };
-                }
-                catch (Exception ex)
-                {
-                    return new Metapsi.Ui.ServerActionResponse()
-                    {
-                        ResultCode = ApiResultCode.Error,
-                        ErrorMessage = ex.Message
-                    };
-                }
-            },
-            WebServer.Authorization.Public);
-        }
     }
 
 }

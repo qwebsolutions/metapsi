@@ -1,4 +1,6 @@
-﻿export const Window = () => window
+﻿export const Self = () => self;
+export const Throw = (message) => { throw new Error(message) }
+export const Window = () => window
 export const Document = () => document;
 export const StopPropagation = (e) => e.stopPropagation();
 export const GetElementById = (id) => document.getElementById(id);

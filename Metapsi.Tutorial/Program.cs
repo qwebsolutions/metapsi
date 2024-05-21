@@ -69,8 +69,7 @@ public static partial class Program
 
         webServer.WebApplication.UseRewriter(rewriteOptions);
 
-        var api = webServer.WebApplication.MapGroup("api");
-        api.MapRequest(SandboxApi.CompileSample, async (CommandContext commandContext, HttpContext httpContext, SandboxSample sample) =>
+        webServer.WebApplication.MapPost(SandboxApi.CompileSample.Name, async (CommandContext commandContext, HttpContext httpContext, SandboxSample sample) =>
         {
             try
             {
@@ -90,7 +89,7 @@ public static partial class Program
                     ResultHtml = "Compile error"
                 };
             }
-        }, WebServer.Authorization.Public);
+        }).AllowAnonymous();
 
         webServer.WebApplication.MapGet("/codicon.ttf", async (HttpContext context) =>
         {
