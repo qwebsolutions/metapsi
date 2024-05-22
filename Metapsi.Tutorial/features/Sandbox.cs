@@ -18,8 +18,9 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Tutorial;
 
-public class SandboxModel : ApiSupportModel
+public class SandboxModel
 {
+    public bool IsCompiling { get; set; } = false;
     public CodeSample CodeSample { get; set; } = new();
     public string ResultHtml { get; set; } = "<p style=\"font-family:sans-serif;\">Run the code sample to see HTML output here</p>";
 }
@@ -332,11 +333,11 @@ public static partial class Control
             jsonPanel,
             viewPanel);
 
-        var isLoading = b.Get(clientModel, x => x.ApiSupport.InProgress);
+        var isLoading = b.Get(clientModel, x => x.IsCompiling);
 
         var compileAction = b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model) =>
         {
-            b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(true));
+            b.Set(model, x => x.IsCompiling, true);
 
             var sample = b.NewObj<SandboxSample>();
             b.Set(sample, x => x.JsonModel, b.Get(model, x => x.CodeSample.JsonModel));
@@ -350,14 +351,14 @@ public static partial class Control
                     sample,
                     b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<CompileResponse> response) =>
                     {
-                        b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(false));
+                        b.Set(model, x => x.IsCompiling, false);
                         b.Set(model, x => x.ResultHtml, b.Get(response, x => x.ResultHtml));
                         return b.Clone(model);
                     }),
                     b.MakeAction((SyntaxBuilder b, Var<SandboxModel> model, Var<ClientSideException> error) =>
                     {
                         b.Log(b.Get(error, x => x.message));
-                        b.Set(b.Get(model, x => x.ApiSupport), x => x.InProgress, b.Const(false));
+                        b.Set(model, x => x.IsCompiling, false);
                         b.Set(model, x => x.ResultHtml, b.Const("Compile error"));
                         return b.Clone(model);
                     }))
@@ -368,7 +369,6 @@ public static partial class Control
             b =>
             {
                 b.SetVariantPrimary();
-                //TODO: Cannot set conditional because .Props is not copied
                 b.If(isLoading, b => b.SetLoading());
                 b.If(
                     b.Not(

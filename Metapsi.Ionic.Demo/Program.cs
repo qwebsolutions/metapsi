@@ -82,20 +82,20 @@ public class Program
         //    return htmlDocument.ToHtml();
         //});
 
-        webServerRefs.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Home>())).AllowAnonymous().ExcludeFromDescription();
-        webServerRefs.WebApplication.MapGet("/query", (string q) =>
-        {
-            return FilterSource(q);
-        });
+        //webServerRefs.WebApplication.MapGet("/", () => Results.Redirect(WebServer.Url<Home>())).AllowAnonymous().ExcludeFromDescription();
+        //webServerRefs.WebApplication.MapGet("/query", (string q) =>
+        //{
+        //    return FilterSource(q);
+        //});
 
-        webServerRefs.WebApplication.MapGroup("api").MapRequest(
-            SearchApi,
-            async (CommandContext commandContex, HttpContext httpContext, string q) =>
-            {
-                return FilterSource(q);
-            },
-            WebServer.Authorization.Public,
-            WebServer.SwaggerTryout.Block);
+        //webServerRefs.WebApplication.MapGroup("api").MapRequest(
+        //    SearchApi,
+        //    async (CommandContext commandContex, HttpContext httpContext, string q) =>
+        //    {
+        //        return FilterSource(q);
+        //    },
+        //    WebServer.Authorization.Public,
+        //    WebServer.SwaggerTryout.Block);
     }
 }
 

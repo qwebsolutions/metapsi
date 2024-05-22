@@ -16,12 +16,11 @@ public interface IHasPrevNext
     MenuEntry Next { get; set; }
 }
 
-public class TutorialModel : IApiSupportState, IHasTreeMenu, IServerSideBreakpoint
+public class TutorialModel : IHasTreeMenu, IServerSideBreakpoint
 {
     public List<MenuEntry> Menu { get; set; } = new();
     public MenuEntry CurrentEntry { get; set; } = new();
     public string MarkdownContent { get; set; }
-    public ApiSupport ApiSupport { get; set; } = new();
 
     public string AssumedBreakpoint { get; set; }
 }
