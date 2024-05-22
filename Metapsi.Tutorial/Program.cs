@@ -69,7 +69,7 @@ public static partial class Program
 
         webServer.WebApplication.UseRewriter(rewriteOptions);
 
-        webServer.WebApplication.MapPost(SandboxApi.CompileSample.Name, async (CommandContext commandContext, HttpContext httpContext, SandboxSample sample) =>
+        webServer.WebApplication.MapPostRequest(SandboxApi.CompileSample, async (CommandContext commandContext, HttpContext httpContext, SandboxSample sample) =>
         {
             try
             {
@@ -84,8 +84,6 @@ public static partial class Program
                 Console.WriteLine(ex);
                 return new CompileResponse()
                 {
-                    ErrorMessage = ex.Message,
-                    ResultCode = "Error",
                     ResultHtml = "Compile error"
                 };
             }

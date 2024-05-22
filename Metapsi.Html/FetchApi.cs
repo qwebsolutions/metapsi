@@ -13,6 +13,8 @@ public class ClientSideException
 
 public class FetchOptions
 {
+    private FetchOptions() { }
+
     /// <summary>
     /// *GET, POST, PUT, DELETE, etc.
     /// </summary>
@@ -32,7 +34,7 @@ public class FetchOptions
     /// <summary>
     /// "Content-Type": "application/json", 'Content-Type': 'application/x-www-form-urlencoded'
     /// </summary>
-    public Dictionary<string, string> headers { get; set; } = new Dictionary<string, string>() { { "Content-Type", "application/json" } };
+    public DynamicObject headers { get; set; }
     /// <summary>
     /// manual, *follow, error
     /// </summary>
@@ -77,6 +79,11 @@ public static class FetchApi
     public static void AddHeaders(this PropsBuilder<FetchOptions> b, Var<string> header, Var<string> value)
     {
         var headers = b.Get(b.Props, x => x.headers);
+        b.If(
+            b.Not(
+                b.HasObject(headers)),
+            b=> b.Set(b.Props, x => x.headers, b.NewObj<DynamicObject>()));
+        headers = b.Get(b.Props, x => x.headers);
         b.SetProperty(headers, header, value);
     }
 
@@ -92,12 +99,8 @@ public static class FetchApi
 
     public static Var<Promise> Fetch(this SyntaxBuilder b, Var<string> url, Action<PropsBuilder<FetchOptions>> setProps)
     {
-        PropsBuilder<FetchOptions> propsBuilder = new PropsBuilder<FetchOptions>();
-        propsBuilder.InitializeFrom(b);
-        propsBuilder.Props = b.NewObj<DynamicObject>().As<FetchOptions>();
-        b.Set(propsBuilder.Props, x => x.headers, b.NewObj<DynamicObject>().As<Dictionary<string, string>>());
-        setProps(propsBuilder);
-        return b.CallOnObject<Promise>(b.Self(), "fetch", url, propsBuilder.Props);
+        var fetchOptions = b.SetProps(b.NewObj<DynamicObject>(), setProps);
+        return b.CallOnObject<Promise>(b.Self(), "fetch", url, fetchOptions);
     }
 
     public static void GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
@@ -134,6 +137,52 @@ public static class FetchApi
         b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
     }
 
+    public static Var<Promise> HandleResponse(
+        this SyntaxBuilder b,
+        Var<Promise> fetchPromise,
+        Var<System.Action> onSuccess,
+        Var<System.Action<ClientSideException>> onFailure)
+    {
+        var networkPromise = b.Then(
+            fetchPromise,
+            b.Def((SyntaxBuilder b, Var<object> r) =>
+            {
+                var isOk = b.GetProperty<bool>(r, "ok");
+                return b.If(
+                    isOk,
+                    b =>
+                    {
+                        b.Call(onSuccess);
+                        return b.Const(string.Empty).As<Promise>();
+                    },
+                    b =>
+                    {
+                        var bodyTextPromise = b.CallOnObject<Promise>(r, "text");
+                        var errorPromise = b.Then(
+                            bodyTextPromise,
+                            b.Def((SyntaxBuilder b, Var<object> body) =>
+                            {
+                                var bodyText = b.AsString(body);
+                                return b.Throw(
+                                    b.If(
+                                        b.HasValue(bodyText),
+                                        b => bodyText,
+                                        b => b.GetProperty<string>(r, b.Const("statusText")))).As<Promise>();
+                            }));
+                        return errorPromise;
+                    });
+            }));
+
+        var catchPromise = b.Catch(
+            networkPromise,
+            b.Def((SyntaxBuilder b, Var<ClientSideException> ex) =>
+            {
+                b.Log(ex);
+                b.Call(onFailure, ex);
+            }));
+        return catchPromise;
+    }
+
     public static Var<Promise> HandleJsonResponse<T>(
         this SyntaxBuilder b,
         Var<Promise> fetchPromise,
@@ -150,10 +199,22 @@ public static class FetchApi
                     b => b.CallOnObject<Promise>(r, "json"),
                     b =>
                     {
-                        b.Log(r);
-                        return b.Throw(b.GetProperty<string>(r, b.Const("statusText"))).As<Promise>();
+                        var bodyTextPromise = b.CallOnObject<Promise>(r, "text");
+                        var errorPromise = b.Then(
+                            bodyTextPromise,
+                            b.Def((SyntaxBuilder b, Var<object> body) =>
+                            {
+                                var bodyText = b.AsString(body);
+                                return b.Throw(
+                                    b.If(
+                                        b.HasValue(bodyText),
+                                        b => bodyText,
+                                        b => b.GetProperty<string>(r, b.Const("statusText")))).As<Promise>();
+                            }));
+                        return errorPromise;
                     });
             }));
+
         var successPromise = b.Then(
             networkPromise,
             b.Def((SyntaxBuilder b, Var<T> r) =>
@@ -186,6 +247,30 @@ public static class FetchApi
                     b.Def((SyntaxBuilder b, Var<TResult> result) =>
                     {
                         b.Dispatch(dispatch, onSucces, result);
+                    }),
+                    b.Def((SyntaxBuilder b, Var<ClientSideException> ex) =>
+                    {
+                        b.Dispatch(dispatch, onError, ex);
+                    }));
+            });
+    }
+
+    public static Var<HyperType.Effect> Fetch<TModel>(
+        this SyntaxBuilder b,
+        Var<string> url,
+        Action<PropsBuilder<FetchOptions>> fetchOptions,
+        Var<HyperType.Action<TModel>> onSucces,
+        Var<HyperType.Action<TModel, ClientSideException>> onError)
+    {
+        return b.MakeEffect(
+            (SyntaxBuilder b, Var<HyperType.Dispatcher<TModel>> dispatch) =>
+            {
+                var fetchPromise = b.Fetch(url, fetchOptions);
+                b.HandleResponse(
+                    fetchPromise,
+                    b.Def((SyntaxBuilder b) =>
+                    {
+                        b.Dispatch(dispatch, onSucces);
                     }),
                     b.Def((SyntaxBuilder b, Var<ClientSideException> ex) =>
                     {

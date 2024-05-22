@@ -37,7 +37,7 @@ public class SandboxSample
     public string JsonModel { get; set; } = "{}";
 }
 
-public class CompileResponse : ApiResponse
+public class CompileResponse
 {
     public string ResultHtml { get; set; }
 }

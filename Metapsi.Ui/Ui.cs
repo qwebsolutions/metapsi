@@ -54,24 +54,6 @@ public static class UserExtensions
 
 
 
-public interface IApiResponse
-{
-    public string ResultCode { get; set; }
-    public string ErrorMessage { get; set; }
-}
-
-public class ApiResponse : IApiResponse
-{
-    public string ResultCode { get; set; } = ApiResultCode.Ok;
-    public string ErrorMessage { get; set; }
-}
-
-public class ApiResultCode
-{
-    public const string Error = "Error";
-    public const string Ok = "Ok";
-}
-
 
 
 public class ServerActionInput
@@ -82,12 +64,12 @@ public class ServerActionInput
     public string HandlerMethod { get; set; } = string.Empty;
 }
 
-public class ServerActionResponse : ApiResponse
-{
-    public string SerializedModel { get; set; } = string.Empty;
-}
+//public class ServerActionResponse : ApiResponse
+//{
+//    public string SerializedModel { get; set; } = string.Empty;
+//}
 
-public static class ServerActionEndpoint
-{
-    public static Request<ServerActionResponse, ServerActionInput> ServerAction { get; set; } = new(nameof(ServerAction));
-}
+//public static class ServerActionEndpoint
+//{
+//    public static Request<ServerActionResponse, ServerActionInput> ServerAction { get; set; } = new(nameof(ServerAction));
+//}

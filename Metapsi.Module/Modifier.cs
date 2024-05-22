@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 
 namespace Metapsi.Syntax
 {
+    // TODO: Remove, replace with PropsBuilder
+
     /// <summary>
     /// 
     /// </summary>
