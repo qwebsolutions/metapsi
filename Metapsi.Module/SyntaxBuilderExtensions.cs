@@ -345,7 +345,9 @@ namespace Metapsi.Syntax
 
         public static Var<Reference<T>> Ref<T>(this SyntaxBuilder b, Var<T> value)
         {
-            return b.NewObj<Reference<T>>(b => b.Set(x => x.Value, value));
+            var obj = b.NewObj<Reference<T>>();
+            b.Set(obj, x => x.Value, value);
+            return obj;
         }
 
         public static Var<Reference<T>> GlobalRef<T>(this SyntaxBuilder b, Reference<T> reference)

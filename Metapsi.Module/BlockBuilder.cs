@@ -63,16 +63,6 @@ namespace Metapsi.Syntax
             return intoVar;
         }
 
-        public Var<T> NewObj<T>(Action<Modifier<T>> init) where T : new()
-        {
-            var newObj = NewObj<T>();
-            if (init != null)
-            {
-                init(new Modifier<T>(new SyntaxBuilder() { blockBuilder = this }, newObj));
-            }
-            return newObj;
-        }
-
         public Var<List<T>> NewCollection<T>()
         {
             Var<List<T>> collection = new Var<List<T>>(NewName());

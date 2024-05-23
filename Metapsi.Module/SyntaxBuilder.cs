@@ -58,16 +58,6 @@ namespace Metapsi.Syntax
             return blockBuilder.NewObj<T>();
         }
 
-        public Var<T> NewObj<T>(T serverObject)
-        {
-            return blockBuilder.NewObj(serverObject);
-        }
-
-        public Var<T> NewObj<T>(Action<Modifier<T>> init) where T : new()
-        {
-            return blockBuilder.NewObj(init);
-        }
-
         public Var<List<T>> NewCollection<T>()
         {
             return blockBuilder.NewCollection<T>();
