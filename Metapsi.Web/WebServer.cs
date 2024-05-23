@@ -42,7 +42,7 @@ namespace Metapsi
 
         public class HttpRequestEvent : IData
         {
-
+            public string Path { get; set; }
         }
 
         public static IServiceCollection AddMetapsiCommandContext(
@@ -52,11 +52,15 @@ namespace Metapsi
         {
             return services.AddScoped<Metapsi.CommandContext>(provider =>
             {
+                var httpAccesor = provider.GetRequiredService<IHttpContextAccessor>();
                 var cc = new Metapsi.CommandContext(
                     setup,
                     ig,
                     new Metapsi.ExecutionQueue(setup, Guid.NewGuid().ToString(), new object()),
-                    new CallStack(new HttpRequestEvent()));
+                    new CallStack(new HttpRequestEvent()
+                    {
+                        Path = httpAccesor.HttpContext.Request.Path
+                    }));
                 return cc;
             });
         }
@@ -114,6 +118,7 @@ namespace Metapsi
             });
 
             builder.Services.AddSingleton<RenderersService>();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();

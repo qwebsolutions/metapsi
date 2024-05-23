@@ -9,11 +9,12 @@ namespace Metapsi
 {
     public static class WebServerExtensions
     {
-        public static WebApplicationBuilder AddMetapsiWebServices(
+        public static WebApplicationBuilder AddMetapsi(
            this WebApplicationBuilder builder,
            ApplicationSetup applicationSetup,
            ImplementationGroup ig)
         {
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddSingleton<RenderersService>();
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();
