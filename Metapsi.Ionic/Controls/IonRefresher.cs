@@ -175,6 +175,20 @@ public static partial class IonRefresherControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the refresher will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRefresher
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the refresher will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonRefresher
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The mode determines which platform styles to use.

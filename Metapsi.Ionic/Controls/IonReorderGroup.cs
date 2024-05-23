@@ -89,6 +89,20 @@ public static partial class IonReorderGroupControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the reorder will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonReorderGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the reorder will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonReorderGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// Event that needs to be listened to in order to complete the reorder action. Once the event has been emitted, the `complete()` method then needs to be called in order to finalize the reorder action.

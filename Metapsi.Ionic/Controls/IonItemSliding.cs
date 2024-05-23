@@ -109,6 +109,20 @@ public static partial class IonItemSlidingControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the sliding item.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItemSliding
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the sliding item.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonItemSliding
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// Emitted when the sliding position changes.

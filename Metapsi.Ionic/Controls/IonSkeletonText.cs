@@ -80,6 +80,20 @@ public static partial class IonSkeletonTextControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the skeleton text will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSkeletonText
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, the skeleton text will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonSkeletonText
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
 }
 

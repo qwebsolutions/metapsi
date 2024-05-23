@@ -119,6 +119,20 @@ public static partial class IonRouterControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("useHash"), b.Const(true));
     }
+    /// <summary>
+    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
+    /// </summary>
+    public static void SetUseHash<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRouter
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("useHash"), value);
+    }
+    /// <summary>
+    /// The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs.
+    /// </summary>
+    public static void SetUseHash<T>(this PropsBuilder<T> b, bool value) where T: IonRouter
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("useHash"), b.Const(value));
+    }
 
     /// <summary>
     /// Emitted when the route had changed

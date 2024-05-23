@@ -177,6 +177,20 @@ public static partial class IonAccordionGroupControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, all accordions inside of the accordion group will animate when expanding or collapsing.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, all accordions inside of the accordion group will animate when expanding or collapsing.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with.
@@ -184,6 +198,20 @@ public static partial class IonAccordionGroupControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>
@@ -223,6 +251,20 @@ public static partial class IonAccordionGroupControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the accordion group can have multiple accordion components expanded at the same time.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), value);
+    }
+    /// <summary>
+    /// If `true`, the accordion group can have multiple accordion components expanded at the same time.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, bool value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
@@ -230,6 +272,20 @@ public static partial class IonAccordionGroupControl
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
+    }
+    /// <summary>
+    /// If `true`, the accordion group cannot be interacted with, but does not alter the opacity.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
     }
 
     /// <summary>

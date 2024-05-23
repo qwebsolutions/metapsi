@@ -162,6 +162,20 @@ public static partial class IonMenuButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("autoHide"), b.Const(true));
     }
+    /// <summary>
+    /// Automatically hides the menu button when the corresponding menu is not active
+    /// </summary>
+    public static void SetAutoHide<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonMenuButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autoHide"), value);
+    }
+    /// <summary>
+    /// Automatically hides the menu button when the corresponding menu is not active
+    /// </summary>
+    public static void SetAutoHide<T>(this PropsBuilder<T> b, bool value) where T: IonMenuButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autoHide"), b.Const(value));
+    }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
@@ -247,6 +261,20 @@ public static partial class IonMenuButtonControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonMenuButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the menu button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonMenuButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the menu button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonMenuButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>

@@ -161,6 +161,20 @@ public static partial class IonFabControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, both the `ion-fab-button` and all `ion-fab-list` inside `ion-fab` will become active. That means `ion-fab-button` will become a `close` icon and `ion-fab-list` will become visible.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFab
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), value);
+    }
+    /// <summary>
+    /// If `true`, both the `ion-fab-button` and all `ion-fab-list` inside `ion-fab` will become active. That means `ion-fab-button` will become a `close` icon and `ion-fab-list` will become visible.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, bool value) where T: IonFab
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the fab will display on the edge of the header if `vertical` is `"top"`, and on the edge of the footer if it is `"bottom"`. Should be used with a `fixed` slot.
@@ -168,6 +182,20 @@ public static partial class IonFabControl
     public static void SetEdge<T>(this PropsBuilder<T> b) where T: IonFab
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("edge"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the fab will display on the edge of the header if `vertical` is `"top"`, and on the edge of the footer if it is `"bottom"`. Should be used with a `fixed` slot.
+    /// </summary>
+    public static void SetEdge<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFab
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("edge"), value);
+    }
+    /// <summary>
+    /// If `true`, the fab will display on the edge of the header if `vertical` is `"top"`, and on the edge of the footer if it is `"bottom"`. Should be used with a `fixed` slot.
+    /// </summary>
+    public static void SetEdge<T>(this PropsBuilder<T> b, bool value) where T: IonFab
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("edge"), b.Const(value));
     }
 
     /// <summary>

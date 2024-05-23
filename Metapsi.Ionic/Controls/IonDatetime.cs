@@ -629,6 +629,20 @@ public static partial class IonDatetimeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the datetime.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the datetime.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The text to display on the picker's "Done" button.
@@ -940,6 +954,20 @@ public static partial class IonDatetimeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, multiple dates can be selected at once. Only applies to `presentation="date"` and `preferWheel="false"`.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), value);
+    }
+    /// <summary>
+    /// If `true`, multiple dates can be selected at once. Only applies to `presentation="date"` and `preferWheel="false"`.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(value));
+    }
 
     /// <summary>
     /// The name of the control, which is submitted with the form data.
@@ -962,6 +990,20 @@ public static partial class IonDatetimeControl
     public static void SetPreferWheel<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("preferWheel"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a wheel picker will be rendered instead of a calendar grid where possible. If `false`, a calendar grid will be rendered instead of a wheel picker where possible.  A wheel picker can be rendered instead of a grid when `presentation` is one of the following values: `"date"`, `"date-time"`, or `"time-date"`.  A wheel picker will always be rendered regardless of the `preferWheel` value when `presentation` is one of the following values: `"time"`, `"month"`, `"month-year"`, or `"year"`.
+    /// </summary>
+    public static void SetPreferWheel<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("preferWheel"), value);
+    }
+    /// <summary>
+    /// If `true`, a wheel picker will be rendered instead of a calendar grid where possible. If `false`, a calendar grid will be rendered instead of a wheel picker where possible.  A wheel picker can be rendered instead of a grid when `presentation` is one of the following values: `"date"`, `"date-time"`, or `"time-date"`.  A wheel picker will always be rendered regardless of the `preferWheel` value when `presentation` is one of the following values: `"time"`, `"month"`, `"month-year"`, or `"year"`.
+    /// </summary>
+    public static void SetPreferWheel<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("preferWheel"), b.Const(value));
     }
 
     /// <summary>
@@ -1021,6 +1063,20 @@ public static partial class IonDatetimeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the datetime appears normal but the selected date cannot be changed.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
+    }
+    /// <summary>
+    /// If `true`, the datetime appears normal but the selected date cannot be changed.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, a "Clear" button will be rendered alongside the default "Cancel" and "OK" buttons at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
@@ -1028,6 +1084,20 @@ public static partial class IonDatetimeControl
     public static void SetShowClearButton<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showClearButton"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a "Clear" button will be rendered alongside the default "Cancel" and "OK" buttons at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
+    /// </summary>
+    public static void SetShowClearButton<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showClearButton"), value);
+    }
+    /// <summary>
+    /// If `true`, a "Clear" button will be rendered alongside the default "Cancel" and "OK" buttons at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
+    /// </summary>
+    public static void SetShowClearButton<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showClearButton"), b.Const(value));
     }
 
     /// <summary>
@@ -1037,6 +1107,20 @@ public static partial class IonDatetimeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultButtons"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the default "Cancel" and "OK" buttons will be rendered at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
+    /// </summary>
+    public static void SetShowDefaultButtons<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultButtons"), value);
+    }
+    /// <summary>
+    /// If `true`, the default "Cancel" and "OK" buttons will be rendered at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
+    /// </summary>
+    public static void SetShowDefaultButtons<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultButtons"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the default "Time" label will be rendered for the time selector of the `ion-datetime` component. Developers can also use the `time-label` slot if they want to customize this label. If a custom label is set in the `time-label` slot then the default label will not be rendered.
@@ -1045,6 +1129,20 @@ public static partial class IonDatetimeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTimeLabel"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the default "Time" label will be rendered for the time selector of the `ion-datetime` component. Developers can also use the `time-label` slot if they want to customize this label. If a custom label is set in the `time-label` slot then the default label will not be rendered.
+    /// </summary>
+    public static void SetShowDefaultTimeLabel<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTimeLabel"), value);
+    }
+    /// <summary>
+    /// If `true`, the default "Time" label will be rendered for the time selector of the `ion-datetime` component. Developers can also use the `time-label` slot if they want to customize this label. If a custom label is set in the `time-label` slot then the default label will not be rendered.
+    /// </summary>
+    public static void SetShowDefaultTimeLabel<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTimeLabel"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, a header will be shown above the calendar picker. This will include both the slotted title, and the selected date.
@@ -1052,6 +1150,20 @@ public static partial class IonDatetimeControl
     public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTitle"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a header will be shown above the calendar picker. This will include both the slotted title, and the selected date.
+    /// </summary>
+    public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTitle"), value);
+    }
+    /// <summary>
+    /// If `true`, a header will be shown above the calendar picker. This will include both the slotted title, and the selected date.
+    /// </summary>
+    public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b, bool value) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showDefaultTitle"), b.Const(value));
     }
 
     /// <summary>

@@ -210,6 +210,20 @@ public static partial class IonNavControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the nav should animate the transition of components.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonNav
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, the nav should animate the transition of components.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonNav
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// By default `ion-nav` animates transition between pages based in the mode (ios or material design). However, this property allows to create custom transition using `AnimationBuilder` functions.
@@ -304,6 +318,20 @@ public static partial class IonNavControl
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonNav
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
+    }
+    /// <summary>
+    /// If the nav component should allow for swipe-to-go-back.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonNav
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), value);
+    }
+    /// <summary>
+    /// If the nav component should allow for swipe-to-go-back.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool value) where T: IonNav
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(value));
     }
 
     /// <summary>

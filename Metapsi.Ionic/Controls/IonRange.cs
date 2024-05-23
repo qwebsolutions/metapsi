@@ -393,6 +393,20 @@ public static partial class IonRangeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the range.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the range.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// Show two knobs.
@@ -400,6 +414,20 @@ public static partial class IonRangeControl
     public static void SetDualKnobs<T>(this PropsBuilder<T> b) where T: IonRange
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), b.Const(true));
+    }
+    /// <summary>
+    /// Show two knobs.
+    /// </summary>
+    public static void SetDualKnobs<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), value);
+    }
+    /// <summary>
+    /// Show two knobs.
+    /// </summary>
+    public static void SetDualKnobs<T>(this PropsBuilder<T> b, bool value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), b.Const(value));
     }
 
     /// <summary>
@@ -513,6 +541,20 @@ public static partial class IonRangeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// </summary>
+    public static void SetPin<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), value);
+    }
+    /// <summary>
+    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// </summary>
+    public static void SetPin<T>(this PropsBuilder<T> b, bool value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), b.Const(value));
+    }
 
     /// <summary>
     /// A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
@@ -536,6 +578,20 @@ public static partial class IonRangeControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// </summary>
+    public static void SetSnaps<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), value);
+    }
+    /// <summary>
+    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// </summary>
+    public static void SetSnaps<T>(this PropsBuilder<T> b, bool value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), b.Const(value));
+    }
 
     /// <summary>
     /// Specifies the value granularity.
@@ -558,6 +614,20 @@ public static partial class IonRangeControl
     public static void SetTicks<T>(this PropsBuilder<T> b) where T: IonRange
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// </summary>
+    public static void SetTicks<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), value);
+    }
+    /// <summary>
+    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// </summary>
+    public static void SetTicks<T>(this PropsBuilder<T> b, bool value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), b.Const(value));
     }
 
     /// <summary>

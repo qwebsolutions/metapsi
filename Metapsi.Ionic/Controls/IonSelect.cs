@@ -497,6 +497,20 @@ public static partial class IonSelectControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the select.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the select.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The toggle icon to show when the select is open. If defined, the icon rotation behavior in `md` mode will be disabled. If undefined, `toggleIcon` will be used for when the select is both open and closed.
@@ -659,6 +673,20 @@ public static partial class IonSelectControl
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonSelect
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the select can accept multiple values.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), value);
+    }
+    /// <summary>
+    /// If `true`, the select can accept multiple values.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, bool value) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(value));
     }
 
     /// <summary>

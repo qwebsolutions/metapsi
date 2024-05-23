@@ -264,6 +264,20 @@ public static partial class IonToggleControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the toggle is selected.
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), value);
+    }
+    /// <summary>
+    /// If `true`, the toggle is selected.
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b, bool value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(value));
+    }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
@@ -350,6 +364,20 @@ public static partial class IonToggleControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the toggle.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the toggle.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// Enables the on/off accessibility switch labels within the toggle.
@@ -357,6 +385,20 @@ public static partial class IonToggleControl
     public static void SetEnableOnOffLabels<T>(this PropsBuilder<T> b) where T: IonToggle
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("enableOnOffLabels"), b.Const(true));
+    }
+    /// <summary>
+    /// Enables the on/off accessibility switch labels within the toggle.
+    /// </summary>
+    public static void SetEnableOnOffLabels<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("enableOnOffLabels"), value);
+    }
+    /// <summary>
+    /// Enables the on/off accessibility switch labels within the toggle.
+    /// </summary>
+    public static void SetEnableOnOffLabels<T>(this PropsBuilder<T> b, bool value) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("enableOnOffLabels"), b.Const(value));
     }
 
     /// <summary>

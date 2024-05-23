@@ -305,6 +305,20 @@ public static partial class IonLoadingControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the loading indicator will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the loading indicator will be dismissed when the backdrop is clicked.
@@ -312,6 +326,20 @@ public static partial class IonLoadingControl
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonLoading
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), value);
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(value));
     }
 
     /// <summary>
@@ -395,6 +423,20 @@ public static partial class IonLoadingControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the loading indicator will open. If `false`, the loading indicator will close. Use this if you need finer grained control over presentation, otherwise just use the loadingController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the loading indicator dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), value);
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will open. If `false`, the loading indicator will close. Use this if you need finer grained control over presentation, otherwise just use the loadingController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the loading indicator dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
@@ -402,6 +444,20 @@ public static partial class IonLoadingControl
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonLoading
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), value);
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(value));
     }
 
     /// <summary>
@@ -455,6 +511,20 @@ public static partial class IonLoadingControl
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonLoading
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the loading indicator.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), value);
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the loading indicator.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(value));
     }
 
     /// <summary>
@@ -527,6 +597,20 @@ public static partial class IonLoadingControl
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonLoading
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+    }
+    /// <summary>
+    /// If `true`, the loading indicator will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
     }
 
     /// <summary>

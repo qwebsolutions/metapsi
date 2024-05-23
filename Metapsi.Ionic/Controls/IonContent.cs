@@ -272,6 +272,20 @@ public static partial class IonContentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("forceOverscroll"), b.Const(true));
     }
+    /// <summary>
+    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
+    /// </summary>
+    public static void SetForceOverscroll<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("forceOverscroll"), value);
+    }
+    /// <summary>
+    /// If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting.
+    /// </summary>
+    public static void SetForceOverscroll<T>(this PropsBuilder<T> b, bool value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("forceOverscroll"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
@@ -279,6 +293,20 @@ public static partial class IonContentControl
     public static void SetFullscreen<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("fullscreen"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+    /// </summary>
+    public static void SetFullscreen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("fullscreen"), value);
+    }
+    /// <summary>
+    /// If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+    /// </summary>
+    public static void SetFullscreen<T>(this PropsBuilder<T> b, bool value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("fullscreen"), b.Const(value));
     }
 
     /// <summary>
@@ -288,6 +316,20 @@ public static partial class IonContentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollEvents"), b.Const(true));
     }
+    /// <summary>
+    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
+    /// </summary>
+    public static void SetScrollEvents<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollEvents"), value);
+    }
+    /// <summary>
+    /// Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`.
+    /// </summary>
+    public static void SetScrollEvents<T>(this PropsBuilder<T> b, bool value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollEvents"), b.Const(value));
+    }
 
     /// <summary>
     /// If you want to enable the content scrolling in the X axis, set this property to `true`.
@@ -296,6 +338,20 @@ public static partial class IonContentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollX"), b.Const(true));
     }
+    /// <summary>
+    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
+    /// </summary>
+    public static void SetScrollX<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollX"), value);
+    }
+    /// <summary>
+    /// If you want to enable the content scrolling in the X axis, set this property to `true`.
+    /// </summary>
+    public static void SetScrollX<T>(this PropsBuilder<T> b, bool value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollX"), b.Const(value));
+    }
 
     /// <summary>
     /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
@@ -303,6 +359,20 @@ public static partial class IonContentControl
     public static void SetScrollY<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollY"), b.Const(true));
+    }
+    /// <summary>
+    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
+    /// </summary>
+    public static void SetScrollY<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollY"), value);
+    }
+    /// <summary>
+    /// If you want to disable the content scrolling in the Y axis, set this property to `false`.
+    /// </summary>
+    public static void SetScrollY<T>(this PropsBuilder<T> b, bool value) where T: IonContent
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollY"), b.Const(value));
     }
 
     /// <summary>

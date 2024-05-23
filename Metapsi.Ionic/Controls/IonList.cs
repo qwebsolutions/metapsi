@@ -139,6 +139,20 @@ public static partial class IonListControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("inset"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the list will have margin around it and rounded corners.
+    /// </summary>
+    public static void SetInset<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonList
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("inset"), value);
+    }
+    /// <summary>
+    /// If `true`, the list will have margin around it and rounded corners.
+    /// </summary>
+    public static void SetInset<T>(this PropsBuilder<T> b, bool value) where T: IonList
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("inset"), b.Const(value));
+    }
 
     /// <summary>
     /// How the bottom border should be displayed on all items.

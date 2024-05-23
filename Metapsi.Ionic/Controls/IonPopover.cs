@@ -453,6 +453,20 @@ public static partial class IonPopoverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the popover will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the popover will display an arrow that points at the `reference` when running in `ios` mode. Does not apply in `md` mode.
@@ -461,6 +475,20 @@ public static partial class IonPopoverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("arrow"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the popover will display an arrow that points at the `reference` when running in `ios` mode. Does not apply in `md` mode.
+    /// </summary>
+    public static void SetArrow<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("arrow"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will display an arrow that points at the `reference` when running in `ios` mode. Does not apply in `md` mode.
+    /// </summary>
+    public static void SetArrow<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("arrow"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the popover will be dismissed when the backdrop is clicked.
@@ -468,6 +496,20 @@ public static partial class IonPopoverControl
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the popover will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(value));
     }
 
     /// <summary>
@@ -535,6 +577,20 @@ public static partial class IonPopoverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("dismissOnSelect"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the popover will be automatically dismissed when the content has been clicked.
+    /// </summary>
+    public static void SetDismissOnSelect<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("dismissOnSelect"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will be automatically dismissed when the content has been clicked.
+    /// </summary>
+    public static void SetDismissOnSelect<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("dismissOnSelect"), b.Const(value));
+    }
 
     /// <summary>
     /// Animation to use when the popover is presented.
@@ -588,6 +644,20 @@ public static partial class IonPopoverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the popover will open. If `false`, the popover will close. Use this if you need finer grained control over presentation, otherwise just use the popoverController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the popover dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will open. If `false`, the popover will close. Use this if you need finer grained control over presentation, otherwise just use the popoverController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the popover dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the component passed into `ion-popover` will automatically be mounted when the popover is created. The component will remain mounted even when the popover is dismissed. However, the component will be destroyed when the popover is destroyed. This property is not reactive and should only be used when initially creating a popover.  Note: This feature only applies to inline popovers in JavaScript frameworks such as Angular, React, and Vue.
@@ -596,6 +666,20 @@ public static partial class IonPopoverControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the component passed into `ion-popover` will automatically be mounted when the popover is created. The component will remain mounted even when the popover is dismissed. However, the component will be destroyed when the popover is destroyed. This property is not reactive and should only be used when initially creating a popover.  Note: This feature only applies to inline popovers in JavaScript frameworks such as Angular, React, and Vue.
+    /// </summary>
+    public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), value);
+    }
+    /// <summary>
+    /// If `true`, the component passed into `ion-popover` will automatically be mounted when the popover is created. The component will remain mounted even when the popover is dismissed. However, the component will be destroyed when the popover is destroyed. This property is not reactive and should only be used when initially creating a popover.  Note: This feature only applies to inline popovers in JavaScript frameworks such as Angular, React, and Vue.
+    /// </summary>
+    public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
@@ -603,6 +687,20 @@ public static partial class IonPopoverControl
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), value);
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(value));
     }
 
     /// <summary>
@@ -656,6 +754,20 @@ public static partial class IonPopoverControl
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the popover. This property controls whether or not the backdrop darkens the screen when the popover is presented. It does not control whether or not the backdrop is active or present in the DOM.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), value);
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the popover. This property controls whether or not the backdrop darkens the screen when the popover is presented. It does not control whether or not the backdrop is active or present in the DOM.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(value));
     }
 
     /// <summary>
@@ -722,6 +834,20 @@ public static partial class IonPopoverControl
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the popover will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+    }
+    /// <summary>
+    /// If `true`, the popover will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
     }
 
     /// <summary>

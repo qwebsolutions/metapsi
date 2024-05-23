@@ -885,6 +885,20 @@ public static partial class IonSearchbarControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, enable searchbar animation.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, enable searchbar animation.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
@@ -1440,6 +1454,20 @@ public static partial class IonSearchbarControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
@@ -1688,6 +1716,20 @@ public static partial class IonSearchbarControl
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, enable spellcheck on the input.
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), value);
+    }
+    /// <summary>
+    /// If `true`, enable spellcheck on the input.
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool value) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(value));
     }
 
     /// <summary>

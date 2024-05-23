@@ -80,6 +80,20 @@ public static partial class IonGridControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("fixed"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the grid will have a fixed width based on the screen size.
+    /// </summary>
+    public static void SetFixed<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonGrid
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("fixed"), value);
+    }
+    /// <summary>
+    /// If `true`, the grid will have a fixed width based on the screen size.
+    /// </summary>
+    public static void SetFixed<T>(this PropsBuilder<T> b, bool value) where T: IonGrid
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("fixed"), b.Const(value));
+    }
 
 }
 

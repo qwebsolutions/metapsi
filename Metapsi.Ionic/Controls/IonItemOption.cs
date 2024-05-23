@@ -290,6 +290,20 @@ public static partial class IonItemOptionControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the item option.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItemOption
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the item option.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonItemOption
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
@@ -312,6 +326,20 @@ public static partial class IonItemOptionControl
     public static void SetExpandable<T>(this PropsBuilder<T> b) where T: IonItemOption
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("expandable"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the option will expand to take up the available width and cover any other options.
+    /// </summary>
+    public static void SetExpandable<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItemOption
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("expandable"), value);
+    }
+    /// <summary>
+    /// If `true`, the option will expand to take up the available width and cover any other options.
+    /// </summary>
+    public static void SetExpandable<T>(this PropsBuilder<T> b, bool value) where T: IonItemOption
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("expandable"), b.Const(value));
     }
 
     /// <summary>

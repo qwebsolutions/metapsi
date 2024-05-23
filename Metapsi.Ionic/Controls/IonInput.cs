@@ -1480,6 +1480,20 @@ public static partial class IonInputControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
     }
+    /// <summary>
+    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// </summary>
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), value);
+    }
+    /// <summary>
+    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// </summary>
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
@@ -1488,6 +1502,20 @@ public static partial class IonInputControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("clearInput"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+    /// </summary>
+    public static void SetClearInput<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearInput"), value);
+    }
+    /// <summary>
+    /// If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+    /// </summary>
+    public static void SetClearInput<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearInput"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types.
@@ -1495,6 +1523,20 @@ public static partial class IonInputControl
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types.
+    /// </summary>
+    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), value);
+    }
+    /// <summary>
+    /// If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types.
+    /// </summary>
+    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), b.Const(value));
     }
 
     /// <summary>
@@ -1582,6 +1624,20 @@ public static partial class IonInputControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// </summary>
+    public static void SetCounter<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), value);
+    }
+    /// <summary>
+    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// </summary>
+    public static void SetCounter<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), b.Const(value));
+    }
 
     /// <summary>
     /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
@@ -1619,6 +1675,20 @@ public static partial class IonInputControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the input.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>
@@ -1934,6 +2004,20 @@ public static partial class IonInputControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user can enter more than one value. This attribute applies when the type attribute is set to `"email"`, otherwise it is ignored.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), value);
+    }
+    /// <summary>
+    /// If `true`, the user can enter more than one value. This attribute applies when the type attribute is set to `"email"`, otherwise it is ignored.
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(value));
+    }
 
     /// <summary>
     /// The name of the control, which is submitted with the form data.
@@ -1987,6 +2071,20 @@ public static partial class IonInputControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot modify the value.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot modify the value.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the user must fill in a value before submitting a form.
@@ -1994,6 +2092,20 @@ public static partial class IonInputControl
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user must fill in a value before submitting a form.
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), value);
+    }
+    /// <summary>
+    /// If `true`, the user must fill in a value before submitting a form.
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(value));
     }
 
     /// <summary>
@@ -2010,6 +2122,20 @@ public static partial class IonInputControl
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the element will have its spelling and grammar checked.
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), value);
+    }
+    /// <summary>
+    /// If `true`, the element will have its spelling and grammar checked.
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool value) where T: IonInput
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(value));
     }
 
     /// <summary>

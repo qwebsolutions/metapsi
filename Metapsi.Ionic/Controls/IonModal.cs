@@ -288,6 +288,20 @@ public static partial class IonModalControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the modal will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
+    }
+    /// <summary>
+    /// If `true`, the modal will animate.
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+    }
 
     /// <summary>
     /// A decimal value between 0 and 1 that indicates the point after which the backdrop will begin to fade in when using a sheet modal. Prior to this point, the backdrop will be hidden and the content underneath the sheet can be interacted with. This value is exclusive meaning the backdrop will become active after the value specified.
@@ -310,6 +324,20 @@ public static partial class IonModalControl
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonModal
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the modal will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), value);
+    }
+    /// <summary>
+    /// If `true`, the modal will be dismissed when the backdrop is clicked.
+    /// </summary>
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(value));
     }
 
     /// <summary>
@@ -348,6 +376,20 @@ public static partial class IonModalControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("canDismiss"), b.Const(true));
     }
+    /// <summary>
+    /// Determines whether or not a modal can dismiss when calling the `dismiss` method.  If the value is `true` or the value's function returns `true`, the modal will close when trying to dismiss. If the value is `false` or the value's function returns `false`, the modal will not close when trying to dismiss.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// </summary>
+    public static void SetCanDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("canDismiss"), value);
+    }
+    /// <summary>
+    /// Determines whether or not a modal can dismiss when calling the `dismiss` method.  If the value is `true` or the value's function returns `true`, the modal will close when trying to dismiss. If the value is `false` or the value's function returns `false`, the modal will not close when trying to dismiss.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// </summary>
+    public static void SetCanDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("canDismiss"), b.Const(value));
+    }
 
     /// <summary>
     /// Animation to use when the modal is presented.
@@ -370,6 +412,20 @@ public static partial class IonModalControl
     public static void SetHandle<T>(this PropsBuilder<T> b) where T: IonModal
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("handle"), b.Const(true));
+    }
+    /// <summary>
+    /// The horizontal line that displays at the top of a sheet modal. It is `true` by default when setting the `breakpoints` and `initialBreakpoint` properties.
+    /// </summary>
+    public static void SetHandle<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("handle"), value);
+    }
+    /// <summary>
+    /// The horizontal line that displays at the top of a sheet modal. It is `true` by default when setting the `breakpoints` and `initialBreakpoint` properties.
+    /// </summary>
+    public static void SetHandle<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("handle"), b.Const(value));
     }
 
     /// <summary>
@@ -424,6 +480,20 @@ public static partial class IonModalControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the modal will open. If `false`, the modal will close. Use this if you need finer grained control over presentation, otherwise just use the modalController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the modal dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), value);
+    }
+    /// <summary>
+    /// If `true`, the modal will open. If `false`, the modal will close. Use this if you need finer grained control over presentation, otherwise just use the modalController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the modal dismisses. You will need to do that in your code.
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the component passed into `ion-modal` will automatically be mounted when the modal is created. The component will remain mounted even when the modal is dismissed. However, the component will be destroyed when the modal is destroyed. This property is not reactive and should only be used when initially creating a modal.  Note: This feature only applies to inline modals in JavaScript frameworks such as Angular, React, and Vue.
@@ -432,6 +502,20 @@ public static partial class IonModalControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the component passed into `ion-modal` will automatically be mounted when the modal is created. The component will remain mounted even when the modal is dismissed. However, the component will be destroyed when the modal is destroyed. This property is not reactive and should only be used when initially creating a modal.  Note: This feature only applies to inline modals in JavaScript frameworks such as Angular, React, and Vue.
+    /// </summary>
+    public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), value);
+    }
+    /// <summary>
+    /// If `true`, the component passed into `ion-modal` will automatically be mounted when the modal is created. The component will remain mounted even when the modal is dismissed. However, the component will be destroyed when the modal is destroyed. This property is not reactive and should only be used when initially creating a modal.  Note: This feature only applies to inline modals in JavaScript frameworks such as Angular, React, and Vue.
+    /// </summary>
+    public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keepContentsMounted"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
@@ -439,6 +523,20 @@ public static partial class IonModalControl
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonModal
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), value);
+    }
+    /// <summary>
+    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// </summary>
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(value));
     }
 
     /// <summary>
@@ -492,6 +590,20 @@ public static partial class IonModalControl
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonModal
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the modal. This property controls whether or not the backdrop darkens the screen when the modal is presented. It does not control whether or not the backdrop is active or present in the DOM.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), value);
+    }
+    /// <summary>
+    /// If `true`, a backdrop will be displayed behind the modal. This property controls whether or not the backdrop darkens the screen when the modal is presented. It does not control whether or not the backdrop is active or present in the DOM.
+    /// </summary>
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool value) where T: IonModal
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(value));
     }
 
     /// <summary>

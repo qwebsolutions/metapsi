@@ -223,6 +223,20 @@ public static partial class IonMenuControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the menu is disabled.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the menu is disabled.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered.
@@ -275,6 +289,20 @@ public static partial class IonMenuControl
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, swiping the menu is enabled.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), value);
+    }
+    /// <summary>
+    /// If `true`, swiping the menu is enabled.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool value) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(value));
     }
 
     /// <summary>

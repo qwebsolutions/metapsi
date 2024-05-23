@@ -201,6 +201,20 @@ public static partial class IonBreadcrumbControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to `true` for the last breadcrumb if it is not set on any.
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), value);
+    }
+    /// <summary>
+    /// If `true`, the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to `true` for the last breadcrumb if it is not set on any.
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b, bool value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(value));
+    }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
@@ -286,6 +300,20 @@ public static partial class IonBreadcrumbControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the breadcrumb.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the breadcrumb.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>
@@ -391,6 +419,20 @@ public static partial class IonBreadcrumbControl
     public static void SetSeparator<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("separator"), b.Const(true));
+    }
+    /// <summary>
+    /// If true, show a separator between this breadcrumb and the next. Defaults to `true` for all breadcrumbs except the last.
+    /// </summary>
+    public static void SetSeparator<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("separator"), value);
+    }
+    /// <summary>
+    /// If true, show a separator between this breadcrumb and the next. Defaults to `true` for all breadcrumbs except the last.
+    /// </summary>
+    public static void SetSeparator<T>(this PropsBuilder<T> b, bool value) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("separator"), b.Const(value));
     }
 
     /// <summary>

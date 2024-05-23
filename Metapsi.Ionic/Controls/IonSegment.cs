@@ -241,6 +241,20 @@ public static partial class IonSegmentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the segment.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the segment.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The mode determines which platform styles to use.
@@ -264,6 +278,20 @@ public static partial class IonSegmentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("scrollable"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
+    /// </summary>
+    public static void SetScrollable<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollable"), value);
+    }
+    /// <summary>
+    /// If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons.
+    /// </summary>
+    public static void SetScrollable<T>(this PropsBuilder<T> b, bool value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("scrollable"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
@@ -272,6 +300,20 @@ public static partial class IonSegmentControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("selectOnFocus"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
+    /// </summary>
+    public static void SetSelectOnFocus<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("selectOnFocus"), value);
+    }
+    /// <summary>
+    /// If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element.
+    /// </summary>
+    public static void SetSelectOnFocus<T>(this PropsBuilder<T> b, bool value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("selectOnFocus"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, users will be able to swipe between segment buttons to activate them.
@@ -279,6 +321,20 @@ public static partial class IonSegmentControl
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonSegment
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, users will be able to swipe between segment buttons to activate them.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), value);
+    }
+    /// <summary>
+    /// If `true`, users will be able to swipe between segment buttons to activate them.
+    /// </summary>
+    public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool value) where T: IonSegment
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("swipeGesture"), b.Const(value));
     }
 
     /// <summary>

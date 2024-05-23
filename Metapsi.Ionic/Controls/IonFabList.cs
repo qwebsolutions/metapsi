@@ -116,6 +116,20 @@ public static partial class IonFabListControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the fab list will show all fab buttons in the list.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), value);
+    }
+    /// <summary>
+    /// If `true`, the fab list will show all fab buttons in the list.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, bool value) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(value));
+    }
 
     /// <summary>
     /// The side the fab list will show on relative to the main fab button.

@@ -110,6 +110,20 @@ public static partial class IonBackdropControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the backdrop will stop propagation on tap.
+    /// </summary>
+    public static void SetStopPropagation<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), value);
+    }
+    /// <summary>
+    /// If `true`, the backdrop will stop propagation on tap.
+    /// </summary>
+    public static void SetStopPropagation<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
@@ -118,6 +132,20 @@ public static partial class IonBackdropControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// </summary>
+    public static void SetTappable<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), value);
+    }
+    /// <summary>
+    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// </summary>
+    public static void SetTappable<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the backdrop will be visible.
@@ -125,6 +153,20 @@ public static partial class IonBackdropControl
     public static void SetVisible<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the backdrop will be visible.
+    /// </summary>
+    public static void SetVisible<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), value);
+    }
+    /// <summary>
+    /// If `true`, the backdrop will be visible.
+    /// </summary>
+    public static void SetVisible<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), b.Const(value));
     }
 
     /// <summary>

@@ -264,6 +264,20 @@ public static partial class IonCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the checkbox is selected.
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), value);
+    }
+    /// <summary>
+    /// If `true`, the checkbox is selected.
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b, bool value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(value));
+    }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
@@ -350,6 +364,20 @@ public static partial class IonCheckboxControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the checkbox.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the checkbox.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// If `true`, the checkbox will visually appear as indeterminate.
@@ -357,6 +385,20 @@ public static partial class IonCheckboxControl
     public static void SetIndeterminate<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the checkbox will visually appear as indeterminate.
+    /// </summary>
+    public static void SetIndeterminate<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), value);
+    }
+    /// <summary>
+    /// If `true`, the checkbox will visually appear as indeterminate.
+    /// </summary>
+    public static void SetIndeterminate<T>(this PropsBuilder<T> b, bool value) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("indeterminate"), b.Const(value));
     }
 
     /// <summary>

@@ -256,6 +256,20 @@ public static partial class IonProgressBarControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("reversed"), b.Const(true));
     }
+    /// <summary>
+    /// If true, reverse the progress bar direction.
+    /// </summary>
+    public static void SetReversed<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("reversed"), value);
+    }
+    /// <summary>
+    /// If true, reverse the progress bar direction.
+    /// </summary>
+    public static void SetReversed<T>(this PropsBuilder<T> b, bool value) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("reversed"), b.Const(value));
+    }
 
     /// <summary>
     /// The state of the progress bar, based on if the time the process takes is known or not. Default options are: `"determinate"` (no animation), `"indeterminate"` (animate from left to right).

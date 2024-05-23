@@ -166,6 +166,20 @@ public static partial class IonAccordionControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the accordion cannot be interacted with.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the accordion cannot be interacted with.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The mode determines which platform styles to use.
@@ -188,6 +202,20 @@ public static partial class IonAccordionControl
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
+    }
+    /// <summary>
+    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
     }
 
     /// <summary>

@@ -217,6 +217,20 @@ public static partial class IonItemDividerControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("sticky"), b.Const(true));
     }
+    /// <summary>
+    /// When it's set to `true`, the item-divider will stay visible when it reaches the top of the viewport until the next `ion-item-divider` replaces it.  This feature relies in `position:sticky`: https://caniuse.com/#feat=css-sticky
+    /// </summary>
+    public static void SetSticky<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItemDivider
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("sticky"), value);
+    }
+    /// <summary>
+    /// When it's set to `true`, the item-divider will stay visible when it reaches the top of the viewport until the next `ion-item-divider` replaces it.  This feature relies in `position:sticky`: https://caniuse.com/#feat=css-sticky
+    /// </summary>
+    public static void SetSticky<T>(this PropsBuilder<T> b, bool value) where T: IonItemDivider
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("sticky"), b.Const(value));
+    }
 
 }
 

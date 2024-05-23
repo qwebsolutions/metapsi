@@ -215,6 +215,20 @@ public static partial class IonCardControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("button"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, a button tag will be rendered and the card will be tappable.
+    /// </summary>
+    public static void SetButton<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonCard
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("button"), value);
+    }
+    /// <summary>
+    /// If `true`, a button tag will be rendered and the card will be tappable.
+    /// </summary>
+    public static void SetButton<T>(this PropsBuilder<T> b, bool value) where T: IonCard
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("button"), b.Const(value));
+    }
 
     /// <summary>
     /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
@@ -300,6 +314,20 @@ public static partial class IonCardControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonCard
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the card.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonCard
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the card.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonCard
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>

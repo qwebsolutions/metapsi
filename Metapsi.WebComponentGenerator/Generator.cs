@@ -680,6 +680,23 @@ public static class Generator
         codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(true));");
         codeBuilder.AppendLine("    }");
 
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {property.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<bool> value) where T: {component.Name}");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), value);");
+        codeBuilder.AppendLine("    }");
+
+        codeBuilder.AppendLine("    /// <summary>");
+        codeBuilder.AppendLine($"    /// {property.Description}");
+        codeBuilder.AppendLine("    /// </summary>");
+        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, bool value) where T: {component.Name}");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(value));");
+        codeBuilder.AppendLine("    }");
+
+
         return codeBuilder.ToString();
     }
 

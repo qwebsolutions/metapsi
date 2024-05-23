@@ -324,6 +324,20 @@ public static partial class IonSpinnerControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("paused"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the spinner's animation will be paused.
+    /// </summary>
+    public static void SetPaused<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("paused"), value);
+    }
+    /// <summary>
+    /// If `true`, the spinner's animation will be paused.
+    /// </summary>
+    public static void SetPaused<T>(this PropsBuilder<T> b, bool value) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("paused"), b.Const(value));
+    }
 
 }
 

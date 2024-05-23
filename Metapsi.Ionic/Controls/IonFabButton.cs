@@ -268,6 +268,20 @@ public static partial class IonFabButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the fab button will be show a close icon.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), value);
+    }
+    /// <summary>
+    /// If `true`, the fab button will be show a close icon.
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, bool value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(value));
+    }
 
     /// <summary>
     /// The icon name to use for the close icon. This will appear when the fab button is pressed. Only applies if it is the main button inside of a fab containing a fab list.
@@ -368,6 +382,20 @@ public static partial class IonFabButtonControl
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the fab button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the fab button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
     }
 
     /// <summary>
@@ -474,6 +502,20 @@ public static partial class IonFabButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("show"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the fab button will show when in a fab-list.
+    /// </summary>
+    public static void SetShow<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("show"), value);
+    }
+    /// <summary>
+    /// If `true`, the fab button will show when in a fab-list.
+    /// </summary>
+    public static void SetShow<T>(this PropsBuilder<T> b, bool value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("show"), b.Const(value));
+    }
 
     /// <summary>
     /// The size of the button. Set this to `small` in order to have a mini fab button.
@@ -504,6 +546,20 @@ public static partial class IonFabButtonControl
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
+    }
+    /// <summary>
+    /// If `true`, the fab button will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+    }
+    /// <summary>
+    /// If `true`, the fab button will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonFabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
     }
 
     /// <summary>

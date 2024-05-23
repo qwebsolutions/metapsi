@@ -203,6 +203,20 @@ public static partial class IonChipControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the chip.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonChip
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the chip.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonChip
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// The mode determines which platform styles to use.
@@ -225,6 +239,20 @@ public static partial class IonChipControl
     public static void SetOutline<T>(this PropsBuilder<T> b) where T: IonChip
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(true));
+    }
+    /// <summary>
+    /// Display an outline style button.
+    /// </summary>
+    public static void SetOutline<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonChip
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), value);
+    }
+    /// <summary>
+    /// Display an outline style button.
+    /// </summary>
+    public static void SetOutline<T>(this PropsBuilder<T> b, bool value) where T: IonChip
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(value));
     }
 
 }

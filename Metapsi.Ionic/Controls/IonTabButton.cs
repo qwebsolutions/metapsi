@@ -207,6 +207,20 @@ public static partial class IonTabButtonControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the user cannot interact with the tab button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the user cannot interact with the tab button.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
@@ -317,6 +331,20 @@ public static partial class IonTabButtonControl
     public static void SetSelected<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("selected"), b.Const(true));
+    }
+    /// <summary>
+    /// The selected tab component
+    /// </summary>
+    public static void SetSelected<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("selected"), value);
+    }
+    /// <summary>
+    /// The selected tab component
+    /// </summary>
+    public static void SetSelected<T>(this PropsBuilder<T> b, bool value) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("selected"), b.Const(value));
     }
 
     /// <summary>

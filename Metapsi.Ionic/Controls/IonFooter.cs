@@ -140,6 +140,20 @@ public static partial class IonFooterControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFooter
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+    }
+    /// <summary>
+    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonFooter
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
+    }
 
 }
 

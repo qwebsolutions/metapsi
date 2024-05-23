@@ -80,6 +80,20 @@ public static partial class IonButtonsControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("collapse"), b.Const(true));
     }
+    /// <summary>
+    /// If true, buttons will disappear when its parent toolbar has fully collapsed if the toolbar is not the first toolbar. If the toolbar is the first toolbar, the buttons will be hidden and will only be shown once all toolbars have fully collapsed.  Only applies in `ios` mode with `collapse` set to `true` on `ion-header`.  Typically used for [Collapsible Large Titles](https://ionicframework.com/docs/api/title#collapsible-large-titles)
+    /// </summary>
+    public static void SetCollapse<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonButtons
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("collapse"), value);
+    }
+    /// <summary>
+    /// If true, buttons will disappear when its parent toolbar has fully collapsed if the toolbar is not the first toolbar. If the toolbar is the first toolbar, the buttons will be hidden and will only be shown once all toolbars have fully collapsed.  Only applies in `ios` mode with `collapse` set to `true` on `ion-header`.  Typically used for [Collapsible Large Titles](https://ionicframework.com/docs/api/title#collapsible-large-titles)
+    /// </summary>
+    public static void SetCollapse<T>(this PropsBuilder<T> b, bool value) where T: IonButtons
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("collapse"), b.Const(value));
+    }
 
 }
 

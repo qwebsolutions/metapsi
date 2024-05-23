@@ -226,6 +226,20 @@ public static partial class IonTabBarControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the tab bar will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTabBar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+    }
+    /// <summary>
+    /// If `true`, the tab bar will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// </summary>
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonTabBar
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
+    }
 
 }
 

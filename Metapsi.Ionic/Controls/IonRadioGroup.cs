@@ -104,6 +104,20 @@ public static partial class IonRadioGroupControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("allowEmptySelection"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the radios can be deselected.
+    /// </summary>
+    public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("allowEmptySelection"), value);
+    }
+    /// <summary>
+    /// If `true`, the radios can be deselected.
+    /// </summary>
+    public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b, bool value) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("allowEmptySelection"), b.Const(value));
+    }
 
     /// <summary>
     /// This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison.

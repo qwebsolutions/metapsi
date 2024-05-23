@@ -111,6 +111,20 @@ public static partial class IonSplitPaneControl
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
     }
+    /// <summary>
+    /// If `true`, the split pane will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSplitPane
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
+    }
+    /// <summary>
+    /// If `true`, the split pane will be hidden.
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonSplitPane
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+    }
 
     /// <summary>
     /// When the split-pane should be shown. Can be a CSS media query expression, or a shortcut expression. Can also be a boolean expression.
@@ -118,6 +132,20 @@ public static partial class IonSplitPaneControl
     public static void SetWhen<T>(this PropsBuilder<T> b) where T: IonSplitPane
     {
         b.SetDynamic(b.Props, DynamicProperty.Bool("when"), b.Const(true));
+    }
+    /// <summary>
+    /// When the split-pane should be shown. Can be a CSS media query expression, or a shortcut expression. Can also be a boolean expression.
+    /// </summary>
+    public static void SetWhen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonSplitPane
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("when"), value);
+    }
+    /// <summary>
+    /// When the split-pane should be shown. Can be a CSS media query expression, or a shortcut expression. Can also be a boolean expression.
+    /// </summary>
+    public static void SetWhen<T>(this PropsBuilder<T> b, bool value) where T: IonSplitPane
+    {
+        b.SetDynamic(b.Props, DynamicProperty.Bool("when"), b.Const(value));
     }
     /// <summary>
     /// When the split-pane should be shown. Can be a CSS media query expression, or a shortcut expression. Can also be a boolean expression.
