@@ -14,14 +14,6 @@ public class PropsBuilder<TProps> : SyntaxBuilder
             this.Props = ((PropsBuilder<TProps>)parent).Props;
         }
     }
-
-    public PropsBuilder<TNewType> Cast<TNewType>()
-    {
-        var newPropsBuilder = new PropsBuilder<TNewType>();
-        newPropsBuilder.InitializeFrom(this);
-        newPropsBuilder.Props = this.Props.As<TNewType>();
-        return newPropsBuilder;
-    }
 }
 
 public static class PropsBuilderExtensions
@@ -58,6 +50,11 @@ public static class PropsBuilderExtensions
     public static Var<TValue> Get<TObject, TValue>(this PropsBuilder<TObject> b, System.Linq.Expressions.Expression<Func<TObject, TValue>> property)
     {
         return b.Get(b.Props, property);
+    }
+
+    public static void SetIfExists<TObject, TValue>(this PropsBuilder<TObject> b, System.Linq.Expressions.Expression<Func<TObject, TValue>> onProperty, Var<TValue> value)
+    {
+        b.If(b.HasObject(value), b => b.Set(onProperty, value));
     }
 
     public static void AddProps<T>(this PropsBuilder<T> b, System.Action<PropsBuilder<T>> setProps)

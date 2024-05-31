@@ -48,7 +48,7 @@ public static class HtmlInputExtensions
         return b.HtmlInput(
             b =>
             {
-                buildProps(b.Cast<HtmlCheckbox>());
+                b.SetProps(b.Props, buildProps);
                 b.SetType("checkbox");
             },
             children);

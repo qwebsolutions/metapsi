@@ -152,8 +152,6 @@ public static partial class CustomElementExtensions
             b => b.Not(b.AreEqual(model.As<object>(), b.Const(NoModel))));
     }
 
-
-
     /// <summary>
     /// Must return the custom element itself as root!
     /// </summary>
@@ -164,12 +162,13 @@ public static partial class CustomElementExtensions
     /// <returns></returns>
     public static string DefineCustomElement<TComponent>(
         this HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init,
         Func<LayoutBuilder, string, Var<TComponent>, Var<IVNode>> render,
-        params Func<SyntaxBuilder, Var<HyperType.Subscription>>[] subscriptions)
+        params Func<SyntaxBuilder, Var<TComponent>, Var<HyperType.Subscription>>[] subscriptions)
     {
         var tagName = GetCustomElementTagName<TComponent>();
 
-        Reference<HyperType.Dispatcher<TComponent>> dispatchRef = new();
+        Reference<HyperType.Dispatcher> dispatchRef = new();
         b.DefineCustomElement(
             tagName,
             (SyntaxBuilder b, Var<DomElement> node) =>
@@ -198,9 +197,9 @@ public static partial class CustomElementExtensions
                 });
 
                 b.Set(appConfig, x => x.view, view);
-                b.Set(appConfig, x => x.init, b.MakeInit(b.Const(NoModel)));
+                b.Set(appConfig, x => x.init, b.Call(init));
                 b.Set(appConfig, x => x.node, node);
-                b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptionsFunction<TComponent>(subscriptions.ToList()));
+                b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TComponent>(subscriptions.ToList()));
 
                 var dispatch = b.App(appConfig.As<HyperType.App<TComponent>>());
                 b.SetRef(b.GlobalRef(dispatchRef), dispatch);
@@ -216,104 +215,118 @@ public static partial class CustomElementExtensions
     /// <summary>
     /// Must return the custom element itself as root!
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TComponent"></typeparam>
     /// <param name="b"></param>
     /// <param name="render"></param>
-    public static string DefineCustomElement<TProps, TModel>(
+    /// <param name="subscriptions"></param>
+    /// <returns></returns>
+    public static string DefineCustomElement<TComponent>(
         this HtmlBuilder b,
-        Func<LayoutBuilder, string, Var<TModel>, Var<TProps>, Var<IVNode>> render,
-        params Func<SyntaxBuilder, Var<HyperType.Subscription>>[] subscriptions)
-        where TProps : IHasDataModel<TModel>, new()
+        Func<LayoutBuilder, string, Var<TComponent>, Var<IVNode>> render,
+        params Func<SyntaxBuilder, Var<TComponent>, Var<HyperType.Subscription>>[] subscriptions)
     {
-        var tagName = GetCustomElementTagName<TProps>();
-
-        HashSet<string> properties = new HashSet<string>();
-        foreach (var property in typeof(TProps).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public))
-        {
-            properties.Add(property.Name);
-        }
-
-        Reference<HyperType.Dispatcher<TModel>> dispatchRef = new();
-        b.DefineCustomElement(
-            tagName, 
-            properties,
-            (SyntaxBuilder b, Var<DomElement> node) =>
-            {
-                Var<TProps> nodeWithModel = node.As<TProps>();
-                var getModel = b.GetProperty<Func<TModel>>(node, "GetModel");
-                var model = b.Call(getModel);
-                b.If(
-                    IsModelInitialized(b, model),
-                    b =>
-                    {
-                        b.Call(
-                            b.GetRef(b.GlobalRef(dispatchRef)).As<Action<Func<TModel, TModel>>>(),
-                            b.Def((SyntaxBuilder b, Var<TModel> _) => model));
-                    });
-            },
-            attach: (SyntaxBuilder b, Var<DomElement> node) =>
-            {
-                var appConfig = b.NewObj<HyperType.App<TModel>>();
-
-                var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-                {
-                    var props = b.NewObjFrom<TProps>(node);
-                    return b.If(
-                        IsModelInitialized(b, model),
-                        b => render(b, tagName, model, props),
-                        b => b.H(tagName));
-                });
-
-                b.Set(appConfig, x => x.view, view);
-                b.Set(appConfig, x => x.init, b.MakeInit(b.Const(NoModel)));
-                b.Set(appConfig, x => x.node, node);
-                b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptionsFunction<TModel>(subscriptions.ToList()));
-                b.Set(appConfig, x => x.dispatch, b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher<TModel>> dispatch) =>
-                {
-                    var customDispatch = b.Def((SyntaxBuilder b, Var<HyperType.Action<TModel, object>> action, Var<object> payload) =>
-                    {
-                        b.Dispatch(dispatch, action, payload);
-                    });
-
-                    return customDispatch.As<HyperType.Dispatcher<TModel>>();
-                }));
-
-                var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
-                b.SetRef(b.GlobalRef(dispatchRef), dispatch);
-            },
-            cleanup: (SyntaxBuilder b, Var<DomElement> node) =>
-            {
-                b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-            });
-
-        return tagName;
+        return b.DefineCustomElement<TComponent>(b => b.MakeInit(b.Const(NoModel)), render, subscriptions);
     }
-    /// <summary>
-    /// Must return the custom element itself as root!
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="render"></param>
-    public static string DefineCustomElement<TProps, TModel>(
-        this HtmlBuilder b,
-        Func<LayoutBuilder, string, Var<TModel>, Var<IVNode>> render)
-        where TProps : IHasDataModel<TModel>, new()
+
+    ///// <summary>
+    ///// Must return the custom element itself as root!
+    ///// </summary>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="render"></param>
+    //public static string DefineCustomElement<TProps, TModel>(
+    //    this HtmlBuilder b,
+    //    Func<LayoutBuilder, string, Var<TModel>, Var<TProps>, Var<IVNode>> render,
+    //    params Func<SyntaxBuilder, Var<HyperType.Subscription>>[] subscriptions)
+    //    where TProps : IHasDataModel<TModel>, new()
+    //{
+    //    var tagName = GetCustomElementTagName<TProps>();
+
+    //    HashSet<string> properties = new HashSet<string>();
+    //    foreach (var property in typeof(TProps).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public))
+    //    {
+    //        properties.Add(property.Name);
+    //    }
+
+    //    Reference<HyperType.Dispatcher> dispatchRef = new();
+    //    b.DefineCustomElement(
+    //        tagName, 
+    //        properties,
+    //        (SyntaxBuilder b, Var<DomElement> node) =>
+    //        {
+    //            Var<TProps> nodeWithModel = node.As<TProps>();
+    //            var getModel = b.GetProperty<Func<TModel>>(node, "GetModel");
+    //            var model = b.Call(getModel);
+    //            b.If(
+    //                IsModelInitialized(b, model),
+    //                b =>
+    //                {
+    //                    b.Call(
+    //                        b.GetRef(b.GlobalRef(dispatchRef)).As<Action<Func<TModel, TModel>>>(),
+    //                        b.Def((SyntaxBuilder b, Var<TModel> _) => model));
+    //                });
+    //        },
+    //        attach: (SyntaxBuilder b, Var<DomElement> node) =>
+    //        {
+    //            var appConfig = b.NewObj<HyperType.App<TModel>>();
+
+    //            var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+    //            {
+    //                var props = b.NewObjFrom<TProps>(node);
+    //                return b.If(
+    //                    IsModelInitialized(b, model),
+    //                    b => render(b, tagName, model, props),
+    //                    b => b.H(tagName));
+    //            });
+
+    //            b.Set(appConfig, x => x.view, view);
+    //            b.Set(appConfig, x => x.init, b.MakeInit(b.Const(NoModel)));
+    //            b.Set(appConfig, x => x.node, node);
+    //            b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
+    //            b.Set(appConfig, x => x.dispatch, b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) =>
+    //            {
+    //                var customDispatch = b.Def((SyntaxBuilder b, Var<HyperType.Action<TModel, object>> action, Var<object> payload) =>
+    //                {
+    //                    b.Dispatch(dispatch, action, payload);
+    //                });
+
+    //                return customDispatch.As<HyperType.Dispatcher>();
+    //            }));
+
+    //            var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
+    //            b.SetRef(b.GlobalRef(dispatchRef), dispatch);
+    //        },
+    //        cleanup: (SyntaxBuilder b, Var<DomElement> node) =>
+    //        {
+    //            b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+    //        });
+
+    //    return tagName;
+    //}
+    ///// <summary>
+    ///// Must return the custom element itself as root!
+    ///// </summary>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="render"></param>
+    //public static string DefineCustomElement<TProps, TModel>(
+    //    this HtmlBuilder b,
+    //    Func<LayoutBuilder, string, Var<TModel>, Var<IVNode>> render)
+    //    where TProps : IHasDataModel<TModel>, new()
+    //{
+    //    return b.DefineCustomElement((LayoutBuilder b, string tagName, Var<TModel> model, Var<TProps> props) =>
+    //    {
+    //        return render(b, tagName, model);
+    //    });
+    //}
+
+    public static Var<HyperType.Effect> BroadcastModel<TModel>(this SyntaxBuilder b, Var<TModel> updatedModel)
     {
-        return b.DefineCustomElement((LayoutBuilder b, string tagName, Var<TModel> model, Var<TProps> props) =>
+        return b.MakeEffect((SyntaxBuilder b) =>
         {
-            return render(b, tagName, model);
+            b.Log("BroadcastModel", updatedModel);
+            b.DispatchEvent(b.Const($"modelUpdated_{typeof(TModel).Name}"), updatedModel);
         });
-    }
-
-    public static Var<HyperType.StateWithEffects> BroadcastModel<TModel>(this SyntaxBuilder b, Var<TModel> updatedModel)
-    {
-        var cloned = b.Clone(updatedModel);
-        return b.MakeStateWithEffects(
-            cloned,
-            b.MakeEffect((SyntaxBuilder b) =>
-            {
-                b.DispatchEvent(b.Const($"modelUpdated_{typeof(TModel).Name}"), b.Clone(cloned));
-            }));
     }
 }
 

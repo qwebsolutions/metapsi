@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using Metapsi.Html;
 using Metapsi.Ui;
-using System.Runtime.CompilerServices;
-using static Metapsi.Ionic.IonCardSubtitle;
 
 namespace Metapsi.Ionic;
 

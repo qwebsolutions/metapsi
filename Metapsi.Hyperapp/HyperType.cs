@@ -3,30 +3,38 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Metapsi.Hyperapp.HyperType;
 
 namespace Metapsi.Hyperapp
 {
 
     public static class HyperType
     {
+        public class Init { }
+
+        public class Subscription { } // [Subscriber, Payload?]
+
+        //Actions are functions that, given a state & optional payload, returns a different state or another action
+        // Action : (State, Payload?) -> NextState
+        //                               | [NextState, ...Effects]
+        //                               | OtherAction
+        //                               | [OtherAction, Payload?]
+        public class Action<TState> { }
+        public class Action<TState, TPayload> { }
+
+        // Effects are the effecter function itself OR effecter function + payload
+        public class Effect { }
+
+        public class Dispatcher { }
+
         public class App<TState>
         {
             public Init init { get; set; }
             public Func<TState, IVNode> view { get; set; }
             public DomElement node { get; set; }
             public Func<TState, List<Subscription>> subscriptions { get; set; }
-            public Func<Dispatcher<TState>, Dispatcher<TState>> dispatch { get; set; }
+            public Func<Dispatcher, Dispatcher> dispatch { get; set; }
         }
-
-        public class Init { }
-        
-        public class Subscription { } // [Subscriber, Payload?]
-        
-        // (DispatchFn, Payload?) -> CleanupFn
-        public class Subscriber { } 
-        public class Subscriber<TPayload> { } 
-        
-        public class Cleanup { }
 
         public static Var<Init> MakeInit<TState>(this SyntaxBuilder b, Var<TState> state)
         {
@@ -48,45 +56,35 @@ namespace Metapsi.Hyperapp
             return action.As<Init>();
         }
 
-        public static Var<HyperType.Subscriber<TProps>> MakeSubscriber<TState, TProps>(this SyntaxBuilder b, System.Func<SyntaxBuilder, Var<Dispatcher<TState>>, Var<TProps>, Var<Cleanup>> subscriber)
-        {
-            var subscriberFunc = b.Def(subscriber);
-            return subscriberFunc.As<HyperType.Subscriber<TProps>>();
-        }
-
-        public static Var<HyperType.Subscriber<TProps>> MakeSubscriber<TState, TPayload, TProps>(this SyntaxBuilder b, System.Func<SyntaxBuilder, Var<Dispatcher<TState>>, Var<TProps>, Var<Cleanup>> subscriber)
-        {
-            var subscriberFunc = b.Def(subscriber);
-            return subscriberFunc.As<HyperType.Subscriber<TProps>>();
-        }
-
-        public static Var<HyperType.Subscription> MakeSubscription(this SyntaxBuilder b, Var<Subscriber> subscriber)
+        public static Var<HyperType.Subscription> MakeSubscription<TState, TSubProps>(
+            this SyntaxBuilder b,
+            Var<System.Func<HyperType.Dispatcher, TSubProps, System.Action>> subscriberFn,
+            Var<TSubProps> subProps)
         {
             Var<List<object>> subscription = b.NewCollection<object>();
-            b.Push(subscription, subscriber.As<object>());
+            b.Push(subscription, subscriberFn.As<object>());
+            b.Push(subscription, subProps.As<object>());
             return subscription.As<HyperType.Subscription>();
         }
 
-        public static Var<HyperType.Subscription> MakeSubscription<TPayload>(this SyntaxBuilder b, Var<Subscriber<TPayload>> subscriber, Var<TPayload> payload)
+        public static Var<HyperType.Subscription> MakeSubscription<TState, TSubProps>(
+            this SyntaxBuilder b,
+            Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TSubProps>, Var<System.Action>> subscriberFn,
+            Var<TSubProps> subProps)
         {
-            Var<List<object>> subscription = b.NewCollection<object>();
-            b.Push(subscription, subscriber.As<object>());
-            b.Push(subscription, payload.As<object>());
-            return subscription.As<HyperType.Subscription>();
+            return b.MakeSubscription<TState, TSubProps>(b.Def(subscriberFn), subProps);
         }
 
-        public static void AddSubscription<TState>(this SyntaxBuilder b, string subscriptionName, Func<SyntaxBuilder, Var<TState>, Var<HyperType.Subscription>> buildSubscription)
+        /// <summary>
+        /// Return NoSubscription to unsubscribe
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Subscription> NoSubscription(this SyntaxBuilder b)
         {
-            var subscriptionBuilder = b.Def(subscriptionName, buildSubscription);
+            return b.Const(false).As<HyperType.Subscription>();
         }
 
-        //Actions are functions that, given a state & optional payload, returns a different state or another action
-        // Action : (State, Payload?) -> NextState
-        //                               | [NextState, ...Effects]
-        //                               | OtherAction
-        //                               | [OtherAction, Payload?]
-        public class Action<TState> { }
-        public class Action<TState, TPayload> { }
 
         // State & effects allow async execution.
         // The state is temporary, effects execute async code
@@ -110,7 +108,7 @@ namespace Metapsi.Hyperapp
         public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(
             this SyntaxBuilder b,
             Var<TState> state,
-            params System.Action<SyntaxBuilder, Var<HyperType.Dispatcher<TState>>>[] effects)
+            params System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>>[] effects)
         {
             return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect).ToArray());
         }
@@ -126,24 +124,6 @@ namespace Metapsi.Hyperapp
 
             return output.As<HyperType.StateWithEffects>();
         }
-
-        ///// <summary>
-        ///// Returns temporary state & converts all System.Actions into effects
-        ///// </summary>
-        ///// <typeparam name="TState"></typeparam>
-        ///// <param name="b"></param>
-        ///// <param name="initialState"></param>
-        ///// <param name="effects"></param>
-        ///// <returns></returns>
-        //public static Var<HyperType.StateWithEffects> AsyncResult<TState>(this SyntaxBuilder b, Var<TState> initialState, params System.Action<SyntaxBuilder, Var<Dispatcher<TState>>>[] effects)
-        //{
-        //    return b.MakeStateWithEffects(initialState, effects.Select(x => b.MakeEffect(x)).ToArray());
-        //}
-
-        //public static Var<HyperType.StateWithEffects> AsyncResult<TState, TPayload>(this SyntaxBuilder b, Var<TState> initialState, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>, Var<TPayload>> effecter, Var<TPayload> payload)
-        //{
-        //    return b.MakeStateWithEffects(initialState, b.MakeEffectWithPayload(effecter, payload));
-        //}
 
         public static Var<HyperType.Action<TState>> MakeAction<TState>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TState>> func)
         {
@@ -187,10 +167,6 @@ namespace Metapsi.Hyperapp
             return actionFunc.As<HyperType.Action<TState, TInPayload>>();
         }
 
-        //public class ActionDescriptor<TState> { }
-        //public class ActionDescriptor<TState, TPayload> { }
-
-
         // If the payload is already set, the resulting action does not take a payload again
         public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this SyntaxBuilder b, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
         {
@@ -208,181 +184,96 @@ namespace Metapsi.Hyperapp
             return output.As<HyperType.Action<TState>>();
         }
 
-        //// Effecter is the function that, given the dispatch function (to call back into application) and an optional payload interacts with the outside world
-        //public class Effecter { }
-        //public class Effecter<TPayload> { }
-
-        //public static Var<HyperType.Effecter> MakeEffecter<TState>(this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>> effecter)
-        //{
-        //    var effecterFunc = b.Def(effecter);
-        //    return effecterFunc.As<HyperType.Effecter>();
-        //}
-
-        //public static Var<HyperType.Effecter<TPayload>> MakeEffecter<TState, TPayload>(this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>, Var<TPayload>> effecter)
-        //{
-        //    var effecterFunc = b.Def(effecter);
-        //    return effecterFunc.As<HyperType.Effecter<TPayload>>();
-        //}
-
-        // Effects are the effecter function itself OR effecter function + payload
-        public class Effect { }
-        //public class Effect<TInput> { }
-
-        public static Var<HyperType.Effect> MakeEffect(
-            this SyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
-        {
-            return b.Def(effecterAction).As<HyperType.Effect>();
-        }
-
-        public static Var<HyperType.Effect> MakeEffect<TState>(
-            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>> effecterAction)
-        {
-            return b.Def(effecterAction).As<HyperType.Effect>();
-        }
-
+        /// <summary>
+        /// Effect using function with no dispatch
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="effecterAction"></param>
+        /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect(
             this SyntaxBuilder b, Var<System.Action> effecterAction)
         {
             return effecterAction.As<HyperType.Effect>();
         }
 
-        public static Var<HyperType.Effect> MakeEffect<TState>(
-            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher<TState>>> effecterAction)
+        /// <summary>
+        /// Effect using function with no dispatch
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="effecterAction"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Effect> MakeEffect(
+            this SyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
+        {
+            return b.MakeEffect(b.Def(effecterAction));
+        }
+
+        /// <summary>
+        /// Effect using function with dispatch
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="effecterAction"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Effect> MakeEffect(
+            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher>> effecterAction)
         {
             return effecterAction.As<HyperType.Effect>();
         }
 
-        public static Var<HyperType.Effect> MakeEffect<TState, TInput>(
-            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher<TState>, TInput>> effecterAction, Var<TInput> effecterInput)
+        /// <summary>
+        /// Effect using function with dispatch
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="effecterAction"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Effect> MakeEffect(
+            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher>> effecterAction)
+        {
+            return b.MakeEffect(b.Def(effecterAction));
+        }
+
+        /// <summary>
+        /// Effect using function with dispatch and props
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <typeparam name="TEffecterProps"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="effecterFn"></param>
+        /// <param name="effecterProps"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Effect> MakeEffect<TEffecterProps>(
+            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher, TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
         {
             Var<List<object>> effectList = b.NewCollection<object>();
-            b.Push(effectList, effecterAction.As<object>());
-            b.Push(effectList, effecterInput.As<object>());
+            b.Push(effectList, effecterFn.As<object>());
+            b.Push(effectList, effecterProps.As<object>());
             return effectList.As<HyperType.Effect>();
         }
 
-        //public static Var<HyperType.Effect<TInput>> MakeEffect<TState, TInput>(
-        //    this SyntaxBuilder b, Var<Action<HyperType.Dispatcher<TState>, TInput>> effecterAction)
-        //{
-        //    return effecterAction.As<HyperType.Effect<TInput>>();
-        //}
-
-        //public static Var<HyperType.Effect<TInput>> MakeEffect<TState, TInput>(
-        //    this SyntaxBuilder b, Var<Action<HyperType.Dispatcher<TState>, TInput>> effecterAction)
-        //{
-        //    return effecterAction.As<HyperType.Effect<TInput>>();
-        //}
-
-        //public static Var<HyperType.Effect> MakeEffect(this SyntaxBuilder b, Var<Effecter> effecter)
-        //{
-        //    return effecter.As<HyperType.Effect>();
-        //}
-
-        //public static Var<HyperType.Effect> MakeEffect<TState, TInput>(
-        //    this SyntaxBuilder b,
-        //    Var<Action<Dispatcher<TState>, TInput>> effecter, Var<TInput> payload)
-        //{
-        //    Var<List<object>> effectList = b.NewCollection<object>();
-        //    b.Push(effectList, effecter.As<object>());
-        //    b.Push(effectList, payload.As<object>());
-        //    return effectList.As<HyperType.Effect>();
-        //}
-
-
-        //public static Var<HyperType.Effect> MakeEffect<TState, TInput>(
-        //    this SyntaxBuilder b, 
-        //    Var<Action<Dispatcher<TState>, TInput>> effecter, Var<TInput> payload)
-        //{
-        //    Var<List<object>> effectList = b.NewCollection<object>();
-        //    b.Push(effectList, effecter.As<object>());
-        //    b.Push(effectList, payload.As<object>());
-        //    return effectList.As<HyperType.Effect>();
-        //}
-
-        ///// <summary>
-        ///// Transforms System.Action directly into effect
-        ///// </summary>
-        ///// <typeparam name="TState"></typeparam>
-        ///// <param name="b"></param>
-        ///// <param name="effecter"></param>
-        ///// <returns></returns>
-        //public static Var<HyperType.Effect> MakeEffect<TState>(this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>> effecter)
-        //{
-        //    return b.MakeEffect(b.MakeEffecter(effecter));
-        //}
-
-        ///// <summary>
-        ///// Transforms System.Action directly into effect with payload
-        ///// </summary>
-        ///// <typeparam name="TState"></typeparam>
-        ///// <typeparam name="TPayload"></typeparam>
-        ///// <param name="b"></param>
-        ///// <param name="effecter"></param>
-        ///// <param name="payload"></param>
-        ///// <returns></returns>
-        //public static Var<HyperType.Effect> MakeEffectWithPayload<TState, TPayload>(this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher<TState>>, Var<TPayload>> effecter, Var<TPayload> payload)
-        //{
-        //    return b.MakeEffectWithPayload(b.MakeEffecter(effecter), payload);
-        //}
-
-        public static Var<StateWithEffects> RunAsync(this SyntaxBuilder b, Var<StateWithEffects> stateWithEffects, Var<Effect> effect)
+        /// <summary>
+        /// Effect using function with dispatch and props
+        /// </summary>
+        /// <typeparam name="TEffecterProps"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="effecterFn"></param>
+        /// <param name="effecterProps"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Effect> MakeEffect<TEffecterProps>(
+            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
         {
-            Var<List<object>> stateWithEffectsAsTupleList = stateWithEffects.As<List<object>>();
-            b.Push(stateWithEffectsAsTupleList, effect.As<object>());
-            return stateWithEffectsAsTupleList.As<StateWithEffects>();
+            return b.MakeEffect(b.Def(effecterFn), effecterProps);
         }
-
-        public class Dispatcher<TState> { }
         
-        // Dispatcher does not know the type of the payload, as it can dispatch ANY action
-        // public class Dispatcher<TState,TPayload> { }
-
-        public static void Dispatch<TState>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState>> action)
+        public static void Dispatch<TState>(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState>> action)
         {
             var callable = dispatcher.As<System.Action<HyperType.Action<TState>>>();
             b.Call(callable, action);
         }
 
-        public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
+        public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
         {
             var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>, TPayload>>();
             b.Call(callable, action, payload);
         }
-
-        //public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState, TPayload>> action)
-        //{
-        //    var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>>>();
-        //    b.Call(callable, action);
-        //}
-
-        //public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Var<HyperType.Action<TState>> action, Var<TPayload> payload)
-        //{
-        //    var callable = dispatcher.As<System.Action<HyperType.Action<TState>>>();
-        //    b.Call(callable, action);
-        //}
-
-        //public static void Dispatch<TState>(this SyntaxBuilder b, Var<Dispatcher<TState>> dispatcher, Func<SyntaxBuilder, Var<TState>, Var<TState>> action)
-        //{
-        //    b.Dispatch(dispatcher, b.MakeAction(action));
-        //}
-
-        //public static void Dispatch<TState, TPayload>(
-        //    this SyntaxBuilder b, 
-        //    Var<Dispatcher<TState>> dispatcher, 
-        //    Var<HyperType.Action<TState, TPayload>> action, 
-        //    Var<TPayload> payload)
-        //{
-        //    var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>, TPayload>>();
-        //    b.Call(callable, action, payload);
-        //}
-
-        //public static void Dispatch<TState,TPayload>(
-        //    this SyntaxBuilder b,
-        //    Var<Dispatcher<TState>> dispatcher,
-        //    Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> action,
-        //    Var<TPayload> payload)
-        //{
-        //    b.Dispatch(dispatcher, b.MakeAction(action), payload);
-        //}
     }
 }

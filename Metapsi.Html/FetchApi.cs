@@ -137,6 +137,17 @@ public static class FetchApi
         b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
     }
 
+    public static void PostJson<TIn>(this SyntaxBuilder b, Var<string> postUrl, Var<TIn> postObject, Var<System.Action> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    {
+        var fetchPost = b.Fetch(postUrl, b =>
+        {
+            b.SetMethod("POST");
+            b.SetBody(postObject);
+            b.SetJsonContentTypeHeaders();
+        });
+        b.HandleResponse(fetchPost, onSuccess, onFailure);
+    }
+
     public static Var<Promise> HandleResponse(
         this SyntaxBuilder b,
         Var<Promise> fetchPromise,
@@ -239,7 +250,7 @@ public static class FetchApi
         Var<HyperType.Action<TModel, ClientSideException>> onError)
     {
         return b.MakeEffect(
-            (SyntaxBuilder b, Var<HyperType.Dispatcher<TModel>> dispatch) =>
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) =>
             {
                 var fetchPromise = b.Fetch(url, fetchOptions);
                 b.HandleJsonResponse(
@@ -263,7 +274,7 @@ public static class FetchApi
         Var<HyperType.Action<TModel, ClientSideException>> onError)
     {
         return b.MakeEffect(
-            (SyntaxBuilder b, Var<HyperType.Dispatcher<TModel>> dispatch) =>
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) =>
             {
                 var fetchPromise = b.Fetch(url, fetchOptions);
                 b.HandleResponse(
@@ -311,13 +322,22 @@ public static class FetchApi
             onError);
     }
 
-    public static Var<HyperType.Effect> PostJson<TModel, TIn, TResult>(
+    public static Var<HyperType.Effect> PostJson<TModel, TIn>(
         this SyntaxBuilder b,
-        Request<TResult, TIn> request,
+        Var<string> url,
         Var<TIn> input,
-        Var<HyperType.Action<TModel, TResult>> onSucces,
+        Var<HyperType.Action<TModel>> onSucces,
         Var<HyperType.Action<TModel, ClientSideException>> onError)
     {
-        return b.PostJson(b.Const("/" + request.Name), input, onSucces, onError);
+        return b.Fetch(
+            url,
+            b =>
+            {
+                b.SetMethod("POST");
+                b.SetJsonContentTypeHeaders();
+                b.SetBody(input);
+            },
+            onSucces,
+            onError);
     }
 }

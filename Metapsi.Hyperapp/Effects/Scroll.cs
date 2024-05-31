@@ -8,7 +8,7 @@ namespace Metapsi.Hyperapp
     {
         private static void ScrollToBottomEffecter(
             this SyntaxBuilder b,
-            Var<HyperType.Dispatcher<object>> _dispatcher,
+            Var<HyperType.Dispatcher> _dispatcher,
             Var<string> elementId)
         {
             b.RequestAnimationFrame(b.Def<SyntaxBuilder>(b =>
@@ -26,7 +26,7 @@ namespace Metapsi.Hyperapp
             this SyntaxBuilder b,
             Var<string> elementId)
         {
-            var def = b.Def<SyntaxBuilder, HyperType.Dispatcher<object>, string>(ScrollToBottomEffecter);
+            var def = b.Def<SyntaxBuilder, HyperType.Dispatcher, string>(ScrollToBottomEffecter);
             return b.MakeEffect(def, elementId);
         }
     }

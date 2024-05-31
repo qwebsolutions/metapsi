@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -6,13 +7,13 @@ namespace Metapsi
 {
     public class TaskQueue
     {
-        private Channel<Task> tasksChannel;
+        private Channel<Func<Task>> tasksChannel;
 
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public TaskQueue()
         {
-            this.tasksChannel = Channel.CreateUnbounded<Task>();
+            this.tasksChannel = Channel.CreateUnbounded<Func<Task>>();
             StartProcessing();
         }
 
@@ -23,7 +24,7 @@ namespace Metapsi
                 while (true)
                 {
                     var nextTask = await this.tasksChannel.Reader.ReadAsync(cancellationTokenSource.Token);
-                    await nextTask;
+                    await nextTask();
                 }
             });
         }
@@ -34,27 +35,20 @@ namespace Metapsi
             this.tasksChannel.Writer.Complete();
         }
 
-        public async Task<TResult> Enqueue<TResult>(Task<TResult> task)
-        {
-            await this.tasksChannel.Writer.WriteAsync(task);
-            return task.Result;
-        }
-
         public async Task<TResult> Enqueue<TResult>(System.Func<Task<TResult>> task)
         {
-            var enqueuedTask = task();
-            await this.tasksChannel.Writer.WriteAsync(enqueuedTask);
-            return enqueuedTask.Result;
-        }
-
-        public async Task Enqueue(Task task)
-        {
-            await this.tasksChannel.Writer.WriteAsync(task);
+            var tcs = new TaskCompletionSource<TResult>();
+            await this.tasksChannel.Writer.WriteAsync(async () =>
+            {
+                var result = await task();
+                tcs.SetResult(result);
+            });
+            return await tcs.Task;
         }
 
         public async Task Enqueue(System.Func<Task> task)
         {
-            await this.tasksChannel.Writer.WriteAsync(task());
+            await this.tasksChannel.Writer.WriteAsync(task);
         }
     }
 }

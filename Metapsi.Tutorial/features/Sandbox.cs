@@ -112,14 +112,20 @@ public static partial class Control
         };
     }
 
+    public static void AddSubscription<TState>(this SyntaxBuilder b, string subscriptionName, Func<SyntaxBuilder, Var<TState>, Var<HyperType.Subscription>> buildSubscription)
+    {
+        var subscriptionBuilder = b.Def(subscriptionName, buildSubscription);
+    }
+
+
     private static Var<HyperType.Action<SandboxModel, CodeSample>> LoadSample(SyntaxBuilder b)
     {
         return b.MakeAction((SyntaxBuilder b, Var<SandboxModel> _, Var<CodeSample> newSample) =>
         {
             return b.MakeStateWithEffects(
                 b.Clone(_),
-                b.MakeEffect<SandboxModel>(
-                    b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> dispatcher) =>
+                b.MakeEffect(
+                    b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher> dispatcher) =>
                     {
                         var resetModel = b.NewObj<SandboxModel>();
                         b.Set(resetModel, x => x.CodeSample, newSample);
@@ -399,6 +405,16 @@ public static partial class Control
         return container;
     }
 
+    public static Var<HyperType.Effect> PostJson<TModel, TIn, TResult>(
+        this SyntaxBuilder b,
+        Request<TResult, TIn> request,
+        Var<TIn> input,
+        Var<HyperType.Action<TModel, TResult>> onSucces,
+        Var<HyperType.Action<TModel, ClientSideException>> onError)
+    {
+        return b.PostJson(b.Const("/" + request.Name), input, onSucces, onError);
+    }
+
     public static void SetOutputHtml(SyntaxBuilder b, Var<string> content)
     {
         var domFrame = b.GetElementById(b.Const("output-frame"));
@@ -416,9 +432,9 @@ public static partial class Control
 
     public static Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<SandboxModel> model)
     {
-        return b.MakeStateWithEffects(b.Clone(model), b.MakeEffect<SandboxModel>(
+        return b.MakeStateWithEffects(b.Clone(model), b.MakeEffect(
             b.Def(
-                (SyntaxBuilder b, Var<HyperType.Dispatcher<SandboxModel>> disp) =>
+                (SyntaxBuilder b, Var<HyperType.Dispatcher> disp) =>
         {
             b.RequestAnimationFrame(
                 b.Def((SyntaxBuilder b) =>

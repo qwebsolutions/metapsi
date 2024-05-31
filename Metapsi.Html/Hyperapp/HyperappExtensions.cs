@@ -10,17 +10,18 @@ namespace Metapsi.Html;
 
 public static partial class SubscribeTo
 {
-    public static Var<HyperType.Subscription> ModelUpdate<TModel>(SyntaxBuilder b)
+    public static Var<HyperType.Subscription> ModelUpdate<TModel>(SyntaxBuilder b, Var<TModel> model)
     {
         return b.Listen<TModel, TModel>(
             b.Const($"modelUpdated_{typeof(TModel).Name}"),
             b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> incomingModel) =>
             {
+                b.Log("incomingModel", incomingModel);
                 return incomingModel;
             }));
     }
 
-    public static Func<SyntaxBuilder, Var<HyperType.Subscription>> SubscribeToModelUpdate<TModel>(this HtmlBuilder b)
+    public static Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>> SubscribeToModelUpdate<TModel>(this HtmlBuilder b)
     {
         return ModelUpdate<TModel>;
     }
@@ -38,11 +39,13 @@ public static partial class HyperappExtensions
         }
     }
 
+    // This is the base hyperapp app call, but it's going to be called less often than the other overrides
+    // so, no 'this' on this
     public static IHtmlNode Hyperapp<TModel>(
-        this HtmlBuilder b,
-        Func<SyntaxBuilder, Var<HyperType.Init>> init,
-        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
-        params Func<SyntaxBuilder, Var<HyperType.Subscription>>[] subscriptions)
+        HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init = null,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
+        Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
         string mountDivId = "id-" + Guid.NewGuid().ToString();
 
@@ -50,10 +53,19 @@ public static partial class HyperappExtensions
         var main = moduleBuilder.Define("main", b =>
         {
             var appConfig = b.NewObj<HyperType.App<TModel>>();
-            b.Set(appConfig, x => x.init, b.Call(init));
-            b.Set(appConfig, x => x.view, b.Def(view));
+            if (init != null)
+            {
+                b.Set(appConfig, x => x.init, b.Call(init));
+            }
+            if (view != null)
+            {
+                b.Set(appConfig, x => x.view, b.Def(view));
+            }
             b.Set(appConfig, x => x.node, b.GetElementById(b.Const(mountDivId)));
-            b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptionsFunction<TModel>(subscriptions.ToList()));
+            if (subscriptions != null)
+            {
+                b.Set(appConfig, x => x.subscriptions, b.Call(subscriptions));
+            }
 
             return b.App(appConfig);
         });
@@ -77,6 +89,55 @@ public static partial class HyperappExtensions
                 usesExternalResources ? b.Text("addExternalResources(() => {var dispatch = main()});") : b.Text(string.Empty),
                 !usesExternalResources ? b.Text("var dispatch = main()") : b.Text(string.Empty))
         };
+    }
+    //public static IHtmlNode Hyperapp<TModel>(
+    //    this HtmlBuilder b,
+    //    Func<SyntaxBuilder, Var<HyperType.Init>> init,
+    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
+    //{
+    //    return b.Hyperapp(
+    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
+    //        view,
+    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
+    //}
+
+    //public static IHtmlNode Hyperapp<TModel>(
+    //    this HtmlBuilder b,
+    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
+    //{
+    //    return b.Hyperapp(
+    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
+    //        view,
+    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
+    //}
+
+    public static IHtmlNode Hyperapp<TModel>(
+        this HtmlBuilder b,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
+    }
+
+    public static IHtmlNode Hyperapp<TModel>(
+        this HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return Hyperapp(b, init, view, b => b.MakeSubscriptions(subscriptions));
+    }
+
+    public static IHtmlNode Hyperapp<TModel>(
+        this HtmlBuilder b,
+        TModel model,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return b.Hyperapp(
+            init: b => b.MakeInit(b.Const(model)),
+            view: view,
+            subscriptions: subscriptions);
     }
 
     public static bool GenerateAddExternalResources(ModuleBuilder b)
@@ -165,139 +226,58 @@ public static partial class HyperappExtensions
                 }),
                 b.Def((SyntaxBuilder b, Var<object> failure) =>
                 {
-
+                    b.Log(failure);
                 }));
         });
 
         return true;
     }
 
-    public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptionsFunction<TModel>(
-        this SyntaxBuilder b, 
-        List<Func<SyntaxBuilder, Var<HyperType.Subscription>>> subscriptions)
+    public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
+        this SyntaxBuilder b,
+        Var<List<Func<TModel, HyperType.Subscription>>> subscriptions)
     {
         return b.Def((SyntaxBuilder b, Var<TModel> model) =>
         {
-            var clientSideSubscriptions = b.NewCollection<HyperType.Subscription>();
-            foreach (var subscription in subscriptions)
+            var appSubscriptions = b.NewCollection<HyperType.Subscription>();
+            b.Foreach(subscriptions, (b, subscription) =>
             {
-                b.Push(clientSideSubscriptions, b.Call(subscription));
-            }
-            return clientSideSubscriptions;
+                b.Push(appSubscriptions, b.Call(subscription, model));
+            });
+            return appSubscriptions;
         });
     }
 
-    public static IHtmlNode Hyperapp<TModel>(
-        this HtmlBuilder b,
-        TModel model,
-        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
-        params Func<SyntaxBuilder, Var<HyperType.Subscription>>[] subscriptions)
+    public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
+        this SyntaxBuilder b,
+        List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> subscriptions)
     {
-        return b.Hyperapp(
-            b => b.MakeInit(b.Const(model)),
-            view,
-            subscriptions);
+        return b.MakeSubscriptions(b.List(subscriptions.Select(x => b.Def(x))));
     }
 
-    public static Var<HyperType.Dispatcher<TModel>> App<TModel>(this SyntaxBuilder b, Var<HyperType.App<TModel>> appConfig)
+    public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
+        this SyntaxBuilder b,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return b.MakeSubscriptions(subscriptions.ToList());
+    }
+
+    public static Var<HyperType.Dispatcher> App<TModel>(this SyntaxBuilder b, Var<HyperType.App<TModel>> appConfig)
     {
         // it seems there's something wrong with passing null values? 
         // just copy in another object
 
-        var untypedConfig = b.NewObj<DynamicObject>();
-
-        var init = b.Get(appConfig, x => x.init);
-        b.If(b.HasObject(init), b => b.SetProperty(untypedConfig, b.Const("init"), init));
-
-        var view = b.Get(appConfig, x => x.view);
-        b.If(b.HasObject(view), b => b.SetProperty(untypedConfig, b.Const("view"), view));
-
-        var node = b.Get(appConfig, x => x.node);
-        b.If(b.HasObject(node), b => b.SetProperty(untypedConfig, b.Const("node"), node));
-
-        var subscriptions = b.Get(appConfig, x => x.subscriptions);
-        b.If(b.HasObject(subscriptions), b => b.SetProperty(untypedConfig, b.Const("subscriptions"), subscriptions));
-
-        var dispatch = b.Get(appConfig, x => x.dispatch);
-        b.If(b.HasObject(dispatch), b => b.SetProperty(untypedConfig, b.Const("dispatch"), dispatch));
-
-        return b.CallExternal<HyperType.Dispatcher<TModel>>("hyperapp", "app", untypedConfig);
-    }
-
-    private static Module BuildHyperappModule<TDataModel>(
-        Func<LayoutBuilder, Var<TDataModel>, Var<IVNode>> render,
-        Func<SyntaxBuilder, Var<HyperType.StateWithEffects>> initAction,
-        string mountDivId)
-    {
-        ModuleBuilder b = new ModuleBuilder();
-
-        b.Define("main", (SyntaxBuilder b, Var<TDataModel> model) =>
-        {
-            Var<HyperType.Init> init = b.MakeInit(b.Def((SyntaxBuilder b) =>
+        var app = b.SetProps<HyperType.App<TModel>>(
+            b.NewObj<DynamicObject>(),
+            b =>
             {
-                return b.Call(initAction);
-            }));
-
-            var onRenderError = (LayoutBuilder b, Var<TDataModel> model, Var<DynamicObject> error) =>
-            {
-                b.Log(error);
-                b.Log(model);
-
-                Var<DynamicObject> inlineStyle = b.NewObj<DynamicObject>();
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("backgroundColor"), b.Const("white"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("color"), b.Const("black"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("display"), b.Const("flex"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("flex-direction"), b.Const("row"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("width"), b.Const("100vw"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("height"), b.Const("100vh"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("justify-content"), b.Const("center"));
-                b.SetDynamic(inlineStyle, new DynamicProperty<string>("align-items"), b.Const("center"));
-
-                var props = b.NewObj<DynamicObject>();
-                b.SetDynamic(props, new DynamicProperty<DynamicObject>("style"), inlineStyle);
-
-                //var errorDiv = b.Div(props, b.T("An error has occurred"));
-                return b.H("div", props, b.Text("An error has occurred"));
-            };
-
-            LayoutBuilder layoutBuilder = new LayoutBuilder();
-            layoutBuilder.InitializeFrom(b);
-
-            var app = b.NewObj<HyperType.App<TDataModel>>();
-            b.Set(app, x => x.init, init);
-            b.Set(app, x => x.view, layoutBuilder.Def<LayoutBuilder, TDataModel, IVNode>((LayoutBuilder b, Var<TDataModel> model) =>
-            {
-                var r = b.Def(render);
-                var rootNode = b.TryCatchReturn<IVNode>(
-                    b.Def((LayoutBuilder b) => b.Call(r, model)),
-                    b.Def((LayoutBuilder b, Var<DynamicObject> error) =>
-                    {
-                        return b.Call(onRenderError, model, error);
-                    }));
-                b.DispatchEvent(b.Const("afterRender"));
-                return rootNode;
-            }));
-            b.Set(app, x => x.node, b.GetElementById(b.Const(mountDivId)));
-
-
-            var subFuncs = b.Module.Functions.Where(x => x.ReturnVariable.Type == typeof(HyperType.Subscription) && x.Parameters.Count == 1 && (x.Parameters.First().Type == typeof(TDataModel) || x.Parameters.First().Type == typeof(object)));
-            var aggSubs = b.Def("PageSubscriptions", (SyntaxBuilder b, Var<TDataModel> state) =>
-            {
-                var subscriptions = b.NewCollection<HyperType.Subscription>();
-                foreach (var subBuilder in subFuncs)
-                {
-                    var fakeFunc = new Var<Func<TDataModel, HyperType.Subscription>>(subBuilder.Name);
-                    var sub = b.Call(fakeFunc, state);
-                    b.Push(subscriptions, sub);
-                }
-                return subscriptions;
+                b.SetIfExists(x => x.init, b.Get(appConfig, x => x.init));
+                b.SetIfExists(x => x.view, b.Get(appConfig, x => x.view));
+                b.SetIfExists(x => x.node, b.Get(appConfig, x => x.node));
+                b.SetIfExists(x => x.subscriptions, b.Get(appConfig, x => x.subscriptions));
+                b.SetIfExists(x => x.dispatch, b.Get(appConfig, x => x.dispatch));
             });
 
-            b.Set(app, x => x.subscriptions, aggSubs.As<Func<TDataModel, List<HyperType.Subscription>>>());
-
-            b.CallExternal("hyperapp", "app", app);
-        });
-
-        return b.Module;
+        return b.CallExternal<HyperType.Dispatcher>("hyperapp", "app", app);
     }
 }

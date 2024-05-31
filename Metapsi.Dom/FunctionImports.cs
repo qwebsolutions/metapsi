@@ -257,15 +257,6 @@ namespace Metapsi.Dom
             b.CallDomFunction(nameof(ScrollTo), x, y);
         }
 
-        public static Var<int> SetInterval(this SyntaxBuilder b, Var<Action> action, Var<int> delay)
-        {
-            return b.CallDomFunction<int>(nameof(SetInterval), action, delay);
-        }
-
-        public static void ClearInterval(this SyntaxBuilder b, Var<int> intervalId)
-        {
-            b.CallDomFunction(nameof(ClearInterval), intervalId);
-        }
 
         public static Var<string> GetLocale(this SyntaxBuilder b)
         {
@@ -281,6 +272,29 @@ namespace Metapsi.Dom
         {
             b.CallDomFunction("SubmitForm", formId);
         }
+
+        public static void SetTimeout(this SyntaxBuilder b, Var<Action> action, Var<int> delayMs)
+        {
+            b.CallOnObject(b.Window(), "setTimeout", action, delayMs);
+        }
+
+        public static Var<int> SetInterval(this SyntaxBuilder b, Var<Action> action, Var<int> delayMs)
+        {
+            return b.CallOnObject<int>(b.Window(), "setInterval", action, delayMs);
+        }
+
+        public static void ClearInterval(this SyntaxBuilder b, Var<int> intervalId)
+        {
+            b.CallOnObject(b.Window(), "clearInterval", intervalId);
+        }
+
+        public static Var<long> DateNow(this SyntaxBuilder b)
+        {
+            var dateObject = b.GetProperty<object>(b.Window(), "Date");
+            var nowFunction = b.GetProperty<Func<long>>(dateObject, "now");
+            return b.Call(nowFunction);
+        }
+
     }
 }
 

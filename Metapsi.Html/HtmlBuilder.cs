@@ -139,4 +139,25 @@ public static class HtmlBuilderExtensions
     {
         return new HtmlText(text);
     }
+
+    public static void AddModuleStylesheet(this HtmlBuilder b)
+    {
+        var assembly = System.Reflection.Assembly.GetCallingAssembly();
+        var cssName = $"{assembly.GetName().Name}.css";
+        StaticFiles.Add(assembly, cssName);
+        b.HeadAppend(b.HtmlLink(b =>
+        {
+            b.SetAttribute("rel", "stylesheet");
+            b.SetAttribute("href", cssName);
+        }));
+    }
+
+    public static IHtmlNode Optional(this HtmlBuilder b, bool variable, Func<HtmlBuilder, IHtmlNode> ifTrue)
+    {
+        if (variable)
+        {
+            return ifTrue(b);
+        }
+        else return b.Text("");
+    }
 }
