@@ -215,6 +215,11 @@ namespace Metapsi.Dom
             b.CallDomFunction(nameof(RequestAnimationFrame), action);
         }
 
+        public static void RequestAnimationFrame(this SyntaxBuilder b, Action<SyntaxBuilder> action)
+        {
+            b.RequestAnimationFrame(b.Def(action));
+        }
+
         public static void StopPropagation<T>(this SyntaxBuilder b, Var<T> domEvent)
             where T: IDomEvent
         {
