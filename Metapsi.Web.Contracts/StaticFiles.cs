@@ -38,7 +38,6 @@ public static class StaticFiles
             var existingStaticResource = staticFileReferences.SingleOrDefault(x => x.LowerCaseFileName == lowercaseFileName);
             if (existingStaticResource == null)
             {
-                Console.WriteLine($"{resourceName} does not exist, adding");
                 var stream = assembly.GetManifestResourceStream(resourceName);
                 if (stream == null)
                 {
@@ -57,13 +56,10 @@ public static class StaticFiles
                     stream.CopyTo(ms);
                     staticFileReference.Content = ms.ToArray();
                 }
-                Console.WriteLine($"Adding {resourceName}");
                 staticFileReferences.Add(staticFileReference);
-                Console.WriteLine($"Added {resourceName}");
             }
             else
             {
-                Console.WriteLine($"{resourceName} exists, skip");
                 if (existingStaticResource.Assembly.FullName != assembly.FullName)
                 {
                     Console.Error.WriteLine($"Embedded resource conflict! {lowercaseFileName} is included in multiple assemblies!");

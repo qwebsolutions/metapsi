@@ -162,7 +162,7 @@ public static partial class CustomElementExtensions
     /// <returns></returns>
     public static string DefineCustomElement<TComponent>(
         this HtmlBuilder b,
-        Func<SyntaxBuilder, Var<HyperType.Init>> init,
+        Func<SyntaxBuilder, Var<TComponent>, Var<HyperType.Init>> init,
         Func<LayoutBuilder, string, Var<TComponent>, Var<IVNode>> render,
         params Func<SyntaxBuilder, Var<TComponent>, Var<HyperType.Subscription>>[] subscriptions)
     {
@@ -197,7 +197,7 @@ public static partial class CustomElementExtensions
                 });
 
                 b.Set(appConfig, x => x.view, view);
-                b.Set(appConfig, x => x.init, b.Call(init));
+                b.Set(appConfig, x => x.init, b.Call(init, node.As<TComponent>()));
                 b.Set(appConfig, x => x.node, node);
                 b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TComponent>(subscriptions.ToList()));
 
@@ -210,6 +210,26 @@ public static partial class CustomElementExtensions
             });
 
         return tagName;
+    }
+
+    /// <summary>
+    /// Must return the custom element itself as root!
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="render"></param>
+    /// <param name="subscriptions"></param>
+    /// <returns></returns>
+    public static string DefineCustomElement<TComponent>(
+        this HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init,
+        Func<LayoutBuilder, string, Var<TComponent>, Var<IVNode>> render,
+        params Func<SyntaxBuilder, Var<TComponent>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return b.DefineCustomElement<TComponent>(
+            (SyntaxBuilder b, Var<TComponent> model) => b.Call(init),
+            render,
+            subscriptions);
     }
 
     /// <summary>

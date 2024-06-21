@@ -779,13 +779,13 @@ public static partial class IonSelectControl
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
     }
-    /// <summary>
-    /// The value of the select.
-    /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonSelect
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
-    }
+    ///// <summary>
+    ///// The value of the select.
+    ///// </summary>
+    //public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonSelect
+    //{
+    //    b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
+    //}
 
     /// <summary>
     /// Emitted when the select loses focus.

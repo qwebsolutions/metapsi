@@ -317,17 +317,15 @@ namespace Metapsi.Syntax
             params (TInput, Func<TSyntaxBuilder, Var<TResult>>)[] cases)
             where TSyntaxBuilder : SyntaxBuilder, new()
         {
-            b.Comment($"case default");
-            var resultContainer = b.Ref(@default(b));
+            var caseFuncRef = b.Ref(b.Def(@default));
 
             foreach (var @case in cases)
             {
-                b.Comment($"case {@case.Item1}");
                 var eq = b.AreEqual(v, b.Const(@case.Item1));
-                b.If(eq, b => b.SetRef(resultContainer, @case.Item2(b)));
+                b.If(eq, b => b.SetRef(caseFuncRef, b.Def(@case.Item2)));
             }
 
-            return b.GetRef(resultContainer);
+            return b.Call(b.GetRef(caseFuncRef));
         }
 
         public static void SetIfEmpty<TObj, TProp>(
