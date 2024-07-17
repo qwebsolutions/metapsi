@@ -58,12 +58,6 @@ namespace Metapsi.Dom
         public string key { get; set; }
     }
 
-    public class CustomEvent<TDetail> : IDomEvent
-    {
-        public TDetail detail { get; set; }
-    }
-
-
     public static class FunctionImports
     {
         private const string ModuleName = "metapsi.dom";
@@ -98,17 +92,38 @@ namespace Metapsi.Dom
 
         public static Var<Window> Window(this SyntaxBuilder b)
         {
-            return b.CallDomFunction<Window>(nameof(Window));
+            return b.GetProperty<Window>(b.Self(), "window");
         }
+
+        public static Var<T> New<T>(this SyntaxBuilder b, Var<object> constructor, params IVariable[] args)
+        {
+            List<IVariable> withFunc = new List<IVariable>();
+            withFunc.Add(constructor);
+            withFunc.AddRange(args);
+            return b.CallDomFunction<T>("New", withFunc.ToArray());
+        }
+
+        public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)
+        {
+            return b.CallDomFunction<bool>("In", value, inObject);
+        }
+
+        //public static Var<T> New<T>(this SyntaxBuilder b, Var<IFunction> function, params IVariable[] args)
+        //{
+        //    List<IVariable> withFunc = new List<IVariable>();
+        //    withFunc.Add(function);
+        //    withFunc.AddRange(args);
+        //    return b.CallDomFunction<T>("New", withFunc.ToArray());
+        //}
 
         public static Var<Document> Document(this SyntaxBuilder b)
         {
-            return b.CallDomFunction<Document>(nameof(Document));
+            return b.GetProperty<Document>(b.Self(), "document");
         }
 
         public static Var<DomElement> GetElementById(this SyntaxBuilder b, Var<string> id)
         {
-            return b.CallDomFunction<DomElement>(nameof(GetElementById), id);
+            return b.CallOnObject<DomElement>(b.Document(), "getElementById", id);
         }
 
         public static Var<DomElement> GetElementById(this SyntaxBuilder b, string id)
@@ -148,7 +163,7 @@ namespace Metapsi.Dom
 
         public static Var<DomElement> CreateElement(this SyntaxBuilder b, Var<string> tag)
         {
-            return b.CallDomFunction<DomElement>(nameof(CreateElement), tag);
+            return b.CallOnObject<DomElement>(b.Document(), "createElement", tag);
         }
 
         public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, Var<string> content)
@@ -163,56 +178,35 @@ namespace Metapsi.Dom
 
         public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName)
         {
-            return b.CallDomFunction<T>(nameof(GetAttribute), domElement, attributeName);
+            return b.CallOnObject<T>(domElement, "getAttribute", attributeName);
         }
 
         public static void SetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName, Var<T> attributeValue)
         {
-            b.CallDomFunction(nameof(SetAttribute), domElement, attributeName, attributeValue);
+            b.CallOnObject(domElement, "setAttribute", attributeName, attributeValue);
         }
 
         public static void AppendChild(this SyntaxBuilder b, Var<DomElement> parent, Var<DomElement> child)
         {
-            b.CallDomFunction(nameof(AppendChild), parent, child);
+            b.CallOnObject(parent, "appendChild", child);
         }
 
-        public static void AddEventListener<T>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action> handler)
-            where T: IDomElement
-        {
-            b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
-        }
 
-        public static void AddEventListener<T, TPayload>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
-            where T : IDomElement
-        {
-            b.CallDomFunction(nameof(AddEventListener), element, eventName, handler);
-        }
+        //public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<string> eventName, Var<TPayload> payload)
+        //{
+        //    var customEvent = b.CreateCustomEvent<TPayload>(eventName, payload);
+        //    b.DispatchEvent(customEvent);
+        //}
 
-        public static void RemoveEventListener<T>(this SyntaxBuilder b, Var<T> domElement, Var<string> eventName, Var<Action> handler)
-               where T : IDomElement
-        {
-            b.CallDomFunction(nameof(RemoveEventListener), domElement, eventName, handler);
-        }
-
-        public static void RemoveEventListener<T, TPayload>(this SyntaxBuilder b, Var<T> element, Var<string> eventName, Var<Action<CustomEvent<TPayload>>> handler)
-            where T : IDomElement
-        {
-            b.CallDomFunction(nameof(RemoveEventListener), element, eventName, handler);
-        }
-
-        public static void DispatchEvent(this SyntaxBuilder b, Var<string> eventName)
-        {
-            b.CallDomFunction(nameof(DispatchEvent), eventName);
-        }
-
-        public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<string> eventName, Var<TPayload> payload)
-        {
-            b.CallDomFunction(nameof(DispatchEvent), eventName, payload);
-        }
+        //public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<TPayload> payload)
+        //{
+        //    var customEvent = b.CreateCustomEvent<TPayload>(payload);
+        //    //b.DispatchEvent(customEvent);
+        //}
 
         public static void RequestAnimationFrame(this SyntaxBuilder b, Var<Action> action)
         {
-            b.CallDomFunction(nameof(RequestAnimationFrame), action);
+            b.CallOnObject(b.Window(), "requestAnimationFrame", action);
         }
 
         public static void RequestAnimationFrame(this SyntaxBuilder b, Action<SyntaxBuilder> action)
@@ -223,7 +217,7 @@ namespace Metapsi.Dom
         public static void StopPropagation<T>(this SyntaxBuilder b, Var<T> domEvent)
             where T: IDomEvent
         {
-            b.CallDomFunction(nameof(StopPropagation), domEvent);
+            b.CallOnObject(domEvent, "stopPropagation");
         }
 
         public static void PreventDefault<T>(this SyntaxBuilder b, Var<T> domEvent)
@@ -232,50 +226,67 @@ namespace Metapsi.Dom
             b.CallOnObject(domEvent, "preventDefault");
         }
 
+
+        // Not event present?
+        /*
         public static void Focus(this SyntaxBuilder b, Var<DomElement> domElement, bool scroll)
         {
             b.CallDomFunction(nameof(Focus), domElement, b.Const(scroll));
-        }
+        }*/
 
         public static Var<string> GetUrl(this SyntaxBuilder b)
         {
-            return b.CallDomFunction<string>(nameof(GetUrl));
+            return b.GetProperty<string>(b.GetProperty<object>(b.Window(), "location"), "pathname");
         }
 
         public static void SetUrl(this SyntaxBuilder b, Var<string> url)
         {
-            b.CallDomFunction(nameof(SetUrl), url);
+            b.SetProperty(b.GetProperty<object>(b.Window(), "location"), b.Const("href"), url);
         }
 
         public static void ScrollIntoView(this SyntaxBuilder b, Var<DomElement> domElement)
         {
-            b.CallDomFunction(nameof(ScrollIntoView), domElement);
+            b.If(
+                b.HasObject(domElement),
+                b =>
+                {
+                    var scrollOptions = b.NewObj<DynamicObject>();
+                    b.SetProperty(scrollOptions, b.Const("behavior"), b.Const("smooth"));
+                    b.CallOnObject(domElement, "scrollIntoView", scrollOptions);
+                });
         }
 
         public static void ScrollBy(this SyntaxBuilder b, Var<int> x, Var<int> y)
         {
-            b.CallDomFunction(nameof(ScrollBy), x, y);
+            b.CallOnObject(b.Window(), "scrollBy", x, y);
         }
 
         public static void ScrollTo(this SyntaxBuilder b, Var<int> x, Var<int> y)
         {
-            b.CallDomFunction(nameof(ScrollTo), x, y);
+            b.CallOnObject(b.Window(), "scrollTo", x, y);
         }
-
 
         public static Var<string> GetLocale(this SyntaxBuilder b)
         {
-            return b.CallDomFunction<string>(nameof(GetLocale));
+            var intl = b.GetProperty<object>(b.Window(), "Intl");
+            var resolvedOptions = b.CallOnObject<object>(intl, "resolvedOptions");
+            return b.GetProperty<string>(resolvedOptions, "locale");
         }
 
         public static void SetStyle(this SyntaxBuilder b, Var<DomElement> element, Var<string> styleName, Var<string> styleValue)
         {
-            b.CallDomFunction("SetStyle", element, styleName, styleValue);
+            b.SetProperty(b.GetProperty<object>(element, "style"), styleName, styleValue);
         }
 
         public static void SubmitForm(this SyntaxBuilder b, Var<string> formId)
         {
-            b.CallDomFunction("SubmitForm", formId);
+            var form = b.GetElementById(formId);
+            b.If(
+                b.HasObject(form),
+                b =>
+                {
+                    b.CallOnObject(form, "submit");
+                });
         }
 
         public static void SetTimeout(this SyntaxBuilder b, Var<Action> action, Var<int> delayMs)
@@ -295,7 +306,7 @@ namespace Metapsi.Dom
 
         public static Var<long> DateNow(this SyntaxBuilder b)
         {
-            var dateObject = b.GetProperty<object>(b.Window(), "Date");
+            var dateObject = b.GetProperty<object>(b.Self(), "Date");
             var nowFunction = b.GetProperty<Func<long>>(dateObject, "now");
             return b.Call(nowFunction);
         }

@@ -65,7 +65,7 @@ public static partial class CustomElementExtensions
         moduleBuilder.Define("cleanup", cleanup);
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.Append(JavaScript.PrettyBuilder.Generate(moduleBuilder.Module, ""));
+        stringBuilder.Append(JavaScript.PrettyBuilder.Generate(moduleBuilder.Module));
 
         stringBuilder.AppendLine($"customElements.define('{tagName}', class extends HTMLElement {{");
         stringBuilder.AppendLine("    constructor(){");
@@ -345,7 +345,7 @@ public static partial class CustomElementExtensions
         return b.MakeEffect((SyntaxBuilder b) =>
         {
             b.Log("BroadcastModel", updatedModel);
-            b.DispatchEvent(b.Const($"modelUpdated_{typeof(TModel).Name}"), updatedModel);
+            b.DispatchCustomEvent(b.Const($"modelUpdated_{typeof(TModel).Name}"), updatedModel);
         });
     }
 }

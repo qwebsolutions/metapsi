@@ -14,7 +14,7 @@ namespace Metapsi.Dom
 
         public override HtmlTag GetTag()
         {
-            var code = Metapsi.JavaScript.PrettyBuilder.Generate(ModuleBuilder.Module, string.Empty);
+            var code = Metapsi.JavaScript.PrettyBuilder.Generate(ModuleBuilder.Module);
 
             code += string.Join("\n", ActionCalls.Select(x => x.Name + "();"));
             return new HtmlTag("script").SetAttribute("type", "module").WithChild(new HtmlText(code));

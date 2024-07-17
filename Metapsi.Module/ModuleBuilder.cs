@@ -70,6 +70,11 @@ namespace Metapsi.Syntax
             return DefineAction(actionName, builder).As<Action<P1>>();
         }
 
+        public Var<Action<P1, P2>> Define<P1, P2>(string actionName, System.Action<SyntaxBuilder, Var<P1>, Var<P2>> builder)
+        {
+            return DefineAction(actionName, builder).As<Action<P1, P2>>();
+        }
+
         // Module functions
 
         public Var<Func<TOut>> Define<TOut>(string funcName, System.Func<SyntaxBuilder, Var<TOut>> builder)
@@ -80,6 +85,11 @@ namespace Metapsi.Syntax
         public Var<Func<P1, TOut>> Define<P1, TOut>(string funcName, System.Func<SyntaxBuilder, Var<P1>, Var<TOut>> builder)
         {
             return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
+        }
+
+        public Var<Func<P1, P2, TOut>> Define<P1, P2, TOut>(string funcName, System.Func<SyntaxBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
+        {
+            return DefineFunc(funcName, builder).As<Func<P1, P2, TOut>>();
         }
 
         public Var<Func<P1, TOut>> Define<TSyntaxBuilder, P1, TOut>(string funcName, System.Func<TSyntaxBuilder, Var<P1>, Var<TOut>> builder)

@@ -15,6 +15,7 @@ using Metapsi.Html;
 using Metapsi.Ui;
 using System;
 using Metapsi.TomSelect;
+using Metapsi.JavaScript;
 
 public class Parameters
 {
@@ -75,6 +76,20 @@ public class Program
             ig,
         parameters.Port,
         "");
+
+        webServerRefs.WebApplication.MapGet("/", () =>
+        {
+            ModuleBuilder b = new ModuleBuilder();
+            b.Define("main", (SyntaxBuilder b) =>
+            {
+                
+            });
+            return PrettyBuilder.Generate(b.Module, new JsBuilderOptions()
+            {
+                ImportType = ImportType.ModuleAs,
+                Indent = 2
+            });
+        });
 
         //webServerRefs.WebApplication.RegisterGetHandler<HomeHandler, Home>();
         //webServerRefs.RegisterPageBuilder<HomeModel>(model =>

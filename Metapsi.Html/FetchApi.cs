@@ -71,9 +71,14 @@ public static class FetchApi
         b.SetCredentials(b.Const("include"));
     }
 
-    public static void SetBody<T>(this PropsBuilder<FetchOptions> b, Var<T> body)
+    public static void SetJsonBody<T>(this PropsBuilder<FetchOptions> b, Var<T> body)
     {
         b.SetProperty(b.Props, b.Const("body"), b.Serialize(body));
+    }
+
+    public static void SetBody<T>(this PropsBuilder<FetchOptions> b, Var<T> body)
+    {
+        b.SetProperty(b.Props, b.Const("body"), body);
     }
 
     public static void AddHeaders(this PropsBuilder<FetchOptions> b, Var<string> header, Var<string> value)
@@ -131,7 +136,7 @@ public static class FetchApi
         var fetchPost = b.Fetch(postUrl, b =>
         {
             b.SetMethod("POST");
-            b.SetBody(postObject);
+            b.SetJsonBody(postObject);
             b.SetJsonContentTypeHeaders();
         });
         b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
@@ -142,7 +147,7 @@ public static class FetchApi
         var fetchPost = b.Fetch(postUrl, b =>
         {
             b.SetMethod("POST");
-            b.SetBody(postObject);
+            b.SetJsonBody(postObject);
             b.SetJsonContentTypeHeaders();
         });
         b.HandleResponse(fetchPost, onSuccess, onFailure);
@@ -316,7 +321,7 @@ public static class FetchApi
             {
                 b.SetMethod("POST");
                 b.SetJsonContentTypeHeaders();
-                b.SetBody(input);
+                b.SetJsonBody(input);
             },
             onSucces,
             onError);
@@ -335,7 +340,7 @@ public static class FetchApi
             {
                 b.SetMethod("POST");
                 b.SetJsonContentTypeHeaders();
-                b.SetBody(input);
+                b.SetJsonBody(input);
             },
             onSucces,
             onError);

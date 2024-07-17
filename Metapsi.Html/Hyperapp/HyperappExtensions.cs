@@ -72,7 +72,7 @@ public static partial class HyperappExtensions
 
         var usesExternalResources = GenerateAddExternalResources(moduleBuilder);
 
-        var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module, "");
+        var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
 
         return new HyperAppNode()
         {

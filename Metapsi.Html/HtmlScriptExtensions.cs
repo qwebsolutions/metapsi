@@ -17,7 +17,7 @@ public static class HtmlScriptExtensions
                 b.SetAttribute("type", "module");
                 setAttributes(b);
             },
-            b.Text(PrettyBuilder.Generate(moduleBuilder.Module, "")),
+            b.Text(PrettyBuilder.Generate(moduleBuilder.Module)),
             b.Text("main()"));
     }
 

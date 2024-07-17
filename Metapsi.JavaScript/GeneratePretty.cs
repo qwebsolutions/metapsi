@@ -8,12 +8,39 @@ using Metapsi.Syntax;
 
 namespace Metapsi.JavaScript
 {
+    public enum ImportType
+    {
+        Destructured,
+        ModuleAs
+    }
+
+    public class JsBuilderOptions
+    {
+        public int Indent { get; set; } = 4;
+        public string Version { get; set; } = string.Empty;
+        public ImportType ImportType { get; set; }
+        internal Module Module { get; set; }
+    }
+
+    internal static class ModuleExtensions
+    {
+        internal static string ModuleNameFromPath(string path)
+        {
+            return path.Replace(".", string.Empty);
+        }
+    }
+
     public static class PrettyBuilder
     {
-        public const int IndentSize = 4;
+        //public const int IndentSize = 4;
 
-        public static string Generate(Module module, string version)
+        public static string Generate(Module module, JsBuilderOptions options = null)
         {
+            if (options == null)
+                options = new JsBuilderOptions();
+
+            options.Module = module;
+
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("// import");
@@ -32,12 +59,19 @@ namespace Metapsi.JavaScript
             {
                 if (externalModule.Key == "linq")
                 {
-                    builder.AppendLine($"import Enumerable from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
+                    builder.AppendLine($"import Enumerable from \"/{externalModule.Key}.js{Version.WithTag(options.Version)}\";");
                 }
                 else
                 {
-                    var symbolsList = string.Join(", ", externalModule.Value);
-                    builder.AppendLine($"import {{ {symbolsList} }} from \"/{externalModule.Key}.js{Version.WithTag(version)}\";");
+                    if (options.ImportType == ImportType.Destructured)
+                    {
+                        var symbolsList = string.Join(", ", externalModule.Value);
+                        builder.AppendLine($"import {{ {symbolsList} }} from \"/{externalModule.Key}.js{Version.WithTag(options.Version)}\";");
+                    }
+                    else
+                    {
+                        builder.AppendLine($"import * as {ModuleExtensions.ModuleNameFromPath(externalModule.Key)} from \"/{externalModule.Key}.js{Version.WithTag(options.Version)}\";");
+                    }
                 }
             }
 
@@ -68,7 +102,7 @@ namespace Metapsi.JavaScript
             builder.AppendLine("// function definitions");
             foreach (var f in module.Functions)
             {
-                builder.AppendLine(Generate(f, 0, true));
+                builder.AppendLine(Generate(f, 0, true, options));
             }
             var time = stopwatch.ElapsedMilliseconds;
             return builder.ToString();
@@ -88,7 +122,7 @@ namespace Metapsi.JavaScript
             return true;
         }
 
-        public static string Generate(Block block, int indent)
+        public static string Generate(Block block, int nestingLevel, JsBuilderOptions options)
         {
             StringBuilder builder = new StringBuilder();
             foreach (ISyntaxElement syntaxElement in block.Lines)
@@ -96,31 +130,31 @@ namespace Metapsi.JavaScript
                 switch (syntaxElement)
                 {
                     case IObjectConstructor objectConstructor:
-                        builder.AppendLine(Generate(objectConstructor, indent));
+                        builder.AppendLine(Generate(objectConstructor, nestingLevel, options));
                         break;
                     case ICollectionConstructor collectionConstructor:
-                        builder.AppendLine(Generate(collectionConstructor, indent));
+                        builder.AppendLine(Generate(collectionConstructor, nestingLevel, options));
                         break;
                     case IPropertyAssignment propertyAssignment:
-                        builder.AppendLine(Generate(propertyAssignment, indent));
+                        builder.AppendLine(Generate(propertyAssignment, nestingLevel, options));
                         break;
                     case IPropertyAccess propertyAccess:
-                        builder.AppendLine(Generate(propertyAccess, indent));
+                        builder.AppendLine(Generate(propertyAccess, nestingLevel, options));
                         break;
                     case IForeachBlock foreachBlock:
-                        builder.AppendLine(Generate(foreachBlock, indent));
+                        builder.AppendLine(Generate(foreachBlock, nestingLevel, options));
                         break;
                     case IfBlock ifBlock:
-                        builder.AppendLine(Generate(ifBlock, indent));
+                        builder.AppendLine(Generate(ifBlock, nestingLevel, options));
                         break;
                     case LineComment comment:
-                        builder.AppendLine(Generate(comment, indent));
+                        builder.AppendLine(Generate(comment, nestingLevel, options));
                         break;
                     case IFunction lambda:
-                        builder.AppendLine(Generate(lambda, indent));
+                        builder.AppendLine(Generate(lambda, nestingLevel, false, options));
                         break;
                     case Metapsi.Syntax.FunctionCall functionCall:
-                        builder.AppendLine(Generate(functionCall, indent));
+                        builder.AppendLine(Generate(functionCall, nestingLevel, options));
                         break;
 
                     default:
@@ -131,32 +165,43 @@ namespace Metapsi.JavaScript
             return builder.ToString();
         }
 
-        public static string Generate(Metapsi.Syntax.FunctionCall functionCall, int indent)
+        public static string Generate(Metapsi.Syntax.FunctionCall functionCall, int nestingLevel, JsBuilderOptions options)
         {
+            var functionName = functionCall.Function.Name;
+
+            if (options.ImportType == ImportType.ModuleAs)
+            {
+                var import = options.Module.Imports.FirstOrDefault(x => x.Symbol == functionName);
+                if (import != null)
+                {
+                    functionName = $"{ModuleExtensions.ModuleNameFromPath(import.Module)}.{functionName}";
+                }
+            }
+
             string argumentsList = string.Join(",", functionCall.Arguments.Select(x => x.Name));
             if (functionCall.IntoVariable != null)
             {
-                return $"{Indent(indent)}let {functionCall.IntoVariable.Name} = {functionCall.Function.Name}({argumentsList})";
+                return $"{Indent(nestingLevel, options)}let {functionCall.IntoVariable.Name} = {functionName}({argumentsList})";
             }
             else
             {
-                return $"{Indent(indent)}{functionCall.Function.Name}({argumentsList})";
+                return $"{Indent(nestingLevel, options)}{functionName}({argumentsList})";
             }
         }
 
-        public static string Generate(IObjectConstructor constructor, int indent)
+        public static string Generate(IObjectConstructor constructor, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(indent)}let {constructor.IntoVar.Name} = {Serialize(constructor.From)}";
+            return $"{Indent(nestingLevel, options)}let {constructor.IntoVar.Name} = {Serialize(constructor.From)}";
         }
 
-        public static string Generate(ICollectionConstructor constructor, int indent)
+        public static string Generate(ICollectionConstructor constructor, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(indent)}let {constructor.IntoVar.Name} = []";
+            return $"{Indent(nestingLevel, options)}let {constructor.IntoVar.Name} = []";
         }
 
-        public static string Generate(IPropertyAssignment propertyAssignment, int indent)
+        public static string Generate(IPropertyAssignment propertyAssignment, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(indent)}{propertyAssignment.ObjectVar.Name}['{propertyAssignment.Property.PropertyName}'] = {propertyAssignment.FromVar.Name}";
+            return $"{Indent(nestingLevel, options)}{propertyAssignment.ObjectVar.Name}['{propertyAssignment.Property.PropertyName}'] = {propertyAssignment.FromVar.Name}";
         }
 
         public static bool IsValidPropertyName(string propertyName)
@@ -169,73 +214,73 @@ namespace Metapsi.JavaScript
             });
         }
 
-        public static string Generate(IPropertyAccess propertyAccess, int indent)
+        public static string Generate(IPropertyAccess propertyAccess, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(indent)}let {propertyAccess.IntoVar.Name} = {propertyAccess.FromVar.Name}['{propertyAccess.Property.PropertyName}']";
+            return $"{Indent(nestingLevel, options)}let {propertyAccess.IntoVar.Name} = {propertyAccess.FromVar.Name}['{propertyAccess.Property.PropertyName}']";
         }
 
-        public static string Generate(IForeachBlock foreachBlock, int indent)
+        public static string Generate(IForeachBlock foreachBlock, int nestingLevel, JsBuilderOptions options)
         {
-            string blockCode = $"{Indent(indent)}{foreachBlock.CollectionVarName}.forEach(({foreachBlock.OverVarName}, index) => {{\n";
-            blockCode += Generate(foreachBlock.ChildBlock, indent + 1);
-            blockCode += $"{Indent(indent)}}})";
+            string blockCode = $"{Indent(nestingLevel, options)}{foreachBlock.CollectionVarName}.forEach(({foreachBlock.OverVarName}, index) => {{\n";
+            blockCode += Generate(foreachBlock.ChildBlock, nestingLevel + 1, options);
+            blockCode += $"{Indent(nestingLevel, options)}}})";
 
             return blockCode;
         }
 
-        public static string Generate(IfBlock ifBlock, int indent)
+        public static string Generate(IfBlock ifBlock, int nestingLevel, JsBuilderOptions options)
         {
-            string blockCode = $"{Indent(indent)}if({ifBlock.Var.Name}){{\n";
-            blockCode += Generate(ifBlock.TrueBlock, indent + 1);
-            blockCode += $"{Indent(indent)}}}";
+            string blockCode = $"{Indent(nestingLevel, options)}if({ifBlock.Var.Name}){{\n";
+            blockCode += Generate(ifBlock.TrueBlock, nestingLevel + 1, options);
+            blockCode += $"{Indent(nestingLevel, options)}}}";
             if (ifBlock.FalseBlock != null)
             {
                 blockCode += $" else {{\n";
-                blockCode += Generate(ifBlock.FalseBlock, indent + 1);
-                blockCode += $"{Indent(indent)}}}";
+                blockCode += Generate(ifBlock.FalseBlock, nestingLevel + 1, options);
+                blockCode += $"{Indent(nestingLevel, options)}}}";
             }
 
             return blockCode;
         }
 
-        public static string Generate(LineComment lineComment, int indent)
+        public static string Generate(LineComment lineComment, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(indent)}// {lineComment.Comment}";
+            return $"{Indent(nestingLevel, options)}// {lineComment.Comment}";
         }
 
-        public static string Generate(IFunction function, int indent, bool export = false)
+        public static string Generate(IFunction function, int nestingLevel, bool export, JsBuilderOptions options)
         {
             string exportPlaceholder = export ? "export " : "";
 
             string asyncPlaceholder = "";
 
             var parametersList = string.Join(",", function.Parameters.Select(x => x.Name));
-            string body = $"{Indent(indent)}{exportPlaceholder}var {function.Name} = {asyncPlaceholder}({parametersList}) => {{\n";
-            body += $"{Generate(function.ChildBlock, indent + 1)}";
+            string body = $"{Indent(nestingLevel, options)}{exportPlaceholder}var {function.Name} = {asyncPlaceholder}({parametersList}) => {{\n";
+            body += $"{Generate(function.ChildBlock, nestingLevel + 1, options)}";
 
             if (function.ReturnVariable != null)
             {
                 if (ModuleBuilder.ScalarTypes.Contains(function.ReturnVariable.Type))
                 {
-                    body += $"{Indent(indent + 1)}return {function.ReturnVariable.Name}\n";
+                    body += $"{Indent(nestingLevel + 1, options)}return {function.ReturnVariable.Name}\n";
                 }
                 else if (function.ReturnVariable.Type.IsAssignableTo(typeof(System.Collections.IEnumerable)))
                 {
-                    body += $"{Indent(indent + 1)}return Array.from({function.ReturnVariable.Name})\n";
+                    body += $"{Indent(nestingLevel + 1, options)}return Array.from({function.ReturnVariable.Name})\n";
                 }
                 else
                 {
-                    body += $"{Indent(indent + 1)}return {function.ReturnVariable.Name}\n";
+                    body += $"{Indent(nestingLevel + 1, options)}return {function.ReturnVariable.Name}\n";
                 }
             }
 
-            body += $"{Indent(indent + 1)}}}";
+            body += $"{Indent(nestingLevel + 1, options)}}}";
             return body;
         }
 
-        public static string Indent(int level)
+        public static string Indent(int level, JsBuilderOptions options)
         {
-            return new string(' ', level * IndentSize);
+            return new string(' ', level * options.Indent);
         }
 
         public static string SerializeConst(IConstant constant)

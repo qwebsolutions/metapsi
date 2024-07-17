@@ -38,7 +38,7 @@ public class HyperAppNode<TModel> : IHtmlNode, IHtmlComponent
     string IHtmlNode.ToHtml()
     {
         DivTag mountDiv = new DivTag().SetAttribute("id", MountDivId);
-        var js = Metapsi.JavaScript.PrettyBuilder.Generate(this.Module, string.Empty);
+        var js = Metapsi.JavaScript.PrettyBuilder.Generate(this.Module);
         js = js + "main()";
 
 

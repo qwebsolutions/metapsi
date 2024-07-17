@@ -99,7 +99,7 @@ public static partial class Control
             var control = b.GetElementById(b.Const(sendToPanelButtonId));
             b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.Def((SyntaxBuilder b) =>
             {
-                b.DispatchEvent(b.Const("ExploreSample"), b.Const(sample));
+                b.DispatchCustomEvent(b.Const("ExploreSample"), b.Const(sample));
             }));
         });
 

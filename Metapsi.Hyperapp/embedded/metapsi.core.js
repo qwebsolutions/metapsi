@@ -44,7 +44,6 @@ export const Not = (s) => !s
 export const And = (l, r) => l && r
 export const Or = (l, r) => l || r
 export const Log = (s) => console.log(s)
-export const stopPropagation = (e) => e.stopPropagation();
 export const ParseDate = (s) => new Date(s)
 export const FormatLocaleDateTime = (dateTime, localeCode, options) => dateTime.toLocaleString(localeCode, options);
 export const FormatLocaleDate = (dateTime, localeCode, options) => dateTime.toLocaleDateString(localeCode, options);
@@ -64,48 +63,16 @@ export const ToFixed = (n, digits) => n.toFixed(digits);
 export const GetHours = (d) => new Date(d).getHours();
 export const GetMinutes = (d) => new Date(d).getMinutes();
 export const Floor = (n) => Math.floor(n);
-
-export const GetElementById = (id) => document.getElementById(id);
-export const CreateElement = (tag) => document.createElement(tag);
-export const AppendChild = (parent, child) => parent.appendChild(child);
-export const RequestAnimationFrame = requestAnimationFrame;
-export const AddEventListener = (domElement, eventName, handler) => { domElement.addEventListener(eventName, handler); }
-export const GetAttribute = (domElement, attributeName) => domElement.getAttribute(attributeName);
-export const SetAttribute = (domElement, attributeName, attributeValue) => { domElement.setAttribute(attributeName, attributeValue); }
 export const RemoveEventListener = removeEventListener;
-export const DispatchEvent = (eventType, payload) => {
-    dispatchEvent(new CustomEvent(eventType, { detail: payload }));
-};
-
 export const SetInterval = setInterval;
 export const ClearInterval = clearInterval;
 export const ParseDecimal = (z) => parseFloat(z);
-export const Focus = (element, withScroll) => {
-    if (element)
-        element.focus({ preventScroll: !withScroll })
-}
-
-export const ScrollIntoView = (element) => {
-    if (element)
-        element.scrollIntoView({ behavior: "smooth" });
-}
-
-export const ScrollBy = scrollBy
-export const ScrollTo = (x, y) => scrollTo(x, y);
-
-export const SetUrl = (newUrl) => {
-    location.href = newUrl;
-}
-
-export const GetUrl = () => location.pathname;
 
 export const Undefined = () => {
     return undefined;
 }
 
 export const CreateObjectUrl = URL.createObjectURL;
-export const Click = (domElement) => domElement.click()
-
 export const ToBase64 = (o) => btoa(o)
 
 export const FileToBase64 = (file, onResult, onError) => {
