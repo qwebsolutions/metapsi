@@ -8,25 +8,6 @@ using Metapsi.Dom;
 
 namespace Metapsi.Html;
 
-public static partial class SubscribeTo
-{
-    public static Var<HyperType.Subscription> ModelUpdate<TModel>(SyntaxBuilder b, Var<TModel> model)
-    {
-        return b.Listen<TModel, TModel>(
-            b.Const($"modelUpdated_{typeof(TModel).Name}"),
-            b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> incomingModel) =>
-            {
-                b.Log("incomingModel", incomingModel);
-                return incomingModel;
-            }));
-    }
-
-    public static Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>> SubscribeToModelUpdate<TModel>(this HtmlBuilder b)
-    {
-        return ModelUpdate<TModel>;
-    }
-}
-
 public static partial class HyperappExtensions
 {
     internal class HyperAppNode : IHtmlNode
