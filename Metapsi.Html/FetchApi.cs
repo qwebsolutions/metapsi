@@ -295,6 +295,15 @@ public static class FetchApi
             });
     }
 
+    public static Var<HyperType.Effect> Fetch<TModel>(
+        this SyntaxBuilder b,
+        Var<string> url,
+        Var<HyperType.Action<TModel>> onSucces,
+        Var<HyperType.Action<TModel, ClientSideException>> onError)
+    {
+        return b.Fetch(url, b => { }, onSucces, onError);
+    }
+
     public static Var<HyperType.Effect> GetJson<TModel, TResult>(
         this SyntaxBuilder b,
         Var<string> url,

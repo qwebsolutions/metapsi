@@ -17,6 +17,14 @@ namespace Metapsi
             });
         }
 
+        public static RouteHandlerBuilder MapPostCommand<TIn>(this IEndpointRouteBuilder endpoint, Command<TIn> request, System.Func<CommandContext, HttpContext, TIn, Task> handler)
+        {
+            return endpoint.MapPost(request.Name, (CommandContext commandContext, HttpContext httpContext, TIn p1) =>
+            {
+                return HandleException(commandContext, httpContext, handler(commandContext, httpContext, p1));
+            });
+        }
+
         public static RouteHandlerBuilder MapGetRequest<TOut>(this IEndpointRouteBuilder endpoint, Request<TOut> request, System.Func<CommandContext, HttpContext, Task<TOut>> handler)
         {
             return endpoint.MapGet(request.Name, (CommandContext commandContext, HttpContext httpContext) =>

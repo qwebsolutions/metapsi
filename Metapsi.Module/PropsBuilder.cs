@@ -23,7 +23,10 @@ public static class PropsBuilderExtensions
         var propsBuilder = new PropsBuilder<T>();
         propsBuilder.InitializeFrom(b);
         propsBuilder.Props = obj.As<T>();
-        setProps(propsBuilder);
+        if (setProps != null)
+        {
+            setProps(propsBuilder);
+        }
         return propsBuilder.Props;
     }
 
@@ -33,7 +36,10 @@ public static class PropsBuilderExtensions
         var propsBuilder = new PropsBuilder<T>();
         propsBuilder.InitializeFrom(b);
         propsBuilder.Props = b.NewObj<T>();
-        setProps(propsBuilder);
+        if (setProps != null)
+        {
+            setProps(propsBuilder);
+        }
         return propsBuilder.Props;
     }
 

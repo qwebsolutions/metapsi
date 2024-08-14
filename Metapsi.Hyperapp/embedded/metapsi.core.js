@@ -47,7 +47,10 @@ export const Log = (s) => console.log(s)
 export const ParseDate = (s) => new Date(s)
 export const FormatLocaleDateTime = (dateTime, localeCode, options) => dateTime.toLocaleString(localeCode, options);
 export const FormatLocaleDate = (dateTime, localeCode, options) => dateTime.toLocaleDateString(localeCode, options);
-export const GetProperty = (obj, propName) => obj[propName];
+export const GetProperty = (obj, propName) => {
+    var r = obj[propName];
+    return r;
+}
 export const SetProperty = (obj, propName, value) => obj[propName] = value;
 export const DeleteProperty = (obj, propName) => delete obj[propName];
 export const AsString = (obj) => "" + obj;
