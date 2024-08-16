@@ -216,6 +216,78 @@ public static partial class IonRefresherContentControl
 
 
     /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("circles"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("circular"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("crescent"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerDots<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("dots"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerLines<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-sharp"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-sharp-small"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows when refreshing begins </para>
+    /// </summary>
+    public static void SetRefreshingSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonRefresherContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-small"));
+    }
+
+
+    /// <summary>
     /// <para> The text you want to display when performing a refresh. `refreshingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
     public static void SetRefreshingText<T>(this PropsBuilder<T> b, Var<IonicSafeString> refreshingText) where T: IonRefresherContent

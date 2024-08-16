@@ -521,6 +521,15 @@ public static partial class IonAlertControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> The subtitle in the heading of the alert. Displayed under the title. </para>
     /// </summary>
     public static void SetSubHeader<T>(this PropsBuilder<T> b, Var<string> subHeader) where T: IonAlert

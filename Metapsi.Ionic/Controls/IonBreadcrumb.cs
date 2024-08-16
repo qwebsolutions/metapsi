@@ -238,6 +238,78 @@ public static partial class IonBreadcrumbControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, the user cannot interact with the breadcrumb. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
@@ -307,6 +379,15 @@ public static partial class IonBreadcrumbControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonBreadcrumb
@@ -346,6 +427,24 @@ public static partial class IonBreadcrumbControl
     public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("back"));
+    }
+
+
+    /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+    }
+
+
+    /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
     }
 
 

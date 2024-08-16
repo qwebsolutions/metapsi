@@ -467,6 +467,15 @@ public static partial class IonPickerLegacyControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonPickerLegacy

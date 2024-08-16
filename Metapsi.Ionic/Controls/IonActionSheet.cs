@@ -469,6 +469,15 @@ public static partial class IonActionSheetControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonActionSheet
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> Subtitle for the action sheet. </para>
     /// </summary>
     public static void SetSubHeader<T>(this PropsBuilder<T> b, Var<string> subHeader) where T: IonActionSheet

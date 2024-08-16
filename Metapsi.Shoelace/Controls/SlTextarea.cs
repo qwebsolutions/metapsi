@@ -13,407 +13,59 @@ public partial class SlTextarea : SlComponent
 {
     public SlTextarea() : base("sl-textarea") { }
     /// <summary>
-    /// The name of the textarea, submitted as a name/value pair with form data.
+    ///
     /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current value of the textarea, submitted as a name/value pair with form data.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The textarea's size.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a filled textarea.
-    /// </summary>
-    public bool filled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("filled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("filled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The textarea's label. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The textarea's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public string helpText
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("help-text");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("help-text", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
-    /// </summary>
-    public string placeholder
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("placeholder");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("placeholder", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The number of rows to display by default.
-    /// </summary>
-    public int rows
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("rows");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("rows", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Controls how the textarea can be resized.
-    /// </summary>
-    public string resize
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("resize");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("resize", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the textarea.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the textarea readonly.
-    /// </summary>
-    public bool @readonly
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("readonly");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("readonly", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the textarea a required field.
-    /// </summary>
-    public bool required
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("required");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("required", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum length of input that will be considered valid.
-    /// </summary>
-    public int minlength
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("minlength");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("minlength", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum length of input that will be considered valid.
-    /// </summary>
-    public int maxlength
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("maxlength");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("maxlength", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public string autocapitalize
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocapitalize");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocapitalize", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
-    /// </summary>
-    public string autocorrect
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocorrect");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocorrect", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
-    /// </summary>
-    public string autocomplete
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocomplete");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocomplete", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates that the input should receive focus on page load.
-    /// </summary>
-    public bool autofocus
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("autofocus");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("autofocus", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public string enterkeyhint
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("enterkeyhint");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Enables spell checking on the textarea.
-    /// </summary>
-    public bool spellcheck
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("spellcheck");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("spellcheck", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public string inputmode
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("inputmode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("inputmode", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public string defaultValue
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The textarea's label. Alternatively, you can use the `label` attribute.
+        /// <summary>
+        /// <para> The textarea's label. Alternatively, you can use the `label` attribute. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.
+        /// <summary>
+        /// <para> Text that describes how to use the input. Alternatively, you can use the `help-text` attribute. </para>
         /// </summary>
         public const string HelpText = "help-text";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Sets focus on the textarea.
+        /// <summary>
+        /// <para> Sets focus on the textarea. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the textarea.
+        /// <summary>
+        /// <para> Removes focus from the textarea. </para>
         /// </summary>
         public const string Blur = "blur";
-        /// <summary> 
-        /// Selects all the text in the textarea.
+        /// <summary>
+        /// <para> Selects all the text in the textarea. </para>
         /// </summary>
         public const string Select = "select";
-        /// <summary> 
-        /// Gets or sets the textarea's scroll position.
+        /// <summary>
+        /// <para> Gets or sets the textarea's scroll position. </para>
         /// </summary>
         public const string ScrollPosition = "scrollPosition";
-        /// <summary> 
-        /// Sets the start and end positions of the text selection (0-based).
+        /// <summary>
+        /// <para> Sets the start and end positions of the text selection (0-based). </para>
         /// </summary>
         public const string SetSelectionRange = "setSelectionRange";
-        /// <summary> 
-        /// Replaces a range of text with a new string.
+        /// <summary>
+        /// <para> Replaces a range of text with a new string. </para>
         /// </summary>
         public const string SetRangeText = "setRangeText";
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
     }
@@ -422,586 +74,1236 @@ public partial class SlTextarea : SlComponent
 public static partial class SlTextareaControl
 {
     /// <summary>
-    /// Textareas collect data from the user and allow multiple lines of text.
+    ///
     /// </summary>
-    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Action<PropsBuilder<SlTextarea>> buildProps, Var<List<IVNode>> children)
+    public static IHtmlNode SlTextarea(this HtmlBuilder b, Action<AttributesBuilder<SlTextarea>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.SlNode("sl-textarea", buildProps, children);
+        return b.Tag("sl-textarea", buildAttributes, children);
     }
     /// <summary>
-    /// Textareas collect data from the user and allow multiple lines of text.
+    ///
     /// </summary>
-    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Action<PropsBuilder<SlTextarea>> buildProps, params Var<IVNode>[] children)
+    public static IHtmlNode SlTextarea(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.SlNode("sl-textarea", buildProps, children);
+        return b.Tag("sl-textarea", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// Textareas collect data from the user and allow multiple lines of text.
+    /// <para> The name of the textarea, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Var<List<IVNode>> children)
+    public static void SetName(this AttributesBuilder<SlTextarea> b,string name)
     {
-        return b.SlNode("sl-textarea", children);
-    }
-    /// <summary>
-    /// Textareas collect data from the user and allow multiple lines of text.
-    /// </summary>
-    public static Var<IVNode> SlTextarea(this LayoutBuilder b, params Var<IVNode>[] children)
-    {
-        return b.SlNode("sl-textarea", children);
-    }
-    /// <summary>
-    /// The name of the textarea, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlTextarea> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the textarea, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlTextarea> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetAttribute("name", name);
     }
 
     /// <summary>
-    /// The current value of the textarea, submitted as a name/value pair with form data.
+    /// <para> The current value of the textarea, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetValue(this AttributesBuilder<SlTextarea> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The textarea's size. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlTextarea> b,string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The textarea's size. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The textarea's size. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The textarea's size. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled textarea. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled textarea. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlTextarea> b,bool filled)
+    {
+        if (filled) b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> The textarea's label. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlTextarea> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The textarea's help text. If you need to display HTML, use the `help-text` slot instead. </para>
+    /// </summary>
+    public static void SetHelpText(this AttributesBuilder<SlTextarea> b,string helpText)
+    {
+        b.SetAttribute("help-text", helpText);
+    }
+
+    /// <summary>
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
+    /// </summary>
+    public static void SetPlaceholder(this AttributesBuilder<SlTextarea> b,string placeholder)
+    {
+        b.SetAttribute("placeholder", placeholder);
+    }
+
+    /// <summary>
+    /// <para> The number of rows to display by default. </para>
+    /// </summary>
+    public static void SetRows(this AttributesBuilder<SlTextarea> b,string rows)
+    {
+        b.SetAttribute("rows", rows);
+    }
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResize(this AttributesBuilder<SlTextarea> b,string resize)
+    {
+        b.SetAttribute("resize", resize);
+    }
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResizeNone(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("resize", "none");
+    }
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResizeVertical(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("resize", "vertical");
+    }
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResizeAuto(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("resize", "auto");
+    }
+
+    /// <summary>
+    /// <para> Disables the textarea. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the textarea. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlTextarea> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the textarea readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the textarea readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlTextarea> b,bool @readonly)
+    {
+        if (@readonly) b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlTextarea> b,string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    /// <para> Makes the textarea a required field. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the textarea a required field. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlTextarea> b,bool required)
+    {
+        if (required) b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> The minimum length of input that will be considered valid. </para>
+    /// </summary>
+    public static void SetMinlength(this AttributesBuilder<SlTextarea> b,string minlength)
+    {
+        b.SetAttribute("minlength", minlength);
+    }
+
+    /// <summary>
+    /// <para> The maximum length of input that will be considered valid. </para>
+    /// </summary>
+    public static void SetMaxlength(this AttributesBuilder<SlTextarea> b,string maxlength)
+    {
+        b.SetAttribute("maxlength", maxlength);
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalize(this AttributesBuilder<SlTextarea> b,string autocapitalize)
+    {
+        b.SetAttribute("autocapitalize", autocapitalize);
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOff(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "off");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeNone(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "none");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOn(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "on");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeSentences(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "sentences");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeWords(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "words");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeCharacters(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autocapitalize", "characters");
+    }
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrect(this AttributesBuilder<SlTextarea> b,string autocorrect)
+    {
+        b.SetAttribute("autocorrect", autocorrect);
+    }
+
+    /// <summary>
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
+    /// </summary>
+    public static void SetAutocomplete(this AttributesBuilder<SlTextarea> b,string autocomplete)
+    {
+        b.SetAttribute("autocomplete", autocomplete);
+    }
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("autofocus", "");
+    }
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus(this AttributesBuilder<SlTextarea> b,bool autofocus)
+    {
+        if (autofocus) b.SetAttribute("autofocus", "");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhint(this AttributesBuilder<SlTextarea> b,string enterkeyhint)
+    {
+        b.SetAttribute("enterkeyhint", enterkeyhint);
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintEnter(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "enter");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintDone(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "done");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "go");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "next");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "previous");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "search");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("enterkeyhint", "send");
+    }
+
+    /// <summary>
+    /// <para> Enables spell checking on the textarea. </para>
+    /// </summary>
+    public static void SetSpellcheck(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("spellcheck", "");
+    }
+
+    /// <summary>
+    /// <para> Enables spell checking on the textarea. </para>
+    /// </summary>
+    public static void SetSpellcheck(this AttributesBuilder<SlTextarea> b,bool spellcheck)
+    {
+        if (spellcheck) b.SetAttribute("spellcheck", "");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmode(this AttributesBuilder<SlTextarea> b,string inputmode)
+    {
+        b.SetAttribute("inputmode", inputmode);
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNone(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "none");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeText(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "text");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeDecimal(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "decimal");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "numeric");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeTel(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "tel");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeSearch(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "search");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeEmail(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "email");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeUrl(this AttributesBuilder<SlTextarea> b)
+    {
+        b.SetAttribute("inputmode", "url");
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Action<PropsBuilder<SlTextarea>> buildProps, Var<List<IVNode>> children)
+    {
+        return b.H("sl-textarea", buildProps, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Action<PropsBuilder<SlTextarea>> buildProps, params Var<IVNode>[] children)
+    {
+        return b.H("sl-textarea", buildProps, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("sl-textarea", children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlTextarea(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("sl-textarea", children);
+    }
+    /// <summary>
+    /// <para> The name of the textarea, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+    }
+
+    /// <summary>
+    /// <para> The name of the textarea, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> The current value of the textarea, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the textarea, submitted as a name/value pair with form data.
+    /// <para> The current value of the textarea, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The textarea's size.
+    /// <para> The textarea's size. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlTextarea> b)
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
     }
+
+
     /// <summary>
-    /// The textarea's size.
+    /// <para> The textarea's size. </para>
     /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlTextarea> b)
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The textarea's size.
+    /// <para> The textarea's size. </para>
     /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlTextarea> b)
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled textarea. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled textarea. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
     }
 
     /// <summary>
-    /// Draws a filled textarea.
+    /// <para> Draws a filled textarea. </para>
     /// </summary>
-    public static void SetFilled(this PropsBuilder<SlTextarea> b)
+    public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
+    }
+
+
+    /// <summary>
+    /// <para> The textarea's label. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The textarea's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> The textarea's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// The textarea's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> The textarea's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
     }
 
     /// <summary>
-    /// The textarea's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The textarea's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
     }
+
+
     /// <summary>
-    /// The textarea's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
     }
 
     /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
     }
+
+
     /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
+    /// <para> The number of rows to display by default. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetRows<T>(this PropsBuilder<T> b, Var<int> rows) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), rows);
     }
 
     /// <summary>
-    /// The number of rows to display by default.
+    /// <para> The number of rows to display by default. </para>
     /// </summary>
-    public static void SetRows(this PropsBuilder<SlTextarea> b, Var<int> value)
+    public static void SetRows<T>(this PropsBuilder<T> b, int rows) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(rows));
     }
+
+
     /// <summary>
-    /// The number of rows to display by default.
+    /// <para> Controls how the textarea can be resized. </para>
     /// </summary>
-    public static void SetRows(this PropsBuilder<SlTextarea> b, int value)
+    public static void SetResizeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResizeVertical<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("vertical"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls how the textarea can be resized. </para>
+    /// </summary>
+    public static void SetResizeAuto<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("auto"));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the textarea. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the textarea. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Controls how the textarea can be resized.
+    /// <para> Disables the textarea. </para>
     /// </summary>
-    public static void SetResizeNone(this PropsBuilder<SlTextarea> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("resize"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// Controls how the textarea can be resized.
+    /// <para> Makes the textarea readonly. </para>
     /// </summary>
-    public static void SetResizeVertical(this PropsBuilder<SlTextarea> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("resize"), b.Const("vertical"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
     }
+
+
     /// <summary>
-    /// Controls how the textarea can be resized.
+    /// <para> Makes the textarea readonly. </para>
     /// </summary>
-    public static void SetResizeAuto(this PropsBuilder<SlTextarea> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("resize"), b.Const("auto"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
     }
 
     /// <summary>
-    /// Disables the textarea.
+    /// <para> Makes the textarea readonly. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlTextarea> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+    }
+
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// Makes the textarea readonly.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetReadonly(this PropsBuilder<SlTextarea> b)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the textarea a required field. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the textarea a required field. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
     }
 
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> Makes the textarea a required field. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
+
+
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> The minimum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
     }
 
     /// <summary>
-    /// Makes the textarea a required field.
+    /// <para> The minimum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetRequired(this PropsBuilder<SlTextarea> b)
+    public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+    }
+
+
+    /// <summary>
+    /// <para> The maximum length of input that will be considered valid. </para>
+    /// </summary>
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
     }
 
     /// <summary>
-    /// The minimum length of input that will be considered valid.
+    /// <para> The maximum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMinlength(this PropsBuilder<SlTextarea> b, Var<int> value)
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
     }
+
+
     /// <summary>
-    /// The minimum length of input that will be considered valid.
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
     /// </summary>
-    public static void SetMinlength(this PropsBuilder<SlTextarea> b, int value)
+    public static void SetAutocapitalizeOff<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOn<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("on"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeSentences<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("sentences"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeWords<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("words"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeCharacters<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("characters"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrect<T>(this PropsBuilder<T> b, Var<string> autocorrect) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), autocorrect);
     }
 
     /// <summary>
-    /// The maximum length of input that will be considered valid.
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
     /// </summary>
-    public static void SetMaxlength(this PropsBuilder<SlTextarea> b, Var<int> value)
+    public static void SetAutocorrect<T>(this PropsBuilder<T> b, string autocorrect) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const(autocorrect));
     }
+
+
     /// <summary>
-    /// The maximum length of input that will be considered valid.
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
     /// </summary>
-    public static void SetMaxlength(this PropsBuilder<SlTextarea> b, int value)
+    public static void SetAutocomplete<T>(this PropsBuilder<T> b, Var<string> autocomplete) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), autocomplete);
     }
 
     /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
     /// </summary>
-    public static void SetAutocapitalizeOff(this PropsBuilder<SlTextarea> b)
+    public static void SetAutocomplete<T>(this PropsBuilder<T> b, string autocomplete) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("off"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(autocomplete));
     }
+
+
     /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// <para> Indicates that the input should receive focus on page load. </para>
     /// </summary>
-    public static void SetAutocapitalizeNone(this PropsBuilder<SlTextarea> b)
+    public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
     }
+
+
     /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// <para> Indicates that the input should receive focus on page load. </para>
     /// </summary>
-    public static void SetAutocapitalizeOn(this PropsBuilder<SlTextarea> b)
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("on"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeSentences(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("sentences"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeWords(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("words"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeCharacters(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("characters"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
     }
 
     /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
+    /// <para> Indicates that the input should receive focus on page load. </para>
     /// </summary>
-    public static void SetAutocorrect(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
     }
+
+
     /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetAutocorrect(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
+    /// <para> Enables spell checking on the textarea. </para>
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Enables spell checking on the textarea. </para>
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
     }
 
     /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+    /// <para> Enables spell checking on the textarea. </para>
     /// </summary>
-    public static void SetAutocomplete(this PropsBuilder<SlTextarea> b, Var<string> value)
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
     }
+
+
     /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
     /// </summary>
-    public static void SetAutocomplete(this PropsBuilder<SlTextarea> b, string value)
+    public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
+    /// </summary>
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
     }
 
     /// <summary>
-    /// Indicates that the input should receive focus on page load.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetAutofocus(this PropsBuilder<SlTextarea> b)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
     }
 
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintEnter(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("enter"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintDone(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("done"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintGo(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("go"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintNext(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("next"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintPrevious(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("previous"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintSearch(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("search"));
-    }
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public static void SetEnterkeyhintSend(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("send"));
-    }
 
     /// <summary>
-    /// Enables spell checking on the textarea.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void SetSpellcheck(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
-    }
-
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeNone(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("none"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeText(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("text"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeDecimal(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("decimal"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeNumeric(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("numeric"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeTel(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("tel"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeSearch(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("search"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeEmail(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("email"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeUrl(this PropsBuilder<SlTextarea> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("url"));
-    }
-
-    /// <summary>
-    /// Emitted when the control loses focus.
-    /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlTextarea> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTextarea
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

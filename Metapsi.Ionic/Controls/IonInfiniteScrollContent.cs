@@ -156,6 +156,78 @@ public static partial class IonInfiniteScrollContentControl
 
 
     /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("circles"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("circular"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("crescent"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerDots<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("dots"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerLines<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-sharp"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-sharp-small"));
+    }
+
+
+    /// <summary>
+    /// <para> An animated SVG spinner that shows while loading. </para>
+    /// </summary>
+    public static void SetLoadingSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-small"));
+    }
+
+
+    /// <summary>
     /// <para> Optional text to display while loading. `loadingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
     public static void SetLoadingText<T>(this PropsBuilder<T> b, Var<IonicSafeString> loadingText) where T: IonInfiniteScrollContent

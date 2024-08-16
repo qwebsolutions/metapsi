@@ -295,6 +295,15 @@ public static partial class IonMenuControl
 
 
     /// <summary>
+    /// <para> Which side of the view the menu should be placed. </para>
+    /// </summary>
+    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, swiping the menu is enabled. </para>
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonMenu
@@ -326,6 +335,24 @@ public static partial class IonMenuControl
     public static void SetTypeOverlay<T>(this PropsBuilder<T> b) where T: IonMenu
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("overlay"));
+    }
+
+
+    /// <summary>
+    /// <para> The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`. </para>
+    /// </summary>
+    public static void SetTypePush<T>(this PropsBuilder<T> b) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("push"));
+    }
+
+
+    /// <summary>
+    /// <para> The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`. </para>
+    /// </summary>
+    public static void SetTypeReveal<T>(this PropsBuilder<T> b) where T: IonMenu
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reveal"));
     }
 
 

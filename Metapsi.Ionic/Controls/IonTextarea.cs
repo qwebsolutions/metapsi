@@ -706,6 +706,78 @@ public static partial class IonTextareaControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. </para>
     /// </summary>
     public static void SetCols<T>(this PropsBuilder<T> b, Var<int> cols) where T: IonTextarea
@@ -818,6 +890,60 @@ public static partial class IonTextareaControl
 
 
     /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
     /// <para> Text that is placed under the textarea and displayed when an error is detected. </para>
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonTextarea
@@ -840,6 +966,15 @@ public static partial class IonTextareaControl
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+    }
+
+
+    /// <summary>
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
+    /// </summary>
+    public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
     }
 
 
@@ -870,6 +1005,69 @@ public static partial class IonTextareaControl
 
 
     /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+    }
+
+
+    /// <summary>
     /// <para> The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonTextarea
@@ -892,6 +1090,42 @@ public static partial class IonTextareaControl
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
     }
 
 
@@ -935,6 +1169,15 @@ public static partial class IonTextareaControl
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 
@@ -1099,6 +1342,24 @@ public static partial class IonTextareaControl
     public static void SetWrapHard<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("hard"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates how the control wraps text. </para>
+    /// </summary>
+    public static void SetWrapOff<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates how the control wraps text. </para>
+    /// </summary>
+    public static void SetWrapSoft<T>(this PropsBuilder<T> b) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("soft"));
     }
 
 

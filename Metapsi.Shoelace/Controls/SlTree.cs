@@ -13,28 +13,16 @@ public partial class SlTree : SlComponent
 {
     public SlTree() : base("sl-tree") { }
     /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
+    ///
     /// </summary>
-    public string selection
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("selection");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("selection", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The icon to show when the tree item is expanded. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The icon to show when the tree item is expanded. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string ExpandIcon = "expand-icon";
-        /// <summary> 
-        /// The icon to show when the tree item is collapsed. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The icon to show when the tree item is collapsed. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string CollapseIcon = "collapse-icon";
     }
@@ -43,96 +31,147 @@ public partial class SlTree : SlComponent
 public static partial class SlTreeControl
 {
     /// <summary>
-    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    ///
+    /// </summary>
+    public static IHtmlNode SlTree(this HtmlBuilder b, Action<AttributesBuilder<SlTree>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tree", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTree(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tree", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
+    /// </summary>
+    public static void SetSelection(this AttributesBuilder<SlTree> b,string selection)
+    {
+        b.SetAttribute("selection", selection);
+    }
+
+    /// <summary>
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
+    /// </summary>
+    public static void SetSelectionSingle(this AttributesBuilder<SlTree> b)
+    {
+        b.SetAttribute("selection", "single");
+    }
+
+    /// <summary>
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
+    /// </summary>
+    public static void SetSelectionMultiple(this AttributesBuilder<SlTree> b)
+    {
+        b.SetAttribute("selection", "multiple");
+    }
+
+    /// <summary>
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
+    /// </summary>
+    public static void SetSelectionLeaf(this AttributesBuilder<SlTree> b)
+    {
+        b.SetAttribute("selection", "leaf");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Action<PropsBuilder<SlTree>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tree", buildProps, children);
+        return b.H("sl-tree", buildProps, children);
     }
     /// <summary>
-    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Action<PropsBuilder<SlTree>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tree", buildProps, children);
+        return b.H("sl-tree", buildProps, children);
     }
     /// <summary>
-    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tree", children);
+        return b.H("sl-tree", children);
     }
     /// <summary>
-    /// Trees allow you to display a hierarchical list of selectable [tree items](/components/tree-item). Items with children can be expanded and collapsed as desired by the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tree", children);
+        return b.H("sl-tree", children);
     }
     /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
     /// </summary>
-    public static void SetSelectionSingle(this PropsBuilder<SlTree> b)
+    public static void SetSelectionSingle<T>(this PropsBuilder<T> b) where T: SlTree
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("selection"), b.Const("single"));
-    }
-    /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
-    /// </summary>
-    public static void SetSelectionMultiple(this PropsBuilder<SlTree> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("selection"), b.Const("multiple"));
-    }
-    /// <summary>
-    /// The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected.
-    /// </summary>
-    public static void SetSelectionLeaf(this PropsBuilder<SlTree> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("selection"), b.Const("leaf"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("single"));
     }
 
+
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetSelectionMultiple<T>(this PropsBuilder<T> b) where T: SlTree
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("multiple"));
+    }
+
+
+    /// <summary>
+    /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
+    /// </summary>
+    public static void SetSelectionLeaf<T>(this PropsBuilder<T> b) where T: SlTree
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("leaf"));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when a tree item is selected or deselected. </para>
+    /// </summary>
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", action);
     }
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", action);
     }
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, Var<HyperType.Action<TModel, SlSelectionChangeEventArgs>> action)
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlSelectionChangeEventArgs>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", action, "detail");
     }
     /// <summary>
-    /// Emitted when a tree item is selected or deselected.
+    /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TModel>(this PropsBuilder<SlTree> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectionChangeEventArgs>, Var<TModel>> action)
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectionChangeEventArgs>, Var<TModel>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", b.MakeAction(action), "detail");
     }

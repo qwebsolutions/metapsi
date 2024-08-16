@@ -468,6 +468,15 @@ public static partial class IonModalControl
 
 
     /// <summary>
+    /// <para> The interaction behavior for the sheet modal when the handle is pressed.  Defaults to `"none"`, which  means the modal will not change size or position when the handle is pressed. Set to `"cycle"` to let the modal cycle between available breakpoints when pressed.  Handle behavior is unavailable when the `handle` property is set to `false` or when the `breakpoints` property is not set (using a fullscreen or card modal). </para>
+    /// </summary>
+    public static void SetHandleBehaviorNone<T>(this PropsBuilder<T> b) where T: IonModal
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("handleBehavior"), b.Const("none"));
+    }
+
+
+    /// <summary>
     /// <para> Additional attributes to pass to the modal. </para>
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonModal
@@ -602,6 +611,15 @@ public static partial class IonModalControl
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonModal
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonModal
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 

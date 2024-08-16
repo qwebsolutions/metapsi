@@ -17,74 +17,88 @@ public partial class SlMenu : SlComponent
 public static partial class SlMenuControl
 {
     /// <summary>
-    /// Menus provide a list of options for the user to choose from.
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenu(this HtmlBuilder b, Action<AttributesBuilder<SlMenu>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-menu", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenu(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-menu", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Action<PropsBuilder<SlMenu>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-menu", buildProps, children);
+        return b.H("sl-menu", buildProps, children);
     }
     /// <summary>
-    /// Menus provide a list of options for the user to choose from.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Action<PropsBuilder<SlMenu>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-menu", buildProps, children);
+        return b.H("sl-menu", buildProps, children);
     }
     /// <summary>
-    /// Menus provide a list of options for the user to choose from.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-menu", children);
+        return b.H("sl-menu", children);
     }
     /// <summary>
-    /// Menus provide a list of options for the user to choose from.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-menu", children);
+        return b.H("sl-menu", children);
     }
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", action);
     }
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", action);
     }
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, Var<HyperType.Action<TModel, SlSelectEventArgs>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlSelectEventArgs>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", action, "detail");
     }
     /// <summary>
-    /// Emitted when a menu item is selected.
+    /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TModel>(this PropsBuilder<SlMenu> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectEventArgs>, Var<TModel>> action)
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlSelectEventArgs>, Var<TModel>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", b.MakeAction(action), "detail");
     }

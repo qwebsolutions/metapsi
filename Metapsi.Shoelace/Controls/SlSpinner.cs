@@ -17,32 +17,46 @@ public partial class SlSpinner : SlComponent
 public static partial class SlSpinnerControl
 {
     /// <summary>
-    /// Spinners are used to show the progress of an indeterminate operation.
+    ///
+    /// </summary>
+    public static IHtmlNode SlSpinner(this HtmlBuilder b, Action<AttributesBuilder<SlSpinner>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-spinner", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSpinner(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-spinner", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Action<PropsBuilder<SlSpinner>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-spinner", buildProps, children);
+        return b.H("sl-spinner", buildProps, children);
     }
     /// <summary>
-    /// Spinners are used to show the progress of an indeterminate operation.
+    ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Action<PropsBuilder<SlSpinner>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-spinner", buildProps, children);
+        return b.H("sl-spinner", buildProps, children);
     }
     /// <summary>
-    /// Spinners are used to show the progress of an indeterminate operation.
+    ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-spinner", children);
+        return b.H("sl-spinner", children);
     }
     /// <summary>
-    /// Spinners are used to show the progress of an indeterminate operation.
+    ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-spinner", children);
+        return b.H("sl-spinner", children);
     }
 }
 

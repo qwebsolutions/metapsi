@@ -240,11 +240,29 @@ public static partial class IonAccordionGroupControl
 
 
     /// <summary>
+    /// <para> Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`. </para>
+    /// </summary>
+    public static void SetExpandInset<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("expand"), b.Const("inset"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 

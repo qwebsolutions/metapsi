@@ -92,6 +92,15 @@ public static partial class IonItemOptionsControl
 
 
     /// <summary>
+    /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
+    /// </summary>
+    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonItemOptions
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+    }
+
+
+    /// <summary>
     /// <para> Emitted when the item has been fully swiped. </para>
     /// </summary>
     public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonItemOptions

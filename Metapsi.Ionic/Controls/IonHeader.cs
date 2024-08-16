@@ -132,11 +132,29 @@ public static partial class IonHeaderControl
 
 
     /// <summary>
+    /// <para> Describes the scroll effect that will be applied to the header. Only applies in iOS mode.  Typically used for [Collapsible Large Titles](https://ionicframework.com/docs/api/title#collapsible-large-titles) </para>
+    /// </summary>
+    public static void SetCollapseFade<T>(this PropsBuilder<T> b) where T: IonHeader
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("collapse"), b.Const("fade"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonHeader
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonHeader
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 

@@ -12,61 +12,93 @@ namespace Metapsi.Shoelace;
 public partial class SlDivider : SlComponent
 {
     public SlDivider() : base("sl-divider") { }
-    /// <summary>
-    /// Draws the divider in a vertical orientation.
-    /// </summary>
-    public bool vertical
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("vertical");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("vertical", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlDividerControl
 {
     /// <summary>
-    /// Dividers are used to visually separate or group elements.
+    ///
+    /// </summary>
+    public static IHtmlNode SlDivider(this HtmlBuilder b, Action<AttributesBuilder<SlDivider>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-divider", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDivider(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-divider", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> Draws the divider in a vertical orientation. </para>
+    /// </summary>
+    public static void SetVertical(this AttributesBuilder<SlDivider> b)
+    {
+        b.SetAttribute("vertical", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the divider in a vertical orientation. </para>
+    /// </summary>
+    public static void SetVertical(this AttributesBuilder<SlDivider> b,bool vertical)
+    {
+        if (vertical) b.SetAttribute("vertical", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Action<PropsBuilder<SlDivider>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-divider", buildProps, children);
+        return b.H("sl-divider", buildProps, children);
     }
     /// <summary>
-    /// Dividers are used to visually separate or group elements.
+    ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Action<PropsBuilder<SlDivider>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-divider", buildProps, children);
+        return b.H("sl-divider", buildProps, children);
     }
     /// <summary>
-    /// Dividers are used to visually separate or group elements.
+    ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-divider", children);
+        return b.H("sl-divider", children);
     }
     /// <summary>
-    /// Dividers are used to visually separate or group elements.
+    ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-divider", children);
+        return b.H("sl-divider", children);
     }
     /// <summary>
-    /// Draws the divider in a vertical orientation.
+    /// <para> Draws the divider in a vertical orientation. </para>
     /// </summary>
-    public static void SetVertical(this PropsBuilder<SlDivider> b)
+    public static void SetVertical<T>(this PropsBuilder<T> b) where T: SlDivider
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("vertical"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(true));
     }
+
+
+    /// <summary>
+    /// <para> Draws the divider in a vertical orientation. </para>
+    /// </summary>
+    public static void SetVertical<T>(this PropsBuilder<T> b, Var<bool> vertical) where T: SlDivider
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), vertical);
+    }
+
+    /// <summary>
+    /// <para> Draws the divider in a vertical orientation. </para>
+    /// </summary>
+    public static void SetVertical<T>(this PropsBuilder<T> b, bool vertical) where T: SlDivider
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(vertical));
+    }
+
 
 }
 

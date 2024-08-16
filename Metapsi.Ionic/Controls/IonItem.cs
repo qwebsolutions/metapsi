@@ -324,6 +324,78 @@ public static partial class IonItemControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
     public static void SetDetail<T>(this PropsBuilder<T> b) where T: IonItem
@@ -436,11 +508,38 @@ public static partial class IonItemControl
 
 
     /// <summary>
+    /// <para> How the bottom border should be displayed on the item. </para>
+    /// </summary>
+    public static void SetLinesInset<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("inset"));
+    }
+
+
+    /// <summary>
+    /// <para> How the bottom border should be displayed on the item. </para>
+    /// </summary>
+    public static void SetLinesNone<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("none"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonItem
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 
@@ -488,6 +587,24 @@ public static partial class IonItemControl
 
 
     /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+    }
+
+
+    /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+    }
+
+
+    /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> target) where T: IonItem
@@ -510,6 +627,24 @@ public static partial class IonItemControl
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonItem
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
+    /// </summary>
+    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
+    /// </summary>
+    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
     }
 
 

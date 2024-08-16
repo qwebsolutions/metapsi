@@ -150,6 +150,15 @@ public static partial class IonInfiniteScrollControl
 
 
     /// <summary>
+    /// <para> The position of the infinite scroll element. The value can be either `top` or `bottom`. </para>
+    /// </summary>
+    public static void SetPositionTop<T>(this PropsBuilder<T> b) where T: IonInfiniteScroll
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("top"));
+    }
+
+
+    /// <summary>
     /// <para> The threshold distance from the bottom of the content to call the `infinite` output event when scrolled. The threshold value can be either a percent, or in pixels. For example, use the value of `10%` for the `infinite` output event to get called when the user has scrolled 10% from the bottom of the page. Use the value `100px` when the scroll is within 100 pixels from the bottom of the page. </para>
     /// </summary>
     public static void SetThreshold<T>(this PropsBuilder<T> b, Var<string> threshold) where T: IonInfiniteScroll

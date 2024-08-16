@@ -173,11 +173,92 @@ public static partial class IonProgressBarControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 
@@ -213,6 +294,15 @@ public static partial class IonProgressBarControl
     public static void SetTypeDeterminate<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("determinate"));
+    }
+
+
+    /// <summary>
+    /// <para> The state of the progress bar, based on if the time the process takes is known or not. Default options are: `"determinate"` (no animation), `"indeterminate"` (animate from left to right). </para>
+    /// </summary>
+    public static void SetTypeIndeterminate<T>(this PropsBuilder<T> b) where T: IonProgressBar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("indeterminate"));
     }
 
 

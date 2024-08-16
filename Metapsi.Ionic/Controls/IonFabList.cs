@@ -149,5 +149,32 @@ public static partial class IonFabListControl
     }
 
 
+    /// <summary>
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
+    /// </summary>
+    public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
+    /// </summary>
+    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+    }
+
+
+    /// <summary>
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
+    /// </summary>
+    public static void SetSideTop<T>(this PropsBuilder<T> b) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("top"));
+    }
+
+
 }
 

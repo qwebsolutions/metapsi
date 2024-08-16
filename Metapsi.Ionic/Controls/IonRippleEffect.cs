@@ -101,5 +101,14 @@ public static partial class IonRippleEffectControl
     }
 
 
+    /// <summary>
+    /// <para> Sets the type of ripple-effect:  - `bounded`: the ripple effect expands from the user's click position - `unbounded`: the ripple effect expands from the center of the button and overflows the container.  NOTE: Surfaces for bounded ripples should have the overflow property set to hidden, while surfaces for unbounded ripples should have it set to visible. </para>
+    /// </summary>
+    public static void SetTypeUnbounded<T>(this PropsBuilder<T> b) where T: IonRippleEffect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("unbounded"));
+    }
+
+
 }
 

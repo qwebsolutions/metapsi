@@ -1020,11 +1020,497 @@ public static partial class IonSearchbarControl
 
 
     /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteOn<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("on"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteOff<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteHonorificPrefix<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-prefix"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteGivenName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("given-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAdditionalName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("additional-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteFamilyName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("family-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteHonorificSuffix<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-suffix"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteNickname<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("nickname"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteUsername<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("username"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteNewPassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("new-password"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCurrentPassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("current-password"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteOneTimeCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("one-time-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteOrganizationTitle<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization-title"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteOrganization<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteStreetAddress<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("street-address"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine1<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line1"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine2<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line2"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine3<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line3"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel4<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level4"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel3<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level3"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel2<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level2"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel1<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level1"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCountry<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCountryName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompletePostalCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("postal-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcGivenName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-given-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcAdditionalName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-additional-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcFamilyName<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-family-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcNumber<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-number"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExp<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExpMonth<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-month"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExpYear<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-year"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcCsc<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-csc"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteCcType<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-type"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTransactionCurrency<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-currency"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTransactionAmount<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-amount"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteLanguage<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("language"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteBday<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayDay<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-day"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayMonth<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-month"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayYear<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-year"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteSex<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("sex"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTelCountryCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-country-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTelNational<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-national"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTelAreaCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-area-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTelLocal<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-local"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteTelExtension<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-extension"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompleteImpp<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("impp"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocomplete property. </para>
+    /// </summary>
+    public static void SetAutocompletePhoto<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("photo"));
+    }
+
+
+    /// <summary>
     /// <para> Set the input's autocorrect property. </para>
     /// </summary>
     public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the input's autocorrect property. </para>
+    /// </summary>
+    public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
     }
 
 
@@ -1089,6 +1575,78 @@ public static partial class IonSearchbarControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonSearchbar
@@ -1141,11 +1699,128 @@ public static partial class IonSearchbarControl
 
 
     /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
     /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
     }
 
 
@@ -1189,6 +1864,15 @@ public static partial class IonSearchbarControl
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 
@@ -1253,11 +1937,47 @@ public static partial class IonSearchbarControl
 
 
     /// <summary>
+    /// <para> Sets the behavior for the cancel button. Defaults to `"never"`. Setting to `"focus"` shows the cancel button on focus. Setting to `"never"` hides the cancel button. Setting to `"always"` shows the cancel button regardless of focus state. </para>
+    /// </summary>
+    public static void SetShowCancelButtonFocus<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("showCancelButton"), b.Const("focus"));
+    }
+
+
+    /// <summary>
+    /// <para> Sets the behavior for the cancel button. Defaults to `"never"`. Setting to `"focus"` shows the cancel button on focus. Setting to `"never"` hides the cancel button. Setting to `"always"` shows the cancel button regardless of focus state. </para>
+    /// </summary>
+    public static void SetShowCancelButtonNever<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("showCancelButton"), b.Const("never"));
+    }
+
+
+    /// <summary>
     /// <para> Sets the behavior for the clear button. Defaults to `"focus"`. Setting to `"focus"` shows the clear button on focus if the input is not empty. Setting to `"never"` hides the clear button. Setting to `"always"` shows the clear button regardless of focus state, but only if the input is not empty. </para>
     /// </summary>
     public static void SetShowClearButtonAlways<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("always"));
+    }
+
+
+    /// <summary>
+    /// <para> Sets the behavior for the clear button. Defaults to `"focus"`. Setting to `"focus"` shows the clear button on focus if the input is not empty. Setting to `"never"` hides the clear button. Setting to `"always"` shows the clear button regardless of focus state, but only if the input is not empty. </para>
+    /// </summary>
+    public static void SetShowClearButtonFocus<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("focus"));
+    }
+
+
+    /// <summary>
+    /// <para> Sets the behavior for the clear button. Defaults to `"focus"`. Setting to `"focus"` shows the clear button on focus if the input is not empty. Setting to `"never"` hides the clear button. Setting to `"always"` shows the clear button regardless of focus state, but only if the input is not empty. </para>
+    /// </summary>
+    public static void SetShowClearButtonNever<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("never"));
     }
 
 
@@ -1293,6 +2013,60 @@ public static partial class IonSearchbarControl
     public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypeText<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the type of the input. </para>
+    /// </summary>
+    public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
     }
 
 

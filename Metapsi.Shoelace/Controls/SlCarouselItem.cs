@@ -17,32 +17,46 @@ public partial class SlCarouselItem : SlComponent
 public static partial class SlCarouselItemControl
 {
     /// <summary>
-    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarouselItem(this HtmlBuilder b, Action<AttributesBuilder<SlCarouselItem>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-carousel-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarouselItem(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-carousel-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Action<PropsBuilder<SlCarouselItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-carousel-item", buildProps, children);
+        return b.H("sl-carousel-item", buildProps, children);
     }
     /// <summary>
-    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Action<PropsBuilder<SlCarouselItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-carousel-item", buildProps, children);
+        return b.H("sl-carousel-item", buildProps, children);
     }
     /// <summary>
-    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-carousel-item", children);
+        return b.H("sl-carousel-item", children);
     }
     /// <summary>
-    /// A carousel item represent a slide within a [carousel](/components/carousel).
+    ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-carousel-item", children);
+        return b.H("sl-carousel-item", children);
     }
 }
 

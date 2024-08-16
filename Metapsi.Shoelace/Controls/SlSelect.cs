@@ -13,353 +13,63 @@ public partial class SlSelect : SlComponent
 {
     public SlSelect() : base("sl-select") { }
     /// <summary>
-    /// The name of the select, submitted as a name/value pair with form data.
+    ///
     /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public string defaultValue
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The select's size.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Placeholder text to show as a hint when the select is empty.
-    /// </summary>
-    public string placeholder
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("placeholder");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("placeholder", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Allows more than one option to be selected.
-    /// </summary>
-    public bool multiple
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("multiple");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("multiple", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit.
-    /// </summary>
-    public int maxOptionsVisible
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("max-options-visible");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("max-options-visible", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the select control.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Adds a clear button when the select is not empty.
-    /// </summary>
-    public bool clearable
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("clearable");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("clearable", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state.
-    /// </summary>
-    public bool open
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("open");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("open", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios.
-    /// </summary>
-    public bool hoist
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("hoist");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("hoist", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a filled select.
-    /// </summary>
-    public bool filled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("filled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("filled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a pill-style select with rounded edges.
-    /// </summary>
-    public bool pill
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("pill");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("pill", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The select's label. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport.
-    /// </summary>
-    public string placement
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("placement");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("placement", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The select's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public string helpText
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("help-text");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("help-text", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The select's required attribute.
-    /// </summary>
-    public bool required
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("required");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("required", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value.
-    /// </summary>
-    public System.Func<SlOption,int,object> getTag
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<SlOption,int,object>>("getTag");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("getTag", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The input's label. Alternatively, you can use the `label` attribute.
+        /// <summary>
+        /// <para> The input's label. Alternatively, you can use the `label` attribute. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Used to prepend a presentational icon or similar element to the combobox.
+        /// <summary>
+        /// <para> Used to prepend a presentational icon or similar element to the combobox. </para>
         /// </summary>
         public const string Prefix = "prefix";
-        /// <summary> 
-        /// An icon to use in lieu of the default clear icon.
+        /// <summary>
+        /// <para> An icon to use in lieu of the default clear icon. </para>
         /// </summary>
         public const string ClearIcon = "clear-icon";
-        /// <summary> 
-        /// The icon to show when the control is expanded and collapsed. Rotates on open and close.
+        /// <summary>
+        /// <para> The icon to show when the control is expanded and collapsed. Rotates on open and close. </para>
         /// </summary>
         public const string ExpandIcon = "expand-icon";
-        /// <summary> 
-        /// Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.
+        /// <summary>
+        /// <para> Text that describes how to use the input. Alternatively, you can use the `help-text` attribute. </para>
         /// </summary>
         public const string HelpText = "help-text";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Shows the listbox.
+        /// <summary>
+        /// <para> Shows the listbox. </para>
         /// </summary>
         public const string Show = "show";
-        /// <summary> 
-        /// Hides the listbox.
+        /// <summary>
+        /// <para> Hides the listbox. </para>
         /// </summary>
         public const string Hide = "hide";
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
-        /// <summary> 
-        /// Sets focus on the control.
+        /// <summary>
+        /// <para> Sets focus on the control. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the control.
+        /// <summary>
+        /// <para> Removes focus from the control. </para>
         /// </summary>
         public const string Blur = "blur";
     }
@@ -368,564 +78,1031 @@ public partial class SlSelect : SlComponent
 public static partial class SlSelectControl
 {
     /// <summary>
-    /// Selects allow you to choose items from a menu of predefined options.
+    ///
     /// </summary>
-    public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, Var<List<IVNode>> children)
+    public static IHtmlNode SlSelect(this HtmlBuilder b, Action<AttributesBuilder<SlSelect>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.SlNode("sl-select", buildProps, children);
+        return b.Tag("sl-select", buildAttributes, children);
     }
     /// <summary>
-    /// Selects allow you to choose items from a menu of predefined options.
+    ///
     /// </summary>
-    public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, params Var<IVNode>[] children)
+    public static IHtmlNode SlSelect(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.SlNode("sl-select", buildProps, children);
+        return b.Tag("sl-select", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// Selects allow you to choose items from a menu of predefined options.
+    /// <para> The name of the select, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static Var<IVNode> SlSelect(this LayoutBuilder b, Var<List<IVNode>> children)
+    public static void SetName(this AttributesBuilder<SlSelect> b,string name)
     {
-        return b.SlNode("sl-select", children);
-    }
-    /// <summary>
-    /// Selects allow you to choose items from a menu of predefined options.
-    /// </summary>
-    public static Var<IVNode> SlSelect(this LayoutBuilder b, params Var<IVNode>[] children)
-    {
-        return b.SlNode("sl-select", children);
-    }
-    /// <summary>
-    /// The name of the select, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlSelect> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the select, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlSelect> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetAttribute("name", name);
     }
 
     /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
+    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlSelect> b, Var<string> value)
+    public static void SetValue(this AttributesBuilder<SlSelect> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlSelect> b,string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Placeholder text to show as a hint when the select is empty. </para>
+    /// </summary>
+    public static void SetPlaceholder(this AttributesBuilder<SlSelect> b,string placeholder)
+    {
+        b.SetAttribute("placeholder", placeholder);
+    }
+
+    /// <summary>
+    /// <para> Allows more than one option to be selected. </para>
+    /// </summary>
+    public static void SetMultiple(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("multiple", "");
+    }
+
+    /// <summary>
+    /// <para> Allows more than one option to be selected. </para>
+    /// </summary>
+    public static void SetMultiple(this AttributesBuilder<SlSelect> b,bool multiple)
+    {
+        if (multiple) b.SetAttribute("multiple", "");
+    }
+
+    /// <summary>
+    /// <para> The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit. </para>
+    /// </summary>
+    public static void SetMaxOptionsVisible(this AttributesBuilder<SlSelect> b,string maxOptionsVisible)
+    {
+        b.SetAttribute("max-options-visible", maxOptionsVisible);
+    }
+
+    /// <summary>
+    /// <para> Disables the select control. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the select control. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlSelect> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Adds a clear button when the select is not empty. </para>
+    /// </summary>
+    public static void SetClearable(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("clearable", "");
+    }
+
+    /// <summary>
+    /// <para> Adds a clear button when the select is not empty. </para>
+    /// </summary>
+    public static void SetClearable(this AttributesBuilder<SlSelect> b,bool clearable)
+    {
+        if (clearable) b.SetAttribute("clearable", "");
+    }
+
+    /// <summary>
+    /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
+    /// </summary>
+    public static void SetOpen(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("open", "");
+    }
+
+    /// <summary>
+    /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
+    /// </summary>
+    public static void SetOpen(this AttributesBuilder<SlSelect> b,bool open)
+    {
+        if (open) b.SetAttribute("open", "");
+    }
+
+    /// <summary>
+    /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("hoist", "");
+    }
+
+    /// <summary>
+    /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist(this AttributesBuilder<SlSelect> b,bool hoist)
+    {
+        if (hoist) b.SetAttribute("hoist", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled select. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled select. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlSelect> b,bool filled)
+    {
+        if (filled) b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style select with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style select with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlSelect> b,bool pill)
+    {
+        if (pill) b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> The select's label. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlSelect> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
+    /// </summary>
+    public static void SetPlacement(this AttributesBuilder<SlSelect> b,string placement)
+    {
+        b.SetAttribute("placement", placement);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
+    /// </summary>
+    public static void SetPlacementTop(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("placement", "top");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
+    /// </summary>
+    public static void SetPlacementBottom(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("placement", "bottom");
+    }
+
+    /// <summary>
+    /// <para> The select's help text. If you need to display HTML, use the `help-text` slot instead. </para>
+    /// </summary>
+    public static void SetHelpText(this AttributesBuilder<SlSelect> b,string helpText)
+    {
+        b.SetAttribute("help-text", helpText);
+    }
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlSelect> b,string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    /// <para> The select's required attribute. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlSelect> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> The select's required attribute. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlSelect> b,bool required)
+    {
+        if (required) b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
+    /// </summary>
+    public static void SetGetTag(this AttributesBuilder<SlSelect> b,string getTag)
+    {
+        b.SetAttribute("getTag", getTag);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, Var<List<IVNode>> children)
+    {
+        return b.H("sl-select", buildProps, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, params Var<IVNode>[] children)
+    {
+        return b.H("sl-select", buildProps, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, Var<List<IVNode>> children)
+    {
+        return b.H("sl-select", children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static Var<IVNode> SlSelect(this LayoutBuilder b, params Var<IVNode>[] children)
+    {
+        return b.H("sl-select", children);
+    }
+    /// <summary>
+    /// <para> The name of the select, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+    }
+
+    /// <summary>
+    /// <para> The name of the select, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
+    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlSelect> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
+
     /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
+    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlSelect> b, Var<List<string>> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: SlSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
+    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlSelect> b, List<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, List<string> value) where T: SlSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The select's size.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlSelect> b)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
-    }
-    /// <summary>
-    /// The select's size.
-    /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlSelect> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
-    }
-    /// <summary>
-    /// The select's size.
-    /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlSelect> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
     }
 
     /// <summary>
-    /// Placeholder text to show as a hint when the select is empty.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlSelect> b, Var<string> value)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
     }
+
+
     /// <summary>
-    /// Placeholder text to show as a hint when the select is empty.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlSelect> b, string value)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<List<string>> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), defaultValue);
     }
 
     /// <summary>
-    /// Allows more than one option to be selected.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetMultiple(this PropsBuilder<SlSelect> b)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, List<string> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("multiple"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), b.Const(defaultValue));
+    }
+
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+    }
+
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The select's size. </para>
+    /// </summary>
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Placeholder text to show as a hint when the select is empty. </para>
+    /// </summary>
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
     }
 
     /// <summary>
-    /// The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit.
+    /// <para> Placeholder text to show as a hint when the select is empty. </para>
     /// </summary>
-    public static void SetMaxOptionsVisible(this PropsBuilder<SlSelect> b, Var<int> value)
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max-options-visible"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
     }
+
+
     /// <summary>
-    /// The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit.
+    /// <para> Allows more than one option to be selected. </para>
     /// </summary>
-    public static void SetMaxOptionsVisible(this PropsBuilder<SlSelect> b, int value)
+    public static void SetMultiple<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max-options-visible"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Allows more than one option to be selected. </para>
+    /// </summary>
+    public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
     }
 
     /// <summary>
-    /// Disables the select control.
+    /// <para> Allows more than one option to be selected. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlSelect> b)
+    public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+    }
+
+
+    /// <summary>
+    /// <para> The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit. </para>
+    /// </summary>
+    public static void SetMaxOptionsVisible<T>(this PropsBuilder<T> b, Var<int> maxOptionsVisible) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), maxOptionsVisible);
     }
 
     /// <summary>
-    /// Adds a clear button when the select is not empty.
+    /// <para> The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit. </para>
     /// </summary>
-    public static void SetClearable(this PropsBuilder<SlSelect> b)
+    public static void SetMaxOptionsVisible<T>(this PropsBuilder<T> b, int maxOptionsVisible) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), b.Const(maxOptionsVisible));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the select control. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the select control. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state.
+    /// <para> Disables the select control. </para>
     /// </summary>
-    public static void SetOpen(this PropsBuilder<SlSelect> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a clear button when the select is not empty. </para>
+    /// </summary>
+    public static void SetClearable<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a clear button when the select is not empty. </para>
+    /// </summary>
+    public static void SetClearable<T>(this PropsBuilder<T> b, Var<bool> clearable) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), clearable);
     }
 
     /// <summary>
-    /// Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios.
+    /// <para> Adds a clear button when the select is not empty. </para>
     /// </summary>
-    public static void SetHoist(this PropsBuilder<SlSelect> b)
+    public static void SetClearable<T>(this PropsBuilder<T> b, bool clearable) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(clearable));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
+    /// </summary>
+    public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
+    /// </summary>
+    public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
     }
 
     /// <summary>
-    /// Draws a filled select.
+    /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
     /// </summary>
-    public static void SetFilled(this PropsBuilder<SlSelect> b)
+    public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+    }
+
+
+    /// <summary>
+    /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
     }
 
     /// <summary>
-    /// Draws a pill-style select with rounded edges.
+    /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetPill(this PropsBuilder<SlSelect> b)
+    public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled select. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled select. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
     }
 
     /// <summary>
-    /// The select's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> Draws a filled select. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlSelect> b, Var<string> value)
+    public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
     }
+
+
     /// <summary>
-    /// The select's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> Draws a pill-style select with rounded edges. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlSelect> b, string value)
+    public static void SetPill<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style select with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
     }
 
     /// <summary>
-    /// The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport.
+    /// <para> Draws a pill-style select with rounded edges. </para>
     /// </summary>
-    public static void SetPlacementTop(this PropsBuilder<SlSelect> b)
+    public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("top"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
     }
+
+
     /// <summary>
-    /// The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport.
+    /// <para> The select's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetPlacementBottom(this PropsBuilder<SlSelect> b)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("bottom"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The select's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The select's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlSelect> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// The select's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlSelect> b, string value)
+    public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
+    }
+
+
+    /// <summary>
+    /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
+    /// </summary>
+    public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
+    }
+
+
+    /// <summary>
+    /// <para> The select's help text. If you need to display HTML, use the `help-text` slot instead. </para>
+    /// </summary>
+    public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
     }
 
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> The select's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlSelect> b, Var<string> value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
     }
+
+
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlSelect> b, string value)
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// The select's required attribute.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetRequired(this PropsBuilder<SlSelect> b)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlSelect
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+    }
+
+
+    /// <summary>
+    /// <para> The select's required attribute. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> The select's required attribute. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
     }
 
     /// <summary>
-    /// A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value.
+    /// <para> The select's required attribute. </para>
     /// </summary>
-    public static void SetGetTag(this PropsBuilder<SlSelect> b, Var<Func<SlOption,int,object>> f)
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<SlOption,int,object>>("getTag"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
+
+
     /// <summary>
-    /// A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value.
+    /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag(this PropsBuilder<SlSelect> b, Func<SyntaxBuilder,Var<SlOption>,Var<int>,Var<object>> f)
+    public static void SetGetTag<T>(this PropsBuilder<T> b, Var<System.Func<SlOption,int,object>> getTag) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<SlOption,int,object>>("getTag"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<SlOption,int,object>>("getTag"), getTag);
     }
 
     /// <summary>
-    /// Emitted when the control's value changes.
+    /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetGetTag<T>(this PropsBuilder<T> b, System.Func<SlOption,int,object> getTag) where T: SlSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<SlOption,int,object>>("getTag"), b.Const(getTag));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the control's value changes. </para>
+    /// </summary>
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the control's value changes.
+    /// <para> Emitted when the control's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control's value changes.
+    /// <para> Emitted when the control's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the control's value changes.
+    /// <para> Emitted when the control's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control's value is cleared.
+    /// <para> Emitted when the control's value is cleared. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-clear", action);
     }
     /// <summary>
-    /// Emitted when the control's value is cleared.
+    /// <para> Emitted when the control's value is cleared. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-clear", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control's value is cleared.
+    /// <para> Emitted when the control's value is cleared. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-clear", action);
     }
     /// <summary>
-    /// Emitted when the control's value is cleared.
+    /// <para> Emitted when the control's value is cleared. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-clear", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the select's menu opens.
+    /// <para> Emitted when the select's menu opens. </para>
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
-    /// Emitted when the select's menu opens.
+    /// <para> Emitted when the select's menu opens. </para>
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the select's menu opens.
+    /// <para> Emitted when the select's menu opens. </para>
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
-    /// Emitted when the select's menu opens.
+    /// <para> Emitted when the select's menu opens. </para>
     /// </summary>
-    public static void OnSlShow<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted after the select's menu opens and all animations are complete.
+    /// <para> Emitted after the select's menu opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
-    /// Emitted after the select's menu opens and all animations are complete.
+    /// <para> Emitted after the select's menu opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted after the select's menu opens and all animations are complete.
+    /// <para> Emitted after the select's menu opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
-    /// Emitted after the select's menu opens and all animations are complete.
+    /// <para> Emitted after the select's menu opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the select's menu closes.
+    /// <para> Emitted when the select's menu closes. </para>
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
-    /// Emitted when the select's menu closes.
+    /// <para> Emitted when the select's menu closes. </para>
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the select's menu closes.
+    /// <para> Emitted when the select's menu closes. </para>
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
-    /// Emitted when the select's menu closes.
+    /// <para> Emitted when the select's menu closes. </para>
     /// </summary>
-    public static void OnSlHide<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted after the select's menu closes and all animations are complete.
+    /// <para> Emitted after the select's menu closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
-    /// Emitted after the select's menu closes and all animations are complete.
+    /// <para> Emitted after the select's menu closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted after the select's menu closes and all animations are complete.
+    /// <para> Emitted after the select's menu closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
-    /// Emitted after the select's menu closes and all animations are complete.
+    /// <para> Emitted after the select's menu closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSelect> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlSelect> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlSelect
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

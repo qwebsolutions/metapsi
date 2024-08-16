@@ -13,84 +13,12 @@ public partial class SlAvatar : SlComponent
 {
     public SlAvatar() : base("sl-avatar") { }
     /// <summary>
-    /// The image source to use for the avatar.
+    ///
     /// </summary>
-    public string image
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("image");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("image", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A label to use to describe the avatar to assistive devices.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Initials to use as a fallback when no image is available (1-2 characters max recommended).
-    /// </summary>
-    public string initials
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("initials");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("initials", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates how the browser should load the image.
-    /// </summary>
-    public string loading
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("loading");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("loading", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The shape of the avatar.
-    /// </summary>
-    public string shape
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("shape");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("shape", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The default icon to use when no image or initials are present. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The default icon to use when no image or initials are present. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string Icon = "icon";
     }
@@ -99,114 +27,222 @@ public partial class SlAvatar : SlComponent
 public static partial class SlAvatarControl
 {
     /// <summary>
-    /// Avatars are used to represent a person or object.
+    ///
+    /// </summary>
+    public static IHtmlNode SlAvatar(this HtmlBuilder b, Action<AttributesBuilder<SlAvatar>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-avatar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAvatar(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-avatar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The image source to use for the avatar. </para>
+    /// </summary>
+    public static void SetImage(this AttributesBuilder<SlAvatar> b,string image)
+    {
+        b.SetAttribute("image", image);
+    }
+
+    /// <summary>
+    /// <para> A label to use to describe the avatar to assistive devices. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlAvatar> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> Initials to use as a fallback when no image is available (1-2 characters max recommended). </para>
+    /// </summary>
+    public static void SetInitials(this AttributesBuilder<SlAvatar> b,string initials)
+    {
+        b.SetAttribute("initials", initials);
+    }
+
+    /// <summary>
+    /// <para> Indicates how the browser should load the image. </para>
+    /// </summary>
+    public static void SetLoading(this AttributesBuilder<SlAvatar> b,string loading)
+    {
+        b.SetAttribute("loading", loading);
+    }
+
+    /// <summary>
+    /// <para> Indicates how the browser should load the image. </para>
+    /// </summary>
+    public static void SetLoadingEager(this AttributesBuilder<SlAvatar> b)
+    {
+        b.SetAttribute("loading", "eager");
+    }
+
+    /// <summary>
+    /// <para> Indicates how the browser should load the image. </para>
+    /// </summary>
+    public static void SetLoadingLazy(this AttributesBuilder<SlAvatar> b)
+    {
+        b.SetAttribute("loading", "lazy");
+    }
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShape(this AttributesBuilder<SlAvatar> b,string shape)
+    {
+        b.SetAttribute("shape", shape);
+    }
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShapeCircle(this AttributesBuilder<SlAvatar> b)
+    {
+        b.SetAttribute("shape", "circle");
+    }
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShapeSquare(this AttributesBuilder<SlAvatar> b)
+    {
+        b.SetAttribute("shape", "square");
+    }
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShapeRounded(this AttributesBuilder<SlAvatar> b)
+    {
+        b.SetAttribute("shape", "rounded");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Action<PropsBuilder<SlAvatar>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-avatar", buildProps, children);
+        return b.H("sl-avatar", buildProps, children);
     }
     /// <summary>
-    /// Avatars are used to represent a person or object.
+    ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Action<PropsBuilder<SlAvatar>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-avatar", buildProps, children);
+        return b.H("sl-avatar", buildProps, children);
     }
     /// <summary>
-    /// Avatars are used to represent a person or object.
+    ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-avatar", children);
+        return b.H("sl-avatar", children);
     }
     /// <summary>
-    /// Avatars are used to represent a person or object.
+    ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-avatar", children);
+        return b.H("sl-avatar", children);
     }
     /// <summary>
-    /// The image source to use for the avatar.
+    /// <para> The image source to use for the avatar. </para>
     /// </summary>
-    public static void SetImage(this PropsBuilder<SlAvatar> b, Var<string> value)
+    public static void SetImage<T>(this PropsBuilder<T> b, Var<string> image) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), value);
-    }
-    /// <summary>
-    /// The image source to use for the avatar.
-    /// </summary>
-    public static void SetImage(this PropsBuilder<SlAvatar> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), image);
     }
 
     /// <summary>
-    /// A label to use to describe the avatar to assistive devices.
+    /// <para> The image source to use for the avatar. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlAvatar> b, Var<string> value)
+    public static void SetImage<T>(this PropsBuilder<T> b, string image) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), b.Const(image));
     }
+
+
     /// <summary>
-    /// A label to use to describe the avatar to assistive devices.
+    /// <para> A label to use to describe the avatar to assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlAvatar> b, string value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// Initials to use as a fallback when no image is available (1-2 characters max recommended).
+    /// <para> A label to use to describe the avatar to assistive devices. </para>
     /// </summary>
-    public static void SetInitials(this PropsBuilder<SlAvatar> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// Initials to use as a fallback when no image is available (1-2 characters max recommended).
+    /// <para> Initials to use as a fallback when no image is available (1-2 characters max recommended). </para>
     /// </summary>
-    public static void SetInitials(this PropsBuilder<SlAvatar> b, string value)
+    public static void SetInitials<T>(this PropsBuilder<T> b, Var<string> initials) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), initials);
     }
 
     /// <summary>
-    /// Indicates how the browser should load the image.
+    /// <para> Initials to use as a fallback when no image is available (1-2 characters max recommended). </para>
     /// </summary>
-    public static void SetLoadingEager(this PropsBuilder<SlAvatar> b)
+    public static void SetInitials<T>(this PropsBuilder<T> b, string initials) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("loading"), b.Const("eager"));
-    }
-    /// <summary>
-    /// Indicates how the browser should load the image.
-    /// </summary>
-    public static void SetLoadingLazy(this PropsBuilder<SlAvatar> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("loading"), b.Const("lazy"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), b.Const(initials));
     }
 
+
     /// <summary>
-    /// The shape of the avatar.
+    /// <para> Indicates how the browser should load the image. </para>
     /// </summary>
-    public static void SetShapeCircle(this PropsBuilder<SlAvatar> b)
+    public static void SetLoadingEager<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("shape"), b.Const("circle"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loading"), b.Const("eager"));
     }
+
+
     /// <summary>
-    /// The shape of the avatar.
+    /// <para> Indicates how the browser should load the image. </para>
     /// </summary>
-    public static void SetShapeSquare(this PropsBuilder<SlAvatar> b)
+    public static void SetLoadingLazy<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("shape"), b.Const("square"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("loading"), b.Const("lazy"));
     }
+
+
     /// <summary>
-    /// The shape of the avatar.
+    /// <para> The shape of the avatar. </para>
     /// </summary>
-    public static void SetShapeRounded(this PropsBuilder<SlAvatar> b)
+    public static void SetShapeCircle<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("shape"), b.Const("rounded"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("circle"));
     }
+
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShapeSquare<T>(this PropsBuilder<T> b) where T: SlAvatar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("square"));
+    }
+
+
+    /// <summary>
+    /// <para> The shape of the avatar. </para>
+    /// </summary>
+    public static void SetShapeRounded<T>(this PropsBuilder<T> b) where T: SlAvatar
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("rounded"));
+    }
+
 
 }
 

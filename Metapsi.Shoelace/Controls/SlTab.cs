@@ -12,77 +12,14 @@ namespace Metapsi.Shoelace;
 public partial class SlTab : SlComponent
 {
     public SlTab() : base("sl-tab") { }
-    /// <summary>
-    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
-    /// </summary>
-    public string panel
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("panel");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("panel", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the tab in an active state.
-    /// </summary>
-    public bool active
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("active");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("active", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the tab closable and shows a close button.
-    /// </summary>
-    public bool closable
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("closable");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("closable", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the tab and prevents selection.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
     public static class Method
     {
-        /// <summary> 
-        /// Sets focus to the tab.
+        /// <summary>
+        /// <para> Sets focus to the tab. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the tab.
+        /// <summary>
+        /// <para> Removes focus from the tab. </para>
         /// </summary>
         public const string Blur = "blur";
     }
@@ -91,98 +28,224 @@ public partial class SlTab : SlComponent
 public static partial class SlTabControl
 {
     /// <summary>
-    /// Tabs are used inside [tab groups](/components/tab-group) to represent and activate [tab panels](/components/tab-panel).
+    ///
+    /// </summary>
+    public static IHtmlNode SlTab(this HtmlBuilder b, Action<AttributesBuilder<SlTab>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tab", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTab(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tab", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The name of the tab panel this tab is associated with. The panel must be located in the same tab group. </para>
+    /// </summary>
+    public static void SetPanel(this AttributesBuilder<SlTab> b,string panel)
+    {
+        b.SetAttribute("panel", panel);
+    }
+
+    /// <summary>
+    /// <para> Draws the tab in an active state. </para>
+    /// </summary>
+    public static void SetActive(this AttributesBuilder<SlTab> b)
+    {
+        b.SetAttribute("active", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the tab in an active state. </para>
+    /// </summary>
+    public static void SetActive(this AttributesBuilder<SlTab> b,bool active)
+    {
+        if (active) b.SetAttribute("active", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the tab closable and shows a close button. </para>
+    /// </summary>
+    public static void SetClosable(this AttributesBuilder<SlTab> b)
+    {
+        b.SetAttribute("closable", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the tab closable and shows a close button. </para>
+    /// </summary>
+    public static void SetClosable(this AttributesBuilder<SlTab> b,bool closable)
+    {
+        if (closable) b.SetAttribute("closable", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the tab and prevents selection. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlTab> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the tab and prevents selection. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlTab> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Action<PropsBuilder<SlTab>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tab", buildProps, children);
+        return b.H("sl-tab", buildProps, children);
     }
     /// <summary>
-    /// Tabs are used inside [tab groups](/components/tab-group) to represent and activate [tab panels](/components/tab-panel).
+    ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Action<PropsBuilder<SlTab>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tab", buildProps, children);
+        return b.H("sl-tab", buildProps, children);
     }
     /// <summary>
-    /// Tabs are used inside [tab groups](/components/tab-group) to represent and activate [tab panels](/components/tab-panel).
+    ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tab", children);
+        return b.H("sl-tab", children);
     }
     /// <summary>
-    /// Tabs are used inside [tab groups](/components/tab-group) to represent and activate [tab panels](/components/tab-panel).
+    ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tab", children);
+        return b.H("sl-tab", children);
     }
     /// <summary>
-    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
+    /// <para> The name of the tab panel this tab is associated with. The panel must be located in the same tab group. </para>
     /// </summary>
-    public static void SetPanel(this PropsBuilder<SlTab> b, Var<string> value)
+    public static void SetPanel<T>(this PropsBuilder<T> b, Var<string> panel) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), value);
-    }
-    /// <summary>
-    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
-    /// </summary>
-    public static void SetPanel(this PropsBuilder<SlTab> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), panel);
     }
 
     /// <summary>
-    /// Draws the tab in an active state.
+    /// <para> The name of the tab panel this tab is associated with. The panel must be located in the same tab group. </para>
     /// </summary>
-    public static void SetActive(this PropsBuilder<SlTab> b)
+    public static void SetPanel<T>(this PropsBuilder<T> b, string panel) where T: SlTab
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), b.Const(panel));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the tab in an active state. </para>
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the tab in an active state. </para>
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> active) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), active);
     }
 
     /// <summary>
-    /// Makes the tab closable and shows a close button.
+    /// <para> Draws the tab in an active state. </para>
     /// </summary>
-    public static void SetClosable(this PropsBuilder<SlTab> b)
+    public static void SetActive<T>(this PropsBuilder<T> b, bool active) where T: SlTab
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("closable"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(active));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the tab closable and shows a close button. </para>
+    /// </summary>
+    public static void SetClosable<T>(this PropsBuilder<T> b) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the tab closable and shows a close button. </para>
+    /// </summary>
+    public static void SetClosable<T>(this PropsBuilder<T> b, Var<bool> closable) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), closable);
     }
 
     /// <summary>
-    /// Disables the tab and prevents selection.
+    /// <para> Makes the tab closable and shows a close button. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlTab> b)
+    public static void SetClosable<T>(this PropsBuilder<T> b, bool closable) where T: SlTab
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(closable));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the tab and prevents selection. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the tab and prevents selection. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Emitted when the tab is closable and the close button is activated.
+    /// <para> Disables the tab and prevents selection. </para>
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the tab is closable and the close button is activated. </para>
+    /// </summary>
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", action);
     }
     /// <summary>
-    /// Emitted when the tab is closable and the close button is activated.
+    /// <para> Emitted when the tab is closable and the close button is activated. </para>
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the tab is closable and the close button is activated.
+    /// <para> Emitted when the tab is closable and the close button is activated. </para>
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", action);
     }
     /// <summary>
-    /// Emitted when the tab is closable and the close button is activated.
+    /// <para> Emitted when the tab is closable and the close button is activated. </para>
     /// </summary>
-    public static void OnSlClose<TModel>(this PropsBuilder<SlTab> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", b.MakeAction(action));
     }

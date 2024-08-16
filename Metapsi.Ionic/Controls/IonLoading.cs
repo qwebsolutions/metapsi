@@ -558,6 +558,15 @@ public static partial class IonLoadingControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the loading indicator. </para>
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonLoading
@@ -589,6 +598,78 @@ public static partial class IonLoadingControl
     public static void SetSpinnerBubbles<T>(this PropsBuilder<T> b) where T: IonLoading
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("bubbles"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("circles"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("circular"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("crescent"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerDots<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("dots"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerLines<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-sharp"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-sharp-small"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the spinner to display. </para>
+    /// </summary>
+    public static void SetSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonLoading
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-small"));
     }
 
 

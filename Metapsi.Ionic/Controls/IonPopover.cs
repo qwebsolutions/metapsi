@@ -455,6 +455,24 @@ public static partial class IonPopoverControl
 
 
     /// <summary>
+    /// <para> Describes how to align the popover content with the `reference` point. Defaults to `"center"` for `ios` mode, and `"start"` for `md` mode. </para>
+    /// </summary>
+    public static void SetAlignmentEnd<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes how to align the popover content with the `reference` point. Defaults to `"center"` for `ios` mode, and `"start"` for `md` mode. </para>
+    /// </summary>
+    public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("start"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, the popover will animate. </para>
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonPopover
@@ -782,11 +800,29 @@ public static partial class IonPopoverControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> Describes what to position the popover relative to. If `"trigger"`, the popover will be positioned relative to the trigger button. If passing in an event, this is determined via event.target. If `"event"`, the popover will be positioned relative to the x/y coordinates of the trigger action. If passing in an event, this is determined via event.clientX and event.clientY. </para>
     /// </summary>
     public static void SetReferenceEvent<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("reference"), b.Const("event"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes what to position the popover relative to. If `"trigger"`, the popover will be positioned relative to the trigger button. If passing in an event, this is determined via event.target. If `"event"`, the popover will be positioned relative to the x/y coordinates of the trigger action. If passing in an event, this is determined via event.clientX and event.clientY. </para>
+    /// </summary>
+    public static void SetReferenceTrigger<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("reference"), b.Const("trigger"));
     }
 
 
@@ -826,11 +862,65 @@ public static partial class IonPopoverControl
 
 
     /// <summary>
+    /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
+    /// </summary>
+    public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
+    /// </summary>
+    public static void SetSideLeft<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("left"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
+    /// </summary>
+    public static void SetSideRight<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("right"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
+    /// </summary>
+    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
+    /// </summary>
+    public static void SetSideTop<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("top"));
+    }
+
+
+    /// <summary>
     /// <para> Describes how to calculate the popover width. If `"cover"`, the popover width will match the width of the trigger. If `"auto"`, the popover width will be set to a static default value. </para>
     /// </summary>
     public static void SetSizeAuto<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("auto"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes how to calculate the popover width. If `"cover"`, the popover width will match the width of the trigger. If `"auto"`, the popover width will be set to a static default value. </para>
+    /// </summary>
+    public static void SetSizeCover<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("cover"));
     }
 
 
@@ -883,6 +973,24 @@ public static partial class IonPopoverControl
     public static void SetTriggerActionClick<T>(this PropsBuilder<T> b) where T: IonPopover
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("click"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes what kind of interaction with the trigger that should cause the popover to open. Does not apply when the `trigger` property is `undefined`. If `"click"`, the popover will be presented when the trigger is left clicked. If `"hover"`, the popover will be presented when a pointer hovers over the trigger. If `"context-menu"`, the popover will be presented when the trigger is right clicked on desktop and long pressed on mobile. This will also prevent your device's normal context menu from appearing. </para>
+    /// </summary>
+    public static void SetTriggerActionContextMenu<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("context-menu"));
+    }
+
+
+    /// <summary>
+    /// <para> Describes what kind of interaction with the trigger that should cause the popover to open. Does not apply when the `trigger` property is `undefined`. If `"click"`, the popover will be presented when the trigger is left clicked. If `"hover"`, the popover will be presented when a pointer hovers over the trigger. If `"context-menu"`, the popover will be presented when the trigger is right clicked on desktop and long pressed on mobile. This will also prevent your device's normal context menu from appearing. </para>
+    /// </summary>
+    public static void SetTriggerActionHover<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("hover"));
     }
 
 

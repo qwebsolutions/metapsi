@@ -180,6 +180,78 @@ public static partial class IonSpinnerControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> Duration of the spinner animation in milliseconds. The default varies based on the spinner. </para>
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: IonSpinner
@@ -202,6 +274,78 @@ public static partial class IonSpinnerControl
     public static void SetNameBubbles<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("bubbles"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameCircles<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("circles"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameCircular<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("circular"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameCrescent<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("crescent"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameDots<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("dots"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameLines<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameLinesSharp<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-sharp"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-sharp-small"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
+    /// </summary>
+    public static void SetNameLinesSmall<T>(this PropsBuilder<T> b) where T: IonSpinner
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-small"));
     }
 
 

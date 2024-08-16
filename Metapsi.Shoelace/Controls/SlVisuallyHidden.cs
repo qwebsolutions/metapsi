@@ -17,32 +17,46 @@ public partial class SlVisuallyHidden : SlComponent
 public static partial class SlVisuallyHiddenControl
 {
     /// <summary>
-    /// The visually hidden utility makes content accessible to assistive devices without displaying it on the screen.
+    ///
+    /// </summary>
+    public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, Action<AttributesBuilder<SlVisuallyHidden>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-visually-hidden", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-visually-hidden", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Action<PropsBuilder<SlVisuallyHidden>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-visually-hidden", buildProps, children);
+        return b.H("sl-visually-hidden", buildProps, children);
     }
     /// <summary>
-    /// The visually hidden utility makes content accessible to assistive devices without displaying it on the screen.
+    ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Action<PropsBuilder<SlVisuallyHidden>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-visually-hidden", buildProps, children);
+        return b.H("sl-visually-hidden", buildProps, children);
     }
     /// <summary>
-    /// The visually hidden utility makes content accessible to assistive devices without displaying it on the screen.
+    ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-visually-hidden", children);
+        return b.H("sl-visually-hidden", children);
     }
     /// <summary>
-    /// The visually hidden utility makes content accessible to assistive devices without displaying it on the screen.
+    ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-visually-hidden", children);
+        return b.H("sl-visually-hidden", children);
     }
 }
 

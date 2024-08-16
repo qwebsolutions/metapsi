@@ -280,11 +280,65 @@ public static partial class IonTabButtonControl
 
 
     /// <summary>
+    /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
+    /// </summary>
+    public static void SetLayoutIconEnd<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-end"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
+    /// </summary>
+    public static void SetLayoutIconHide<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-hide"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
+    /// </summary>
+    public static void SetLayoutIconStart<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-start"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
+    /// </summary>
+    public static void SetLayoutIconTop<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-top"));
+    }
+
+
+    /// <summary>
+    /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
+    /// </summary>
+    public static void SetLayoutLabelHide<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("label-hide"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTabButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 

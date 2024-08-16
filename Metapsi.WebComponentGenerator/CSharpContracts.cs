@@ -354,6 +354,12 @@ public static class CSharpGeneratorExtensions
 
             return anon1Props == anon2Props;
         }
+        else if(Generator.IsStringLiteral(t1) && Generator.IsStringLiteral(t2))
+        {
+            var literal1 = t1 as TypeScriptLiteral;
+            var literal2 = t2 as TypeScriptLiteral;
+            return literal1.Value == literal2.Value;
+        }
         else if (!Generator.IsAnonymousType(t1) && !Generator.IsAnonymousType(t2))
         {
             return t1.ToCSharpType(cSharpConverter) == t2.ToCSharpType(cSharpConverter);
@@ -365,10 +371,6 @@ public static class CSharpGeneratorExtensions
     {
         List<CollapsedPropertyType> distinctTypes = new();
 
-        if (property.PropertyName == "buttons")
-        {
-
-        }
 
         if (Generator.IsMultiTypeUnion(property.TypeScriptType))
         {

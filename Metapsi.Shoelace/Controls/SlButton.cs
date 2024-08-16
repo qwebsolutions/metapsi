@@ -13,366 +13,47 @@ public partial class SlButton : SlComponent
 {
     public SlButton() : base("sl-button") { }
     /// <summary>
-    /// The button's theme variant.
+    ///
     /// </summary>
-    public string variant
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("variant");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("variant", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The button's size.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
-    /// </summary>
-    public bool caret
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("caret");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("caret", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the button.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the button in a loading state.
-    /// </summary>
-    public bool loading
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("loading");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("loading", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws an outlined button.
-    /// </summary>
-    public bool outline
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("outline");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("outline", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a pill-style button with rounded edges.
-    /// </summary>
-    public bool pill
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("pill");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("pill", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot.
-    /// </summary>
-    public bool circle
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("circle");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("circle", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
-    /// </summary>
-    public string type
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
-    /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
-    /// </summary>
-    public string href
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("href");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("href", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is present.
-    /// </summary>
-    public string target
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("target");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("target", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively.
-    /// </summary>
-    public string rel
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("rel");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("rel", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Tells the browser to download the linked file as this filename. Only used when `href` is present.
-    /// </summary>
-    public string download
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("download");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("download", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to override the form owner's `action` attribute.
-    /// </summary>
-    public string formAction
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("formaction");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("formaction", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to override the form owner's `enctype` attribute.
-    /// </summary>
-    public string formEnctype
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("formenctype");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("formenctype", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to override the form owner's `method` attribute.
-    /// </summary>
-    public string formMethod
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("formmethod");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("formmethod", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to override the form owner's `novalidate` attribute.
-    /// </summary>
-    public bool formNoValidate
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("formnovalidate");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("formnovalidate", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public string formTarget
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("formtarget");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("formtarget", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// A presentational prefix icon or similar element.
+        /// <summary>
+        /// <para> A presentational prefix icon or similar element. </para>
         /// </summary>
         public const string Prefix = "prefix";
-        /// <summary> 
-        /// A presentational suffix icon or similar element.
+        /// <summary>
+        /// <para> A presentational suffix icon or similar element. </para>
         /// </summary>
         public const string Suffix = "suffix";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Simulates a click on the button.
+        /// <summary>
+        /// <para> Simulates a click on the button. </para>
         /// </summary>
         public const string Click = "click";
-        /// <summary> 
-        /// Sets focus on the button.
+        /// <summary>
+        /// <para> Sets focus on the button. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the button.
+        /// <summary>
+        /// <para> Removes focus from the button. </para>
         /// </summary>
         public const string Blur = "blur";
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
     }
@@ -381,483 +62,1068 @@ public partial class SlButton : SlComponent
 public static partial class SlButtonControl
 {
     /// <summary>
-    /// Buttons represent actions that are available to the user.
+    ///
+    /// </summary>
+    public static IHtmlNode SlButton(this HtmlBuilder b, Action<AttributesBuilder<SlButton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariant(this AttributesBuilder<SlButton> b,string variant)
+    {
+        b.SetAttribute("variant", variant);
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantDefault(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "default");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantPrimary(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "primary");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantSuccess(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "success");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantNeutral(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "neutral");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantWarning(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "warning");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantDanger(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "danger");
+    }
+
+    /// <summary>
+    /// <para> The button's theme variant. </para>
+    /// </summary>
+    public static void SetVariantText(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("variant", "text");
+    }
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlButton> b,string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
+    /// </summary>
+    public static void SetCaret(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("caret", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
+    /// </summary>
+    public static void SetCaret(this AttributesBuilder<SlButton> b,bool caret)
+    {
+        if (caret) b.SetAttribute("caret", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the button. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the button. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlButton> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the button in a loading state. </para>
+    /// </summary>
+    public static void SetLoading(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("loading", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the button in a loading state. </para>
+    /// </summary>
+    public static void SetLoading(this AttributesBuilder<SlButton> b,bool loading)
+    {
+        if (loading) b.SetAttribute("loading", "");
+    }
+
+    /// <summary>
+    /// <para> Draws an outlined button. </para>
+    /// </summary>
+    public static void SetOutline(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("outline", "");
+    }
+
+    /// <summary>
+    /// <para> Draws an outlined button. </para>
+    /// </summary>
+    public static void SetOutline(this AttributesBuilder<SlButton> b,bool outline)
+    {
+        if (outline) b.SetAttribute("outline", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style button with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style button with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlButton> b,bool pill)
+    {
+        if (pill) b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// </summary>
+    public static void SetCircle(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("circle", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// </summary>
+    public static void SetCircle(this AttributesBuilder<SlButton> b,bool circle)
+    {
+        if (circle) b.SetAttribute("circle", "");
+    }
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetType(this AttributesBuilder<SlButton> b,string type)
+    {
+        b.SetAttribute("type", type);
+    }
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeButton(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("type", "button");
+    }
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeSubmit(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("type", "submit");
+    }
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeReset(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("type", "reset");
+    }
+
+    /// <summary>
+    /// <para> The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
+    /// </summary>
+    public static void SetName(this AttributesBuilder<SlButton> b,string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlButton> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// </summary>
+    public static void SetHref(this AttributesBuilder<SlButton> b,string href)
+    {
+        b.SetAttribute("href", href);
+    }
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget(this AttributesBuilder<SlButton> b,string target)
+    {
+        b.SetAttribute("target", target);
+    }
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget_blank(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("target", "_blank");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget_parent(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("target", "_parent");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget_self(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("target", "_self");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget_top(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("target", "_top");
+    }
+
+    /// <summary>
+    /// <para> When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively. </para>
+    /// </summary>
+    public static void SetRel(this AttributesBuilder<SlButton> b,string rel)
+    {
+        b.SetAttribute("rel", rel);
+    }
+
+    /// <summary>
+    /// <para> Tells the browser to download the linked file as this filename. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetDownload(this AttributesBuilder<SlButton> b,string download)
+    {
+        b.SetAttribute("download", download);
+    }
+
+    /// <summary>
+    /// <para> The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlButton> b,string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `action` attribute. </para>
+    /// </summary>
+    public static void SetFormaction(this AttributesBuilder<SlButton> b,string formaction)
+    {
+        b.SetAttribute("formaction", formaction);
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormenctype(this AttributesBuilder<SlButton> b,string formenctype)
+    {
+        b.SetAttribute("formenctype", formenctype);
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormenctypeApplicationXWwwFormUrlencoded(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formenctype", "application/x-www-form-urlencoded");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormenctypeMultipartFormData(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formenctype", "multipart/form-data");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormenctypeTextPlain(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formenctype", "text/plain");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `method` attribute. </para>
+    /// </summary>
+    public static void SetFormmethod(this AttributesBuilder<SlButton> b,string formmethod)
+    {
+        b.SetAttribute("formmethod", formmethod);
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `method` attribute. </para>
+    /// </summary>
+    public static void SetFormmethodPost(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formmethod", "post");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `method` attribute. </para>
+    /// </summary>
+    public static void SetFormmethodGet(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formmethod", "get");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `novalidate` attribute. </para>
+    /// </summary>
+    public static void SetFormnovalidate(this AttributesBuilder<SlButton> b)
+    {
+        b.SetAttribute("formnovalidate", "");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `novalidate` attribute. </para>
+    /// </summary>
+    public static void SetFormnovalidate(this AttributesBuilder<SlButton> b,bool formnovalidate)
+    {
+        if (formnovalidate) b.SetAttribute("formnovalidate", "");
+    }
+
+    /// <summary>
+    /// <para> Used to override the form owner's `target` attribute. </para>
+    /// </summary>
+    public static void SetFormtarget(this AttributesBuilder<SlButton> b,string formtarget)
+    {
+        b.SetAttribute("formtarget", formtarget);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlButton(this LayoutBuilder b, Action<PropsBuilder<SlButton>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-button", buildProps, children);
+        return b.H("sl-button", buildProps, children);
     }
     /// <summary>
-    /// Buttons represent actions that are available to the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlButton(this LayoutBuilder b, Action<PropsBuilder<SlButton>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-button", buildProps, children);
+        return b.H("sl-button", buildProps, children);
     }
     /// <summary>
-    /// Buttons represent actions that are available to the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-button", children);
+        return b.H("sl-button", children);
     }
     /// <summary>
-    /// Buttons represent actions that are available to the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-button", children);
+        return b.H("sl-button", children);
     }
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantDefault(this PropsBuilder<SlButton> b)
+    public static void SetVariantDefault<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("default"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("default"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantPrimary(this PropsBuilder<SlButton> b)
+    public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantSuccess(this PropsBuilder<SlButton> b)
+    public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantNeutral(this PropsBuilder<SlButton> b)
+    public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("neutral"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantWarning(this PropsBuilder<SlButton> b)
+    public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantDanger(this PropsBuilder<SlButton> b)
+    public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The button's theme variant.
+    /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariantText(this PropsBuilder<SlButton> b)
+    public static void SetVariantText<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("text"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+    }
+
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The button's size. </para>
+    /// </summary>
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
+    /// </summary>
+    public static void SetCaret<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
+    /// </summary>
+    public static void SetCaret<T>(this PropsBuilder<T> b, Var<bool> caret) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), caret);
     }
 
     /// <summary>
-    /// The button's size.
+    /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlButton> b)
+    public static void SetCaret<T>(this PropsBuilder<T> b, bool caret) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), b.Const(caret));
     }
+
+
     /// <summary>
-    /// The button's size.
+    /// <para> Disables the button. </para>
     /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// The button's size.
+    /// <para> Disables the button. </para>
     /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
+    /// <para> Disables the button. </para>
     /// </summary>
-    public static void SetCaret(this PropsBuilder<SlButton> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("caret"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the button in a loading state. </para>
+    /// </summary>
+    public static void SetLoading<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the button in a loading state. </para>
+    /// </summary>
+    public static void SetLoading<T>(this PropsBuilder<T> b, Var<bool> loading) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), loading);
     }
 
     /// <summary>
-    /// Disables the button.
+    /// <para> Draws the button in a loading state. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlButton> b)
+    public static void SetLoading<T>(this PropsBuilder<T> b, bool loading) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(loading));
+    }
+
+
+    /// <summary>
+    /// <para> Draws an outlined button. </para>
+    /// </summary>
+    public static void SetOutline<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws an outlined button. </para>
+    /// </summary>
+    public static void SetOutline<T>(this PropsBuilder<T> b, Var<bool> outline) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), outline);
     }
 
     /// <summary>
-    /// Draws the button in a loading state.
+    /// <para> Draws an outlined button. </para>
     /// </summary>
-    public static void SetLoading(this PropsBuilder<SlButton> b)
+    public static void SetOutline<T>(this PropsBuilder<T> b, bool outline) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), b.Const(outline));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style button with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style button with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
     }
 
     /// <summary>
-    /// Draws an outlined button.
+    /// <para> Draws a pill-style button with rounded edges. </para>
     /// </summary>
-    public static void SetOutline(this PropsBuilder<SlButton> b)
+    public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("outline"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// </summary>
+    public static void SetCircle<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// </summary>
+    public static void SetCircle<T>(this PropsBuilder<T> b, Var<bool> circle) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), circle);
     }
 
     /// <summary>
-    /// Draws a pill-style button with rounded edges.
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
     /// </summary>
-    public static void SetPill(this PropsBuilder<SlButton> b)
+    public static void SetCircle<T>(this PropsBuilder<T> b, bool circle) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), b.Const(circle));
+    }
+
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// </summary>
+    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot.
+    /// <para> The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
     /// </summary>
-    public static void SetCircle(this PropsBuilder<SlButton> b)
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("circle"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
 
-    /// <summary>
-    /// The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
-    /// </summary>
-    public static void SetTypeButton(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("button"));
-    }
-    /// <summary>
-    /// The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
-    /// </summary>
-    public static void SetTypeSubmit(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("submit"));
-    }
-    /// <summary>
-    /// The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
-    /// </summary>
-    public static void SetTypeReset(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("reset"));
-    }
 
     /// <summary>
-    /// The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+    /// <para> The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlButton> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlButton> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
-    }
-
-    /// <summary>
-    /// The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
-    /// </summary>
-    public static void SetValue(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+    /// <para> The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlButton> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
+    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
     /// </summary>
-    public static void SetHref(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), value);
-    }
-    /// <summary>
-    /// When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
-    /// </summary>
-    public static void SetHref(this PropsBuilder<SlButton> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
     }
 
     /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is present.
+    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
     /// </summary>
-    public static void SetTarget_blank(this PropsBuilder<SlButton> b)
+    public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("target"), b.Const("_blank"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
     }
+
+
     /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is present.
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetTarget_parent(this PropsBuilder<SlButton> b)
+    public static void SetTarget_blank<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("target"), b.Const("_parent"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_blank"));
     }
+
+
     /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is present.
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetTarget_self(this PropsBuilder<SlButton> b)
+    public static void SetTarget_parent<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("target"), b.Const("_self"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_parent"));
     }
+
+
     /// <summary>
-    /// Tells the browser where to open the link. Only used when `href` is present.
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetTarget_top(this PropsBuilder<SlButton> b)
+    public static void SetTarget_self<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("target"), b.Const("_top"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_self"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
+    /// </summary>
+    public static void SetTarget_top<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_top"));
+    }
+
+
+    /// <summary>
+    /// <para> When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively. </para>
+    /// </summary>
+    public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
     }
 
     /// <summary>
-    /// When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively.
+    /// <para> When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively. </para>
     /// </summary>
-    public static void SetRel(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
     }
+
+
     /// <summary>
-    /// When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively.
+    /// <para> Tells the browser to download the linked file as this filename. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetRel(this PropsBuilder<SlButton> b, string value)
+    public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
     }
 
     /// <summary>
-    /// Tells the browser to download the linked file as this filename. Only used when `href` is present.
+    /// <para> Tells the browser to download the linked file as this filename. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetDownload(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
     }
+
+
     /// <summary>
-    /// Tells the browser to download the linked file as this filename. Only used when `href` is present.
+    /// <para> The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button. </para>
     /// </summary>
-    public static void SetDownload(this PropsBuilder<SlButton> b, string value)
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
+    /// <para> The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
     }
+
+
     /// <summary>
-    /// The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
+    /// <para> Used to override the form owner's `action` attribute. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlButton> b, string value)
+    public static void SetFormAction<T>(this PropsBuilder<T> b, Var<string> formAction) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), formAction);
     }
 
     /// <summary>
-    /// Used to override the form owner's `action` attribute.
+    /// <para> Used to override the form owner's `action` attribute. </para>
     /// </summary>
-    public static void SetFormaction(this PropsBuilder<SlButton> b, Var<string> value)
+    public static void SetFormAction<T>(this PropsBuilder<T> b, string formAction) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formaction"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), b.Const(formAction));
     }
+
+
     /// <summary>
-    /// Used to override the form owner's `action` attribute.
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
     /// </summary>
-    public static void SetFormaction(this PropsBuilder<SlButton> b, string value)
+    public static void SetFormEnctypeApplicationXWwwFormUrlencoded<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formaction"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("application/x-www-form-urlencoded"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormEnctypeMultipartFormData<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("multipart/form-data"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `enctype` attribute. </para>
+    /// </summary>
+    public static void SetFormEnctypeTextPlain<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("text/plain"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `method` attribute. </para>
+    /// </summary>
+    public static void SetFormMethodPost<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formMethod"), b.Const("post"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `method` attribute. </para>
+    /// </summary>
+    public static void SetFormMethodGet<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formMethod"), b.Const("get"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `novalidate` attribute. </para>
+    /// </summary>
+    public static void SetFormNoValidate<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `novalidate` attribute. </para>
+    /// </summary>
+    public static void SetFormNoValidate<T>(this PropsBuilder<T> b, Var<bool> formNoValidate) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), formNoValidate);
     }
 
     /// <summary>
-    /// Used to override the form owner's `enctype` attribute.
+    /// <para> Used to override the form owner's `novalidate` attribute. </para>
     /// </summary>
-    public static void SetFormenctypeApplicationXWwwFormUrlencoded(this PropsBuilder<SlButton> b)
+    public static void SetFormNoValidate<T>(this PropsBuilder<T> b, bool formNoValidate) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("application/x-www-form-urlencoded"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `enctype` attribute.
-    /// </summary>
-    public static void SetFormenctypeMultipartFormData(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("multipart/form-data"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `enctype` attribute.
-    /// </summary>
-    public static void SetFormenctypeTextPlain(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formenctype"), b.Const("text/plain"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), b.Const(formNoValidate));
     }
 
-    /// <summary>
-    /// Used to override the form owner's `method` attribute.
-    /// </summary>
-    public static void SetFormmethodPost(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formmethod"), b.Const("post"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `method` attribute.
-    /// </summary>
-    public static void SetFormmethodGet(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formmethod"), b.Const("get"));
-    }
 
     /// <summary>
-    /// Used to override the form owner's `novalidate` attribute.
+    /// <para> Used to override the form owner's `target` attribute. </para>
     /// </summary>
-    public static void SetFormnovalidate(this PropsBuilder<SlButton> b)
+    public static void SetFormTarget_self<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("formNoValidate"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_self"));
     }
 
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget_self(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_self"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget_blank(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_blank"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget_parent(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_parent"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget_top(this PropsBuilder<SlButton> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("formtarget"), b.Const("_top"));
-    }
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget(this PropsBuilder<SlButton> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formtarget"), value);
-    }
-    /// <summary>
-    /// Used to override the form owner's `target` attribute.
-    /// </summary>
-    public static void SetFormtarget(this PropsBuilder<SlButton> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formtarget"), b.Const(value));
-    }
 
     /// <summary>
-    /// Emitted when the button loses focus.
+    /// <para> Used to override the form owner's `target` attribute. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetFormTarget_blank<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_blank"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `target` attribute. </para>
+    /// </summary>
+    public static void SetFormTarget_parent<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_parent"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to override the form owner's `target` attribute. </para>
+    /// </summary>
+    public static void SetFormTarget_top<T>(this PropsBuilder<T> b) where T: SlButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_top"));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the button loses focus. </para>
+    /// </summary>
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the button loses focus.
+    /// <para> Emitted when the button loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the button loses focus.
+    /// <para> Emitted when the button loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the button loses focus.
+    /// <para> Emitted when the button loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the button gains focus.
+    /// <para> Emitted when the button gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the button gains focus.
+    /// <para> Emitted when the button gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the button gains focus.
+    /// <para> Emitted when the button gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the button gains focus.
+    /// <para> Emitted when the button gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlButton
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

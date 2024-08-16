@@ -13,102 +13,27 @@ public partial class SlMenuItem : SlComponent
 {
     public SlMenuItem() : base("sl-menu-item") { }
     /// <summary>
-    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
+    ///
     /// </summary>
-    public string type
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the item in a checked state.
-    /// </summary>
-    public bool @checked
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("checked");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("checked", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the menu item in a loading state.
-    /// </summary>
-    public bool loading
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("loading");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("loading", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws the menu item in a disabled state, preventing selection.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// Used to prepend an icon or similar element to the menu item.
+        /// <summary>
+        /// <para> Used to prepend an icon or similar element to the menu item. </para>
         /// </summary>
         public const string Prefix = "prefix";
-        /// <summary> 
-        /// Used to append an icon or similar element to the menu item.
+        /// <summary>
+        /// <para> Used to append an icon or similar element to the menu item. </para>
         /// </summary>
         public const string Suffix = "suffix";
-        /// <summary> 
-        /// Used to denote a nested menu.
+        /// <summary>
+        /// <para> Used to denote a nested menu. </para>
         /// </summary>
         public const string Submenu = "submenu";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Returns a text label based on the contents of the menu item's default slot.
+        /// <summary>
+        /// <para> Returns a text label based on the contents of the menu item's default slot. </para>
         /// </summary>
         public const string GetTextLabel = "getTextLabel";
     }
@@ -117,86 +42,239 @@ public partial class SlMenuItem : SlComponent
 public static partial class SlMenuItemControl
 {
     /// <summary>
-    /// Menu items provide options for the user to pick from in a menu.
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenuItem(this HtmlBuilder b, Action<AttributesBuilder<SlMenuItem>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-menu-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenuItem(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-menu-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
+    /// </summary>
+    public static void SetType(this AttributesBuilder<SlMenuItem> b,string type)
+    {
+        b.SetAttribute("type", type);
+    }
+
+    /// <summary>
+    /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
+    /// </summary>
+    public static void SetTypeNormal(this AttributesBuilder<SlMenuItem> b)
+    {
+        b.SetAttribute("type", "normal");
+    }
+
+    /// <summary>
+    /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
+    /// </summary>
+    public static void SetTypeCheckbox(this AttributesBuilder<SlMenuItem> b)
+    {
+        b.SetAttribute("type", "checkbox");
+    }
+
+    /// <summary>
+    /// <para> Draws the item in a checked state. </para>
+    /// </summary>
+    public static void SetChecked(this AttributesBuilder<SlMenuItem> b)
+    {
+        b.SetAttribute("checked", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the item in a checked state. </para>
+    /// </summary>
+    public static void SetChecked(this AttributesBuilder<SlMenuItem> b,bool @checked)
+    {
+        if (@checked) b.SetAttribute("checked", "");
+    }
+
+    /// <summary>
+    /// <para> A unique value to store in the menu item. This can be used as a way to identify menu items when selected. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlMenuItem> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> Draws the menu item in a loading state. </para>
+    /// </summary>
+    public static void SetLoading(this AttributesBuilder<SlMenuItem> b)
+    {
+        b.SetAttribute("loading", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the menu item in a loading state. </para>
+    /// </summary>
+    public static void SetLoading(this AttributesBuilder<SlMenuItem> b,bool loading)
+    {
+        if (loading) b.SetAttribute("loading", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the menu item in a disabled state, preventing selection. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlMenuItem> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws the menu item in a disabled state, preventing selection. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlMenuItem> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Action<PropsBuilder<SlMenuItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-menu-item", buildProps, children);
+        return b.H("sl-menu-item", buildProps, children);
     }
     /// <summary>
-    /// Menu items provide options for the user to pick from in a menu.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Action<PropsBuilder<SlMenuItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-menu-item", buildProps, children);
+        return b.H("sl-menu-item", buildProps, children);
     }
     /// <summary>
-    /// Menu items provide options for the user to pick from in a menu.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-menu-item", children);
+        return b.H("sl-menu-item", children);
     }
     /// <summary>
-    /// Menu items provide options for the user to pick from in a menu.
+    ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-menu-item", children);
+        return b.H("sl-menu-item", children);
     }
     /// <summary>
-    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
+    /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
     /// </summary>
-    public static void SetTypeNormal(this PropsBuilder<SlMenuItem> b)
+    public static void SetTypeNormal<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("normal"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("normal"));
     }
+
+
     /// <summary>
-    /// The type of menu item to render. To use `checked`, this value must be set to `checkbox`.
+    /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
     /// </summary>
-    public static void SetTypeCheckbox(this PropsBuilder<SlMenuItem> b)
+    public static void SetTypeCheckbox<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("checkbox"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("checkbox"));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the item in a checked state. </para>
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the item in a checked state. </para>
+    /// </summary>
+    public static void SetChecked<T>(this PropsBuilder<T> b, Var<bool> @checked) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), @checked);
     }
 
     /// <summary>
-    /// Draws the item in a checked state.
+    /// <para> Draws the item in a checked state. </para>
     /// </summary>
-    public static void SetChecked(this PropsBuilder<SlMenuItem> b)
+    public static void SetChecked<T>(this PropsBuilder<T> b, bool @checked) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(@checked));
     }
 
+
     /// <summary>
-    /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
+    /// <para> A unique value to store in the menu item. This can be used as a way to identify menu items when selected. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlMenuItem> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlMenuItem
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// A unique value to store in the menu item. This can be used as a way to identify menu items when selected.
+    /// <para> A unique value to store in the menu item. This can be used as a way to identify menu items when selected. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlMenuItem> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlMenuItem
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// Draws the menu item in a loading state.
+    /// <para> Draws the menu item in a loading state. </para>
     /// </summary>
-    public static void SetLoading(this PropsBuilder<SlMenuItem> b)
+    public static void SetLoading<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("loading"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the menu item in a loading state. </para>
+    /// </summary>
+    public static void SetLoading<T>(this PropsBuilder<T> b, Var<bool> loading) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), loading);
     }
 
     /// <summary>
-    /// Draws the menu item in a disabled state, preventing selection.
+    /// <para> Draws the menu item in a loading state. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlMenuItem> b)
+    public static void SetLoading<T>(this PropsBuilder<T> b, bool loading) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(loading));
     }
+
+
+    /// <summary>
+    /// <para> Draws the menu item in a disabled state, preventing selection. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws the menu item in a disabled state, preventing selection. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+    }
+
+    /// <summary>
+    /// <para> Draws the menu item in a disabled state, preventing selection. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlMenuItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
 
 }
 

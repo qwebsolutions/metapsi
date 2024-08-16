@@ -224,11 +224,47 @@ public static partial class IonFabControl
 
 
     /// <summary>
+    /// <para> Where to align the fab horizontally in the viewport. </para>
+    /// </summary>
+    public static void SetHorizontalEnd<T>(this PropsBuilder<T> b) where T: IonFab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("horizontal"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to align the fab horizontally in the viewport. </para>
+    /// </summary>
+    public static void SetHorizontalStart<T>(this PropsBuilder<T> b) where T: IonFab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("horizontal"), b.Const("start"));
+    }
+
+
+    /// <summary>
     /// <para> Where to align the fab vertically in the viewport. </para>
     /// </summary>
     public static void SetVerticalBottom<T>(this PropsBuilder<T> b) where T: IonFab
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("bottom"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to align the fab vertically in the viewport. </para>
+    /// </summary>
+    public static void SetVerticalCenter<T>(this PropsBuilder<T> b) where T: IonFab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("center"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to align the fab vertically in the viewport. </para>
+    /// </summary>
+    public static void SetVerticalTop<T>(this PropsBuilder<T> b) where T: IonFab
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("top"));
     }
 
 

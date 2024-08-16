@@ -391,6 +391,78 @@ public static partial class IonButtonControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonButton
@@ -443,11 +515,47 @@ public static partial class IonButtonControl
 
 
     /// <summary>
+    /// <para> Set to `"block"` for a full-width button or to `"full"` for a full-width button with square corners and no left or right borders. </para>
+    /// </summary>
+    public static void SetExpandFull<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("expand"), b.Const("full"));
+    }
+
+
+    /// <summary>
     /// <para> Set to `"clear"` for a transparent button that resembles a flat button, to `"outline"` for a transparent button with a border, or to `"solid"` for a button with a filled background. The default fill is `"solid"` except inside of a toolbar, where the default is `"clear"`. </para>
     /// </summary>
     public static void SetFillClear<T>(this PropsBuilder<T> b) where T: IonButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("clear"));
+    }
+
+
+    /// <summary>
+    /// <para> Set to `"clear"` for a transparent button that resembles a flat button, to `"outline"` for a transparent button with a border, or to `"solid"` for a button with a filled background. The default fill is `"solid"` except inside of a toolbar, where the default is `"clear"`. </para>
+    /// </summary>
+    public static void SetFillDefault<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("default"));
+    }
+
+
+    /// <summary>
+    /// <para> Set to `"clear"` for a transparent button that resembles a flat button, to `"outline"` for a transparent button with a border, or to `"solid"` for a button with a filled background. The default fill is `"solid"` except inside of a toolbar, where the default is `"clear"`. </para>
+    /// </summary>
+    public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+    }
+
+
+    /// <summary>
+    /// <para> Set to `"clear"` for a transparent button that resembles a flat button, to `"outline"` for a transparent button with a border, or to `"solid"` for a button with a filled background. The default fill is `"solid"` except inside of a toolbar, where the default is `"clear"`. </para>
+    /// </summary>
+    public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
     }
 
 
@@ -512,6 +620,15 @@ public static partial class IonButtonControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonButton
@@ -555,6 +672,24 @@ public static partial class IonButtonControl
 
 
     /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+    }
+
+
+    /// <summary>
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
+    /// </summary>
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+    }
+
+
+    /// <summary>
     /// <para> Set to `"round"` for a button with more rounded corners. </para>
     /// </summary>
     public static void SetShapeRound<T>(this PropsBuilder<T> b) where T: IonButton
@@ -569,6 +704,24 @@ public static partial class IonButtonControl
     public static void SetSizeDefault<T>(this PropsBuilder<T> b) where T: IonButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("default"));
+    }
+
+
+    /// <summary>
+    /// <para> Set to `"small"` for a button with less height and padding, to `"default"` for a button with the default height and padding, or to `"large"` for a button with more height and padding. By default the size is unset, unless the button is inside of an item, where the size is `"small"` by default. Set the size to `"default"` inside of an item to make it a standard size button. </para>
+    /// </summary>
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Set to `"small"` for a button with less height and padding, to `"default"` for a button with the default height and padding, or to `"large"` for a button with more height and padding. By default the size is unset, unless the button is inside of an item, where the size is `"small"` by default. Set the size to `"default"` inside of an item to make it a standard size button. </para>
+    /// </summary>
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
     }
 
 
@@ -621,6 +774,24 @@ public static partial class IonButtonControl
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of the button. </para>
+    /// </summary>
+    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of the button. </para>
+    /// </summary>
+    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
     }
 
 

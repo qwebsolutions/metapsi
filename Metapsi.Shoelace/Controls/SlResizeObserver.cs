@@ -12,103 +12,135 @@ namespace Metapsi.Shoelace;
 public partial class SlResizeObserver : SlComponent
 {
     public SlResizeObserver() : base("sl-resize-observer") { }
-    /// <summary>
-    /// Disables the observer.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlResizeObserverControl
 {
     /// <summary>
-    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    ///
+    /// </summary>
+    public static IHtmlNode SlResizeObserver(this HtmlBuilder b, Action<AttributesBuilder<SlResizeObserver>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-resize-observer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlResizeObserver(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-resize-observer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> Disables the observer. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlResizeObserver> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the observer. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlResizeObserver> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Action<PropsBuilder<SlResizeObserver>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-resize-observer", buildProps, children);
+        return b.H("sl-resize-observer", buildProps, children);
     }
     /// <summary>
-    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Action<PropsBuilder<SlResizeObserver>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-resize-observer", buildProps, children);
+        return b.H("sl-resize-observer", buildProps, children);
     }
     /// <summary>
-    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-resize-observer", children);
+        return b.H("sl-resize-observer", children);
     }
     /// <summary>
-    /// The Resize Observer component offers a thin, declarative interface to the [`ResizeObserver API`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver).
+    ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-resize-observer", children);
+        return b.H("sl-resize-observer", children);
     }
     /// <summary>
-    /// Disables the observer.
+    /// <para> Disables the observer. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlResizeObserver> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlResizeObserver
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the observer. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlResizeObserver
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Disables the observer. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlResizeObserver
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the element is resized. </para>
+    /// </summary>
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", action);
     }
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", action);
     }
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, Var<HyperType.Action<TModel, SlResizeEventArgs>> action)
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlResizeEventArgs>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", action, "detail");
     }
     /// <summary>
-    /// Emitted when the element is resized.
+    /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TModel>(this PropsBuilder<SlResizeObserver> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlResizeEventArgs>, Var<TModel>> action)
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlResizeEventArgs>, Var<TModel>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", b.MakeAction(action), "detail");
     }

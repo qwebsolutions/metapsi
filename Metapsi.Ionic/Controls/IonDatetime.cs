@@ -541,6 +541,78 @@ public static partial class IonDatetimeControl
 
 
     /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
     /// <para> Values used to create the list of selectable days. By default every day is shown for the given month. However, to control exactly which days of the month to display, the `dayValues` input can take a number, an array of numbers, or a string of comma separated numbers. Note that even if the array days have an invalid number for the selected month, like `31` in February, it will correctly not show days which are not valid for the selected month. </para>
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, Var<int> dayValues) where T: IonDatetime
@@ -708,6 +780,33 @@ public static partial class IonDatetimeControl
     public static void SetHourCycleH11<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h11"));
+    }
+
+
+    /// <summary>
+    /// <para> The hour cycle of the `ion-datetime`. If no value is set, this is specified by the current locale. </para>
+    /// </summary>
+    public static void SetHourCycleH12<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h12"));
+    }
+
+
+    /// <summary>
+    /// <para> The hour cycle of the `ion-datetime`. If no value is set, this is specified by the current locale. </para>
+    /// </summary>
+    public static void SetHourCycleH23<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h23"));
+    }
+
+
+    /// <summary>
+    /// <para> The hour cycle of the `ion-datetime`. If no value is set, this is specified by the current locale. </para>
+    /// </summary>
+    public static void SetHourCycleH24<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h24"));
     }
 
 
@@ -891,6 +990,15 @@ public static partial class IonDatetimeControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> Values used to create the list of selectable months. By default the month values range from `1` to `12`. However, to control exactly which months to display, the `monthValues` input can take a number, an array of numbers, or a string of comma separated numbers. For example, if only summer months should be shown, then this input value would be `monthValues="6,7,8"`. Note that month numbers do *not* have a zero-based index, meaning January's value is `1`, and December's is `12`. </para>
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, Var<int> monthValues) where T: IonDatetime
@@ -1016,6 +1124,60 @@ public static partial class IonDatetimeControl
     public static void SetPresentationDate<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("date"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationDateTime<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("date-time"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationMonth<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("month"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationMonthYear<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("month-year"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationTime<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("time"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationTimeDate<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("time-date"));
+    }
+
+
+    /// <summary>
+    /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
+    /// </summary>
+    public static void SetPresentationYear<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("year"));
     }
 
 
@@ -1155,6 +1317,15 @@ public static partial class IonDatetimeControl
     public static void SetSizeCover<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("cover"));
+    }
+
+
+    /// <summary>
+    /// <para> If `cover`, the `ion-datetime` will expand to cover the full width of its container. If `fixed`, the `ion-datetime` will have a fixed width. </para>
+    /// </summary>
+    public static void SetSizeFixed<T>(this PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("fixed"));
     }
 
 

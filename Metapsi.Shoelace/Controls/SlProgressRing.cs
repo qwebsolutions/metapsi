@@ -12,97 +12,101 @@ namespace Metapsi.Shoelace;
 public partial class SlProgressRing : SlComponent
 {
     public SlProgressRing() : base("sl-progress-ring") { }
-    /// <summary>
-    /// The current progress as a percentage, 0 to 100.
-    /// </summary>
-    public int value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A custom label for assistive devices.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlProgressRingControl
 {
     /// <summary>
-    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressRing(this HtmlBuilder b, Action<AttributesBuilder<SlProgressRing>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-progress-ring", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressRing(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-progress-ring", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The current progress as a percentage, 0 to 100. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlProgressRing> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> A custom label for assistive devices. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlProgressRing> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Action<PropsBuilder<SlProgressRing>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-progress-ring", buildProps, children);
+        return b.H("sl-progress-ring", buildProps, children);
     }
     /// <summary>
-    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Action<PropsBuilder<SlProgressRing>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-progress-ring", buildProps, children);
+        return b.H("sl-progress-ring", buildProps, children);
     }
     /// <summary>
-    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-progress-ring", children);
+        return b.H("sl-progress-ring", children);
     }
     /// <summary>
-    /// Progress rings are used to show the progress of a determinate operation in a circular fashion.
+    ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-progress-ring", children);
+        return b.H("sl-progress-ring", children);
     }
     /// <summary>
-    /// The current progress as a percentage, 0 to 100.
+    /// <para> The current progress as a percentage, 0 to 100. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlProgressRing> b, Var<int> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlProgressRing
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
+
     /// <summary>
-    /// The current progress as a percentage, 0 to 100.
+    /// <para> The current progress as a percentage, 0 to 100. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlProgressRing> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlProgressRing
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// A custom label for assistive devices.
+    /// <para> A custom label for assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlProgressRing> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
+
     /// <summary>
-    /// A custom label for assistive devices.
+    /// <para> A custom label for assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlProgressRing> b, string value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
 
 }
 

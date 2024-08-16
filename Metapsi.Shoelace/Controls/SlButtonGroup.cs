@@ -12,67 +12,76 @@ namespace Metapsi.Shoelace;
 public partial class SlButtonGroup : SlComponent
 {
     public SlButtonGroup() : base("sl-button-group") { }
-    /// <summary>
-    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlButtonGroupControl
 {
     /// <summary>
-    /// Button groups can be used to group related buttons into sections.
+    ///
+    /// </summary>
+    public static IHtmlNode SlButtonGroup(this HtmlBuilder b, Action<AttributesBuilder<SlButtonGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-button-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButtonGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-button-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlButtonGroup> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Action<PropsBuilder<SlButtonGroup>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-button-group", buildProps, children);
+        return b.H("sl-button-group", buildProps, children);
     }
     /// <summary>
-    /// Button groups can be used to group related buttons into sections.
+    ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Action<PropsBuilder<SlButtonGroup>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-button-group", buildProps, children);
+        return b.H("sl-button-group", buildProps, children);
     }
     /// <summary>
-    /// Button groups can be used to group related buttons into sections.
+    ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-button-group", children);
+        return b.H("sl-button-group", children);
     }
     /// <summary>
-    /// Button groups can be used to group related buttons into sections.
+    ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-button-group", children);
+        return b.H("sl-button-group", children);
     }
     /// <summary>
-    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
+    /// <para> A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlButtonGroup> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlButtonGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
+
     /// <summary>
-    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
+    /// <para> A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlButtonGroup> b, string value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlButtonGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
 
 }
 

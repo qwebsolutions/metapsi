@@ -204,6 +204,15 @@ public static partial class IonAccordionControl
 
 
     /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordion
@@ -252,6 +261,15 @@ public static partial class IonAccordionControl
     public static void SetToggleIconSlotEnd<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIconSlot"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`. </para>
+    /// </summary>
+    public static void SetToggleIconSlotStart<T>(this PropsBuilder<T> b) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIconSlot"), b.Const("start"));
     }
 
 

@@ -13,590 +13,87 @@ public partial class SlInput : SlComponent
 {
     public SlInput() : base("sl-input") { }
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    ///
     /// </summary>
-    public string type
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The name of the input, submitted as a name/value pair with form data.
-    /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current value of the input, submitted as a name/value pair with form data.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public string defaultValue
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The input's size.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a filled input.
-    /// </summary>
-    public bool filled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("filled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("filled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a pill-style input with rounded edges.
-    /// </summary>
-    public bool pill
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("pill");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("pill", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The input's label. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The input's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public string helpText
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("help-text");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("help-text", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Adds a clear button when the input is not empty.
-    /// </summary>
-    public bool clearable
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("clearable");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("clearable", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the input.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
-    /// </summary>
-    public string placeholder
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("placeholder");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("placeholder", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the input readonly.
-    /// </summary>
-    public bool @readonly
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("readonly");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("readonly", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Adds a button to toggle the password's visibility. Only applies to password types.
-    /// </summary>
-    public bool passwordToggle
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("password-toggle");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("password-toggle", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Determines whether or not the password is currently visible. Only applies to password input types.
-    /// </summary>
-    public bool passwordVisible
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("password-visible");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("password-visible", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Hides the browser's built-in increment/decrement spin buttons for number inputs.
-    /// </summary>
-    public bool noSpinButtons
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("no-spin-buttons");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("no-spin-buttons", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the input a required field.
-    /// </summary>
-    public bool required
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("required");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("required", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A regular expression pattern to validate input against.
-    /// </summary>
-    public string pattern
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("pattern");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("pattern", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum length of input that will be considered valid.
-    /// </summary>
-    public int minlength
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("minlength");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("minlength", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum length of input that will be considered valid.
-    /// </summary>
-    public int maxlength
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("maxlength");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("maxlength", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The input's minimum value. Only applies to date and number input types.
-    /// </summary>
-    public string min
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("min");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("min", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The input's maximum value. Only applies to date and number input types.
-    /// </summary>
-    public string max
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("max");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("max", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
-    /// </summary>
-    public string step
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("step");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("step", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public string autocapitalize
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocapitalize");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocapitalize", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
-    /// </summary>
-    public string autocorrect
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocorrect");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocorrect", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
-    /// </summary>
-    public string autocomplete
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("autocomplete");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("autocomplete", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Indicates that the input should receive focus on page load.
-    /// </summary>
-    public bool autofocus
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("autofocus");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("autofocus", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    public string enterkeyhint
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("enterkeyhint");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("enterkeyhint", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Enables spell checking on the input.
-    /// </summary>
-    public bool spellcheck
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("spellcheck");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("spellcheck", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public string inputmode
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("inputmode");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("inputmode", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error.
-    /// </summary>
-    public object valueAsDate
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<object>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the current value as a number. Returns `NaN` if the value can't be converted.
-    /// </summary>
-    public int valueAsNumber
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The input's label. Alternatively, you can use the `label` attribute.
+        /// <summary>
+        /// <para> The input's label. Alternatively, you can use the `label` attribute. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Used to prepend a presentational icon or similar element to the input.
+        /// <summary>
+        /// <para> Used to prepend a presentational icon or similar element to the input. </para>
         /// </summary>
         public const string Prefix = "prefix";
-        /// <summary> 
-        /// Used to append a presentational icon or similar element to the input.
+        /// <summary>
+        /// <para> Used to append a presentational icon or similar element to the input. </para>
         /// </summary>
         public const string Suffix = "suffix";
-        /// <summary> 
-        /// An icon to use in lieu of the default clear icon.
+        /// <summary>
+        /// <para> An icon to use in lieu of the default clear icon. </para>
         /// </summary>
         public const string ClearIcon = "clear-icon";
-        /// <summary> 
-        /// An icon to use in lieu of the default show password icon.
+        /// <summary>
+        /// <para> An icon to use in lieu of the default show password icon. </para>
         /// </summary>
         public const string ShowPasswordIcon = "show-password-icon";
-        /// <summary> 
-        /// An icon to use in lieu of the default hide password icon.
+        /// <summary>
+        /// <para> An icon to use in lieu of the default hide password icon. </para>
         /// </summary>
         public const string HidePasswordIcon = "hide-password-icon";
-        /// <summary> 
-        /// Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.
+        /// <summary>
+        /// <para> Text that describes how to use the input. Alternatively, you can use the `help-text` attribute. </para>
         /// </summary>
         public const string HelpText = "help-text";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Sets focus on the input.
+        /// <summary>
+        /// <para> Sets focus on the input. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the input.
+        /// <summary>
+        /// <para> Removes focus from the input. </para>
         /// </summary>
         public const string Blur = "blur";
-        /// <summary> 
-        /// Selects all the text in the input.
+        /// <summary>
+        /// <para> Selects all the text in the input. </para>
         /// </summary>
         public const string Select = "select";
-        /// <summary> 
-        /// Sets the start and end positions of the text selection (0-based).
+        /// <summary>
+        /// <para> Sets the start and end positions of the text selection (0-based). </para>
         /// </summary>
         public const string SetSelectionRange = "setSelectionRange";
-        /// <summary> 
-        /// Replaces a range of text with a new string.
+        /// <summary>
+        /// <para> Replaces a range of text with a new string. </para>
         /// </summary>
         public const string SetRangeText = "setRangeText";
-        /// <summary> 
-        /// Displays the browser picker for an input element (only works if the browser supports it for the input type).
+        /// <summary>
+        /// <para> Displays the browser picker for an input element (only works if the browser supports it for the input type). </para>
         /// </summary>
         public const string ShowPicker = "showPicker";
-        /// <summary> 
-        /// Increments the value of a numeric input type by the value of the step attribute.
+        /// <summary>
+        /// <para> Increments the value of a numeric input type by the value of the step attribute. </para>
         /// </summary>
         public const string StepUp = "stepUp";
-        /// <summary> 
-        /// Decrements the value of a numeric input type by the value of the step attribute.
+        /// <summary>
+        /// <para> Decrements the value of a numeric input type by the value of the step attribute. </para>
         /// </summary>
         public const string StepDown = "stepDown";
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
     }
@@ -605,785 +102,1764 @@ public partial class SlInput : SlComponent
 public static partial class SlInputControl
 {
     /// <summary>
-    /// Inputs collect data from the user.
+    ///
+    /// </summary>
+    public static IHtmlNode SlInput(this HtmlBuilder b, Action<AttributesBuilder<SlInput>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-input", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlInput(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-input", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetType(this AttributesBuilder<SlInput> b,string type)
+    {
+        b.SetAttribute("type", type);
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeDate(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "date");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeDatetimeLocal(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "datetime-local");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeEmail(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "email");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeNumber(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "number");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypePassword(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "password");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeSearch(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "search");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeTel(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "tel");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeText(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "text");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeTime(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "time");
+    }
+
+    /// <summary>
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// </summary>
+    public static void SetTypeUrl(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("type", "url");
+    }
+
+    /// <summary>
+    /// <para> The name of the input, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName(this AttributesBuilder<SlInput> b,string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> The current value of the input, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlInput> b,string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlInput> b,string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled input. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a filled input. </para>
+    /// </summary>
+    public static void SetFilled(this AttributesBuilder<SlInput> b,bool filled)
+    {
+        if (filled) b.SetAttribute("filled", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style input with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style input with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlInput> b,bool pill)
+    {
+        if (pill) b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> The input's label. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlInput> b,string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The input's help text. If you need to display HTML, use the `help-text` slot instead. </para>
+    /// </summary>
+    public static void SetHelpText(this AttributesBuilder<SlInput> b,string helpText)
+    {
+        b.SetAttribute("help-text", helpText);
+    }
+
+    /// <summary>
+    /// <para> Adds a clear button when the input is not empty. </para>
+    /// </summary>
+    public static void SetClearable(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("clearable", "");
+    }
+
+    /// <summary>
+    /// <para> Adds a clear button when the input is not empty. </para>
+    /// </summary>
+    public static void SetClearable(this AttributesBuilder<SlInput> b,bool clearable)
+    {
+        if (clearable) b.SetAttribute("clearable", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the input. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the input. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlInput> b,bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
+    /// </summary>
+    public static void SetPlaceholder(this AttributesBuilder<SlInput> b,string placeholder)
+    {
+        b.SetAttribute("placeholder", placeholder);
+    }
+
+    /// <summary>
+    /// <para> Makes the input readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the input readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlInput> b,bool @readonly)
+    {
+        if (@readonly) b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
+    /// </summary>
+    public static void SetPasswordToggle(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("password-toggle", "");
+    }
+
+    /// <summary>
+    /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
+    /// </summary>
+    public static void SetPasswordToggle(this AttributesBuilder<SlInput> b,bool passwordToggle)
+    {
+        if (passwordToggle) b.SetAttribute("password-toggle", "");
+    }
+
+    /// <summary>
+    /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
+    /// </summary>
+    public static void SetPasswordVisible(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("password-visible", "");
+    }
+
+    /// <summary>
+    /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
+    /// </summary>
+    public static void SetPasswordVisible(this AttributesBuilder<SlInput> b,bool passwordVisible)
+    {
+        if (passwordVisible) b.SetAttribute("password-visible", "");
+    }
+
+    /// <summary>
+    /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
+    /// </summary>
+    public static void SetNoSpinButtons(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("no-spin-buttons", "");
+    }
+
+    /// <summary>
+    /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
+    /// </summary>
+    public static void SetNoSpinButtons(this AttributesBuilder<SlInput> b,bool noSpinButtons)
+    {
+        if (noSpinButtons) b.SetAttribute("no-spin-buttons", "");
+    }
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlInput> b,string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    /// <para> Makes the input a required field. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the input a required field. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlInput> b,bool required)
+    {
+        if (required) b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> A regular expression pattern to validate input against. </para>
+    /// </summary>
+    public static void SetPattern(this AttributesBuilder<SlInput> b,string pattern)
+    {
+        b.SetAttribute("pattern", pattern);
+    }
+
+    /// <summary>
+    /// <para> The minimum length of input that will be considered valid. </para>
+    /// </summary>
+    public static void SetMinlength(this AttributesBuilder<SlInput> b,string minlength)
+    {
+        b.SetAttribute("minlength", minlength);
+    }
+
+    /// <summary>
+    /// <para> The maximum length of input that will be considered valid. </para>
+    /// </summary>
+    public static void SetMaxlength(this AttributesBuilder<SlInput> b,string maxlength)
+    {
+        b.SetAttribute("maxlength", maxlength);
+    }
+
+    /// <summary>
+    /// <para> The input's minimum value. Only applies to date and number input types. </para>
+    /// </summary>
+    public static void SetMin(this AttributesBuilder<SlInput> b,string min)
+    {
+        b.SetAttribute("min", min);
+    }
+
+    /// <summary>
+    /// <para> The input's maximum value. Only applies to date and number input types. </para>
+    /// </summary>
+    public static void SetMax(this AttributesBuilder<SlInput> b,string max)
+    {
+        b.SetAttribute("max", max);
+    }
+
+    /// <summary>
+    /// <para> Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types. </para>
+    /// </summary>
+    public static void SetStep(this AttributesBuilder<SlInput> b,string step)
+    {
+        b.SetAttribute("step", step);
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalize(this AttributesBuilder<SlInput> b,string autocapitalize)
+    {
+        b.SetAttribute("autocapitalize", autocapitalize);
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOff(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "off");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeNone(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "none");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOn(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "on");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeSentences(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "sentences");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeWords(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "words");
+    }
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeCharacters(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocapitalize", "characters");
+    }
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrect(this AttributesBuilder<SlInput> b,string autocorrect)
+    {
+        b.SetAttribute("autocorrect", autocorrect);
+    }
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrectOff(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocorrect", "off");
+    }
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrectOn(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autocorrect", "on");
+    }
+
+    /// <summary>
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
+    /// </summary>
+    public static void SetAutocomplete(this AttributesBuilder<SlInput> b,string autocomplete)
+    {
+        b.SetAttribute("autocomplete", autocomplete);
+    }
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("autofocus", "");
+    }
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus(this AttributesBuilder<SlInput> b,bool autofocus)
+    {
+        if (autofocus) b.SetAttribute("autofocus", "");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhint(this AttributesBuilder<SlInput> b,string enterkeyhint)
+    {
+        b.SetAttribute("enterkeyhint", enterkeyhint);
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintEnter(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "enter");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintDone(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "done");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "go");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "next");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "previous");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "search");
+    }
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("enterkeyhint", "send");
+    }
+
+    /// <summary>
+    /// <para> Enables spell checking on the input. </para>
+    /// </summary>
+    public static void SetSpellcheck(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("spellcheck", "");
+    }
+
+    /// <summary>
+    /// <para> Enables spell checking on the input. </para>
+    /// </summary>
+    public static void SetSpellcheck(this AttributesBuilder<SlInput> b,bool spellcheck)
+    {
+        if (spellcheck) b.SetAttribute("spellcheck", "");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmode(this AttributesBuilder<SlInput> b,string inputmode)
+    {
+        b.SetAttribute("inputmode", inputmode);
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNone(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "none");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeText(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "text");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeDecimal(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "decimal");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "numeric");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeTel(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "tel");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeSearch(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "search");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeEmail(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "email");
+    }
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeUrl(this AttributesBuilder<SlInput> b)
+    {
+        b.SetAttribute("inputmode", "url");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Action<PropsBuilder<SlInput>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-input", buildProps, children);
+        return b.H("sl-input", buildProps, children);
     }
     /// <summary>
-    /// Inputs collect data from the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Action<PropsBuilder<SlInput>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-input", buildProps, children);
+        return b.H("sl-input", buildProps, children);
     }
     /// <summary>
-    /// Inputs collect data from the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-input", children);
+        return b.H("sl-input", children);
     }
     /// <summary>
-    /// Inputs collect data from the user.
+    ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-input", children);
+        return b.H("sl-input", children);
     }
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeDate(this PropsBuilder<SlInput> b)
+    public static void SetTypeDate<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("date"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("date"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeDatetimeLocal(this PropsBuilder<SlInput> b)
+    public static void SetTypeDatetimeLocal<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("datetime-local"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("datetime-local"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeEmail(this PropsBuilder<SlInput> b)
+    public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("email"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeNumber(this PropsBuilder<SlInput> b)
+    public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("number"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypePassword(this PropsBuilder<SlInput> b)
+    public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("password"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeSearch(this PropsBuilder<SlInput> b)
+    public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("search"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeTel(this PropsBuilder<SlInput> b)
+    public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("tel"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeText(this PropsBuilder<SlInput> b)
+    public static void SetTypeText<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("text"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeTime(this PropsBuilder<SlInput> b)
+    public static void SetTypeTime<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("time"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("time"));
     }
+
+
     /// <summary>
-    /// The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetTypeUrl(this PropsBuilder<SlInput> b)
+    public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("url"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the input, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The name of the input, submitted as a name/value pair with form data.
+    /// <para> The name of the input, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the input, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlInput> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
 
+
     /// <summary>
-    /// The current value of the input, submitted as a name/value pair with form data.
+    /// <para> The current value of the input, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the input, submitted as a name/value pair with form data.
+    /// <para> The current value of the input, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlInput> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The input's size.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlInput> b)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
-    }
-    /// <summary>
-    /// The input's size.
-    /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
-    }
-    /// <summary>
-    /// The input's size.
-    /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
     }
 
     /// <summary>
-    /// Draws a filled input.
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
-    public static void SetFilled(this PropsBuilder<SlInput> b)
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("filled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
+    }
+
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+    }
+
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The input's size. </para>
+    /// </summary>
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled input. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a filled input. </para>
+    /// </summary>
+    public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
     }
 
     /// <summary>
-    /// Draws a pill-style input with rounded edges.
+    /// <para> Draws a filled input. </para>
     /// </summary>
-    public static void SetPill(this PropsBuilder<SlInput> b)
+    public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style input with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style input with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
     }
 
     /// <summary>
-    /// The input's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> Draws a pill-style input with rounded edges. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
     }
+
+
     /// <summary>
-    /// The input's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> The input's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlInput> b, string value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The input's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The input's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// The input's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The input's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlInput> b, string value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
     }
 
     /// <summary>
-    /// Adds a clear button when the input is not empty.
+    /// <para> The input's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetClearable(this PropsBuilder<SlInput> b)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearable"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a clear button when the input is not empty. </para>
+    /// </summary>
+    public static void SetClearable<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a clear button when the input is not empty. </para>
+    /// </summary>
+    public static void SetClearable<T>(this PropsBuilder<T> b, Var<bool> clearable) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), clearable);
     }
 
     /// <summary>
-    /// Disables the input.
+    /// <para> Adds a clear button when the input is not empty. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlInput> b)
+    public static void SetClearable<T>(this PropsBuilder<T> b, bool clearable) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(clearable));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the input. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the input. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
+    /// <para> Disables the input. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// Placeholder text to show as a hint when the input is empty.
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
     /// </summary>
-    public static void SetPlaceholder(this PropsBuilder<SlInput> b, string value)
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
     }
 
     /// <summary>
-    /// Makes the input readonly.
+    /// <para> Placeholder text to show as a hint when the input is empty. </para>
     /// </summary>
-    public static void SetReadonly(this PropsBuilder<SlInput> b)
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the input readonly. </para>
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the input readonly. </para>
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
     }
 
     /// <summary>
-    /// Adds a button to toggle the password's visibility. Only applies to password types.
+    /// <para> Makes the input readonly. </para>
     /// </summary>
-    public static void SetPasswordToggle(this PropsBuilder<SlInput> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordToggle"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
+    /// </summary>
+    public static void SetPasswordToggle<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
+    /// </summary>
+    public static void SetPasswordToggle<T>(this PropsBuilder<T> b, Var<bool> passwordToggle) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), passwordToggle);
     }
 
     /// <summary>
-    /// Determines whether or not the password is currently visible. Only applies to password input types.
+    /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
     /// </summary>
-    public static void SetPasswordVisible(this PropsBuilder<SlInput> b)
+    public static void SetPasswordToggle<T>(this PropsBuilder<T> b, bool passwordToggle) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("passwordVisible"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), b.Const(passwordToggle));
+    }
+
+
+    /// <summary>
+    /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
+    /// </summary>
+    public static void SetPasswordVisible<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
+    /// </summary>
+    public static void SetPasswordVisible<T>(this PropsBuilder<T> b, Var<bool> passwordVisible) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), passwordVisible);
     }
 
     /// <summary>
-    /// Hides the browser's built-in increment/decrement spin buttons for number inputs.
+    /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
     /// </summary>
-    public static void SetNoSpinButtons(this PropsBuilder<SlInput> b)
+    public static void SetPasswordVisible<T>(this PropsBuilder<T> b, bool passwordVisible) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noSpinButtons"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), b.Const(passwordVisible));
+    }
+
+
+    /// <summary>
+    /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
+    /// </summary>
+    public static void SetNoSpinButtons<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
+    /// </summary>
+    public static void SetNoSpinButtons<T>(this PropsBuilder<T> b, Var<bool> noSpinButtons) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), noSpinButtons);
     }
 
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetNoSpinButtons<T>(this PropsBuilder<T> b, bool noSpinButtons) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), b.Const(noSpinButtons));
     }
+
+
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlInput> b, string value)
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// Makes the input a required field.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetRequired(this PropsBuilder<SlInput> b)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the input a required field. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the input a required field. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
     }
 
     /// <summary>
-    /// A regular expression pattern to validate input against.
+    /// <para> Makes the input a required field. </para>
     /// </summary>
-    public static void SetPattern(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
+
+
     /// <summary>
-    /// A regular expression pattern to validate input against.
+    /// <para> A regular expression pattern to validate input against. </para>
     /// </summary>
-    public static void SetPattern(this PropsBuilder<SlInput> b, string value)
+    public static void SetPattern<T>(this PropsBuilder<T> b, Var<string> pattern) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), pattern);
     }
 
     /// <summary>
-    /// The minimum length of input that will be considered valid.
+    /// <para> A regular expression pattern to validate input against. </para>
     /// </summary>
-    public static void SetMinlength(this PropsBuilder<SlInput> b, Var<int> value)
+    public static void SetPattern<T>(this PropsBuilder<T> b, string pattern) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), b.Const(pattern));
     }
+
+
     /// <summary>
-    /// The minimum length of input that will be considered valid.
+    /// <para> The minimum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMinlength(this PropsBuilder<SlInput> b, int value)
+    public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
     }
 
     /// <summary>
-    /// The maximum length of input that will be considered valid.
+    /// <para> The minimum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMaxlength(this PropsBuilder<SlInput> b, Var<int> value)
+    public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
     }
+
+
     /// <summary>
-    /// The maximum length of input that will be considered valid.
+    /// <para> The maximum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMaxlength(this PropsBuilder<SlInput> b, int value)
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
     }
 
     /// <summary>
-    /// The input's minimum value. Only applies to date and number input types.
+    /// <para> The maximum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMin(this PropsBuilder<SlInput> b, Var<int> value)
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
     }
+
+
     /// <summary>
-    /// The input's minimum value. Only applies to date and number input types.
+    /// <para> The input's minimum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetMin(this PropsBuilder<SlInput> b, int value)
+    public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(value));
-    }
-    /// <summary>
-    /// The input's minimum value. Only applies to date and number input types.
-    /// </summary>
-    public static void SetMin(this PropsBuilder<SlInput> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), value);
-    }
-    /// <summary>
-    /// The input's minimum value. Only applies to date and number input types.
-    /// </summary>
-    public static void SetMin(this PropsBuilder<SlInput> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
     }
 
     /// <summary>
-    /// The input's maximum value. Only applies to date and number input types.
+    /// <para> The input's minimum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetMax(this PropsBuilder<SlInput> b, Var<int> value)
+    public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
     }
+
+
     /// <summary>
-    /// The input's maximum value. Only applies to date and number input types.
+    /// <para> The input's minimum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetMax(this PropsBuilder<SlInput> b, int value)
+    public static void SetMin<T>(this PropsBuilder<T> b, Var<string> min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(value));
-    }
-    /// <summary>
-    /// The input's maximum value. Only applies to date and number input types.
-    /// </summary>
-    public static void SetMax(this PropsBuilder<SlInput> b, Var<string> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), value);
-    }
-    /// <summary>
-    /// The input's maximum value. Only applies to date and number input types.
-    /// </summary>
-    public static void SetMax(this PropsBuilder<SlInput> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), min);
     }
 
     /// <summary>
-    /// Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+    /// <para> The input's minimum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetStep(this PropsBuilder<SlInput> b, Var<int> value)
+    public static void SetMin<T>(this PropsBuilder<T> b, string min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), b.Const(min));
     }
+
+
     /// <summary>
-    /// Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+    /// <para> The input's maximum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetStep(this PropsBuilder<SlInput> b, int value)
+    public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(value));
-    }
-    /// <summary>
-    /// Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
-    /// </summary>
-    public static void SetStepAny(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("step"), b.Const("any"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
     }
 
     /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// <para> The input's maximum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocapitalizeOff(this PropsBuilder<SlInput> b)
+    public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("off"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
     }
+
+
     /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
+    /// <para> The input's maximum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocapitalizeNone(this PropsBuilder<SlInput> b)
+    public static void SetMax<T>(this PropsBuilder<T> b, Var<string> max) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("none"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeOn(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("on"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeSentences(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("sentences"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeWords(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("words"));
-    }
-    /// <summary>
-    /// Controls whether and how text input is automatically capitalized as it is entered by the user.
-    /// </summary>
-    public static void SetAutocapitalizeCharacters(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocapitalize"), b.Const("characters"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), max);
     }
 
     /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
+    /// <para> The input's maximum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocorrectOff(this PropsBuilder<SlInput> b)
+    public static void SetMax<T>(this PropsBuilder<T> b, string max) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocorrect"), b.Const("off"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), b.Const(max));
     }
+
+
     /// <summary>
-    /// Indicates whether the browser's autocorrect feature is on or off.
+    /// <para> Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocorrectOn(this PropsBuilder<SlInput> b)
+    public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("autocorrect"), b.Const("on"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
     }
 
     /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+    /// <para> Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocomplete(this PropsBuilder<SlInput> b, Var<string> value)
+    public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
     }
+
+
     /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+    /// <para> Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetAutocomplete(this PropsBuilder<SlInput> b, string value)
+    public static void SetStepAny<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("step"), b.Const("any"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOff<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeNone<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeOn<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("on"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeSentences<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("sentences"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeWords<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("words"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
+    /// </summary>
+    public static void SetAutocapitalizeCharacters<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("characters"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
+    /// </summary>
+    public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
+    }
+
+
+    /// <summary>
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
+    /// </summary>
+    public static void SetAutocomplete<T>(this PropsBuilder<T> b, Var<string> autocomplete) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), autocomplete);
     }
 
     /// <summary>
-    /// Indicates that the input should receive focus on page load.
+    /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
     /// </summary>
-    public static void SetAutofocus(this PropsBuilder<SlInput> b)
+    public static void SetAutocomplete<T>(this PropsBuilder<T> b, string autocomplete) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(autocomplete));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates that the input should receive focus on page load. </para>
+    /// </summary>
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
     }
 
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Indicates that the input should receive focus on page load. </para>
     /// </summary>
-    public static void SetEnterkeyhintEnter(this PropsBuilder<SlInput> b)
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("enter"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintDone(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("done"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintGo(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("go"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintNext(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("next"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintPrevious(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("previous"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintSearch(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("search"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
     }
+
+
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhintSend(this PropsBuilder<SlInput> b)
+    public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("send"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
+    /// <para> Enables spell checking on the input. </para>
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Enables spell checking on the input. </para>
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
     }
 
     /// <summary>
-    /// Enables spell checking on the input.
+    /// <para> Enables spell checking on the input. </para>
     /// </summary>
-    public static void SetSpellcheck(this PropsBuilder<SlInput> b)
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
+    /// </summary>
+    public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
+    /// </summary>
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<object> valueAsDate) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), valueAsDate);
     }
 
     /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
     /// </summary>
-    public static void SetInputmodeNone(this PropsBuilder<SlInput> b)
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, object valueAsDate) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), b.Const(valueAsDate));
     }
+
+
     /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+    /// <para> Gets or sets the current value as a number. Returns `NaN` if the value can't be converted. </para>
     /// </summary>
-    public static void SetInputmodeText(this PropsBuilder<SlInput> b)
+    public static void SetValueAsNumber<T>(this PropsBuilder<T> b, Var<int> valueAsNumber) where T: SlInput
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("text"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeDecimal(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("decimal"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeNumeric(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("numeric"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeTel(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("tel"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeSearch(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("search"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeEmail(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("email"));
-    }
-    /// <summary>
-    /// Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
-    /// </summary>
-    public static void SetInputmodeUrl(this PropsBuilder<SlInput> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("url"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), valueAsNumber);
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Gets or sets the current value as a number. Returns `NaN` if the value can't be converted. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetValueAsNumber<T>(this PropsBuilder<T> b, int valueAsNumber) where T: SlInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), b.Const(valueAsNumber));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the control loses focus. </para>
+    /// </summary>
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the clear button is activated.
+    /// <para> Emitted when the clear button is activated. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-clear", action);
     }
     /// <summary>
-    /// Emitted when the clear button is activated.
+    /// <para> Emitted when the clear button is activated. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-clear", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the clear button is activated.
+    /// <para> Emitted when the clear button is activated. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-clear", action);
     }
     /// <summary>
-    /// Emitted when the clear button is activated.
+    /// <para> Emitted when the clear button is activated. </para>
     /// </summary>
-    public static void OnSlClear<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlClear<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-clear", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlInput> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlInput
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

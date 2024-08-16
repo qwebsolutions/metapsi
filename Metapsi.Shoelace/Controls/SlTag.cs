@@ -12,207 +12,331 @@ namespace Metapsi.Shoelace;
 public partial class SlTag : SlComponent
 {
     public SlTag() : base("sl-tag") { }
-    /// <summary>
-    /// The tag's theme variant.
-    /// </summary>
-    public string variant
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("variant");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("variant", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The tag's size.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Draws a pill-style tag with rounded edges.
-    /// </summary>
-    public bool pill
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("pill");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("pill", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the tag removable and shows a remove button.
-    /// </summary>
-    public bool removable
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("removable");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("removable", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlTagControl
 {
     /// <summary>
-    /// Tags are used as labels to organize things or to indicate a selection.
+    ///
+    /// </summary>
+    public static IHtmlNode SlTag(this HtmlBuilder b, Action<AttributesBuilder<SlTag>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tag", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTag(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.Tag("sl-tag", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariant(this AttributesBuilder<SlTag> b,string variant)
+    {
+        b.SetAttribute("variant", variant);
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantPrimary(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "primary");
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantSuccess(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "success");
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantNeutral(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "neutral");
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantWarning(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "warning");
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantDanger(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "danger");
+    }
+
+    /// <summary>
+    /// <para> The tag's theme variant. </para>
+    /// </summary>
+    public static void SetVariantText(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("variant", "text");
+    }
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlTag> b,string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style tag with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Draws a pill-style tag with rounded edges. </para>
+    /// </summary>
+    public static void SetPill(this AttributesBuilder<SlTag> b,bool pill)
+    {
+        if (pill) b.SetAttribute("pill", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the tag removable and shows a remove button. </para>
+    /// </summary>
+    public static void SetRemovable(this AttributesBuilder<SlTag> b)
+    {
+        b.SetAttribute("removable", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the tag removable and shows a remove button. </para>
+    /// </summary>
+    public static void SetRemovable(this AttributesBuilder<SlTag> b,bool removable)
+    {
+        if (removable) b.SetAttribute("removable", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Action<PropsBuilder<SlTag>> buildProps, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tag", buildProps, children);
+        return b.H("sl-tag", buildProps, children);
     }
     /// <summary>
-    /// Tags are used as labels to organize things or to indicate a selection.
+    ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Action<PropsBuilder<SlTag>> buildProps, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tag", buildProps, children);
+        return b.H("sl-tag", buildProps, children);
     }
     /// <summary>
-    /// Tags are used as labels to organize things or to indicate a selection.
+    ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.SlNode("sl-tag", children);
+        return b.H("sl-tag", children);
     }
     /// <summary>
-    /// Tags are used as labels to organize things or to indicate a selection.
+    ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.SlNode("sl-tag", children);
+        return b.H("sl-tag", children);
     }
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantPrimary(this PropsBuilder<SlTag> b)
+    public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantSuccess(this PropsBuilder<SlTag> b)
+    public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantNeutral(this PropsBuilder<SlTag> b)
+    public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("neutral"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
     }
+
+
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantWarning(this PropsBuilder<SlTag> b)
+    public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantDanger(this PropsBuilder<SlTag> b)
+    public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The tag's theme variant.
+    /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariantText(this PropsBuilder<SlTag> b)
+    public static void SetVariantText<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("variant"), b.Const("text"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlTag
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+    }
+
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlTag
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The tag's size. </para>
+    /// </summary>
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlTag
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style tag with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b) where T: SlTag
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Draws a pill-style tag with rounded edges. </para>
+    /// </summary>
+    public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlTag
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
     }
 
     /// <summary>
-    /// The tag's size.
+    /// <para> Draws a pill-style tag with rounded edges. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlTag> b)
+    public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
     }
+
+
     /// <summary>
-    /// The tag's size.
+    /// <para> Makes the tag removable and shows a remove button. </para>
     /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlTag> b)
+    public static void SetRemovable<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), b.Const(true));
     }
+
+
     /// <summary>
-    /// The tag's size.
+    /// <para> Makes the tag removable and shows a remove button. </para>
     /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlTag> b)
+    public static void SetRemovable<T>(this PropsBuilder<T> b, Var<bool> removable) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), removable);
     }
 
     /// <summary>
-    /// Draws a pill-style tag with rounded edges.
+    /// <para> Makes the tag removable and shows a remove button. </para>
     /// </summary>
-    public static void SetPill(this PropsBuilder<SlTag> b)
+    public static void SetRemovable<T>(this PropsBuilder<T> b, bool removable) where T: SlTag
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pill"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), b.Const(removable));
     }
 
-    /// <summary>
-    /// Makes the tag removable and shows a remove button.
-    /// </summary>
-    public static void SetRemovable(this PropsBuilder<SlTag> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("removable"), b.Const(true));
-    }
 
     /// <summary>
-    /// Emitted when the remove button is activated.
+    /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", action);
     }
     /// <summary>
-    /// Emitted when the remove button is activated.
+    /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the remove button is activated.
+    /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", action);
     }
     /// <summary>
-    /// Emitted when the remove button is activated.
+    /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TModel>(this PropsBuilder<SlTag> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", b.MakeAction(action));
     }

@@ -209,5 +209,23 @@ public static partial class IonNavLinkControl
     }
 
 
+    /// <summary>
+    /// <para> The transition direction when navigating to another page. </para>
+    /// </summary>
+    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonNavLink
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+    }
+
+
+    /// <summary>
+    /// <para> The transition direction when navigating to another page. </para>
+    /// </summary>
+    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonNavLink
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+    }
+
+
 }
 

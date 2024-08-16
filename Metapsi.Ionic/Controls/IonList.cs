@@ -174,11 +174,38 @@ public static partial class IonListControl
 
 
     /// <summary>
+    /// <para> How the bottom border should be displayed on all items. </para>
+    /// </summary>
+    public static void SetLinesInset<T>(this PropsBuilder<T> b) where T: IonList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("inset"));
+    }
+
+
+    /// <summary>
+    /// <para> How the bottom border should be displayed on all items. </para>
+    /// </summary>
+    public static void SetLinesNone<T>(this PropsBuilder<T> b) where T: IonList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("none"));
+    }
+
+
+    /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonList
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 

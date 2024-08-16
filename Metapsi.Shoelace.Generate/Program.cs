@@ -197,7 +197,22 @@ public static class Program
                     });
                 }
 
-                await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(shoelaceControlsOutputFolder, $"{shoelaceComponent.Name}.cs"), shoelaceComponent.ToCSharpFile(cSharpConverter));
+                var csharpComponent = shoelaceComponent.ToCSharpComponent(cSharpConverter);
+                csharpComponent.BaseClassName = "SlComponent";
+                var csharpComponentFile = csharpComponent.ToCSharpFile(
+                    "Metapsi.Shoelace",
+                    new List<string>()
+                    {
+                        "Metapsi.Hyperapp",
+                        "Metapsi.Syntax",
+                        "System",
+                        "System.Collections.Generic",
+                        "Metapsi.Ui",
+                        "Metapsi.Html",
+                        "Metapsi.Dom"
+                    });
+                
+                await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(shoelaceControlsOutputFolder, $"{shoelaceComponent.Name}.cs"), csharpComponentFile);
             }
         }
 

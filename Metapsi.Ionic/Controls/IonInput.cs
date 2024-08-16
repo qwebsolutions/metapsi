@@ -1196,11 +1196,497 @@ public static partial class IonInputControl
 
 
     /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteEmail<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTel<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteUrl<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteOn<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("on"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteOff<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteHonorificPrefix<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-prefix"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteGivenName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("given-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAdditionalName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("additional-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteFamilyName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("family-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteHonorificSuffix<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-suffix"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteNickname<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("nickname"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteUsername<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("username"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteNewPassword<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("new-password"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCurrentPassword<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("current-password"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteOneTimeCode<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("one-time-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteOrganizationTitle<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization-title"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteOrganization<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteStreetAddress<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("street-address"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine1<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line1"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine2<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line2"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLine3<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line3"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel4<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level4"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel3<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level3"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel2<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level2"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteAddressLevel1<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level1"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCountry<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCountryName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompletePostalCode<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("postal-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcGivenName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-given-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcAdditionalName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-additional-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcFamilyName<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-family-name"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcNumber<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-number"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExp<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExpMonth<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-month"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcExpYear<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-year"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcCsc<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-csc"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteCcType<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-type"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTransactionCurrency<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-currency"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTransactionAmount<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-amount"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteLanguage<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("language"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteBday<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayDay<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-day"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayMonth<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-month"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteBdayYear<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-year"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteSex<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("sex"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTelCountryCode<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-country-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTelNational<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-national"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTelAreaCode<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-area-code"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTelLocal<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-local"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteTelExtension<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-extension"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompleteImpp<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("impp"));
+    }
+
+
+    /// <summary>
+    /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
+    /// </summary>
+    public static void SetAutocompletePhoto<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("photo"));
+    }
+
+
+    /// <summary>
     /// <para> Whether auto correction should be enabled when the user is entering/editing the text value. </para>
     /// </summary>
     public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+    }
+
+
+    /// <summary>
+    /// <para> Whether auto correction should be enabled when the user is entering/editing the text value. </para>
+    /// </summary>
+    public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
     }
 
 
@@ -1288,6 +1774,78 @@ public static partial class IonInputControl
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
 
 
@@ -1387,6 +1945,60 @@ public static partial class IonInputControl
 
 
     /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
+    /// </summary>
+    public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
     /// <para> Text that is placed under the input and displayed when an error is detected. </para>
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonInput
@@ -1409,6 +2021,15 @@ public static partial class IonInputControl
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+    }
+
+
+    /// <summary>
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
+    /// </summary>
+    public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
     }
 
 
@@ -1439,6 +2060,69 @@ public static partial class IonInputControl
 
 
     /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
+    /// </summary>
+    public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+    }
+
+
+    /// <summary>
     /// <para> The visible label associated with the input.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonInput
@@ -1461,6 +2145,42 @@ public static partial class IonInputControl
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
+    /// </summary>
+    public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
     }
 
 
@@ -1572,6 +2292,15 @@ public static partial class IonInputControl
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
+    /// </summary>
+    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
 
@@ -1762,6 +2491,105 @@ public static partial class IonInputControl
     public static void SetTypeDate<T>(this PropsBuilder<T> b) where T: IonInput
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("date"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeDatetimeLocal<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("datetime-local"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeMonth<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("month"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeText<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeTime<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("time"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> The type of control to display. The default type is text. </para>
+    /// </summary>
+    public static void SetTypeWeek<T>(this PropsBuilder<T> b) where T: IonInput
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("week"));
     }
 
 
