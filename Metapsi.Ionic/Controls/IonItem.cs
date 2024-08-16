@@ -12,17 +12,17 @@ namespace Metapsi.Ionic;
 public partial class IonItem : IonComponent
 {
     public IonItem() : base("ion-item") { }
-    /// <summary> 
-    /// Content is placed between the named slots if provided without a slot.
+    /// <summary>
+    /// <para> Content is placed between the named slots if provided without a slot. </para>
     /// </summary>
     public static class Slot
     {
-        /// <summary> 
-        /// Content is placed to the right of the item text in LTR, and to the left in RTL.
+        /// <summary>
+        /// <para> Content is placed to the right of the item text in LTR, and to the left in RTL. </para>
         /// </summary>
         public const string End = "end";
-        /// <summary> 
-        /// Content is placed to the left of the item text in LTR, and to the right in RTL.
+        /// <summary>
+        /// <para> Content is placed to the left of the item text in LTR, and to the right in RTL. </para>
         /// </summary>
         public const string Start = "start";
     }
@@ -31,119 +31,125 @@ public partial class IonItem : IonComponent
 public static partial class IonItemControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonItem(this HtmlBuilder b, Action<AttributesBuilder<IonItem>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-item", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonItem(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-item", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, a button tag will be rendered and the item will be tappable.
+    /// <para> If `true`, a button tag will be rendered and the item will be tappable. </para>
     /// </summary>
     public static void SetButton(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("button", "");
     }
+
     /// <summary>
-    /// If `true`, a button tag will be rendered and the item will be tappable.
+    /// <para> If `true`, a button tag will be rendered and the item will be tappable. </para>
     /// </summary>
-    public static void SetButton(this AttributesBuilder<IonItem> b, bool value)
+    public static void SetButton(this AttributesBuilder<IonItem> b,bool button)
     {
-        if (value) b.SetAttribute("button", "");
+        if (button) b.SetAttribute("button", "");
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonItem> b, string value)
+    public static void SetColor(this AttributesBuilder<IonItem> b,string color)
     {
-        b.SetAttribute("color", value);
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
+    /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
     public static void SetDetail(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("detail", "");
     }
+
     /// <summary>
-    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
+    /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
-    public static void SetDetail(this AttributesBuilder<IonItem> b, bool value)
+    public static void SetDetail(this AttributesBuilder<IonItem> b,bool detail)
     {
-        if (value) b.SetAttribute("detail", "");
+        if (detail) b.SetAttribute("detail", "");
     }
 
     /// <summary>
-    /// The icon to use when `detail` is set to `true`.
+    /// <para> The icon to use when `detail` is set to `true`. </para>
     /// </summary>
-    public static void SetDetailIcon(this AttributesBuilder<IonItem> b, string value)
+    public static void SetDetailIcon(this AttributesBuilder<IonItem> b,string detailIcon)
     {
-        b.SetAttribute("detail-icon", value);
+        b.SetAttribute("detail-icon", detailIcon);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the item.
+    /// <para> If `true`, the user cannot interact with the item. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot interact with the item.
+    /// <para> If `true`, the user cannot interact with the item. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonItem> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonItem> b,bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
+    /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonItem> b, string value)
+    public static void SetDownload(this AttributesBuilder<IonItem> b,string download)
     {
-        b.SetAttribute("download", value);
+        b.SetAttribute("download", download);
     }
 
     /// <summary>
-    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonItem> b, string value)
+    public static void SetHref(this AttributesBuilder<IonItem> b,string href)
     {
-        b.SetAttribute("href", value);
+        b.SetAttribute("href", href);
     }
 
     /// <summary>
-    /// How the bottom border should be displayed on the item.
+    /// <para> How the bottom border should be displayed on the item. </para>
     /// </summary>
-    public static void SetLines(this AttributesBuilder<IonItem> b, string value)
+    public static void SetLines(this AttributesBuilder<IonItem> b,string lines)
     {
-        b.SetAttribute("lines", value);
+        b.SetAttribute("lines", lines);
     }
+
     /// <summary>
-    /// How the bottom border should be displayed on the item.
+    /// <para> How the bottom border should be displayed on the item. </para>
     /// </summary>
     public static void SetLinesFull(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("lines", "full");
     }
+
     /// <summary>
-    /// How the bottom border should be displayed on the item.
+    /// <para> How the bottom border should be displayed on the item. </para>
     /// </summary>
     public static void SetLinesInset(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("lines", "inset");
     }
+
     /// <summary>
-    /// How the bottom border should be displayed on the item.
+    /// <para> How the bottom border should be displayed on the item. </para>
     /// </summary>
     public static void SetLinesNone(this AttributesBuilder<IonItem> b)
     {
@@ -151,21 +157,23 @@ public static partial class IonItemControl
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonItem> b, string value)
+    public static void SetMode(this AttributesBuilder<IonItem> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonItem> b)
     {
@@ -173,36 +181,39 @@ public static partial class IonItemControl
     }
 
     /// <summary>
-    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonItem> b, string value)
+    public static void SetRel(this AttributesBuilder<IonItem> b,string rel)
     {
-        b.SetAttribute("rel", value);
+        b.SetAttribute("rel", rel);
     }
 
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonItem> b, string value)
+    public static void SetRouterDirection(this AttributesBuilder<IonItem> b,string routerDirection)
     {
-        b.SetAttribute("router-direction", value);
+        b.SetAttribute("router-direction", routerDirection);
     }
+
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
     public static void SetRouterDirectionBack(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("router-direction", "back");
     }
+
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
     public static void SetRouterDirectionForward(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("router-direction", "forward");
     }
+
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
     public static void SetRouterDirectionRoot(this AttributesBuilder<IonItem> b)
     {
@@ -210,36 +221,39 @@ public static partial class IonItemControl
     }
 
     /// <summary>
-    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
+    /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonItem> b, string value)
+    public static void SetTarget(this AttributesBuilder<IonItem> b,string target)
     {
-        b.SetAttribute("target", value);
+        b.SetAttribute("target", target);
     }
 
     /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonItem> b, string value)
+    public static void SetType(this AttributesBuilder<IonItem> b,string type)
     {
-        b.SetAttribute("type", value);
+        b.SetAttribute("type", type);
     }
+
     /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
     public static void SetTypeButton(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("type", "button");
     }
+
     /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
     public static void SetTypeReset(this AttributesBuilder<IonItem> b)
     {
         b.SetAttribute("type", "reset");
     }
+
     /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
     public static void SetTypeSubmit(this AttributesBuilder<IonItem> b)
     {
@@ -247,347 +261,257 @@ public static partial class IonItemControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItem(this LayoutBuilder b, Action<PropsBuilder<IonItem>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-item", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItem(this LayoutBuilder b, Action<PropsBuilder<IonItem>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-item", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-item", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-item", children);
     }
     /// <summary>
-    /// If `true`, a button tag will be rendered and the item will be tappable.
+    /// <para> If `true`, a button tag will be rendered and the item will be tappable. </para>
     /// </summary>
     public static void SetButton<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("button"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("button"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, a button tag will be rendered and the item will be tappable.
+    /// <para> If `true`, a button tag will be rendered and the item will be tappable. </para>
     /// </summary>
-    public static void SetButton<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItem
+    public static void SetButton<T>(this PropsBuilder<T> b, Var<bool> button) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("button"), value);
-    }
-    /// <summary>
-    /// If `true`, a button tag will be rendered and the item will be tappable.
-    /// </summary>
-    public static void SetButton<T>(this PropsBuilder<T> b, bool value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("button"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("button"), button);
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> If `true`, a button tag will be rendered and the item will be tappable. </para>
+    /// </summary>
+    public static void SetButton<T>(this PropsBuilder<T> b, bool button) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("button"), b.Const(button));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
 
+
     /// <summary>
-    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
+    /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
     public static void SetDetail<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("detail"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("detail"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
+    /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
-    public static void SetDetail<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItem
+    public static void SetDetail<T>(this PropsBuilder<T> b, Var<bool> detail) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("detail"), value);
-    }
-    /// <summary>
-    /// If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present.
-    /// </summary>
-    public static void SetDetail<T>(this PropsBuilder<T> b, bool value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("detail"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("detail"), detail);
     }
 
     /// <summary>
-    /// The icon to use when `detail` is set to `true`.
+    /// <para> If `true`, a detail arrow will appear on the item. Defaults to `false` unless the `mode` is `ios` and an `href` or `button` property is present. </para>
     /// </summary>
-    public static void SetDetailIcon<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
+    public static void SetDetail<T>(this PropsBuilder<T> b, bool detail) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("detailIcon"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("detail"), b.Const(detail));
     }
+
+
     /// <summary>
-    /// The icon to use when `detail` is set to `true`.
+    /// <para> The icon to use when `detail` is set to `true`. </para>
     /// </summary>
-    public static void SetDetailIcon<T>(this PropsBuilder<T> b, string value) where T: IonItem
+    public static void SetDetailIcon<T>(this PropsBuilder<T> b, Var<string> detailIcon) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("detailIcon"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("detailIcon"), detailIcon);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the item.
+    /// <para> The icon to use when `detail` is set to `true`. </para>
+    /// </summary>
+    public static void SetDetailIcon<T>(this PropsBuilder<T> b, string detailIcon) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("detailIcon"), b.Const(detailIcon));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the user cannot interact with the item. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot interact with the item.
+    /// <para> If `true`, the user cannot interact with the item. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonItem
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot interact with the item.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
+    /// <para> If `true`, the user cannot interact with the item. </para>
     /// </summary>
-    public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want).
+    /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload<T>(this PropsBuilder<T> b, string value) where T: IonItem
+    public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
     }
 
     /// <summary>
-    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetHref<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
+    public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
     }
+
+
     /// <summary>
-    /// Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
+    /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref<T>(this PropsBuilder<T> b, string value) where T: IonItem
+    public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
     }
 
     /// <summary>
-    /// How the bottom border should be displayed on the item.
+    /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
+    /// </summary>
+    public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: IonItem
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+    }
+
+
+    /// <summary>
+    /// <para> How the bottom border should be displayed on the item. </para>
     /// </summary>
     public static void SetLinesFull<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("lines"), b.Const("full"));
-    }
-    /// <summary>
-    /// How the bottom border should be displayed on the item.
-    /// </summary>
-    public static void SetLinesInset<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("lines"), b.Const("inset"));
-    }
-    /// <summary>
-    /// How the bottom border should be displayed on the item.
-    /// </summary>
-    public static void SetLinesNone<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("lines"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("full"));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonItem
+    public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
     }
 
     /// <summary>
-    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
+    public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
     }
+
+
     /// <summary>
-    /// Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
+    /// <para> When using a router, it specifies the transition animation when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRel<T>(this PropsBuilder<T> b, string value) where T: IonItem
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> routerAnimation) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
-    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition animation when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonItem
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> routerAnimation) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), f);
-    }
-    /// <summary>
-    /// When using a router, it specifies the transition animation when navigating to another page using `href`.
-    /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonItem
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("routerAnimation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("routerAnimation"), b.Const(routerAnimation));
     }
 
+
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
     public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("back"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("back"));
     }
+
+
     /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
+    /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonItem
+    public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> target) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("forward"));
-    }
-    /// <summary>
-    /// When using a router, it specifies the transition direction when navigating to another page using `href`.
-    /// </summary>
-    public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("routerDirection"), b.Const("root"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), target);
     }
 
     /// <summary>
-    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
+    /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> value) where T: IonItem
+    public static void SetTarget<T>(this PropsBuilder<T> b, string target) where T: IonItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), value);
-    }
-    /// <summary>
-    /// Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`.
-    /// </summary>
-    public static void SetTarget<T>(this PropsBuilder<T> b, string value) where T: IonItem
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(target));
     }
 
+
     /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
+    /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonItem
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("button"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
     }
-    /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
-    /// </summary>
-    public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("reset"));
-    }
-    /// <summary>
-    /// The type of the button. Only used when an `onclick` or `button` property is present.
-    /// </summary>
-    public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonItem
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("submit"));
-    }
+
 
 }
 

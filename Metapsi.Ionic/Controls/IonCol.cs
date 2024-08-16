@@ -17,598 +17,646 @@ public partial class IonCol : IonComponent
 public static partial class IonColControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonCol(this HtmlBuilder b, Action<AttributesBuilder<IonCol>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-col", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonCol(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-col", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The amount to offset the column, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffset(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffset(this AttributesBuilder<IonCol> b,string offset)
     {
-        b.SetAttribute("offset", value);
+        b.SetAttribute("offset", offset);
     }
 
     /// <summary>
-    /// The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetLg(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffsetLg(this AttributesBuilder<IonCol> b,string offsetLg)
     {
-        b.SetAttribute("offset-lg", value);
+        b.SetAttribute("offset-lg", offsetLg);
     }
 
     /// <summary>
-    /// The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetMd(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffsetMd(this AttributesBuilder<IonCol> b,string offsetMd)
     {
-        b.SetAttribute("offset-md", value);
+        b.SetAttribute("offset-md", offsetMd);
     }
 
     /// <summary>
-    /// The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetSm(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffsetSm(this AttributesBuilder<IonCol> b,string offsetSm)
     {
-        b.SetAttribute("offset-sm", value);
+        b.SetAttribute("offset-sm", offsetSm);
     }
 
     /// <summary>
-    /// The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXl(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffsetXl(this AttributesBuilder<IonCol> b,string offsetXl)
     {
-        b.SetAttribute("offset-xl", value);
+        b.SetAttribute("offset-xl", offsetXl);
     }
 
     /// <summary>
-    /// The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXs(this AttributesBuilder<IonCol> b, string value)
+    public static void SetOffsetXs(this AttributesBuilder<IonCol> b,string offsetXs)
     {
-        b.SetAttribute("offset-xs", value);
+        b.SetAttribute("offset-xs", offsetXs);
     }
 
     /// <summary>
-    /// The amount to pull the column, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPull(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPull(this AttributesBuilder<IonCol> b,string pull)
     {
-        b.SetAttribute("pull", value);
+        b.SetAttribute("pull", pull);
     }
 
     /// <summary>
-    /// The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullLg(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPullLg(this AttributesBuilder<IonCol> b,string pullLg)
     {
-        b.SetAttribute("pull-lg", value);
+        b.SetAttribute("pull-lg", pullLg);
     }
 
     /// <summary>
-    /// The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullMd(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPullMd(this AttributesBuilder<IonCol> b,string pullMd)
     {
-        b.SetAttribute("pull-md", value);
+        b.SetAttribute("pull-md", pullMd);
     }
 
     /// <summary>
-    /// The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullSm(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPullSm(this AttributesBuilder<IonCol> b,string pullSm)
     {
-        b.SetAttribute("pull-sm", value);
+        b.SetAttribute("pull-sm", pullSm);
     }
 
     /// <summary>
-    /// The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXl(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPullXl(this AttributesBuilder<IonCol> b,string pullXl)
     {
-        b.SetAttribute("pull-xl", value);
+        b.SetAttribute("pull-xl", pullXl);
     }
 
     /// <summary>
-    /// The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXs(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPullXs(this AttributesBuilder<IonCol> b,string pullXs)
     {
-        b.SetAttribute("pull-xs", value);
+        b.SetAttribute("pull-xs", pullXs);
     }
 
     /// <summary>
-    /// The amount to push the column, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPush(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPush(this AttributesBuilder<IonCol> b,string push)
     {
-        b.SetAttribute("push", value);
+        b.SetAttribute("push", push);
     }
 
     /// <summary>
-    /// The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushLg(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPushLg(this AttributesBuilder<IonCol> b,string pushLg)
     {
-        b.SetAttribute("push-lg", value);
+        b.SetAttribute("push-lg", pushLg);
     }
 
     /// <summary>
-    /// The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushMd(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPushMd(this AttributesBuilder<IonCol> b,string pushMd)
     {
-        b.SetAttribute("push-md", value);
+        b.SetAttribute("push-md", pushMd);
     }
 
     /// <summary>
-    /// The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushSm(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPushSm(this AttributesBuilder<IonCol> b,string pushSm)
     {
-        b.SetAttribute("push-sm", value);
+        b.SetAttribute("push-sm", pushSm);
     }
 
     /// <summary>
-    /// The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXl(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPushXl(this AttributesBuilder<IonCol> b,string pushXl)
     {
-        b.SetAttribute("push-xl", value);
+        b.SetAttribute("push-xl", pushXl);
     }
 
     /// <summary>
-    /// The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXs(this AttributesBuilder<IonCol> b, string value)
+    public static void SetPushXs(this AttributesBuilder<IonCol> b,string pushXs)
     {
-        b.SetAttribute("push-xs", value);
+        b.SetAttribute("push-xs", pushXs);
     }
 
     /// <summary>
-    /// The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSize(this AttributesBuilder<IonCol> b,string size)
     {
-        b.SetAttribute("size", value);
+        b.SetAttribute("size", size);
     }
 
     /// <summary>
-    /// The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeLg(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSizeLg(this AttributesBuilder<IonCol> b,string sizeLg)
     {
-        b.SetAttribute("size-lg", value);
+        b.SetAttribute("size-lg", sizeLg);
     }
 
     /// <summary>
-    /// The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeMd(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSizeMd(this AttributesBuilder<IonCol> b,string sizeMd)
     {
-        b.SetAttribute("size-md", value);
+        b.SetAttribute("size-md", sizeMd);
     }
 
     /// <summary>
-    /// The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeSm(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSizeSm(this AttributesBuilder<IonCol> b,string sizeSm)
     {
-        b.SetAttribute("size-sm", value);
+        b.SetAttribute("size-sm", sizeSm);
     }
 
     /// <summary>
-    /// The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXl(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSizeXl(this AttributesBuilder<IonCol> b,string sizeXl)
     {
-        b.SetAttribute("size-xl", value);
+        b.SetAttribute("size-xl", sizeXl);
     }
 
     /// <summary>
-    /// The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXs(this AttributesBuilder<IonCol> b, string value)
+    public static void SetSizeXs(this AttributesBuilder<IonCol> b,string sizeXs)
     {
-        b.SetAttribute("size-xs", value);
+        b.SetAttribute("size-xs", sizeXs);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonCol(this LayoutBuilder b, Action<PropsBuilder<IonCol>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-col", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonCol(this LayoutBuilder b, Action<PropsBuilder<IonCol>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-col", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonCol(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-col", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonCol(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-col", children);
     }
     /// <summary>
-    /// The amount to offset the column, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffset<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffset<T>(this PropsBuilder<T> b, Var<string> offset) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), value);
-    }
-    /// <summary>
-    /// The amount to offset the column, in terms of how many columns it should shift to the end of the total available.
-    /// </summary>
-    public static void SetOffset<T>(this PropsBuilder<T> b, string value) where T: IonCol
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), offset);
     }
 
     /// <summary>
-    /// The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetLg<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffset<T>(this PropsBuilder<T> b, string offset) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), b.Const(offset));
     }
+
+
     /// <summary>
-    /// The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetLg<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetOffsetLg<T>(this PropsBuilder<T> b, Var<string> offsetLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), offsetLg);
     }
 
     /// <summary>
-    /// The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetMd<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffsetLg<T>(this PropsBuilder<T> b, string offsetLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), b.Const(offsetLg));
     }
+
+
     /// <summary>
-    /// The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetMd<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetOffsetMd<T>(this PropsBuilder<T> b, Var<string> offsetMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), offsetMd);
     }
 
     /// <summary>
-    /// The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetSm<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffsetMd<T>(this PropsBuilder<T> b, string offsetMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), b.Const(offsetMd));
     }
+
+
     /// <summary>
-    /// The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetSm<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetOffsetSm<T>(this PropsBuilder<T> b, Var<string> offsetSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), offsetSm);
     }
 
     /// <summary>
-    /// The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXl<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffsetSm<T>(this PropsBuilder<T> b, string offsetSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), b.Const(offsetSm));
     }
+
+
     /// <summary>
-    /// The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXl<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetOffsetXl<T>(this PropsBuilder<T> b, Var<string> offsetXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), offsetXl);
     }
 
     /// <summary>
-    /// The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXs<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffsetXl<T>(this PropsBuilder<T> b, string offsetXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), b.Const(offsetXl));
     }
+
+
     /// <summary>
-    /// The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXs<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetOffsetXs<T>(this PropsBuilder<T> b, Var<string> offsetXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), offsetXs);
     }
 
     /// <summary>
-    /// The amount to pull the column, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPull<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetOffsetXs<T>(this PropsBuilder<T> b, string offsetXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), b.Const(offsetXs));
     }
+
+
     /// <summary>
-    /// The amount to pull the column, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPull<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPull<T>(this PropsBuilder<T> b, Var<string> pull) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), pull);
     }
 
     /// <summary>
-    /// The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullLg<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPull<T>(this PropsBuilder<T> b, string pull) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), b.Const(pull));
     }
+
+
     /// <summary>
-    /// The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullLg<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPullLg<T>(this PropsBuilder<T> b, Var<string> pullLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), pullLg);
     }
 
     /// <summary>
-    /// The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullMd<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPullLg<T>(this PropsBuilder<T> b, string pullLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), b.Const(pullLg));
     }
+
+
     /// <summary>
-    /// The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullMd<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPullMd<T>(this PropsBuilder<T> b, Var<string> pullMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), pullMd);
     }
 
     /// <summary>
-    /// The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullSm<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPullMd<T>(this PropsBuilder<T> b, string pullMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), b.Const(pullMd));
     }
+
+
     /// <summary>
-    /// The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullSm<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPullSm<T>(this PropsBuilder<T> b, Var<string> pullSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), pullSm);
     }
 
     /// <summary>
-    /// The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXl<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPullSm<T>(this PropsBuilder<T> b, string pullSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), b.Const(pullSm));
     }
+
+
     /// <summary>
-    /// The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXl<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPullXl<T>(this PropsBuilder<T> b, Var<string> pullXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), pullXl);
     }
 
     /// <summary>
-    /// The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXs<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPullXl<T>(this PropsBuilder<T> b, string pullXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), b.Const(pullXl));
     }
+
+
     /// <summary>
-    /// The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available.
+    /// <para> The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXs<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPullXs<T>(this PropsBuilder<T> b, Var<string> pullXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), pullXs);
     }
 
     /// <summary>
-    /// The amount to push the column, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPush<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPullXs<T>(this PropsBuilder<T> b, string pullXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), b.Const(pullXs));
     }
+
+
     /// <summary>
-    /// The amount to push the column, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPush<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPush<T>(this PropsBuilder<T> b, Var<string> push) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), push);
     }
 
     /// <summary>
-    /// The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushLg<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPush<T>(this PropsBuilder<T> b, string push) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), b.Const(push));
     }
+
+
     /// <summary>
-    /// The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushLg<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPushLg<T>(this PropsBuilder<T> b, Var<string> pushLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), pushLg);
     }
 
     /// <summary>
-    /// The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushMd<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPushLg<T>(this PropsBuilder<T> b, string pushLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), b.Const(pushLg));
     }
+
+
     /// <summary>
-    /// The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushMd<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPushMd<T>(this PropsBuilder<T> b, Var<string> pushMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), pushMd);
     }
 
     /// <summary>
-    /// The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushSm<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPushMd<T>(this PropsBuilder<T> b, string pushMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), b.Const(pushMd));
     }
+
+
     /// <summary>
-    /// The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushSm<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPushSm<T>(this PropsBuilder<T> b, Var<string> pushSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), pushSm);
     }
 
     /// <summary>
-    /// The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXl<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPushSm<T>(this PropsBuilder<T> b, string pushSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), b.Const(pushSm));
     }
+
+
     /// <summary>
-    /// The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXl<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPushXl<T>(this PropsBuilder<T> b, Var<string> pushXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), pushXl);
     }
 
     /// <summary>
-    /// The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXs<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPushXl<T>(this PropsBuilder<T> b, string pushXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), b.Const(pushXl));
     }
+
+
     /// <summary>
-    /// The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available.
+    /// <para> The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXs<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetPushXs<T>(this PropsBuilder<T> b, Var<string> pushXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), pushXs);
     }
 
     /// <summary>
-    /// The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetSize<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetPushXs<T>(this PropsBuilder<T> b, string pushXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), b.Const(pushXs));
     }
+
+
     /// <summary>
-    /// The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSize<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSize<T>(this PropsBuilder<T> b, Var<string> size) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), size);
     }
 
     /// <summary>
-    /// The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeLg<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetSize<T>(this PropsBuilder<T> b, string size) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const(size));
     }
+
+
     /// <summary>
-    /// The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeLg<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSizeLg<T>(this PropsBuilder<T> b, Var<string> sizeLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), sizeLg);
     }
 
     /// <summary>
-    /// The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeMd<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetSizeLg<T>(this PropsBuilder<T> b, string sizeLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), b.Const(sizeLg));
     }
+
+
     /// <summary>
-    /// The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeMd<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSizeMd<T>(this PropsBuilder<T> b, Var<string> sizeMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), sizeMd);
     }
 
     /// <summary>
-    /// The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeSm<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetSizeMd<T>(this PropsBuilder<T> b, string sizeMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), b.Const(sizeMd));
     }
+
+
     /// <summary>
-    /// The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeSm<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSizeSm<T>(this PropsBuilder<T> b, Var<string> sizeSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), sizeSm);
     }
 
     /// <summary>
-    /// The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXl<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetSizeSm<T>(this PropsBuilder<T> b, string sizeSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), b.Const(sizeSm));
     }
+
+
     /// <summary>
-    /// The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXl<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSizeXl<T>(this PropsBuilder<T> b, Var<string> sizeXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), sizeXl);
     }
 
     /// <summary>
-    /// The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXs<T>(this PropsBuilder<T> b, Var<string> value) where T: IonCol
+    public static void SetSizeXl<T>(this PropsBuilder<T> b, string sizeXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), b.Const(sizeXl));
     }
+
+
     /// <summary>
-    /// The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content.
+    /// <para> The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXs<T>(this PropsBuilder<T> b, string value) where T: IonCol
+    public static void SetSizeXs<T>(this PropsBuilder<T> b, Var<string> sizeXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), sizeXs);
     }
+
+    /// <summary>
+    /// <para> The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
+    /// </summary>
+    public static void SetSizeXs<T>(this PropsBuilder<T> b, string sizeXs) where T: IonCol
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), b.Const(sizeXs));
+    }
+
 
 }
 

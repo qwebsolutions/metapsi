@@ -17,102 +17,106 @@ public partial class IonImg : IonComponent
 public static partial class IonImgControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonImg(this HtmlBuilder b, Action<AttributesBuilder<IonImg>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-img", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonImg(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-img", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded.
+    /// <para> This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded. </para>
     /// </summary>
-    public static void SetAlt(this AttributesBuilder<IonImg> b, string value)
+    public static void SetAlt(this AttributesBuilder<IonImg> b,string alt)
     {
-        b.SetAttribute("alt", value);
+        b.SetAttribute("alt", alt);
     }
 
     /// <summary>
-    /// The image URL. This attribute is mandatory for the `<img>` element.
+    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<IonImg> b, string value)
+    public static void SetSrc(this AttributesBuilder<IonImg> b,string src)
     {
-        b.SetAttribute("src", value);
+        b.SetAttribute("src", src);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonImg(this LayoutBuilder b, Action<PropsBuilder<IonImg>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-img", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonImg(this LayoutBuilder b, Action<PropsBuilder<IonImg>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-img", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonImg(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-img", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonImg(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-img", children);
     }
     /// <summary>
-    /// This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded.
+    /// <para> This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded. </para>
     /// </summary>
-    public static void SetAlt<T>(this PropsBuilder<T> b, Var<string> value) where T: IonImg
+    public static void SetAlt<T>(this PropsBuilder<T> b, Var<string> alt) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), value);
-    }
-    /// <summary>
-    /// This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded.
-    /// </summary>
-    public static void SetAlt<T>(this PropsBuilder<T> b, string value) where T: IonImg
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), alt);
     }
 
     /// <summary>
-    /// The image URL. This attribute is mandatory for the `<img>` element.
+    /// <para> This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded. </para>
     /// </summary>
-    public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> value) where T: IonImg
+    public static void SetAlt<T>(this PropsBuilder<T> b, string alt) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), b.Const(alt));
     }
+
+
     /// <summary>
-    /// The image URL. This attribute is mandatory for the `<img>` element.
+    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
     /// </summary>
-    public static void SetSrc<T>(this PropsBuilder<T> b, string value) where T: IonImg
+    public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), src);
     }
 
     /// <summary>
-    /// Emitted when the img fails to load
+    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
+    /// </summary>
+    public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: IonImg
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(src));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the img fails to load </para>
     /// </summary>
     public static void OnIonError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonImg
     {
         b.OnEventAction("onionError", action);
     }
     /// <summary>
-    /// Emitted when the img fails to load
+    /// <para> Emitted when the img fails to load </para>
     /// </summary>
     public static void OnIonError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonImg
     {
@@ -120,14 +124,14 @@ public static partial class IonImgControl
     }
 
     /// <summary>
-    /// Emitted when the image has finished loading
+    /// <para> Emitted when the image has finished loading </para>
     /// </summary>
     public static void OnIonImgDidLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonImg
     {
         b.OnEventAction("onionImgDidLoad", action);
     }
     /// <summary>
-    /// Emitted when the image has finished loading
+    /// <para> Emitted when the image has finished loading </para>
     /// </summary>
     public static void OnIonImgDidLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonImg
     {
@@ -135,14 +139,14 @@ public static partial class IonImgControl
     }
 
     /// <summary>
-    /// Emitted when the img src has been set
+    /// <para> Emitted when the img src has been set </para>
     /// </summary>
     public static void OnIonImgWillLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonImg
     {
         b.OnEventAction("onionImgWillLoad", action);
     }
     /// <summary>
-    /// Emitted when the img src has been set
+    /// <para> Emitted when the img src has been set </para>
     /// </summary>
     public static void OnIonImgWillLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonImg
     {

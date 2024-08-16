@@ -17,35 +17,37 @@ public partial class IonItemOptions : IonComponent
 public static partial class IonItemOptionsControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonItemOptions(this HtmlBuilder b, Action<AttributesBuilder<IonItemOptions>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-item-options", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonItemOptions(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-item-options", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
+    /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonItemOptions> b, string value)
+    public static void SetSide(this AttributesBuilder<IonItemOptions> b,string side)
     {
-        b.SetAttribute("side", value);
+        b.SetAttribute("side", side);
     }
+
     /// <summary>
-    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
+    /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
     /// </summary>
     public static void SetSideEnd(this AttributesBuilder<IonItemOptions> b)
     {
         b.SetAttribute("side", "end");
     }
+
     /// <summary>
-    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
+    /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
     /// </summary>
     public static void SetSideStart(this AttributesBuilder<IonItemOptions> b)
     {
@@ -53,57 +55,51 @@ public static partial class IonItemOptionsControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItemOptions(this LayoutBuilder b, Action<PropsBuilder<IonItemOptions>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-item-options", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItemOptions(this LayoutBuilder b, Action<PropsBuilder<IonItemOptions>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-item-options", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItemOptions(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-item-options", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonItemOptions(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-item-options", children);
     }
     /// <summary>
-    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
+    /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonItemOptions
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("end"));
-    }
-    /// <summary>
-    /// The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each.
-    /// </summary>
-    public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonItemOptions
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
     }
 
+
     /// <summary>
-    /// Emitted when the item has been fully swiped.
+    /// <para> Emitted when the item has been fully swiped. </para>
     /// </summary>
     public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonItemOptions
     {
         b.OnEventAction("onionSwipe", action, "detail");
     }
     /// <summary>
-    /// Emitted when the item has been fully swiped.
+    /// <para> Emitted when the item has been fully swiped. </para>
     /// </summary>
     public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonItemOptions
     {

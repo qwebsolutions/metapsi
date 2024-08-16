@@ -17,28 +17,29 @@ public partial class IonFooter : IonComponent
 public static partial class IonFooterControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonFooter(this HtmlBuilder b, Action<AttributesBuilder<IonFooter>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-footer", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonFooter(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-footer", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// Describes the scroll effect that will be applied to the footer. Only applies in iOS mode.
+    /// <para> Describes the scroll effect that will be applied to the footer. Only applies in iOS mode. </para>
     /// </summary>
-    public static void SetCollapse(this AttributesBuilder<IonFooter> b, string value)
+    public static void SetCollapse(this AttributesBuilder<IonFooter> b,string collapse)
     {
-        b.SetAttribute("collapse", value);
+        b.SetAttribute("collapse", collapse);
     }
+
     /// <summary>
-    /// Describes the scroll effect that will be applied to the footer. Only applies in iOS mode.
+    /// <para> Describes the scroll effect that will be applied to the footer. Only applies in iOS mode. </para>
     /// </summary>
     public static void SetCollapseFade(this AttributesBuilder<IonFooter> b)
     {
@@ -46,21 +47,23 @@ public static partial class IonFooterControl
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonFooter> b, string value)
+    public static void SetMode(this AttributesBuilder<IonFooter> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonFooter> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonFooter> b)
     {
@@ -68,92 +71,92 @@ public static partial class IonFooterControl
     }
 
     /// <summary>
-    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
     public static void SetTranslucent(this AttributesBuilder<IonFooter> b)
     {
         b.SetAttribute("translucent", "");
     }
+
     /// <summary>
-    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonFooter> b, bool value)
+    public static void SetTranslucent(this AttributesBuilder<IonFooter> b,bool translucent)
     {
-        if (value) b.SetAttribute("translucent", "");
+        if (translucent) b.SetAttribute("translucent", "");
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFooter(this LayoutBuilder b, Action<PropsBuilder<IonFooter>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-footer", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFooter(this LayoutBuilder b, Action<PropsBuilder<IonFooter>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-footer", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFooter(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-footer", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFooter(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-footer", children);
     }
     /// <summary>
-    /// Describes the scroll effect that will be applied to the footer. Only applies in iOS mode.
+    /// <para> Describes the scroll effect that will be applied to the footer. Only applies in iOS mode. </para>
     /// </summary>
     public static void SetCollapseFade<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("collapse"), b.Const("fade"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("collapse"), b.Const("fade"));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
-    }
-    /// <summary>
-    /// The mode determines which platform styles to use.
-    /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonFooter
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
 
+
     /// <summary>
-    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
-    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFooter
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonFooter
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
     }
+
     /// <summary>
-    /// If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content.
+    /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
-    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonFooter
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonFooter
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
     }
+
 
 }
 

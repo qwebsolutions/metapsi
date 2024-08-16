@@ -150,7 +150,26 @@ public static class Program
                 webComponent.Methods.Add(webComponentMethod);
             }
 
-            await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"{webComponent.Name}.cs"), webComponent.ToCSharpFile(cSharpConverter));
+            var csharpComponent = webComponent.ToCSharpComponent(cSharpConverter);
+            csharpComponent.BaseClassName = "IonComponent";
+            csharpComponent.ClientSideConstructorName = "IonicNode";
+            foreach (var withSafeString in csharpComponent.PropertySetters.Where(x => x.CSharpType == "IonicSafeString"))
+            {
+                withSafeString.GenerateConst = false;
+            }
+
+            var csharpFile = csharpComponent.ToCSharpFile("Metapsi.Ionic", new List<string>()
+            {
+                "Metapsi.Hyperapp",
+                "Metapsi.Syntax",
+                "System",
+                "System.Collections.Generic",
+                "Metapsi.Ui",
+                "Metapsi.Html",
+                "Metapsi.Dom"
+            });
+
+            await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"{webComponent.Name}.cs"), csharpFile);
         }
 
 

@@ -14,26 +14,26 @@ public partial class IonAlert : IonComponent
     public IonAlert() : base("ion-alert") { }
     public static class Method
     {
-        /// <summary> 
-        /// Dismiss the alert overlay after it has been presented.
-        /// <para>(data?: any, role?: string) =&gt; Promise&lt;boolean&gt;</para>
-        /// <para>data Any data to emit in the dismiss events.</para>
-        /// <para>role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`.  This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.</para>
+        /// <summary>
+        /// <para> Dismiss the alert overlay after it has been presented. </para>
+        /// <para> (data?: any, role?: string) =&gt; Promise&lt;boolean&gt; </para>
+        /// <para> data Any data to emit in the dismiss events. </para>
+        /// <para> role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`.  This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method. </para>
         /// </summary>
         public const string Dismiss = "dismiss";
-        /// <summary> 
-        /// Returns a promise that resolves when the alert did dismiss.
-        /// <para>&lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt;</para>
+        /// <summary>
+        /// <para> Returns a promise that resolves when the alert did dismiss. </para>
+        /// <para> &lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt; </para>
         /// </summary>
         public const string OnDidDismiss = "onDidDismiss";
-        /// <summary> 
-        /// Returns a promise that resolves when the alert will dismiss.
-        /// <para>&lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt;</para>
+        /// <summary>
+        /// <para> Returns a promise that resolves when the alert will dismiss. </para>
+        /// <para> &lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt; </para>
         /// </summary>
         public const string OnWillDismiss = "onWillDismiss";
-        /// <summary> 
-        /// Present the alert overlay after it has been created.
-        /// <para>() =&gt; Promise&lt;void&gt;</para>
+        /// <summary>
+        /// <para> Present the alert overlay after it has been created. </para>
+        /// <para> () =&gt; Promise&lt;void&gt; </para>
         /// </summary>
         public const string Present = "present";
     }
@@ -42,119 +42,125 @@ public partial class IonAlert : IonComponent
 public static partial class IonAlertControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonAlert(this HtmlBuilder b, Action<AttributesBuilder<IonAlert>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-alert", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonAlert(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-alert", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the alert will animate.
+    /// <para> If `true`, the alert will animate. </para>
     /// </summary>
     public static void SetAnimated(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("animated", "");
     }
+
     /// <summary>
-    /// If `true`, the alert will animate.
+    /// <para> If `true`, the alert will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonAlert> b, bool value)
+    public static void SetAnimated(this AttributesBuilder<IonAlert> b,bool animated)
     {
-        if (value) b.SetAttribute("animated", "");
+        if (animated) b.SetAttribute("animated", "");
     }
 
     /// <summary>
-    /// If `true`, the alert will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the alert will be dismissed when the backdrop is clicked. </para>
     /// </summary>
     public static void SetBackdropDismiss(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("backdrop-dismiss", "");
     }
+
     /// <summary>
-    /// If `true`, the alert will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the alert will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonAlert> b, bool value)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonAlert> b,bool backdropDismiss)
     {
-        if (value) b.SetAttribute("backdrop-dismiss", "");
+        if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
 
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetCssClass(this AttributesBuilder<IonAlert> b,string cssClass)
     {
-        b.SetAttribute("css-class", value);
+        b.SetAttribute("css-class", cssClass);
     }
 
     /// <summary>
-    /// The main title in the heading of the alert.
+    /// <para> The main title in the heading of the alert. </para>
     /// </summary>
-    public static void SetHeader(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetHeader(this AttributesBuilder<IonAlert> b,string header)
     {
-        b.SetAttribute("header", value);
+        b.SetAttribute("header", header);
     }
 
     /// <summary>
-    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
+    /// <para> If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code. </para>
     /// </summary>
     public static void SetIsOpen(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("is-open", "");
     }
+
     /// <summary>
-    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
+    /// <para> If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonAlert> b, bool value)
+    public static void SetIsOpen(this AttributesBuilder<IonAlert> b,bool isOpen)
     {
-        if (value) b.SetAttribute("is-open", "");
+        if (isOpen) b.SetAttribute("is-open", "");
     }
 
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
     public static void SetKeyboardClose(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("keyboard-close", "");
     }
+
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonAlert> b, bool value)
+    public static void SetKeyboardClose(this AttributesBuilder<IonAlert> b,bool keyboardClose)
     {
-        if (value) b.SetAttribute("keyboard-close", "");
+        if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
 
     /// <summary>
-    /// The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// <para> The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetMessage(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetMessage(this AttributesBuilder<IonAlert> b,string message)
     {
-        b.SetAttribute("message", value);
+        b.SetAttribute("message", message);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetMode(this AttributesBuilder<IonAlert> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonAlert> b)
     {
@@ -162,376 +168,427 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// The subtitle in the heading of the alert. Displayed under the title.
+    /// <para> The subtitle in the heading of the alert. Displayed under the title. </para>
     /// </summary>
-    public static void SetSubHeader(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetSubHeader(this AttributesBuilder<IonAlert> b,string subHeader)
     {
-        b.SetAttribute("sub-header", value);
+        b.SetAttribute("sub-header", subHeader);
     }
 
     /// <summary>
-    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// <para> If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
     public static void SetTranslucent(this AttributesBuilder<IonAlert> b)
     {
         b.SetAttribute("translucent", "");
     }
+
     /// <summary>
-    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// <para> If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonAlert> b, bool value)
+    public static void SetTranslucent(this AttributesBuilder<IonAlert> b,bool translucent)
     {
-        if (value) b.SetAttribute("translucent", "");
+        if (translucent) b.SetAttribute("translucent", "");
     }
 
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the alert to open when clicked.
+    /// <para> An ID corresponding to the trigger element that causes the alert to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonAlert> b, string value)
+    public static void SetTrigger(this AttributesBuilder<IonAlert> b,string trigger)
     {
-        b.SetAttribute("trigger", value);
+        b.SetAttribute("trigger", trigger);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAlert(this LayoutBuilder b, Action<PropsBuilder<IonAlert>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-alert", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAlert(this LayoutBuilder b, Action<PropsBuilder<IonAlert>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-alert", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAlert(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-alert", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAlert(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-alert", children);
     }
     /// <summary>
-    /// If `true`, the alert will animate.
+    /// <para> If `true`, the alert will animate. </para>
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the alert will animate.
+    /// <para> If `true`, the alert will animate. </para>
     /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAlert
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
-    }
-    /// <summary>
-    /// If `true`, the alert will animate.
-    /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
     }
 
     /// <summary>
-    /// If `true`, the alert will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the alert will animate. </para>
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the alert will be dismissed when the backdrop is clicked. </para>
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the alert will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the alert will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAlert
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> backdropDismiss) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), value);
-    }
-    /// <summary>
-    /// If `true`, the alert will be dismissed when the backdrop is clicked.
-    /// </summary>
-    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), backdropDismiss);
     }
 
     /// <summary>
-    /// Array of buttons to be added to the alert.
+    /// <para> If `true`, the alert will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonAlert
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool backdropDismiss) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(backdropDismiss));
     }
+
+
     /// <summary>
-    /// Array of buttons to be added to the alert.
+    /// <para> Array of buttons to be added to the alert. </para>
     /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, List<string> value) where T: IonAlert
+    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<string>> buttons) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), b.Const(value));
-    }
-    /// <summary>
-    /// Array of buttons to be added to the alert.
-    /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<AlertButton>> value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<AlertButton>>("buttons"), value);
-    }
-    /// <summary>
-    /// Array of buttons to be added to the alert.
-    /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, List<AlertButton> value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<AlertButton>>("buttons"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), buttons);
     }
 
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Array of buttons to be added to the alert. </para>
     /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAlert
+    public static void SetButtons<T>(this PropsBuilder<T> b, List<string> buttons) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), b.Const(buttons));
     }
+
+
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Array of buttons to be added to the alert. </para>
     /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, string value) where T: IonAlert
+    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<AlertButton>> buttons) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(value));
-    }
-    /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
-    /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), value);
-    }
-    /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
-    /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<AlertButton>>("buttons"), buttons);
     }
 
     /// <summary>
-    /// Animation to use when the alert is presented.
+    /// <para> Array of buttons to be added to the alert. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonAlert
+    public static void SetButtons<T>(this PropsBuilder<T> b, List<AlertButton> buttons) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<List<AlertButton>>("buttons"), b.Const(buttons));
     }
+
+
     /// <summary>
-    /// Animation to use when the alert is presented.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonAlert
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> cssClass) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), cssClass);
     }
 
     /// <summary>
-    /// The main title in the heading of the alert.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetHeader<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAlert
+    public static void SetCssClass<T>(this PropsBuilder<T> b, string cssClass) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(cssClass));
     }
+
+
     /// <summary>
-    /// The main title in the heading of the alert.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetHeader<T>(this PropsBuilder<T> b, string value) where T: IonAlert
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> cssClass) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), cssClass);
     }
 
     /// <summary>
-    /// Additional attributes to pass to the alert.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonAlert
+    public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> cssClass) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(cssClass));
     }
+
+
     /// <summary>
-    /// Additional attributes to pass to the alert.
+    /// <para> Animation to use when the alert is presented. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonAlert
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
-    /// Array of input to show in the alert.
+    /// <para> Animation to use when the alert is presented. </para>
     /// </summary>
-    public static void SetInputs<T>(this PropsBuilder<T> b, Var<List<AlertInput>> value) where T: IonAlert
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<AlertInput>>("inputs"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), b.Const(enterAnimation));
     }
+
+
     /// <summary>
-    /// Array of input to show in the alert.
+    /// <para> The main title in the heading of the alert. </para>
     /// </summary>
-    public static void SetInputs<T>(this PropsBuilder<T> b, List<AlertInput> value) where T: IonAlert
+    public static void SetHeader<T>(this PropsBuilder<T> b, Var<string> header) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<AlertInput>>("inputs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), header);
     }
 
     /// <summary>
-    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
+    /// <para> The main title in the heading of the alert. </para>
+    /// </summary>
+    public static void SetHeader<T>(this PropsBuilder<T> b, string header) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), b.Const(header));
+    }
+
+
+    /// <summary>
+    /// <para> Additional attributes to pass to the alert. </para>
+    /// </summary>
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+    }
+
+    /// <summary>
+    /// <para> Additional attributes to pass to the alert. </para>
+    /// </summary>
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+    }
+
+
+    /// <summary>
+    /// <para> Array of input to show in the alert. </para>
+    /// </summary>
+    public static void SetInputs<T>(this PropsBuilder<T> b, Var<List<AlertInput>> inputs) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<List<AlertInput>>("inputs"), inputs);
+    }
+
+    /// <summary>
+    /// <para> Array of input to show in the alert. </para>
+    /// </summary>
+    public static void SetInputs<T>(this PropsBuilder<T> b, List<AlertInput> inputs) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<List<AlertInput>>("inputs"), b.Const(inputs));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code. </para>
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
+    /// <para> If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAlert
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), value);
-    }
-    /// <summary>
-    /// If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code.
-    /// </summary>
-    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
     }
 
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the alert will open. If `false`, the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the alert dismisses. You will need to do that in your code. </para>
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAlert
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), value);
-    }
-    /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-    /// </summary>
-    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
-    /// Animation to use when the alert is dismissed.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonAlert
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
     }
+
+
     /// <summary>
-    /// Animation to use when the alert is dismissed.
+    /// <para> Animation to use when the alert is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonAlert
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
-    /// The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// <para> Animation to use when the alert is dismissed. </para>
     /// </summary>
-    public static void SetMessage<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAlert
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
     }
+
+
     /// <summary>
-    /// The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used.
+    /// <para> The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetMessage<T>(this PropsBuilder<T> b, string value) where T: IonAlert
+    public static void SetMessage<T>(this PropsBuilder<T> b, Var<IonicSafeString> message) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("message"), message);
+    }
+
+
+
+    /// <summary>
+    /// <para> The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
+    /// </summary>
+    public static void SetMessage<T>(this PropsBuilder<T> b, Var<string> message) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), message);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The main message to be displayed in the alert. `message` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
+    /// </summary>
+    public static void SetMessage<T>(this PropsBuilder<T> b, string message) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), b.Const(message));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The subtitle in the heading of the alert. Displayed under the title. </para>
     /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAlert
+    public static void SetSubHeader<T>(this PropsBuilder<T> b, Var<string> subHeader) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), subHeader);
     }
 
     /// <summary>
-    /// The subtitle in the heading of the alert. Displayed under the title.
+    /// <para> The subtitle in the heading of the alert. Displayed under the title. </para>
     /// </summary>
-    public static void SetSubHeader<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAlert
+    public static void SetSubHeader<T>(this PropsBuilder<T> b, string subHeader) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), value);
-    }
-    /// <summary>
-    /// The subtitle in the heading of the alert. Displayed under the title.
-    /// </summary>
-    public static void SetSubHeader<T>(this PropsBuilder<T> b, string value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("subHeader"), b.Const(subHeader));
     }
 
+
     /// <summary>
-    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// <para> If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+    /// <para> If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAlert
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonAlert
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), value);
-    }
-    /// <summary>
-    /// If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
-    /// </summary>
-    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool value) where T: IonAlert
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("translucent"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
     }
 
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the alert to open when clicked.
+    /// <para> If `true`, the alert will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAlert
+    public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
     }
+
+
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the alert to open when clicked.
+    /// <para> An ID corresponding to the trigger element that causes the alert to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger<T>(this PropsBuilder<T> b, string value) where T: IonAlert
+    public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
     }
 
     /// <summary>
-    /// Emitted after the alert has dismissed. Shorthand for ionAlertDidDismiss.
+    /// <para> An ID corresponding to the trigger element that causes the alert to open when clicked. </para>
+    /// </summary>
+    public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted after the alert has dismissed. Shorthand for ionAlertDidDismiss. </para>
     /// </summary>
     public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonAlert
     {
         b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted after the alert has dismissed. Shorthand for ionAlertDidDismiss.
+    /// <para> Emitted after the alert has dismissed. Shorthand for ionAlertDidDismiss. </para>
     /// </summary>
     public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -539,14 +596,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted after the alert has presented. Shorthand for ionAlertWillDismiss.
+    /// <para> Emitted after the alert has presented. Shorthand for ionAlertWillDismiss. </para>
     /// </summary>
     public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonAlert
     {
         b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
-    /// Emitted after the alert has presented. Shorthand for ionAlertWillDismiss.
+    /// <para> Emitted after the alert has presented. Shorthand for ionAlertWillDismiss. </para>
     /// </summary>
     public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -554,14 +611,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted after the alert has dismissed.
+    /// <para> Emitted after the alert has dismissed. </para>
     /// </summary>
     public static void OnIonAlertDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onionAlertDidDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted after the alert has dismissed.
+    /// <para> Emitted after the alert has dismissed. </para>
     /// </summary>
     public static void OnIonAlertDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -569,14 +626,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted after the alert has presented.
+    /// <para> Emitted after the alert has presented. </para>
     /// </summary>
     public static void OnIonAlertDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onionAlertDidPresent", action);
     }
     /// <summary>
-    /// Emitted after the alert has presented.
+    /// <para> Emitted after the alert has presented. </para>
     /// </summary>
     public static void OnIonAlertDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -584,14 +641,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted before the alert has dismissed.
+    /// <para> Emitted before the alert has dismissed. </para>
     /// </summary>
     public static void OnIonAlertWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onionAlertWillDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted before the alert has dismissed.
+    /// <para> Emitted before the alert has dismissed. </para>
     /// </summary>
     public static void OnIonAlertWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -599,14 +656,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted before the alert has presented.
+    /// <para> Emitted before the alert has presented. </para>
     /// </summary>
     public static void OnIonAlertWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onionAlertWillPresent", action);
     }
     /// <summary>
-    /// Emitted before the alert has presented.
+    /// <para> Emitted before the alert has presented. </para>
     /// </summary>
     public static void OnIonAlertWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -614,14 +671,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted before the alert has dismissed. Shorthand for ionAlertWillDismiss.
+    /// <para> Emitted before the alert has dismissed. Shorthand for ionAlertWillDismiss. </para>
     /// </summary>
     public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted before the alert has dismissed. Shorthand for ionAlertWillDismiss.
+    /// <para> Emitted before the alert has dismissed. Shorthand for ionAlertWillDismiss. </para>
     /// </summary>
     public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonAlert
     {
@@ -629,14 +686,14 @@ public static partial class IonAlertControl
     }
 
     /// <summary>
-    /// Emitted before the alert has presented. Shorthand for ionAlertWillPresent.
+    /// <para> Emitted before the alert has presented. Shorthand for ionAlertWillPresent. </para>
     /// </summary>
     public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonAlert
     {
         b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
-    /// Emitted before the alert has presented. Shorthand for ionAlertWillPresent.
+    /// <para> Emitted before the alert has presented. Shorthand for ionAlertWillPresent. </para>
     /// </summary>
     public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonAlert
     {

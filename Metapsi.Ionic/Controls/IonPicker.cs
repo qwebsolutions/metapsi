@@ -17,35 +17,37 @@ public partial class IonPicker : IonComponent
 public static partial class IonPickerControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonPicker(this HtmlBuilder b, Action<AttributesBuilder<IonPicker>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-picker", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonPicker(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-picker", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonPicker> b, string value)
+    public static void SetMode(this AttributesBuilder<IonPicker> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonPicker> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonPicker> b)
     {
@@ -53,47 +55,41 @@ public static partial class IonPickerControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPicker(this LayoutBuilder b, Action<PropsBuilder<IonPicker>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-picker", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPicker(this LayoutBuilder b, Action<PropsBuilder<IonPicker>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-picker", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPicker(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-picker", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPicker(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-picker", children);
     }
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonPicker
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
-    /// <summary>
-    /// The mode determines which platform styles to use.
-    /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonPicker
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
-    }
+
 
 }
 

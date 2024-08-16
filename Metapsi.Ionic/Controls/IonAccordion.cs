@@ -12,14 +12,17 @@ namespace Metapsi.Ionic;
 public partial class IonAccordion : IonComponent
 {
     public IonAccordion() : base("ion-accordion") { }
+    /// <summary>
+    ///
+    /// </summary>
     public static class Slot
     {
-        /// <summary> 
-        /// Content is placed below the header and is shown or hidden based on expanded state.
+        /// <summary>
+        /// <para> Content is placed below the header and is shown or hidden based on expanded state. </para>
         /// </summary>
         public const string Content = "content";
-        /// <summary> 
-        /// Content is placed at the top and is used to expand or collapse the accordion item.
+        /// <summary>
+        /// <para> Content is placed at the top and is used to expand or collapse the accordion item. </para>
         /// </summary>
         public const string Header = "header";
     }
@@ -28,50 +31,53 @@ public partial class IonAccordion : IonComponent
 public static partial class IonAccordionControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonAccordion(this HtmlBuilder b, Action<AttributesBuilder<IonAccordion>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-accordion", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonAccordion(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-accordion", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with.
+    /// <para> If `true`, the accordion cannot be interacted with. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonAccordion> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with.
+    /// <para> If `true`, the accordion cannot be interacted with. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonAccordion> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonAccordion> b,bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonAccordion> b, string value)
+    public static void SetMode(this AttributesBuilder<IonAccordion> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonAccordion> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonAccordion> b)
     {
@@ -79,44 +85,47 @@ public static partial class IonAccordionControl
     }
 
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
     public static void SetReadonly(this AttributesBuilder<IonAccordion> b)
     {
         b.SetAttribute("readonly", "");
     }
+
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonAccordion> b, bool value)
+    public static void SetReadonly(this AttributesBuilder<IonAccordion> b,bool @readonly)
     {
-        if (value) b.SetAttribute("readonly", "");
+        if (@readonly) b.SetAttribute("readonly", "");
     }
 
     /// <summary>
-    /// The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed.
+    /// <para> The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed. </para>
     /// </summary>
-    public static void SetToggleIcon(this AttributesBuilder<IonAccordion> b, string value)
+    public static void SetToggleIcon(this AttributesBuilder<IonAccordion> b,string toggleIcon)
     {
-        b.SetAttribute("toggle-icon", value);
+        b.SetAttribute("toggle-icon", toggleIcon);
     }
 
     /// <summary>
-    /// The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`.
+    /// <para> The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`. </para>
     /// </summary>
-    public static void SetToggleIconSlot(this AttributesBuilder<IonAccordion> b, string value)
+    public static void SetToggleIconSlot(this AttributesBuilder<IonAccordion> b,string toggleIconSlot)
     {
-        b.SetAttribute("toggle-icon-slot", value);
+        b.SetAttribute("toggle-icon-slot", toggleIconSlot);
     }
+
     /// <summary>
-    /// The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`.
+    /// <para> The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`. </para>
     /// </summary>
     public static void SetToggleIconSlotEnd(this AttributesBuilder<IonAccordion> b)
     {
         b.SetAttribute("toggle-icon-slot", "end");
     }
+
     /// <summary>
-    /// The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`.
+    /// <para> The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`. </para>
     /// </summary>
     public static void SetToggleIconSlotStart(this AttributesBuilder<IonAccordion> b)
     {
@@ -124,144 +133,144 @@ public static partial class IonAccordionControl
     }
 
     /// <summary>
-    /// The value of the accordion. Defaults to an autogenerated value.
+    /// <para> The value of the accordion. Defaults to an autogenerated value. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonAccordion> b, string value)
+    public static void SetValue(this AttributesBuilder<IonAccordion> b,string value)
     {
         b.SetAttribute("value", value);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAccordion(this LayoutBuilder b, Action<PropsBuilder<IonAccordion>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-accordion", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAccordion(this LayoutBuilder b, Action<PropsBuilder<IonAccordion>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-accordion", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAccordion(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-accordion", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonAccordion(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-accordion", children);
     }
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with.
+    /// <para> If `true`, the accordion cannot be interacted with. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with.
+    /// <para> If `true`, the accordion cannot be interacted with. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordion
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the accordion cannot be interacted with.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonAccordion
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> If `true`, the accordion cannot be interacted with. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
-    }
-    /// <summary>
-    /// The mode determines which platform styles to use.
-    /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordion
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
 
+
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
+    /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
-    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonAccordion
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
-    }
-    /// <summary>
-    /// If `true`, the accordion cannot be interacted with, but does not alter the opacity.
-    /// </summary>
-    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonAccordion
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
     }
 
     /// <summary>
-    /// The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed.
+    /// <para> If `true`, the accordion cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
-    public static void SetToggleIcon<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAccordion
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
     }
+
+
     /// <summary>
-    /// The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed.
+    /// <para> The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed. </para>
     /// </summary>
-    public static void SetToggleIcon<T>(this PropsBuilder<T> b, string value) where T: IonAccordion
+    public static void SetToggleIcon<T>(this PropsBuilder<T> b, Var<string> toggleIcon) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), toggleIcon);
     }
 
     /// <summary>
-    /// The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`.
+    /// <para> The toggle icon to use. This icon will be rotated when the accordion is expanded or collapsed. </para>
+    /// </summary>
+    public static void SetToggleIcon<T>(this PropsBuilder<T> b, string toggleIcon) where T: IonAccordion
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), b.Const(toggleIcon));
+    }
+
+
+    /// <summary>
+    /// <para> The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`. </para>
     /// </summary>
     public static void SetToggleIconSlotEnd<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("toggleIconSlot"), b.Const("end"));
-    }
-    /// <summary>
-    /// The slot inside of `ion-item` to place the toggle icon. Defaults to `"end"`.
-    /// </summary>
-    public static void SetToggleIconSlotStart<T>(this PropsBuilder<T> b) where T: IonAccordion
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("toggleIconSlot"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIconSlot"), b.Const("end"));
     }
 
+
     /// <summary>
-    /// The value of the accordion. Defaults to an autogenerated value.
+    /// <para> The value of the accordion. Defaults to an autogenerated value. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAccordion
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The value of the accordion. Defaults to an autogenerated value.
+    /// <para> The value of the accordion. Defaults to an autogenerated value. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonAccordion
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
+
 
 }
 

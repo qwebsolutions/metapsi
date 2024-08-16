@@ -17,50 +17,53 @@ public partial class IonRouterOutlet : IonComponent
 public static partial class IonRouterOutletControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, Action<AttributesBuilder<IonRouterOutlet>> buildAttributes, params IHtmlNode[] children)
     {
         return b.Tag("ion-router-outlet", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, params IHtmlNode[] children)
     {
         return b.Tag("ion-router-outlet", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the router-outlet should animate the transition of components.
+    /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
     public static void SetAnimated(this AttributesBuilder<IonRouterOutlet> b)
     {
         b.SetAttribute("animated", "");
     }
+
     /// <summary>
-    /// If `true`, the router-outlet should animate the transition of components.
+    /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonRouterOutlet> b, bool value)
+    public static void SetAnimated(this AttributesBuilder<IonRouterOutlet> b,bool animated)
     {
-        if (value) b.SetAttribute("animated", "");
+        if (animated) b.SetAttribute("animated", "");
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRouterOutlet> b, string value)
+    public static void SetMode(this AttributesBuilder<IonRouterOutlet> b,string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonRouterOutlet> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonRouterOutlet> b)
     {
@@ -68,84 +71,84 @@ public static partial class IonRouterOutletControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRouterOutlet(this LayoutBuilder b, Action<PropsBuilder<IonRouterOutlet>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-router-outlet", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRouterOutlet(this LayoutBuilder b, Action<PropsBuilder<IonRouterOutlet>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-router-outlet", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRouterOutlet(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-router-outlet", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRouterOutlet(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-router-outlet", children);
     }
     /// <summary>
-    /// If `true`, the router-outlet should animate the transition of components.
+    /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the router-outlet should animate the transition of components.
+    /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRouterOutlet
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
-    }
-    /// <summary>
-    /// If `true`, the router-outlet should animate the transition of components.
-    /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonRouterOutlet
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
     }
 
     /// <summary>
-    /// This property allows to create custom transition using AnimationBuilder functions.
+    /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
-    public static void SetAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonRouterOutlet
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("animation"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
     }
+
+
     /// <summary>
-    /// This property allows to create custom transition using AnimationBuilder functions.
+    /// <para> This property allows to create custom transition using AnimationBuilder functions. </para>
     /// </summary>
-    public static void SetAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonRouterOutlet
+    public static void SetAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> animation) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("animation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("animation"), animation);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> This property allows to create custom transition using AnimationBuilder functions. </para>
+    /// </summary>
+    public static void SetAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> animation) where T: IonRouterOutlet
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("animation"), b.Const(animation));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
-    /// <summary>
-    /// The mode determines which platform styles to use.
-    /// </summary>
-    public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
-    }
+
 
 }
 
