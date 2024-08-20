@@ -7,6 +7,11 @@ namespace Metapsi.Html;
 
 public static class HtmlScriptExtensions
 {
+    public static void SetTypeModule(this AttributesBuilder<HtmlScript> b)
+    {
+        b.SetAttribute("type", "module");
+    }
+
     public static IHtmlNode HtmlScriptModule(this HtmlBuilder b, Action<AttributesBuilder<HtmlScript>> setAttributes, Action<SyntaxBuilder> buildScript)
     {
         ModuleBuilder moduleBuilder = new ModuleBuilder();

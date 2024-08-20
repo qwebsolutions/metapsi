@@ -1,120 +1,592 @@
 [
-	"a",
-	"abbr",
-	"address",
-	"area",
-	"article",
-	"aside",
-	"audio",
-	"b",
-	"base",
-	"bdi",
-	"bdo",
-	"blockquote",
-	"body",
-	"br",
-	"button",
-	"canvas",
-	"caption",
-	"cite",
-	"code",
-	"col",
-	"colgroup",
-	"data",
-	"datalist",
-	"dd",
-	"del",
-	"details",
-	"dfn",
-	"dialog",
-	"div",
-	"dl",
-	"dt",
-	"em",
-	"embed",
-	"fieldset",
-	"figcaption",
-	"figure",
-	"footer",
-	"form",
-	"h1",
-	"h2",
-	"h3",
-	"h4",
-	"h5",
-	"h6",
-	"head",
-	"header",
-	"hgroup",
-	"hr",
-	"html",
-	"i",
-	"iframe",
-	"img",
-	"input",
-	"ins",
-	"kbd",
-	"label",
-	"legend",
-	"li",
-	"link",
-	"main",
-	"map",
-	"mark",
-	"math",
-	"menu",
-	"menuitem",
-	"meta",
-	"meter",
-	"nav",
-	"noscript",
-	"object",
-	"ol",
-	"optgroup",
-	"option",
-	"output",
-	"p",
-	"param",
-	"picture",
-	"pre",
-	"progress",
-	"q",
-	"rb",
-	"rp",
-	"rt",
-	"rtc",
-	"ruby",
-	"s",
-	"samp",
-	"script",
-	"search",
-	"section",
-	"select",
-	"slot",
-	"small",
-	"source",
-	"span",
-	"strong",
-	"style",
-	"sub",
-	"summary",
-	"sup",
-	"svg",
-	"table",
-	"tbody",
-	"td",
-	"template",
-	"textarea",
-	"tfoot",
-	"th",
-	"thead",
-	"time",
-	"title",
-	"tr",
-	"track",
-	"u",
-	"ul",
-	"var",
-	"video",
-	"wbr"
+	{
+		"name": "a",
+		"sattrs": ["href", "target"],
+		"battrs": []
+	},
+	{
+		"name": "abbr",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "address",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "area",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "article",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "aside",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "audio",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "b",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "base",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "bdi",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "bdo",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "blockquote",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "body",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "br",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "button",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "canvas",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "caption",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "cite",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "code",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "col",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "colgroup",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "data",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "datalist",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "dd",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "del",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "details",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "dfn",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "dialog",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "div",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "dl",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "dt",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "em",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "embed",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "fieldset",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "figcaption",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "figure",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "footer",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "form",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h1",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h2",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h3",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h4",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h5",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "h6",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "head",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "header",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "hgroup",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "hr",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "html",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "i",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "iframe",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "img",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "input",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "ins",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "kbd",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "label",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "legend",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "li",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "link",
+		"sattrs": ["href", "rel"],
+		"battrs": []
+	},
+	{
+		"name": "main",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "map",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "mark",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "math",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "menu",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "menuitem",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "meta",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "meter",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "nav",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "noscript",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "object",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "ol",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "optgroup",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "option",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "output",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "p",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "param",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "picture",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "pre",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "progress",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "q",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "rb",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "rp",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "rt",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "rtc",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "ruby",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "s",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "samp",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "script",
+		"sattrs": ["src", "type"],
+		"battrs": []
+	},
+	{
+		"name": "search",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "section",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "select",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "slot",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "small",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "source",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "span",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "strong",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "style",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "sub",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "summary",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "sup",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "svg",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "table",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "tbody",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "td",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "template",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "textarea",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "tfoot",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "th",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "thead",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "time",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "title",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "tr",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "track",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "u",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "ul",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "var",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "video",
+		"sattrs": [],
+		"battrs": []
+	},
+	{
+		"name": "wbr",
+		"sattrs": [],
+		"battrs": []
+	}
 ]

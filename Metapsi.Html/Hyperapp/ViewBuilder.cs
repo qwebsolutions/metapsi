@@ -240,30 +240,4 @@ namespace Metapsi.Hyperapp
             b.Const(scriptTag);
         }
     }
-
-    public static class Html
-    {
-        public static DynamicProperty<string> href = new(nameof(href));
-        public static DynamicProperty<string> target = new(nameof(target));
-        public static DynamicProperty<bool> disabled = new(nameof(disabled));
-        public static DynamicProperty<string> @class = new(nameof(@class));
-        public static DynamicProperty<string> action = new(nameof(action));
-        public static DynamicProperty<string> name = new(nameof(name));
-        public static DynamicProperty<string> id = new(nameof(id));
-        public static DynamicProperty<string> type = new(nameof(type));
-        public static DynamicProperty<string> value = new(nameof(value));
-        public static DynamicProperty<string> method = new(nameof(method));
-        public static DynamicProperty<string> innerHTML = new(nameof(innerHTML));
-        public static DynamicProperty<string> placeholder = new(nameof(placeholder));
-        public static DynamicProperty<int> tabindex = new(nameof(tabindex));
-        public static DynamicProperty<bool> @checked = new(nameof(@checked));
-        public static DynamicProperty<string> src = new(nameof(src));
-        //public static DynamicProperty<object> onclick = new(nameof(onclick));
-        public static DynamicProperty<string> min = new(nameof(min));
-        public static DynamicProperty<string> max = new(nameof(max));
-        public static DynamicProperty<string> step = new(nameof(step));
-        public static DynamicProperty<string> title = new(nameof(title));
-
-    }
-
 }

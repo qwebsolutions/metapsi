@@ -5,6 +5,7 @@ using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax.Inlines;
 using Metapsi.Dom;
+using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Shoelace;
 using Metapsi.Syntax;
@@ -30,7 +31,7 @@ public class CodeSample
 public static partial class Control
 {
 
-    public static HtmlTag Sample(CodeSample sample, InlineSample inlineSample)
+    public static IHtmlNode Sample(this HtmlBuilder b, CodeSample sample, InlineSample inlineSample)
     {
         const string ModelTab = nameof(ModelTab);
         const string JsonDataTab = nameof(JsonDataTab);
@@ -38,72 +39,109 @@ public static partial class Control
 
         var sendToPanelButtonId = "send_to_live_panel_" + sample.SampleId;
 
-        var modelTab = new SlTab() { panel = ModelTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("Model"));
-        var jsonTab = new SlTab(){ panel = JsonDataTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("JSON data"));
-        var viewTab = new SlTab(){ panel = CSharpCodeTab }.SetAttribute("slot", "nav").WithChild(HtmlText.CreateTextNode("View"));
-
-        var modelPanel = new SlTabPanel()
-        {
-            name = ModelTab,
-        }
-        .WithChild(
-            new HtmlTag("pre").WithChild(
-                new HtmlTag("code").WithClass("language-csharp").WithChild(
-                    HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpModel)))));
-
-        var jsonPanel = new SlTabPanel()
-        {
-            name = JsonDataTab
-        }.WithChild(
-            new HtmlTag("pre").WithChild(
-                new HtmlTag("code").WithClass("language-javascript").WithChild(
-                    HtmlText.CreateTextNode(sample.JsonModel))));
-
-        var viewPanel = new SlTabPanel()
-        {
-            name = CSharpCodeTab
-        }.WithChild(
-                new HtmlTag("pre").WithChild(
-                    new HtmlTag("code").WithClass("language-csharp").WithChild(
-                        HtmlText.CreateTextNode(System.Web.HttpUtility.HtmlEncode(sample.CSharpCode)))));
-
-        if (inlineSample.SelectedTab == SampleTab.Json)
-        {
-            jsonTab.SetAttribute("active", "true");
-            jsonPanel.SetAttribute("active", "true");
-        }
-
-        if (inlineSample.SelectedTab == SampleTab.View)
-        {
-            viewTab.SetAttribute("active", "true");
-            viewPanel.SetAttribute("active", "true");
-        }
-
-        var container = DivTag.CreateStyled(
-            "flex flex-col border rounded",
-            new SlTabGroup()
-            .WithChild(modelTab)
-            .WithChild(jsonTab)
-            .WithChild(viewTab)
-            .WithChild(modelPanel)
-            .WithChild(jsonPanel)
-            .WithChild(viewPanel)
-            .WithChild(
-                DivTag.CreateStyled(
-                    "flex flex-row items-center justify-between p-4 bg-gray-100 text-lg",
-                    HtmlText.Create(sample.SampleLabel).WithClass("text-xs"),
-                    new SlIconButton() { name = "caret-right-square" }).SetAttribute("id", sendToPanelButtonId)));
-
-        container.AddJs(b =>
-        {
-            var control = b.GetElementById(b.Const(sendToPanelButtonId));
-            b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.Def((SyntaxBuilder b) =>
+        var modelTab = b.SlTab(
+            b =>
             {
-                b.DispatchCustomEvent(b.Const("ExploreSample"), b.Const(sample));
-            }));
-        });
+                b.SetPanel(ModelTab);
+                b.SetSlot("nav");
+            },
+            b.Text("Model"));
 
-        return container;
+        var jsonTab = b.SlTab(
+            b =>
+            {
+                b.SetPanel(JsonDataTab);
+                b.SetSlot("nav");
+                b.SetActive(inlineSample.SelectedTab == SampleTab.Json);
+            },
+            b.Text("JSON data"));
+
+        var viewTab = b.SlTab(
+            b =>
+            {
+                b.SetPanel(CSharpCodeTab);
+                b.SetSlot("nav");
+                b.SetActive(inlineSample.SelectedTab == SampleTab.View);
+            },
+            b.Text("View"));
+
+        var modelPanel = b.SlTabPanel(
+            b =>
+            {
+                b.SetName(ModelTab);
+            },
+            b.HtmlPre(
+                b.HtmlCode(
+                    b =>
+                    {
+                        b.SetClass("language-csharp");
+                    },
+                    b.Text(System.Web.HttpUtility.HtmlEncode(sample.CSharpModel)))));
+
+        var jsonPanel = b.SlTabPanel(
+            b =>
+            {
+                b.SetName(JsonDataTab);
+                b.SetActive(inlineSample.SelectedTab == SampleTab.Json);
+            },
+            b.HtmlPre(
+                b.HtmlCode(
+                    b =>
+                    {
+                        b.SetClass("language-javascript");
+                    },
+                    b.Text(sample.JsonModel))));
+
+        var viewPanel = b.SlTabPanel(
+            b =>
+            {
+                b.SetName(CSharpCodeTab);
+                b.SetActive(inlineSample.SelectedTab == SampleTab.View);
+            },
+            b.HtmlPre(
+                b.HtmlCode(
+                    b =>
+                    {
+                        b.SetClass("language-csharp");
+                    },
+                    b.Text(System.Web.HttpUtility.HtmlEncode(sample.CSharpCode)))));
+
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-col border rounded");
+            },
+            modelTab,
+            jsonTab,
+            viewTab,
+            modelPanel,
+            jsonPanel,
+            viewPanel,
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("flex flex-row items-center justify-between p-4 bg-gray-100 text-lg");
+                },
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-xs");
+                    },
+                    b.Text(sample.SampleLabel)),
+                b.SlIconButton(
+                    b =>
+                    {
+                        b.SetName("caret-right-square");
+                        b.SetId(sendToPanelButtonId);
+                    })),
+            b.HtmlScriptModule(b =>
+            {
+                var control = b.GetElementById(b.Const(sendToPanelButtonId));
+                b.SetDynamic(control.As<DynamicObject>(), new DynamicProperty<Action>("onclick"), b.Def((SyntaxBuilder b) =>
+                {
+                    b.DispatchCustomEvent(b.Const("ExploreSample"), b.Const(sample));
+                }));
+            }));
     }
 }
 
@@ -196,7 +234,13 @@ public class CodeSampleRenderer : HtmlObjectRenderer<InlineSample>
     protected override void Write(HtmlRenderer renderer, InlineSample obj)
     {
         var sample = AllCodeSamples.Single(x => x.SampleId == obj.SampleId);
-        var sampleHtml = Control.Sample(sample, obj).ToHtml();
+        string sampleHtml = string.Empty;
+        // Ignore the actual HtmlBuilder, just render the sample in markdown
+        HtmlBuilder.FromDefault(b =>
+        {
+            var sampleNode = b.Sample(sample, obj);
+            sampleHtml = sampleNode.ToHtml();
+        });
         renderer.Write(sampleHtml);
     }
 

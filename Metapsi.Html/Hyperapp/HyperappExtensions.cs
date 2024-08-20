@@ -71,26 +71,6 @@ public static partial class HyperappExtensions
                 !usesExternalResources ? b.Text("var dispatch = main()") : b.Text(string.Empty))
         };
     }
-    //public static IHtmlNode Hyperapp<TModel>(
-    //    this HtmlBuilder b,
-    //    Func<SyntaxBuilder, Var<HyperType.Init>> init,
-    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
-    //{
-    //    return b.Hyperapp(
-    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
-    //        view,
-    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
-    //}
-
-    //public static IHtmlNode Hyperapp<TModel>(
-    //    this HtmlBuilder b,
-    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
-    //{
-    //    return b.Hyperapp(
-    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
-    //        view,
-    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
-    //}
 
     public static IHtmlNode Hyperapp<TModel>(
         this HtmlBuilder b,

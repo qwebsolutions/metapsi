@@ -1,4 +1,5 @@
 ﻿using Metapsi.Dom;
+using Metapsi.Html;
 using Metapsi.Shoelace;
 using Metapsi.Syntax;
 using Metapsi.Ui;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Metapsi.Ui.Menu;
 
 namespace Metapsi.Tutorial;
 
@@ -27,65 +29,84 @@ public static partial class Control
     private const string MenuDrawerId = "menuDrawerId";
     private const string BtnToggleTreeId = "btnToggleTree";
 
-    public static IHtmlElement TreeMenu<TModel>(TModel model)
+    public static IHtmlNode TreeMenu<TModel>(this HtmlBuilder b, TModel model)
         where TModel : IHasTreeMenu
     {
-        var tree = new SlTree()
-        {
-            selection = "leaf"
-        };
-
         var expandedParents = model.GetExpandedParents();
 
-        FillMenuEntries(model.Menu, tree, expandedParents, model.CurrentEntry);
-        return tree;
+        return b.SlTree(
+            b =>
+            {
+                b.SetSelectionLeaf();
+            },
+            b.MenuEntries(model.Menu, expandedParents, model.CurrentEntry));
     }
 
-    private static void FillMenuEntries(
+    private static List<IHtmlNode> MenuEntries(
+        this HtmlBuilder b,
         List<MenuEntry> currentEntries,
-        IHtmlElement currentNode,
         List<MenuEntry> expandedParents,
         MenuEntry selectedMenuItem)
     {
-        foreach (var entry in currentEntries)
+        return currentEntries.Select(entry =>
         {
-            IHtmlNode menuEntry =
-                !string.IsNullOrEmpty(entry.Url) ?
-                new HtmlTag("a").WithChild(HtmlText.CreateTextNode(entry.Title)).SetAttribute("href", entry.Url) :
-                new HtmlText(entry.Title);
+            var nodes = new List<IHtmlNode>();
 
-            var treeItem = currentNode.AddChild(new SlTreeItem()
+            if (!string.IsNullOrEmpty(entry.Url))
             {
-                selected = entry == selectedMenuItem,
-                expanded = expandedParents.Contains(entry)
-            });
-            treeItem.AddChild(menuEntry);
+                nodes.Add(b.HtmlA(
+                    b =>
+                    {
+                        b.SetHref(entry.Url);
+                    },
+                    b.Text(entry.Title)));
+            }
+            else
+            {
+                nodes.Add(b.Text(entry.Title));
+            }
 
-            FillMenuEntries(entry.Children, treeItem, expandedParents, selectedMenuItem);
-        }
+            nodes.AddRange(b.MenuEntries(entry.Children, expandedParents, selectedMenuItem));
+
+            return b.SlTreeItem(
+                b =>
+                {
+                    b.SetSelected(entry == selectedMenuItem);
+                    b.SetExpanded(expandedParents.Contains(entry));
+                },
+                nodes);
+                
+
+        }).ToList();
     }
 
-    public static IHtmlElement DrawerTreeMenu<TModel>(TModel model)
+    public static IHtmlNode DrawerTreeMenu<TModel>(this HtmlBuilder b, TModel model)
         where TModel: IHasTreeMenu
     {
-        var drawer = new SlDrawer()
-        {
-            placement = "start"
-        };
-        drawer.SetAttribute("id", MenuDrawerId);
-        drawer.AddChild(TreeMenu(model));
-
-        drawer.AddChild(
-            DivTag.CreateStyled(
-                "flex flex-col gap-2",
-                HtmlText.CreateTextNode("Metapsi"),
-                HtmlText.Create("The fullstack C# framework").WithClass("text-sm"))
-            .SetAttribute("slot", "label"));
-
-        return drawer;
+        return b.SlDrawer(
+            b =>
+            {
+                b.SetPlacementStart();
+                b.SetAttribute("id", MenuDrawerId);
+            },
+            b.TreeMenu(model),
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("flex flex-col gap-2");
+                    b.SetAttribute("slot", SlDrawer.Slot.Label);
+                },
+                b.Text("Metapsi"),
+                b.HtmlSpan(
+                    b =>
+                    {
+                        b.SetClass("text-sm");
+                    },
+                    b.Text("The fullstack C# framework"))
+                ));
     }
 
-    public static HtmlTag Header<TModel>(TModel model, IHtmlNode headerContent)
+    public static IHtmlNode Header<TModel>(this HtmlBuilder b, TModel model, IHtmlNode headerContent)
         where TModel : IHasTreeMenu
     {
         var onClickScript = new InlineModuleScript();
@@ -103,42 +124,52 @@ public static partial class Control
             b.AddEventListener(btnToggleTree, b.Const("click"), toggleMenuDrawer);
         }));
 
-        var header = DivTag.CreateStyled(
-            "flex flex-row gap-4 items-center w-full px-8 h-20 fixed top-0 shadow bg-gray-50 text-xl",
-            onClickScript,
-            new SlIconButton()
+        return b.HtmlDiv(
+            b =>
             {
-                name = "list"
-            }.SetAttribute("id", BtnToggleTreeId),
-            headerContent);
-
-        return header;
+                b.SetClass("flex flex-row gap-4 items-center w-full px-8 h-20 fixed top-0 shadow bg-gray-50 text-xl");
+            },
+            onClickScript,
+            b.SlIconButton(
+                b =>
+                {
+                    b.SetName("list");
+                    b.SetAttribute("id", BtnToggleTreeId);
+                },
+                headerContent));
     }
 
-    public static IHtmlElement NavigatorArrows(MenuEntry prevEntry, MenuEntry nextEntry)
+    public static IHtmlNode NavigatorArrows(this HtmlBuilder b, MenuEntry prevEntry, MenuEntry nextEntry)
     {
-        var navigatorArrowsContainer = DivTag.CreateStyled(
-            "flex flex-row justify-between");
-
-        if (prevEntry != null)
-        {
-            var prev = new HtmlTag("a").SetAttribute("href", prevEntry.Url).WithClass("flex flex-row gap-4 items-center");
-            prev.AddChild(new SlIcon() { name = "arrow-left-circle" });
-            prev.AddChild(HtmlText.CreateTextNode(prevEntry.Title));
-
-            navigatorArrowsContainer.AddChild(prev);
-        }
-
-        if (nextEntry != null)
-        {
-            var next = new HtmlTag("a").SetAttribute("href", nextEntry.Url).WithClass("flex flex-row gap-4 items-center");
-            next.AddChild(HtmlText.CreateTextNode(nextEntry.Title));
-            next.AddChild(new SlIcon() { name = "arrow-right-circle" });
-
-            navigatorArrowsContainer.AddChild(next);
-        }
-
-        return navigatorArrowsContainer;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("flex flex-row justify-between");
+            },
+            b.Optional(
+                prevEntry != null,
+                b =>
+                {
+                    return b.HtmlA(
+                        b =>
+                        {
+                            b.SetHref(prevEntry.Url);
+                            b.SetClass("flex flex-row gap-4 items-center");
+                        });
+                }),
+            b.Optional(
+                nextEntry != null,
+                b =>
+                {
+                    return b.HtmlA(
+                        b =>
+                        {
+                            b.SetHref(nextEntry.Url);
+                            b.SetClass("flex flex-row gap-4 items-center");
+                        },
+                        b.Text(nextEntry.Title),
+                        b.SlIcon(b => b.SetName("arrow-right-circle")));
+                }));
     }
 }
 

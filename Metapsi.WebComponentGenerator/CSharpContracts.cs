@@ -281,11 +281,6 @@ public static class CSharpGeneratorExtensions
             }
         }
 
-        if (output.PropertyTypes.Any())
-        {
-
-        }
-
         foreach (var @event in webComponent.Events)
         {
             string eventTypeName = string.Empty;
@@ -922,6 +917,21 @@ public static class CSharpGeneratorExtensions
         codeBuilder.AppendLine($"        return b.{component.ServerSideConstructorName}(\"{component.HtmlTag}\", new Dictionary<string, string>(), children);");
         codeBuilder.AppendLine("    }");
 
+
+
+        codeBuilder.AppendComments(component.Comments, 1);
+        codeBuilder.AppendLine($"    public static IHtmlNode {component.ClassName}(this HtmlBuilder b, Action<AttributesBuilder<{component.ClassName}>> buildAttributes, List<IHtmlNode> children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.{component.ServerSideConstructorName}(\"{component.HtmlTag}\", buildAttributes, children);");
+        codeBuilder.AppendLine("    }");
+
+        codeBuilder.AppendComments(component.Comments, 1);
+
+        codeBuilder.AppendLine($"    public static IHtmlNode {component.ClassName}(this HtmlBuilder b, List<IHtmlNode> children)");
+        codeBuilder.AppendLine("    {");
+        codeBuilder.AppendLine($"        return b.{component.ServerSideConstructorName}(\"{component.HtmlTag}\", new Dictionary<string, string>(), children);");
+        codeBuilder.AppendLine("    }");
+
         foreach (var setter in component.AttributeSetters)
         {
             codeBuilder.AppendLine(GenerateServerSideSetter(setter, component));
@@ -997,7 +1007,7 @@ public static class CSharpGeneratorExtensions
 
         var parameters = string.Join(",", setter.Parameters.Select(x => $"{x.CSharpType} {x.ParameterName}"));
         var signature = !string.IsNullOrWhiteSpace(parameters) ?
-            string.Join(",", $"    public static void {setter.SetterName}(this AttributesBuilder<{component.ClassName}> b", parameters) + ")" :
+            string.Join(",", $"    public static void {setter.SetterName}(this AttributesBuilder<{component.ClassName}> b", " " + parameters) + ")" :
             $"    public static void {setter.SetterName}(this AttributesBuilder<{component.ClassName}> b)";
 
         codeBuilder.AppendLine(signature);

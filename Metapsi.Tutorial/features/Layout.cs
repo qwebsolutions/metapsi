@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System;
+using Metapsi.Html;
 
 namespace Metapsi.Tutorial;
 
@@ -16,39 +17,41 @@ public static class Tutorial
 
     public static List<string> LargeBreakpoints = new List<string> { "lg", "xl", "2xl" };
 
-    public static void InitCommonLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitCommonLayout<TPageModel>(this HtmlBuilder b, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
         StyleTag style = StyleTag.Create();
         style.AddSelector("a").AddProperty("--tw-prose-links", "var(--sl-color-blue-600)");
-        documentTag.Head.AddModuleStylesheet();
-        documentTag.Head.AddChild(style);
-        documentTag.Head.AddChild(new HtmlTag("title").WithChild(new HtmlText(pageTitle)));
-        documentTag.Body.AddChild(pageContent);
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+
+        b.AddModuleStylesheet();
+        b.HeadAppend(
+            style,
+            b.HtmlTitle(b.Text(pageTitle)),
+            pageContent,
+            b.DrawerTreeMenu(model),
+            b.Header(model, headerContent));
     }
 
-    public static void InitLargeLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitLargeLayout<TPageModel>(this HtmlBuilder b, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
-        documentTag.AddRedirectMismatchedBreakpoint(LargeBreakpoints);
-        documentTag.Head.AddModuleStylesheet();
-        documentTag.Body.AddChild(pageContent);
-        documentTag.Head.AddChild(new HtmlTag("title").WithChild(new HtmlText(pageTitle)));
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+        b.BodyAppend(b.RedirectMismatchedBreakpointScript(LargeBreakpoints));
+        b.AddModuleStylesheet();
+        b.BodyAppend(pageContent);
+        b.HeadAppend(b.HtmlTitle(b.Text(pageTitle)));
+        b.BodyAppend(b.DrawerTreeMenu(model));
+        b.BodyAppend(b.Header(model, headerContent));
     }
 
-    public static void InitSmallLayout<TPageModel>(DocumentTag documentTag, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
+    public static void InitSmallLayout<TPageModel>(this HtmlBuilder b, TPageModel model, string pageTitle, IHtmlNode headerContent, IHtmlNode pageContent) where TPageModel : IHasTreeMenu
     {
-        documentTag.AddChild(new HtmlTag("title").WithChild(new HtmlText() { Text = pageTitle }));
-        documentTag.AddRedirectMismatchedBreakpoint(SmallBreakpoints);
+        b.HeadAppend(b.HtmlTitle(b.Text(pageTitle)));
+        b.HeadAppend(b.RedirectMismatchedBreakpointScript(SmallBreakpoints));
         StyleTag style = StyleTag.Create();
         style.AddSelector(".cm-editor").AddProperty("height", "100%");
         style.AddSelector(".mobile-drawer::part(close-button)").AddProperty("display", "none");
-        documentTag.Head.AddChild(style);
-        documentTag.Head.AddModuleStylesheet();
-        documentTag.Body.AddChild(pageContent);
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.DrawerTreeMenu(model));
-        documentTag.Body.AddChild(Metapsi.Tutorial.Control.Header(model, headerContent));
+        b.HeadAppend(style);
+        b.AddModuleStylesheet();
+        b.BodyAppend(pageContent);
+        b.BodyAppend(b.DrawerTreeMenu(model));
+        b.BodyAppend(b.Header(model, headerContent));
     }
 }

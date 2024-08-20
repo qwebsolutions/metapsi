@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Metapsi.Html;
 
 namespace Metapsi.Tutorial;
 
@@ -110,16 +111,15 @@ public static class ServerSideBreakpointExtensions
 {
     private const string BreakpointCookie = "bp";
 
-    public static void BreakpointProbingPage(DocumentTag documentTag)
+    public static void BreakpointProbingPage(this HtmlBuilder b)
     {
-        var titleTag = documentTag.Head.AddChild(new HtmlTag() { Tag = "title" });
-        titleTag.AddText("Metapsi");
-
-        documentTag.AddJs(delegate (SyntaxBuilder b)
-        {
-            Var<string> bp = b.AssumeBreakpoint();
-            b.RedirectWithBreakpoint(bp);
-        });
+        b.HeadAppend(
+            b.HtmlTitle(b.Text("Metapsi")),
+            b.HtmlScriptModule(delegate (SyntaxBuilder b)
+            {
+                Var<string> bp = b.AssumeBreakpoint();
+                b.RedirectWithBreakpoint(bp);
+            }));
     }
 
     public static async Task<TModel> WithBreakpointProbing<TModel>(this HttpContext httpContext, Func<TModel, Task> fillModel) where TModel : IServerSideBreakpoint, new()
@@ -141,11 +141,11 @@ public static class ServerSideBreakpointExtensions
         return model;
     }
 
-    public static void WithBreakpointProbingPage<TModel>(this DocumentTag documentTag, TModel model, Action<TModel> buildPage) where TModel : IServerSideBreakpoint
+    public static void WithBreakpointProbingPage<TModel>(this HtmlBuilder b, TModel model, Action<TModel> buildPage) where TModel : IServerSideBreakpoint
     {
         if (string.IsNullOrEmpty(model.AssumedBreakpoint))
         {
-            BreakpointProbingPage(documentTag);
+            b.BreakpointProbingPage();
             return;
         }
         buildPage(model);
@@ -221,9 +221,9 @@ public static class ServerSideBreakpointExtensions
         });
     }
 
-    public static void AddRedirectMismatchedBreakpoint(this IHtmlElement htmlElement, List<string> serverAssumedBreakpoints)
+    public static IHtmlNode RedirectMismatchedBreakpointScript(this HtmlBuilder b, List<string> serverAssumedBreakpoints)
     {
-        htmlElement.AddJs(delegate (SyntaxBuilder b)
+        return b.HtmlScriptModule(delegate (SyntaxBuilder b)
         {
             b.RedirectMismatchedBreakpoint(serverAssumedBreakpoints);
         });

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Metapsi.Dom;
 using Microsoft.AspNetCore.Rewrite;
 using System.Collections.Generic;
+using Metapsi.Html;
 
 namespace Metapsi.Tutorial;
 
@@ -98,10 +99,22 @@ public static partial class Program
         });
       
         webServer.WebApplication.RegisterGetHandler<TutorialHandler, Metapsi.Tutorial.Routes.Tutorial, string>();
-        webServer.WebApplication.UseRenderer<TutorialModel>(new TutorialPage().Render);
+        webServer.WebApplication.UseRenderer<TutorialModel>(model =>
+        {
+            return HtmlBuilder.FromDefault(b =>
+            {
+                TutorialPage.Render(b, model);
+            }).ToHtml();
+        });
 
         webServer.WebApplication.RegisterGetHandler<HomepageHandler, Metapsi.Tutorial.Routes.Home>();
-        webServer.WebApplication.UseRenderer<HomepageModel>(new Homepage().Render);
+        webServer.WebApplication.UseRenderer<HomepageModel>(model =>
+        {
+            return HtmlBuilder.FromDefault(b =>
+            {
+                Homepage.Render(b, model);
+            }).ToHtml();
+        });
 
         webServer.WebApplication.UseExceptionHandler(
             exceptionHandlerApp => exceptionHandlerApp.Run(

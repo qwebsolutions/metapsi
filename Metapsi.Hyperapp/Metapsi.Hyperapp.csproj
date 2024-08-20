@@ -15,11 +15,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="embedded\Browser.js" />
-	  <None Remove="embedded\LocalStorage.js" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
 		<ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
 		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
@@ -28,15 +23,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
-		<EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />
-		<EmbeddedResource Include="embedded\linq.js" LogicalName="linq.js" />
-		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
-		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
-		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
-		<EmbeddedResource Include="embedded\HyperappCustomElement.js" LogicalName="HyperappCustomElement.js" />
-		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
-		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
-  </ItemGroup>
+	  <Folder Include="Effects\" />
+	  <Folder Include="embedded\" />
+	</ItemGroup>
 
 </Project>

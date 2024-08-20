@@ -13,8 +13,10 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Metapsi.Tutorial;
 
@@ -99,17 +101,15 @@ public static partial class Control
     }
 
 
-    public static IHtmlNode SandboxApp(Editor editor)
+    public static IHtmlNode SandboxApp(this HtmlBuilder b, Editor editor)
     {
-        return new HyperAppNode<SandboxModel>()
-        {
-            Render = (LayoutBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model),
-            Init = (SyntaxBuilder b) =>
+        return b.Hyperapp(
+            (SyntaxBuilder b) =>
             {
                 b.AddSubscription("ExploreSample_Sub", (SyntaxBuilder b, Var<SandboxModel> _) => b.Listen(b.Const("ExploreSample"), LoadSample(b)));
-                return b.Call(OnInit, b.Const(new SandboxModel()));
-            }
-        };
+                return b.MakeInit(b.Call(OnInit, b.Const(new SandboxModel())));
+            },
+            (LayoutBuilder b, Var<SandboxModel> model) => Sandbox(b, editor, model));
     }
 
     public static void AddSubscription<TState>(this SyntaxBuilder b, string subscriptionName, Func<SyntaxBuilder, Var<TState>, Var<HyperType.Subscription>> buildSubscription)
@@ -489,7 +489,7 @@ public static partial class Control
             var accessSymbol = semanticModel.GetSymbolInfo(memberAccess);
             if (!IsMetapsiSymbol(accessSymbol))
             {
-                var errorHtml = new ErrorPage().Render(new List<string>()
+                var errorHtml = ErrorPage.ToHtml(new List<string>()
                 {
                     "This sandbox can only be used for building Metapsi views"
                 });
@@ -523,19 +523,19 @@ public static partial class Control
                 {
                     System.Text.Json.JsonException jsonException = ex.InnerException as System.Text.Json.JsonException;
 
-                    var errorHtml = new ErrorPage().Render(new List<string>() { jsonException.Message });
+                    var errorHtml = ErrorPage.ToHtml(new List<string>() { jsonException.Message });
                     return errorHtml;
                 }
                 else
                 {
-                    var errorHtml = new ErrorPage().Render(new List<string>() { ex.Message });
+                    var errorHtml = ErrorPage.ToHtml(new List<string>() { ex.Message });
                     return errorHtml;
                 }
             }
         }
         else
         {
-            var errorHtml = new ErrorPage().Render(binaries.Errors.Select(x => x.ToString()).ToList());
+            var errorHtml = ErrorPage.ToHtml(binaries.Errors.Select(x => x.ToString()).ToList());
             return errorHtml;
         }
     }
@@ -570,17 +570,28 @@ public static partial class Control
 }
 
 
-public class ErrorPage : HtmlPage<List<string>>
+public static class ErrorPage
 {
-    public override void FillHtml(List<string> dataModel, DocumentTag document)
+    public static string ToHtml(List<string> dataModel)
     {
-        document.Head.AddStylesheet("/metapsi.tutorial.css");
+        return HtmlBuilder.FromDefault(b =>
+        {
+            b.Render(dataModel);
+        }).ToHtml();
+    }
 
+    public static void Render(this HtmlBuilder b, List<string> dataModel)
+    {
+        b.AddStylesheet("/metapsi.tutorial.css");
         foreach (var error in dataModel)
         {
-            var errorDiv = document.Body.AddChild(new HtmlTag("div"));
-            errorDiv.SetAttribute("class", "text-red-500");
-            errorDiv.AddChild(new HtmlText(error));
+            b.BodyAppend(
+                b.HtmlDiv(
+                    b =>
+                    {
+                        b.SetClass("text-red-500");
+                    },
+                    b.Text(error)));
         }
     }
 }

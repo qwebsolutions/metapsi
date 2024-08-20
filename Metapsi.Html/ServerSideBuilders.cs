@@ -42,6 +42,11 @@ public static class AttributesBuilderExtensions
         b.SetAttribute("class", className);
     }
 
+    public static void SetStyle<TTag>(this AttributesBuilder<TTag> b, string styles)
+    {
+        b.SetAttribute("style", styles);
+    }
+
     public static void AddClass<TTag>(this AttributesBuilder<TTag> b, string className)
     {
         string previousClass = "";

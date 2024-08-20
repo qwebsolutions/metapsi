@@ -198,7 +198,7 @@ public static class Program
                 }
 
                 var csharpComponent = shoelaceComponent.ToCSharpComponent(cSharpConverter);
-                csharpComponent.BaseClassName = "SlComponent";
+                //csharpComponent.BaseClassName = "SlComponent";
                 var csharpComponentFile = csharpComponent.ToCSharpFile(
                     "Metapsi.Shoelace",
                     new List<string>()

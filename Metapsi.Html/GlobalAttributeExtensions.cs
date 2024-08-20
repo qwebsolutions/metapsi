@@ -6,6 +6,16 @@ namespace Metapsi.Html;
 
 public static class GlobalAttributeExtensions
 {
+    public static void SetId<T>(this AttributesBuilder<T> b, string id)
+    {
+        b.SetAttribute("id", id);
+    }
+
+    public static void SetSlot<T>(this AttributesBuilder<T> b, string slot)
+    {
+        b.SetAttribute("slot", slot);
+    }
+
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<string> value)
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>(name), value);

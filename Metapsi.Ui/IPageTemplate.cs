@@ -1,7 +1,7 @@
-﻿namespace Metapsi
-{
-    public interface IPageTemplate<TModel>
-    {
-        string Render(TModel model);
-    }
-}
+﻿//namespace Metapsi
+//{
+//    public interface IPageTemplate<TModel>
+//    {
+//        string Render(TModel model);
+//    }
+//}

@@ -1,32 +1,5 @@
 import { app, h } from "/hyperapp.js";
 
-//export const defineCustomElement = (tagName, takeover) => {
-//    customElements.define(
-//        tagName,
-//        class extends HTMLElement {
-//            _cleanup = () => { };
-
-//            connectedCallback() {
-//                this._cleanup = takeover(this);
-//            }
-//            disconnectedCallback() {
-//                this._cleanup();
-//            }
-//        });
-//}
-
-//class UniversalWebComponent extends HTMLElement {
-//    connectedCallback() {
-//        var template = document.getElementById("id-template");
-//        console.log(template.outerHTML);
-//        requestAnimationFrame(() => {
-//            this.appendChild(template.cloneNode(true));
-//        })
-//    }
-//}
-
-//customElements.define("universal-web-component", UniversalWebComponent);
-
 export const defineHyperappCustomElement = (tagName, view) => {
     customElements.define(
         tagName,

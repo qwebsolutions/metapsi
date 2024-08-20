@@ -5,6 +5,8 @@ using System;
 using Metapsi.Syntax;
 using Metapsi.Dom;
 using Metapsi.Shoelace;
+using Metapsi.Html;
+using System.IO;
 
 namespace Metapsi.Tutorial;
 
@@ -24,135 +26,222 @@ public class TutorialModel : IHasTreeMenu, IServerSideBreakpoint
 
     public string AssumedBreakpoint { get; set; }
 }
-public class TutorialPage : HtmlPage<TutorialModel>
+public static class TutorialPage
 {
-    private IHtmlElement LargeDocsPanel(TutorialModel dataModel)
+    private static IHtmlNode LargeDocsPanel(this HtmlBuilder b, TutorialModel dataModel)
     {
-        DivTag divTag = DivTag.CreateStyled("flex overflow-y-auto w-full h-full p-12 prose-a:text-blue-600", DivTag.CreateStyled("prose mx-auto", Metapsi.Tutorial.Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()), DivTag.CreateStyled("py-8", new TutorialArticleNode
-        {
-            Markdown = dataModel.MarkdownContent
-        }), Metapsi.Tutorial.Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()), DivTag.CreateStyled("h-12")));
-        divTag.SetAttribute("slot", "start");
-        return divTag;
-    }
-
-    private IHtmlElement SmallDocsPanel(TutorialModel dataModel)
-    {
-        DivTag divTag = DivTag.CreateStyled("w-full overflow-y-auto h-full px-4 py-12 prose-a:text-blue-500", DivTag.CreateStyled("prose prose-sm mx-auto", Metapsi.Tutorial.Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()), DivTag.CreateStyled("py-8", new TutorialArticleNode
-        {
-            Markdown = dataModel.MarkdownContent
-        }), Metapsi.Tutorial.Control.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()), DivTag.CreateStyled("h-12")));
-        divTag.SetAttribute("slot", "start");
-        return divTag;
-    }
-
-    private IHtmlElement DesktopSandbox()
-    {
-        return DivTag.CreateStyled("w-full h-full overflow-y-auto", Metapsi.Tutorial.Control.SandboxApp(Editor.Monaco)).SetAttribute("slot", "end");
-    }
-
-    public IHtmlElement MobileExpandCodeButton()
-    {
-        HtmlTag htmlTag = new HtmlTag("button");
-        htmlTag.SetAttribute("class", "shows rounded bg-gray-100 w-10 h-10 flex flex-row items-center justify-center md:hidden");
-        htmlTag.WithStyle("opacity", "1");
-        htmlTag.SetAttribute("id", "MobileExpandCodeButton");
-        htmlTag.AddChild(new SlIcon() { name = "braces" }).SetAttribute("id", "ToggleSandboxIcon");
-        htmlTag.AddJs(delegate (SyntaxBuilder b)
-        {
-            Var<DomElement> elementById7 = b.GetElementById(b.Const("MobileExpandCodeButton"));
-            b.AddEventListener(elementById7, b.Const("click"), b.Def(delegate (SyntaxBuilder b)
+        return b.HtmlDiv(
+            b =>
             {
-                Var<DomElement> elementById8 = b.GetElementById(b.Const("MobileSandbox"));
-                Var<bool> dynamic = b.GetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"));
-                b.SetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"), b.Not(dynamic));
-            }));
-        });
-        htmlTag.AddJs(delegate (SyntaxBuilder b)
-        {
-            b.AddEventListener(b.Window(), b.Const("ExploreSample"), b.Def(delegate (SyntaxBuilder b)
-            {
-                Var<DomElement> elementById6 = b.GetElementById(b.Const("MobileSandbox"));
-                b.GetAttribute<bool>(elementById6, b.Const("open"));
-                b.SetAttribute(elementById6, b.Const("open"), b.Const(constant: true));
-            }));
-        });
-        htmlTag.AddJs(delegate (SyntaxBuilder b)
-        {
-            Var<DomElement> elementById = b.GetElementById(b.Const("MobileSandbox"));
-            b.AddEventListener(elementById, b.Const("sl-after-show"), b.Def(delegate (SyntaxBuilder b)
-            {
-                Var<DomElement> elementById4 = b.GetElementById(b.Const("MobileExpandCodeButton"));
-                b.SetStyle(elementById4, b.Const("opacity"), b.Const("0.5"));
-                Var<DomElement> elementById5 = b.GetElementById(b.Const("ToggleSandboxIcon"));
-                b.SetDynamic(elementById5.As<DynamicObject>(), DynamicProperty.String("name"), b.Const("x-lg"));
-            }));
-            b.AddEventListener(elementById, b.Const("sl-after-hide"), b.Def(delegate (SyntaxBuilder b)
-            {
-                Var<DomElement> elementById2 = b.GetElementById(b.Const("MobileExpandCodeButton"));
-                b.SetStyle(elementById2, b.Const("opacity"), b.Const("1"));
-                Var<DomElement> elementById3 = b.GetElementById(b.Const("ToggleSandboxIcon"));
-                b.SetDynamic(elementById3.As<DynamicObject>(), DynamicProperty.String("name"), b.Const("braces"));
-            }));
-        });
-        return htmlTag;
+                b.SetClass("flex overflow-y-auto w-full h-full p-12 prose-a:text-blue-600");
+                b.SetSlot("start");
+            },
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("prose mx-auto");
+                },
+                b.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
+                b.HtmlDiv(
+                    b =>
+                    {
+                        b.SetClass("py-8");
+                    },
+                    new TutorialArticleNode()
+                    {
+                        Markdown = dataModel.MarkdownContent
+                    }),
+                b.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())));
     }
 
-    public IHtmlElement MobileSandbox()
+    private static IHtmlNode SmallDocsPanel(this HtmlBuilder b, TutorialModel dataModel)
     {
-        var component = new SlDrawer()
-        {
-            placement = "end"
-        }
-        .WithChild(DivTag.CreateStyled("w-full h-full", Metapsi.Tutorial.Control.SandboxApp(Editor.CodeMirror)));
-        component.SetAttribute("contained", "true");
-        component.SetAttribute("class", "relative mobile-drawer");
-        component.SetAttribute("id", "MobileSandbox");
-        component.AddChild(HtmlText.Create("Metapsi sandbox").SetAttribute("slot", "label"));
-        return component;
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("w-full overflow-y-auto h-full px-4 py-12 prose-a:text-blue-500");
+                b.SetSlot("start");
+            },
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("prose prose-sm mx-auto");
+                },
+                b.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry()),
+                b.HtmlDiv(
+                    b =>
+                    {
+                        b.SetClass("py-8");
+                    },
+                    new TutorialArticleNode() { Markdown = dataModel.MarkdownContent }),
+                b.NavigatorArrows(dataModel.GetPreviousMenuEntry(), dataModel.GetNextMenuEntry())));
     }
 
-    public override void FillHtml(TutorialModel dataModel, DocumentTag document)
+    private static IHtmlNode DesktopSandbox(this HtmlBuilder b)
     {
-        document.UseWebComponentsFadeIn();
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetClass("w-full h-full overflow-y-auto");
+                b.SetSlot("end");
+            },
+            b.SandboxApp(Editor.Monaco));
+    }
+
+    public static IHtmlNode MobileExpandCodeButton(this HtmlBuilder b)
+    {
+        return b.HtmlButton(
+            b =>
+            {
+                b.SetClass("shows rounded bg-gray-100 w-10 h-10 flex flex-row items-center justify-center md:hidden");
+                b.SetStyle("opacity: 1");
+                b.SetId("MobileExpandCodeButton");
+            },
+            b.SlIcon(
+                b =>
+                {
+                    b.SetId("ToggleSandboxIcon");
+                    b.SetName("braces");
+                }),
+            b.HtmlScriptModule(delegate (SyntaxBuilder b)
+            {
+                Var<DomElement> elementById7 = b.GetElementById(b.Const("MobileExpandCodeButton"));
+                b.AddEventListener(elementById7, b.Const("click"), b.Def(delegate (SyntaxBuilder b)
+                {
+                    Var<DomElement> elementById8 = b.GetElementById(b.Const("MobileSandbox"));
+                    Var<bool> dynamic = b.GetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"));
+                    b.SetDynamic(elementById8.As<DynamicObject>(), DynamicProperty.Bool("open"), b.Not(dynamic));
+                }));
+            }),
+            b.HtmlScriptModule(delegate (SyntaxBuilder b)
+            {
+                b.AddEventListener(b.Window(), b.Const("ExploreSample"), b.Def(delegate (SyntaxBuilder b)
+                {
+                    Var<DomElement> elementById6 = b.GetElementById(b.Const("MobileSandbox"));
+                    b.GetAttribute<bool>(elementById6, b.Const("open"));
+                    b.SetAttribute(elementById6, b.Const("open"), b.Const(constant: true));
+                }));
+            }),
+            b.HtmlScriptModule(delegate (SyntaxBuilder b)
+            {
+                Var<DomElement> elementById = b.GetElementById(b.Const("MobileSandbox"));
+                b.AddEventListener(elementById, b.Const("sl-after-show"), b.Def(delegate (SyntaxBuilder b)
+                {
+                    Var<DomElement> elementById4 = b.GetElementById(b.Const("MobileExpandCodeButton"));
+                    b.SetStyle(elementById4, b.Const("opacity"), b.Const("0.5"));
+                    Var<DomElement> elementById5 = b.GetElementById(b.Const("ToggleSandboxIcon"));
+                    b.SetDynamic(elementById5.As<DynamicObject>(), DynamicProperty.String("name"), b.Const("x-lg"));
+                }));
+                b.AddEventListener(elementById, b.Const("sl-after-hide"), b.Def(delegate (SyntaxBuilder b)
+                {
+                    Var<DomElement> elementById2 = b.GetElementById(b.Const("MobileExpandCodeButton"));
+                    b.SetStyle(elementById2, b.Const("opacity"), b.Const("1"));
+                    Var<DomElement> elementById3 = b.GetElementById(b.Const("ToggleSandboxIcon"));
+                    b.SetDynamic(elementById3.As<DynamicObject>(), DynamicProperty.String("name"), b.Const("braces"));
+                }));
+            }));
+    }
+
+    public static IHtmlNode MobileSandbox(this HtmlBuilder b)
+    {
+        return b.SlDrawer(
+            b =>
+            {
+                b.SetPlacementEnd();
+                b.SetContained();
+                b.SetClass("relative mobile-drawer");
+                b.SetId("MobileSandbox");
+            },
+            b.HtmlDiv(
+                b =>
+                {
+                    b.SetClass("w-full h-full");
+                },
+                b.SandboxApp(Editor.CodeMirror)),
+            b.HtmlSpan(
+                b =>
+                {
+                    b.SetSlot(SlDrawer.Slot.Label);
+                },
+                b.Text("Metapsi sandbox")));
+    }
+
+    public static void Render(this HtmlBuilder b, TutorialModel dataModel)
+    {
+        b.Document.UseWebComponentsFadeIn();
         StaticFiles.AddAll(typeof(TutorialPage).Assembly);
-        document.Head.AddModuleStylesheet();
-        document.Head.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css");
-        document.Head.AddChild(new ExternalScriptTag("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js", "module"));
-
-        document.WithBreakpointProbingPage(dataModel, delegate (TutorialModel dataModel)
+        b.AddModuleStylesheet();
+        b.AddStylesheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css");
+        b.AddScriptModule("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js");
+        b.WithBreakpointProbingPage(dataModel, delegate (TutorialModel dataModel)
         {
+            b.AddStylesheet("prism.css");
+            b.AddScript("/prism.js");
+
             if (!Tutorial.LargeBreakpoints.Contains(dataModel.AssumedBreakpoint))
             {
-                // TODO: Investigate why I need to add this here, as it's added by the component as well
-                document.Head.AddChild(SlComponent.BasePathScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/"));
+                var basePath = $"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/";
 
-                Tutorial.InitSmallLayout(document, dataModel, dataModel.CurrentEntry.Title, DivTag.CreateStyled("w-full flex flex-row justify-between items-center", HtmlText.CreateTextNode(dataModel.CurrentEntry.Title), MobileExpandCodeButton()), DivTag.CreateStyled("fixed top-20 left-0 bottom-0 right-0", DivTag.CreateStyled("h-full", MobileSandbox(), SmallDocsPanel(dataModel))));
-                document.Head.Children.Insert(0, new HtmlTag("script").SetAttribute("type", "importmap").WithChild(new HtmlText
-                {
-                    Text = "{\r\n\t\t\"imports\": {\r\n\t\t\t\"codemirror/\": \"https://deno.land/x/codemirror_esm@v6.0.1/esm/\"\r\n\t\t}\r\n\t}"
-                }));
-                document.Head.AddStylesheet("prism.css");
-                document.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
-                return;
+                b.HeadAppend(
+                    b.HtmlScript(
+                        b =>
+                        {
+                            b.SetTypeModule();
+                        },
+                        b.Text($"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('{basePath}');\r\n")));
+
+                b.HeadAppend(
+                    b.HtmlScript(
+                        b =>
+                        {
+                            b.SetType("importmap");
+                        },
+                        b.Text("{\r\n\t\t\"imports\": {\r\n\t\t\t\"codemirror/\": \"https://deno.land/x/codemirror_esm@v6.0.1/esm/\"\r\n\t\t}\r\n\t}")));
+
+                b.InitSmallLayout(
+                    dataModel,
+                    dataModel.CurrentEntry.Title,
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass("w-full flex flex-row justify-between items-center");
+                        },
+                        b.Text(dataModel.CurrentEntry.Title),
+                        b.MobileExpandCodeButton()),
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass("fixed top-20 left-0 bottom-0 right-0");
+                        },
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.SetClass("h-full");
+                            },
+                            b.MobileSandbox(),
+                            b.SmallDocsPanel(dataModel))));
             }
             else
-            Tutorial.InitLargeLayout(
-                document, 
-                dataModel, 
-                dataModel.CurrentEntry.Title, 
-                HtmlText.CreateTextNode(
-                    dataModel.CurrentEntry.Title), 
-                DivTag.CreateStyled(
-                    "fixed top-20 left-0 bottom-0 right-0", 
-                    new SlSplitPanel()
-                    {
-                        position = 40,
-                        primary = "end"
-                    }.WithChild(LargeDocsPanel(dataModel))
-                    .WithChild(DesktopSandbox()).SetAttribute("class", " w-full h-full")));
-            document.Head.AddStylesheet("prism.css");
-            document.Head.AddChild(new ExternalScriptTag("/prism.js", ""));
+            {
+                b.InitLargeLayout(
+                    dataModel,
+                    dataModel.CurrentEntry.Title,
+                    b.Text(dataModel.CurrentEntry.Title),
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass("fixed top-20 left-0 bottom-0 right-0");
+                        },
+                        b.SlSplitPanel(
+                            b =>
+                            {
+                                b.SetPosition("40");
+                                b.SetPrimaryEnd();
+                                b.SetClass("w-full h-full");
+                            },
+                            b.LargeDocsPanel(dataModel),
+                            b.DesktopSandbox())));
+            }
         });
     }
 }

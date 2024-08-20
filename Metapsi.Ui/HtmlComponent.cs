@@ -6,66 +6,66 @@ using System.Text;
 
 namespace Metapsi.Ui;
 
-public abstract class HtmlComponent : IHtmlComponent, IHtmlElement
-{
-    public HtmlComponent(string tagName)
-    {
-        this.HtmlTag = new HtmlTag(tagName);
-    }
+//public abstract class HtmlComponent : IHtmlComponent, IHtmlElement
+//{
+//    public HtmlComponent(string tagName)
+//    {
+//        this.HtmlTag = new HtmlTag(tagName);
+//    }
 
-    public HtmlTag HtmlTag { get; set; }
+//    public HtmlTag HtmlTag { get; set; }
 
-    protected bool Attached { get; set; }
+//    protected bool Attached { get; set; }
 
-    void IHtmlComponent.Attach(DocumentTag document, IHtmlElement parentNode)
-    {
-        if (!this.Attached)
-        {
-            OnAttach(document, parentNode);
-            Attached = true;
-        }
-    }
+//    void IHtmlComponent.Attach(DocumentTag document, IHtmlElement parentNode)
+//    {
+//        if (!this.Attached)
+//        {
+//            OnAttach(document, parentNode);
+//            Attached = true;
+//        }
+//    }
 
-    protected abstract void OnAttach(DocumentTag documentTag, IHtmlElement parentNode);
+//    protected abstract void OnAttach(DocumentTag documentTag, IHtmlElement parentNode);
 
-    public HtmlTag GetTag()
-    {
-        return this.HtmlTag;
-    }
+//    public HtmlTag GetTag()
+//    {
+//        return this.HtmlTag;
+//    }
 
-    string IHtmlNode.ToHtml()
-    {
-        return this.GetTag().ToHtml();
-    }
-}
+//    string IHtmlNode.ToHtml()
+//    {
+//        return this.GetTag().ToHtml();
+//    }
+//}
 
-public abstract class WebComponent : HtmlComponent
-{
-    public WebComponent(string tagName) : base(tagName)
-    {
+//public abstract class WebComponent : HtmlComponent
+//{
+//    public WebComponent(string tagName) : base(tagName)
+//    {
 
-    }
+//    }
 
-    protected override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
-    {
-        var fadeInScript = documentTag.Head.Children.SingleOrDefault(x => x is WebComponentsFadeIn);
-        if (fadeInScript != null)
-        {
-            (fadeInScript as WebComponentsFadeIn).WebComponentTags.Add(this.GetTag().Tag);
-        }
-    }
-}
+//    protected override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
+//    {
+//        var fadeInScript = documentTag.Head.Children.SingleOrDefault(x => x is WebComponentsFadeIn);
+//        if (fadeInScript != null)
+//        {
+//            (fadeInScript as WebComponentsFadeIn).WebComponentTags.Add(this.GetTag().Tag);
+//        }
+//    }
+//}
 
 public static class WebComponentsExtensions
 {
-    public static void UseWebComponentsFadeIn(this DocumentTag documentTag)
+    public static void UseWebComponentsFadeIn(this HtmlDocument htmlDocument)
     {
-        if (documentTag.Head.Children.Any(x => x is WebComponentsFadeIn))
+        if (htmlDocument.Head.Children.Any(x => x is WebComponentsFadeIn))
             return;
-        documentTag.Head.AddChild(new WebComponentsFadeIn());
+        htmlDocument.Head.AddChild(new WebComponentsFadeIn());
     }
 
-    public static WebComponentsFadeIn GetWebComponentFadeIn(this DocumentTag documentTag)
+    public static WebComponentsFadeIn GetWebComponentFadeIn(this HtmlDocument documentTag)
     {
         var wcfi = documentTag.Head.Children.SingleOrDefault(x => x is WebComponentsFadeIn);
         if (wcfi != null)
@@ -73,7 +73,7 @@ public static class WebComponentsExtensions
         return null;
     }
 
-    public static void AddToFadeInList(this DocumentTag documentTag, string webComponentTag)
+    public static void AddToFadeInList(this HtmlDocument documentTag, string webComponentTag)
     {
         var fadeIn = GetWebComponentFadeIn(documentTag);
         if (fadeIn != null)
