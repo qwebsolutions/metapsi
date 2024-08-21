@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSplitPanel : SlComponent
+public partial class SlSplitPanel
 {
-    public SlSplitPanel() : base("sl-split-panel") { }
     /// <summary>
     ///
     /// </summary>
@@ -39,19 +37,33 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static IHtmlNode SlSplitPanel(this HtmlBuilder b, Action<AttributesBuilder<SlSplitPanel>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-split-panel", buildAttributes, children);
+        return b.SlTag("sl-split-panel", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlSplitPanel(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-split-panel", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-split-panel", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSplitPanel(this HtmlBuilder b, Action<AttributesBuilder<SlSplitPanel>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-split-panel", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSplitPanel(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-split-panel", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size. </para>
     /// </summary>
-    public static void SetPosition(this AttributesBuilder<SlSplitPanel> b,string position)
+    public static void SetPosition(this AttributesBuilder<SlSplitPanel> b, string position)
     {
         b.SetAttribute("position", position);
     }
@@ -59,7 +71,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> The current position of the divider from the primary panel's edge in pixels. </para>
     /// </summary>
-    public static void SetPositionInPixels(this AttributesBuilder<SlSplitPanel> b,string positionInPixels)
+    public static void SetPositionInPixels(this AttributesBuilder<SlSplitPanel> b, string positionInPixels)
     {
         b.SetAttribute("position-in-pixels", positionInPixels);
     }
@@ -75,7 +87,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> Draws the split panel in a vertical orientation with the start and end panels stacked. </para>
     /// </summary>
-    public static void SetVertical(this AttributesBuilder<SlSplitPanel> b,bool vertical)
+    public static void SetVertical(this AttributesBuilder<SlSplitPanel> b, bool vertical)
     {
         if (vertical) b.SetAttribute("vertical", "");
     }
@@ -91,7 +103,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> Disables resizing. Note that the position may still change as a result of resizing the host element. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlSplitPanel> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlSplitPanel> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -99,7 +111,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized. </para>
     /// </summary>
-    public static void SetPrimary(this AttributesBuilder<SlSplitPanel> b,string primary)
+    public static void SetPrimary(this AttributesBuilder<SlSplitPanel> b, string primary)
     {
         b.SetAttribute("primary", primary);
     }
@@ -123,7 +135,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> One or more space-separated values at which the divider should snap. Values can be in pixels or percentages, e.g. `"100px 50%"`. </para>
     /// </summary>
-    public static void SetSnap(this AttributesBuilder<SlSplitPanel> b,string snap)
+    public static void SetSnap(this AttributesBuilder<SlSplitPanel> b, string snap)
     {
         b.SetAttribute("snap", snap);
     }
@@ -131,7 +143,7 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> How close the divider must be to a snap point until snapping occurs. </para>
     /// </summary>
-    public static void SetSnapThreshold(this AttributesBuilder<SlSplitPanel> b,string snapThreshold)
+    public static void SetSnapThreshold(this AttributesBuilder<SlSplitPanel> b, string snapThreshold)
     {
         b.SetAttribute("snap-threshold", snapThreshold);
     }

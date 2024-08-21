@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonProgressBar : IonComponent
+public partial class IonProgressBar
 {
-    public IonProgressBar() : base("ion-progress-bar") { }
 }
 
 public static partial class IonProgressBarControl
@@ -21,19 +19,33 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static IHtmlNode IonProgressBar(this HtmlBuilder b, Action<AttributesBuilder<IonProgressBar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-progress-bar", buildAttributes, children);
+        return b.IonicTag("ion-progress-bar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonProgressBar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-progress-bar", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-progress-bar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonProgressBar(this HtmlBuilder b, Action<AttributesBuilder<IonProgressBar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-progress-bar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonProgressBar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-progress-bar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If the buffer and value are smaller than 1, the buffer circles will show. The buffer should be between [0, 1]. </para>
     /// </summary>
-    public static void SetBuffer(this AttributesBuilder<IonProgressBar> b,string buffer)
+    public static void SetBuffer(this AttributesBuilder<IonProgressBar> b, string buffer)
     {
         b.SetAttribute("buffer", buffer);
     }
@@ -41,7 +53,7 @@ public static partial class IonProgressBarControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonProgressBar> b,string color)
+    public static void SetColor(this AttributesBuilder<IonProgressBar> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -49,7 +61,7 @@ public static partial class IonProgressBarControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonProgressBar> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonProgressBar> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -81,7 +93,7 @@ public static partial class IonProgressBarControl
     /// <summary>
     /// <para> If true, reverse the progress bar direction. </para>
     /// </summary>
-    public static void SetReversed(this AttributesBuilder<IonProgressBar> b,bool reversed)
+    public static void SetReversed(this AttributesBuilder<IonProgressBar> b, bool reversed)
     {
         if (reversed) b.SetAttribute("reversed", "");
     }
@@ -89,7 +101,7 @@ public static partial class IonProgressBarControl
     /// <summary>
     /// <para> The state of the progress bar, based on if the time the process takes is known or not. Default options are: `"determinate"` (no animation), `"indeterminate"` (animate from left to right). </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonProgressBar> b,string type)
+    public static void SetType(this AttributesBuilder<IonProgressBar> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -113,7 +125,7 @@ public static partial class IonProgressBarControl
     /// <summary>
     /// <para> The value determines how much of the active bar should display when the `type` is `"determinate"`. The value should be between [0, 1]. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonProgressBar> b,string value)
+    public static void SetValue(this AttributesBuilder<IonProgressBar> b, string value)
     {
         b.SetAttribute("value", value);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRadio : SlComponent
+public partial class SlRadio
 {
-    public SlRadio() : base("sl-radio") { }
 }
 
 public static partial class SlRadioControl
@@ -21,19 +19,33 @@ public static partial class SlRadioControl
     /// </summary>
     public static IHtmlNode SlRadio(this HtmlBuilder b, Action<AttributesBuilder<SlRadio>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-radio", buildAttributes, children);
+        return b.SlTag("sl-radio", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlRadio(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-radio", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-radio", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, Action<AttributesBuilder<SlRadio>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The radio's value. When selected, the radio group will receive this value. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlRadio> b,string value)
+    public static void SetValue(this AttributesBuilder<SlRadio> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -41,7 +53,7 @@ public static partial class SlRadioControl
     /// <summary>
     /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlRadio> b,string size)
+    public static void SetSize(this AttributesBuilder<SlRadio> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -81,7 +93,7 @@ public static partial class SlRadioControl
     /// <summary>
     /// <para> Disables the radio. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlRadio> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlRadio> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

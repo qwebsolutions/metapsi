@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInput : IonComponent
+public partial class IonInput
 {
-    public IonInput() : base("ion-input") { }
     /// <summary>
     ///
     /// </summary>
@@ -52,19 +50,33 @@ public static partial class IonInputControl
     /// </summary>
     public static IHtmlNode IonInput(this HtmlBuilder b, Action<AttributesBuilder<IonInput>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-input", buildAttributes, children);
+        return b.IonicTag("ion-input", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonInput(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-input", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-input", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInput(this HtmlBuilder b, Action<AttributesBuilder<IonInput>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-input", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInput(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-input", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
     /// </summary>
-    public static void SetAutocapitalize(this AttributesBuilder<IonInput> b,string autocapitalize)
+    public static void SetAutocapitalize(this AttributesBuilder<IonInput> b, string autocapitalize)
     {
         b.SetAttribute("autocapitalize", autocapitalize);
     }
@@ -72,7 +84,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Indicates whether the value of the control can be automatically completed by the browser. </para>
     /// </summary>
-    public static void SetAutocomplete(this AttributesBuilder<IonInput> b,string autocomplete)
+    public static void SetAutocomplete(this AttributesBuilder<IonInput> b, string autocomplete)
     {
         b.SetAttribute("autocomplete", autocomplete);
     }
@@ -512,7 +524,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Whether auto correction should be enabled when the user is entering/editing the text value. </para>
     /// </summary>
-    public static void SetAutocorrect(this AttributesBuilder<IonInput> b,string autocorrect)
+    public static void SetAutocorrect(this AttributesBuilder<IonInput> b, string autocorrect)
     {
         b.SetAttribute("autocorrect", autocorrect);
     }
@@ -544,7 +556,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
-    public static void SetAutofocus(this AttributesBuilder<IonInput> b,bool autofocus)
+    public static void SetAutofocus(this AttributesBuilder<IonInput> b, bool autofocus)
     {
         if (autofocus) b.SetAttribute("autofocus", "");
     }
@@ -560,7 +572,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input. </para>
     /// </summary>
-    public static void SetClearInput(this AttributesBuilder<IonInput> b,bool clearInput)
+    public static void SetClearInput(this AttributesBuilder<IonInput> b, bool clearInput)
     {
         if (clearInput) b.SetAttribute("clear-input", "");
     }
@@ -576,7 +588,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types. </para>
     /// </summary>
-    public static void SetClearOnEdit(this AttributesBuilder<IonInput> b,bool clearOnEdit)
+    public static void SetClearOnEdit(this AttributesBuilder<IonInput> b, bool clearOnEdit)
     {
         if (clearOnEdit) b.SetAttribute("clear-on-edit", "");
     }
@@ -584,7 +596,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonInput> b,string color)
+    public static void SetColor(this AttributesBuilder<IonInput> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -600,7 +612,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
-    public static void SetCounter(this AttributesBuilder<IonInput> b,bool counter)
+    public static void SetCounter(this AttributesBuilder<IonInput> b, bool counter)
     {
         if (counter) b.SetAttribute("counter", "");
     }
@@ -608,7 +620,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonInput> b,string debounce)
+    public static void SetDebounce(this AttributesBuilder<IonInput> b, string debounce)
     {
         b.SetAttribute("debounce", debounce);
     }
@@ -624,7 +636,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the input. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonInput> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonInput> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -632,7 +644,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
-    public static void SetEnterkeyhint(this AttributesBuilder<IonInput> b,string enterkeyhint)
+    public static void SetEnterkeyhint(this AttributesBuilder<IonInput> b, string enterkeyhint)
     {
         b.SetAttribute("enterkeyhint", enterkeyhint);
     }
@@ -696,7 +708,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Text that is placed under the input and displayed when an error is detected. </para>
     /// </summary>
-    public static void SetErrorText(this AttributesBuilder<IonInput> b,string errorText)
+    public static void SetErrorText(this AttributesBuilder<IonInput> b, string errorText)
     {
         b.SetAttribute("error-text", errorText);
     }
@@ -704,7 +716,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<IonInput> b,string fill)
+    public static void SetFill(this AttributesBuilder<IonInput> b, string fill)
     {
         b.SetAttribute("fill", fill);
     }
@@ -728,7 +740,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Text that is placed under the input and displayed when no error is detected. </para>
     /// </summary>
-    public static void SetHelperText(this AttributesBuilder<IonInput> b,string helperText)
+    public static void SetHelperText(this AttributesBuilder<IonInput> b, string helperText)
     {
         b.SetAttribute("helper-text", helperText);
     }
@@ -736,7 +748,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
-    public static void SetInputmode(this AttributesBuilder<IonInput> b,string inputmode)
+    public static void SetInputmode(this AttributesBuilder<IonInput> b, string inputmode)
     {
         b.SetAttribute("inputmode", inputmode);
     }
@@ -808,7 +820,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The visible label associated with the input.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonInput> b,string label)
+    public static void SetLabel(this AttributesBuilder<IonInput> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -816,7 +828,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the input in LTR and to the right in RTL. `"end"`: The label will appear to the right of the input in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the input when the input is focused or it has a value. Otherwise it will appear on top of the input. `"stacked"`: The label will appear smaller and above the input regardless even when the input is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonInput> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonInput> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -864,7 +876,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The maximum value, which must not be less than its minimum (min attribute) value. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<IonInput> b,string max)
+    public static void SetMax(this AttributesBuilder<IonInput> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -872,7 +884,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the maximum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength(this AttributesBuilder<IonInput> b,string maxlength)
+    public static void SetMaxlength(this AttributesBuilder<IonInput> b, string maxlength)
     {
         b.SetAttribute("maxlength", maxlength);
     }
@@ -880,7 +892,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The minimum value, which must not be greater than its maximum (max attribute) value. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<IonInput> b,string min)
+    public static void SetMin(this AttributesBuilder<IonInput> b, string min)
     {
         b.SetAttribute("min", min);
     }
@@ -888,7 +900,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMinlength(this AttributesBuilder<IonInput> b,string minlength)
+    public static void SetMinlength(this AttributesBuilder<IonInput> b, string minlength)
     {
         b.SetAttribute("minlength", minlength);
     }
@@ -896,7 +908,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonInput> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonInput> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -928,7 +940,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the user can enter more than one value. This attribute applies when the type attribute is set to `"email"`, otherwise it is ignored. </para>
     /// </summary>
-    public static void SetMultiple(this AttributesBuilder<IonInput> b,bool multiple)
+    public static void SetMultiple(this AttributesBuilder<IonInput> b, bool multiple)
     {
         if (multiple) b.SetAttribute("multiple", "");
     }
@@ -936,7 +948,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonInput> b,string name)
+    public static void SetName(this AttributesBuilder<IonInput> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -944,7 +956,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information. </para>
     /// </summary>
-    public static void SetPattern(this AttributesBuilder<IonInput> b,string pattern)
+    public static void SetPattern(this AttributesBuilder<IonInput> b, string pattern)
     {
         b.SetAttribute("pattern", pattern);
     }
@@ -952,7 +964,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Instructional text that shows before the input has a value. This property applies only when the `type` property is set to `"email"`, `"number"`, `"password"`, `"search"`, `"tel"`, `"text"`, or `"url"`, otherwise it is ignored. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<IonInput> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<IonInput> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -968,7 +980,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonInput> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<IonInput> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -984,7 +996,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<IonInput> b,bool required)
+    public static void SetRequired(this AttributesBuilder<IonInput> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }
@@ -992,7 +1004,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The shape of the input. If "round" it will have an increased border radius. </para>
     /// </summary>
-    public static void SetShape(this AttributesBuilder<IonInput> b,string shape)
+    public static void SetShape(this AttributesBuilder<IonInput> b, string shape)
     {
         b.SetAttribute("shape", shape);
     }
@@ -1016,7 +1028,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
-    public static void SetSpellcheck(this AttributesBuilder<IonInput> b,bool spellcheck)
+    public static void SetSpellcheck(this AttributesBuilder<IonInput> b, bool spellcheck)
     {
         if (spellcheck) b.SetAttribute("spellcheck", "");
     }
@@ -1024,7 +1036,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> Works with the min and max attributes to limit the increments at which a value can be set. Possible values are: `"any"` or a positive floating point number. </para>
     /// </summary>
-    public static void SetStep(this AttributesBuilder<IonInput> b,string step)
+    public static void SetStep(this AttributesBuilder<IonInput> b, string step)
     {
         b.SetAttribute("step", step);
     }
@@ -1032,7 +1044,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The type of control to display. The default type is text. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonInput> b,string type)
+    public static void SetType(this AttributesBuilder<IonInput> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -1136,7 +1148,7 @@ public static partial class IonInputControl
     /// <summary>
     /// <para> The value of the input. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonInput> b,string value)
+    public static void SetValue(this AttributesBuilder<IonInput> b, string value)
     {
         b.SetAttribute("value", value);
     }

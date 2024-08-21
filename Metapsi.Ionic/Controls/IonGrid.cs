@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonGrid : IonComponent
+public partial class IonGrid
 {
-    public IonGrid() : base("ion-grid") { }
 }
 
 public static partial class IonGridControl
@@ -21,14 +19,28 @@ public static partial class IonGridControl
     /// </summary>
     public static IHtmlNode IonGrid(this HtmlBuilder b, Action<AttributesBuilder<IonGrid>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-grid", buildAttributes, children);
+        return b.IonicTag("ion-grid", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonGrid(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-grid", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-grid", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonGrid(this HtmlBuilder b, Action<AttributesBuilder<IonGrid>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-grid", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonGrid(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-grid", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the grid will have a fixed width based on the screen size. </para>
@@ -41,7 +53,7 @@ public static partial class IonGridControl
     /// <summary>
     /// <para> If `true`, the grid will have a fixed width based on the screen size. </para>
     /// </summary>
-    public static void SetFixed(this AttributesBuilder<IonGrid> b,bool @fixed)
+    public static void SetFixed(this AttributesBuilder<IonGrid> b, bool @fixed)
     {
         if (@fixed) b.SetAttribute("fixed", "");
     }

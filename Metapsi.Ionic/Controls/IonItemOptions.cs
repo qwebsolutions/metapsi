@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemOptions : IonComponent
+public partial class IonItemOptions
 {
-    public IonItemOptions() : base("ion-item-options") { }
 }
 
 public static partial class IonItemOptionsControl
@@ -21,19 +19,33 @@ public static partial class IonItemOptionsControl
     /// </summary>
     public static IHtmlNode IonItemOptions(this HtmlBuilder b, Action<AttributesBuilder<IonItemOptions>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-options", buildAttributes, children);
+        return b.IonicTag("ion-item-options", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonItemOptions(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-options", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-item-options", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemOptions(this HtmlBuilder b, Action<AttributesBuilder<IonItemOptions>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-options", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemOptions(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-options", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The side the option button should be on. Possible values: `"start"` and `"end"`. If you have multiple `ion-item-options`, a side must be provided for each. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonItemOptions> b,string side)
+    public static void SetSide(this AttributesBuilder<IonItemOptions> b, string side)
     {
         b.SetAttribute("side", side);
     }

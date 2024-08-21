@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonReorderGroup : IonComponent
+public partial class IonReorderGroup
 {
-    public IonReorderGroup() : base("ion-reorder-group") { }
     public static class Method
     {
         /// <summary>
@@ -30,14 +28,28 @@ public static partial class IonReorderGroupControl
     /// </summary>
     public static IHtmlNode IonReorderGroup(this HtmlBuilder b, Action<AttributesBuilder<IonReorderGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-reorder-group", buildAttributes, children);
+        return b.IonicTag("ion-reorder-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonReorderGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-reorder-group", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-reorder-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonReorderGroup(this HtmlBuilder b, Action<AttributesBuilder<IonReorderGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-reorder-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonReorderGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-reorder-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the reorder will be hidden. </para>
@@ -50,7 +62,7 @@ public static partial class IonReorderGroupControl
     /// <summary>
     /// <para> If `true`, the reorder will be hidden. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonReorderGroup> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonReorderGroup> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

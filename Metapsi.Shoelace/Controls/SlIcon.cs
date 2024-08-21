@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlIcon : SlComponent
+public partial class SlIcon
 {
-    public SlIcon() : base("sl-icon") { }
     public static class Method
     {
         /// <summary>
@@ -28,19 +26,33 @@ public static partial class SlIconControl
     /// </summary>
     public static IHtmlNode SlIcon(this HtmlBuilder b, Action<AttributesBuilder<SlIcon>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-icon", buildAttributes, children);
+        return b.SlTag("sl-icon", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlIcon(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-icon", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-icon", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlIcon(this HtmlBuilder b, Action<AttributesBuilder<SlIcon>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-icon", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlIcon(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-icon", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the icon to draw. Available names depend on the icon library being used. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlIcon> b,string name)
+    public static void SetName(this AttributesBuilder<SlIcon> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -48,7 +60,7 @@ public static partial class SlIconControl
     /// <summary>
     /// <para> An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<SlIcon> b,string src)
+    public static void SetSrc(this AttributesBuilder<SlIcon> b, string src)
     {
         b.SetAttribute("src", src);
     }
@@ -56,7 +68,7 @@ public static partial class SlIconControl
     /// <summary>
     /// <para> An alternate description to use for assistive devices. If omitted, the icon will be considered presentational and ignored by assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlIcon> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlIcon> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -64,7 +76,7 @@ public static partial class SlIconControl
     /// <summary>
     /// <para> The name of a registered custom icon library. </para>
     /// </summary>
-    public static void SetLibrary(this AttributesBuilder<SlIcon> b,string library)
+    public static void SetLibrary(this AttributesBuilder<SlIcon> b, string library)
     {
         b.SetAttribute("library", library);
     }

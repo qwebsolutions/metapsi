@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlAnimation : SlComponent
+public partial class SlAnimation
 {
-    public SlAnimation() : base("sl-animation") { }
     public static class Method
     {
         /// <summary>
@@ -32,19 +30,33 @@ public static partial class SlAnimationControl
     /// </summary>
     public static IHtmlNode SlAnimation(this HtmlBuilder b, Action<AttributesBuilder<SlAnimation>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-animation", buildAttributes, children);
+        return b.SlTag("sl-animation", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlAnimation(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-animation", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-animation", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAnimation(this HtmlBuilder b, Action<AttributesBuilder<SlAnimation>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-animation", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAnimation(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-animation", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the built-in animation to use. For custom animations, use the `keyframes` prop. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlAnimation> b,string name)
+    public static void SetName(this AttributesBuilder<SlAnimation> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -60,7 +72,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Plays the animation. When omitted, the animation will be paused. This attribute will be automatically removed when the animation finishes or gets canceled. </para>
     /// </summary>
-    public static void SetPlay(this AttributesBuilder<SlAnimation> b,bool play)
+    public static void SetPlay(this AttributesBuilder<SlAnimation> b, bool play)
     {
         if (play) b.SetAttribute("play", "");
     }
@@ -68,7 +80,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The number of milliseconds to delay the start of the animation. </para>
     /// </summary>
-    public static void SetDelay(this AttributesBuilder<SlAnimation> b,string delay)
+    public static void SetDelay(this AttributesBuilder<SlAnimation> b, string delay)
     {
         b.SetAttribute("delay", delay);
     }
@@ -76,7 +88,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Determines the direction of playback as well as the behavior when reaching the end of an iteration. [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction) </para>
     /// </summary>
-    public static void SetDirection(this AttributesBuilder<SlAnimation> b,string direction)
+    public static void SetDirection(this AttributesBuilder<SlAnimation> b, string direction)
     {
         b.SetAttribute("direction", direction);
     }
@@ -84,7 +96,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The number of milliseconds each iteration of the animation takes to complete. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<SlAnimation> b,string duration)
+    public static void SetDuration(this AttributesBuilder<SlAnimation> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }
@@ -92,7 +104,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The easing function to use for the animation. This can be a Shoelace easing function or a custom easing function such as `cubic-bezier(0, 1, .76, 1.14)`. </para>
     /// </summary>
-    public static void SetEasing(this AttributesBuilder<SlAnimation> b,string easing)
+    public static void SetEasing(this AttributesBuilder<SlAnimation> b, string easing)
     {
         b.SetAttribute("easing", easing);
     }
@@ -100,7 +112,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The number of milliseconds to delay after the active period of an animation sequence. </para>
     /// </summary>
-    public static void SetEndDelay(this AttributesBuilder<SlAnimation> b,string endDelay)
+    public static void SetEndDelay(this AttributesBuilder<SlAnimation> b, string endDelay)
     {
         b.SetAttribute("end-delay", endDelay);
     }
@@ -108,7 +120,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Sets how the animation applies styles to its target before and after its execution. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<SlAnimation> b,string fill)
+    public static void SetFill(this AttributesBuilder<SlAnimation> b, string fill)
     {
         b.SetAttribute("fill", fill);
     }
@@ -116,7 +128,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The number of iterations to run before the animation completes. Defaults to `Infinity`, which loops. </para>
     /// </summary>
-    public static void SetIterations(this AttributesBuilder<SlAnimation> b,string iterations)
+    public static void SetIterations(this AttributesBuilder<SlAnimation> b, string iterations)
     {
         b.SetAttribute("iterations", iterations);
     }
@@ -124,7 +136,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> The offset at which to start the animation, usually between 0 (start) and 1 (end). </para>
     /// </summary>
-    public static void SetIterationStart(this AttributesBuilder<SlAnimation> b,string iterationStart)
+    public static void SetIterationStart(this AttributesBuilder<SlAnimation> b, string iterationStart)
     {
         b.SetAttribute("iteration-start", iterationStart);
     }
@@ -132,7 +144,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Sets the animation's playback rate. The default is `1`, which plays the animation at a normal speed. Setting this to `2`, for example, will double the animation's speed. A negative value can be used to reverse the animation. This value can be changed without causing the animation to restart. </para>
     /// </summary>
-    public static void SetPlaybackRate(this AttributesBuilder<SlAnimation> b,string playbackRate)
+    public static void SetPlaybackRate(this AttributesBuilder<SlAnimation> b, string playbackRate)
     {
         b.SetAttribute("playback-rate", playbackRate);
     }

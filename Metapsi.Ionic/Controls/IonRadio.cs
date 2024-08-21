@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRadio : IonComponent
+public partial class IonRadio
 {
-    public IonRadio() : base("ion-radio") { }
 }
 
 public static partial class IonRadioControl
@@ -21,19 +19,33 @@ public static partial class IonRadioControl
     /// </summary>
     public static IHtmlNode IonRadio(this HtmlBuilder b, Action<AttributesBuilder<IonRadio>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio", buildAttributes, children);
+        return b.IonicTag("ion-radio", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRadio(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-radio", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRadio(this HtmlBuilder b, Action<AttributesBuilder<IonRadio>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-radio", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRadio(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-radio", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
-    public static void SetAlignment(this AttributesBuilder<IonRadio> b,string alignment)
+    public static void SetAlignment(this AttributesBuilder<IonRadio> b, string alignment)
     {
         b.SetAttribute("alignment", alignment);
     }
@@ -57,7 +69,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonRadio> b,string color)
+    public static void SetColor(this AttributesBuilder<IonRadio> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -73,7 +85,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the radio. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonRadio> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonRadio> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -81,7 +93,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
-    public static void SetJustify(this AttributesBuilder<IonRadio> b,string justify)
+    public static void SetJustify(this AttributesBuilder<IonRadio> b, string justify)
     {
         b.SetAttribute("justify", justify);
     }
@@ -113,7 +125,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonRadio> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonRadio> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -153,7 +165,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRadio> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonRadio> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -177,7 +189,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonRadio> b,string name)
+    public static void SetName(this AttributesBuilder<IonRadio> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -185,7 +197,7 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> the value of the radio. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonRadio> b,string value)
+    public static void SetValue(this AttributesBuilder<IonRadio> b, string value)
     {
         b.SetAttribute("value", value);
     }

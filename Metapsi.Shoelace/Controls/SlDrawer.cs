@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDrawer : SlComponent
+public partial class SlDrawer
 {
-    public SlDrawer() : base("sl-drawer") { }
     /// <summary>
     ///
     /// </summary>
@@ -50,14 +48,28 @@ public static partial class SlDrawerControl
     /// </summary>
     public static IHtmlNode SlDrawer(this HtmlBuilder b, Action<AttributesBuilder<SlDrawer>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-drawer", buildAttributes, children);
+        return b.SlTag("sl-drawer", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlDrawer(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-drawer", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-drawer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDrawer(this HtmlBuilder b, Action<AttributesBuilder<SlDrawer>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-drawer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDrawer(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-drawer", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether or not the drawer is open. You can toggle this attribute to show and hide the drawer, or you can use the `show()` and `hide()` methods and this attribute will reflect the drawer's open state. </para>
@@ -70,7 +82,7 @@ public static partial class SlDrawerControl
     /// <summary>
     /// <para> Indicates whether or not the drawer is open. You can toggle this attribute to show and hide the drawer, or you can use the `show()` and `hide()` methods and this attribute will reflect the drawer's open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlDrawer> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlDrawer> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -78,7 +90,7 @@ public static partial class SlDrawerControl
     /// <summary>
     /// <para> The drawer's label as displayed in the header. You should always include a relevant label even when using `no-header`, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlDrawer> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlDrawer> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -86,7 +98,7 @@ public static partial class SlDrawerControl
     /// <summary>
     /// <para> The direction from which the drawer will open. </para>
     /// </summary>
-    public static void SetPlacement(this AttributesBuilder<SlDrawer> b,string placement)
+    public static void SetPlacement(this AttributesBuilder<SlDrawer> b, string placement)
     {
         b.SetAttribute("placement", placement);
     }
@@ -134,7 +146,7 @@ public static partial class SlDrawerControl
     /// <summary>
     /// <para> By default, the drawer slides out of its containing block (usually the viewport). To make the drawer slide out of its parent element, set this attribute and add `position: relative` to the parent. </para>
     /// </summary>
-    public static void SetContained(this AttributesBuilder<SlDrawer> b,bool contained)
+    public static void SetContained(this AttributesBuilder<SlDrawer> b, bool contained)
     {
         if (contained) b.SetAttribute("contained", "");
     }
@@ -150,7 +162,7 @@ public static partial class SlDrawerControl
     /// <summary>
     /// <para> Removes the header. This will also remove the default close button, so please ensure you provide an easy, accessible way for users to dismiss the drawer. </para>
     /// </summary>
-    public static void SetNoHeader(this AttributesBuilder<SlDrawer> b,bool noHeader)
+    public static void SetNoHeader(this AttributesBuilder<SlDrawer> b, bool noHeader)
     {
         if (noHeader) b.SetAttribute("no-header", "");
     }

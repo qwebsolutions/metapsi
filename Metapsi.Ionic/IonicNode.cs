@@ -3,12 +3,77 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
-using Metapsi.Ui;
 
 namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
+    public static IHtmlNode IonicTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        Action<AttributesBuilder<T>> setAttributes,
+        List<IHtmlNode> children)
+    {
+        ImportIonic(b);
+        return b.Tag(tag, setAttributes, children);
+    }
+
+    public static IHtmlNode IonicTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        Action<AttributesBuilder<T>> setAttributes,
+        params IHtmlNode[] children)
+    {
+        ImportIonic(b);
+        return b.Tag(tag, setAttributes, children);
+    }
+
+    public static IHtmlNode IonicTag(
+        this HtmlBuilder b,
+        string tag,
+        Dictionary<string, string> attributes,
+        List<IHtmlNode> children)
+    {
+        ImportIonic(b);
+        return b.Tag(tag, attributes, children);
+    }
+
+    public static IHtmlNode IonicTag(
+        this HtmlBuilder b,
+        string tag,
+        Dictionary<string, string> attributes,
+        params IHtmlNode[] children)
+    {
+        ImportIonic(b);
+        return b.Tag(tag, attributes, children);
+    }
+
+    public static IHtmlNode IonicTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        List<IHtmlNode> children)
+    {
+        ImportIonic(b);
+        return b.Tag(tag, children);
+    }
+
+    public static IHtmlNode IonicTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        params IHtmlNode[] children)
+    {
+        ImportIonic(b); 
+        return b.Tag(tag, children);
+    }
+
+    private static void ImportIonic(
+        this HtmlBuilder b)
+    {
+        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.esm.js", "module");
+        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.js");
+        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/css/ionic.bundle.css");
+    }
+
     public static Var<IVNode> IonicNode<TProps>(
         this LayoutBuilder b,
         Var<string> tag,
@@ -76,17 +141,5 @@ public static class IonicNodeImport
         params Var<IVNode>[] children)
     {
         return b.IonicNode(b.Const(tag), b.List(children));
-    }
-}
-
-public class IonComponent : HtmlComponent
-{
-    public IonComponent(string tagName) : base(tagName) { }
-
-    protected override void OnAttach(DocumentTag documentTag, IHtmlElement parentNode)
-    {
-        documentTag.Body.AddChild(new ExternalScriptTag($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.esm.js", "module"));
-        documentTag.Body.AddChild(new ExternalScriptTag($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.js", ""));
-        documentTag.Head.AddStylesheet($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/css/ionic.bundle.css");
     }
 }

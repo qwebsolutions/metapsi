@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDivider : SlComponent
+public partial class SlDivider
 {
-    public SlDivider() : base("sl-divider") { }
 }
 
 public static partial class SlDividerControl
@@ -21,14 +19,28 @@ public static partial class SlDividerControl
     /// </summary>
     public static IHtmlNode SlDivider(this HtmlBuilder b, Action<AttributesBuilder<SlDivider>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-divider", buildAttributes, children);
+        return b.SlTag("sl-divider", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlDivider(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-divider", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-divider", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDivider(this HtmlBuilder b, Action<AttributesBuilder<SlDivider>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-divider", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDivider(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-divider", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Draws the divider in a vertical orientation. </para>
@@ -41,7 +53,7 @@ public static partial class SlDividerControl
     /// <summary>
     /// <para> Draws the divider in a vertical orientation. </para>
     /// </summary>
-    public static void SetVertical(this AttributesBuilder<SlDivider> b,bool vertical)
+    public static void SetVertical(this AttributesBuilder<SlDivider> b, bool vertical)
     {
         if (vertical) b.SetAttribute("vertical", "");
     }

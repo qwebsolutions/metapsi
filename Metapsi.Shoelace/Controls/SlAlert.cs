@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlAlert : SlComponent
+public partial class SlAlert
 {
-    public SlAlert() : base("sl-alert") { }
     /// <summary>
     ///
     /// </summary>
@@ -46,14 +44,28 @@ public static partial class SlAlertControl
     /// </summary>
     public static IHtmlNode SlAlert(this HtmlBuilder b, Action<AttributesBuilder<SlAlert>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-alert", buildAttributes, children);
+        return b.SlTag("sl-alert", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlAlert(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-alert", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-alert", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAlert(this HtmlBuilder b, Action<AttributesBuilder<SlAlert>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-alert", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAlert(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-alert", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert, or you can use the `show()` and `hide()` methods and this attribute will reflect the alert's open state. </para>
@@ -66,7 +78,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// <para> Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert, or you can use the `show()` and `hide()` methods and this attribute will reflect the alert's open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlAlert> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlAlert> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -82,7 +94,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// <para> Enables a close button that allows the user to dismiss the alert. </para>
     /// </summary>
-    public static void SetClosable(this AttributesBuilder<SlAlert> b,bool closable)
+    public static void SetClosable(this AttributesBuilder<SlAlert> b, bool closable)
     {
         if (closable) b.SetAttribute("closable", "");
     }
@@ -90,7 +102,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// <para> The alert's theme variant. </para>
     /// </summary>
-    public static void SetVariant(this AttributesBuilder<SlAlert> b,string variant)
+    public static void SetVariant(this AttributesBuilder<SlAlert> b, string variant)
     {
         b.SetAttribute("variant", variant);
     }
@@ -138,7 +150,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// <para> The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`, meaning the alert will not close on its own. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<SlAlert> b,string duration)
+    public static void SetDuration(this AttributesBuilder<SlAlert> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRange : IonComponent
+public partial class IonRange
 {
-    public IonRange() : base("ion-range") { }
     /// <summary>
     ///
     /// </summary>
@@ -39,19 +37,33 @@ public static partial class IonRangeControl
     /// </summary>
     public static IHtmlNode IonRange(this HtmlBuilder b, Action<AttributesBuilder<IonRange>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-range", buildAttributes, children);
+        return b.IonicTag("ion-range", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRange(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-range", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-range", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRange(this HtmlBuilder b, Action<AttributesBuilder<IonRange>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-range", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRange(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-range", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value. </para>
     /// </summary>
-    public static void SetActiveBarStart(this AttributesBuilder<IonRange> b,string activeBarStart)
+    public static void SetActiveBarStart(this AttributesBuilder<IonRange> b, string activeBarStart)
     {
         b.SetAttribute("active-bar-start", activeBarStart);
     }
@@ -59,7 +71,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonRange> b,string color)
+    public static void SetColor(this AttributesBuilder<IonRange> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -67,7 +79,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonRange> b,string debounce)
+    public static void SetDebounce(this AttributesBuilder<IonRange> b, string debounce)
     {
         b.SetAttribute("debounce", debounce);
     }
@@ -83,7 +95,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the range. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonRange> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonRange> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -99,7 +111,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> Show two knobs. </para>
     /// </summary>
-    public static void SetDualKnobs(this AttributesBuilder<IonRange> b,bool dualKnobs)
+    public static void SetDualKnobs(this AttributesBuilder<IonRange> b, bool dualKnobs)
     {
         if (dualKnobs) b.SetAttribute("dual-knobs", "");
     }
@@ -107,7 +119,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonRange> b,string label)
+    public static void SetLabel(this AttributesBuilder<IonRange> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -115,7 +127,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonRange> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonRange> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -155,7 +167,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> Maximum integer value of the range. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<IonRange> b,string max)
+    public static void SetMax(this AttributesBuilder<IonRange> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -163,7 +175,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> Minimum integer value of the range. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<IonRange> b,string min)
+    public static void SetMin(this AttributesBuilder<IonRange> b, string min)
     {
         b.SetAttribute("min", min);
     }
@@ -171,7 +183,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRange> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonRange> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -195,7 +207,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonRange> b,string name)
+    public static void SetName(this AttributesBuilder<IonRange> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -211,7 +223,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
-    public static void SetPin(this AttributesBuilder<IonRange> b,bool pin)
+    public static void SetPin(this AttributesBuilder<IonRange> b, bool pin)
     {
         if (pin) b.SetAttribute("pin", "");
     }
@@ -227,7 +239,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
-    public static void SetSnaps(this AttributesBuilder<IonRange> b,bool snaps)
+    public static void SetSnaps(this AttributesBuilder<IonRange> b, bool snaps)
     {
         if (snaps) b.SetAttribute("snaps", "");
     }
@@ -235,7 +247,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> Specifies the value granularity. </para>
     /// </summary>
-    public static void SetStep(this AttributesBuilder<IonRange> b,string step)
+    public static void SetStep(this AttributesBuilder<IonRange> b, string step)
     {
         b.SetAttribute("step", step);
     }
@@ -251,7 +263,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
     /// </summary>
-    public static void SetTicks(this AttributesBuilder<IonRange> b,bool ticks)
+    public static void SetTicks(this AttributesBuilder<IonRange> b, bool ticks)
     {
         if (ticks) b.SetAttribute("ticks", "");
     }
@@ -259,7 +271,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> the value of the range. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonRange> b,string value)
+    public static void SetValue(this AttributesBuilder<IonRange> b, string value)
     {
         b.SetAttribute("value", value);
     }

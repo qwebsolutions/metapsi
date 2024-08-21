@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInfiniteScrollContent : IonComponent
+public partial class IonInfiniteScrollContent
 {
-    public IonInfiniteScrollContent() : base("ion-infinite-scroll-content") { }
 }
 
 public static partial class IonInfiniteScrollContentControl
@@ -21,19 +19,33 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static IHtmlNode IonInfiniteScrollContent(this HtmlBuilder b, Action<AttributesBuilder<IonInfiniteScrollContent>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-infinite-scroll-content", buildAttributes, children);
+        return b.IonicTag("ion-infinite-scroll-content", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonInfiniteScrollContent(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-infinite-scroll-content", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-infinite-scroll-content", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInfiniteScrollContent(this HtmlBuilder b, Action<AttributesBuilder<IonInfiniteScrollContent>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-infinite-scroll-content", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInfiniteScrollContent(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-infinite-scroll-content", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> An animated SVG spinner that shows while loading. </para>
     /// </summary>
-    public static void SetLoadingSpinner(this AttributesBuilder<IonInfiniteScrollContent> b,string loadingSpinner)
+    public static void SetLoadingSpinner(this AttributesBuilder<IonInfiniteScrollContent> b, string loadingSpinner)
     {
         b.SetAttribute("loading-spinner", loadingSpinner);
     }
@@ -113,7 +125,7 @@ public static partial class IonInfiniteScrollContentControl
     /// <summary>
     /// <para> Optional text to display while loading. `loadingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetLoadingText(this AttributesBuilder<IonInfiniteScrollContent> b,string loadingText)
+    public static void SetLoadingText(this AttributesBuilder<IonInfiniteScrollContent> b, string loadingText)
     {
         b.SetAttribute("loading-text", loadingText);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTabBar : IonComponent
+public partial class IonTabBar
 {
-    public IonTabBar() : base("ion-tab-bar") { }
 }
 
 public static partial class IonTabBarControl
@@ -21,19 +19,33 @@ public static partial class IonTabBarControl
     /// </summary>
     public static IHtmlNode IonTabBar(this HtmlBuilder b, Action<AttributesBuilder<IonTabBar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab-bar", buildAttributes, children);
+        return b.IonicTag("ion-tab-bar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTabBar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab-bar", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-tab-bar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabBar(this HtmlBuilder b, Action<AttributesBuilder<IonTabBar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab-bar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabBar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab-bar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonTabBar> b,string color)
+    public static void SetColor(this AttributesBuilder<IonTabBar> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonTabBarControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonTabBar> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonTabBar> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -65,7 +77,7 @@ public static partial class IonTabBarControl
     /// <summary>
     /// <para> The selected tab component </para>
     /// </summary>
-    public static void SetSelectedTab(this AttributesBuilder<IonTabBar> b,string selectedTab)
+    public static void SetSelectedTab(this AttributesBuilder<IonTabBar> b, string selectedTab)
     {
         b.SetAttribute("selected-tab", selectedTab);
     }
@@ -81,7 +93,7 @@ public static partial class IonTabBarControl
     /// <summary>
     /// <para> If `true`, the tab bar will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonTabBar> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonTabBar> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonActionSheet : IonComponent
+public partial class IonActionSheet
 {
-    public IonActionSheet() : base("ion-action-sheet") { }
     public static class Method
     {
         /// <summary>
@@ -46,14 +44,28 @@ public static partial class IonActionSheetControl
     /// </summary>
     public static IHtmlNode IonActionSheet(this HtmlBuilder b, Action<AttributesBuilder<IonActionSheet>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-action-sheet", buildAttributes, children);
+        return b.IonicTag("ion-action-sheet", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonActionSheet(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-action-sheet", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-action-sheet", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonActionSheet(this HtmlBuilder b, Action<AttributesBuilder<IonActionSheet>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-action-sheet", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonActionSheet(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-action-sheet", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the action sheet will animate. </para>
@@ -66,7 +78,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> If `true`, the action sheet will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonActionSheet> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonActionSheet> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -82,7 +94,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> If `true`, the action sheet will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonActionSheet> b,bool backdropDismiss)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonActionSheet> b, bool backdropDismiss)
     {
         if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
@@ -90,7 +102,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonActionSheet> b,string cssClass)
+    public static void SetCssClass(this AttributesBuilder<IonActionSheet> b, string cssClass)
     {
         b.SetAttribute("css-class", cssClass);
     }
@@ -98,7 +110,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> Title for the action sheet. </para>
     /// </summary>
-    public static void SetHeader(this AttributesBuilder<IonActionSheet> b,string header)
+    public static void SetHeader(this AttributesBuilder<IonActionSheet> b, string header)
     {
         b.SetAttribute("header", header);
     }
@@ -114,7 +126,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> If `true`, the action sheet will open. If `false`, the action sheet will close. Use this if you need finer grained control over presentation, otherwise just use the actionSheetController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the action sheet dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonActionSheet> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonActionSheet> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -130,7 +142,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonActionSheet> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonActionSheet> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -138,7 +150,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonActionSheet> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonActionSheet> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -162,7 +174,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> Subtitle for the action sheet. </para>
     /// </summary>
-    public static void SetSubHeader(this AttributesBuilder<IonActionSheet> b,string subHeader)
+    public static void SetSubHeader(this AttributesBuilder<IonActionSheet> b, string subHeader)
     {
         b.SetAttribute("sub-header", subHeader);
     }
@@ -178,7 +190,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> If `true`, the action sheet will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonActionSheet> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonActionSheet> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }
@@ -186,7 +198,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the action sheet to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonActionSheet> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonActionSheet> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }

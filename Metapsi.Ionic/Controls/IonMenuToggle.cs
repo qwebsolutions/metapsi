@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonMenuToggle : IonComponent
+public partial class IonMenuToggle
 {
-    public IonMenuToggle() : base("ion-menu-toggle") { }
 }
 
 public static partial class IonMenuToggleControl
@@ -21,14 +19,28 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static IHtmlNode IonMenuToggle(this HtmlBuilder b, Action<AttributesBuilder<IonMenuToggle>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu-toggle", buildAttributes, children);
+        return b.IonicTag("ion-menu-toggle", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonMenuToggle(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu-toggle", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-menu-toggle", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenuToggle(this HtmlBuilder b, Action<AttributesBuilder<IonMenuToggle>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu-toggle", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenuToggle(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu-toggle", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Automatically hides the content when the corresponding menu is not active.  By default, it's `true`. Change it to `false` in order to keep `ion-menu-toggle` always visible regardless the state of the menu. </para>
@@ -41,7 +53,7 @@ public static partial class IonMenuToggleControl
     /// <summary>
     /// <para> Automatically hides the content when the corresponding menu is not active.  By default, it's `true`. Change it to `false` in order to keep `ion-menu-toggle` always visible regardless the state of the menu. </para>
     /// </summary>
-    public static void SetAutoHide(this AttributesBuilder<IonMenuToggle> b,bool autoHide)
+    public static void SetAutoHide(this AttributesBuilder<IonMenuToggle> b, bool autoHide)
     {
         if (autoHide) b.SetAttribute("auto-hide", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonMenuToggleControl
     /// <summary>
     /// <para> Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle.  If this property is not used, `ion-menu-toggle` will toggle the first menu that is active. </para>
     /// </summary>
-    public static void SetMenu(this AttributesBuilder<IonMenuToggle> b,string menu)
+    public static void SetMenu(this AttributesBuilder<IonMenuToggle> b, string menu)
     {
         b.SetAttribute("menu", menu);
     }

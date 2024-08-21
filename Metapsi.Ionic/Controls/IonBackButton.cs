@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBackButton : IonComponent
+public partial class IonBackButton
 {
-    public IonBackButton() : base("ion-back-button") { }
 }
 
 public static partial class IonBackButtonControl
@@ -21,19 +19,33 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static IHtmlNode IonBackButton(this HtmlBuilder b, Action<AttributesBuilder<IonBackButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-back-button", buildAttributes, children);
+        return b.IonicTag("ion-back-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonBackButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-back-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-back-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackButton(this HtmlBuilder b, Action<AttributesBuilder<IonBackButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-back-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-back-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonBackButton> b,string color)
+    public static void SetColor(this AttributesBuilder<IonBackButton> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> The url to navigate back to by default when there is no history. </para>
     /// </summary>
-    public static void SetDefaultHref(this AttributesBuilder<IonBackButton> b,string defaultHref)
+    public static void SetDefaultHref(this AttributesBuilder<IonBackButton> b, string defaultHref)
     {
         b.SetAttribute("default-href", defaultHref);
     }
@@ -57,7 +69,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonBackButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonBackButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -65,7 +77,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> The built-in named SVG icon name or the exact `src` of an SVG file to use for the back button. </para>
     /// </summary>
-    public static void SetIcon(this AttributesBuilder<IonBackButton> b,string icon)
+    public static void SetIcon(this AttributesBuilder<IonBackButton> b, string icon)
     {
         b.SetAttribute("icon", icon);
     }
@@ -73,7 +85,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonBackButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonBackButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -97,7 +109,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> The text to display in the back button. </para>
     /// </summary>
-    public static void SetText(this AttributesBuilder<IonBackButton> b,string text)
+    public static void SetText(this AttributesBuilder<IonBackButton> b, string text)
     {
         b.SetAttribute("text", text);
     }
@@ -105,7 +117,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> The type of the button. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonBackButton> b,string type)
+    public static void SetType(this AttributesBuilder<IonBackButton> b, string type)
     {
         b.SetAttribute("type", type);
     }

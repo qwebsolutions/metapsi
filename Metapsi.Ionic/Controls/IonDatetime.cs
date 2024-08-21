@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonDatetime : IonComponent
+public partial class IonDatetime
 {
-    public IonDatetime() : base("ion-datetime") { }
     /// <summary>
     ///
     /// </summary>
@@ -60,19 +58,33 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static IHtmlNode IonDatetime(this HtmlBuilder b, Action<AttributesBuilder<IonDatetime>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime", buildAttributes, children);
+        return b.IonicTag("ion-datetime", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonDatetime(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-datetime", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonDatetime(this HtmlBuilder b, Action<AttributesBuilder<IonDatetime>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-datetime", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonDatetime(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-datetime", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The text to display on the picker's cancel button. </para>
     /// </summary>
-    public static void SetCancelText(this AttributesBuilder<IonDatetime> b,string cancelText)
+    public static void SetCancelText(this AttributesBuilder<IonDatetime> b, string cancelText)
     {
         b.SetAttribute("cancel-text", cancelText);
     }
@@ -80,7 +92,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The text to display on the picker's "Clear" button. </para>
     /// </summary>
-    public static void SetClearText(this AttributesBuilder<IonDatetime> b,string clearText)
+    public static void SetClearText(this AttributesBuilder<IonDatetime> b, string clearText)
     {
         b.SetAttribute("clear-text", clearText);
     }
@@ -88,7 +100,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonDatetime> b,string color)
+    public static void SetColor(this AttributesBuilder<IonDatetime> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -96,7 +108,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Values used to create the list of selectable days. By default every day is shown for the given month. However, to control exactly which days of the month to display, the `dayValues` input can take a number, an array of numbers, or a string of comma separated numbers. Note that even if the array days have an invalid number for the selected month, like `31` in February, it will correctly not show days which are not valid for the selected month. </para>
     /// </summary>
-    public static void SetDayValues(this AttributesBuilder<IonDatetime> b,string dayValues)
+    public static void SetDayValues(this AttributesBuilder<IonDatetime> b, string dayValues)
     {
         b.SetAttribute("day-values", dayValues);
     }
@@ -112,7 +124,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the datetime. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonDatetime> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonDatetime> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -120,7 +132,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The text to display on the picker's "Done" button. </para>
     /// </summary>
-    public static void SetDoneText(this AttributesBuilder<IonDatetime> b,string doneText)
+    public static void SetDoneText(this AttributesBuilder<IonDatetime> b, string doneText)
     {
         b.SetAttribute("done-text", doneText);
     }
@@ -128,7 +140,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The first day of the week to use for `ion-datetime`. The default value is `0` and represents Sunday. </para>
     /// </summary>
-    public static void SetFirstDayOfWeek(this AttributesBuilder<IonDatetime> b,string firstDayOfWeek)
+    public static void SetFirstDayOfWeek(this AttributesBuilder<IonDatetime> b, string firstDayOfWeek)
     {
         b.SetAttribute("first-day-of-week", firstDayOfWeek);
     }
@@ -136,7 +148,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The hour cycle of the `ion-datetime`. If no value is set, this is specified by the current locale. </para>
     /// </summary>
-    public static void SetHourCycle(this AttributesBuilder<IonDatetime> b,string hourCycle)
+    public static void SetHourCycle(this AttributesBuilder<IonDatetime> b, string hourCycle)
     {
         b.SetAttribute("hour-cycle", hourCycle);
     }
@@ -176,7 +188,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Values used to create the list of selectable hours. By default the hour values range from `0` to `23` for 24-hour, or `1` to `12` for 12-hour. However, to control exactly which hours to display, the `hourValues` input can take a number, an array of numbers, or a string of comma separated numbers. </para>
     /// </summary>
-    public static void SetHourValues(this AttributesBuilder<IonDatetime> b,string hourValues)
+    public static void SetHourValues(this AttributesBuilder<IonDatetime> b, string hourValues)
     {
         b.SetAttribute("hour-values", hourValues);
     }
@@ -184,7 +196,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The locale to use for `ion-datetime`. This impacts month and day name formatting. The `"default"` value refers to the default locale set by your device. </para>
     /// </summary>
-    public static void SetLocale(this AttributesBuilder<IonDatetime> b,string locale)
+    public static void SetLocale(this AttributesBuilder<IonDatetime> b, string locale)
     {
         b.SetAttribute("locale", locale);
     }
@@ -192,7 +204,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The maximum datetime allowed. Value must be a date string following the [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime), `1996-12-19`. The format does not have to be specific to an exact datetime. For example, the maximum could just be the year, such as `1994`. Defaults to the end of this year. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<IonDatetime> b,string max)
+    public static void SetMax(this AttributesBuilder<IonDatetime> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -200,7 +212,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The minimum datetime allowed. Value must be a date string following the [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime), such as `1996-12-19`. The format does not have to be specific to an exact datetime. For example, the minimum could just be the year, such as `1994`. Defaults to the beginning of the year, 100 years ago from today. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<IonDatetime> b,string min)
+    public static void SetMin(this AttributesBuilder<IonDatetime> b, string min)
     {
         b.SetAttribute("min", min);
     }
@@ -208,7 +220,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Values used to create the list of selectable minutes. By default the minutes range from `0` to `59`. However, to control exactly which minutes to display, the `minuteValues` input can take a number, an array of numbers, or a string of comma separated numbers. For example, if the minute selections should only be every 15 minutes, then this input value would be `minuteValues="0,15,30,45"`. </para>
     /// </summary>
-    public static void SetMinuteValues(this AttributesBuilder<IonDatetime> b,string minuteValues)
+    public static void SetMinuteValues(this AttributesBuilder<IonDatetime> b, string minuteValues)
     {
         b.SetAttribute("minute-values", minuteValues);
     }
@@ -216,7 +228,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonDatetime> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonDatetime> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -240,7 +252,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Values used to create the list of selectable months. By default the month values range from `1` to `12`. However, to control exactly which months to display, the `monthValues` input can take a number, an array of numbers, or a string of comma separated numbers. For example, if only summer months should be shown, then this input value would be `monthValues="6,7,8"`. Note that month numbers do *not* have a zero-based index, meaning January's value is `1`, and December's is `12`. </para>
     /// </summary>
-    public static void SetMonthValues(this AttributesBuilder<IonDatetime> b,string monthValues)
+    public static void SetMonthValues(this AttributesBuilder<IonDatetime> b, string monthValues)
     {
         b.SetAttribute("month-values", monthValues);
     }
@@ -256,7 +268,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, multiple dates can be selected at once. Only applies to `presentation="date"` and `preferWheel="false"`. </para>
     /// </summary>
-    public static void SetMultiple(this AttributesBuilder<IonDatetime> b,bool multiple)
+    public static void SetMultiple(this AttributesBuilder<IonDatetime> b, bool multiple)
     {
         if (multiple) b.SetAttribute("multiple", "");
     }
@@ -264,7 +276,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonDatetime> b,string name)
+    public static void SetName(this AttributesBuilder<IonDatetime> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -280,7 +292,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, a wheel picker will be rendered instead of a calendar grid where possible. If `false`, a calendar grid will be rendered instead of a wheel picker where possible.  A wheel picker can be rendered instead of a grid when `presentation` is one of the following values: `"date"`, `"date-time"`, or `"time-date"`.  A wheel picker will always be rendered regardless of the `preferWheel` value when `presentation` is one of the following values: `"time"`, `"month"`, `"month-year"`, or `"year"`. </para>
     /// </summary>
-    public static void SetPreferWheel(this AttributesBuilder<IonDatetime> b,bool preferWheel)
+    public static void SetPreferWheel(this AttributesBuilder<IonDatetime> b, bool preferWheel)
     {
         if (preferWheel) b.SetAttribute("prefer-wheel", "");
     }
@@ -288,7 +300,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Which values you want to select. `"date"` will show a calendar picker to select the month, day, and year. `"time"` will show a time picker to select the hour, minute, and (optionally) AM/PM. `"date-time"` will show the date picker first and time picker second. `"time-date"` will show the time picker first and date picker second. </para>
     /// </summary>
-    public static void SetPresentation(this AttributesBuilder<IonDatetime> b,string presentation)
+    public static void SetPresentation(this AttributesBuilder<IonDatetime> b, string presentation)
     {
         b.SetAttribute("presentation", presentation);
     }
@@ -360,7 +372,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, the datetime appears normal but the selected date cannot be changed. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonDatetime> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<IonDatetime> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -376,7 +388,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, a "Clear" button will be rendered alongside the default "Cancel" and "OK" buttons at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered. </para>
     /// </summary>
-    public static void SetShowClearButton(this AttributesBuilder<IonDatetime> b,bool showClearButton)
+    public static void SetShowClearButton(this AttributesBuilder<IonDatetime> b, bool showClearButton)
     {
         if (showClearButton) b.SetAttribute("show-clear-button", "");
     }
@@ -392,7 +404,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, the default "Cancel" and "OK" buttons will be rendered at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered. </para>
     /// </summary>
-    public static void SetShowDefaultButtons(this AttributesBuilder<IonDatetime> b,bool showDefaultButtons)
+    public static void SetShowDefaultButtons(this AttributesBuilder<IonDatetime> b, bool showDefaultButtons)
     {
         if (showDefaultButtons) b.SetAttribute("show-default-buttons", "");
     }
@@ -408,7 +420,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, the default "Time" label will be rendered for the time selector of the `ion-datetime` component. Developers can also use the `time-label` slot if they want to customize this label. If a custom label is set in the `time-label` slot then the default label will not be rendered. </para>
     /// </summary>
-    public static void SetShowDefaultTimeLabel(this AttributesBuilder<IonDatetime> b,bool showDefaultTimeLabel)
+    public static void SetShowDefaultTimeLabel(this AttributesBuilder<IonDatetime> b, bool showDefaultTimeLabel)
     {
         if (showDefaultTimeLabel) b.SetAttribute("show-default-time-label", "");
     }
@@ -424,7 +436,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `true`, a header will be shown above the calendar picker. This will include both the slotted title, and the selected date. </para>
     /// </summary>
-    public static void SetShowDefaultTitle(this AttributesBuilder<IonDatetime> b,bool showDefaultTitle)
+    public static void SetShowDefaultTitle(this AttributesBuilder<IonDatetime> b, bool showDefaultTitle)
     {
         if (showDefaultTitle) b.SetAttribute("show-default-title", "");
     }
@@ -432,7 +444,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> If `cover`, the `ion-datetime` will expand to cover the full width of its container. If `fixed`, the `ion-datetime` will have a fixed width. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonDatetime> b,string size)
+    public static void SetSize(this AttributesBuilder<IonDatetime> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -456,7 +468,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> The value of the datetime as a valid ISO 8601 datetime string. This should be an array of strings only when `multiple="true"`. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonDatetime> b,string value)
+    public static void SetValue(this AttributesBuilder<IonDatetime> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -464,7 +476,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// <para> Values used to create the list of selectable years. By default the year values range between the `min` and `max` datetime inputs. However, to control exactly which years to display, the `yearValues` input can take a number, an array of numbers, or string of comma separated numbers. For example, to show upcoming and recent leap years, then this input's value would be `yearValues="2008,2012,2016,2020,2024"`. </para>
     /// </summary>
-    public static void SetYearValues(this AttributesBuilder<IonDatetime> b,string yearValues)
+    public static void SetYearValues(this AttributesBuilder<IonDatetime> b, string yearValues)
     {
         b.SetAttribute("year-values", yearValues);
     }

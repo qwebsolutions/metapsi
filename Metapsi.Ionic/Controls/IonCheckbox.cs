@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCheckbox : IonComponent
+public partial class IonCheckbox
 {
-    public IonCheckbox() : base("ion-checkbox") { }
 }
 
 public static partial class IonCheckboxControl
@@ -21,19 +19,33 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static IHtmlNode IonCheckbox(this HtmlBuilder b, Action<AttributesBuilder<IonCheckbox>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-checkbox", buildAttributes, children);
+        return b.IonicTag("ion-checkbox", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonCheckbox(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-checkbox", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-checkbox", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCheckbox(this HtmlBuilder b, Action<AttributesBuilder<IonCheckbox>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-checkbox", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCheckbox(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-checkbox", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
-    public static void SetAlignment(this AttributesBuilder<IonCheckbox> b,string alignment)
+    public static void SetAlignment(this AttributesBuilder<IonCheckbox> b, string alignment)
     {
         b.SetAttribute("alignment", alignment);
     }
@@ -65,7 +77,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> If `true`, the checkbox is selected. </para>
     /// </summary>
-    public static void SetChecked(this AttributesBuilder<IonCheckbox> b,bool @checked)
+    public static void SetChecked(this AttributesBuilder<IonCheckbox> b, bool @checked)
     {
         if (@checked) b.SetAttribute("checked", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonCheckbox> b,string color)
+    public static void SetColor(this AttributesBuilder<IonCheckbox> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -89,7 +101,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the checkbox. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonCheckbox> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonCheckbox> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -105,7 +117,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> If `true`, the checkbox will visually appear as indeterminate. </para>
     /// </summary>
-    public static void SetIndeterminate(this AttributesBuilder<IonCheckbox> b,bool indeterminate)
+    public static void SetIndeterminate(this AttributesBuilder<IonCheckbox> b, bool indeterminate)
     {
         if (indeterminate) b.SetAttribute("indeterminate", "");
     }
@@ -113,7 +125,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
-    public static void SetJustify(this AttributesBuilder<IonCheckbox> b,string justify)
+    public static void SetJustify(this AttributesBuilder<IonCheckbox> b, string justify)
     {
         b.SetAttribute("justify", justify);
     }
@@ -145,7 +157,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> Where to place the label relative to the checkbox. `"start"`: The label will appear to the left of the checkbox in LTR and to the right in RTL. `"end"`: The label will appear to the right of the checkbox in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the checkbox regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonCheckbox> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonCheckbox> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -185,7 +197,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonCheckbox> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonCheckbox> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -209,7 +221,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonCheckbox> b,string name)
+    public static void SetName(this AttributesBuilder<IonCheckbox> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -217,7 +229,7 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonCheckbox> b,string value)
+    public static void SetValue(this AttributesBuilder<IonCheckbox> b, string value)
     {
         b.SetAttribute("value", value);
     }

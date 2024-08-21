@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonToolbar : IonComponent
+public partial class IonToolbar
 {
-    public IonToolbar() : base("ion-toolbar") { }
     /// <summary>
     /// <para> Content is placed between the named slots if provided without a slot. </para>
     /// </summary>
@@ -43,19 +41,33 @@ public static partial class IonToolbarControl
     /// </summary>
     public static IHtmlNode IonToolbar(this HtmlBuilder b, Action<AttributesBuilder<IonToolbar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toolbar", buildAttributes, children);
+        return b.IonicTag("ion-toolbar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonToolbar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toolbar", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-toolbar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToolbar(this HtmlBuilder b, Action<AttributesBuilder<IonToolbar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toolbar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToolbar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toolbar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonToolbar> b,string color)
+    public static void SetColor(this AttributesBuilder<IonToolbar> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -63,7 +75,7 @@ public static partial class IonToolbarControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonToolbar> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonToolbar> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

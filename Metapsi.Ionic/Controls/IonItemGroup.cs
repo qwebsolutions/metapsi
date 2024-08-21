@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemGroup : IonComponent
+public partial class IonItemGroup
 {
-    public IonItemGroup() : base("ion-item-group") { }
 }
 
 public static partial class IonItemGroupControl
@@ -21,14 +19,28 @@ public static partial class IonItemGroupControl
     /// </summary>
     public static IHtmlNode IonItemGroup(this HtmlBuilder b, Action<AttributesBuilder<IonItemGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-group", buildAttributes, children);
+        return b.IonicTag("ion-item-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonItemGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-group", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-item-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemGroup(this HtmlBuilder b, Action<AttributesBuilder<IonItemGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

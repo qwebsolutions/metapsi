@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSpinner : IonComponent
+public partial class IonSpinner
 {
-    public IonSpinner() : base("ion-spinner") { }
 }
 
 public static partial class IonSpinnerControl
@@ -21,19 +19,33 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static IHtmlNode IonSpinner(this HtmlBuilder b, Action<AttributesBuilder<IonSpinner>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-spinner", buildAttributes, children);
+        return b.IonicTag("ion-spinner", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSpinner(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-spinner", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-spinner", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSpinner(this HtmlBuilder b, Action<AttributesBuilder<IonSpinner>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-spinner", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSpinner(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-spinner", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonSpinner> b,string color)
+    public static void SetColor(this AttributesBuilder<IonSpinner> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonSpinnerControl
     /// <summary>
     /// <para> Duration of the spinner animation in milliseconds. The default varies based on the spinner. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<IonSpinner> b,string duration)
+    public static void SetDuration(this AttributesBuilder<IonSpinner> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }
@@ -49,7 +61,7 @@ public static partial class IonSpinnerControl
     /// <summary>
     /// <para> The name of the SVG spinner to use. If a name is not provided, the platform's default spinner will be used. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonSpinner> b,string name)
+    public static void SetName(this AttributesBuilder<IonSpinner> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -137,7 +149,7 @@ public static partial class IonSpinnerControl
     /// <summary>
     /// <para> If `true`, the spinner's animation will be paused. </para>
     /// </summary>
-    public static void SetPaused(this AttributesBuilder<IonSpinner> b,bool paused)
+    public static void SetPaused(this AttributesBuilder<IonSpinner> b, bool paused)
     {
         if (paused) b.SetAttribute("paused", "");
     }

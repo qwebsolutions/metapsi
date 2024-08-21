@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRadioGroup : SlComponent
+public partial class SlRadioGroup
 {
-    public SlRadioGroup() : base("sl-radio-group") { }
     /// <summary>
     ///
     /// </summary>
@@ -54,19 +52,33 @@ public static partial class SlRadioGroupControl
     /// </summary>
     public static IHtmlNode SlRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<SlRadioGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-radio-group", buildAttributes, children);
+        return b.SlTag("sl-radio-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlRadioGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-radio-group", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-radio-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<SlRadioGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlRadioGroup> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlRadioGroup> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -74,7 +86,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> The radio groups's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this AttributesBuilder<SlRadioGroup> b,string helpText)
+    public static void SetHelpText(this AttributesBuilder<SlRadioGroup> b, string helpText)
     {
         b.SetAttribute("help-text", helpText);
     }
@@ -82,7 +94,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> The name of the radio group, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlRadioGroup> b,string name)
+    public static void SetName(this AttributesBuilder<SlRadioGroup> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -90,7 +102,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> The current value of the radio group, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlRadioGroup> b,string value)
+    public static void SetValue(this AttributesBuilder<SlRadioGroup> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -98,7 +110,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlRadioGroup> b,string size)
+    public static void SetSize(this AttributesBuilder<SlRadioGroup> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -130,7 +142,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlRadioGroup> b,string form)
+    public static void SetForm(this AttributesBuilder<SlRadioGroup> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -146,7 +158,7 @@ public static partial class SlRadioGroupControl
     /// <summary>
     /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<SlRadioGroup> b,bool required)
+    public static void SetRequired(this AttributesBuilder<SlRadioGroup> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }

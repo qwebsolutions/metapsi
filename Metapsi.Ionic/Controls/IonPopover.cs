@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonPopover : IonComponent
+public partial class IonPopover
 {
-    public IonPopover() : base("ion-popover") { }
     public static class Method
     {
         /// <summary>
@@ -48,19 +46,33 @@ public static partial class IonPopoverControl
     /// </summary>
     public static IHtmlNode IonPopover(this HtmlBuilder b, Action<AttributesBuilder<IonPopover>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-popover", buildAttributes, children);
+        return b.IonicTag("ion-popover", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonPopover(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-popover", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-popover", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPopover(this HtmlBuilder b, Action<AttributesBuilder<IonPopover>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-popover", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPopover(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-popover", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Describes how to align the popover content with the `reference` point. Defaults to `"center"` for `ios` mode, and `"start"` for `md` mode. </para>
     /// </summary>
-    public static void SetAlignment(this AttributesBuilder<IonPopover> b,string alignment)
+    public static void SetAlignment(this AttributesBuilder<IonPopover> b, string alignment)
     {
         b.SetAttribute("alignment", alignment);
     }
@@ -100,7 +112,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonPopover> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonPopover> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -116,7 +128,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will display an arrow that points at the `reference` when running in `ios` mode. Does not apply in `md` mode. </para>
     /// </summary>
-    public static void SetArrow(this AttributesBuilder<IonPopover> b,bool arrow)
+    public static void SetArrow(this AttributesBuilder<IonPopover> b, bool arrow)
     {
         if (arrow) b.SetAttribute("arrow", "");
     }
@@ -132,7 +144,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonPopover> b,bool backdropDismiss)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonPopover> b, bool backdropDismiss)
     {
         if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
@@ -140,7 +152,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The component to display inside of the popover. You only need to use this if you are not using a JavaScript framework. Otherwise, you can just slot your component inside of `ion-popover`. </para>
     /// </summary>
-    public static void SetComponent(this AttributesBuilder<IonPopover> b,string component)
+    public static void SetComponent(this AttributesBuilder<IonPopover> b, string component)
     {
         b.SetAttribute("component", component);
     }
@@ -156,7 +168,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will be automatically dismissed when the content has been clicked. </para>
     /// </summary>
-    public static void SetDismissOnSelect(this AttributesBuilder<IonPopover> b,bool dismissOnSelect)
+    public static void SetDismissOnSelect(this AttributesBuilder<IonPopover> b, bool dismissOnSelect)
     {
         if (dismissOnSelect) b.SetAttribute("dismiss-on-select", "");
     }
@@ -164,7 +176,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The event to pass to the popover animation. </para>
     /// </summary>
-    public static void SetEvent(this AttributesBuilder<IonPopover> b,string @event)
+    public static void SetEvent(this AttributesBuilder<IonPopover> b, string @event)
     {
         b.SetAttribute("event", @event);
     }
@@ -180,7 +192,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will open. If `false`, the popover will close. Use this if you need finer grained control over presentation, otherwise just use the popoverController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the popover dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonPopover> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonPopover> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -196,7 +208,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the component passed into `ion-popover` will automatically be mounted when the popover is created. The component will remain mounted even when the popover is dismissed. However, the component will be destroyed when the popover is destroyed. This property is not reactive and should only be used when initially creating a popover.  Note: This feature only applies to inline popovers in JavaScript frameworks such as Angular, React, and Vue. </para>
     /// </summary>
-    public static void SetKeepContentsMounted(this AttributesBuilder<IonPopover> b,bool keepContentsMounted)
+    public static void SetKeepContentsMounted(this AttributesBuilder<IonPopover> b, bool keepContentsMounted)
     {
         if (keepContentsMounted) b.SetAttribute("keep-contents-mounted", "");
     }
@@ -212,7 +224,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonPopover> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonPopover> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -220,7 +232,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonPopover> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonPopover> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -244,7 +256,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Describes what to position the popover relative to. If `"trigger"`, the popover will be positioned relative to the trigger button. If passing in an event, this is determined via event.target. If `"event"`, the popover will be positioned relative to the x/y coordinates of the trigger action. If passing in an event, this is determined via event.clientX and event.clientY. </para>
     /// </summary>
-    public static void SetReference(this AttributesBuilder<IonPopover> b,string reference)
+    public static void SetReference(this AttributesBuilder<IonPopover> b, string reference)
     {
         b.SetAttribute("reference", reference);
     }
@@ -276,7 +288,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the popover. This property controls whether or not the backdrop darkens the screen when the popover is presented. It does not control whether or not the backdrop is active or present in the DOM. </para>
     /// </summary>
-    public static void SetShowBackdrop(this AttributesBuilder<IonPopover> b,bool showBackdrop)
+    public static void SetShowBackdrop(this AttributesBuilder<IonPopover> b, bool showBackdrop)
     {
         if (showBackdrop) b.SetAttribute("show-backdrop", "");
     }
@@ -284,7 +296,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Describes which side of the `reference` point to position the popover on. The `"start"` and `"end"` values are RTL-aware, and the `"left"` and `"right"` values are not. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonPopover> b,string side)
+    public static void SetSide(this AttributesBuilder<IonPopover> b, string side)
     {
         b.SetAttribute("side", side);
     }
@@ -340,7 +352,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Describes how to calculate the popover width. If `"cover"`, the popover width will match the width of the trigger. If `"auto"`, the popover width will be set to a static default value. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonPopover> b,string size)
+    public static void SetSize(this AttributesBuilder<IonPopover> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -372,7 +384,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> If `true`, the popover will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonPopover> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonPopover> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }
@@ -380,7 +392,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the popover to open. Use the `trigger-action` property to customize the interaction that results in the popover opening. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonPopover> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonPopover> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }
@@ -388,7 +400,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Describes what kind of interaction with the trigger that should cause the popover to open. Does not apply when the `trigger` property is `undefined`. If `"click"`, the popover will be presented when the trigger is left clicked. If `"hover"`, the popover will be presented when a pointer hovers over the trigger. If `"context-menu"`, the popover will be presented when the trigger is right clicked on desktop and long pressed on mobile. This will also prevent your device's normal context menu from appearing. </para>
     /// </summary>
-    public static void SetTriggerAction(this AttributesBuilder<IonPopover> b,string triggerAction)
+    public static void SetTriggerAction(this AttributesBuilder<IonPopover> b, string triggerAction)
     {
         b.SetAttribute("trigger-action", triggerAction);
     }

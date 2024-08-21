@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouterLink : IonComponent
+public partial class IonRouterLink
 {
-    public IonRouterLink() : base("ion-router-link") { }
 }
 
 public static partial class IonRouterLinkControl
@@ -21,19 +19,33 @@ public static partial class IonRouterLinkControl
     /// </summary>
     public static IHtmlNode IonRouterLink(this HtmlBuilder b, Action<AttributesBuilder<IonRouterLink>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router-link", buildAttributes, children);
+        return b.IonicTag("ion-router-link", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRouterLink(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router-link", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-router-link", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouterLink(this HtmlBuilder b, Action<AttributesBuilder<IonRouterLink>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router-link", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouterLink(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router-link", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonRouterLink> b,string color)
+    public static void SetColor(this AttributesBuilder<IonRouterLink> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonRouterLink> b,string href)
+    public static void SetHref(this AttributesBuilder<IonRouterLink> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -49,7 +61,7 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonRouterLink> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonRouterLink> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -57,7 +69,7 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonRouterLink> b,string routerDirection)
+    public static void SetRouterDirection(this AttributesBuilder<IonRouterLink> b, string routerDirection)
     {
         b.SetAttribute("router-direction", routerDirection);
     }
@@ -89,7 +101,7 @@ public static partial class IonRouterLinkControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonRouterLink> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonRouterLink> b, string target)
     {
         b.SetAttribute("target", target);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTab : SlComponent
+public partial class SlTab
 {
-    public SlTab() : base("sl-tab") { }
     public static class Method
     {
         /// <summary>
@@ -32,19 +30,33 @@ public static partial class SlTabControl
     /// </summary>
     public static IHtmlNode SlTab(this HtmlBuilder b, Action<AttributesBuilder<SlTab>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab", buildAttributes, children);
+        return b.SlTag("sl-tab", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTab(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tab", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTab(this HtmlBuilder b, Action<AttributesBuilder<SlTab>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTab(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the tab panel this tab is associated with. The panel must be located in the same tab group. </para>
     /// </summary>
-    public static void SetPanel(this AttributesBuilder<SlTab> b,string panel)
+    public static void SetPanel(this AttributesBuilder<SlTab> b, string panel)
     {
         b.SetAttribute("panel", panel);
     }
@@ -60,7 +72,7 @@ public static partial class SlTabControl
     /// <summary>
     /// <para> Draws the tab in an active state. </para>
     /// </summary>
-    public static void SetActive(this AttributesBuilder<SlTab> b,bool active)
+    public static void SetActive(this AttributesBuilder<SlTab> b, bool active)
     {
         if (active) b.SetAttribute("active", "");
     }
@@ -76,7 +88,7 @@ public static partial class SlTabControl
     /// <summary>
     /// <para> Makes the tab closable and shows a close button. </para>
     /// </summary>
-    public static void SetClosable(this AttributesBuilder<SlTab> b,bool closable)
+    public static void SetClosable(this AttributesBuilder<SlTab> b, bool closable)
     {
         if (closable) b.SetAttribute("closable", "");
     }
@@ -92,7 +104,7 @@ public static partial class SlTabControl
     /// <summary>
     /// <para> Disables the tab and prevents selection. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlTab> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlTab> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

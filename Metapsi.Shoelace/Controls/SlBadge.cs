@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBadge : SlComponent
+public partial class SlBadge
 {
-    public SlBadge() : base("sl-badge") { }
 }
 
 public static partial class SlBadgeControl
@@ -21,19 +19,33 @@ public static partial class SlBadgeControl
     /// </summary>
     public static IHtmlNode SlBadge(this HtmlBuilder b, Action<AttributesBuilder<SlBadge>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-badge", buildAttributes, children);
+        return b.SlTag("sl-badge", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlBadge(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-badge", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-badge", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBadge(this HtmlBuilder b, Action<AttributesBuilder<SlBadge>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-badge", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBadge(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-badge", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The badge's theme variant. </para>
     /// </summary>
-    public static void SetVariant(this AttributesBuilder<SlBadge> b,string variant)
+    public static void SetVariant(this AttributesBuilder<SlBadge> b, string variant)
     {
         b.SetAttribute("variant", variant);
     }
@@ -89,7 +101,7 @@ public static partial class SlBadgeControl
     /// <summary>
     /// <para> Draws a pill-style badge with rounded edges. </para>
     /// </summary>
-    public static void SetPill(this AttributesBuilder<SlBadge> b,bool pill)
+    public static void SetPill(this AttributesBuilder<SlBadge> b, bool pill)
     {
         if (pill) b.SetAttribute("pill", "");
     }
@@ -105,7 +117,7 @@ public static partial class SlBadgeControl
     /// <summary>
     /// <para> Makes the badge pulsate to draw attention. </para>
     /// </summary>
-    public static void SetPulse(this AttributesBuilder<SlBadge> b,bool pulse)
+    public static void SetPulse(this AttributesBuilder<SlBadge> b, bool pulse)
     {
         if (pulse) b.SetAttribute("pulse", "");
     }

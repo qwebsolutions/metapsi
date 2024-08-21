@@ -1,21 +1,93 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
-using Metapsi.Ui;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
-using Metapsi.JavaScript;
 
 namespace Metapsi.Shoelace;
 
 public static partial class SlNodeExtensions
 {
+    public static IHtmlNode SlTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        Action<AttributesBuilder<T>> setAttributes,
+        List<IHtmlNode> children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, setAttributes, children);
+    }
+
+    public static IHtmlNode SlTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        Action<AttributesBuilder<T>> setAttributes,
+        params IHtmlNode[] children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, setAttributes, children);
+    }
+
+    public static IHtmlNode SlTag(
+        this HtmlBuilder b,
+        string tag,
+        Dictionary<string,string> attributes,
+        List<IHtmlNode> children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, attributes, children);
+    }
+
+    public static IHtmlNode SlTag(
+        this HtmlBuilder b,
+        string tag,
+        Dictionary<string, string> attributes,
+        params IHtmlNode[] children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, attributes, children);
+    }
+
+    public static IHtmlNode SlTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        List<IHtmlNode> children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, children);
+    }
+
+    public static IHtmlNode SlTag<T>(
+        this HtmlBuilder b,
+        string tag,
+        params IHtmlNode[] children)
+    {
+        ImportShoelaceTag(b, tag);
+        return b.Tag(tag, children);
+    }
+
+    private static void ImportShoelaceTag(HtmlBuilder b, string tag)
+    {
+        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
+        b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");
+        b.HeadAppend(
+            b.HtmlScript(
+                b =>
+                {
+                    b.SetTypeModule();
+                },
+                b.Text($"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n")));
+    }
+
     private static void ImportShoelaceTag(LayoutBuilder b, string tag)
     {
         b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
         b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");
-        b.AddScript(SlComponent.BasePathScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/"));
-        b.Const(new WebComponentTag(tag));
+
+        b.AddInlineScript(
+            $"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n",
+            "module");
+        //b.Const(new WebComponentTag(tag));
     }
 
     public static Var<IVNode> SlNode<TProps>(

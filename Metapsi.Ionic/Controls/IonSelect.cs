@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSelect : IonComponent
+public partial class IonSelect
 {
-    public IonSelect() : base("ion-select") { }
     /// <summary>
     ///
     /// </summary>
@@ -48,19 +46,33 @@ public static partial class IonSelectControl
     /// </summary>
     public static IHtmlNode IonSelect(this HtmlBuilder b, Action<AttributesBuilder<IonSelect>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-select", buildAttributes, children);
+        return b.IonicTag("ion-select", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSelect(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-select", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-select", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSelect(this HtmlBuilder b, Action<AttributesBuilder<IonSelect>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-select", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSelect(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-select", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The text to display on the cancel button. </para>
     /// </summary>
-    public static void SetCancelText(this AttributesBuilder<IonSelect> b,string cancelText)
+    public static void SetCancelText(this AttributesBuilder<IonSelect> b, string cancelText)
     {
         b.SetAttribute("cancel-text", cancelText);
     }
@@ -68,7 +80,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).  This property is only available when using the modern select syntax. </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonSelect> b,string color)
+    public static void SetColor(this AttributesBuilder<IonSelect> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -76,7 +88,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-select. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith(this AttributesBuilder<IonSelect> b,string compareWith)
+    public static void SetCompareWith(this AttributesBuilder<IonSelect> b, string compareWith)
     {
         b.SetAttribute("compare-with", compareWith);
     }
@@ -92,7 +104,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the select. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSelect> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSelect> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -100,7 +112,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The toggle icon to show when the select is open. If defined, the icon rotation behavior in `md` mode will be disabled. If undefined, `toggleIcon` will be used for when the select is both open and closed. </para>
     /// </summary>
-    public static void SetExpandedIcon(this AttributesBuilder<IonSelect> b,string expandedIcon)
+    public static void SetExpandedIcon(this AttributesBuilder<IonSelect> b, string expandedIcon)
     {
         b.SetAttribute("expanded-icon", expandedIcon);
     }
@@ -108,7 +120,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<IonSelect> b,string fill)
+    public static void SetFill(this AttributesBuilder<IonSelect> b, string fill)
     {
         b.SetAttribute("fill", fill);
     }
@@ -132,7 +144,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
     /// </summary>
-    public static void SetInterface(this AttributesBuilder<IonSelect> b,string @interface)
+    public static void SetInterface(this AttributesBuilder<IonSelect> b, string @interface)
     {
         b.SetAttribute("interface", @interface);
     }
@@ -164,7 +176,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
-    public static void SetInterfaceOptions(this AttributesBuilder<IonSelect> b,string interfaceOptions)
+    public static void SetInterfaceOptions(this AttributesBuilder<IonSelect> b, string interfaceOptions)
     {
         b.SetAttribute("interface-options", interfaceOptions);
     }
@@ -172,7 +184,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> How to pack the label and select within a line. `justify` does not apply when the label and select are on different lines when `labelPlacement` is set to `"floating"` or `"stacked"`. `"start"`: The label and select will appear on the left in LTR and on the right in RTL. `"end"`: The label and select will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and select will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
-    public static void SetJustify(this AttributesBuilder<IonSelect> b,string justify)
+    public static void SetJustify(this AttributesBuilder<IonSelect> b, string justify)
     {
         b.SetAttribute("justify", justify);
     }
@@ -204,7 +216,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The visible label associated with the select.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonSelect> b,string label)
+    public static void SetLabel(this AttributesBuilder<IonSelect> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -212,7 +224,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> Where to place the label relative to the select. `"start"`: The label will appear to the left of the select in LTR and to the right in RTL. `"end"`: The label will appear to the right of the select in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the select when the select is focused or it has a value. Otherwise it will appear on top of the select. `"stacked"`: The label will appear smaller and above the select regardless even when the select is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). When using `"floating"` or `"stacked"` we recommend initializing the select with either a `value` or a `placeholder`. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonSelect> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonSelect> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -260,7 +272,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonSelect> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonSelect> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -292,7 +304,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> If `true`, the select can accept multiple values. </para>
     /// </summary>
-    public static void SetMultiple(this AttributesBuilder<IonSelect> b,bool multiple)
+    public static void SetMultiple(this AttributesBuilder<IonSelect> b, bool multiple)
     {
         if (multiple) b.SetAttribute("multiple", "");
     }
@@ -300,7 +312,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonSelect> b,string name)
+    public static void SetName(this AttributesBuilder<IonSelect> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -308,7 +320,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The text to display on the ok button. </para>
     /// </summary>
-    public static void SetOkText(this AttributesBuilder<IonSelect> b,string okText)
+    public static void SetOkText(this AttributesBuilder<IonSelect> b, string okText)
     {
         b.SetAttribute("ok-text", okText);
     }
@@ -316,7 +328,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The text to display when the select is empty. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<IonSelect> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<IonSelect> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -324,7 +336,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The text to display instead of the selected option's value. </para>
     /// </summary>
-    public static void SetSelectedText(this AttributesBuilder<IonSelect> b,string selectedText)
+    public static void SetSelectedText(this AttributesBuilder<IonSelect> b, string selectedText)
     {
         b.SetAttribute("selected-text", selectedText);
     }
@@ -332,7 +344,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The shape of the select. If "round" it will have an increased border radius. </para>
     /// </summary>
-    public static void SetShape(this AttributesBuilder<IonSelect> b,string shape)
+    public static void SetShape(this AttributesBuilder<IonSelect> b, string shape)
     {
         b.SetAttribute("shape", shape);
     }
@@ -348,7 +360,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The toggle icon to use. Defaults to `chevronExpand` for `ios` mode, or `caretDownSharp` for `md` mode. </para>
     /// </summary>
-    public static void SetToggleIcon(this AttributesBuilder<IonSelect> b,string toggleIcon)
+    public static void SetToggleIcon(this AttributesBuilder<IonSelect> b, string toggleIcon)
     {
         b.SetAttribute("toggle-icon", toggleIcon);
     }
@@ -356,7 +368,7 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The value of the select. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonSelect> b,string value)
+    public static void SetValue(this AttributesBuilder<IonSelect> b, string value)
     {
         b.SetAttribute("value", value);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouterOutlet : IonComponent
+public partial class IonRouterOutlet
 {
-    public IonRouterOutlet() : base("ion-router-outlet") { }
 }
 
 public static partial class IonRouterOutletControl
@@ -21,14 +19,28 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, Action<AttributesBuilder<IonRouterOutlet>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router-outlet", buildAttributes, children);
+        return b.IonicTag("ion-router-outlet", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router-outlet", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-router-outlet", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, Action<AttributesBuilder<IonRouterOutlet>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router-outlet", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouterOutlet(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router-outlet", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the router-outlet should animate the transition of components. </para>
@@ -41,7 +53,7 @@ public static partial class IonRouterOutletControl
     /// <summary>
     /// <para> If `true`, the router-outlet should animate the transition of components. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonRouterOutlet> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonRouterOutlet> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonRouterOutletControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRouterOutlet> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonRouterOutlet> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

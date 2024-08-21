@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBreadcrumb : SlComponent
+public partial class SlBreadcrumb
 {
-    public SlBreadcrumb() : base("sl-breadcrumb") { }
     /// <summary>
     ///
     /// </summary>
@@ -31,19 +29,33 @@ public static partial class SlBreadcrumbControl
     /// </summary>
     public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumb>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-breadcrumb", buildAttributes, children);
+        return b.SlTag("sl-breadcrumb", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-breadcrumb", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-breadcrumb", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumb>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlBreadcrumb> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlBreadcrumb> b, string label)
     {
         b.SetAttribute("label", label);
     }

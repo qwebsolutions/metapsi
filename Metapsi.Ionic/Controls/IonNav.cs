@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonNav : IonComponent
+public partial class IonNav
 {
-    public IonNav() : base("ion-nav") { }
     public static class Method
     {
         /// <summary>
@@ -128,14 +126,28 @@ public static partial class IonNavControl
     /// </summary>
     public static IHtmlNode IonNav(this HtmlBuilder b, Action<AttributesBuilder<IonNav>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-nav", buildAttributes, children);
+        return b.IonicTag("ion-nav", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonNav(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-nav", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-nav", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNav(this HtmlBuilder b, Action<AttributesBuilder<IonNav>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-nav", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNav(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-nav", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the nav should animate the transition of components. </para>
@@ -148,7 +160,7 @@ public static partial class IonNavControl
     /// <summary>
     /// <para> If `true`, the nav should animate the transition of components. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonNav> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonNav> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -156,7 +168,7 @@ public static partial class IonNavControl
     /// <summary>
     /// <para> Root NavComponent to load </para>
     /// </summary>
-    public static void SetRoot(this AttributesBuilder<IonNav> b,string root)
+    public static void SetRoot(this AttributesBuilder<IonNav> b, string root)
     {
         b.SetAttribute("root", root);
     }
@@ -172,7 +184,7 @@ public static partial class IonNavControl
     /// <summary>
     /// <para> If the nav component should allow for swipe-to-go-back. </para>
     /// </summary>
-    public static void SetSwipeGesture(this AttributesBuilder<IonNav> b,bool swipeGesture)
+    public static void SetSwipeGesture(this AttributesBuilder<IonNav> b, bool swipeGesture)
     {
         if (swipeGesture) b.SetAttribute("swipe-gesture", "");
     }

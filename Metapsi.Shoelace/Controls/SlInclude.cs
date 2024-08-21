@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlInclude : SlComponent
+public partial class SlInclude
 {
-    public SlInclude() : base("sl-include") { }
 }
 
 public static partial class SlIncludeControl
@@ -21,19 +19,33 @@ public static partial class SlIncludeControl
     /// </summary>
     public static IHtmlNode SlInclude(this HtmlBuilder b, Action<AttributesBuilder<SlInclude>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-include", buildAttributes, children);
+        return b.SlTag("sl-include", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlInclude(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-include", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-include", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlInclude(this HtmlBuilder b, Action<AttributesBuilder<SlInclude>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-include", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlInclude(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-include", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The location of the HTML file to include. Be sure you trust the content you are including as it will be executed as code and can result in XSS attacks. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<SlInclude> b,string src)
+    public static void SetSrc(this AttributesBuilder<SlInclude> b, string src)
     {
         b.SetAttribute("src", src);
     }
@@ -41,7 +53,7 @@ public static partial class SlIncludeControl
     /// <summary>
     /// <para> The fetch mode to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<SlInclude> b,string mode)
+    public static void SetMode(this AttributesBuilder<SlInclude> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -81,7 +93,7 @@ public static partial class SlIncludeControl
     /// <summary>
     /// <para> Allows included scripts to be executed. Be sure you trust the content you are including as it will be executed as code and can result in XSS attacks. </para>
     /// </summary>
-    public static void SetAllowScripts(this AttributesBuilder<SlInclude> b,bool allowScripts)
+    public static void SetAllowScripts(this AttributesBuilder<SlInclude> b, bool allowScripts)
     {
         if (allowScripts) b.SetAttribute("allow-scripts", "");
     }

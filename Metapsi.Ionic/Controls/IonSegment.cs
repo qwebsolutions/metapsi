@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSegment : IonComponent
+public partial class IonSegment
 {
-    public IonSegment() : base("ion-segment") { }
 }
 
 public static partial class IonSegmentControl
@@ -21,19 +19,33 @@ public static partial class IonSegmentControl
     /// </summary>
     public static IHtmlNode IonSegment(this HtmlBuilder b, Action<AttributesBuilder<IonSegment>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-segment", buildAttributes, children);
+        return b.IonicTag("ion-segment", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSegment(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-segment", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-segment", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSegment(this HtmlBuilder b, Action<AttributesBuilder<IonSegment>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-segment", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSegment(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-segment", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonSegment> b,string color)
+    public static void SetColor(this AttributesBuilder<IonSegment> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -49,7 +61,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the segment. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSegment> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSegment> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonSegment> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonSegment> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -89,7 +101,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> If `true`, the segment buttons will overflow and the user can swipe to see them. In addition, this will disable the gesture to drag the indicator between the buttons in order to swipe to see hidden buttons. </para>
     /// </summary>
-    public static void SetScrollable(this AttributesBuilder<IonSegment> b,bool scrollable)
+    public static void SetScrollable(this AttributesBuilder<IonSegment> b, bool scrollable)
     {
         if (scrollable) b.SetAttribute("scrollable", "");
     }
@@ -105,7 +117,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> If `true`, navigating to an `ion-segment-button` with the keyboard will focus and select the element. If `false`, keyboard navigation will only focus the `ion-segment-button` element. </para>
     /// </summary>
-    public static void SetSelectOnFocus(this AttributesBuilder<IonSegment> b,bool selectOnFocus)
+    public static void SetSelectOnFocus(this AttributesBuilder<IonSegment> b, bool selectOnFocus)
     {
         if (selectOnFocus) b.SetAttribute("select-on-focus", "");
     }
@@ -121,7 +133,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> If `true`, users will be able to swipe between segment buttons to activate them. </para>
     /// </summary>
-    public static void SetSwipeGesture(this AttributesBuilder<IonSegment> b,bool swipeGesture)
+    public static void SetSwipeGesture(this AttributesBuilder<IonSegment> b, bool swipeGesture)
     {
         if (swipeGesture) b.SetAttribute("swipe-gesture", "");
     }
@@ -129,7 +141,7 @@ public static partial class IonSegmentControl
     /// <summary>
     /// <para> the value of the segment. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonSegment> b,string value)
+    public static void SetValue(this AttributesBuilder<IonSegment> b, string value)
     {
         b.SetAttribute("value", value);
     }

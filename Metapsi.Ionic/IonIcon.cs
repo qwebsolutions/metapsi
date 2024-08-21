@@ -2,27 +2,13 @@
 using Metapsi.Syntax;
 using System;
 using Metapsi.Html;
-using Metapsi.Ui;
 
 namespace Metapsi.Ionic;
 
 // For some reason this is not part of the docs file
 
-public partial class IonIcon : IonComponent
+public partial class IonIcon 
 {
-    public IonIcon() : base("ion-icon") { }
-
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
 }
 
 public static class IonIconControl

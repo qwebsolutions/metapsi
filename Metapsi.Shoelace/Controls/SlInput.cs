@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlInput : SlComponent
+public partial class SlInput
 {
-    public SlInput() : base("sl-input") { }
     /// <summary>
     ///
     /// </summary>
@@ -106,19 +104,33 @@ public static partial class SlInputControl
     /// </summary>
     public static IHtmlNode SlInput(this HtmlBuilder b, Action<AttributesBuilder<SlInput>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-input", buildAttributes, children);
+        return b.SlTag("sl-input", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlInput(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-input", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-input", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlInput(this HtmlBuilder b, Action<AttributesBuilder<SlInput>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-input", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlInput(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-input", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<SlInput> b,string type)
+    public static void SetType(this AttributesBuilder<SlInput> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -206,7 +218,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The name of the input, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlInput> b,string name)
+    public static void SetName(this AttributesBuilder<SlInput> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -214,7 +226,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The current value of the input, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlInput> b,string value)
+    public static void SetValue(this AttributesBuilder<SlInput> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -222,7 +234,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The input's size. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlInput> b,string size)
+    public static void SetSize(this AttributesBuilder<SlInput> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -262,7 +274,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Draws a filled input. </para>
     /// </summary>
-    public static void SetFilled(this AttributesBuilder<SlInput> b,bool filled)
+    public static void SetFilled(this AttributesBuilder<SlInput> b, bool filled)
     {
         if (filled) b.SetAttribute("filled", "");
     }
@@ -278,7 +290,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Draws a pill-style input with rounded edges. </para>
     /// </summary>
-    public static void SetPill(this AttributesBuilder<SlInput> b,bool pill)
+    public static void SetPill(this AttributesBuilder<SlInput> b, bool pill)
     {
         if (pill) b.SetAttribute("pill", "");
     }
@@ -286,7 +298,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The input's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlInput> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlInput> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -294,7 +306,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The input's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this AttributesBuilder<SlInput> b,string helpText)
+    public static void SetHelpText(this AttributesBuilder<SlInput> b, string helpText)
     {
         b.SetAttribute("help-text", helpText);
     }
@@ -310,7 +322,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Adds a clear button when the input is not empty. </para>
     /// </summary>
-    public static void SetClearable(this AttributesBuilder<SlInput> b,bool clearable)
+    public static void SetClearable(this AttributesBuilder<SlInput> b, bool clearable)
     {
         if (clearable) b.SetAttribute("clearable", "");
     }
@@ -326,7 +338,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Disables the input. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlInput> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlInput> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -334,7 +346,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Placeholder text to show as a hint when the input is empty. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<SlInput> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<SlInput> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -350,7 +362,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Makes the input readonly. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<SlInput> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<SlInput> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -366,7 +378,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Adds a button to toggle the password's visibility. Only applies to password types. </para>
     /// </summary>
-    public static void SetPasswordToggle(this AttributesBuilder<SlInput> b,bool passwordToggle)
+    public static void SetPasswordToggle(this AttributesBuilder<SlInput> b, bool passwordToggle)
     {
         if (passwordToggle) b.SetAttribute("password-toggle", "");
     }
@@ -382,7 +394,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Determines whether or not the password is currently visible. Only applies to password input types. </para>
     /// </summary>
-    public static void SetPasswordVisible(this AttributesBuilder<SlInput> b,bool passwordVisible)
+    public static void SetPasswordVisible(this AttributesBuilder<SlInput> b, bool passwordVisible)
     {
         if (passwordVisible) b.SetAttribute("password-visible", "");
     }
@@ -398,7 +410,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Hides the browser's built-in increment/decrement spin buttons for number inputs. </para>
     /// </summary>
-    public static void SetNoSpinButtons(this AttributesBuilder<SlInput> b,bool noSpinButtons)
+    public static void SetNoSpinButtons(this AttributesBuilder<SlInput> b, bool noSpinButtons)
     {
         if (noSpinButtons) b.SetAttribute("no-spin-buttons", "");
     }
@@ -406,7 +418,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlInput> b,string form)
+    public static void SetForm(this AttributesBuilder<SlInput> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -422,7 +434,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Makes the input a required field. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<SlInput> b,bool required)
+    public static void SetRequired(this AttributesBuilder<SlInput> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }
@@ -430,7 +442,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> A regular expression pattern to validate input against. </para>
     /// </summary>
-    public static void SetPattern(this AttributesBuilder<SlInput> b,string pattern)
+    public static void SetPattern(this AttributesBuilder<SlInput> b, string pattern)
     {
         b.SetAttribute("pattern", pattern);
     }
@@ -438,7 +450,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The minimum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMinlength(this AttributesBuilder<SlInput> b,string minlength)
+    public static void SetMinlength(this AttributesBuilder<SlInput> b, string minlength)
     {
         b.SetAttribute("minlength", minlength);
     }
@@ -446,7 +458,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The maximum length of input that will be considered valid. </para>
     /// </summary>
-    public static void SetMaxlength(this AttributesBuilder<SlInput> b,string maxlength)
+    public static void SetMaxlength(this AttributesBuilder<SlInput> b, string maxlength)
     {
         b.SetAttribute("maxlength", maxlength);
     }
@@ -454,7 +466,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The input's minimum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<SlInput> b,string min)
+    public static void SetMin(this AttributesBuilder<SlInput> b, string min)
     {
         b.SetAttribute("min", min);
     }
@@ -462,7 +474,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> The input's maximum value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<SlInput> b,string max)
+    public static void SetMax(this AttributesBuilder<SlInput> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -470,7 +482,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types. </para>
     /// </summary>
-    public static void SetStep(this AttributesBuilder<SlInput> b,string step)
+    public static void SetStep(this AttributesBuilder<SlInput> b, string step)
     {
         b.SetAttribute("step", step);
     }
@@ -478,7 +490,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Controls whether and how text input is automatically capitalized as it is entered by the user. </para>
     /// </summary>
-    public static void SetAutocapitalize(this AttributesBuilder<SlInput> b,string autocapitalize)
+    public static void SetAutocapitalize(this AttributesBuilder<SlInput> b, string autocapitalize)
     {
         b.SetAttribute("autocapitalize", autocapitalize);
     }
@@ -534,7 +546,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Indicates whether the browser's autocorrect feature is on or off. </para>
     /// </summary>
-    public static void SetAutocorrect(this AttributesBuilder<SlInput> b,string autocorrect)
+    public static void SetAutocorrect(this AttributesBuilder<SlInput> b, string autocorrect)
     {
         b.SetAttribute("autocorrect", autocorrect);
     }
@@ -558,7 +570,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. </para>
     /// </summary>
-    public static void SetAutocomplete(this AttributesBuilder<SlInput> b,string autocomplete)
+    public static void SetAutocomplete(this AttributesBuilder<SlInput> b, string autocomplete)
     {
         b.SetAttribute("autocomplete", autocomplete);
     }
@@ -574,7 +586,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Indicates that the input should receive focus on page load. </para>
     /// </summary>
-    public static void SetAutofocus(this AttributesBuilder<SlInput> b,bool autofocus)
+    public static void SetAutofocus(this AttributesBuilder<SlInput> b, bool autofocus)
     {
         if (autofocus) b.SetAttribute("autofocus", "");
     }
@@ -582,7 +594,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Used to customize the label or icon of the Enter key on virtual keyboards. </para>
     /// </summary>
-    public static void SetEnterkeyhint(this AttributesBuilder<SlInput> b,string enterkeyhint)
+    public static void SetEnterkeyhint(this AttributesBuilder<SlInput> b, string enterkeyhint)
     {
         b.SetAttribute("enterkeyhint", enterkeyhint);
     }
@@ -654,7 +666,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Enables spell checking on the input. </para>
     /// </summary>
-    public static void SetSpellcheck(this AttributesBuilder<SlInput> b,bool spellcheck)
+    public static void SetSpellcheck(this AttributesBuilder<SlInput> b, bool spellcheck)
     {
         if (spellcheck) b.SetAttribute("spellcheck", "");
     }
@@ -662,7 +674,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices. </para>
     /// </summary>
-    public static void SetInputmode(this AttributesBuilder<SlInput> b,string inputmode)
+    public static void SetInputmode(this AttributesBuilder<SlInput> b, string inputmode)
     {
         b.SetAttribute("inputmode", inputmode);
     }

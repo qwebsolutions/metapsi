@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlProgressBar : SlComponent
+public partial class SlProgressBar
 {
-    public SlProgressBar() : base("sl-progress-bar") { }
 }
 
 public static partial class SlProgressBarControl
@@ -21,19 +19,33 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static IHtmlNode SlProgressBar(this HtmlBuilder b, Action<AttributesBuilder<SlProgressBar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-progress-bar", buildAttributes, children);
+        return b.SlTag("sl-progress-bar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlProgressBar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-progress-bar", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-progress-bar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressBar(this HtmlBuilder b, Action<AttributesBuilder<SlProgressBar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-progress-bar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressBar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-progress-bar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The current progress as a percentage, 0 to 100. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlProgressBar> b,string value)
+    public static void SetValue(this AttributesBuilder<SlProgressBar> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -49,7 +61,7 @@ public static partial class SlProgressBarControl
     /// <summary>
     /// <para> When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state. </para>
     /// </summary>
-    public static void SetIndeterminate(this AttributesBuilder<SlProgressBar> b,bool indeterminate)
+    public static void SetIndeterminate(this AttributesBuilder<SlProgressBar> b, bool indeterminate)
     {
         if (indeterminate) b.SetAttribute("indeterminate", "");
     }
@@ -57,7 +69,7 @@ public static partial class SlProgressBarControl
     /// <summary>
     /// <para> A custom label for assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlProgressBar> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlProgressBar> b, string label)
     {
         b.SetAttribute("label", label);
     }

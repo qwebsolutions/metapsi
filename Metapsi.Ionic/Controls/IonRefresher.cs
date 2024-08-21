@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRefresher : IonComponent
+public partial class IonRefresher
 {
-    public IonRefresher() : base("ion-refresher") { }
     public static class Method
     {
         /// <summary>
@@ -39,19 +37,33 @@ public static partial class IonRefresherControl
     /// </summary>
     public static IHtmlNode IonRefresher(this HtmlBuilder b, Action<AttributesBuilder<IonRefresher>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-refresher", buildAttributes, children);
+        return b.IonicTag("ion-refresher", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRefresher(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-refresher", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-refresher", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRefresher(this HtmlBuilder b, Action<AttributesBuilder<IonRefresher>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-refresher", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRefresher(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-refresher", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Time it takes to close the refresher. Does not apply when the refresher content uses a spinner, enabling the native refresher. </para>
     /// </summary>
-    public static void SetCloseDuration(this AttributesBuilder<IonRefresher> b,string closeDuration)
+    public static void SetCloseDuration(this AttributesBuilder<IonRefresher> b, string closeDuration)
     {
         b.SetAttribute("close-duration", closeDuration);
     }
@@ -67,7 +79,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> If `true`, the refresher will be hidden. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonRefresher> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonRefresher> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -75,7 +87,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRefresher> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonRefresher> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -99,7 +111,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> How much to multiply the pull speed by. To slow the pull animation down, pass a number less than `1`. To speed up the pull, pass a number greater than `1`. The default value is `1` which is equal to the speed of the cursor. If a negative value is passed in, the factor will be `1` instead.  For example: If the value passed is `1.2` and the content is dragged by `10` pixels, instead of `10` pixels the content will be pulled by `12` pixels (an increase of 20 percent). If the value passed is `0.8`, the dragged amount will be `8` pixels, less than the amount the cursor has moved.  Does not apply when the refresher content uses a spinner, enabling the native refresher. </para>
     /// </summary>
-    public static void SetPullFactor(this AttributesBuilder<IonRefresher> b,string pullFactor)
+    public static void SetPullFactor(this AttributesBuilder<IonRefresher> b, string pullFactor)
     {
         b.SetAttribute("pull-factor", pullFactor);
     }
@@ -107,7 +119,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> The maximum distance of the pull until the refresher will automatically go into the `refreshing` state. Defaults to the result of `pullMin + 60`. Does not apply when  the refresher content uses a spinner, enabling the native refresher. </para>
     /// </summary>
-    public static void SetPullMax(this AttributesBuilder<IonRefresher> b,string pullMax)
+    public static void SetPullMax(this AttributesBuilder<IonRefresher> b, string pullMax)
     {
         b.SetAttribute("pull-max", pullMax);
     }
@@ -115,7 +127,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> The minimum distance the user must pull down until the refresher will go into the `refreshing` state. Does not apply when the refresher content uses a spinner, enabling the native refresher. </para>
     /// </summary>
-    public static void SetPullMin(this AttributesBuilder<IonRefresher> b,string pullMin)
+    public static void SetPullMin(this AttributesBuilder<IonRefresher> b, string pullMin)
     {
         b.SetAttribute("pull-min", pullMin);
     }
@@ -123,7 +135,7 @@ public static partial class IonRefresherControl
     /// <summary>
     /// <para> Time it takes the refresher to snap back to the `refreshing` state. Does not apply when the refresher content uses a spinner, enabling the native refresher. </para>
     /// </summary>
-    public static void SetSnapbackDuration(this AttributesBuilder<IonRefresher> b,string snapbackDuration)
+    public static void SetSnapbackDuration(this AttributesBuilder<IonRefresher> b, string snapbackDuration)
     {
         b.SetAttribute("snapback-duration", snapbackDuration);
     }

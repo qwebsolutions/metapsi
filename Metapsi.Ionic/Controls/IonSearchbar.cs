@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSearchbar : IonComponent
+public partial class IonSearchbar
 {
-    public IonSearchbar() : base("ion-searchbar") { }
     public static class Method
     {
         /// <summary>
@@ -34,14 +32,28 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static IHtmlNode IonSearchbar(this HtmlBuilder b, Action<AttributesBuilder<IonSearchbar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-searchbar", buildAttributes, children);
+        return b.IonicTag("ion-searchbar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSearchbar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-searchbar", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-searchbar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSearchbar(this HtmlBuilder b, Action<AttributesBuilder<IonSearchbar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-searchbar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSearchbar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-searchbar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, enable searchbar animation. </para>
@@ -54,7 +66,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> If `true`, enable searchbar animation. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonSearchbar> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonSearchbar> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -62,7 +74,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
     /// </summary>
-    public static void SetAutocapitalize(this AttributesBuilder<IonSearchbar> b,string autocapitalize)
+    public static void SetAutocapitalize(this AttributesBuilder<IonSearchbar> b, string autocapitalize)
     {
         b.SetAttribute("autocapitalize", autocapitalize);
     }
@@ -70,7 +82,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the input's autocomplete property. </para>
     /// </summary>
-    public static void SetAutocomplete(this AttributesBuilder<IonSearchbar> b,string autocomplete)
+    public static void SetAutocomplete(this AttributesBuilder<IonSearchbar> b, string autocomplete)
     {
         b.SetAttribute("autocomplete", autocomplete);
     }
@@ -510,7 +522,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the input's autocorrect property. </para>
     /// </summary>
-    public static void SetAutocorrect(this AttributesBuilder<IonSearchbar> b,string autocorrect)
+    public static void SetAutocorrect(this AttributesBuilder<IonSearchbar> b, string autocorrect)
     {
         b.SetAttribute("autocorrect", autocorrect);
     }
@@ -534,7 +546,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the cancel button icon. Only applies to `md` mode. Defaults to `arrow-back-sharp`. </para>
     /// </summary>
-    public static void SetCancelButtonIcon(this AttributesBuilder<IonSearchbar> b,string cancelButtonIcon)
+    public static void SetCancelButtonIcon(this AttributesBuilder<IonSearchbar> b, string cancelButtonIcon)
     {
         b.SetAttribute("cancel-button-icon", cancelButtonIcon);
     }
@@ -542,7 +554,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the the cancel button text. Only applies to `ios` mode. </para>
     /// </summary>
-    public static void SetCancelButtonText(this AttributesBuilder<IonSearchbar> b,string cancelButtonText)
+    public static void SetCancelButtonText(this AttributesBuilder<IonSearchbar> b, string cancelButtonText)
     {
         b.SetAttribute("cancel-button-text", cancelButtonText);
     }
@@ -550,7 +562,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the clear icon. Defaults to `close-circle` for `ios` and `close-sharp` for `md`. </para>
     /// </summary>
-    public static void SetClearIcon(this AttributesBuilder<IonSearchbar> b,string clearIcon)
+    public static void SetClearIcon(this AttributesBuilder<IonSearchbar> b, string clearIcon)
     {
         b.SetAttribute("clear-icon", clearIcon);
     }
@@ -558,7 +570,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonSearchbar> b,string color)
+    public static void SetColor(this AttributesBuilder<IonSearchbar> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -566,7 +578,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonSearchbar> b,string debounce)
+    public static void SetDebounce(this AttributesBuilder<IonSearchbar> b, string debounce)
     {
         b.SetAttribute("debounce", debounce);
     }
@@ -582,7 +594,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the input. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSearchbar> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSearchbar> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -590,7 +602,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
-    public static void SetEnterkeyhint(this AttributesBuilder<IonSearchbar> b,string enterkeyhint)
+    public static void SetEnterkeyhint(this AttributesBuilder<IonSearchbar> b, string enterkeyhint)
     {
         b.SetAttribute("enterkeyhint", enterkeyhint);
     }
@@ -654,7 +666,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
-    public static void SetInputmode(this AttributesBuilder<IonSearchbar> b,string inputmode)
+    public static void SetInputmode(this AttributesBuilder<IonSearchbar> b, string inputmode)
     {
         b.SetAttribute("inputmode", inputmode);
     }
@@ -726,7 +738,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> This attribute specifies the maximum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength(this AttributesBuilder<IonSearchbar> b,string maxlength)
+    public static void SetMaxlength(this AttributesBuilder<IonSearchbar> b, string maxlength)
     {
         b.SetAttribute("maxlength", maxlength);
     }
@@ -734,7 +746,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> This attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMinlength(this AttributesBuilder<IonSearchbar> b,string minlength)
+    public static void SetMinlength(this AttributesBuilder<IonSearchbar> b, string minlength)
     {
         b.SetAttribute("minlength", minlength);
     }
@@ -742,7 +754,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonSearchbar> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonSearchbar> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -766,7 +778,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> If used in a form, set the name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonSearchbar> b,string name)
+    public static void SetName(this AttributesBuilder<IonSearchbar> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -774,7 +786,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the input's placeholder. `placeholder` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security) </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<IonSearchbar> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<IonSearchbar> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -782,7 +794,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> The icon to use as the search icon. Defaults to `search-outline` in `ios` mode and `search-sharp` in `md` mode. </para>
     /// </summary>
-    public static void SetSearchIcon(this AttributesBuilder<IonSearchbar> b,string searchIcon)
+    public static void SetSearchIcon(this AttributesBuilder<IonSearchbar> b, string searchIcon)
     {
         b.SetAttribute("search-icon", searchIcon);
     }
@@ -790,7 +802,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Sets the behavior for the cancel button. Defaults to `"never"`. Setting to `"focus"` shows the cancel button on focus. Setting to `"never"` hides the cancel button. Setting to `"always"` shows the cancel button regardless of focus state. </para>
     /// </summary>
-    public static void SetShowCancelButton(this AttributesBuilder<IonSearchbar> b,string showCancelButton)
+    public static void SetShowCancelButton(this AttributesBuilder<IonSearchbar> b, string showCancelButton)
     {
         b.SetAttribute("show-cancel-button", showCancelButton);
     }
@@ -822,7 +834,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Sets the behavior for the clear button. Defaults to `"focus"`. Setting to `"focus"` shows the clear button on focus if the input is not empty. Setting to `"never"` hides the clear button. Setting to `"always"` shows the clear button regardless of focus state, but only if the input is not empty. </para>
     /// </summary>
-    public static void SetShowClearButton(this AttributesBuilder<IonSearchbar> b,string showClearButton)
+    public static void SetShowClearButton(this AttributesBuilder<IonSearchbar> b, string showClearButton)
     {
         b.SetAttribute("show-clear-button", showClearButton);
     }
@@ -862,7 +874,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> If `true`, enable spellcheck on the input. </para>
     /// </summary>
-    public static void SetSpellcheck(this AttributesBuilder<IonSearchbar> b,bool spellcheck)
+    public static void SetSpellcheck(this AttributesBuilder<IonSearchbar> b, bool spellcheck)
     {
         if (spellcheck) b.SetAttribute("spellcheck", "");
     }
@@ -870,7 +882,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> Set the type of the input. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonSearchbar> b,string type)
+    public static void SetType(this AttributesBuilder<IonSearchbar> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -934,7 +946,7 @@ public static partial class IonSearchbarControl
     /// <summary>
     /// <para> the value of the searchbar. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonSearchbar> b,string value)
+    public static void SetValue(this AttributesBuilder<IonSearchbar> b, string value)
     {
         b.SetAttribute("value", value);
     }

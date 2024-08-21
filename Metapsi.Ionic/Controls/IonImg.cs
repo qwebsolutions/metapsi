@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonImg : IonComponent
+public partial class IonImg
 {
-    public IonImg() : base("ion-img") { }
 }
 
 public static partial class IonImgControl
@@ -21,19 +19,33 @@ public static partial class IonImgControl
     /// </summary>
     public static IHtmlNode IonImg(this HtmlBuilder b, Action<AttributesBuilder<IonImg>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-img", buildAttributes, children);
+        return b.IonicTag("ion-img", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonImg(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-img", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-img", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonImg(this HtmlBuilder b, Action<AttributesBuilder<IonImg>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-img", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonImg(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-img", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> This attribute defines the alternative text describing the image. Users will see this text displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded. </para>
     /// </summary>
-    public static void SetAlt(this AttributesBuilder<IonImg> b,string alt)
+    public static void SetAlt(this AttributesBuilder<IonImg> b, string alt)
     {
         b.SetAttribute("alt", alt);
     }
@@ -41,7 +53,7 @@ public static partial class IonImgControl
     /// <summary>
     /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<IonImg> b,string src)
+    public static void SetSrc(this AttributesBuilder<IonImg> b, string src)
     {
         b.SetAttribute("src", src);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSegmentButton : IonComponent
+public partial class IonSegmentButton
 {
-    public IonSegmentButton() : base("ion-segment-button") { }
 }
 
 public static partial class IonSegmentButtonControl
@@ -21,14 +19,28 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static IHtmlNode IonSegmentButton(this HtmlBuilder b, Action<AttributesBuilder<IonSegmentButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-segment-button", buildAttributes, children);
+        return b.IonicTag("ion-segment-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSegmentButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-segment-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-segment-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSegmentButton(this HtmlBuilder b, Action<AttributesBuilder<IonSegmentButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-segment-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSegmentButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-segment-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the user cannot interact with the segment button. </para>
@@ -41,7 +53,7 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the segment button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSegmentButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSegmentButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// <para> Set the layout of the text and icon in the segment. </para>
     /// </summary>
-    public static void SetLayout(this AttributesBuilder<IonSegmentButton> b,string layout)
+    public static void SetLayout(this AttributesBuilder<IonSegmentButton> b, string layout)
     {
         b.SetAttribute("layout", layout);
     }
@@ -105,7 +117,7 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonSegmentButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonSegmentButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -129,7 +141,7 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// <para> The type of the button. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonSegmentButton> b,string type)
+    public static void SetType(this AttributesBuilder<IonSegmentButton> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -161,7 +173,7 @@ public static partial class IonSegmentButtonControl
     /// <summary>
     /// <para> The value of the segment button. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonSegmentButton> b,string value)
+    public static void SetValue(this AttributesBuilder<IonSegmentButton> b, string value)
     {
         b.SetAttribute("value", value);
     }

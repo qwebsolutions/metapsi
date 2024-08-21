@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonLabel : IonComponent
+public partial class IonLabel
 {
-    public IonLabel() : base("ion-label") { }
 }
 
 public static partial class IonLabelControl
@@ -21,19 +19,33 @@ public static partial class IonLabelControl
     /// </summary>
     public static IHtmlNode IonLabel(this HtmlBuilder b, Action<AttributesBuilder<IonLabel>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-label", buildAttributes, children);
+        return b.IonicTag("ion-label", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonLabel(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-label", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-label", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonLabel(this HtmlBuilder b, Action<AttributesBuilder<IonLabel>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-label", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonLabel(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-label", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonLabel> b,string color)
+    public static void SetColor(this AttributesBuilder<IonLabel> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonLabelControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonLabel> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonLabel> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -65,7 +77,7 @@ public static partial class IonLabelControl
     /// <summary>
     /// <para> The position determines where and how the label behaves inside an item. </para>
     /// </summary>
-    public static void SetPosition(this AttributesBuilder<IonLabel> b,string position)
+    public static void SetPosition(this AttributesBuilder<IonLabel> b, string position)
     {
         b.SetAttribute("position", position);
     }

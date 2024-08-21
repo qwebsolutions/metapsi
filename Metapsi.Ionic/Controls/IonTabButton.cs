@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTabButton : IonComponent
+public partial class IonTabButton
 {
-    public IonTabButton() : base("ion-tab-button") { }
 }
 
 public static partial class IonTabButtonControl
@@ -21,14 +19,28 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static IHtmlNode IonTabButton(this HtmlBuilder b, Action<AttributesBuilder<IonTabButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab-button", buildAttributes, children);
+        return b.IonicTag("ion-tab-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTabButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-tab-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabButton(this HtmlBuilder b, Action<AttributesBuilder<IonTabButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the user cannot interact with the tab button. </para>
@@ -41,7 +53,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the tab button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonTabButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonTabButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonTabButton> b,string download)
+    public static void SetDownload(this AttributesBuilder<IonTabButton> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -57,7 +69,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonTabButton> b,string href)
+    public static void SetHref(this AttributesBuilder<IonTabButton> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -65,7 +77,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> Set the layout of the text and icon in the tab bar. It defaults to `"icon-top"`. </para>
     /// </summary>
-    public static void SetLayout(this AttributesBuilder<IonTabButton> b,string layout)
+    public static void SetLayout(this AttributesBuilder<IonTabButton> b, string layout)
     {
         b.SetAttribute("layout", layout);
     }
@@ -121,7 +133,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonTabButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonTabButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -145,7 +157,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonTabButton> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonTabButton> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -161,7 +173,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> The selected tab component </para>
     /// </summary>
-    public static void SetSelected(this AttributesBuilder<IonTabButton> b,bool selected)
+    public static void SetSelected(this AttributesBuilder<IonTabButton> b, bool selected)
     {
         if (selected) b.SetAttribute("selected", "");
     }
@@ -169,7 +181,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them. </para>
     /// </summary>
-    public static void SetTab(this AttributesBuilder<IonTabButton> b,string tab)
+    public static void SetTab(this AttributesBuilder<IonTabButton> b, string tab)
     {
         b.SetAttribute("tab", tab);
     }
@@ -177,7 +189,7 @@ public static partial class IonTabButtonControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonTabButton> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonTabButton> b, string target)
     {
         b.SetAttribute("target", target);
     }

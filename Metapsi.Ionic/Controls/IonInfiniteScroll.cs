@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInfiniteScroll : IonComponent
+public partial class IonInfiniteScroll
 {
-    public IonInfiniteScroll() : base("ion-infinite-scroll") { }
     public static class Method
     {
         /// <summary>
@@ -29,14 +27,28 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static IHtmlNode IonInfiniteScroll(this HtmlBuilder b, Action<AttributesBuilder<IonInfiniteScroll>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-infinite-scroll", buildAttributes, children);
+        return b.IonicTag("ion-infinite-scroll", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonInfiniteScroll(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-infinite-scroll", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-infinite-scroll", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInfiniteScroll(this HtmlBuilder b, Action<AttributesBuilder<IonInfiniteScroll>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-infinite-scroll", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInfiniteScroll(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-infinite-scroll", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the infinite scroll will be hidden and scroll event listeners will be removed.  Set this to true to disable the infinite scroll from actively trying to receive new data while scrolling. This is useful when it is known that there is no more data that can be added, and the infinite scroll is no longer needed. </para>
@@ -49,7 +61,7 @@ public static partial class IonInfiniteScrollControl
     /// <summary>
     /// <para> If `true`, the infinite scroll will be hidden and scroll event listeners will be removed.  Set this to true to disable the infinite scroll from actively trying to receive new data while scrolling. This is useful when it is known that there is no more data that can be added, and the infinite scroll is no longer needed. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonInfiniteScroll> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonInfiniteScroll> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonInfiniteScrollControl
     /// <summary>
     /// <para> The position of the infinite scroll element. The value can be either `top` or `bottom`. </para>
     /// </summary>
-    public static void SetPosition(this AttributesBuilder<IonInfiniteScroll> b,string position)
+    public static void SetPosition(this AttributesBuilder<IonInfiniteScroll> b, string position)
     {
         b.SetAttribute("position", position);
     }
@@ -81,7 +93,7 @@ public static partial class IonInfiniteScrollControl
     /// <summary>
     /// <para> The threshold distance from the bottom of the content to call the `infinite` output event when scrolled. The threshold value can be either a percent, or in pixels. For example, use the value of `10%` for the `infinite` output event to get called when the user has scrolled 10% from the bottom of the page. Use the value `100px` when the scroll is within 100 pixels from the bottom of the page. </para>
     /// </summary>
-    public static void SetThreshold(this AttributesBuilder<IonInfiniteScroll> b,string threshold)
+    public static void SetThreshold(this AttributesBuilder<IonInfiniteScroll> b, string threshold)
     {
         b.SetAttribute("threshold", threshold);
     }

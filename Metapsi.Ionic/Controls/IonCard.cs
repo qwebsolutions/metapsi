@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCard : IonComponent
+public partial class IonCard
 {
-    public IonCard() : base("ion-card") { }
 }
 
 public static partial class IonCardControl
@@ -21,14 +19,28 @@ public static partial class IonCardControl
     /// </summary>
     public static IHtmlNode IonCard(this HtmlBuilder b, Action<AttributesBuilder<IonCard>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card", buildAttributes, children);
+        return b.IonicTag("ion-card", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonCard(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-card", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCard(this HtmlBuilder b, Action<AttributesBuilder<IonCard>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCard(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, a button tag will be rendered and the card will be tappable. </para>
@@ -41,7 +53,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> If `true`, a button tag will be rendered and the card will be tappable. </para>
     /// </summary>
-    public static void SetButton(this AttributesBuilder<IonCard> b,bool button)
+    public static void SetButton(this AttributesBuilder<IonCard> b, bool button)
     {
         if (button) b.SetAttribute("button", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonCard> b,string color)
+    public static void SetColor(this AttributesBuilder<IonCard> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -65,7 +77,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the card. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonCard> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonCard> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonCard> b,string download)
+    public static void SetDownload(this AttributesBuilder<IonCard> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -81,7 +93,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonCard> b,string href)
+    public static void SetHref(this AttributesBuilder<IonCard> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -89,7 +101,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonCard> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonCard> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -113,7 +125,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonCard> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonCard> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -121,7 +133,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonCard> b,string routerDirection)
+    public static void SetRouterDirection(this AttributesBuilder<IonCard> b, string routerDirection)
     {
         b.SetAttribute("router-direction", routerDirection);
     }
@@ -153,7 +165,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonCard> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonCard> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -161,7 +173,7 @@ public static partial class IonCardControl
     /// <summary>
     /// <para> The type of the button. Only used when an `onclick` or `button` property is present. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonCard> b,string type)
+    public static void SetType(this AttributesBuilder<IonCard> b, string type)
     {
         b.SetAttribute("type", type);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMutationObserver : SlComponent
+public partial class SlMutationObserver
 {
-    public SlMutationObserver() : base("sl-mutation-observer") { }
 }
 
 public static partial class SlMutationObserverControl
@@ -21,19 +19,33 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static IHtmlNode SlMutationObserver(this HtmlBuilder b, Action<AttributesBuilder<SlMutationObserver>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-mutation-observer", buildAttributes, children);
+        return b.SlTag("sl-mutation-observer", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlMutationObserver(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-mutation-observer", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-mutation-observer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMutationObserver(this HtmlBuilder b, Action<AttributesBuilder<SlMutationObserver>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-mutation-observer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMutationObserver(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-mutation-observer", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Watches for changes to attributes. To watch only specific attributes, separate them by a space, e.g. `attr="class id title"`. To watch all attributes, use `*`. </para>
     /// </summary>
-    public static void SetAttr(this AttributesBuilder<SlMutationObserver> b,string attr)
+    public static void SetAttr(this AttributesBuilder<SlMutationObserver> b, string attr)
     {
         b.SetAttribute("attr", attr);
     }
@@ -49,7 +61,7 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Indicates whether or not the attribute's previous value should be recorded when monitoring changes. </para>
     /// </summary>
-    public static void SetAttrOldValue(this AttributesBuilder<SlMutationObserver> b,bool attrOldValue)
+    public static void SetAttrOldValue(this AttributesBuilder<SlMutationObserver> b, bool attrOldValue)
     {
         if (attrOldValue) b.SetAttribute("attr-old-value", "");
     }
@@ -65,7 +77,7 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Watches for changes to the character data contained within the node. </para>
     /// </summary>
-    public static void SetCharData(this AttributesBuilder<SlMutationObserver> b,bool charData)
+    public static void SetCharData(this AttributesBuilder<SlMutationObserver> b, bool charData)
     {
         if (charData) b.SetAttribute("char-data", "");
     }
@@ -81,7 +93,7 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Indicates whether or not the previous value of the node's text should be recorded. </para>
     /// </summary>
-    public static void SetCharDataOldValue(this AttributesBuilder<SlMutationObserver> b,bool charDataOldValue)
+    public static void SetCharDataOldValue(this AttributesBuilder<SlMutationObserver> b, bool charDataOldValue)
     {
         if (charDataOldValue) b.SetAttribute("char-data-old-value", "");
     }
@@ -97,7 +109,7 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Watches for the addition or removal of new child nodes. </para>
     /// </summary>
-    public static void SetChildList(this AttributesBuilder<SlMutationObserver> b,bool childList)
+    public static void SetChildList(this AttributesBuilder<SlMutationObserver> b, bool childList)
     {
         if (childList) b.SetAttribute("child-list", "");
     }
@@ -113,7 +125,7 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Disables the observer. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlMutationObserver> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlMutationObserver> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatDate : SlComponent
+public partial class SlFormatDate
 {
-    public SlFormatDate() : base("sl-format-date") { }
 }
 
 public static partial class SlFormatDateControl
@@ -21,19 +19,33 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static IHtmlNode SlFormatDate(this HtmlBuilder b, Action<AttributesBuilder<SlFormatDate>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-date", buildAttributes, children);
+        return b.SlTag("sl-format-date", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlFormatDate(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-date", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-format-date", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatDate(this HtmlBuilder b, Action<AttributesBuilder<SlFormatDate>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-date", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatDate(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-date", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The date/time to format. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). </para>
     /// </summary>
-    public static void SetDate(this AttributesBuilder<SlFormatDate> b,string date)
+    public static void SetDate(this AttributesBuilder<SlFormatDate> b, string date)
     {
         b.SetAttribute("date", date);
     }
@@ -41,7 +53,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the weekday. </para>
     /// </summary>
-    public static void SetWeekday(this AttributesBuilder<SlFormatDate> b,string weekday)
+    public static void SetWeekday(this AttributesBuilder<SlFormatDate> b, string weekday)
     {
         b.SetAttribute("weekday", weekday);
     }
@@ -73,7 +85,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the era. </para>
     /// </summary>
-    public static void SetEra(this AttributesBuilder<SlFormatDate> b,string era)
+    public static void SetEra(this AttributesBuilder<SlFormatDate> b, string era)
     {
         b.SetAttribute("era", era);
     }
@@ -105,7 +117,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the year. </para>
     /// </summary>
-    public static void SetYear(this AttributesBuilder<SlFormatDate> b,string year)
+    public static void SetYear(this AttributesBuilder<SlFormatDate> b, string year)
     {
         b.SetAttribute("year", year);
     }
@@ -129,7 +141,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the month. </para>
     /// </summary>
-    public static void SetMonth(this AttributesBuilder<SlFormatDate> b,string month)
+    public static void SetMonth(this AttributesBuilder<SlFormatDate> b, string month)
     {
         b.SetAttribute("month", month);
     }
@@ -177,7 +189,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the day. </para>
     /// </summary>
-    public static void SetDay(this AttributesBuilder<SlFormatDate> b,string day)
+    public static void SetDay(this AttributesBuilder<SlFormatDate> b, string day)
     {
         b.SetAttribute("day", day);
     }
@@ -201,7 +213,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the hour. </para>
     /// </summary>
-    public static void SetHour(this AttributesBuilder<SlFormatDate> b,string hour)
+    public static void SetHour(this AttributesBuilder<SlFormatDate> b, string hour)
     {
         b.SetAttribute("hour", hour);
     }
@@ -225,7 +237,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the minute. </para>
     /// </summary>
-    public static void SetMinute(this AttributesBuilder<SlFormatDate> b,string minute)
+    public static void SetMinute(this AttributesBuilder<SlFormatDate> b, string minute)
     {
         b.SetAttribute("minute", minute);
     }
@@ -249,7 +261,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the second. </para>
     /// </summary>
-    public static void SetSecond(this AttributesBuilder<SlFormatDate> b,string second)
+    public static void SetSecond(this AttributesBuilder<SlFormatDate> b, string second)
     {
         b.SetAttribute("second", second);
     }
@@ -273,7 +285,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the time. </para>
     /// </summary>
-    public static void SetTimeZoneName(this AttributesBuilder<SlFormatDate> b,string timeZoneName)
+    public static void SetTimeZoneName(this AttributesBuilder<SlFormatDate> b, string timeZoneName)
     {
         b.SetAttribute("time-zone-name", timeZoneName);
     }
@@ -297,7 +309,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The time zone to express the time in. </para>
     /// </summary>
-    public static void SetTimeZone(this AttributesBuilder<SlFormatDate> b,string timeZone)
+    public static void SetTimeZone(this AttributesBuilder<SlFormatDate> b, string timeZone)
     {
         b.SetAttribute("time-zone", timeZone);
     }
@@ -305,7 +317,7 @@ public static partial class SlFormatDateControl
     /// <summary>
     /// <para> The format for displaying the hour. </para>
     /// </summary>
-    public static void SetHourFormat(this AttributesBuilder<SlFormatDate> b,string hourFormat)
+    public static void SetHourFormat(this AttributesBuilder<SlFormatDate> b, string hourFormat)
     {
         b.SetAttribute("hour-format", hourFormat);
     }

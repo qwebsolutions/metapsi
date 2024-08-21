@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSpinner : SlComponent
+public partial class SlSpinner
 {
-    public SlSpinner() : base("sl-spinner") { }
 }
 
 public static partial class SlSpinnerControl
@@ -21,14 +19,28 @@ public static partial class SlSpinnerControl
     /// </summary>
     public static IHtmlNode SlSpinner(this HtmlBuilder b, Action<AttributesBuilder<SlSpinner>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-spinner", buildAttributes, children);
+        return b.SlTag("sl-spinner", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlSpinner(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-spinner", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-spinner", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSpinner(this HtmlBuilder b, Action<AttributesBuilder<SlSpinner>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-spinner", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSpinner(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-spinner", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

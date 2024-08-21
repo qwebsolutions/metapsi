@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSplitPane : IonComponent
+public partial class IonSplitPane
 {
-    public IonSplitPane() : base("ion-split-pane") { }
 }
 
 public static partial class IonSplitPaneControl
@@ -21,19 +19,33 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static IHtmlNode IonSplitPane(this HtmlBuilder b, Action<AttributesBuilder<IonSplitPane>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-split-pane", buildAttributes, children);
+        return b.IonicTag("ion-split-pane", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSplitPane(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-split-pane", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-split-pane", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSplitPane(this HtmlBuilder b, Action<AttributesBuilder<IonSplitPane>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-split-pane", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSplitPane(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-split-pane", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`. </para>
     /// </summary>
-    public static void SetContentId(this AttributesBuilder<IonSplitPane> b,string contentId)
+    public static void SetContentId(this AttributesBuilder<IonSplitPane> b, string contentId)
     {
         b.SetAttribute("content-id", contentId);
     }
@@ -49,7 +61,7 @@ public static partial class IonSplitPaneControl
     /// <summary>
     /// <para> If `true`, the split pane will be hidden. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSplitPane> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSplitPane> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonSplitPaneControl
     /// <summary>
     /// <para> When the split-pane should be shown. Can be a CSS media query expression, or a shortcut expression. Can also be a boolean expression. </para>
     /// </summary>
-    public static void SetWhen(this AttributesBuilder<IonSplitPane> b,string when)
+    public static void SetWhen(this AttributesBuilder<IonSplitPane> b, string when)
     {
         b.SetAttribute("when", when);
     }

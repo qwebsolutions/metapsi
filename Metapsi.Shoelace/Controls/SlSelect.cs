@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSelect : SlComponent
+public partial class SlSelect
 {
-    public SlSelect() : base("sl-select") { }
     /// <summary>
     ///
     /// </summary>
@@ -82,19 +80,33 @@ public static partial class SlSelectControl
     /// </summary>
     public static IHtmlNode SlSelect(this HtmlBuilder b, Action<AttributesBuilder<SlSelect>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-select", buildAttributes, children);
+        return b.SlTag("sl-select", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlSelect(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-select", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-select", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSelect(this HtmlBuilder b, Action<AttributesBuilder<SlSelect>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-select", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSelect(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-select", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the select, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlSelect> b,string name)
+    public static void SetName(this AttributesBuilder<SlSelect> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -102,7 +114,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlSelect> b,string value)
+    public static void SetValue(this AttributesBuilder<SlSelect> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -110,7 +122,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The select's size. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlSelect> b,string size)
+    public static void SetSize(this AttributesBuilder<SlSelect> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -142,7 +154,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Placeholder text to show as a hint when the select is empty. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<SlSelect> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<SlSelect> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -158,7 +170,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Allows more than one option to be selected. </para>
     /// </summary>
-    public static void SetMultiple(this AttributesBuilder<SlSelect> b,bool multiple)
+    public static void SetMultiple(this AttributesBuilder<SlSelect> b, bool multiple)
     {
         if (multiple) b.SetAttribute("multiple", "");
     }
@@ -166,7 +178,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the number of additional items that are selected. Set to 0 to remove the limit. </para>
     /// </summary>
-    public static void SetMaxOptionsVisible(this AttributesBuilder<SlSelect> b,string maxOptionsVisible)
+    public static void SetMaxOptionsVisible(this AttributesBuilder<SlSelect> b, string maxOptionsVisible)
     {
         b.SetAttribute("max-options-visible", maxOptionsVisible);
     }
@@ -182,7 +194,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Disables the select control. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlSelect> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlSelect> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -198,7 +210,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Adds a clear button when the select is not empty. </para>
     /// </summary>
-    public static void SetClearable(this AttributesBuilder<SlSelect> b,bool clearable)
+    public static void SetClearable(this AttributesBuilder<SlSelect> b, bool clearable)
     {
         if (clearable) b.SetAttribute("clearable", "");
     }
@@ -214,7 +226,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Indicates whether or not the select is open. You can toggle this attribute to show and hide the menu, or you can use the `show()` and `hide()` methods and this attribute will reflect the select's open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlSelect> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlSelect> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -230,7 +242,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Enable this option to prevent the listbox from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this AttributesBuilder<SlSelect> b,bool hoist)
+    public static void SetHoist(this AttributesBuilder<SlSelect> b, bool hoist)
     {
         if (hoist) b.SetAttribute("hoist", "");
     }
@@ -246,7 +258,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Draws a filled select. </para>
     /// </summary>
-    public static void SetFilled(this AttributesBuilder<SlSelect> b,bool filled)
+    public static void SetFilled(this AttributesBuilder<SlSelect> b, bool filled)
     {
         if (filled) b.SetAttribute("filled", "");
     }
@@ -262,7 +274,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> Draws a pill-style select with rounded edges. </para>
     /// </summary>
-    public static void SetPill(this AttributesBuilder<SlSelect> b,bool pill)
+    public static void SetPill(this AttributesBuilder<SlSelect> b, bool pill)
     {
         if (pill) b.SetAttribute("pill", "");
     }
@@ -270,7 +282,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The select's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlSelect> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlSelect> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -278,7 +290,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The preferred placement of the select's menu. Note that the actual placement may vary as needed to keep the listbox inside of the viewport. </para>
     /// </summary>
-    public static void SetPlacement(this AttributesBuilder<SlSelect> b,string placement)
+    public static void SetPlacement(this AttributesBuilder<SlSelect> b, string placement)
     {
         b.SetAttribute("placement", placement);
     }
@@ -302,7 +314,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The select's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this AttributesBuilder<SlSelect> b,string helpText)
+    public static void SetHelpText(this AttributesBuilder<SlSelect> b, string helpText)
     {
         b.SetAttribute("help-text", helpText);
     }
@@ -310,7 +322,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlSelect> b,string form)
+    public static void SetForm(this AttributesBuilder<SlSelect> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -326,7 +338,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> The select's required attribute. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<SlSelect> b,bool required)
+    public static void SetRequired(this AttributesBuilder<SlSelect> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }
@@ -334,7 +346,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag(this AttributesBuilder<SlSelect> b,string getTag)
+    public static void SetGetTag(this AttributesBuilder<SlSelect> b, string getTag)
     {
         b.SetAttribute("getTag", getTag);
     }

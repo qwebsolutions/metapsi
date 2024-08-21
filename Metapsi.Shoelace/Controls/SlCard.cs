@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCard : SlComponent
+public partial class SlCard
 {
-    public SlCard() : base("sl-card") { }
     /// <summary>
     ///
     /// </summary>
@@ -39,14 +37,28 @@ public static partial class SlCardControl
     /// </summary>
     public static IHtmlNode SlCard(this HtmlBuilder b, Action<AttributesBuilder<SlCard>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-card", buildAttributes, children);
+        return b.SlTag("sl-card", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlCard(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-card", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-card", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCard(this HtmlBuilder b, Action<AttributesBuilder<SlCard>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-card", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCard(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-card", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatBytes : SlComponent
+public partial class SlFormatBytes
 {
-    public SlFormatBytes() : base("sl-format-bytes") { }
 }
 
 public static partial class SlFormatBytesControl
@@ -21,19 +19,33 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static IHtmlNode SlFormatBytes(this HtmlBuilder b, Action<AttributesBuilder<SlFormatBytes>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-bytes", buildAttributes, children);
+        return b.SlTag("sl-format-bytes", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlFormatBytes(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-bytes", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-format-bytes", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatBytes(this HtmlBuilder b, Action<AttributesBuilder<SlFormatBytes>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-bytes", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatBytes(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-bytes", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The number to format in bytes. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlFormatBytes> b,string value)
+    public static void SetValue(this AttributesBuilder<SlFormatBytes> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -41,7 +53,7 @@ public static partial class SlFormatBytesControl
     /// <summary>
     /// <para> The type of unit to display. </para>
     /// </summary>
-    public static void SetUnit(this AttributesBuilder<SlFormatBytes> b,string unit)
+    public static void SetUnit(this AttributesBuilder<SlFormatBytes> b, string unit)
     {
         b.SetAttribute("unit", unit);
     }
@@ -65,7 +77,7 @@ public static partial class SlFormatBytesControl
     /// <summary>
     /// <para> Determines how to display the result, e.g. "100 bytes", "100 b", or "100b". </para>
     /// </summary>
-    public static void SetDisplay(this AttributesBuilder<SlFormatBytes> b,string display)
+    public static void SetDisplay(this AttributesBuilder<SlFormatBytes> b, string display)
     {
         b.SetAttribute("display", display);
     }

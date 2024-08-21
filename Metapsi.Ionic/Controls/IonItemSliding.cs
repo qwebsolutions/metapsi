@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemSliding : IonComponent
+public partial class IonItemSliding
 {
-    public IonItemSliding() : base("ion-item-sliding") { }
     public static class Method
     {
         /// <summary>
@@ -50,14 +48,28 @@ public static partial class IonItemSlidingControl
     /// </summary>
     public static IHtmlNode IonItemSliding(this HtmlBuilder b, Action<AttributesBuilder<IonItemSliding>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-sliding", buildAttributes, children);
+        return b.IonicTag("ion-item-sliding", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonItemSliding(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-sliding", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-item-sliding", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemSliding(this HtmlBuilder b, Action<AttributesBuilder<IonItemSliding>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-sliding", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemSliding(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-sliding", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the user cannot interact with the sliding item. </para>
@@ -70,7 +82,7 @@ public static partial class IonItemSlidingControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the sliding item. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonItemSliding> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonItemSliding> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

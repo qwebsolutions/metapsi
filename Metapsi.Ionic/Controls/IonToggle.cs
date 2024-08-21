@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonToggle : IonComponent
+public partial class IonToggle
 {
-    public IonToggle() : base("ion-toggle") { }
 }
 
 public static partial class IonToggleControl
@@ -21,19 +19,33 @@ public static partial class IonToggleControl
     /// </summary>
     public static IHtmlNode IonToggle(this HtmlBuilder b, Action<AttributesBuilder<IonToggle>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toggle", buildAttributes, children);
+        return b.IonicTag("ion-toggle", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonToggle(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toggle", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-toggle", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToggle(this HtmlBuilder b, Action<AttributesBuilder<IonToggle>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toggle", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToggle(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toggle", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
-    public static void SetAlignment(this AttributesBuilder<IonToggle> b,string alignment)
+    public static void SetAlignment(this AttributesBuilder<IonToggle> b, string alignment)
     {
         b.SetAttribute("alignment", alignment);
     }
@@ -65,7 +77,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> If `true`, the toggle is selected. </para>
     /// </summary>
-    public static void SetChecked(this AttributesBuilder<IonToggle> b,bool @checked)
+    public static void SetChecked(this AttributesBuilder<IonToggle> b, bool @checked)
     {
         if (@checked) b.SetAttribute("checked", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonToggle> b,string color)
+    public static void SetColor(this AttributesBuilder<IonToggle> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -89,7 +101,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the toggle. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonToggle> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonToggle> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -105,7 +117,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> Enables the on/off accessibility switch labels within the toggle. </para>
     /// </summary>
-    public static void SetEnableOnOffLabels(this AttributesBuilder<IonToggle> b,bool enableOnOffLabels)
+    public static void SetEnableOnOffLabels(this AttributesBuilder<IonToggle> b, bool enableOnOffLabels)
     {
         if (enableOnOffLabels) b.SetAttribute("enable-on-off-labels", "");
     }
@@ -113,7 +125,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
-    public static void SetJustify(this AttributesBuilder<IonToggle> b,string justify)
+    public static void SetJustify(this AttributesBuilder<IonToggle> b, string justify)
     {
         b.SetAttribute("justify", justify);
     }
@@ -145,7 +157,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> Where to place the label relative to the input. `"start"`: The label will appear to the left of the toggle in LTR and to the right in RTL. `"end"`: The label will appear to the right of the toggle in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the toggle regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonToggle> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonToggle> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -185,7 +197,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonToggle> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonToggle> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -209,7 +221,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonToggle> b,string name)
+    public static void SetName(this AttributesBuilder<IonToggle> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -217,7 +229,7 @@ public static partial class IonToggleControl
     /// <summary>
     /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonToggle> b,string value)
+    public static void SetValue(this AttributesBuilder<IonToggle> b, string value)
     {
         b.SetAttribute("value", value);
     }

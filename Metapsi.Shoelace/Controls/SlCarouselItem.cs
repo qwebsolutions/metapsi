@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCarouselItem : SlComponent
+public partial class SlCarouselItem
 {
-    public SlCarouselItem() : base("sl-carousel-item") { }
 }
 
 public static partial class SlCarouselItemControl
@@ -21,14 +19,28 @@ public static partial class SlCarouselItemControl
     /// </summary>
     public static IHtmlNode SlCarouselItem(this HtmlBuilder b, Action<AttributesBuilder<SlCarouselItem>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-carousel-item", buildAttributes, children);
+        return b.SlTag("sl-carousel-item", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlCarouselItem(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-carousel-item", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-carousel-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarouselItem(this HtmlBuilder b, Action<AttributesBuilder<SlCarouselItem>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-carousel-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarouselItem(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-carousel-item", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

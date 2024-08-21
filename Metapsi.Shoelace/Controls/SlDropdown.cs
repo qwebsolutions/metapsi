@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDropdown : SlComponent
+public partial class SlDropdown
 {
-    public SlDropdown() : base("sl-dropdown") { }
     /// <summary>
     ///
     /// </summary>
@@ -46,14 +44,28 @@ public static partial class SlDropdownControl
     /// </summary>
     public static IHtmlNode SlDropdown(this HtmlBuilder b, Action<AttributesBuilder<SlDropdown>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-dropdown", buildAttributes, children);
+        return b.SlTag("sl-dropdown", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlDropdown(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-dropdown", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-dropdown", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDropdown(this HtmlBuilder b, Action<AttributesBuilder<SlDropdown>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-dropdown", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDropdown(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-dropdown", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether or not the dropdown is open. You can toggle this attribute to show and hide the dropdown, or you can use the `show()` and `hide()` methods and this attribute will reflect the dropdown's open state. </para>
@@ -66,7 +78,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Indicates whether or not the dropdown is open. You can toggle this attribute to show and hide the dropdown, or you can use the `show()` and `hide()` methods and this attribute will reflect the dropdown's open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlDropdown> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlDropdown> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -74,7 +86,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel inside of the viewport. </para>
     /// </summary>
-    public static void SetPlacement(this AttributesBuilder<SlDropdown> b,string placement)
+    public static void SetPlacement(this AttributesBuilder<SlDropdown> b, string placement)
     {
         b.SetAttribute("placement", placement);
     }
@@ -186,7 +198,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Disables the dropdown so the panel will not open. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlDropdown> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlDropdown> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -202,7 +214,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> By default, the dropdown is closed when an item is selected. This attribute will keep it open instead. Useful for dropdowns that allow for multiple interactions. </para>
     /// </summary>
-    public static void SetStayOpenOnSelect(this AttributesBuilder<SlDropdown> b,bool stayOpenOnSelect)
+    public static void SetStayOpenOnSelect(this AttributesBuilder<SlDropdown> b, bool stayOpenOnSelect)
     {
         if (stayOpenOnSelect) b.SetAttribute("stay-open-on-select", "");
     }
@@ -210,7 +222,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> The distance in pixels from which to offset the panel away from its trigger. </para>
     /// </summary>
-    public static void SetDistance(this AttributesBuilder<SlDropdown> b,string distance)
+    public static void SetDistance(this AttributesBuilder<SlDropdown> b, string distance)
     {
         b.SetAttribute("distance", distance);
     }
@@ -218,7 +230,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> The distance in pixels from which to offset the panel along its trigger. </para>
     /// </summary>
-    public static void SetSkidding(this AttributesBuilder<SlDropdown> b,string skidding)
+    public static void SetSkidding(this AttributesBuilder<SlDropdown> b, string skidding)
     {
         b.SetAttribute("skidding", skidding);
     }
@@ -234,7 +246,7 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Enable this option to prevent the panel from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this AttributesBuilder<SlDropdown> b,bool hoist)
+    public static void SetHoist(this AttributesBuilder<SlDropdown> b, bool hoist)
     {
         if (hoist) b.SetAttribute("hoist", "");
     }

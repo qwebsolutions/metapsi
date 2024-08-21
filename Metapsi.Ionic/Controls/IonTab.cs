@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTab : IonComponent
+public partial class IonTab
 {
-    public IonTab() : base("ion-tab") { }
     public static class Method
     {
         /// <summary>
@@ -29,19 +27,33 @@ public static partial class IonTabControl
     /// </summary>
     public static IHtmlNode IonTab(this HtmlBuilder b, Action<AttributesBuilder<IonTab>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab", buildAttributes, children);
+        return b.IonicTag("ion-tab", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTab(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tab", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-tab", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTab(this HtmlBuilder b, Action<AttributesBuilder<IonTab>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTab(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tab", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The component to display inside of the tab. </para>
     /// </summary>
-    public static void SetComponent(this AttributesBuilder<IonTab> b,string component)
+    public static void SetComponent(this AttributesBuilder<IonTab> b, string component)
     {
         b.SetAttribute("component", component);
     }
@@ -49,7 +61,7 @@ public static partial class IonTabControl
     /// <summary>
     /// <para> A tab id must be provided for each `ion-tab`. It's used internally to reference the selected tab or by the router to switch between them. </para>
     /// </summary>
-    public static void SetTab(this AttributesBuilder<IonTab> b,string tab)
+    public static void SetTab(this AttributesBuilder<IonTab> b, string tab)
     {
         b.SetAttribute("tab", tab);
     }

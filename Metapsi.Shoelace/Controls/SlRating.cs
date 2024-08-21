@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRating : SlComponent
+public partial class SlRating
 {
-    public SlRating() : base("sl-rating") { }
     public static class Method
     {
         /// <summary>
@@ -32,19 +30,33 @@ public static partial class SlRatingControl
     /// </summary>
     public static IHtmlNode SlRating(this HtmlBuilder b, Action<AttributesBuilder<SlRating>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-rating", buildAttributes, children);
+        return b.SlTag("sl-rating", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlRating(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-rating", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-rating", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, Action<AttributesBuilder<SlRating>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-rating", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-rating", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> A label that describes the rating to assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlRating> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlRating> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -52,7 +64,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> The current rating. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlRating> b,string value)
+    public static void SetValue(this AttributesBuilder<SlRating> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -60,7 +72,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> The highest rating to show. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<SlRating> b,string max)
+    public static void SetMax(this AttributesBuilder<SlRating> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -68,7 +80,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`. </para>
     /// </summary>
-    public static void SetPrecision(this AttributesBuilder<SlRating> b,string precision)
+    public static void SetPrecision(this AttributesBuilder<SlRating> b, string precision)
     {
         b.SetAttribute("precision", precision);
     }
@@ -84,7 +96,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> Makes the rating readonly. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<SlRating> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<SlRating> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -100,7 +112,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> Disables the rating. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlRating> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlRating> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -108,7 +120,7 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
     /// </summary>
-    public static void SetGetSymbol(this AttributesBuilder<SlRating> b,string getSymbol)
+    public static void SetGetSymbol(this AttributesBuilder<SlRating> b, string getSymbol)
     {
         b.SetAttribute("getSymbol", getSymbol);
     }

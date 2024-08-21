@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTree : SlComponent
+public partial class SlTree
 {
-    public SlTree() : base("sl-tree") { }
     /// <summary>
     ///
     /// </summary>
@@ -35,19 +33,33 @@ public static partial class SlTreeControl
     /// </summary>
     public static IHtmlNode SlTree(this HtmlBuilder b, Action<AttributesBuilder<SlTree>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tree", buildAttributes, children);
+        return b.SlTag("sl-tree", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTree(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tree", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tree", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTree(this HtmlBuilder b, Action<AttributesBuilder<SlTree>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tree", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTree(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tree", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>
     /// </summary>
-    public static void SetSelection(this AttributesBuilder<SlTree> b,string selection)
+    public static void SetSelection(this AttributesBuilder<SlTree> b, string selection)
     {
         b.SetAttribute("selection", selection);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTitle : IonComponent
+public partial class IonTitle
 {
-    public IonTitle() : base("ion-title") { }
 }
 
 public static partial class IonTitleControl
@@ -21,19 +19,33 @@ public static partial class IonTitleControl
     /// </summary>
     public static IHtmlNode IonTitle(this HtmlBuilder b, Action<AttributesBuilder<IonTitle>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-title", buildAttributes, children);
+        return b.IonicTag("ion-title", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTitle(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-title", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-title", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTitle(this HtmlBuilder b, Action<AttributesBuilder<IonTitle>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-title", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTitle(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-title", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonTitle> b,string color)
+    public static void SetColor(this AttributesBuilder<IonTitle> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonTitleControl
     /// <summary>
     /// <para> The size of the toolbar title. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonTitle> b,string size)
+    public static void SetSize(this AttributesBuilder<IonTitle> b, string size)
     {
         b.SetAttribute("size", size);
     }

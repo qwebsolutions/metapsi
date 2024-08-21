@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDetails : SlComponent
+public partial class SlDetails
 {
-    public SlDetails() : base("sl-details") { }
     /// <summary>
     ///
     /// </summary>
@@ -50,14 +48,28 @@ public static partial class SlDetailsControl
     /// </summary>
     public static IHtmlNode SlDetails(this HtmlBuilder b, Action<AttributesBuilder<SlDetails>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-details", buildAttributes, children);
+        return b.SlTag("sl-details", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlDetails(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-details", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-details", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDetails(this HtmlBuilder b, Action<AttributesBuilder<SlDetails>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-details", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDetails(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-details", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state. </para>
@@ -70,7 +82,7 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlDetails> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlDetails> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -78,7 +90,7 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> The summary to show in the header. If you need to display HTML, use the `summary` slot instead. </para>
     /// </summary>
-    public static void SetSummary(this AttributesBuilder<SlDetails> b,string summary)
+    public static void SetSummary(this AttributesBuilder<SlDetails> b, string summary)
     {
         b.SetAttribute("summary", summary);
     }
@@ -94,7 +106,7 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Disables the details so it can't be toggled. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlDetails> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlDetails> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

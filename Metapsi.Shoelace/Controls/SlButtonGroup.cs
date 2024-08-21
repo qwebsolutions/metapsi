@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlButtonGroup : SlComponent
+public partial class SlButtonGroup
 {
-    public SlButtonGroup() : base("sl-button-group") { }
 }
 
 public static partial class SlButtonGroupControl
@@ -21,19 +19,33 @@ public static partial class SlButtonGroupControl
     /// </summary>
     public static IHtmlNode SlButtonGroup(this HtmlBuilder b, Action<AttributesBuilder<SlButtonGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-button-group", buildAttributes, children);
+        return b.SlTag("sl-button-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlButtonGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-button-group", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-button-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButtonGroup(this HtmlBuilder b, Action<AttributesBuilder<SlButtonGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-button-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButtonGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-button-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlButtonGroup> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlButtonGroup> b, string label)
     {
         b.SetAttribute("label", label);
     }

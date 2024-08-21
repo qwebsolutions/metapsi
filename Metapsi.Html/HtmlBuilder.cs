@@ -1,61 +1,22 @@
-﻿using Metapsi.Ui;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 
 namespace Metapsi.Html;
 
-
-public class HtmlNodeBuilder
-{
-    public Action<HtmlDocument> AddResources { get; set; } = (b) => { };
-    public Func<HtmlDocument, IHtmlNode> BuildNode { get; set; }
-    public List<HtmlNodeBuilder> BuildChildren { get; set; } = new();
-
-    public IHtmlNode Build(HtmlDocument htmlDocument)
-    {
-        AddResources(htmlDocument);
-
-        List<IHtmlNode> children = new();
-        foreach (var builder in BuildChildren)
-        {
-            children.Add(builder(htmlDocument));
-        }
-
-        var node = BuildNode(htmlDocument);
-    }
-}
-
-public static class HtmlNodeBuilderExtensions
-{
-    public static HtmlNodeBuilder Node<T>(this HtmlBuilder b, Func<HtmlDocument, IHtmlNode> buildNode, List<HtmlNodeBuilder> childrenBuilder)
-    {
-        HtmlNodeBuilder output = new HtmlNodeBuilder();
-        output.BuildNode = buildNode;
-        output.BuildChildren = childrenBuilder;
-        return output;
-    }
-
-    public static IHtmlNode BuildWhatever(this HtmlBuilder b)
-    {
-        return b.Node()
-    }
-}
-
-
 public class HtmlBuilder
 {
-    //public HtmlDocument Document { get; private set; }
+    public HtmlDocument Document { get; private set; }
 
     private HtmlBuilder()
     {
-        //this.Document = new HtmlDocument();
+        this.Document = new HtmlDocument();
     }
 
     public HtmlBuilder(HtmlBuilder b)
     {
-        //this.Document = b.Document;
+        this.Document = b.Document;
     }
 
     public static HtmlDocument FromEmpty(Action<HtmlBuilder> build)
@@ -126,8 +87,7 @@ public static class HtmlBuilderExtensions
     {
         foreach (var node in nodes)
         {
-            var html = node.ToString();
-            if (!b.Document.Head.Children.Select(x => x.ToHtml()).Contains(html))
+            if (!b.Document.Head.Children.Contains(node, new HtmlNodeComparer()))
             {
                 b.Document.Head.Children.Add(node);
             }
@@ -230,7 +190,7 @@ public static class HtmlBuilderExtensions
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", cssName);
+            b.SetAttribute("href", "/" + cssName);
         }));
     }
 

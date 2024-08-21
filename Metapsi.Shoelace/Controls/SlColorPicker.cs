@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlColorPicker : SlComponent
+public partial class SlColorPicker
 {
-    public SlColorPicker() : base("sl-color-picker") { }
     /// <summary>
     ///
     /// </summary>
@@ -66,19 +64,33 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static IHtmlNode SlColorPicker(this HtmlBuilder b, Action<AttributesBuilder<SlColorPicker>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-color-picker", buildAttributes, children);
+        return b.SlTag("sl-color-picker", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlColorPicker(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-color-picker", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-color-picker", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlColorPicker(this HtmlBuilder b, Action<AttributesBuilder<SlColorPicker>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-color-picker", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlColorPicker(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-color-picker", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The current value of the color picker. The value's format will vary based the `format` attribute. To get the value in a specific format, use the `getFormattedValue()` method. The value is submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlColorPicker> b,string value)
+    public static void SetValue(this AttributesBuilder<SlColorPicker> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -86,7 +98,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> The color picker's label. This will not be displayed, but it will be announced by assistive devices. If you need to display HTML, you can use the `label` slot` instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlColorPicker> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlColorPicker> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -94,7 +106,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> The format to use. If opacity is enabled, these will translate to HEXA, RGBA, HSLA, and HSVA respectively. The color picker will accept user input in any format (including CSS color names) and convert it to the desired format. </para>
     /// </summary>
-    public static void SetFormat(this AttributesBuilder<SlColorPicker> b,string format)
+    public static void SetFormat(this AttributesBuilder<SlColorPicker> b, string format)
     {
         b.SetAttribute("format", format);
     }
@@ -142,7 +154,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Renders the color picker inline rather than in a dropdown. </para>
     /// </summary>
-    public static void SetInline(this AttributesBuilder<SlColorPicker> b,bool inline)
+    public static void SetInline(this AttributesBuilder<SlColorPicker> b, bool inline)
     {
         if (inline) b.SetAttribute("inline", "");
     }
@@ -150,7 +162,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Determines the size of the color picker's trigger. This has no effect on inline color pickers. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlColorPicker> b,string size)
+    public static void SetSize(this AttributesBuilder<SlColorPicker> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -190,7 +202,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Removes the button that lets users toggle between format. </para>
     /// </summary>
-    public static void SetNoFormatToggle(this AttributesBuilder<SlColorPicker> b,bool noFormatToggle)
+    public static void SetNoFormatToggle(this AttributesBuilder<SlColorPicker> b, bool noFormatToggle)
     {
         if (noFormatToggle) b.SetAttribute("no-format-toggle", "");
     }
@@ -198,7 +210,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> The name of the form control, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlColorPicker> b,string name)
+    public static void SetName(this AttributesBuilder<SlColorPicker> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -214,7 +226,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Disables the color picker. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlColorPicker> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlColorPicker> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -230,7 +242,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Enable this option to prevent the panel from being clipped when the component is placed inside a container with `overflow: auto|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this AttributesBuilder<SlColorPicker> b,bool hoist)
+    public static void SetHoist(this AttributesBuilder<SlColorPicker> b, bool hoist)
     {
         if (hoist) b.SetAttribute("hoist", "");
     }
@@ -246,7 +258,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Shows the opacity slider. Enabling this will cause the formatted value to be HEXA, RGBA, or HSLA. </para>
     /// </summary>
-    public static void SetOpacity(this AttributesBuilder<SlColorPicker> b,bool opacity)
+    public static void SetOpacity(this AttributesBuilder<SlColorPicker> b, bool opacity)
     {
         if (opacity) b.SetAttribute("opacity", "");
     }
@@ -262,7 +274,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> By default, values are lowercase. With this attribute, values will be uppercase instead. </para>
     /// </summary>
-    public static void SetUppercase(this AttributesBuilder<SlColorPicker> b,bool uppercase)
+    public static void SetUppercase(this AttributesBuilder<SlColorPicker> b, bool uppercase)
     {
         if (uppercase) b.SetAttribute("uppercase", "");
     }
@@ -270,7 +282,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> One or more predefined color swatches to display as presets in the color picker. Can include any format the color picker can parse, including HEX(A), RGB(A), HSL(A), HSV(A), and CSS color names. Each color must be separated by a semicolon (`;`). Alternatively, you can pass an array of color values to this property using JavaScript. </para>
     /// </summary>
-    public static void SetSwatches(this AttributesBuilder<SlColorPicker> b,string swatches)
+    public static void SetSwatches(this AttributesBuilder<SlColorPicker> b, string swatches)
     {
         b.SetAttribute("swatches", swatches);
     }
@@ -278,7 +290,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlColorPicker> b,string form)
+    public static void SetForm(this AttributesBuilder<SlColorPicker> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -294,7 +306,7 @@ public static partial class SlColorPickerControl
     /// <summary>
     /// <para> Makes the color picker a required field. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<SlColorPicker> b,bool required)
+    public static void SetRequired(this AttributesBuilder<SlColorPicker> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }

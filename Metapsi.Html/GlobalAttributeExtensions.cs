@@ -1,6 +1,4 @@
-﻿using Metapsi.Hyperapp;
-using Metapsi.Syntax;
-using Metapsi.Ui;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Html;
 
@@ -127,7 +125,7 @@ public static class GlobalAttributeExtensions
         b.SetSlot(b.Const(slotName));
     }
 
-    public static void AddStylesheet<T>(this PropsBuilder<T> b, string href)
+    public static void AddStylesheet(this SyntaxBuilder b, string href)
     {
         if (!href.StartsWith("http"))
         {
@@ -135,7 +133,11 @@ public static class GlobalAttributeExtensions
             href = $"/{href}".Replace("//", "/");
         }
 
-        b.Const(new LinkTag("stylesheet", href));
+        var stylesheet = new DistinctTag("link");
+        stylesheet.Attributes.Add("rel", "stylesheet");
+        stylesheet.Attributes.Add("href", href);
+
+        b.Const(stylesheet);
     }
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)

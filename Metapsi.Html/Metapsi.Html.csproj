@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -6,14 +6,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Metapsi.Dom\Metapsi.Dom.csproj" />
+		<None Remove="embedded\metapsi.dom.js" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
 		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
-		<ProjectReference Include="..\Metapsi.Ui\Metapsi.Ui.csproj" />
 		<ProjectReference Include="..\Metapsi.Web.Contracts\Metapsi.Web.Contracts.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="embedded\metapsi.dom.js" LogicalName="metapsi.dom.js" />
 		<EmbeddedResource Include="embedded\Metapsi.Html.js" LogicalName="Metapsi.Html.js" />
 		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
 		<EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />

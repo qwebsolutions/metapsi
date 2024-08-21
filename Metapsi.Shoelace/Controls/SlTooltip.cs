@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTooltip : SlComponent
+public partial class SlTooltip
 {
-    public SlTooltip() : base("sl-tooltip") { }
     /// <summary>
     ///
     /// </summary>
@@ -42,19 +40,33 @@ public static partial class SlTooltipControl
     /// </summary>
     public static IHtmlNode SlTooltip(this HtmlBuilder b, Action<AttributesBuilder<SlTooltip>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tooltip", buildAttributes, children);
+        return b.SlTag("sl-tooltip", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTooltip(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tooltip", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tooltip", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTooltip(this HtmlBuilder b, Action<AttributesBuilder<SlTooltip>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tooltip", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTooltip(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tooltip", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The tooltip's content. If you need to display HTML, use the `content` slot instead. </para>
     /// </summary>
-    public static void SetContent(this AttributesBuilder<SlTooltip> b,string content)
+    public static void SetContent(this AttributesBuilder<SlTooltip> b, string content)
     {
         b.SetAttribute("content", content);
     }
@@ -62,7 +74,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip inside of the viewport. </para>
     /// </summary>
-    public static void SetPlacement(this AttributesBuilder<SlTooltip> b,string placement)
+    public static void SetPlacement(this AttributesBuilder<SlTooltip> b, string placement)
     {
         b.SetAttribute("placement", placement);
     }
@@ -174,7 +186,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Disables the tooltip so it won't show when triggered. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlTooltip> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlTooltip> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -182,7 +194,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> The distance in pixels from which to offset the tooltip away from its target. </para>
     /// </summary>
-    public static void SetDistance(this AttributesBuilder<SlTooltip> b,string distance)
+    public static void SetDistance(this AttributesBuilder<SlTooltip> b, string distance)
     {
         b.SetAttribute("distance", distance);
     }
@@ -198,7 +210,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlTooltip> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlTooltip> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -206,7 +218,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> The distance in pixels from which to offset the tooltip along its target. </para>
     /// </summary>
-    public static void SetSkidding(this AttributesBuilder<SlTooltip> b,string skidding)
+    public static void SetSkidding(this AttributesBuilder<SlTooltip> b, string skidding)
     {
         b.SetAttribute("skidding", skidding);
     }
@@ -214,7 +226,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple options can be passed by separating them with a space. When manual is used, the tooltip must be activated programmatically. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<SlTooltip> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<SlTooltip> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }
@@ -230,7 +242,7 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this AttributesBuilder<SlTooltip> b,bool hoist)
+    public static void SetHoist(this AttributesBuilder<SlTooltip> b, bool hoist)
     {
         if (hoist) b.SetAttribute("hoist", "");
     }

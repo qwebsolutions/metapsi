@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatNumber : SlComponent
+public partial class SlFormatNumber
 {
-    public SlFormatNumber() : base("sl-format-number") { }
 }
 
 public static partial class SlFormatNumberControl
@@ -21,19 +19,33 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static IHtmlNode SlFormatNumber(this HtmlBuilder b, Action<AttributesBuilder<SlFormatNumber>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-number", buildAttributes, children);
+        return b.SlTag("sl-format-number", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlFormatNumber(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-format-number", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-format-number", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, Action<AttributesBuilder<SlFormatNumber>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-number", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-number", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The number to format. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlFormatNumber> b,string value)
+    public static void SetValue(this AttributesBuilder<SlFormatNumber> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -41,7 +53,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The formatting style to use. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<SlFormatNumber> b,string type)
+    public static void SetType(this AttributesBuilder<SlFormatNumber> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -81,7 +93,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> Turns off grouping separators. </para>
     /// </summary>
-    public static void SetNoGrouping(this AttributesBuilder<SlFormatNumber> b,bool noGrouping)
+    public static void SetNoGrouping(this AttributesBuilder<SlFormatNumber> b, bool noGrouping)
     {
         if (noGrouping) b.SetAttribute("no-grouping", "");
     }
@@ -89,7 +101,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting. </para>
     /// </summary>
-    public static void SetCurrency(this AttributesBuilder<SlFormatNumber> b,string currency)
+    public static void SetCurrency(this AttributesBuilder<SlFormatNumber> b, string currency)
     {
         b.SetAttribute("currency", currency);
     }
@@ -97,7 +109,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> How to display the currency. </para>
     /// </summary>
-    public static void SetCurrencyDisplay(this AttributesBuilder<SlFormatNumber> b,string currencyDisplay)
+    public static void SetCurrencyDisplay(this AttributesBuilder<SlFormatNumber> b, string currencyDisplay)
     {
         b.SetAttribute("currency-display", currencyDisplay);
     }
@@ -137,7 +149,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The minimum number of integer digits to use. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMinimumIntegerDigits(this AttributesBuilder<SlFormatNumber> b,string minimumIntegerDigits)
+    public static void SetMinimumIntegerDigits(this AttributesBuilder<SlFormatNumber> b, string minimumIntegerDigits)
     {
         b.SetAttribute("minimum-integer-digits", minimumIntegerDigits);
     }
@@ -145,7 +157,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The minimum number of fraction digits to use. Possible values are 0-20. </para>
     /// </summary>
-    public static void SetMinimumFractionDigits(this AttributesBuilder<SlFormatNumber> b,string minimumFractionDigits)
+    public static void SetMinimumFractionDigits(this AttributesBuilder<SlFormatNumber> b, string minimumFractionDigits)
     {
         b.SetAttribute("minimum-fraction-digits", minimumFractionDigits);
     }
@@ -153,7 +165,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The maximum number of fraction digits to use. Possible values are 0-0. </para>
     /// </summary>
-    public static void SetMaximumFractionDigits(this AttributesBuilder<SlFormatNumber> b,string maximumFractionDigits)
+    public static void SetMaximumFractionDigits(this AttributesBuilder<SlFormatNumber> b, string maximumFractionDigits)
     {
         b.SetAttribute("maximum-fraction-digits", maximumFractionDigits);
     }
@@ -161,7 +173,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The minimum number of significant digits to use. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMinimumSignificantDigits(this AttributesBuilder<SlFormatNumber> b,string minimumSignificantDigits)
+    public static void SetMinimumSignificantDigits(this AttributesBuilder<SlFormatNumber> b, string minimumSignificantDigits)
     {
         b.SetAttribute("minimum-significant-digits", minimumSignificantDigits);
     }
@@ -169,7 +181,7 @@ public static partial class SlFormatNumberControl
     /// <summary>
     /// <para> The maximum number of significant digits to use,. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMaximumSignificantDigits(this AttributesBuilder<SlFormatNumber> b,string maximumSignificantDigits)
+    public static void SetMaximumSignificantDigits(this AttributesBuilder<SlFormatNumber> b, string maximumSignificantDigits)
     {
         b.SetAttribute("maximum-significant-digits", maximumSignificantDigits);
     }

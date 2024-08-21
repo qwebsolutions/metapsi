@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSkeletonText : IonComponent
+public partial class IonSkeletonText
 {
-    public IonSkeletonText() : base("ion-skeleton-text") { }
 }
 
 public static partial class IonSkeletonTextControl
@@ -21,14 +19,28 @@ public static partial class IonSkeletonTextControl
     /// </summary>
     public static IHtmlNode IonSkeletonText(this HtmlBuilder b, Action<AttributesBuilder<IonSkeletonText>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-skeleton-text", buildAttributes, children);
+        return b.IonicTag("ion-skeleton-text", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSkeletonText(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-skeleton-text", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-skeleton-text", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSkeletonText(this HtmlBuilder b, Action<AttributesBuilder<IonSkeletonText>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-skeleton-text", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSkeletonText(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-skeleton-text", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the skeleton text will animate. </para>
@@ -41,7 +53,7 @@ public static partial class IonSkeletonTextControl
     /// <summary>
     /// <para> If `true`, the skeleton text will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonSkeletonText> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonSkeletonText> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }

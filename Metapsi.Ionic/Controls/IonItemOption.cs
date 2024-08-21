@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonItemOption : IonComponent
+public partial class IonItemOption
 {
-    public IonItemOption() : base("ion-item-option") { }
     /// <summary>
     /// <para> Content is placed between the named slots if provided without a slot. </para>
     /// </summary>
@@ -47,19 +45,33 @@ public static partial class IonItemOptionControl
     /// </summary>
     public static IHtmlNode IonItemOption(this HtmlBuilder b, Action<AttributesBuilder<IonItemOption>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-option", buildAttributes, children);
+        return b.IonicTag("ion-item-option", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonItemOption(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-item-option", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-item-option", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemOption(this HtmlBuilder b, Action<AttributesBuilder<IonItemOption>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-option", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonItemOption(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-item-option", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonItemOption> b,string color)
+    public static void SetColor(this AttributesBuilder<IonItemOption> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -75,7 +87,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the item option. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonItemOption> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonItemOption> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -83,7 +95,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonItemOption> b,string download)
+    public static void SetDownload(this AttributesBuilder<IonItemOption> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -99,7 +111,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> If `true`, the option will expand to take up the available width and cover any other options. </para>
     /// </summary>
-    public static void SetExpandable(this AttributesBuilder<IonItemOption> b,bool expandable)
+    public static void SetExpandable(this AttributesBuilder<IonItemOption> b, bool expandable)
     {
         if (expandable) b.SetAttribute("expandable", "");
     }
@@ -107,7 +119,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonItemOption> b,string href)
+    public static void SetHref(this AttributesBuilder<IonItemOption> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -115,7 +127,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonItemOption> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonItemOption> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -139,7 +151,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonItemOption> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonItemOption> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -147,7 +159,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonItemOption> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonItemOption> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -155,7 +167,7 @@ public static partial class IonItemOptionControl
     /// <summary>
     /// <para> The type of the button. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonItemOption> b,string type)
+    public static void SetType(this AttributesBuilder<IonItemOption> b, string type)
     {
         b.SetAttribute("type", type);
     }

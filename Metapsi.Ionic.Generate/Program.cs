@@ -151,8 +151,9 @@ public static class Program
             }
 
             var csharpComponent = webComponent.ToCSharpComponent(cSharpConverter);
-            csharpComponent.BaseClassName = "IonComponent";
+            //csharpComponent.BaseClassName = "IonComponent";
             csharpComponent.ClientSideConstructorName = "IonicNode";
+            csharpComponent.ServerSideConstructorName = "IonicTag";
             foreach (var withSafeString in csharpComponent.PropertySetters.Where(x => x.CSharpType == "IonicSafeString"))
             {
                 withSafeString.GenerateConst = false;
@@ -164,7 +165,6 @@ public static class Program
                 "Metapsi.Syntax",
                 "System",
                 "System.Collections.Generic",
-                "Metapsi.Ui",
                 "Metapsi.Html",
                 "Metapsi.Dom"
             });

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRippleEffect : IonComponent
+public partial class IonRippleEffect
 {
-    public IonRippleEffect() : base("ion-ripple-effect") { }
     public static class Method
     {
         /// <summary>
@@ -31,19 +29,33 @@ public static partial class IonRippleEffectControl
     /// </summary>
     public static IHtmlNode IonRippleEffect(this HtmlBuilder b, Action<AttributesBuilder<IonRippleEffect>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-ripple-effect", buildAttributes, children);
+        return b.IonicTag("ion-ripple-effect", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRippleEffect(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-ripple-effect", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-ripple-effect", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRippleEffect(this HtmlBuilder b, Action<AttributesBuilder<IonRippleEffect>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-ripple-effect", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRippleEffect(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-ripple-effect", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Sets the type of ripple-effect:  - `bounded`: the ripple effect expands from the user's click position - `unbounded`: the ripple effect expands from the center of the button and overflows the container.  NOTE: Surfaces for bounded ripples should have the overflow property set to hidden, while surfaces for unbounded ripples should have it set to visible. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonRippleEffect> b,string type)
+    public static void SetType(this AttributesBuilder<IonRippleEffect> b, string type)
     {
         b.SetAttribute("type", type);
     }

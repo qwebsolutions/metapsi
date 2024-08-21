@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlVisuallyHidden : SlComponent
+public partial class SlVisuallyHidden
 {
-    public SlVisuallyHidden() : base("sl-visually-hidden") { }
 }
 
 public static partial class SlVisuallyHiddenControl
@@ -21,14 +19,28 @@ public static partial class SlVisuallyHiddenControl
     /// </summary>
     public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, Action<AttributesBuilder<SlVisuallyHidden>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-visually-hidden", buildAttributes, children);
+        return b.SlTag("sl-visually-hidden", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-visually-hidden", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-visually-hidden", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, Action<AttributesBuilder<SlVisuallyHidden>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-visually-hidden", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlVisuallyHidden(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-visually-hidden", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

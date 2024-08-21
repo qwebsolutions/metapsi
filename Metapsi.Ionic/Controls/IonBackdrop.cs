@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBackdrop : IonComponent
+public partial class IonBackdrop
 {
-    public IonBackdrop() : base("ion-backdrop") { }
 }
 
 public static partial class IonBackdropControl
@@ -21,14 +19,28 @@ public static partial class IonBackdropControl
     /// </summary>
     public static IHtmlNode IonBackdrop(this HtmlBuilder b, Action<AttributesBuilder<IonBackdrop>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-backdrop", buildAttributes, children);
+        return b.IonicTag("ion-backdrop", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonBackdrop(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-backdrop", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-backdrop", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackdrop(this HtmlBuilder b, Action<AttributesBuilder<IonBackdrop>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-backdrop", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackdrop(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-backdrop", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the backdrop will stop propagation on tap. </para>
@@ -41,7 +53,7 @@ public static partial class IonBackdropControl
     /// <summary>
     /// <para> If `true`, the backdrop will stop propagation on tap. </para>
     /// </summary>
-    public static void SetStopPropagation(this AttributesBuilder<IonBackdrop> b,bool stopPropagation)
+    public static void SetStopPropagation(this AttributesBuilder<IonBackdrop> b, bool stopPropagation)
     {
         if (stopPropagation) b.SetAttribute("stop-propagation", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonBackdropControl
     /// <summary>
     /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
     /// </summary>
-    public static void SetTappable(this AttributesBuilder<IonBackdrop> b,bool tappable)
+    public static void SetTappable(this AttributesBuilder<IonBackdrop> b, bool tappable)
     {
         if (tappable) b.SetAttribute("tappable", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonBackdropControl
     /// <summary>
     /// <para> If `true`, the backdrop will be visible. </para>
     /// </summary>
-    public static void SetVisible(this AttributesBuilder<IonBackdrop> b,bool visible)
+    public static void SetVisible(this AttributesBuilder<IonBackdrop> b, bool visible)
     {
         if (visible) b.SetAttribute("visible", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlDialog : SlComponent
+public partial class SlDialog
 {
-    public SlDialog() : base("sl-dialog") { }
     /// <summary>
     ///
     /// </summary>
@@ -50,14 +48,28 @@ public static partial class SlDialogControl
     /// </summary>
     public static IHtmlNode SlDialog(this HtmlBuilder b, Action<AttributesBuilder<SlDialog>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-dialog", buildAttributes, children);
+        return b.SlTag("sl-dialog", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlDialog(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-dialog", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-dialog", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDialog(this HtmlBuilder b, Action<AttributesBuilder<SlDialog>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-dialog", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlDialog(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-dialog", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state. </para>
@@ -70,7 +82,7 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state. </para>
     /// </summary>
-    public static void SetOpen(this AttributesBuilder<SlDialog> b,bool open)
+    public static void SetOpen(this AttributesBuilder<SlDialog> b, bool open)
     {
         if (open) b.SetAttribute("open", "");
     }
@@ -78,7 +90,7 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> The dialog's label as displayed in the header. You should always include a relevant label even when using `no-header`, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlDialog> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlDialog> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -94,7 +106,7 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Disables the header. This will also remove the default close button, so please ensure you provide an easy, accessible way for users to dismiss the dialog. </para>
     /// </summary>
-    public static void SetNoHeader(this AttributesBuilder<SlDialog> b,bool noHeader)
+    public static void SetNoHeader(this AttributesBuilder<SlDialog> b, bool noHeader)
     {
         if (noHeader) b.SetAttribute("no-header", "");
     }

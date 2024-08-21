@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonPickerColumnOption : IonComponent
+public partial class IonPickerColumnOption
 {
-    public IonPickerColumnOption() : base("ion-picker-column-option") { }
 }
 
 public static partial class IonPickerColumnOptionControl
@@ -21,19 +19,33 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static IHtmlNode IonPickerColumnOption(this HtmlBuilder b, Action<AttributesBuilder<IonPickerColumnOption>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-column-option", buildAttributes, children);
+        return b.IonicTag("ion-picker-column-option", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonPickerColumnOption(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-column-option", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-picker-column-option", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerColumnOption(this HtmlBuilder b, Action<AttributesBuilder<IonPickerColumnOption>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-column-option", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerColumnOption(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-column-option", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonPickerColumnOption> b,string color)
+    public static void SetColor(this AttributesBuilder<IonPickerColumnOption> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -49,7 +61,7 @@ public static partial class IonPickerColumnOptionControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the picker column option. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonPickerColumnOption> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonPickerColumnOption> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonPickerColumnOptionControl
     /// <summary>
     /// <para> The text value of the option. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonPickerColumnOption> b,string value)
+    public static void SetValue(this AttributesBuilder<IonPickerColumnOption> b, string value)
     {
         b.SetAttribute("value", value);
     }

@@ -205,16 +205,22 @@ public static class CheckboxTests
     }
 }
 
-public class HomeRenderer : HyperPage<HomeModel>
+public static class HomeRenderer
 {
-    public override void FillHtml(HomeModel dataModel, Metapsi.Ui.DocumentTag document)
+    public static void Render(HtmlBuilder b, HomeModel dataModel)
     {
-        document.Body.WithClass("sl-theme-dark");
-        document.Body.WithClass("dark");
-        document.Head.AddChild(new HtmlTag("meta").SetAttribute("name=", "color-scheme").SetAttribute("content", "dark"));
+        b.Document.Body.SetAttribute("class", "sl-theme-dark dark");
+        b.HeadAppend(
+            b.HtmlMeta(
+                b =>
+                {
 
-        var choicesCss = new HtmlTag("style");
-        choicesCss.AddText(
+                }));
+        //document.Head.AddChild(new HtmlTag("meta").SetAttribute("name=", "color-scheme").SetAttribute("content", "dark"));??
+        b.HeadAppend(b.HtmlStyle(
+            b.Text(
+
+
             @"
 .choices {
     --choices-font-family: var(--sl-input-font-family);
@@ -230,7 +236,7 @@ public class HomeRenderer : HyperPage<HomeModel>
     --choices-item-color-highlighted : var(--sl-color-neutral-0);
     --choices-item-border-color-highlighted: var(--sl-color-primary-600);
     --choices-item-background-color-highlighted: var(--sl-color-primary-600);
-}");
+}")));
 
         //        styleSheet.AddText(
         //            @"
@@ -240,7 +246,7 @@ public class HomeRenderer : HyperPage<HomeModel>
         //    --choices-item-color: red;
         //}");
 
-        document.Head.AddChild(choicesCss);
+        //document.Head.AddChild(choicesCss);
 
 //        document.Head.AddChild(new HtmlTag("style").WithChild(new HtmlText()
 //        {

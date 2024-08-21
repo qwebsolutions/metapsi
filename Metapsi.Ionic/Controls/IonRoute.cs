@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRoute : IonComponent
+public partial class IonRoute
 {
-    public IonRoute() : base("ion-route") { }
 }
 
 public static partial class IonRouteControl
@@ -21,19 +19,33 @@ public static partial class IonRouteControl
     /// </summary>
     public static IHtmlNode IonRoute(this HtmlBuilder b, Action<AttributesBuilder<IonRoute>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-route", buildAttributes, children);
+        return b.IonicTag("ion-route", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRoute(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-route", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-route", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRoute(this HtmlBuilder b, Action<AttributesBuilder<IonRoute>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-route", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRoute(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-route", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select. </para>
     /// </summary>
-    public static void SetComponent(this AttributesBuilder<IonRoute> b,string component)
+    public static void SetComponent(this AttributesBuilder<IonRoute> b, string component)
     {
         b.SetAttribute("component", component);
     }
@@ -41,7 +53,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props. </para>
     /// </summary>
-    public static void SetUrl(this AttributesBuilder<IonRoute> b,string url)
+    public static void SetUrl(this AttributesBuilder<IonRoute> b, string url)
     {
         b.SetAttribute("url", url);
     }

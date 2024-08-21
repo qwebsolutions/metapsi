@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlResizeObserver : SlComponent
+public partial class SlResizeObserver
 {
-    public SlResizeObserver() : base("sl-resize-observer") { }
 }
 
 public static partial class SlResizeObserverControl
@@ -21,14 +19,28 @@ public static partial class SlResizeObserverControl
     /// </summary>
     public static IHtmlNode SlResizeObserver(this HtmlBuilder b, Action<AttributesBuilder<SlResizeObserver>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-resize-observer", buildAttributes, children);
+        return b.SlTag("sl-resize-observer", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlResizeObserver(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-resize-observer", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-resize-observer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlResizeObserver(this HtmlBuilder b, Action<AttributesBuilder<SlResizeObserver>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-resize-observer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlResizeObserver(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-resize-observer", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Disables the observer. </para>
@@ -41,7 +53,7 @@ public static partial class SlResizeObserverControl
     /// <summary>
     /// <para> Disables the observer. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlResizeObserver> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlResizeObserver> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

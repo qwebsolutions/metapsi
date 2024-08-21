@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlQrCode : SlComponent
+public partial class SlQrCode
 {
-    public SlQrCode() : base("sl-qr-code") { }
 }
 
 public static partial class SlQrCodeControl
@@ -21,19 +19,33 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static IHtmlNode SlQrCode(this HtmlBuilder b, Action<AttributesBuilder<SlQrCode>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-qr-code", buildAttributes, children);
+        return b.SlTag("sl-qr-code", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlQrCode(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-qr-code", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-qr-code", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlQrCode(this HtmlBuilder b, Action<AttributesBuilder<SlQrCode>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-qr-code", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlQrCode(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-qr-code", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The QR code's value. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlQrCode> b,string value)
+    public static void SetValue(this AttributesBuilder<SlQrCode> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -41,7 +53,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The label for assistive devices to announce. If unspecified, the value will be used instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlQrCode> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlQrCode> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -49,7 +61,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The size of the QR code, in pixels. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlQrCode> b,string size)
+    public static void SetSize(this AttributesBuilder<SlQrCode> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -57,7 +69,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The fill color. This can be any valid CSS color, but not a CSS custom property. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<SlQrCode> b,string fill)
+    public static void SetFill(this AttributesBuilder<SlQrCode> b, string fill)
     {
         b.SetAttribute("fill", fill);
     }
@@ -65,7 +77,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The background color. This can be any valid CSS color or `transparent`. It cannot be a CSS custom property. </para>
     /// </summary>
-    public static void SetBackground(this AttributesBuilder<SlQrCode> b,string background)
+    public static void SetBackground(this AttributesBuilder<SlQrCode> b, string background)
     {
         b.SetAttribute("background", background);
     }
@@ -73,7 +85,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The edge radius of each module. Must be between 0 and 0.5. </para>
     /// </summary>
-    public static void SetRadius(this AttributesBuilder<SlQrCode> b,string radius)
+    public static void SetRadius(this AttributesBuilder<SlQrCode> b, string radius)
     {
         b.SetAttribute("radius", radius);
     }
@@ -81,7 +93,7 @@ public static partial class SlQrCodeControl
     /// <summary>
     /// <para> The level of error correction to use. [Learn more](https://www.qrcode.com/en/about/error_correction.html) </para>
     /// </summary>
-    public static void SetErrorCorrection(this AttributesBuilder<SlQrCode> b,string errorCorrection)
+    public static void SetErrorCorrection(this AttributesBuilder<SlQrCode> b, string errorCorrection)
     {
         b.SetAttribute("error-correction", errorCorrection);
     }

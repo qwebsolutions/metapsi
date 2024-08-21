@@ -198,6 +198,7 @@ public static class Program
                 }
 
                 var csharpComponent = shoelaceComponent.ToCSharpComponent(cSharpConverter);
+                csharpComponent.ServerSideConstructorName = "SlTag";
                 //csharpComponent.BaseClassName = "SlComponent";
                 var csharpComponentFile = csharpComponent.ToCSharpFile(
                     "Metapsi.Shoelace",
@@ -207,7 +208,6 @@ public static class Program
                         "Metapsi.Syntax",
                         "System",
                         "System.Collections.Generic",
-                        "Metapsi.Ui",
                         "Metapsi.Html",
                         "Metapsi.Dom"
                     });

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonMenuButton : IonComponent
+public partial class IonMenuButton
 {
-    public IonMenuButton() : base("ion-menu-button") { }
 }
 
 public static partial class IonMenuButtonControl
@@ -21,14 +19,28 @@ public static partial class IonMenuButtonControl
     /// </summary>
     public static IHtmlNode IonMenuButton(this HtmlBuilder b, Action<AttributesBuilder<IonMenuButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu-button", buildAttributes, children);
+        return b.IonicTag("ion-menu-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonMenuButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-menu-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenuButton(this HtmlBuilder b, Action<AttributesBuilder<IonMenuButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenuButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Automatically hides the menu button when the corresponding menu is not active </para>
@@ -41,7 +53,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> Automatically hides the menu button when the corresponding menu is not active </para>
     /// </summary>
-    public static void SetAutoHide(this AttributesBuilder<IonMenuButton> b,bool autoHide)
+    public static void SetAutoHide(this AttributesBuilder<IonMenuButton> b, bool autoHide)
     {
         if (autoHide) b.SetAttribute("auto-hide", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonMenuButton> b,string color)
+    public static void SetColor(this AttributesBuilder<IonMenuButton> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -65,7 +77,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the menu button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonMenuButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonMenuButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> Optional property that maps to a Menu's `menuId` prop. Can also be `start` or `end` for the menu side. This is used to find the correct menu to toggle </para>
     /// </summary>
-    public static void SetMenu(this AttributesBuilder<IonMenuButton> b,string menu)
+    public static void SetMenu(this AttributesBuilder<IonMenuButton> b, string menu)
     {
         b.SetAttribute("menu", menu);
     }
@@ -81,7 +93,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonMenuButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonMenuButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -105,7 +117,7 @@ public static partial class IonMenuButtonControl
     /// <summary>
     /// <para> The type of the button. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonMenuButton> b,string type)
+    public static void SetType(this AttributesBuilder<IonMenuButton> b, string type)
     {
         b.SetAttribute("type", type);
     }

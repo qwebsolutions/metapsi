@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonListHeader : IonComponent
+public partial class IonListHeader
 {
-    public IonListHeader() : base("ion-list-header") { }
 }
 
 public static partial class IonListHeaderControl
@@ -21,19 +19,33 @@ public static partial class IonListHeaderControl
     /// </summary>
     public static IHtmlNode IonListHeader(this HtmlBuilder b, Action<AttributesBuilder<IonListHeader>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-list-header", buildAttributes, children);
+        return b.IonicTag("ion-list-header", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonListHeader(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-list-header", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-list-header", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonListHeader(this HtmlBuilder b, Action<AttributesBuilder<IonListHeader>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-list-header", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonListHeader(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-list-header", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonListHeader> b,string color)
+    public static void SetColor(this AttributesBuilder<IonListHeader> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonListHeaderControl
     /// <summary>
     /// <para> How the bottom border should be displayed on the list header. </para>
     /// </summary>
-    public static void SetLines(this AttributesBuilder<IonListHeader> b,string lines)
+    public static void SetLines(this AttributesBuilder<IonListHeader> b, string lines)
     {
         b.SetAttribute("lines", lines);
     }
@@ -73,7 +85,7 @@ public static partial class IonListHeaderControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonListHeader> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonListHeader> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

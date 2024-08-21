@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBreadcrumbs : IonComponent
+public partial class IonBreadcrumbs
 {
-    public IonBreadcrumbs() : base("ion-breadcrumbs") { }
 }
 
 public static partial class IonBreadcrumbsControl
@@ -21,19 +19,33 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumbs>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumbs", buildAttributes, children);
+        return b.IonicTag("ion-breadcrumbs", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumbs", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-breadcrumbs", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumbs>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-breadcrumbs", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-breadcrumbs", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonBreadcrumbs> b,string color)
+    public static void SetColor(this AttributesBuilder<IonBreadcrumbs> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonBreadcrumbsControl
     /// <summary>
     /// <para> The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsAfterCollapse(this AttributesBuilder<IonBreadcrumbs> b,string itemsAfterCollapse)
+    public static void SetItemsAfterCollapse(this AttributesBuilder<IonBreadcrumbs> b, string itemsAfterCollapse)
     {
         b.SetAttribute("items-after-collapse", itemsAfterCollapse);
     }
@@ -49,7 +61,7 @@ public static partial class IonBreadcrumbsControl
     /// <summary>
     /// <para> The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsBeforeCollapse(this AttributesBuilder<IonBreadcrumbs> b,string itemsBeforeCollapse)
+    public static void SetItemsBeforeCollapse(this AttributesBuilder<IonBreadcrumbs> b, string itemsBeforeCollapse)
     {
         b.SetAttribute("items-before-collapse", itemsBeforeCollapse);
     }
@@ -57,7 +69,7 @@ public static partial class IonBreadcrumbsControl
     /// <summary>
     /// <para> The maximum number of breadcrumbs to show before collapsing. </para>
     /// </summary>
-    public static void SetMaxItems(this AttributesBuilder<IonBreadcrumbs> b,string maxItems)
+    public static void SetMaxItems(this AttributesBuilder<IonBreadcrumbs> b, string maxItems)
     {
         b.SetAttribute("max-items", maxItems);
     }
@@ -65,7 +77,7 @@ public static partial class IonBreadcrumbsControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonBreadcrumbs> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonBreadcrumbs> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

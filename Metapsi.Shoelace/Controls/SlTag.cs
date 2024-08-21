@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTag : SlComponent
+public partial class SlTag
 {
-    public SlTag() : base("sl-tag") { }
 }
 
 public static partial class SlTagControl
@@ -21,19 +19,33 @@ public static partial class SlTagControl
     /// </summary>
     public static IHtmlNode SlTag(this HtmlBuilder b, Action<AttributesBuilder<SlTag>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tag", buildAttributes, children);
+        return b.SlTag("sl-tag", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTag(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tag", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tag", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTag(this HtmlBuilder b, Action<AttributesBuilder<SlTag>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tag", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTag(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tag", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The tag's theme variant. </para>
     /// </summary>
-    public static void SetVariant(this AttributesBuilder<SlTag> b,string variant)
+    public static void SetVariant(this AttributesBuilder<SlTag> b, string variant)
     {
         b.SetAttribute("variant", variant);
     }
@@ -89,7 +101,7 @@ public static partial class SlTagControl
     /// <summary>
     /// <para> The tag's size. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlTag> b,string size)
+    public static void SetSize(this AttributesBuilder<SlTag> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -129,7 +141,7 @@ public static partial class SlTagControl
     /// <summary>
     /// <para> Draws a pill-style tag with rounded edges. </para>
     /// </summary>
-    public static void SetPill(this AttributesBuilder<SlTag> b,bool pill)
+    public static void SetPill(this AttributesBuilder<SlTag> b, bool pill)
     {
         if (pill) b.SetAttribute("pill", "");
     }
@@ -145,7 +157,7 @@ public static partial class SlTagControl
     /// <summary>
     /// <para> Makes the tag removable and shows a remove button. </para>
     /// </summary>
-    public static void SetRemovable(this AttributesBuilder<SlTag> b,bool removable)
+    public static void SetRemovable(this AttributesBuilder<SlTag> b, bool removable)
     {
         if (removable) b.SetAttribute("removable", "");
     }

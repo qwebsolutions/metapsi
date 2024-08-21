@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonChip : IonComponent
+public partial class IonChip
 {
-    public IonChip() : base("ion-chip") { }
 }
 
 public static partial class IonChipControl
@@ -21,19 +19,33 @@ public static partial class IonChipControl
     /// </summary>
     public static IHtmlNode IonChip(this HtmlBuilder b, Action<AttributesBuilder<IonChip>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-chip", buildAttributes, children);
+        return b.IonicTag("ion-chip", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonChip(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-chip", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-chip", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonChip(this HtmlBuilder b, Action<AttributesBuilder<IonChip>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-chip", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonChip(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-chip", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonChip> b,string color)
+    public static void SetColor(this AttributesBuilder<IonChip> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -49,7 +61,7 @@ public static partial class IonChipControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the chip. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonChip> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonChip> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonChipControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonChip> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonChip> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -89,7 +101,7 @@ public static partial class IonChipControl
     /// <summary>
     /// <para> Display an outline style button. </para>
     /// </summary>
-    public static void SetOutline(this AttributesBuilder<IonChip> b,bool outline)
+    public static void SetOutline(this AttributesBuilder<IonChip> b, bool outline)
     {
         if (outline) b.SetAttribute("outline", "");
     }

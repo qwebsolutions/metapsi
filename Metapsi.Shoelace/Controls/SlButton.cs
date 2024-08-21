@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlButton : SlComponent
+public partial class SlButton
 {
-    public SlButton() : base("sl-button") { }
     /// <summary>
     ///
     /// </summary>
@@ -66,19 +64,33 @@ public static partial class SlButtonControl
     /// </summary>
     public static IHtmlNode SlButton(this HtmlBuilder b, Action<AttributesBuilder<SlButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-button", buildAttributes, children);
+        return b.SlTag("sl-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-button", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButton(this HtmlBuilder b, Action<AttributesBuilder<SlButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The button's theme variant. </para>
     /// </summary>
-    public static void SetVariant(this AttributesBuilder<SlButton> b,string variant)
+    public static void SetVariant(this AttributesBuilder<SlButton> b, string variant)
     {
         b.SetAttribute("variant", variant);
     }
@@ -142,7 +154,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> The button's size. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlButton> b,string size)
+    public static void SetSize(this AttributesBuilder<SlButton> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -182,7 +194,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior. </para>
     /// </summary>
-    public static void SetCaret(this AttributesBuilder<SlButton> b,bool caret)
+    public static void SetCaret(this AttributesBuilder<SlButton> b, bool caret)
     {
         if (caret) b.SetAttribute("caret", "");
     }
@@ -198,7 +210,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Disables the button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -214,7 +226,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Draws the button in a loading state. </para>
     /// </summary>
-    public static void SetLoading(this AttributesBuilder<SlButton> b,bool loading)
+    public static void SetLoading(this AttributesBuilder<SlButton> b, bool loading)
     {
         if (loading) b.SetAttribute("loading", "");
     }
@@ -230,7 +242,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Draws an outlined button. </para>
     /// </summary>
-    public static void SetOutline(this AttributesBuilder<SlButton> b,bool outline)
+    public static void SetOutline(this AttributesBuilder<SlButton> b, bool outline)
     {
         if (outline) b.SetAttribute("outline", "");
     }
@@ -246,7 +258,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Draws a pill-style button with rounded edges. </para>
     /// </summary>
-    public static void SetPill(this AttributesBuilder<SlButton> b,bool pill)
+    public static void SetPill(this AttributesBuilder<SlButton> b, bool pill)
     {
         if (pill) b.SetAttribute("pill", "");
     }
@@ -262,7 +274,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
     /// </summary>
-    public static void SetCircle(this AttributesBuilder<SlButton> b,bool circle)
+    public static void SetCircle(this AttributesBuilder<SlButton> b, bool circle)
     {
         if (circle) b.SetAttribute("circle", "");
     }
@@ -270,7 +282,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<SlButton> b,string type)
+    public static void SetType(this AttributesBuilder<SlButton> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -302,7 +314,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlButton> b,string name)
+    public static void SetName(this AttributesBuilder<SlButton> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -310,7 +322,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlButton> b,string value)
+    public static void SetValue(this AttributesBuilder<SlButton> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -318,7 +330,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<SlButton> b,string href)
+    public static void SetHref(this AttributesBuilder<SlButton> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -326,7 +338,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Tells the browser where to open the link. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<SlButton> b,string target)
+    public static void SetTarget(this AttributesBuilder<SlButton> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -366,7 +378,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a specific tab/window, this will prevent that from working correctly. You can remove or change the default value by setting the attribute to an empty string or a value of your choice, respectively. </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<SlButton> b,string rel)
+    public static void SetRel(this AttributesBuilder<SlButton> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -374,7 +386,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Tells the browser to download the linked file as this filename. Only used when `href` is present. </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<SlButton> b,string download)
+    public static void SetDownload(this AttributesBuilder<SlButton> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -382,7 +394,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlButton> b,string form)
+    public static void SetForm(this AttributesBuilder<SlButton> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -390,7 +402,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Used to override the form owner's `action` attribute. </para>
     /// </summary>
-    public static void SetFormaction(this AttributesBuilder<SlButton> b,string formaction)
+    public static void SetFormaction(this AttributesBuilder<SlButton> b, string formaction)
     {
         b.SetAttribute("formaction", formaction);
     }
@@ -398,7 +410,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Used to override the form owner's `enctype` attribute. </para>
     /// </summary>
-    public static void SetFormenctype(this AttributesBuilder<SlButton> b,string formenctype)
+    public static void SetFormenctype(this AttributesBuilder<SlButton> b, string formenctype)
     {
         b.SetAttribute("formenctype", formenctype);
     }
@@ -430,7 +442,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Used to override the form owner's `method` attribute. </para>
     /// </summary>
-    public static void SetFormmethod(this AttributesBuilder<SlButton> b,string formmethod)
+    public static void SetFormmethod(this AttributesBuilder<SlButton> b, string formmethod)
     {
         b.SetAttribute("formmethod", formmethod);
     }
@@ -462,7 +474,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Used to override the form owner's `novalidate` attribute. </para>
     /// </summary>
-    public static void SetFormnovalidate(this AttributesBuilder<SlButton> b,bool formnovalidate)
+    public static void SetFormnovalidate(this AttributesBuilder<SlButton> b, bool formnovalidate)
     {
         if (formnovalidate) b.SetAttribute("formnovalidate", "");
     }
@@ -470,7 +482,7 @@ public static partial class SlButtonControl
     /// <summary>
     /// <para> Used to override the form owner's `target` attribute. </para>
     /// </summary>
-    public static void SetFormtarget(this AttributesBuilder<SlButton> b,string formtarget)
+    public static void SetFormtarget(this AttributesBuilder<SlButton> b, string formtarget)
     {
         b.SetAttribute("formtarget", formtarget);
     }

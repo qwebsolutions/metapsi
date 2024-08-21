@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMenu : SlComponent
+public partial class SlMenu
 {
-    public SlMenu() : base("sl-menu") { }
 }
 
 public static partial class SlMenuControl
@@ -21,14 +19,28 @@ public static partial class SlMenuControl
     /// </summary>
     public static IHtmlNode SlMenu(this HtmlBuilder b, Action<AttributesBuilder<SlMenu>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-menu", buildAttributes, children);
+        return b.SlTag("sl-menu", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlMenu(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-menu", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-menu", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenu(this HtmlBuilder b, Action<AttributesBuilder<SlMenu>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-menu", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenu(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-menu", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

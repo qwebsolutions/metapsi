@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRange : SlComponent
+public partial class SlRange
 {
-    public SlRange() : base("sl-range") { }
     /// <summary>
     ///
     /// </summary>
@@ -70,19 +68,33 @@ public static partial class SlRangeControl
     /// </summary>
     public static IHtmlNode SlRange(this HtmlBuilder b, Action<AttributesBuilder<SlRange>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-range", buildAttributes, children);
+        return b.SlTag("sl-range", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlRange(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-range", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-range", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, Action<AttributesBuilder<SlRange>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-range", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-range", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the range, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlRange> b,string name)
+    public static void SetName(this AttributesBuilder<SlRange> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -90,7 +102,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The current value of the range, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlRange> b,string value)
+    public static void SetValue(this AttributesBuilder<SlRange> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -98,7 +110,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The range's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlRange> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlRange> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -106,7 +118,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The range's help text. If you need to display HTML, use the help-text slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this AttributesBuilder<SlRange> b,string helpText)
+    public static void SetHelpText(this AttributesBuilder<SlRange> b, string helpText)
     {
         b.SetAttribute("help-text", helpText);
     }
@@ -122,7 +134,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> Disables the range. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlRange> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlRange> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -130,7 +142,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The minimum acceptable value of the range. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<SlRange> b,string min)
+    public static void SetMin(this AttributesBuilder<SlRange> b, string min)
     {
         b.SetAttribute("min", min);
     }
@@ -138,7 +150,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The maximum acceptable value of the range. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<SlRange> b,string max)
+    public static void SetMax(this AttributesBuilder<SlRange> b, string max)
     {
         b.SetAttribute("max", max);
     }
@@ -146,7 +158,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The interval at which the range will increase and decrease. </para>
     /// </summary>
-    public static void SetStep(this AttributesBuilder<SlRange> b,string step)
+    public static void SetStep(this AttributesBuilder<SlRange> b, string step)
     {
         b.SetAttribute("step", step);
     }
@@ -154,7 +166,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> The preferred placement of the range's tooltip. </para>
     /// </summary>
-    public static void SetTooltip(this AttributesBuilder<SlRange> b,string tooltip)
+    public static void SetTooltip(this AttributesBuilder<SlRange> b, string tooltip)
     {
         b.SetAttribute("tooltip", tooltip);
     }
@@ -186,7 +198,7 @@ public static partial class SlRangeControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlRange> b,string form)
+    public static void SetForm(this AttributesBuilder<SlRange> b, string form)
     {
         b.SetAttribute("form", form);
     }

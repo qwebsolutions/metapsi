@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTextarea : IonComponent
+public partial class IonTextarea
 {
-    public IonTextarea() : base("ion-textarea") { }
     /// <summary>
     ///
     /// </summary>
@@ -52,14 +50,28 @@ public static partial class IonTextareaControl
     /// </summary>
     public static IHtmlNode IonTextarea(this HtmlBuilder b, Action<AttributesBuilder<IonTextarea>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-textarea", buildAttributes, children);
+        return b.IonicTag("ion-textarea", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTextarea(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-textarea", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-textarea", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTextarea(this HtmlBuilder b, Action<AttributesBuilder<IonTextarea>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-textarea", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTextarea(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-textarea", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
@@ -72,7 +84,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
-    public static void SetAutoGrow(this AttributesBuilder<IonTextarea> b,bool autoGrow)
+    public static void SetAutoGrow(this AttributesBuilder<IonTextarea> b, bool autoGrow)
     {
         if (autoGrow) b.SetAttribute("auto-grow", "");
     }
@@ -80,7 +92,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
     /// </summary>
-    public static void SetAutocapitalize(this AttributesBuilder<IonTextarea> b,string autocapitalize)
+    public static void SetAutocapitalize(this AttributesBuilder<IonTextarea> b, string autocapitalize)
     {
         b.SetAttribute("autocapitalize", autocapitalize);
     }
@@ -96,7 +108,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
-    public static void SetAutofocus(this AttributesBuilder<IonTextarea> b,bool autofocus)
+    public static void SetAutofocus(this AttributesBuilder<IonTextarea> b, bool autofocus)
     {
         if (autofocus) b.SetAttribute("autofocus", "");
     }
@@ -112,7 +124,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the value will be cleared after focus upon edit. </para>
     /// </summary>
-    public static void SetClearOnEdit(this AttributesBuilder<IonTextarea> b,bool clearOnEdit)
+    public static void SetClearOnEdit(this AttributesBuilder<IonTextarea> b, bool clearOnEdit)
     {
         if (clearOnEdit) b.SetAttribute("clear-on-edit", "");
     }
@@ -120,7 +132,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonTextarea> b,string color)
+    public static void SetColor(this AttributesBuilder<IonTextarea> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -128,7 +140,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. </para>
     /// </summary>
-    public static void SetCols(this AttributesBuilder<IonTextarea> b,string cols)
+    public static void SetCols(this AttributesBuilder<IonTextarea> b, string cols)
     {
         b.SetAttribute("cols", cols);
     }
@@ -144,7 +156,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
-    public static void SetCounter(this AttributesBuilder<IonTextarea> b,bool counter)
+    public static void SetCounter(this AttributesBuilder<IonTextarea> b, bool counter)
     {
         if (counter) b.SetAttribute("counter", "");
     }
@@ -152,7 +164,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonTextarea> b,string debounce)
+    public static void SetDebounce(this AttributesBuilder<IonTextarea> b, string debounce)
     {
         b.SetAttribute("debounce", debounce);
     }
@@ -168,7 +180,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the textarea. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonTextarea> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonTextarea> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -176,7 +188,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
-    public static void SetEnterkeyhint(this AttributesBuilder<IonTextarea> b,string enterkeyhint)
+    public static void SetEnterkeyhint(this AttributesBuilder<IonTextarea> b, string enterkeyhint)
     {
         b.SetAttribute("enterkeyhint", enterkeyhint);
     }
@@ -240,7 +252,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Text that is placed under the textarea and displayed when an error is detected. </para>
     /// </summary>
-    public static void SetErrorText(this AttributesBuilder<IonTextarea> b,string errorText)
+    public static void SetErrorText(this AttributesBuilder<IonTextarea> b, string errorText)
     {
         b.SetAttribute("error-text", errorText);
     }
@@ -248,7 +260,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<IonTextarea> b,string fill)
+    public static void SetFill(this AttributesBuilder<IonTextarea> b, string fill)
     {
         b.SetAttribute("fill", fill);
     }
@@ -272,7 +284,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Text that is placed under the textarea and displayed when no error is detected. </para>
     /// </summary>
-    public static void SetHelperText(this AttributesBuilder<IonTextarea> b,string helperText)
+    public static void SetHelperText(this AttributesBuilder<IonTextarea> b, string helperText)
     {
         b.SetAttribute("helper-text", helperText);
     }
@@ -280,7 +292,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
-    public static void SetInputmode(this AttributesBuilder<IonTextarea> b,string inputmode)
+    public static void SetInputmode(this AttributesBuilder<IonTextarea> b, string inputmode)
     {
         b.SetAttribute("inputmode", inputmode);
     }
@@ -352,7 +364,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonTextarea> b,string label)
+    public static void SetLabel(this AttributesBuilder<IonTextarea> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -360,7 +372,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonTextarea> b,string labelPlacement)
+    public static void SetLabelPlacement(this AttributesBuilder<IonTextarea> b, string labelPlacement)
     {
         b.SetAttribute("label-placement", labelPlacement);
     }
@@ -408,7 +420,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> This attribute specifies the maximum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength(this AttributesBuilder<IonTextarea> b,string maxlength)
+    public static void SetMaxlength(this AttributesBuilder<IonTextarea> b, string maxlength)
     {
         b.SetAttribute("maxlength", maxlength);
     }
@@ -416,7 +428,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> This attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMinlength(this AttributesBuilder<IonTextarea> b,string minlength)
+    public static void SetMinlength(this AttributesBuilder<IonTextarea> b, string minlength)
     {
         b.SetAttribute("minlength", minlength);
     }
@@ -424,7 +436,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonTextarea> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonTextarea> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -448,7 +460,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonTextarea> b,string name)
+    public static void SetName(this AttributesBuilder<IonTextarea> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -456,7 +468,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Instructional text that shows before the input has a value. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<IonTextarea> b,string placeholder)
+    public static void SetPlaceholder(this AttributesBuilder<IonTextarea> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
     }
@@ -472,7 +484,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonTextarea> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<IonTextarea> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -488,7 +500,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<IonTextarea> b,bool required)
+    public static void SetRequired(this AttributesBuilder<IonTextarea> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }
@@ -496,7 +508,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The number of visible text lines for the control. </para>
     /// </summary>
-    public static void SetRows(this AttributesBuilder<IonTextarea> b,string rows)
+    public static void SetRows(this AttributesBuilder<IonTextarea> b, string rows)
     {
         b.SetAttribute("rows", rows);
     }
@@ -504,7 +516,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The shape of the textarea. If "round" it will have an increased border radius. </para>
     /// </summary>
-    public static void SetShape(this AttributesBuilder<IonTextarea> b,string shape)
+    public static void SetShape(this AttributesBuilder<IonTextarea> b, string shape)
     {
         b.SetAttribute("shape", shape);
     }
@@ -528,7 +540,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
-    public static void SetSpellcheck(this AttributesBuilder<IonTextarea> b,bool spellcheck)
+    public static void SetSpellcheck(this AttributesBuilder<IonTextarea> b, bool spellcheck)
     {
         if (spellcheck) b.SetAttribute("spellcheck", "");
     }
@@ -536,7 +548,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> The value of the textarea. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonTextarea> b,string value)
+    public static void SetValue(this AttributesBuilder<IonTextarea> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -544,7 +556,7 @@ public static partial class IonTextareaControl
     /// <summary>
     /// <para> Indicates how the control wraps text. </para>
     /// </summary>
-    public static void SetWrap(this AttributesBuilder<IonTextarea> b,string wrap)
+    public static void SetWrap(this AttributesBuilder<IonTextarea> b, string wrap)
     {
         b.SetAttribute("wrap", wrap);
     }

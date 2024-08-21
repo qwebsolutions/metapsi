@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlIconButton : SlComponent
+public partial class SlIconButton
 {
-    public SlIconButton() : base("sl-icon-button") { }
     public static class Method
     {
         /// <summary>
@@ -36,19 +34,33 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static IHtmlNode SlIconButton(this HtmlBuilder b, Action<AttributesBuilder<SlIconButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-icon-button", buildAttributes, children);
+        return b.SlTag("sl-icon-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlIconButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-icon-button", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-icon-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlIconButton(this HtmlBuilder b, Action<AttributesBuilder<SlIconButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-icon-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlIconButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-icon-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the icon to draw. Available names depend on the icon library being used. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlIconButton> b,string name)
+    public static void SetName(this AttributesBuilder<SlIconButton> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -56,7 +68,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> The name of a registered custom icon library. </para>
     /// </summary>
-    public static void SetLibrary(this AttributesBuilder<SlIconButton> b,string library)
+    public static void SetLibrary(this AttributesBuilder<SlIconButton> b, string library)
     {
         b.SetAttribute("library", library);
     }
@@ -64,7 +76,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<SlIconButton> b,string src)
+    public static void SetSrc(this AttributesBuilder<SlIconButton> b, string src)
     {
         b.SetAttribute("src", src);
     }
@@ -72,7 +84,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<SlIconButton> b,string href)
+    public static void SetHref(this AttributesBuilder<SlIconButton> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -80,7 +92,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> Tells the browser where to open the link. Only used when `href` is set. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<SlIconButton> b,string target)
+    public static void SetTarget(this AttributesBuilder<SlIconButton> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -120,7 +132,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> Tells the browser to download the linked file as this filename. Only used when `href` is set. </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<SlIconButton> b,string download)
+    public static void SetDownload(this AttributesBuilder<SlIconButton> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -128,7 +140,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> A description that gets read by assistive devices. For optimal accessibility, you should always include a label that describes what the icon button does. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlIconButton> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlIconButton> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -144,7 +156,7 @@ public static partial class SlIconButtonControl
     /// <summary>
     /// <para> Disables the button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlIconButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlIconButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

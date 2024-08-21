@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFabButton : IonComponent
+public partial class IonFabButton
 {
-    public IonFabButton() : base("ion-fab-button") { }
 }
 
 public static partial class IonFabButtonControl
@@ -21,14 +19,28 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static IHtmlNode IonFabButton(this HtmlBuilder b, Action<AttributesBuilder<IonFabButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-button", buildAttributes, children);
+        return b.IonicTag("ion-fab-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonFabButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-fab-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabButton(this HtmlBuilder b, Action<AttributesBuilder<IonFabButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the fab button will be show a close icon. </para>
@@ -41,7 +53,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> If `true`, the fab button will be show a close icon. </para>
     /// </summary>
-    public static void SetActivated(this AttributesBuilder<IonFabButton> b,bool activated)
+    public static void SetActivated(this AttributesBuilder<IonFabButton> b, bool activated)
     {
         if (activated) b.SetAttribute("activated", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> The icon name to use for the close icon. This will appear when the fab button is pressed. Only applies if it is the main button inside of a fab containing a fab list. </para>
     /// </summary>
-    public static void SetCloseIcon(this AttributesBuilder<IonFabButton> b,string closeIcon)
+    public static void SetCloseIcon(this AttributesBuilder<IonFabButton> b, string closeIcon)
     {
         b.SetAttribute("close-icon", closeIcon);
     }
@@ -57,7 +69,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonFabButton> b,string color)
+    public static void SetColor(this AttributesBuilder<IonFabButton> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -73,7 +85,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the fab button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonFabButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonFabButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -81,7 +93,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonFabButton> b,string download)
+    public static void SetDownload(this AttributesBuilder<IonFabButton> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -89,7 +101,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonFabButton> b,string href)
+    public static void SetHref(this AttributesBuilder<IonFabButton> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -97,7 +109,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonFabButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonFabButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -121,7 +133,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonFabButton> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonFabButton> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -129,7 +141,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonFabButton> b,string routerDirection)
+    public static void SetRouterDirection(this AttributesBuilder<IonFabButton> b, string routerDirection)
     {
         b.SetAttribute("router-direction", routerDirection);
     }
@@ -169,7 +181,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> If `true`, the fab button will show when in a fab-list. </para>
     /// </summary>
-    public static void SetShow(this AttributesBuilder<IonFabButton> b,bool show)
+    public static void SetShow(this AttributesBuilder<IonFabButton> b, bool show)
     {
         if (show) b.SetAttribute("show", "");
     }
@@ -177,7 +189,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> The size of the button. Set this to `small` in order to have a mini fab button. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonFabButton> b,string size)
+    public static void SetSize(this AttributesBuilder<IonFabButton> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -193,7 +205,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonFabButton> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonFabButton> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -209,7 +221,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> If `true`, the fab button will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonFabButton> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonFabButton> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }
@@ -217,7 +229,7 @@ public static partial class IonFabButtonControl
     /// <summary>
     /// <para> The type of the button. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonFabButton> b,string type)
+    public static void SetType(this AttributesBuilder<IonFabButton> b, string type)
     {
         b.SetAttribute("type", type);
     }

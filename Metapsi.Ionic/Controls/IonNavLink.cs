@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonNavLink : IonComponent
+public partial class IonNavLink
 {
-    public IonNavLink() : base("ion-nav-link") { }
 }
 
 public static partial class IonNavLinkControl
@@ -21,19 +19,33 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static IHtmlNode IonNavLink(this HtmlBuilder b, Action<AttributesBuilder<IonNavLink>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-nav-link", buildAttributes, children);
+        return b.IonicTag("ion-nav-link", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonNavLink(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-nav-link", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-nav-link", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNavLink(this HtmlBuilder b, Action<AttributesBuilder<IonNavLink>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-nav-link", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNavLink(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-nav-link", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Component to navigate to. Only used if the `routerDirection` is `"forward"` or `"root"`. </para>
     /// </summary>
-    public static void SetComponent(this AttributesBuilder<IonNavLink> b,string component)
+    public static void SetComponent(this AttributesBuilder<IonNavLink> b, string component)
     {
         b.SetAttribute("component", component);
     }
@@ -41,7 +53,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> The transition direction when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonNavLink> b,string routerDirection)
+    public static void SetRouterDirection(this AttributesBuilder<IonNavLink> b, string routerDirection)
     {
         b.SetAttribute("router-direction", routerDirection);
     }

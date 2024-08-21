@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonSelectOption : IonComponent
+public partial class IonSelectOption
 {
-    public IonSelectOption() : base("ion-select-option") { }
 }
 
 public static partial class IonSelectOptionControl
@@ -21,14 +19,28 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static IHtmlNode IonSelectOption(this HtmlBuilder b, Action<AttributesBuilder<IonSelectOption>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-select-option", buildAttributes, children);
+        return b.IonicTag("ion-select-option", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonSelectOption(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-select-option", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-select-option", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSelectOption(this HtmlBuilder b, Action<AttributesBuilder<IonSelectOption>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-select-option", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonSelectOption(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-select-option", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons. </para>
@@ -41,7 +53,7 @@ public static partial class IonSelectOptionControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the select option. This property does not apply when `interface="action-sheet"` as `ion-action-sheet` does not allow for disabled buttons. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonSelectOption> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonSelectOption> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonSelectOptionControl
     /// <summary>
     /// <para> The text value of the option. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonSelectOption> b,string value)
+    public static void SetValue(this AttributesBuilder<IonSelectOption> b, string value)
     {
         b.SetAttribute("value", value);
     }

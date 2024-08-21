@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTabs : IonComponent
+public partial class IonTabs
 {
-    public IonTabs() : base("ion-tabs") { }
     /// <summary>
     /// <para> Content is placed between the named slots if provided without a slot. </para>
     /// </summary>
@@ -55,14 +53,28 @@ public static partial class IonTabsControl
     /// </summary>
     public static IHtmlNode IonTabs(this HtmlBuilder b, Action<AttributesBuilder<IonTabs>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tabs", buildAttributes, children);
+        return b.IonicTag("ion-tabs", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonTabs(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-tabs", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-tabs", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabs(this HtmlBuilder b, Action<AttributesBuilder<IonTabs>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tabs", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTabs(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-tabs", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

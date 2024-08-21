@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBreadcrumb : IonComponent
+public partial class IonBreadcrumb
 {
-    public IonBreadcrumb() : base("ion-breadcrumb") { }
 }
 
 public static partial class IonBreadcrumbControl
@@ -21,14 +19,28 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static IHtmlNode IonBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumb>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumb", buildAttributes, children);
+        return b.IonicTag("ion-breadcrumb", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonBreadcrumb(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumb", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-breadcrumb", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumb>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-breadcrumb", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBreadcrumb(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-breadcrumb", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to `true` for the last breadcrumb if it is not set on any. </para>
@@ -41,7 +53,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> If `true`, the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to `true` for the last breadcrumb if it is not set on any. </para>
     /// </summary>
-    public static void SetActive(this AttributesBuilder<IonBreadcrumb> b,bool active)
+    public static void SetActive(this AttributesBuilder<IonBreadcrumb> b, bool active)
     {
         if (active) b.SetAttribute("active", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonBreadcrumb> b,string color)
+    public static void SetColor(this AttributesBuilder<IonBreadcrumb> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -65,7 +77,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the breadcrumb. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonBreadcrumb> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonBreadcrumb> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> This attribute instructs browsers to download a URL instead of navigating to it, so the user will be prompted to save it as a local file. If the attribute has a value, it is used as the pre-filled file name in the Save prompt (the user can still change the file name if they want). </para>
     /// </summary>
-    public static void SetDownload(this AttributesBuilder<IonBreadcrumb> b,string download)
+    public static void SetDownload(this AttributesBuilder<IonBreadcrumb> b, string download)
     {
         b.SetAttribute("download", download);
     }
@@ -81,7 +93,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<IonBreadcrumb> b,string href)
+    public static void SetHref(this AttributesBuilder<IonBreadcrumb> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -89,7 +101,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonBreadcrumb> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonBreadcrumb> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -113,7 +125,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types). </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<IonBreadcrumb> b,string rel)
+    public static void SetRel(this AttributesBuilder<IonBreadcrumb> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }
@@ -121,7 +133,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> When using a router, it specifies the transition direction when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterDirection(this AttributesBuilder<IonBreadcrumb> b,string routerDirection)
+    public static void SetRouterDirection(this AttributesBuilder<IonBreadcrumb> b, string routerDirection)
     {
         b.SetAttribute("router-direction", routerDirection);
     }
@@ -161,7 +173,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> If true, show a separator between this breadcrumb and the next. Defaults to `true` for all breadcrumbs except the last. </para>
     /// </summary>
-    public static void SetSeparator(this AttributesBuilder<IonBreadcrumb> b,bool separator)
+    public static void SetSeparator(this AttributesBuilder<IonBreadcrumb> b, bool separator)
     {
         if (separator) b.SetAttribute("separator", "");
     }
@@ -169,7 +181,7 @@ public static partial class IonBreadcrumbControl
     /// <summary>
     /// <para> Specifies where to display the linked URL. Only applies when an `href` is provided. Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<IonBreadcrumb> b,string target)
+    public static void SetTarget(this AttributesBuilder<IonBreadcrumb> b, string target)
     {
         b.SetAttribute("target", target);
     }

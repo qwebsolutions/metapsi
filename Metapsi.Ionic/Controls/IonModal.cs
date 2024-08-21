@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonModal : IonComponent
+public partial class IonModal
 {
-    public IonModal() : base("ion-modal") { }
     public static class Method
     {
         /// <summary>
@@ -57,14 +55,28 @@ public static partial class IonModalControl
     /// </summary>
     public static IHtmlNode IonModal(this HtmlBuilder b, Action<AttributesBuilder<IonModal>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-modal", buildAttributes, children);
+        return b.IonicTag("ion-modal", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonModal(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-modal", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-modal", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonModal(this HtmlBuilder b, Action<AttributesBuilder<IonModal>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-modal", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonModal(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-modal", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the modal will animate. </para>
@@ -77,7 +89,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, the modal will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonModal> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonModal> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -85,7 +97,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> A decimal value between 0 and 1 that indicates the point after which the backdrop will begin to fade in when using a sheet modal. Prior to this point, the backdrop will be hidden and the content underneath the sheet can be interacted with. This value is exclusive meaning the backdrop will become active after the value specified. </para>
     /// </summary>
-    public static void SetBackdropBreakpoint(this AttributesBuilder<IonModal> b,string backdropBreakpoint)
+    public static void SetBackdropBreakpoint(this AttributesBuilder<IonModal> b, string backdropBreakpoint)
     {
         b.SetAttribute("backdrop-breakpoint", backdropBreakpoint);
     }
@@ -101,7 +113,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, the modal will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonModal> b,bool backdropDismiss)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonModal> b, bool backdropDismiss)
     {
         if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
@@ -109,7 +121,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Determines whether or not a modal can dismiss when calling the `dismiss` method.  If the value is `true` or the value's function returns `true`, the modal will close when trying to dismiss. If the value is `false` or the value's function returns `false`, the modal will not close when trying to dismiss.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetCanDismiss(this AttributesBuilder<IonModal> b,string canDismiss)
+    public static void SetCanDismiss(this AttributesBuilder<IonModal> b, string canDismiss)
     {
         b.SetAttribute("can-dismiss", canDismiss);
     }
@@ -125,7 +137,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> The horizontal line that displays at the top of a sheet modal. It is `true` by default when setting the `breakpoints` and `initialBreakpoint` properties. </para>
     /// </summary>
-    public static void SetHandle(this AttributesBuilder<IonModal> b,bool handle)
+    public static void SetHandle(this AttributesBuilder<IonModal> b, bool handle)
     {
         if (handle) b.SetAttribute("handle", "");
     }
@@ -133,7 +145,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> The interaction behavior for the sheet modal when the handle is pressed.  Defaults to `"none"`, which  means the modal will not change size or position when the handle is pressed. Set to `"cycle"` to let the modal cycle between available breakpoints when pressed.  Handle behavior is unavailable when the `handle` property is set to `false` or when the `breakpoints` property is not set (using a fullscreen or card modal). </para>
     /// </summary>
-    public static void SetHandleBehavior(this AttributesBuilder<IonModal> b,string handleBehavior)
+    public static void SetHandleBehavior(this AttributesBuilder<IonModal> b, string handleBehavior)
     {
         b.SetAttribute("handle-behavior", handleBehavior);
     }
@@ -157,7 +169,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> A decimal value between 0 and 1 that indicates the initial point the modal will open at when creating a sheet modal. This value must also be listed in the `breakpoints` array. </para>
     /// </summary>
-    public static void SetInitialBreakpoint(this AttributesBuilder<IonModal> b,string initialBreakpoint)
+    public static void SetInitialBreakpoint(this AttributesBuilder<IonModal> b, string initialBreakpoint)
     {
         b.SetAttribute("initial-breakpoint", initialBreakpoint);
     }
@@ -173,7 +185,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, the modal will open. If `false`, the modal will close. Use this if you need finer grained control over presentation, otherwise just use the modalController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the modal dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonModal> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonModal> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -189,7 +201,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, the component passed into `ion-modal` will automatically be mounted when the modal is created. The component will remain mounted even when the modal is dismissed. However, the component will be destroyed when the modal is destroyed. This property is not reactive and should only be used when initially creating a modal.  Note: This feature only applies to inline modals in JavaScript frameworks such as Angular, React, and Vue. </para>
     /// </summary>
-    public static void SetKeepContentsMounted(this AttributesBuilder<IonModal> b,bool keepContentsMounted)
+    public static void SetKeepContentsMounted(this AttributesBuilder<IonModal> b, bool keepContentsMounted)
     {
         if (keepContentsMounted) b.SetAttribute("keep-contents-mounted", "");
     }
@@ -205,7 +217,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonModal> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonModal> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -213,7 +225,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonModal> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonModal> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -245,7 +257,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the modal. This property controls whether or not the backdrop darkens the screen when the modal is presented. It does not control whether or not the backdrop is active or present in the DOM. </para>
     /// </summary>
-    public static void SetShowBackdrop(this AttributesBuilder<IonModal> b,bool showBackdrop)
+    public static void SetShowBackdrop(this AttributesBuilder<IonModal> b, bool showBackdrop)
     {
         if (showBackdrop) b.SetAttribute("show-backdrop", "");
     }
@@ -253,7 +265,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the modal to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonModal> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonModal> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }

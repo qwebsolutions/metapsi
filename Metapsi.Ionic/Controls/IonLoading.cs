@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonLoading : IonComponent
+public partial class IonLoading
 {
-    public IonLoading() : base("ion-loading") { }
     public static class Method
     {
         /// <summary>
@@ -46,14 +44,28 @@ public static partial class IonLoadingControl
     /// </summary>
     public static IHtmlNode IonLoading(this HtmlBuilder b, Action<AttributesBuilder<IonLoading>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-loading", buildAttributes, children);
+        return b.IonicTag("ion-loading", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonLoading(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-loading", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-loading", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonLoading(this HtmlBuilder b, Action<AttributesBuilder<IonLoading>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-loading", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonLoading(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-loading", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the loading indicator will animate. </para>
@@ -66,7 +78,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, the loading indicator will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonLoading> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonLoading> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -82,7 +94,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, the loading indicator will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonLoading> b,bool backdropDismiss)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonLoading> b, bool backdropDismiss)
     {
         if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
@@ -90,7 +102,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonLoading> b,string cssClass)
+    public static void SetCssClass(this AttributesBuilder<IonLoading> b, string cssClass)
     {
         b.SetAttribute("css-class", cssClass);
     }
@@ -98,7 +110,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Number of milliseconds to wait before dismissing the loading indicator. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<IonLoading> b,string duration)
+    public static void SetDuration(this AttributesBuilder<IonLoading> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }
@@ -114,7 +126,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, the loading indicator will open. If `false`, the loading indicator will close. Use this if you need finer grained control over presentation, otherwise just use the loadingController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the loading indicator dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonLoading> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonLoading> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -130,7 +142,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonLoading> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonLoading> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -138,7 +150,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Optional text content to display in the loading indicator.  This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetMessage(this AttributesBuilder<IonLoading> b,string message)
+    public static void SetMessage(this AttributesBuilder<IonLoading> b, string message)
     {
         b.SetAttribute("message", message);
     }
@@ -146,7 +158,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonLoading> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonLoading> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -178,7 +190,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the loading indicator. </para>
     /// </summary>
-    public static void SetShowBackdrop(this AttributesBuilder<IonLoading> b,bool showBackdrop)
+    public static void SetShowBackdrop(this AttributesBuilder<IonLoading> b, bool showBackdrop)
     {
         if (showBackdrop) b.SetAttribute("show-backdrop", "");
     }
@@ -186,7 +198,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> The name of the spinner to display. </para>
     /// </summary>
-    public static void SetSpinner(this AttributesBuilder<IonLoading> b,string spinner)
+    public static void SetSpinner(this AttributesBuilder<IonLoading> b, string spinner)
     {
         b.SetAttribute("spinner", spinner);
     }
@@ -274,7 +286,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> If `true`, the loading indicator will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonLoading> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonLoading> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }
@@ -282,7 +294,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the loading indicator to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonLoading> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonLoading> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }

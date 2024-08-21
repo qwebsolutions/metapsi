@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFabList : IonComponent
+public partial class IonFabList
 {
-    public IonFabList() : base("ion-fab-list") { }
 }
 
 public static partial class IonFabListControl
@@ -21,14 +19,28 @@ public static partial class IonFabListControl
     /// </summary>
     public static IHtmlNode IonFabList(this HtmlBuilder b, Action<AttributesBuilder<IonFabList>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-list", buildAttributes, children);
+        return b.IonicTag("ion-fab-list", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonFabList(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-list", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-fab-list", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabList(this HtmlBuilder b, Action<AttributesBuilder<IonFabList>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-list", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabList(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-list", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
@@ -41,7 +53,7 @@ public static partial class IonFabListControl
     /// <summary>
     /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
     /// </summary>
-    public static void SetActivated(this AttributesBuilder<IonFabList> b,bool activated)
+    public static void SetActivated(this AttributesBuilder<IonFabList> b, bool activated)
     {
         if (activated) b.SetAttribute("activated", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonFabListControl
     /// <summary>
     /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonFabList> b,string side)
+    public static void SetSide(this AttributesBuilder<IonFabList> b, string side)
     {
         b.SetAttribute("side", side);
     }

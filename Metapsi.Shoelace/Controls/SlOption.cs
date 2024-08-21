@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlOption : SlComponent
+public partial class SlOption
 {
-    public SlOption() : base("sl-option") { }
     /// <summary>
     ///
     /// </summary>
@@ -42,19 +40,33 @@ public static partial class SlOptionControl
     /// </summary>
     public static IHtmlNode SlOption(this HtmlBuilder b, Action<AttributesBuilder<SlOption>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-option", buildAttributes, children);
+        return b.SlTag("sl-option", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlOption(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-option", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-option", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlOption(this HtmlBuilder b, Action<AttributesBuilder<SlOption>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-option", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlOption(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-option", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The option's value. When selected, the containing form control will receive this value. The value must be unique from other options in the same group. Values may not contain spaces, as spaces are used as delimiters when listing multiple values. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlOption> b,string value)
+    public static void SetValue(this AttributesBuilder<SlOption> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -70,7 +82,7 @@ public static partial class SlOptionControl
     /// <summary>
     /// <para> Draws the option in a disabled state, preventing selection. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlOption> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlOption> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

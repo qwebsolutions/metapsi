@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCarousel : SlComponent
+public partial class SlCarousel
 {
-    public SlCarousel() : base("sl-carousel") { }
     /// <summary>
     ///
     /// </summary>
@@ -50,14 +48,28 @@ public static partial class SlCarouselControl
     /// </summary>
     public static IHtmlNode SlCarousel(this HtmlBuilder b, Action<AttributesBuilder<SlCarousel>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-carousel", buildAttributes, children);
+        return b.SlTag("sl-carousel", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlCarousel(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-carousel", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-carousel", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarousel(this HtmlBuilder b, Action<AttributesBuilder<SlCarousel>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-carousel", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCarousel(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-carousel", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> When set, allows the user to navigate the carousel in the same direction indefinitely. </para>
@@ -70,7 +82,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> When set, allows the user to navigate the carousel in the same direction indefinitely. </para>
     /// </summary>
-    public static void SetLoop(this AttributesBuilder<SlCarousel> b,bool loop)
+    public static void SetLoop(this AttributesBuilder<SlCarousel> b, bool loop)
     {
         if (loop) b.SetAttribute("loop", "");
     }
@@ -86,7 +98,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> When set, show the carousel's navigation. </para>
     /// </summary>
-    public static void SetNavigation(this AttributesBuilder<SlCarousel> b,bool navigation)
+    public static void SetNavigation(this AttributesBuilder<SlCarousel> b, bool navigation)
     {
         if (navigation) b.SetAttribute("navigation", "");
     }
@@ -102,7 +114,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> When set, show the carousel's pagination indicators. </para>
     /// </summary>
-    public static void SetPagination(this AttributesBuilder<SlCarousel> b,bool pagination)
+    public static void SetPagination(this AttributesBuilder<SlCarousel> b, bool pagination)
     {
         if (pagination) b.SetAttribute("pagination", "");
     }
@@ -118,7 +130,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> When set, the slides will scroll automatically when the user is not interacting with them. </para>
     /// </summary>
-    public static void SetAutoplay(this AttributesBuilder<SlCarousel> b,bool autoplay)
+    public static void SetAutoplay(this AttributesBuilder<SlCarousel> b, bool autoplay)
     {
         if (autoplay) b.SetAttribute("autoplay", "");
     }
@@ -126,7 +138,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> Specifies the amount of time, in milliseconds, between each automatic scroll. </para>
     /// </summary>
-    public static void SetAutoplayInterval(this AttributesBuilder<SlCarousel> b,string autoplayInterval)
+    public static void SetAutoplayInterval(this AttributesBuilder<SlCarousel> b, string autoplayInterval)
     {
         b.SetAttribute("autoplay-interval", autoplayInterval);
     }
@@ -134,7 +146,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> Specifies how many slides should be shown at a given time. </para>
     /// </summary>
-    public static void SetSlidesPerPage(this AttributesBuilder<SlCarousel> b,string slidesPerPage)
+    public static void SetSlidesPerPage(this AttributesBuilder<SlCarousel> b, string slidesPerPage)
     {
         b.SetAttribute("slides-per-page", slidesPerPage);
     }
@@ -142,7 +154,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> Specifies the number of slides the carousel will advance when scrolling, useful when specifying a `slides-per-page` greater than one. It can't be higher than `slides-per-page`. </para>
     /// </summary>
-    public static void SetSlidesPerMove(this AttributesBuilder<SlCarousel> b,string slidesPerMove)
+    public static void SetSlidesPerMove(this AttributesBuilder<SlCarousel> b, string slidesPerMove)
     {
         b.SetAttribute("slides-per-move", slidesPerMove);
     }
@@ -150,7 +162,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> Specifies the orientation in which the carousel will lay out. </para>
     /// </summary>
-    public static void SetOrientation(this AttributesBuilder<SlCarousel> b,string orientation)
+    public static void SetOrientation(this AttributesBuilder<SlCarousel> b, string orientation)
     {
         b.SetAttribute("orientation", orientation);
     }
@@ -182,7 +194,7 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> When set, it is possible to scroll through the slides by dragging them with the mouse. </para>
     /// </summary>
-    public static void SetMouseDragging(this AttributesBuilder<SlCarousel> b,bool mouseDragging)
+    public static void SetMouseDragging(this AttributesBuilder<SlCarousel> b, bool mouseDragging)
     {
         if (mouseDragging) b.SetAttribute("mouse-dragging", "");
     }

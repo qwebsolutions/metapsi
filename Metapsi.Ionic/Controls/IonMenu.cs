@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonMenu : IonComponent
+public partial class IonMenu
 {
-    public IonMenu() : base("ion-menu") { }
     public static class Method
     {
         /// <summary>
@@ -59,19 +57,33 @@ public static partial class IonMenuControl
     /// </summary>
     public static IHtmlNode IonMenu(this HtmlBuilder b, Action<AttributesBuilder<IonMenu>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu", buildAttributes, children);
+        return b.IonicTag("ion-menu", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonMenu(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-menu", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-menu", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenu(this HtmlBuilder b, Action<AttributesBuilder<IonMenu>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonMenu(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-menu", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The `id` of the main content. When using a router this is typically `ion-router-outlet`. When not using a router, this is typically your main view's `ion-content`. This is not the id of the `ion-content` inside of your `ion-menu`. </para>
     /// </summary>
-    public static void SetContentId(this AttributesBuilder<IonMenu> b,string contentId)
+    public static void SetContentId(this AttributesBuilder<IonMenu> b, string contentId)
     {
         b.SetAttribute("content-id", contentId);
     }
@@ -87,7 +99,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> If `true`, the menu is disabled. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonMenu> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonMenu> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -95,7 +107,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> The edge threshold for dragging the menu open. If a drag/swipe happens over this value, the menu is not triggered. </para>
     /// </summary>
-    public static void SetMaxEdgeStart(this AttributesBuilder<IonMenu> b,string maxEdgeStart)
+    public static void SetMaxEdgeStart(this AttributesBuilder<IonMenu> b, string maxEdgeStart)
     {
         b.SetAttribute("max-edge-start", maxEdgeStart);
     }
@@ -103,7 +115,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> An id for the menu. </para>
     /// </summary>
-    public static void SetMenuId(this AttributesBuilder<IonMenu> b,string menuId)
+    public static void SetMenuId(this AttributesBuilder<IonMenu> b, string menuId)
     {
         b.SetAttribute("menu-id", menuId);
     }
@@ -111,7 +123,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> Which side of the view the menu should be placed. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonMenu> b,string side)
+    public static void SetSide(this AttributesBuilder<IonMenu> b, string side)
     {
         b.SetAttribute("side", side);
     }
@@ -143,7 +155,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> If `true`, swiping the menu is enabled. </para>
     /// </summary>
-    public static void SetSwipeGesture(this AttributesBuilder<IonMenu> b,bool swipeGesture)
+    public static void SetSwipeGesture(this AttributesBuilder<IonMenu> b, bool swipeGesture)
     {
         if (swipeGesture) b.SetAttribute("swipe-gesture", "");
     }
@@ -151,7 +163,7 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> The display type of the menu. Available options: `"overlay"`, `"reveal"`, `"push"`. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<IonMenu> b,string type)
+    public static void SetType(this AttributesBuilder<IonMenu> b, string type)
     {
         b.SetAttribute("type", type);
     }

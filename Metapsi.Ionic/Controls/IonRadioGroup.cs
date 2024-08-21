@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRadioGroup : IonComponent
+public partial class IonRadioGroup
 {
-    public IonRadioGroup() : base("ion-radio-group") { }
 }
 
 public static partial class IonRadioGroupControl
@@ -21,14 +19,28 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static IHtmlNode IonRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<IonRadioGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio-group", buildAttributes, children);
+        return b.IonicTag("ion-radio-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRadioGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio-group", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-radio-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<IonRadioGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-radio-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRadioGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-radio-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the radios can be deselected. </para>
@@ -41,7 +53,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> If `true`, the radios can be deselected. </para>
     /// </summary>
-    public static void SetAllowEmptySelection(this AttributesBuilder<IonRadioGroup> b,bool allowEmptySelection)
+    public static void SetAllowEmptySelection(this AttributesBuilder<IonRadioGroup> b, bool allowEmptySelection)
     {
         if (allowEmptySelection) b.SetAttribute("allow-empty-selection", "");
     }
@@ -49,7 +61,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith(this AttributesBuilder<IonRadioGroup> b,string compareWith)
+    public static void SetCompareWith(this AttributesBuilder<IonRadioGroup> b, string compareWith)
     {
         b.SetAttribute("compare-with", compareWith);
     }
@@ -57,7 +69,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonRadioGroup> b,string name)
+    public static void SetName(this AttributesBuilder<IonRadioGroup> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -65,7 +77,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> the value of the radio group. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonRadioGroup> b,string value)
+    public static void SetValue(this AttributesBuilder<IonRadioGroup> b, string value)
     {
         b.SetAttribute("value", value);
     }

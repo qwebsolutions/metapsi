@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBreadcrumbItem : SlComponent
+public partial class SlBreadcrumbItem
 {
-    public SlBreadcrumbItem() : base("sl-breadcrumb-item") { }
     /// <summary>
     ///
     /// </summary>
@@ -39,19 +37,33 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static IHtmlNode SlBreadcrumbItem(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumbItem>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-breadcrumb-item", buildAttributes, children);
+        return b.SlTag("sl-breadcrumb-item", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlBreadcrumbItem(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-breadcrumb-item", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-breadcrumb-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumbItem(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumbItem>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumbItem(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb-item", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead. </para>
     /// </summary>
-    public static void SetHref(this AttributesBuilder<SlBreadcrumbItem> b,string href)
+    public static void SetHref(this AttributesBuilder<SlBreadcrumbItem> b, string href)
     {
         b.SetAttribute("href", href);
     }
@@ -59,7 +71,7 @@ public static partial class SlBreadcrumbItemControl
     /// <summary>
     /// <para> Tells the browser where to open the link. Only used when `href` is set. </para>
     /// </summary>
-    public static void SetTarget(this AttributesBuilder<SlBreadcrumbItem> b,string target)
+    public static void SetTarget(this AttributesBuilder<SlBreadcrumbItem> b, string target)
     {
         b.SetAttribute("target", target);
     }
@@ -99,7 +111,7 @@ public static partial class SlBreadcrumbItemControl
     /// <summary>
     /// <para> The `rel` attribute to use on the link. Only used when `href` is set. </para>
     /// </summary>
-    public static void SetRel(this AttributesBuilder<SlBreadcrumbItem> b,string rel)
+    public static void SetRel(this AttributesBuilder<SlBreadcrumbItem> b, string rel)
     {
         b.SetAttribute("rel", rel);
     }

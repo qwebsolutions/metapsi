@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonNote : IonComponent
+public partial class IonNote
 {
-    public IonNote() : base("ion-note") { }
 }
 
 public static partial class IonNoteControl
@@ -21,19 +19,33 @@ public static partial class IonNoteControl
     /// </summary>
     public static IHtmlNode IonNote(this HtmlBuilder b, Action<AttributesBuilder<IonNote>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-note", buildAttributes, children);
+        return b.IonicTag("ion-note", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonNote(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-note", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-note", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNote(this HtmlBuilder b, Action<AttributesBuilder<IonNote>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-note", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonNote(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-note", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonNote> b,string color)
+    public static void SetColor(this AttributesBuilder<IonNote> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonNoteControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonNote> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonNote> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

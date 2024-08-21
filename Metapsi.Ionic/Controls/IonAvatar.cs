@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonAvatar : IonComponent
+public partial class IonAvatar
 {
-    public IonAvatar() : base("ion-avatar") { }
 }
 
 public static partial class IonAvatarControl
@@ -21,14 +19,28 @@ public static partial class IonAvatarControl
     /// </summary>
     public static IHtmlNode IonAvatar(this HtmlBuilder b, Action<AttributesBuilder<IonAvatar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-avatar", buildAttributes, children);
+        return b.IonicTag("ion-avatar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonAvatar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-avatar", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-avatar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonAvatar(this HtmlBuilder b, Action<AttributesBuilder<IonAvatar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-avatar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonAvatar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-avatar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

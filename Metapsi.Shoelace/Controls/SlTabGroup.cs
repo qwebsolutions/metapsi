@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabGroup : SlComponent
+public partial class SlTabGroup
 {
-    public SlTabGroup() : base("sl-tab-group") { }
     /// <summary>
     ///
     /// </summary>
@@ -38,19 +36,33 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static IHtmlNode SlTabGroup(this HtmlBuilder b, Action<AttributesBuilder<SlTabGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab-group", buildAttributes, children);
+        return b.SlTag("sl-tab-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTabGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab-group", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tab-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, Action<AttributesBuilder<SlTabGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The placement of the tabs. </para>
     /// </summary>
-    public static void SetPlacement(this AttributesBuilder<SlTabGroup> b,string placement)
+    public static void SetPlacement(this AttributesBuilder<SlTabGroup> b, string placement)
     {
         b.SetAttribute("placement", placement);
     }
@@ -90,7 +102,7 @@ public static partial class SlTabGroupControl
     /// <summary>
     /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
     /// </summary>
-    public static void SetActivation(this AttributesBuilder<SlTabGroup> b,string activation)
+    public static void SetActivation(this AttributesBuilder<SlTabGroup> b, string activation)
     {
         b.SetAttribute("activation", activation);
     }
@@ -122,7 +134,7 @@ public static partial class SlTabGroupControl
     /// <summary>
     /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
     /// </summary>
-    public static void SetNoScrollControls(this AttributesBuilder<SlTabGroup> b,bool noScrollControls)
+    public static void SetNoScrollControls(this AttributesBuilder<SlTabGroup> b, bool noScrollControls)
     {
         if (noScrollControls) b.SetAttribute("no-scroll-controls", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRouter : IonComponent
+public partial class IonRouter
 {
-    public IonRouter() : base("ion-router") { }
     public static class Method
     {
         /// <summary>
@@ -37,19 +35,33 @@ public static partial class IonRouterControl
     /// </summary>
     public static IHtmlNode IonRouter(this HtmlBuilder b, Action<AttributesBuilder<IonRouter>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router", buildAttributes, children);
+        return b.IonicTag("ion-router", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRouter(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-router", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-router", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouter(this HtmlBuilder b, Action<AttributesBuilder<IonRouter>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRouter(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-router", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The root path to use when matching URLs. By default, this is set to "/", but you can specify an alternate prefix for all URL paths. </para>
     /// </summary>
-    public static void SetRoot(this AttributesBuilder<IonRouter> b,string root)
+    public static void SetRoot(this AttributesBuilder<IonRouter> b, string root)
     {
         b.SetAttribute("root", root);
     }
@@ -65,7 +77,7 @@ public static partial class IonRouterControl
     /// <summary>
     /// <para> The router can work in two "modes": - With hash: `/index.html#/path/to/page` - Without hash: `/path/to/page`  Using one or another might depend in the requirements of your app and/or where it's deployed.  Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might requires additional server-side configuration in order to properly work.  On the other side hash-navigation is much easier to deploy, it even works over the file protocol.  By default, this property is `true`, change to `false` to allow hash-less URLs. </para>
     /// </summary>
-    public static void SetUseHash(this AttributesBuilder<IonRouter> b,bool useHash)
+    public static void SetUseHash(this AttributesBuilder<IonRouter> b, bool useHash)
     {
         if (useHash) b.SetAttribute("use-hash", "");
     }

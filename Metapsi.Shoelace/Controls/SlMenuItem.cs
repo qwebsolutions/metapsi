@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlMenuItem : SlComponent
+public partial class SlMenuItem
 {
-    public SlMenuItem() : base("sl-menu-item") { }
     /// <summary>
     ///
     /// </summary>
@@ -46,19 +44,33 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static IHtmlNode SlMenuItem(this HtmlBuilder b, Action<AttributesBuilder<SlMenuItem>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-menu-item", buildAttributes, children);
+        return b.SlTag("sl-menu-item", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlMenuItem(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-menu-item", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-menu-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenuItem(this HtmlBuilder b, Action<AttributesBuilder<SlMenuItem>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-menu-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlMenuItem(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-menu-item", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>
     /// </summary>
-    public static void SetType(this AttributesBuilder<SlMenuItem> b,string type)
+    public static void SetType(this AttributesBuilder<SlMenuItem> b, string type)
     {
         b.SetAttribute("type", type);
     }
@@ -90,7 +102,7 @@ public static partial class SlMenuItemControl
     /// <summary>
     /// <para> Draws the item in a checked state. </para>
     /// </summary>
-    public static void SetChecked(this AttributesBuilder<SlMenuItem> b,bool @checked)
+    public static void SetChecked(this AttributesBuilder<SlMenuItem> b, bool @checked)
     {
         if (@checked) b.SetAttribute("checked", "");
     }
@@ -98,7 +110,7 @@ public static partial class SlMenuItemControl
     /// <summary>
     /// <para> A unique value to store in the menu item. This can be used as a way to identify menu items when selected. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlMenuItem> b,string value)
+    public static void SetValue(this AttributesBuilder<SlMenuItem> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -114,7 +126,7 @@ public static partial class SlMenuItemControl
     /// <summary>
     /// <para> Draws the menu item in a loading state. </para>
     /// </summary>
-    public static void SetLoading(this AttributesBuilder<SlMenuItem> b,bool loading)
+    public static void SetLoading(this AttributesBuilder<SlMenuItem> b, bool loading)
     {
         if (loading) b.SetAttribute("loading", "");
     }
@@ -130,7 +142,7 @@ public static partial class SlMenuItemControl
     /// <summary>
     /// <para> Draws the menu item in a disabled state, preventing selection. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlMenuItem> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlMenuItem> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }

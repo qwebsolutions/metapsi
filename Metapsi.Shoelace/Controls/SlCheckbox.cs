@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCheckbox : SlComponent
+public partial class SlCheckbox
 {
-    public SlCheckbox() : base("sl-checkbox") { }
     /// <summary>
     ///
     /// </summary>
@@ -62,19 +60,33 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static IHtmlNode SlCheckbox(this HtmlBuilder b, Action<AttributesBuilder<SlCheckbox>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-checkbox", buildAttributes, children);
+        return b.SlTag("sl-checkbox", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlCheckbox(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-checkbox", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-checkbox", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCheckbox(this HtmlBuilder b, Action<AttributesBuilder<SlCheckbox>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-checkbox", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCheckbox(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-checkbox", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The name of the checkbox, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlCheckbox> b,string name)
+    public static void SetName(this AttributesBuilder<SlCheckbox> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -82,7 +94,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> The current value of the checkbox, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlCheckbox> b,string value)
+    public static void SetValue(this AttributesBuilder<SlCheckbox> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -90,7 +102,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> The checkbox's size. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<SlCheckbox> b,string size)
+    public static void SetSize(this AttributesBuilder<SlCheckbox> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -130,7 +142,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> Disables the checkbox. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlCheckbox> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlCheckbox> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -146,7 +158,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> Draws the checkbox in a checked state. </para>
     /// </summary>
-    public static void SetChecked(this AttributesBuilder<SlCheckbox> b,bool @checked)
+    public static void SetChecked(this AttributesBuilder<SlCheckbox> b, bool @checked)
     {
         if (@checked) b.SetAttribute("checked", "");
     }
@@ -162,7 +174,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> Draws the checkbox in an indeterminate state. This is usually applied to checkboxes that represents a "select all/none" behavior when associated checkboxes have a mix of checked and unchecked states. </para>
     /// </summary>
-    public static void SetIndeterminate(this AttributesBuilder<SlCheckbox> b,bool indeterminate)
+    public static void SetIndeterminate(this AttributesBuilder<SlCheckbox> b, bool indeterminate)
     {
         if (indeterminate) b.SetAttribute("indeterminate", "");
     }
@@ -170,7 +182,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this AttributesBuilder<SlCheckbox> b,string form)
+    public static void SetForm(this AttributesBuilder<SlCheckbox> b, string form)
     {
         b.SetAttribute("form", form);
     }
@@ -186,7 +198,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> Makes the checkbox a required field. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<SlCheckbox> b,bool required)
+    public static void SetRequired(this AttributesBuilder<SlCheckbox> b, bool required)
     {
         if (required) b.SetAttribute("required", "");
     }
@@ -194,7 +206,7 @@ public static partial class SlCheckboxControl
     /// <summary>
     /// <para> The checkbox's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this AttributesBuilder<SlCheckbox> b,string helpText)
+    public static void SetHelpText(this AttributesBuilder<SlCheckbox> b, string helpText)
     {
         b.SetAttribute("help-text", helpText);
     }

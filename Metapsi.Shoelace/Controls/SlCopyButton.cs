@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCopyButton : SlComponent
+public partial class SlCopyButton
 {
-    public SlCopyButton() : base("sl-copy-button") { }
     /// <summary>
     ///
     /// </summary>
@@ -39,19 +37,33 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static IHtmlNode SlCopyButton(this HtmlBuilder b, Action<AttributesBuilder<SlCopyButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-copy-button", buildAttributes, children);
+        return b.SlTag("sl-copy-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlCopyButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-copy-button", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-copy-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, Action<AttributesBuilder<SlCopyButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-copy-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-copy-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The text value to copy. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlCopyButton> b,string value)
+    public static void SetValue(this AttributesBuilder<SlCopyButton> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -59,7 +71,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`. </para>
     /// </summary>
-    public static void SetFrom(this AttributesBuilder<SlCopyButton> b,string from)
+    public static void SetFrom(this AttributesBuilder<SlCopyButton> b, string from)
     {
         b.SetAttribute("from", from);
     }
@@ -75,7 +87,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> Disables the copy button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlCopyButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlCopyButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -83,7 +95,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> A custom label to show in the tooltip. </para>
     /// </summary>
-    public static void SetCopyLabel(this AttributesBuilder<SlCopyButton> b,string copyLabel)
+    public static void SetCopyLabel(this AttributesBuilder<SlCopyButton> b, string copyLabel)
     {
         b.SetAttribute("copy-label", copyLabel);
     }
@@ -91,7 +103,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> A custom label to show in the tooltip after copying. </para>
     /// </summary>
-    public static void SetSuccessLabel(this AttributesBuilder<SlCopyButton> b,string successLabel)
+    public static void SetSuccessLabel(this AttributesBuilder<SlCopyButton> b, string successLabel)
     {
         b.SetAttribute("success-label", successLabel);
     }
@@ -99,7 +111,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> A custom label to show in the tooltip when a copy error occurs. </para>
     /// </summary>
-    public static void SetErrorLabel(this AttributesBuilder<SlCopyButton> b,string errorLabel)
+    public static void SetErrorLabel(this AttributesBuilder<SlCopyButton> b, string errorLabel)
     {
         b.SetAttribute("error-label", errorLabel);
     }
@@ -107,7 +119,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> The length of time to show feedback before restoring the default trigger. </para>
     /// </summary>
-    public static void SetFeedbackDuration(this AttributesBuilder<SlCopyButton> b,string feedbackDuration)
+    public static void SetFeedbackDuration(this AttributesBuilder<SlCopyButton> b, string feedbackDuration)
     {
         b.SetAttribute("feedback-duration", feedbackDuration);
     }
@@ -115,7 +127,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> The preferred placement of the tooltip. </para>
     /// </summary>
-    public static void SetTooltipPlacement(this AttributesBuilder<SlCopyButton> b,string tooltipPlacement)
+    public static void SetTooltipPlacement(this AttributesBuilder<SlCopyButton> b, string tooltipPlacement)
     {
         b.SetAttribute("tooltip-placement", tooltipPlacement);
     }
@@ -163,7 +175,7 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this AttributesBuilder<SlCopyButton> b,bool hoist)
+    public static void SetHoist(this AttributesBuilder<SlCopyButton> b, bool hoist)
     {
         if (hoist) b.SetAttribute("hoist", "");
     }

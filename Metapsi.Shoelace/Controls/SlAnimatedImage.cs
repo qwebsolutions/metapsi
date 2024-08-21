@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlAnimatedImage : SlComponent
+public partial class SlAnimatedImage
 {
-    public SlAnimatedImage() : base("sl-animated-image") { }
     /// <summary>
     ///
     /// </summary>
@@ -35,19 +33,33 @@ public static partial class SlAnimatedImageControl
     /// </summary>
     public static IHtmlNode SlAnimatedImage(this HtmlBuilder b, Action<AttributesBuilder<SlAnimatedImage>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-animated-image", buildAttributes, children);
+        return b.SlTag("sl-animated-image", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlAnimatedImage(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-animated-image", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-animated-image", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAnimatedImage(this HtmlBuilder b, Action<AttributesBuilder<SlAnimatedImage>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-animated-image", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAnimatedImage(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-animated-image", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The path to the image to load. </para>
     /// </summary>
-    public static void SetSrc(this AttributesBuilder<SlAnimatedImage> b,string src)
+    public static void SetSrc(this AttributesBuilder<SlAnimatedImage> b, string src)
     {
         b.SetAttribute("src", src);
     }
@@ -55,7 +67,7 @@ public static partial class SlAnimatedImageControl
     /// <summary>
     /// <para> A description of the image used by assistive devices. </para>
     /// </summary>
-    public static void SetAlt(this AttributesBuilder<SlAnimatedImage> b,string alt)
+    public static void SetAlt(this AttributesBuilder<SlAnimatedImage> b, string alt)
     {
         b.SetAttribute("alt", alt);
     }
@@ -71,7 +83,7 @@ public static partial class SlAnimatedImageControl
     /// <summary>
     /// <para> Plays the animation. When this attribute is remove, the animation will pause. </para>
     /// </summary>
-    public static void SetPlay(this AttributesBuilder<SlAnimatedImage> b,bool play)
+    public static void SetPlay(this AttributesBuilder<SlAnimatedImage> b, bool play)
     {
         if (play) b.SetAttribute("play", "");
     }

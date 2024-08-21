@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonDatetimeButton : IonComponent
+public partial class IonDatetimeButton
 {
-    public IonDatetimeButton() : base("ion-datetime-button") { }
     /// <summary>
     ///
     /// </summary>
@@ -35,19 +33,33 @@ public static partial class IonDatetimeButtonControl
     /// </summary>
     public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, Action<AttributesBuilder<IonDatetimeButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime-button", buildAttributes, children);
+        return b.IonicTag("ion-datetime-button", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-datetime-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, Action<AttributesBuilder<IonDatetimeButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-datetime-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-datetime-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonDatetimeButton> b,string color)
+    public static void SetColor(this AttributesBuilder<IonDatetimeButton> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -55,7 +67,7 @@ public static partial class IonDatetimeButtonControl
     /// <summary>
     /// <para> The ID of the `ion-datetime` instance associated with the datetime button. </para>
     /// </summary>
-    public static void SetDatetime(this AttributesBuilder<IonDatetimeButton> b,string datetime)
+    public static void SetDatetime(this AttributesBuilder<IonDatetimeButton> b, string datetime)
     {
         b.SetAttribute("datetime", datetime);
     }
@@ -71,7 +83,7 @@ public static partial class IonDatetimeButtonControl
     /// <summary>
     /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonDatetimeButton> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonDatetimeButton> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -79,7 +91,7 @@ public static partial class IonDatetimeButtonControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonDatetimeButton> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonDatetimeButton> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

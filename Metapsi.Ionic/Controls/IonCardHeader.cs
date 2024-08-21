@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCardHeader : IonComponent
+public partial class IonCardHeader
 {
-    public IonCardHeader() : base("ion-card-header") { }
 }
 
 public static partial class IonCardHeaderControl
@@ -21,19 +19,33 @@ public static partial class IonCardHeaderControl
     /// </summary>
     public static IHtmlNode IonCardHeader(this HtmlBuilder b, Action<AttributesBuilder<IonCardHeader>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card-header", buildAttributes, children);
+        return b.IonicTag("ion-card-header", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonCardHeader(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card-header", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-card-header", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCardHeader(this HtmlBuilder b, Action<AttributesBuilder<IonCardHeader>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card-header", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCardHeader(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card-header", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonCardHeader> b,string color)
+    public static void SetColor(this AttributesBuilder<IonCardHeader> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonCardHeaderControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonCardHeader> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonCardHeader> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -73,7 +85,7 @@ public static partial class IonCardHeaderControl
     /// <summary>
     /// <para> If `true`, the card header will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonCardHeader> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonCardHeader> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlProgressRing : SlComponent
+public partial class SlProgressRing
 {
-    public SlProgressRing() : base("sl-progress-ring") { }
 }
 
 public static partial class SlProgressRingControl
@@ -21,19 +19,33 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static IHtmlNode SlProgressRing(this HtmlBuilder b, Action<AttributesBuilder<SlProgressRing>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-progress-ring", buildAttributes, children);
+        return b.SlTag("sl-progress-ring", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlProgressRing(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-progress-ring", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-progress-ring", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressRing(this HtmlBuilder b, Action<AttributesBuilder<SlProgressRing>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-progress-ring", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlProgressRing(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-progress-ring", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The current progress as a percentage, 0 to 100. </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<SlProgressRing> b,string value)
+    public static void SetValue(this AttributesBuilder<SlProgressRing> b, string value)
     {
         b.SetAttribute("value", value);
     }
@@ -41,7 +53,7 @@ public static partial class SlProgressRingControl
     /// <summary>
     /// <para> A custom label for assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlProgressRing> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlProgressRing> b, string label)
     {
         b.SetAttribute("label", label);
     }

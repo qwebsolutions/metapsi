@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFooter : IonComponent
+public partial class IonFooter
 {
-    public IonFooter() : base("ion-footer") { }
 }
 
 public static partial class IonFooterControl
@@ -21,19 +19,33 @@ public static partial class IonFooterControl
     /// </summary>
     public static IHtmlNode IonFooter(this HtmlBuilder b, Action<AttributesBuilder<IonFooter>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-footer", buildAttributes, children);
+        return b.IonicTag("ion-footer", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonFooter(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-footer", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-footer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFooter(this HtmlBuilder b, Action<AttributesBuilder<IonFooter>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-footer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFooter(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-footer", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Describes the scroll effect that will be applied to the footer. Only applies in iOS mode. </para>
     /// </summary>
-    public static void SetCollapse(this AttributesBuilder<IonFooter> b,string collapse)
+    public static void SetCollapse(this AttributesBuilder<IonFooter> b, string collapse)
     {
         b.SetAttribute("collapse", collapse);
     }
@@ -49,7 +61,7 @@ public static partial class IonFooterControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonFooter> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonFooter> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -81,7 +93,7 @@ public static partial class IonFooterControl
     /// <summary>
     /// <para> If `true`, the footer will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonFooter> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonFooter> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonList : IonComponent
+public partial class IonList
 {
-    public IonList() : base("ion-list") { }
     public static class Method
     {
         /// <summary>
@@ -29,14 +27,28 @@ public static partial class IonListControl
     /// </summary>
     public static IHtmlNode IonList(this HtmlBuilder b, Action<AttributesBuilder<IonList>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-list", buildAttributes, children);
+        return b.IonicTag("ion-list", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonList(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-list", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-list", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonList(this HtmlBuilder b, Action<AttributesBuilder<IonList>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-list", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonList(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-list", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the list will have margin around it and rounded corners. </para>
@@ -49,7 +61,7 @@ public static partial class IonListControl
     /// <summary>
     /// <para> If `true`, the list will have margin around it and rounded corners. </para>
     /// </summary>
-    public static void SetInset(this AttributesBuilder<IonList> b,bool inset)
+    public static void SetInset(this AttributesBuilder<IonList> b, bool inset)
     {
         if (inset) b.SetAttribute("inset", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonListControl
     /// <summary>
     /// <para> How the bottom border should be displayed on all items. </para>
     /// </summary>
-    public static void SetLines(this AttributesBuilder<IonList> b,string lines)
+    public static void SetLines(this AttributesBuilder<IonList> b, string lines)
     {
         b.SetAttribute("lines", lines);
     }
@@ -89,7 +101,7 @@ public static partial class IonListControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonList> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonList> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

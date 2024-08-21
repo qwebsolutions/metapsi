@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using Metapsi.Dom;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
-using System.Diagnostics.Metrics;
 
 namespace Metapsi.TomSelect;
 

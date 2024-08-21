@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonPickerLegacy : IonComponent
+public partial class IonPickerLegacy
 {
-    public IonPickerLegacy() : base("ion-picker-legacy") { }
     public static class Method
     {
         /// <summary>
@@ -52,14 +50,28 @@ public static partial class IonPickerLegacyControl
     /// </summary>
     public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, Action<AttributesBuilder<IonPickerLegacy>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-legacy", buildAttributes, children);
+        return b.IonicTag("ion-picker-legacy", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-legacy", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-picker-legacy", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, Action<AttributesBuilder<IonPickerLegacy>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-legacy", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-legacy", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the picker will animate. </para>
@@ -72,7 +84,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> If `true`, the picker will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonPickerLegacy> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonPickerLegacy> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -88,7 +100,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonPickerLegacy> b,bool backdropDismiss)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonPickerLegacy> b, bool backdropDismiss)
     {
         if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
@@ -96,7 +108,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonPickerLegacy> b,string cssClass)
+    public static void SetCssClass(this AttributesBuilder<IonPickerLegacy> b, string cssClass)
     {
         b.SetAttribute("css-class", cssClass);
     }
@@ -104,7 +116,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> Number of milliseconds to wait before dismissing the picker. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<IonPickerLegacy> b,string duration)
+    public static void SetDuration(this AttributesBuilder<IonPickerLegacy> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }
@@ -120,7 +132,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonPickerLegacy> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonPickerLegacy> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -136,7 +148,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonPickerLegacy> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonPickerLegacy> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -144,7 +156,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonPickerLegacy> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonPickerLegacy> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -176,7 +188,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
-    public static void SetShowBackdrop(this AttributesBuilder<IonPickerLegacy> b,bool showBackdrop)
+    public static void SetShowBackdrop(this AttributesBuilder<IonPickerLegacy> b, bool showBackdrop)
     {
         if (showBackdrop) b.SetAttribute("show-backdrop", "");
     }
@@ -184,7 +196,7 @@ public static partial class IonPickerLegacyControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the picker to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonPickerLegacy> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonPickerLegacy> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }

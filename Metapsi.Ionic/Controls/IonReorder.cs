@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonReorder : IonComponent
+public partial class IonReorder
 {
-    public IonReorder() : base("ion-reorder") { }
 }
 
 public static partial class IonReorderControl
@@ -21,14 +19,28 @@ public static partial class IonReorderControl
     /// </summary>
     public static IHtmlNode IonReorder(this HtmlBuilder b, Action<AttributesBuilder<IonReorder>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-reorder", buildAttributes, children);
+        return b.IonicTag("ion-reorder", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonReorder(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-reorder", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-reorder", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonReorder(this HtmlBuilder b, Action<AttributesBuilder<IonReorder>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-reorder", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonReorder(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-reorder", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

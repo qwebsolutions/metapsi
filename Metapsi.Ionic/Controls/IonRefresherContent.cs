@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRefresherContent : IonComponent
+public partial class IonRefresherContent
 {
-    public IonRefresherContent() : base("ion-refresher-content") { }
 }
 
 public static partial class IonRefresherContentControl
@@ -21,19 +19,33 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static IHtmlNode IonRefresherContent(this HtmlBuilder b, Action<AttributesBuilder<IonRefresherContent>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-refresher-content", buildAttributes, children);
+        return b.IonicTag("ion-refresher-content", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonRefresherContent(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-refresher-content", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-refresher-content", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRefresherContent(this HtmlBuilder b, Action<AttributesBuilder<IonRefresherContent>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-refresher-content", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRefresherContent(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-refresher-content", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> A static icon or a spinner to display when you begin to pull down. A spinner name can be provided to gradually show tick marks when pulling down on iOS devices. </para>
     /// </summary>
-    public static void SetPullingIcon(this AttributesBuilder<IonRefresherContent> b,string pullingIcon)
+    public static void SetPullingIcon(this AttributesBuilder<IonRefresherContent> b, string pullingIcon)
     {
         b.SetAttribute("pulling-icon", pullingIcon);
     }
@@ -41,7 +53,7 @@ public static partial class IonRefresherContentControl
     /// <summary>
     /// <para> The text you want to display when you begin to pull down. `pullingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetPullingText(this AttributesBuilder<IonRefresherContent> b,string pullingText)
+    public static void SetPullingText(this AttributesBuilder<IonRefresherContent> b, string pullingText)
     {
         b.SetAttribute("pulling-text", pullingText);
     }
@@ -49,7 +61,7 @@ public static partial class IonRefresherContentControl
     /// <summary>
     /// <para> An animated SVG spinner that shows when refreshing begins </para>
     /// </summary>
-    public static void SetRefreshingSpinner(this AttributesBuilder<IonRefresherContent> b,string refreshingSpinner)
+    public static void SetRefreshingSpinner(this AttributesBuilder<IonRefresherContent> b, string refreshingSpinner)
     {
         b.SetAttribute("refreshing-spinner", refreshingSpinner);
     }
@@ -129,7 +141,7 @@ public static partial class IonRefresherContentControl
     /// <summary>
     /// <para> The text you want to display when performing a refresh. `refreshingText` can accept either plaintext or HTML as a string. To display characters normally reserved for HTML, they must be escaped. For example `<Ionic>` would become `&lt;Ionic&gt;`  For more information: [Security Documentation](https://ionicframework.com/docs/faq/security)  Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetRefreshingText(this AttributesBuilder<IonRefresherContent> b,string refreshingText)
+    public static void SetRefreshingText(this AttributesBuilder<IonRefresherContent> b, string refreshingText)
     {
         b.SetAttribute("refreshing-text", refreshingText);
     }

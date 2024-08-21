@@ -1,17 +1,9 @@
 ﻿using Metapsi.Dom;
 using Metapsi.Syntax;
-using Metapsi.Ui;
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using Metapsi.Html;
 
 namespace Metapsi.Hyperapp
 {
@@ -172,16 +164,6 @@ namespace Metapsi.Hyperapp
             return b.ItalianFormat(dateString.As<DateTime>());
         }
 
-        public static void AddStylesheet(this LayoutBuilder b, string href)
-        {
-            if (!href.StartsWith("http"))
-            {
-                // If it is not absolute path, make it absolute
-                href = $"/{href}".Replace("//", "/");
-            }
-
-            b.Const(new LinkTag("stylesheet", href));
-        }
 
         public static string GetModuleStylesheetName(this LayoutBuilder b, Assembly assembly)
         {
@@ -222,7 +204,14 @@ namespace Metapsi.Hyperapp
             {
                 src = "/" + src.ToLowerInvariant();
             }
-            b.Const(new ExternalScriptTag(src, type));
+
+            DistinctTag scriptTag = new DistinctTag("script");
+            scriptTag.SetAttribute("src", src);
+            if (!string.IsNullOrEmpty(type))
+            {
+                scriptTag.SetAttribute("type", type);
+            }
+            b.Const(scriptTag);
         }
 
         public static void AddScript(this LayoutBuilder b, string src, string type = "")
@@ -232,11 +221,23 @@ namespace Metapsi.Hyperapp
                 // If it is not absolute path, make it absolute
                 src = $"/{src}".Replace("//", "/");
             }
-            b.Const(new ExternalScriptTag(src, type));
+            DistinctTag scriptTag = new DistinctTag("script");
+            scriptTag.SetAttribute("src", src);
+            if (!string.IsNullOrEmpty(type))
+            {
+                scriptTag.SetAttribute("type", type);
+            }
+            b.Const(scriptTag);
         }
 
-        public static void AddScript(this LayoutBuilder b, ScriptTag scriptTag)
+        public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
         {
+            DistinctTag scriptTag = new DistinctTag("script");
+            if (!string.IsNullOrEmpty(type))
+            {
+                scriptTag.SetAttribute("type", type);
+            }
+            scriptTag.AddChild(new HtmlText(scriptContent));
             b.Const(scriptTag);
         }
     }

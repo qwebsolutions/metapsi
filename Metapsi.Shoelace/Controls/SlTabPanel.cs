@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabPanel : SlComponent
+public partial class SlTabPanel
 {
-    public SlTabPanel() : base("sl-tab-panel") { }
 }
 
 public static partial class SlTabPanelControl
@@ -21,19 +19,33 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static IHtmlNode SlTabPanel(this HtmlBuilder b, Action<AttributesBuilder<SlTabPanel>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab-panel", buildAttributes, children);
+        return b.SlTag("sl-tab-panel", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTabPanel(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tab-panel", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tab-panel", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, Action<AttributesBuilder<SlTabPanel>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-panel", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-panel", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The tab panel's name. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<SlTabPanel> b,string name)
+    public static void SetName(this AttributesBuilder<SlTabPanel> b, string name)
     {
         b.SetAttribute("name", name);
     }
@@ -49,7 +61,7 @@ public static partial class SlTabPanelControl
     /// <summary>
     /// <para> When true, the tab panel will be shown. </para>
     /// </summary>
-    public static void SetActive(this AttributesBuilder<SlTabPanel> b,bool active)
+    public static void SetActive(this AttributesBuilder<SlTabPanel> b, bool active)
     {
         if (active) b.SetAttribute("active", "");
     }

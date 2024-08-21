@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCardContent : IonComponent
+public partial class IonCardContent
 {
-    public IonCardContent() : base("ion-card-content") { }
 }
 
 public static partial class IonCardContentControl
@@ -21,19 +19,33 @@ public static partial class IonCardContentControl
     /// </summary>
     public static IHtmlNode IonCardContent(this HtmlBuilder b, Action<AttributesBuilder<IonCardContent>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card-content", buildAttributes, children);
+        return b.IonicTag("ion-card-content", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonCardContent(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-card-content", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-card-content", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCardContent(this HtmlBuilder b, Action<AttributesBuilder<IonCardContent>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card-content", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCardContent(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-card-content", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonCardContent> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonCardContent> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }

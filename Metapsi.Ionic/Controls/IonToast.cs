@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonToast : IonComponent
+public partial class IonToast
 {
-    public IonToast() : base("ion-toast") { }
     public static class Method
     {
         /// <summary>
@@ -46,14 +44,28 @@ public static partial class IonToastControl
     /// </summary>
     public static IHtmlNode IonToast(this HtmlBuilder b, Action<AttributesBuilder<IonToast>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toast", buildAttributes, children);
+        return b.IonicTag("ion-toast", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonToast(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-toast", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-toast", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToast(this HtmlBuilder b, Action<AttributesBuilder<IonToast>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toast", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonToast(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-toast", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, the toast will animate. </para>
@@ -66,7 +78,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> If `true`, the toast will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonToast> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonToast> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -74,7 +86,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonToast> b,string color)
+    public static void SetColor(this AttributesBuilder<IonToast> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -82,7 +94,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonToast> b,string cssClass)
+    public static void SetCssClass(this AttributesBuilder<IonToast> b, string cssClass)
     {
         b.SetAttribute("css-class", cssClass);
     }
@@ -90,7 +102,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> How many milliseconds to wait before hiding the toast. By default, it will show until `dismiss()` is called. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<IonToast> b,string duration)
+    public static void SetDuration(this AttributesBuilder<IonToast> b, string duration)
     {
         b.SetAttribute("duration", duration);
     }
@@ -98,7 +110,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> Header to be shown in the toast. </para>
     /// </summary>
-    public static void SetHeader(this AttributesBuilder<IonToast> b,string header)
+    public static void SetHeader(this AttributesBuilder<IonToast> b, string header)
     {
         b.SetAttribute("header", header);
     }
@@ -106,7 +118,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> The name of the icon to display, or the path to a valid SVG file. See `ion-icon`. https://ionic.io/ionicons </para>
     /// </summary>
-    public static void SetIcon(this AttributesBuilder<IonToast> b,string icon)
+    public static void SetIcon(this AttributesBuilder<IonToast> b, string icon)
     {
         b.SetAttribute("icon", icon);
     }
@@ -122,7 +134,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> If `true`, the toast will open. If `false`, the toast will close. Use this if you need finer grained control over presentation, otherwise just use the toastController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the toast dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonToast> b,bool isOpen)
+    public static void SetIsOpen(this AttributesBuilder<IonToast> b, bool isOpen)
     {
         if (isOpen) b.SetAttribute("is-open", "");
     }
@@ -138,7 +150,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonToast> b,bool keyboardClose)
+    public static void SetKeyboardClose(this AttributesBuilder<IonToast> b, bool keyboardClose)
     {
         if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
@@ -146,7 +158,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> Defines how the message and buttons are laid out in the toast. 'baseline': The message and the buttons will appear on the same line. Message text may wrap within the message container. 'stacked': The buttons containers and message will stack on top of each other. Use this if you have long text in your buttons. </para>
     /// </summary>
-    public static void SetLayout(this AttributesBuilder<IonToast> b,string layout)
+    public static void SetLayout(this AttributesBuilder<IonToast> b, string layout)
     {
         b.SetAttribute("layout", layout);
     }
@@ -170,7 +182,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> Message to be shown in the toast. This property accepts custom HTML as a string. Content is parsed as plaintext by default. `innerHTMLTemplatesEnabled` must be set to `true` in the Ionic config before custom HTML can be used. </para>
     /// </summary>
-    public static void SetMessage(this AttributesBuilder<IonToast> b,string message)
+    public static void SetMessage(this AttributesBuilder<IonToast> b, string message)
     {
         b.SetAttribute("message", message);
     }
@@ -178,7 +190,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonToast> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonToast> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -202,7 +214,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> The starting position of the toast on the screen. Can be tweaked further using the `positionAnchor` property. </para>
     /// </summary>
-    public static void SetPosition(this AttributesBuilder<IonToast> b,string position)
+    public static void SetPosition(this AttributesBuilder<IonToast> b, string position)
     {
         b.SetAttribute("position", position);
     }
@@ -234,7 +246,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> The element to anchor the toast's position to. Can be set as a direct reference or the ID of the element. With `position="bottom"`, the toast will sit above the chosen element. With `position="top"`, the toast will sit below the chosen element. With `position="middle"`, the value of `positionAnchor` is ignored. </para>
     /// </summary>
-    public static void SetPositionAnchor(this AttributesBuilder<IonToast> b,string positionAnchor)
+    public static void SetPositionAnchor(this AttributesBuilder<IonToast> b, string positionAnchor)
     {
         b.SetAttribute("position-anchor", positionAnchor);
     }
@@ -242,7 +254,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> If set to 'vertical', the Toast can be dismissed with a swipe gesture. The swipe direction is determined by the value of the `position` property: `top`: The Toast can be swiped up to dismiss. `bottom`: The Toast can be swiped down to dismiss. `middle`: The Toast can be swiped up or down to dismiss. </para>
     /// </summary>
-    public static void SetSwipeGesture(this AttributesBuilder<IonToast> b,string swipeGesture)
+    public static void SetSwipeGesture(this AttributesBuilder<IonToast> b, string swipeGesture)
     {
         b.SetAttribute("swipe-gesture", swipeGesture);
     }
@@ -266,7 +278,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> If `true`, the toast will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility). </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonToast> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonToast> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }
@@ -274,7 +286,7 @@ public static partial class IonToastControl
     /// <summary>
     /// <para> An ID corresponding to the trigger element that causes the toast to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonToast> b,string trigger)
+    public static void SetTrigger(this AttributesBuilder<IonToast> b, string trigger)
     {
         b.SetAttribute("trigger", trigger);
     }

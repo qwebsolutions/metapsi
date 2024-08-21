@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTreeItem : SlComponent
+public partial class SlTreeItem
 {
-    public SlTreeItem() : base("sl-tree-item") { }
     /// <summary>
     ///
     /// </summary>
@@ -42,14 +40,28 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static IHtmlNode SlTreeItem(this HtmlBuilder b, Action<AttributesBuilder<SlTreeItem>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tree-item", buildAttributes, children);
+        return b.SlTag("sl-tree-item", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlTreeItem(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-tree-item", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-tree-item", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTreeItem(this HtmlBuilder b, Action<AttributesBuilder<SlTreeItem>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tree-item", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTreeItem(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tree-item", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Expands the tree item. </para>
@@ -62,7 +74,7 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Expands the tree item. </para>
     /// </summary>
-    public static void SetExpanded(this AttributesBuilder<SlTreeItem> b,bool expanded)
+    public static void SetExpanded(this AttributesBuilder<SlTreeItem> b, bool expanded)
     {
         if (expanded) b.SetAttribute("expanded", "");
     }
@@ -78,7 +90,7 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Draws the tree item in a selected state. </para>
     /// </summary>
-    public static void SetSelected(this AttributesBuilder<SlTreeItem> b,bool selected)
+    public static void SetSelected(this AttributesBuilder<SlTreeItem> b, bool selected)
     {
         if (selected) b.SetAttribute("selected", "");
     }
@@ -94,7 +106,7 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Disables the tree item. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<SlTreeItem> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<SlTreeItem> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -110,7 +122,7 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Enables lazy loading behavior. </para>
     /// </summary>
-    public static void SetLazy(this AttributesBuilder<SlTreeItem> b,bool lazy)
+    public static void SetLazy(this AttributesBuilder<SlTreeItem> b, bool lazy)
     {
         if (lazy) b.SetAttribute("lazy", "");
     }

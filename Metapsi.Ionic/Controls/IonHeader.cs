@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonHeader : IonComponent
+public partial class IonHeader
 {
-    public IonHeader() : base("ion-header") { }
 }
 
 public static partial class IonHeaderControl
@@ -21,19 +19,33 @@ public static partial class IonHeaderControl
     /// </summary>
     public static IHtmlNode IonHeader(this HtmlBuilder b, Action<AttributesBuilder<IonHeader>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-header", buildAttributes, children);
+        return b.IonicTag("ion-header", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonHeader(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-header", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-header", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonHeader(this HtmlBuilder b, Action<AttributesBuilder<IonHeader>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-header", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonHeader(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-header", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> Describes the scroll effect that will be applied to the header. Only applies in iOS mode.  Typically used for [Collapsible Large Titles](https://ionicframework.com/docs/api/title#collapsible-large-titles) </para>
     /// </summary>
-    public static void SetCollapse(this AttributesBuilder<IonHeader> b,string collapse)
+    public static void SetCollapse(this AttributesBuilder<IonHeader> b, string collapse)
     {
         b.SetAttribute("collapse", collapse);
     }
@@ -57,7 +69,7 @@ public static partial class IonHeaderControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonHeader> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonHeader> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -89,7 +101,7 @@ public static partial class IonHeaderControl
     /// <summary>
     /// <para> If `true`, the header will be translucent. Only applies when the mode is `"ios"` and the device supports [`backdrop-filter`](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the header, the `fullscreen` attribute needs to be set on the content. </para>
     /// </summary>
-    public static void SetTranslucent(this AttributesBuilder<IonHeader> b,bool translucent)
+    public static void SetTranslucent(this AttributesBuilder<IonHeader> b, bool translucent)
     {
         if (translucent) b.SetAttribute("translucent", "");
     }

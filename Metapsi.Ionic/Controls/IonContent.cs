@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonContent : IonComponent
+public partial class IonContent
 {
-    public IonContent() : base("ion-content") { }
     /// <summary>
     /// <para> Content is placed in the scrollable area if provided without a slot. </para>
     /// </summary>
@@ -67,19 +65,33 @@ public static partial class IonContentControl
     /// </summary>
     public static IHtmlNode IonContent(this HtmlBuilder b, Action<AttributesBuilder<IonContent>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-content", buildAttributes, children);
+        return b.IonicTag("ion-content", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonContent(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-content", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-content", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonContent(this HtmlBuilder b, Action<AttributesBuilder<IonContent>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-content", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonContent(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-content", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonContent> b,string color)
+    public static void SetColor(this AttributesBuilder<IonContent> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -95,7 +107,7 @@ public static partial class IonContentControl
     /// <summary>
     /// <para> If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting. </para>
     /// </summary>
-    public static void SetForceOverscroll(this AttributesBuilder<IonContent> b,bool forceOverscroll)
+    public static void SetForceOverscroll(this AttributesBuilder<IonContent> b, bool forceOverscroll)
     {
         if (forceOverscroll) b.SetAttribute("force-overscroll", "");
     }
@@ -111,7 +123,7 @@ public static partial class IonContentControl
     /// <summary>
     /// <para> If `true`, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent. </para>
     /// </summary>
-    public static void SetFullscreen(this AttributesBuilder<IonContent> b,bool fullscreen)
+    public static void SetFullscreen(this AttributesBuilder<IonContent> b, bool fullscreen)
     {
         if (fullscreen) b.SetAttribute("fullscreen", "");
     }
@@ -127,7 +139,7 @@ public static partial class IonContentControl
     /// <summary>
     /// <para> Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to `true`. </para>
     /// </summary>
-    public static void SetScrollEvents(this AttributesBuilder<IonContent> b,bool scrollEvents)
+    public static void SetScrollEvents(this AttributesBuilder<IonContent> b, bool scrollEvents)
     {
         if (scrollEvents) b.SetAttribute("scroll-events", "");
     }
@@ -143,7 +155,7 @@ public static partial class IonContentControl
     /// <summary>
     /// <para> If you want to enable the content scrolling in the X axis, set this property to `true`. </para>
     /// </summary>
-    public static void SetScrollX(this AttributesBuilder<IonContent> b,bool scrollX)
+    public static void SetScrollX(this AttributesBuilder<IonContent> b, bool scrollX)
     {
         if (scrollX) b.SetAttribute("scroll-x", "");
     }
@@ -159,7 +171,7 @@ public static partial class IonContentControl
     /// <summary>
     /// <para> If you want to disable the content scrolling in the Y axis, set this property to `false`. </para>
     /// </summary>
-    public static void SetScrollY(this AttributesBuilder<IonContent> b,bool scrollY)
+    public static void SetScrollY(this AttributesBuilder<IonContent> b, bool scrollY)
     {
         if (scrollY) b.SetAttribute("scroll-y", "");
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonThumbnail : IonComponent
+public partial class IonThumbnail
 {
-    public IonThumbnail() : base("ion-thumbnail") { }
 }
 
 public static partial class IonThumbnailControl
@@ -21,14 +19,28 @@ public static partial class IonThumbnailControl
     /// </summary>
     public static IHtmlNode IonThumbnail(this HtmlBuilder b, Action<AttributesBuilder<IonThumbnail>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-thumbnail", buildAttributes, children);
+        return b.IonicTag("ion-thumbnail", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonThumbnail(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-thumbnail", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-thumbnail", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonThumbnail(this HtmlBuilder b, Action<AttributesBuilder<IonThumbnail>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-thumbnail", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonThumbnail(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-thumbnail", new Dictionary<string, string>(), children);
     }
     /// <summary>
     ///

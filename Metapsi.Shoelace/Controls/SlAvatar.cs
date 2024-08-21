@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlAvatar : SlComponent
+public partial class SlAvatar
 {
-    public SlAvatar() : base("sl-avatar") { }
     /// <summary>
     ///
     /// </summary>
@@ -31,19 +29,33 @@ public static partial class SlAvatarControl
     /// </summary>
     public static IHtmlNode SlAvatar(this HtmlBuilder b, Action<AttributesBuilder<SlAvatar>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("sl-avatar", buildAttributes, children);
+        return b.SlTag("sl-avatar", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode SlAvatar(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("sl-avatar", new Dictionary<string, string>(), children);
+        return b.SlTag("sl-avatar", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAvatar(this HtmlBuilder b, Action<AttributesBuilder<SlAvatar>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-avatar", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlAvatar(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-avatar", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The image source to use for the avatar. </para>
     /// </summary>
-    public static void SetImage(this AttributesBuilder<SlAvatar> b,string image)
+    public static void SetImage(this AttributesBuilder<SlAvatar> b, string image)
     {
         b.SetAttribute("image", image);
     }
@@ -51,7 +63,7 @@ public static partial class SlAvatarControl
     /// <summary>
     /// <para> A label to use to describe the avatar to assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<SlAvatar> b,string label)
+    public static void SetLabel(this AttributesBuilder<SlAvatar> b, string label)
     {
         b.SetAttribute("label", label);
     }
@@ -59,7 +71,7 @@ public static partial class SlAvatarControl
     /// <summary>
     /// <para> Initials to use as a fallback when no image is available (1-2 characters max recommended). </para>
     /// </summary>
-    public static void SetInitials(this AttributesBuilder<SlAvatar> b,string initials)
+    public static void SetInitials(this AttributesBuilder<SlAvatar> b, string initials)
     {
         b.SetAttribute("initials", initials);
     }
@@ -67,7 +79,7 @@ public static partial class SlAvatarControl
     /// <summary>
     /// <para> Indicates how the browser should load the image. </para>
     /// </summary>
-    public static void SetLoading(this AttributesBuilder<SlAvatar> b,string loading)
+    public static void SetLoading(this AttributesBuilder<SlAvatar> b, string loading)
     {
         b.SetAttribute("loading", loading);
     }
@@ -91,7 +103,7 @@ public static partial class SlAvatarControl
     /// <summary>
     /// <para> The shape of the avatar. </para>
     /// </summary>
-    public static void SetShape(this AttributesBuilder<SlAvatar> b,string shape)
+    public static void SetShape(this AttributesBuilder<SlAvatar> b, string shape)
     {
         b.SetAttribute("shape", shape);
     }

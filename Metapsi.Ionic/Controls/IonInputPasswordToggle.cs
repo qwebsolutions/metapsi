@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonInputPasswordToggle : IonComponent
+public partial class IonInputPasswordToggle
 {
-    public IonInputPasswordToggle() : base("ion-input-password-toggle") { }
 }
 
 public static partial class IonInputPasswordToggleControl
@@ -21,19 +19,33 @@ public static partial class IonInputPasswordToggleControl
     /// </summary>
     public static IHtmlNode IonInputPasswordToggle(this HtmlBuilder b, Action<AttributesBuilder<IonInputPasswordToggle>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-input-password-toggle", buildAttributes, children);
+        return b.IonicTag("ion-input-password-toggle", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonInputPasswordToggle(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-input-password-toggle", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-input-password-toggle", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInputPasswordToggle(this HtmlBuilder b, Action<AttributesBuilder<IonInputPasswordToggle>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-input-password-toggle", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonInputPasswordToggle(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-input-password-toggle", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonInputPasswordToggle> b,string color)
+    public static void SetColor(this AttributesBuilder<IonInputPasswordToggle> b, string color)
     {
         b.SetAttribute("color", color);
     }
@@ -41,7 +53,7 @@ public static partial class IonInputPasswordToggleControl
     /// <summary>
     /// <para> The icon that can be used to represent hiding a password. If not set, the "eyeOff" Ionicon will be used. </para>
     /// </summary>
-    public static void SetHideIcon(this AttributesBuilder<IonInputPasswordToggle> b,string hideIcon)
+    public static void SetHideIcon(this AttributesBuilder<IonInputPasswordToggle> b, string hideIcon)
     {
         b.SetAttribute("hide-icon", hideIcon);
     }
@@ -49,7 +61,7 @@ public static partial class IonInputPasswordToggleControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonInputPasswordToggle> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonInputPasswordToggle> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -73,7 +85,7 @@ public static partial class IonInputPasswordToggleControl
     /// <summary>
     /// <para> The icon that can be used to represent showing a password. If not set, the "eye" Ionicon will be used. </para>
     /// </summary>
-    public static void SetShowIcon(this AttributesBuilder<IonInputPasswordToggle> b,string showIcon)
+    public static void SetShowIcon(this AttributesBuilder<IonInputPasswordToggle> b, string showIcon)
     {
         b.SetAttribute("show-icon", showIcon);
     }

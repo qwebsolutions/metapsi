@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonAccordionGroup : IonComponent
+public partial class IonAccordionGroup
 {
-    public IonAccordionGroup() : base("ion-accordion-group") { }
 }
 
 public static partial class IonAccordionGroupControl
@@ -21,14 +19,28 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, Action<AttributesBuilder<IonAccordionGroup>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-accordion-group", buildAttributes, children);
+        return b.IonicTag("ion-accordion-group", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-accordion-group", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-accordion-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, Action<AttributesBuilder<IonAccordionGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-accordion-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonAccordionGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-accordion-group", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, all accordions inside of the accordion group will animate when expanding or collapsing. </para>
@@ -41,7 +53,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> If `true`, all accordions inside of the accordion group will animate when expanding or collapsing. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonAccordionGroup> b,bool animated)
+    public static void SetAnimated(this AttributesBuilder<IonAccordionGroup> b, bool animated)
     {
         if (animated) b.SetAttribute("animated", "");
     }
@@ -57,7 +69,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> If `true`, the accordion group cannot be interacted with. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonAccordionGroup> b,bool disabled)
+    public static void SetDisabled(this AttributesBuilder<IonAccordionGroup> b, bool disabled)
     {
         if (disabled) b.SetAttribute("disabled", "");
     }
@@ -65,7 +77,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> Describes the expansion behavior for each accordion. Possible values are `"compact"` and `"inset"`. Defaults to `"compact"`. </para>
     /// </summary>
-    public static void SetExpand(this AttributesBuilder<IonAccordionGroup> b,string expand)
+    public static void SetExpand(this AttributesBuilder<IonAccordionGroup> b, string expand)
     {
         b.SetAttribute("expand", expand);
     }
@@ -89,7 +101,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonAccordionGroup> b,string mode)
+    public static void SetMode(this AttributesBuilder<IonAccordionGroup> b, string mode)
     {
         b.SetAttribute("mode", mode);
     }
@@ -121,7 +133,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> If `true`, the accordion group can have multiple accordion components expanded at the same time. </para>
     /// </summary>
-    public static void SetMultiple(this AttributesBuilder<IonAccordionGroup> b,bool multiple)
+    public static void SetMultiple(this AttributesBuilder<IonAccordionGroup> b, bool multiple)
     {
         if (multiple) b.SetAttribute("multiple", "");
     }
@@ -137,7 +149,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> If `true`, the accordion group cannot be interacted with, but does not alter the opacity. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonAccordionGroup> b,bool @readonly)
+    public static void SetReadonly(this AttributesBuilder<IonAccordionGroup> b, bool @readonly)
     {
         if (@readonly) b.SetAttribute("readonly", "");
     }
@@ -145,7 +157,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// <para> The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"` </para>
     /// </summary>
-    public static void SetValue(this AttributesBuilder<IonAccordionGroup> b,string value)
+    public static void SetValue(this AttributesBuilder<IonAccordionGroup> b, string value)
     {
         b.SetAttribute("value", value);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonCol : IonComponent
+public partial class IonCol
 {
-    public IonCol() : base("ion-col") { }
 }
 
 public static partial class IonColControl
@@ -21,19 +19,33 @@ public static partial class IonColControl
     /// </summary>
     public static IHtmlNode IonCol(this HtmlBuilder b, Action<AttributesBuilder<IonCol>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-col", buildAttributes, children);
+        return b.IonicTag("ion-col", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonCol(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-col", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-col", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCol(this HtmlBuilder b, Action<AttributesBuilder<IonCol>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-col", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonCol(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-col", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> The amount to offset the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffset(this AttributesBuilder<IonCol> b,string offset)
+    public static void SetOffset(this AttributesBuilder<IonCol> b, string offset)
     {
         b.SetAttribute("offset", offset);
     }
@@ -41,7 +53,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to offset the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetLg(this AttributesBuilder<IonCol> b,string offsetLg)
+    public static void SetOffsetLg(this AttributesBuilder<IonCol> b, string offsetLg)
     {
         b.SetAttribute("offset-lg", offsetLg);
     }
@@ -49,7 +61,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to offset the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetMd(this AttributesBuilder<IonCol> b,string offsetMd)
+    public static void SetOffsetMd(this AttributesBuilder<IonCol> b, string offsetMd)
     {
         b.SetAttribute("offset-md", offsetMd);
     }
@@ -57,7 +69,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to offset the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetSm(this AttributesBuilder<IonCol> b,string offsetSm)
+    public static void SetOffsetSm(this AttributesBuilder<IonCol> b, string offsetSm)
     {
         b.SetAttribute("offset-sm", offsetSm);
     }
@@ -65,7 +77,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to offset the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXl(this AttributesBuilder<IonCol> b,string offsetXl)
+    public static void SetOffsetXl(this AttributesBuilder<IonCol> b, string offsetXl)
     {
         b.SetAttribute("offset-xl", offsetXl);
     }
@@ -73,7 +85,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to offset the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetOffsetXs(this AttributesBuilder<IonCol> b,string offsetXs)
+    public static void SetOffsetXs(this AttributesBuilder<IonCol> b, string offsetXs)
     {
         b.SetAttribute("offset-xs", offsetXs);
     }
@@ -81,7 +93,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPull(this AttributesBuilder<IonCol> b,string pull)
+    public static void SetPull(this AttributesBuilder<IonCol> b, string pull)
     {
         b.SetAttribute("pull", pull);
     }
@@ -89,7 +101,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column for lg screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullLg(this AttributesBuilder<IonCol> b,string pullLg)
+    public static void SetPullLg(this AttributesBuilder<IonCol> b, string pullLg)
     {
         b.SetAttribute("pull-lg", pullLg);
     }
@@ -97,7 +109,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column for md screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullMd(this AttributesBuilder<IonCol> b,string pullMd)
+    public static void SetPullMd(this AttributesBuilder<IonCol> b, string pullMd)
     {
         b.SetAttribute("pull-md", pullMd);
     }
@@ -105,7 +117,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column for sm screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullSm(this AttributesBuilder<IonCol> b,string pullSm)
+    public static void SetPullSm(this AttributesBuilder<IonCol> b, string pullSm)
     {
         b.SetAttribute("pull-sm", pullSm);
     }
@@ -113,7 +125,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column for xl screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXl(this AttributesBuilder<IonCol> b,string pullXl)
+    public static void SetPullXl(this AttributesBuilder<IonCol> b, string pullXl)
     {
         b.SetAttribute("pull-xl", pullXl);
     }
@@ -121,7 +133,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to pull the column for xs screens, in terms of how many columns it should shift to the start of the total available. </para>
     /// </summary>
-    public static void SetPullXs(this AttributesBuilder<IonCol> b,string pullXs)
+    public static void SetPullXs(this AttributesBuilder<IonCol> b, string pullXs)
     {
         b.SetAttribute("pull-xs", pullXs);
     }
@@ -129,7 +141,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPush(this AttributesBuilder<IonCol> b,string push)
+    public static void SetPush(this AttributesBuilder<IonCol> b, string push)
     {
         b.SetAttribute("push", push);
     }
@@ -137,7 +149,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column for lg screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushLg(this AttributesBuilder<IonCol> b,string pushLg)
+    public static void SetPushLg(this AttributesBuilder<IonCol> b, string pushLg)
     {
         b.SetAttribute("push-lg", pushLg);
     }
@@ -145,7 +157,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column for md screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushMd(this AttributesBuilder<IonCol> b,string pushMd)
+    public static void SetPushMd(this AttributesBuilder<IonCol> b, string pushMd)
     {
         b.SetAttribute("push-md", pushMd);
     }
@@ -153,7 +165,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column for sm screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushSm(this AttributesBuilder<IonCol> b,string pushSm)
+    public static void SetPushSm(this AttributesBuilder<IonCol> b, string pushSm)
     {
         b.SetAttribute("push-sm", pushSm);
     }
@@ -161,7 +173,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column for xl screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXl(this AttributesBuilder<IonCol> b,string pushXl)
+    public static void SetPushXl(this AttributesBuilder<IonCol> b, string pushXl)
     {
         b.SetAttribute("push-xl", pushXl);
     }
@@ -169,7 +181,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The amount to push the column for xs screens, in terms of how many columns it should shift to the end of the total available. </para>
     /// </summary>
-    public static void SetPushXs(this AttributesBuilder<IonCol> b,string pushXs)
+    public static void SetPushXs(this AttributesBuilder<IonCol> b, string pushXs)
     {
         b.SetAttribute("push-xs", pushXs);
     }
@@ -177,7 +189,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSize(this AttributesBuilder<IonCol> b,string size)
+    public static void SetSize(this AttributesBuilder<IonCol> b, string size)
     {
         b.SetAttribute("size", size);
     }
@@ -185,7 +197,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column for lg screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeLg(this AttributesBuilder<IonCol> b,string sizeLg)
+    public static void SetSizeLg(this AttributesBuilder<IonCol> b, string sizeLg)
     {
         b.SetAttribute("size-lg", sizeLg);
     }
@@ -193,7 +205,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column for md screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeMd(this AttributesBuilder<IonCol> b,string sizeMd)
+    public static void SetSizeMd(this AttributesBuilder<IonCol> b, string sizeMd)
     {
         b.SetAttribute("size-md", sizeMd);
     }
@@ -201,7 +213,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column for sm screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeSm(this AttributesBuilder<IonCol> b,string sizeSm)
+    public static void SetSizeSm(this AttributesBuilder<IonCol> b, string sizeSm)
     {
         b.SetAttribute("size-sm", sizeSm);
     }
@@ -209,7 +221,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column for xl screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXl(this AttributesBuilder<IonCol> b,string sizeXl)
+    public static void SetSizeXl(this AttributesBuilder<IonCol> b, string sizeXl)
     {
         b.SetAttribute("size-xl", sizeXl);
     }
@@ -217,7 +229,7 @@ public static partial class IonColControl
     /// <summary>
     /// <para> The size of the column for xs screens, in terms of how many columns it should take up out of the total available. If `"auto"` is passed, the column will be the size of its content. </para>
     /// </summary>
-    public static void SetSizeXs(this AttributesBuilder<IonCol> b,string sizeXs)
+    public static void SetSizeXs(this AttributesBuilder<IonCol> b, string sizeXs)
     {
         b.SetAttribute("size-xs", sizeXs);
     }

@@ -2,16 +2,14 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
 using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFab : IonComponent
+public partial class IonFab
 {
-    public IonFab() : base("ion-fab") { }
     public static class Method
     {
         /// <summary>
@@ -29,14 +27,28 @@ public static partial class IonFabControl
     /// </summary>
     public static IHtmlNode IonFab(this HtmlBuilder b, Action<AttributesBuilder<IonFab>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab", buildAttributes, children);
+        return b.IonicTag("ion-fab", buildAttributes, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static IHtmlNode IonFab(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-fab", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFab(this HtmlBuilder b, Action<AttributesBuilder<IonFab>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFab(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab", new Dictionary<string, string>(), children);
     }
     /// <summary>
     /// <para> If `true`, both the `ion-fab-button` and all `ion-fab-list` inside `ion-fab` will become active. That means `ion-fab-button` will become a `close` icon and `ion-fab-list` will become visible. </para>
@@ -49,7 +61,7 @@ public static partial class IonFabControl
     /// <summary>
     /// <para> If `true`, both the `ion-fab-button` and all `ion-fab-list` inside `ion-fab` will become active. That means `ion-fab-button` will become a `close` icon and `ion-fab-list` will become visible. </para>
     /// </summary>
-    public static void SetActivated(this AttributesBuilder<IonFab> b,bool activated)
+    public static void SetActivated(this AttributesBuilder<IonFab> b, bool activated)
     {
         if (activated) b.SetAttribute("activated", "");
     }
@@ -65,7 +77,7 @@ public static partial class IonFabControl
     /// <summary>
     /// <para> If `true`, the fab will display on the edge of the header if `vertical` is `"top"`, and on the edge of the footer if it is `"bottom"`. Should be used with a `fixed` slot. </para>
     /// </summary>
-    public static void SetEdge(this AttributesBuilder<IonFab> b,bool edge)
+    public static void SetEdge(this AttributesBuilder<IonFab> b, bool edge)
     {
         if (edge) b.SetAttribute("edge", "");
     }
@@ -73,7 +85,7 @@ public static partial class IonFabControl
     /// <summary>
     /// <para> Where to align the fab horizontally in the viewport. </para>
     /// </summary>
-    public static void SetHorizontal(this AttributesBuilder<IonFab> b,string horizontal)
+    public static void SetHorizontal(this AttributesBuilder<IonFab> b, string horizontal)
     {
         b.SetAttribute("horizontal", horizontal);
     }
@@ -105,7 +117,7 @@ public static partial class IonFabControl
     /// <summary>
     /// <para> Where to align the fab vertically in the viewport. </para>
     /// </summary>
-    public static void SetVertical(this AttributesBuilder<IonFab> b,string vertical)
+    public static void SetVertical(this AttributesBuilder<IonFab> b, string vertical)
     {
         b.SetAttribute("vertical", vertical);
     }

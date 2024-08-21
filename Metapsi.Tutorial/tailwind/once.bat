@@ -1,1 +1,0 @@
-tailwindcss -i input.css -o ../embedded/metapsi.tutorial.css
