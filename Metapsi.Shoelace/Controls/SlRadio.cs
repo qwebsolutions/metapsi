@@ -103,28 +103,28 @@ public static partial class SlRadioControl
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Action<PropsBuilder<SlRadio>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio", buildProps, children);
+        return b.SlNode("sl-radio", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Action<PropsBuilder<SlRadio>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio", buildProps, children);
+        return b.SlNode("sl-radio", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio", children);
+        return b.SlNode("sl-radio", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio", children);
+        return b.SlNode("sl-radio", children);
     }
     /// <summary>
     /// <para> The radio's value. When selected, the radio group will receive this value. </para>

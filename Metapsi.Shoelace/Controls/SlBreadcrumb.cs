@@ -65,28 +65,28 @@ public static partial class SlBreadcrumbControl
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumb>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-breadcrumb", buildProps, children);
+        return b.SlNode("sl-breadcrumb", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumb>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-breadcrumb", buildProps, children);
+        return b.SlNode("sl-breadcrumb", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-breadcrumb", children);
+        return b.SlNode("sl-breadcrumb", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-breadcrumb", children);
+        return b.SlNode("sl-breadcrumb", children);
     }
     /// <summary>
     /// <para> The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users. </para>

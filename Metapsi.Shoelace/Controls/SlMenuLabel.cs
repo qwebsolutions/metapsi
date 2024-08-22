@@ -47,28 +47,28 @@ public static partial class SlMenuLabelControl
     /// </summary>
     public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, Action<PropsBuilder<SlMenuLabel>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu-label", buildProps, children);
+        return b.SlNode("sl-menu-label", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, Action<PropsBuilder<SlMenuLabel>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu-label", buildProps, children);
+        return b.SlNode("sl-menu-label", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu-label", children);
+        return b.SlNode("sl-menu-label", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuLabel(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu-label", children);
+        return b.SlNode("sl-menu-label", children);
     }
 }
 

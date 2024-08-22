@@ -252,28 +252,28 @@ public static partial class SlTooltipControl
     /// </summary>
     public static Var<IVNode> SlTooltip(this LayoutBuilder b, Action<PropsBuilder<SlTooltip>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tooltip", buildProps, children);
+        return b.SlNode("sl-tooltip", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTooltip(this LayoutBuilder b, Action<PropsBuilder<SlTooltip>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tooltip", buildProps, children);
+        return b.SlNode("sl-tooltip", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTooltip(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tooltip", children);
+        return b.SlNode("sl-tooltip", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTooltip(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tooltip", children);
+        return b.SlNode("sl-tooltip", children);
     }
     /// <summary>
     /// <para> The tooltip's content. If you need to display HTML, use the `content` slot instead. </para>

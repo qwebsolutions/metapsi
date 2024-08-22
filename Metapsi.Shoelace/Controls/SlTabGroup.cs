@@ -144,28 +144,28 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Action<PropsBuilder<SlTabGroup>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab-group", buildProps, children);
+        return b.SlNode("sl-tab-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Action<PropsBuilder<SlTabGroup>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab-group", buildProps, children);
+        return b.SlNode("sl-tab-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab-group", children);
+        return b.SlNode("sl-tab-group", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab-group", children);
+        return b.SlNode("sl-tab-group", children);
     }
     /// <summary>
     /// <para> The placement of the tabs. </para>

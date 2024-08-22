@@ -144,28 +144,28 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static Var<IVNode> SlRadioButton(this LayoutBuilder b, Action<PropsBuilder<SlRadioButton>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio-button", buildProps, children);
+        return b.SlNode("sl-radio-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioButton(this LayoutBuilder b, Action<PropsBuilder<SlRadioButton>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio-button", buildProps, children);
+        return b.SlNode("sl-radio-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio-button", children);
+        return b.SlNode("sl-radio-button", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio-button", children);
+        return b.SlNode("sl-radio-button", children);
     }
     /// <summary>
     /// <para> The radio's value. When selected, the radio group will receive this value. </para>

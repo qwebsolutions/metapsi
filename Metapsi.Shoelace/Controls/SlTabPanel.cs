@@ -71,28 +71,28 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Action<PropsBuilder<SlTabPanel>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab-panel", buildProps, children);
+        return b.SlNode("sl-tab-panel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Action<PropsBuilder<SlTabPanel>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab-panel", buildProps, children);
+        return b.SlNode("sl-tab-panel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab-panel", children);
+        return b.SlNode("sl-tab-panel", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab-panel", children);
+        return b.SlNode("sl-tab-panel", children);
     }
     /// <summary>
     /// <para> The tab panel's name. </para>

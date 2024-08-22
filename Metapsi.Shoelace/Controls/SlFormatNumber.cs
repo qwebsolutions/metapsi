@@ -191,28 +191,28 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Action<PropsBuilder<SlFormatNumber>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-number", buildProps, children);
+        return b.SlNode("sl-format-number", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Action<PropsBuilder<SlFormatNumber>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-number", buildProps, children);
+        return b.SlNode("sl-format-number", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-number", children);
+        return b.SlNode("sl-format-number", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-number", children);
+        return b.SlNode("sl-format-number", children);
     }
     /// <summary>
     /// <para> The number to format. </para>

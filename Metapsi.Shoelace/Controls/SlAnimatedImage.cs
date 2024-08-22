@@ -93,28 +93,28 @@ public static partial class SlAnimatedImageControl
     /// </summary>
     public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, Action<PropsBuilder<SlAnimatedImage>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-animated-image", buildProps, children);
+        return b.SlNode("sl-animated-image", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, Action<PropsBuilder<SlAnimatedImage>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-animated-image", buildProps, children);
+        return b.SlNode("sl-animated-image", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-animated-image", children);
+        return b.SlNode("sl-animated-image", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimatedImage(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-animated-image", children);
+        return b.SlNode("sl-animated-image", children);
     }
     /// <summary>
     /// <para> The path to the image to load. </para>

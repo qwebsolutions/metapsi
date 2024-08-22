@@ -127,28 +127,28 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, Action<PropsBuilder<SlRelativeTime>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-relative-time", buildProps, children);
+        return b.SlNode("sl-relative-time", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, Action<PropsBuilder<SlRelativeTime>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-relative-time", buildProps, children);
+        return b.SlNode("sl-relative-time", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-relative-time", children);
+        return b.SlNode("sl-relative-time", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRelativeTime(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-relative-time", children);
+        return b.SlNode("sl-relative-time", children);
     }
     /// <summary>
     /// <para> The date from which to calculate time from. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). </para>

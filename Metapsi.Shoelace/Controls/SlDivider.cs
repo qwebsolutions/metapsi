@@ -63,28 +63,28 @@ public static partial class SlDividerControl
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Action<PropsBuilder<SlDivider>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-divider", buildProps, children);
+        return b.SlNode("sl-divider", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Action<PropsBuilder<SlDivider>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-divider", buildProps, children);
+        return b.SlNode("sl-divider", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-divider", children);
+        return b.SlNode("sl-divider", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDivider(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-divider", children);
+        return b.SlNode("sl-divider", children);
     }
     /// <summary>
     /// <para> Draws the divider in a vertical orientation. </para>

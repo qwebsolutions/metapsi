@@ -200,28 +200,28 @@ public static partial class SlSwitchControl
     /// </summary>
     public static Var<IVNode> SlSwitch(this LayoutBuilder b, Action<PropsBuilder<SlSwitch>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-switch", buildProps, children);
+        return b.SlNode("sl-switch", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSwitch(this LayoutBuilder b, Action<PropsBuilder<SlSwitch>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-switch", buildProps, children);
+        return b.SlNode("sl-switch", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSwitch(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-switch", children);
+        return b.SlNode("sl-switch", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSwitch(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-switch", children);
+        return b.SlNode("sl-switch", children);
     }
     /// <summary>
     /// <para> The name of the switch, submitted as a name/value pair with form data. </para>

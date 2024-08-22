@@ -63,28 +63,28 @@ public static partial class SlResizeObserverControl
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Action<PropsBuilder<SlResizeObserver>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-resize-observer", buildProps, children);
+        return b.SlNode("sl-resize-observer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Action<PropsBuilder<SlResizeObserver>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-resize-observer", buildProps, children);
+        return b.SlNode("sl-resize-observer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-resize-observer", children);
+        return b.SlNode("sl-resize-observer", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlResizeObserver(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-resize-observer", children);
+        return b.SlNode("sl-resize-observer", children);
     }
     /// <summary>
     /// <para> Disables the observer. </para>

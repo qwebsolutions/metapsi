@@ -77,6 +77,7 @@ public static partial class SlNodeExtensions
                     b.SetTypeModule();
                 },
                 b.Text($"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n")));
+        b.TrackWebComponent(tag);
     }
 
     private static void ImportShoelaceTag(LayoutBuilder b, string tag)
@@ -87,7 +88,6 @@ public static partial class SlNodeExtensions
         b.AddInlineScript(
             $"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n",
             "module");
-        //b.Const(new WebComponentTag(tag));
     }
 
     public static Var<IVNode> SlNode<TProps>(

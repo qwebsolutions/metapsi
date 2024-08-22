@@ -93,28 +93,28 @@ public static partial class SlTreeControl
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Action<PropsBuilder<SlTree>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tree", buildProps, children);
+        return b.SlNode("sl-tree", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Action<PropsBuilder<SlTree>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tree", buildProps, children);
+        return b.SlNode("sl-tree", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tree", children);
+        return b.SlNode("sl-tree", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTree(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tree", children);
+        return b.SlNode("sl-tree", children);
     }
     /// <summary>
     /// <para> The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple displays checkboxes and allows more than one node to be selected. Leaf allows only leaf nodes to be selected. </para>

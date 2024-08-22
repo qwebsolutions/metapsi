@@ -154,28 +154,28 @@ public static partial class SlAnimationControl
     /// </summary>
     public static Var<IVNode> SlAnimation(this LayoutBuilder b, Action<PropsBuilder<SlAnimation>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-animation", buildProps, children);
+        return b.SlNode("sl-animation", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimation(this LayoutBuilder b, Action<PropsBuilder<SlAnimation>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-animation", buildProps, children);
+        return b.SlNode("sl-animation", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimation(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-animation", children);
+        return b.SlNode("sl-animation", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAnimation(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-animation", children);
+        return b.SlNode("sl-animation", children);
     }
     /// <summary>
     /// <para> The name of the built-in animation to use. For custom animations, use the `keyframes` prop. </para>

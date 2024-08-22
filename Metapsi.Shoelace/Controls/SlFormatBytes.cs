@@ -111,28 +111,28 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, Action<PropsBuilder<SlFormatBytes>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-bytes", buildProps, children);
+        return b.SlNode("sl-format-bytes", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, Action<PropsBuilder<SlFormatBytes>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-bytes", buildProps, children);
+        return b.SlNode("sl-format-bytes", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-bytes", children);
+        return b.SlNode("sl-format-bytes", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatBytes(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-bytes", children);
+        return b.SlNode("sl-format-bytes", children);
     }
     /// <summary>
     /// <para> The number to format in bytes. </para>

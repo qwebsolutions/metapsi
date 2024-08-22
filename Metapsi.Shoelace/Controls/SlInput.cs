@@ -748,28 +748,28 @@ public static partial class SlInputControl
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Action<PropsBuilder<SlInput>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-input", buildProps, children);
+        return b.SlNode("sl-input", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Action<PropsBuilder<SlInput>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-input", buildProps, children);
+        return b.SlNode("sl-input", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-input", children);
+        return b.SlNode("sl-input", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInput(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-input", children);
+        return b.SlNode("sl-input", children);
     }
     /// <summary>
     /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>

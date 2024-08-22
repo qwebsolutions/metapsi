@@ -166,28 +166,28 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static Var<IVNode> SlIconButton(this LayoutBuilder b, Action<PropsBuilder<SlIconButton>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-icon-button", buildProps, children);
+        return b.SlNode("sl-icon-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlIconButton(this LayoutBuilder b, Action<PropsBuilder<SlIconButton>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-icon-button", buildProps, children);
+        return b.SlNode("sl-icon-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlIconButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-icon-button", children);
+        return b.SlNode("sl-icon-button", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlIconButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-icon-button", children);
+        return b.SlNode("sl-icon-button", children);
     }
     /// <summary>
     /// <para> The name of the icon to draw. Available names depend on the icon library being used. </para>

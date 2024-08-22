@@ -114,28 +114,28 @@ public static partial class SlTabControl
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Action<PropsBuilder<SlTab>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab", buildProps, children);
+        return b.SlNode("sl-tab", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Action<PropsBuilder<SlTab>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab", buildProps, children);
+        return b.SlNode("sl-tab", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tab", children);
+        return b.SlNode("sl-tab", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTab(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tab", children);
+        return b.SlNode("sl-tab", children);
     }
     /// <summary>
     /// <para> The name of the tab panel this tab is associated with. The panel must be located in the same tab group. </para>

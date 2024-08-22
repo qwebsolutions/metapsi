@@ -103,28 +103,28 @@ public static partial class SlIncludeControl
     /// </summary>
     public static Var<IVNode> SlInclude(this LayoutBuilder b, Action<PropsBuilder<SlInclude>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-include", buildProps, children);
+        return b.SlNode("sl-include", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInclude(this LayoutBuilder b, Action<PropsBuilder<SlInclude>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-include", buildProps, children);
+        return b.SlNode("sl-include", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInclude(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-include", children);
+        return b.SlNode("sl-include", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlInclude(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-include", children);
+        return b.SlNode("sl-include", children);
     }
     /// <summary>
     /// <para> The location of the HTML file to include. Be sure you trust the content you are including as it will be executed as code and can result in XSS attacks. </para>

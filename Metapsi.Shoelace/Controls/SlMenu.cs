@@ -47,28 +47,28 @@ public static partial class SlMenuControl
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Action<PropsBuilder<SlMenu>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu", buildProps, children);
+        return b.SlNode("sl-menu", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Action<PropsBuilder<SlMenu>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu", buildProps, children);
+        return b.SlNode("sl-menu", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu", children);
+        return b.SlNode("sl-menu", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenu(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu", children);
+        return b.SlNode("sl-menu", children);
     }
     /// <summary>
     /// <para> Emitted when a menu item is selected. </para>

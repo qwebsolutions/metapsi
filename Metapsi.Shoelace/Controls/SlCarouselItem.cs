@@ -47,28 +47,28 @@ public static partial class SlCarouselItemControl
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Action<PropsBuilder<SlCarouselItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-carousel-item", buildProps, children);
+        return b.SlNode("sl-carousel-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Action<PropsBuilder<SlCarouselItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-carousel-item", buildProps, children);
+        return b.SlNode("sl-carousel-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-carousel-item", children);
+        return b.SlNode("sl-carousel-item", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarouselItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-carousel-item", children);
+        return b.SlNode("sl-carousel-item", children);
     }
 }
 

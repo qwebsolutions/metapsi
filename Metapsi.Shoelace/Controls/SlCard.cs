@@ -65,28 +65,28 @@ public static partial class SlCardControl
     /// </summary>
     public static Var<IVNode> SlCard(this LayoutBuilder b, Action<PropsBuilder<SlCard>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-card", buildProps, children);
+        return b.SlNode("sl-card", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCard(this LayoutBuilder b, Action<PropsBuilder<SlCard>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-card", buildProps, children);
+        return b.SlNode("sl-card", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCard(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-card", children);
+        return b.SlNode("sl-card", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCard(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-card", children);
+        return b.SlNode("sl-card", children);
     }
 }
 

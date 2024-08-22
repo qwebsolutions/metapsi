@@ -47,28 +47,28 @@ public static partial class SlSpinnerControl
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Action<PropsBuilder<SlSpinner>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-spinner", buildProps, children);
+        return b.SlNode("sl-spinner", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Action<PropsBuilder<SlSpinner>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-spinner", buildProps, children);
+        return b.SlNode("sl-spinner", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-spinner", children);
+        return b.SlNode("sl-spinner", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSpinner(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-spinner", children);
+        return b.SlNode("sl-spinner", children);
     }
 }
 

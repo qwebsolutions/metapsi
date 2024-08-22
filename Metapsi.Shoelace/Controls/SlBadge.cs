@@ -127,28 +127,28 @@ public static partial class SlBadgeControl
     /// </summary>
     public static Var<IVNode> SlBadge(this LayoutBuilder b, Action<PropsBuilder<SlBadge>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-badge", buildProps, children);
+        return b.SlNode("sl-badge", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBadge(this LayoutBuilder b, Action<PropsBuilder<SlBadge>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-badge", buildProps, children);
+        return b.SlNode("sl-badge", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBadge(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-badge", children);
+        return b.SlNode("sl-badge", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBadge(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-badge", children);
+        return b.SlNode("sl-badge", children);
     }
     /// <summary>
     /// <para> The badge's theme variant. </para>

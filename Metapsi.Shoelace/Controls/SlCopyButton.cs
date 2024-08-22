@@ -185,28 +185,28 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Action<PropsBuilder<SlCopyButton>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-copy-button", buildProps, children);
+        return b.SlNode("sl-copy-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Action<PropsBuilder<SlCopyButton>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-copy-button", buildProps, children);
+        return b.SlNode("sl-copy-button", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-copy-button", children);
+        return b.SlNode("sl-copy-button", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-copy-button", children);
+        return b.SlNode("sl-copy-button", children);
     }
     /// <summary>
     /// <para> The text value to copy. </para>

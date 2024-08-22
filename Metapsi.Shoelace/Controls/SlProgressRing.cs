@@ -63,28 +63,28 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Action<PropsBuilder<SlProgressRing>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-progress-ring", buildProps, children);
+        return b.SlNode("sl-progress-ring", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Action<PropsBuilder<SlProgressRing>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-progress-ring", buildProps, children);
+        return b.SlNode("sl-progress-ring", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-progress-ring", children);
+        return b.SlNode("sl-progress-ring", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressRing(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-progress-ring", children);
+        return b.SlNode("sl-progress-ring", children);
     }
     /// <summary>
     /// <para> The current progress as a percentage, 0 to 100. </para>

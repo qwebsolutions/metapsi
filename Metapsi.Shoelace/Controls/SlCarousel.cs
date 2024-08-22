@@ -204,28 +204,28 @@ public static partial class SlCarouselControl
     /// </summary>
     public static Var<IVNode> SlCarousel(this LayoutBuilder b, Action<PropsBuilder<SlCarousel>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-carousel", buildProps, children);
+        return b.SlNode("sl-carousel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarousel(this LayoutBuilder b, Action<PropsBuilder<SlCarousel>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-carousel", buildProps, children);
+        return b.SlNode("sl-carousel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarousel(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-carousel", children);
+        return b.SlNode("sl-carousel", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCarousel(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-carousel", children);
+        return b.SlNode("sl-carousel", children);
     }
     /// <summary>
     /// <para> When set, allows the user to navigate the carousel in the same direction indefinitely. </para>

@@ -153,28 +153,28 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, Action<PropsBuilder<SlSplitPanel>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-split-panel", buildProps, children);
+        return b.SlNode("sl-split-panel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, Action<PropsBuilder<SlSplitPanel>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-split-panel", buildProps, children);
+        return b.SlNode("sl-split-panel", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-split-panel", children);
+        return b.SlNode("sl-split-panel", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSplitPanel(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-split-panel", children);
+        return b.SlNode("sl-split-panel", children);
     }
     /// <summary>
     /// <para> The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size. </para>

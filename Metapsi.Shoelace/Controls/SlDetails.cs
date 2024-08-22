@@ -116,28 +116,28 @@ public static partial class SlDetailsControl
     /// </summary>
     public static Var<IVNode> SlDetails(this LayoutBuilder b, Action<PropsBuilder<SlDetails>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-details", buildProps, children);
+        return b.SlNode("sl-details", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDetails(this LayoutBuilder b, Action<PropsBuilder<SlDetails>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-details", buildProps, children);
+        return b.SlNode("sl-details", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDetails(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-details", children);
+        return b.SlNode("sl-details", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDetails(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-details", children);
+        return b.SlNode("sl-details", children);
     }
     /// <summary>
     /// <para> Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you can use the `show()` and `hide()` methods and this attribute will reflect the details' open state. </para>

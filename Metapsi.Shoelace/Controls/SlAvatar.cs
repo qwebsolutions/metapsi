@@ -137,28 +137,28 @@ public static partial class SlAvatarControl
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Action<PropsBuilder<SlAvatar>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-avatar", buildProps, children);
+        return b.SlNode("sl-avatar", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Action<PropsBuilder<SlAvatar>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-avatar", buildProps, children);
+        return b.SlNode("sl-avatar", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-avatar", children);
+        return b.SlNode("sl-avatar", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAvatar(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-avatar", children);
+        return b.SlNode("sl-avatar", children);
     }
     /// <summary>
     /// <para> The image source to use for the avatar. </para>

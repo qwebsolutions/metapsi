@@ -167,28 +167,28 @@ public static partial class SlTagControl
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Action<PropsBuilder<SlTag>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tag", buildProps, children);
+        return b.SlNode("sl-tag", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Action<PropsBuilder<SlTag>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tag", buildProps, children);
+        return b.SlNode("sl-tag", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tag", children);
+        return b.SlNode("sl-tag", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTag(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tag", children);
+        return b.SlNode("sl-tag", children);
     }
     /// <summary>
     /// <para> The tag's theme variant. </para>

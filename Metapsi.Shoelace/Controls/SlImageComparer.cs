@@ -73,28 +73,28 @@ public static partial class SlImageComparerControl
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Action<PropsBuilder<SlImageComparer>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-image-comparer", buildProps, children);
+        return b.SlNode("sl-image-comparer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Action<PropsBuilder<SlImageComparer>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-image-comparer", buildProps, children);
+        return b.SlNode("sl-image-comparer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-image-comparer", children);
+        return b.SlNode("sl-image-comparer", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-image-comparer", children);
+        return b.SlNode("sl-image-comparer", children);
     }
     /// <summary>
     /// <para> The position of the divider as a percentage. </para>

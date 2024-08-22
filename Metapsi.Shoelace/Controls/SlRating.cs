@@ -130,28 +130,28 @@ public static partial class SlRatingControl
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Action<PropsBuilder<SlRating>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-rating", buildProps, children);
+        return b.SlNode("sl-rating", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Action<PropsBuilder<SlRating>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-rating", buildProps, children);
+        return b.SlNode("sl-rating", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-rating", children);
+        return b.SlNode("sl-rating", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-rating", children);
+        return b.SlNode("sl-rating", children);
     }
     /// <summary>
     /// <para> A label that describes the rating to assistive devices. </para>

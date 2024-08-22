@@ -79,28 +79,28 @@ public static partial class SlSkeletonControl
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Action<PropsBuilder<SlSkeleton>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-skeleton", buildProps, children);
+        return b.SlNode("sl-skeleton", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Action<PropsBuilder<SlSkeleton>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-skeleton", buildProps, children);
+        return b.SlNode("sl-skeleton", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-skeleton", children);
+        return b.SlNode("sl-skeleton", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-skeleton", children);
+        return b.SlNode("sl-skeleton", children);
     }
     /// <summary>
     /// <para> Determines which effect the skeleton will use. </para>

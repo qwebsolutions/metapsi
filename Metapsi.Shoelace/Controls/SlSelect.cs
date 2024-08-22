@@ -356,28 +356,28 @@ public static partial class SlSelectControl
     /// </summary>
     public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-select", buildProps, children);
+        return b.SlNode("sl-select", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSelect(this LayoutBuilder b, Action<PropsBuilder<SlSelect>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-select", buildProps, children);
+        return b.SlNode("sl-select", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSelect(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-select", children);
+        return b.SlNode("sl-select", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlSelect(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-select", children);
+        return b.SlNode("sl-select", children);
     }
     /// <summary>
     /// <para> The name of the select, submitted as a name/value pair with form data. </para>

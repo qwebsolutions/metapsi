@@ -256,28 +256,28 @@ public static partial class SlDropdownControl
     /// </summary>
     public static Var<IVNode> SlDropdown(this LayoutBuilder b, Action<PropsBuilder<SlDropdown>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-dropdown", buildProps, children);
+        return b.SlNode("sl-dropdown", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDropdown(this LayoutBuilder b, Action<PropsBuilder<SlDropdown>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-dropdown", buildProps, children);
+        return b.SlNode("sl-dropdown", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDropdown(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-dropdown", children);
+        return b.SlNode("sl-dropdown", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDropdown(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-dropdown", children);
+        return b.SlNode("sl-dropdown", children);
     }
     /// <summary>
     /// <para> Indicates whether or not the dropdown is open. You can toggle this attribute to show and hide the dropdown, or you can use the `show()` and `hide()` methods and this attribute will reflect the dropdown's open state. </para>

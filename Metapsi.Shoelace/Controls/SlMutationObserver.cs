@@ -135,28 +135,28 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, Action<PropsBuilder<SlMutationObserver>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-mutation-observer", buildProps, children);
+        return b.SlNode("sl-mutation-observer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, Action<PropsBuilder<SlMutationObserver>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-mutation-observer", buildProps, children);
+        return b.SlNode("sl-mutation-observer", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-mutation-observer", children);
+        return b.SlNode("sl-mutation-observer", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMutationObserver(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-mutation-observer", children);
+        return b.SlNode("sl-mutation-observer", children);
     }
     /// <summary>
     /// <para> Watches for changes to attributes. To watch only specific attributes, separate them by a space, e.g. `attr="class id title"`. To watch all attributes, use `*`. </para>

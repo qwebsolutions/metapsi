@@ -351,28 +351,28 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static Var<IVNode> SlFormatDate(this LayoutBuilder b, Action<PropsBuilder<SlFormatDate>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-date", buildProps, children);
+        return b.SlNode("sl-format-date", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatDate(this LayoutBuilder b, Action<PropsBuilder<SlFormatDate>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-date", buildProps, children);
+        return b.SlNode("sl-format-date", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatDate(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-format-date", children);
+        return b.SlNode("sl-format-date", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlFormatDate(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-format-date", children);
+        return b.SlNode("sl-format-date", children);
     }
     /// <summary>
     /// <para> The date/time to format. If not set, the current date and time will be used. When passing a string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). </para>

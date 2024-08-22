@@ -47,28 +47,28 @@ public static partial class SlVisuallyHiddenControl
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Action<PropsBuilder<SlVisuallyHidden>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-visually-hidden", buildProps, children);
+        return b.SlNode("sl-visually-hidden", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Action<PropsBuilder<SlVisuallyHidden>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-visually-hidden", buildProps, children);
+        return b.SlNode("sl-visually-hidden", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-visually-hidden", children);
+        return b.SlNode("sl-visually-hidden", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlVisuallyHidden(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-visually-hidden", children);
+        return b.SlNode("sl-visually-hidden", children);
     }
 }
 

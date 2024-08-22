@@ -160,28 +160,28 @@ public static partial class SlAlertControl
     /// </summary>
     public static Var<IVNode> SlAlert(this LayoutBuilder b, Action<PropsBuilder<SlAlert>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-alert", buildProps, children);
+        return b.SlNode("sl-alert", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAlert(this LayoutBuilder b, Action<PropsBuilder<SlAlert>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-alert", buildProps, children);
+        return b.SlNode("sl-alert", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAlert(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-alert", children);
+        return b.SlNode("sl-alert", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAlert(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-alert", children);
+        return b.SlNode("sl-alert", children);
     }
     /// <summary>
     /// <para> Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert, or you can use the `show()` and `hide()` methods and this attribute will reflect the alert's open state. </para>

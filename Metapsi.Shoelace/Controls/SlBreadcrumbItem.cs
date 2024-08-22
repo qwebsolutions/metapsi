@@ -121,28 +121,28 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumbItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-breadcrumb-item", buildProps, children);
+        return b.SlNode("sl-breadcrumb-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumbItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-breadcrumb-item", buildProps, children);
+        return b.SlNode("sl-breadcrumb-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-breadcrumb-item", children);
+        return b.SlNode("sl-breadcrumb-item", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumbItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-breadcrumb-item", children);
+        return b.SlNode("sl-breadcrumb-item", children);
     }
     /// <summary>
     /// <para> Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead. </para>

@@ -116,28 +116,28 @@ public static partial class SlDialogControl
     /// </summary>
     public static Var<IVNode> SlDialog(this LayoutBuilder b, Action<PropsBuilder<SlDialog>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-dialog", buildProps, children);
+        return b.SlNode("sl-dialog", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDialog(this LayoutBuilder b, Action<PropsBuilder<SlDialog>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-dialog", buildProps, children);
+        return b.SlNode("sl-dialog", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDialog(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-dialog", children);
+        return b.SlNode("sl-dialog", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDialog(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-dialog", children);
+        return b.SlNode("sl-dialog", children);
     }
     /// <summary>
     /// <para> Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state. </para>

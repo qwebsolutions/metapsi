@@ -152,28 +152,28 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Action<PropsBuilder<SlMenuItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu-item", buildProps, children);
+        return b.SlNode("sl-menu-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Action<PropsBuilder<SlMenuItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu-item", buildProps, children);
+        return b.SlNode("sl-menu-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-menu-item", children);
+        return b.SlNode("sl-menu-item", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlMenuItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-menu-item", children);
+        return b.SlNode("sl-menu-item", children);
     }
     /// <summary>
     /// <para> The type of menu item to render. To use `checked`, this value must be set to `checkbox`. </para>

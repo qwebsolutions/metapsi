@@ -92,28 +92,28 @@ public static partial class SlOptionControl
     /// </summary>
     public static Var<IVNode> SlOption(this LayoutBuilder b, Action<PropsBuilder<SlOption>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-option", buildProps, children);
+        return b.SlNode("sl-option", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlOption(this LayoutBuilder b, Action<PropsBuilder<SlOption>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-option", buildProps, children);
+        return b.SlNode("sl-option", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlOption(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-option", children);
+        return b.SlNode("sl-option", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlOption(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-option", children);
+        return b.SlNode("sl-option", children);
     }
     /// <summary>
     /// <para> The option's value. When selected, the containing form control will receive this value. The value must be unique from other options in the same group. Values may not contain spaces, as spaces are used as delimiters when listing multiple values. </para>

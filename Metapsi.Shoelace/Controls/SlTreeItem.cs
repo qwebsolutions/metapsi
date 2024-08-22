@@ -132,28 +132,28 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static Var<IVNode> SlTreeItem(this LayoutBuilder b, Action<PropsBuilder<SlTreeItem>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-tree-item", buildProps, children);
+        return b.SlNode("sl-tree-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTreeItem(this LayoutBuilder b, Action<PropsBuilder<SlTreeItem>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-tree-item", buildProps, children);
+        return b.SlNode("sl-tree-item", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTreeItem(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-tree-item", children);
+        return b.SlNode("sl-tree-item", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTreeItem(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-tree-item", children);
+        return b.SlNode("sl-tree-item", children);
     }
     /// <summary>
     /// <para> Expands the tree item. </para>

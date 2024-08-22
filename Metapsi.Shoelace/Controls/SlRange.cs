@@ -208,28 +208,28 @@ public static partial class SlRangeControl
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Action<PropsBuilder<SlRange>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-range", buildProps, children);
+        return b.SlNode("sl-range", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Action<PropsBuilder<SlRange>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-range", buildProps, children);
+        return b.SlNode("sl-range", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-range", children);
+        return b.SlNode("sl-range", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-range", children);
+        return b.SlNode("sl-range", children);
     }
     /// <summary>
     /// <para> The name of the range, submitted as a name/value pair with form data. </para>

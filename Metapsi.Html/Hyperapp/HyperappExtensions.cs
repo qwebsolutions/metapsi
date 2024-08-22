@@ -51,6 +51,8 @@ public static partial class HyperappExtensions
             return b.App(appConfig);
         });
 
+        GenerateAddExternalResources(b, moduleBuilder);
+
         var usesExternalResources = GenerateAddExternalResources(moduleBuilder);
 
         var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
@@ -72,13 +74,13 @@ public static partial class HyperappExtensions
         };
     }
 
-    public static IHtmlNode Hyperapp<TModel>(
-        this HtmlBuilder b,
-        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
-        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
-    {
-        return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
-    }
+    //public static IHtmlNode Hyperapp<TModel>(
+    //    this HtmlBuilder b,
+    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+    //    params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    //{
+    //    return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
+    //}
 
     public static IHtmlNode Hyperapp<TModel>(
         this HtmlBuilder b,
@@ -99,6 +101,20 @@ public static partial class HyperappExtensions
             init: b => b.MakeInit(b.Const(model)),
             view: view,
             subscriptions: subscriptions);
+    }
+
+
+    public static bool GenerateAddExternalResources(HtmlBuilder b, ModuleBuilder moduleBuilder)
+    {
+        var distinctTagConstants = moduleBuilder.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
+
+        foreach (var tag in distinctTagConstants)
+        {
+            var distinctTag = tag.Value as DistinctTag;
+            b.HeadAppend(distinctTag);
+        }
+
+        return true;
     }
 
     public static bool GenerateAddExternalResources(ModuleBuilder b)

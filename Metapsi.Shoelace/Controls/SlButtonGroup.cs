@@ -55,28 +55,28 @@ public static partial class SlButtonGroupControl
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Action<PropsBuilder<SlButtonGroup>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-button-group", buildProps, children);
+        return b.SlNode("sl-button-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Action<PropsBuilder<SlButtonGroup>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-button-group", buildProps, children);
+        return b.SlNode("sl-button-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-button-group", children);
+        return b.SlNode("sl-button-group", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlButtonGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-button-group", children);
+        return b.SlNode("sl-button-group", children);
     }
     /// <summary>
     /// <para> A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended. </para>

@@ -135,28 +135,28 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static Var<IVNode> SlQrCode(this LayoutBuilder b, Action<PropsBuilder<SlQrCode>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-qr-code", buildProps, children);
+        return b.SlNode("sl-qr-code", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlQrCode(this LayoutBuilder b, Action<PropsBuilder<SlQrCode>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-qr-code", buildProps, children);
+        return b.SlNode("sl-qr-code", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlQrCode(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-qr-code", children);
+        return b.SlNode("sl-qr-code", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlQrCode(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-qr-code", children);
+        return b.SlNode("sl-qr-code", children);
     }
     /// <summary>
     /// <para> The QR code's value. </para>

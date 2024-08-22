@@ -168,28 +168,28 @@ public static partial class SlRadioGroupControl
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Action<PropsBuilder<SlRadioGroup>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio-group", buildProps, children);
+        return b.SlNode("sl-radio-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Action<PropsBuilder<SlRadioGroup>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio-group", buildProps, children);
+        return b.SlNode("sl-radio-group", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-radio-group", children);
+        return b.SlNode("sl-radio-group", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-radio-group", children);
+        return b.SlNode("sl-radio-group", children);
     }
     /// <summary>
     /// <para> The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>

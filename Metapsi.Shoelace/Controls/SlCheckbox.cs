@@ -216,28 +216,28 @@ public static partial class SlCheckboxControl
     /// </summary>
     public static Var<IVNode> SlCheckbox(this LayoutBuilder b, Action<PropsBuilder<SlCheckbox>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-checkbox", buildProps, children);
+        return b.SlNode("sl-checkbox", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCheckbox(this LayoutBuilder b, Action<PropsBuilder<SlCheckbox>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-checkbox", buildProps, children);
+        return b.SlNode("sl-checkbox", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCheckbox(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-checkbox", children);
+        return b.SlNode("sl-checkbox", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlCheckbox(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-checkbox", children);
+        return b.SlNode("sl-checkbox", children);
     }
     /// <summary>
     /// <para> The name of the checkbox, submitted as a name/value pair with form data. </para>

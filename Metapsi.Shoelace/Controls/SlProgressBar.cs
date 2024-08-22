@@ -79,28 +79,28 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static Var<IVNode> SlProgressBar(this LayoutBuilder b, Action<PropsBuilder<SlProgressBar>> buildProps, Var<List<IVNode>> children)
     {
-        return b.H("sl-progress-bar", buildProps, children);
+        return b.SlNode("sl-progress-bar", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressBar(this LayoutBuilder b, Action<PropsBuilder<SlProgressBar>> buildProps, params Var<IVNode>[] children)
     {
-        return b.H("sl-progress-bar", buildProps, children);
+        return b.SlNode("sl-progress-bar", buildProps, children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressBar(this LayoutBuilder b, Var<List<IVNode>> children)
     {
-        return b.H("sl-progress-bar", children);
+        return b.SlNode("sl-progress-bar", children);
     }
     /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlProgressBar(this LayoutBuilder b, params Var<IVNode>[] children)
     {
-        return b.H("sl-progress-bar", children);
+        return b.SlNode("sl-progress-bar", children);
     }
     /// <summary>
     /// <para> The current progress as a percentage, 0 to 100. </para>
