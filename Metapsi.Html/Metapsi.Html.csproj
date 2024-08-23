@@ -6,10 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="embedded\metapsi.dom.js" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
 		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
 		<ProjectReference Include="..\Metapsi.Web.Contracts\Metapsi.Web.Contracts.csproj" />
@@ -26,6 +22,8 @@
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
 		<EmbeddedResource Include="embedded\HyperappCustomElement.js" LogicalName="HyperappCustomElement.js" />
 		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
+		<EmbeddedResource Include="embedded\signalr.js" LogicalName="signalr.js" />
+		<EmbeddedResource Include="embedded\Metapsi.SignalR.js" LogicalName="Metapsi.SignalR.js" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
 
 	</ItemGroup>
