@@ -414,6 +414,12 @@ namespace Metapsi.JavaScript
                     return "-";
                 case ExpressionType.SubtractAssign:
                     return "-=";
+                case ExpressionType.Divide:
+                    return "/";
+                case ExpressionType.Multiply:
+                    return "*";
+                case ExpressionType.Modulo:
+                    return "%";
                 default:
                     throw new NotSupportedException(type.ToString());
             }
