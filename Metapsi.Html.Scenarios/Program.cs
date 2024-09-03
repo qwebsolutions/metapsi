@@ -46,7 +46,7 @@ public static class Program
 {
     public static async Task Main()
     {
-        // Add SignalR preserving JSON capitalization
+        // AddMetapsiSignalR preserves JSON capitalization
         var app = WebApplication.CreateBuilder().AddMetapsi().AddMetapsiSignalR().Build();
         app.UseMetapsi();
         app.MapDefaultSignalRHub();
