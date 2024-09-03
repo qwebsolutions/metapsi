@@ -245,44 +245,7 @@ public static class Program
                                 b.Const(model),
                                 // Connect to default SignalR hub when the client-side application is initialized
                                 b.SignalRConnect())),
-                        (LayoutBuilder b, Var<MarketData> model) =>
-                        {
-                            return b.HtmlDiv(
-                                b.Map(
-                                    b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
-                                    (b, company) =>
-                                    {
-                                        return b.HtmlDiv(
-                                            b =>
-                                            {
-                                                b.AddStyle("display", "flex");
-                                                b.AddStyle(
-                                                    "color",
-                                                    b.If(
-                                                        b.Get(company, x => x.GoingUp),
-                                                        b => b.Const("green"),
-                                                        b => b.Const("red")));
-                                            },
-                                            b.HtmlDiv(
-                                                b =>
-                                                {
-                                                    b.AddStyle("width", "100px");
-                                                },
-                                                b.Text(b.Get(company, x => x.Ticker))),
-                                            b.HtmlDiv(
-                                                b =>
-                                                {
-                                                    b.AddStyle("width", "150px");
-                                                },
-                                                b.Text(b.Get(company, x => x.Name))),
-                                            b.HtmlDiv(
-                                                b =>
-                                                {
-                                                    b.AddStyle("width", "50px");
-                                                },
-                                                b.Text(b.AsString(b.Get(company, x => x.Value)))));
-                                    }));
-                        },
+                        RenderClientSideApp,
                         (SyntaxBuilder b, Var<MarketData> model) =>
                         {
                             // Listen to SignalR event
@@ -297,6 +260,45 @@ public static class Program
         var _notAwaited = Task.Run(GenerateRandomData);
 
         await app.RunAsync();
+    }
+
+    public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
+    {
+        return b.HtmlDiv(
+            b.Map(
+                b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
+                (b, company) =>
+                {
+                    return b.HtmlDiv(
+                        b =>
+                        {
+                            b.AddStyle("display", "flex");
+                            b.AddStyle(
+                                "color",
+                                b.If(
+                                    b.Get(company, x => x.GoingUp),
+                                    b => b.Const("green"),
+                                    b => b.Const("red")));
+                        },
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "100px");
+                            },
+                            b.Text(b.Get(company, x => x.Ticker))),
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "150px");
+                            },
+                            b.Text(b.Get(company, x => x.Name))),
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "50px");
+                            },
+                            b.Text(b.AsString(b.Get(company, x => x.Value)))));
+                }));
     }
 
     public static async Task GenerateRandomData()
