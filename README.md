@@ -346,91 +346,99 @@ public static class Program
             b =>
             {
                 b.UseWebComponentsFadeIn();
-                b.HeadAppend(b.HtmlTitle("Market data, not fake at all..."));
+                b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
                 b.BodyAppend(
-                    b.Hyperapp(
-                        (SyntaxBuilder b) => b.MakeInit(
-                            b.MakeStateWithEffects(
-                                b.Const(model),
-                                // Connect to default SignalR hub when the client-side application is initialized
-                                b.SignalRConnect())),
+                    b.Hyperapp<MarketData>(
+                        InitializeClientSideApp,
                         RenderClientSideApp,
-                        (SyntaxBuilder b, Var<MarketData> model) =>
-                        {
-                            // Listen to SignalR event
-                            return b.Listen(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Refresh> refreshEvent) =>
-                            {
-                                // Return the data. Hyperapp triggers automatic refresh
-                                return b.Get(refreshEvent, x => x.MarketData);
-                        }));
+                        ListenToUpdates));
             }).ToHtml());
 
         var _notAwaited = Task.Run(GenerateRandomData);
 
         await app.RunAsync();
     }
-}
 
-public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
-{
-    return b.HtmlDiv(
-        b.Map(
-            b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
-            (b, company) =>
-            {
-                return b.HtmlDiv(
-                    b =>
-                    {
-                        b.AddStyle("display", "flex");
-                        b.AddStyle(
-                            "color",
-                            b.If(
-                                b.Get(company, x => x.GoingUp),
-                                b => b.Const("green"),
-                                b => b.Const("red")));
-                    },
-                    b.HtmlDiv(
-                        b =>
-                        {
-                            b.AddStyle("width", "100px");
-                        },
-                        b.Text(b.Get(company, x => x.Ticker))),
-                    b.HtmlDiv(
-                        b =>
-                        {
-                            b.AddStyle("width", "150px");
-                        },
-                        b.Text(b.Get(company, x => x.Name))),
-                    b.HtmlDiv(
-                        b =>
-                        {
-                            b.AddStyle("width", "50px");
-                        },
-                        b.Text(b.AsString(b.Get(company, x => x.Value)))));
-            }));
-}
-
-public static async Task GenerateRandomData()
-{
-    MarketData marketData = new();
-
-    Random r = new Random();
-
-    while (true)
+    public static Var<HyperType.Init> InitializeClientSideApp(SyntaxBuilder b)
     {
-        await Task.Delay(3000);
-        foreach (var entry in marketData.Entries)
-        {
-            var newValue = entry.Value + new decimal(r.NextDouble() - 0.5) * 2;
-            entry.GoingUp = newValue > entry.Value;
-            entry.Value = decimal.Round(newValue, 2);
-        }
+        return b.MakeInit(
+            b.MakeStateWithEffects(
+                b.Const(new MarketData()),
+                // Connect to default SignalR hub
+                b.SignalRConnect()));
+    }
 
-        // Raise SignalR event with new data
-        await DefaultMetapsiSignalRHub.HubContext.Clients.All.RaiseEvent(new Refresh()
+    public static Var<HyperType.Subscription> ListenToUpdates(SyntaxBuilder b, Var<MarketData> _modelNotUsed)
+    {
+        // Listen to SignalR event
+        return b.Listen(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Refresh> refreshEvent) =>
         {
-            MarketData = marketData
-        });
+            // Return the data. Hyperapp triggers automatic refresh
+            return b.Get(refreshEvent, x => x.MarketData);
+        }));
+    }
+
+    public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
+    {
+        return b.HtmlDiv(
+            b.Map(
+                b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
+                (b, company) =>
+                {
+                    return b.HtmlDiv(
+                        b =>
+                        {
+                            b.AddStyle("display", "flex");
+                            b.AddStyle(
+                                "color",
+                                b.If(
+                                    b.Get(company, x => x.GoingUp),
+                                    b => b.Const("green"),
+                                    b => b.Const("red")));
+                        },
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "100px");
+                            },
+                            b.Text(b.Get(company, x => x.Ticker))),
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "150px");
+                            },
+                            b.Text(b.Get(company, x => x.Name))),
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddStyle("width", "50px");
+                            },
+                            b.Text(b.AsString(b.Get(company, x => x.Value)))));
+                }));
+    }
+
+    public static async Task GenerateRandomData()
+    {
+        MarketData marketData = new();
+
+        Random r = new Random();
+
+        while (true)
+        {
+            await Task.Delay(3000);
+            foreach (var entry in marketData.Entries)
+            {
+                var newValue = entry.Value + new decimal(r.NextDouble() - 0.5) * 2;
+                entry.GoingUp = newValue > entry.Value;
+                entry.Value = decimal.Round(newValue, 2);
+            }
+
+            // Raise SignalR event with new data
+            await DefaultMetapsiSignalRHub.HubContext.Clients.All.RaiseEvent(new Refresh()
+            {
+                MarketData = marketData
+            });
+        }
     }
 }
 

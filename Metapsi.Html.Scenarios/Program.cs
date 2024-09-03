@@ -10,6 +10,7 @@ using Metapsi.Ionic;
 using System.Collections.Generic;
 using System.Linq;
 using Metapsi.SignalR;
+using System.Reflection;
 
 public class DataModel
 {
@@ -237,29 +238,36 @@ public static class Program
             b =>
             {
                 b.UseWebComponentsFadeIn();
-                b.HeadAppend(b.HtmlTitle("Market data, not fake at all..."));
+                b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
                 b.BodyAppend(
-                    b.Hyperapp(
-                        (SyntaxBuilder b) => b.MakeInit(
-                            b.MakeStateWithEffects(
-                                b.Const(model),
-                                // Connect to default SignalR hub when the client-side application is initialized
-                                b.SignalRConnect())),
+                    b.Hyperapp<MarketData>(
+                        InitializeClientSideApp,
                         RenderClientSideApp,
-                        (SyntaxBuilder b, Var<MarketData> model) =>
-                        {
-                            // Listen to SignalR event
-                            return b.Listen(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Refresh> refreshEvent) =>
-                            {
-                                // Return the data. Hyperapp triggers automatic refresh
-                                return b.Get(refreshEvent, x => x.MarketData);
-                            }));
-                        }));
+                        ListenToUpdates));
             }).ToHtml());
 
         var _notAwaited = Task.Run(GenerateRandomData);
 
         await app.RunAsync();
+    }
+
+    public static Var<HyperType.Init> InitializeClientSideApp(SyntaxBuilder b)
+    {
+        return b.MakeInit(
+            b.MakeStateWithEffects(
+                b.Const(new MarketData()),
+                // Connect to default SignalR hub
+                b.SignalRConnect()));
+    }
+
+    public static Var<HyperType.Subscription> ListenToUpdates(SyntaxBuilder b, Var<MarketData> _modelNotUsed)
+    {
+        // Listen to SignalR event
+        return b.Listen(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Refresh> refreshEvent) =>
+        {
+            // Return the data. Hyperapp triggers automatic refresh
+            return b.Get(refreshEvent, x => x.MarketData);
+        }));
     }
 
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
