@@ -15,6 +15,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, setAttributes, children);
     }
 
@@ -25,6 +26,7 @@ public static class IonicNodeImport
         params IHtmlNode[] children)
     {
         ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, setAttributes, children);
     }
 
@@ -35,6 +37,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, attributes, children);
     }
 
@@ -45,6 +48,7 @@ public static class IonicNodeImport
         params IHtmlNode[] children)
     {
         ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, attributes, children);
     }
 
@@ -54,6 +58,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, children);
     }
 
@@ -62,7 +67,8 @@ public static class IonicNodeImport
         string tag,
         params IHtmlNode[] children)
     {
-        ImportIonic(b); 
+        ImportIonic(b);
+        b.TrackWebComponent(tag);
         return b.Tag(tag, children);
     }
 

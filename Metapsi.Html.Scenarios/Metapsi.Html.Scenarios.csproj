@@ -7,7 +7,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
+    <ProjectReference Include="..\Metapsi.Ionic\Metapsi.Ionic.csproj" />
     <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
+	  <ProjectReference Include="..\Metapsi.Shoelace\Metapsi.Shoelace.csproj" />
   </ItemGroup>
 
 </Project>

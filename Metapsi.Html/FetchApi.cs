@@ -96,6 +96,20 @@ public static class FetchApi
         b.AddHeaders(b.Const("Content-Type"), b.Const("application/json"));
     }
 
+    public static Var<System.Action<ClientSideException>> AlertOnException(this SyntaxBuilder b)
+    {
+        return b.Def((SyntaxBuilder b, Var<ClientSideException> ex) => b.Alert(b.Get(ex, x => x.message)));
+    }
+
+    public static Var<HyperType.Action<TState, ClientSideException>> AlertOnException<TState>(this SyntaxBuilder b)
+    {
+        return b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<ClientSideException> ex) =>
+        {
+            b.Alert(b.Get(ex, x => x.message));
+            return model;
+        });
+    }
+
     public static Var<Promise> Fetch(this SyntaxBuilder b, Var<string> url)
     {
         return b.CallOnObject<Promise>(b.Self(), "fetch", url);
@@ -314,6 +328,27 @@ public static class FetchApi
             b => { },
             onSucces,
             onError);
+    }
+
+    /// <summary>
+    /// Get JSON of type TResult, alert on failure
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="url"></param>
+    /// <param name="onSucces"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Effect> GetJson<TModel, TResult>(
+        this SyntaxBuilder b,
+        Var<string> url,
+        Var<HyperType.Action<TModel, TResult>> onSucces)
+    {
+        return b.Fetch(
+            url,
+            b => { },
+            onSucces,
+            b.AlertOnException<TModel>());
     }
 
     public static Var<HyperType.Effect> PostJson<TModel, TIn, TResult>(

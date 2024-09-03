@@ -13,6 +13,16 @@ public partial class IonIcon
 
 public static class IonIconControl
 {
+    public static IHtmlNode IonIcon(this HtmlBuilder b, Action<AttributesBuilder<IonIcon>> buildAttributes)
+    {
+        return b.IonicTag("ion-icon", buildAttributes);
+    }
+
+    public static IHtmlNode IonIcon(this HtmlBuilder b, string name)
+    {
+        return b.IonIcon(b => b.SetAttribute("name", name));
+    }
+
     public static Var<IVNode> IonIcon(this LayoutBuilder b, Action<PropsBuilder<IonIcon>> buildProps)
     {
         return b.IonicNode<IonIcon>("ion-icon", buildProps);
