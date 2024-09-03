@@ -1,6 +1,5 @@
-﻿using Metapsi.Dom;
-using Metapsi.Syntax;
-using System;
+﻿using Metapsi.Syntax;
+using Metapsi.Html;
 
 namespace Metapsi.Hyperapp
 {

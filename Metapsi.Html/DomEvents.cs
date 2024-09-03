@@ -1,7 +1,7 @@
 ﻿using Metapsi.Syntax;
 using System;
 
-namespace Metapsi.Dom;
+namespace Metapsi.Html;
 
 public interface IEvent
 {
@@ -36,7 +36,7 @@ public class CustomEventOptions<T> : EventOptions
     public T detail { get; set; }
 }
 
-public static class EventExtensions
+public static partial class EventExtensions
 {
     public static void AddEventListener(this SyntaxBuilder b, IVariable element, Var<string> eventName, Var<Action> handler)
     {

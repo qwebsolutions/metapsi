@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Metapsi.Dom;
 using System.Text;
 
 namespace Metapsi.Html;
@@ -51,9 +50,13 @@ public static partial class HyperappExtensions
             return b.App(appConfig);
         });
 
-        GenerateAddExternalResources(b, moduleBuilder);
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "metapsi.core.js");
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "linq.js");
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "uuid.js");
 
-        var usesExternalResources = GenerateAddExternalResources(moduleBuilder);
+        HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
+
+        var usesExternalResources = GenerateAddExternalResourcesDynamic(moduleBuilder);
 
         var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
 
@@ -103,21 +106,7 @@ public static partial class HyperappExtensions
             subscriptions: subscriptions);
     }
 
-
-    public static bool GenerateAddExternalResources(HtmlBuilder b, ModuleBuilder moduleBuilder)
-    {
-        var distinctTagConstants = moduleBuilder.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
-
-        foreach (var tag in distinctTagConstants)
-        {
-            var distinctTag = tag.Value as DistinctTag;
-            b.HeadAppend(distinctTag);
-        }
-
-        return true;
-    }
-
-    public static bool GenerateAddExternalResources(ModuleBuilder b)
+    public static bool GenerateAddExternalResourcesDynamic(ModuleBuilder b)
     {
         var distinctTagConstants = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
 

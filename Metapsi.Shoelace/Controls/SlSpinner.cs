@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 

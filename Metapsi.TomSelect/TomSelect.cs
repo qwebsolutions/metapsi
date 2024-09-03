@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using Metapsi.Html;
 using System;
 using System.Collections.Generic;
-using Metapsi.Dom;
 using System.Linq;
 
 namespace Metapsi.TomSelect;

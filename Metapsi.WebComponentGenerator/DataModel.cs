@@ -86,8 +86,7 @@ public class CSharpConverter
                 "Metapsi.Syntax",
                 "System",
                 "System.Collections.Generic",
-                "Metapsi.Html",
-                "Metapsi.Dom"
+                "Metapsi.Html"
             };
         }
     }

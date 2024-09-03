@@ -1,7 +1,6 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using Metapsi.Html;
-using Metapsi.Dom;
 using System;
 using System.Collections.Generic;
 

@@ -1,5 +1,4 @@
-﻿using Metapsi.Dom;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 using System;
 using System.Linq;
 using System.Reflection;

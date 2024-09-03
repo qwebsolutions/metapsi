@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Metapsi.Syntax;
 
-namespace Metapsi.Dom
+namespace Metapsi.Html
 {
     public interface IDomElement
     {

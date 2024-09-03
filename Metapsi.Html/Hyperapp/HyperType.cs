@@ -1,8 +1,8 @@
-﻿using Metapsi.Dom;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Metapsi.Html;
 using static Metapsi.Hyperapp.HyperType;
 
 namespace Metapsi.Hyperapp

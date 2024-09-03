@@ -209,8 +209,7 @@ public static class Program
                         "Metapsi.Syntax",
                         "System",
                         "System.Collections.Generic",
-                        "Metapsi.Html",
-                        "Metapsi.Dom"
+                        "Metapsi.Html"
                     });
                 
                 await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(shoelaceControlsOutputFolder, $"{shoelaceComponent.Name}.cs"), csharpComponentFile);

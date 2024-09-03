@@ -1,6 +1,4 @@
-﻿using Metapsi.Dom;
-using Metapsi.Html;
-using Metapsi.Hyperapp;
+﻿using Metapsi.Html;
 using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
