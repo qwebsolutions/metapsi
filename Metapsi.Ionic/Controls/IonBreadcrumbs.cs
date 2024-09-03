@@ -2,82 +2,95 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBreadcrumbs : IonComponent
+public partial class IonBreadcrumbs
 {
-    public IonBreadcrumbs() : base("ion-breadcrumbs") { }
 }
 
 public static partial class IonBreadcrumbsControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumbs>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumbs", buildAttributes, children);
+        return b.IonicTag("ion-breadcrumbs", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-breadcrumbs", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-breadcrumbs", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    ///
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonBreadcrumbs> b, string value)
+    public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, Action<AttributesBuilder<IonBreadcrumbs>> buildAttributes, List<IHtmlNode> children)
     {
-        b.SetAttribute("color", value);
+        return b.IonicTag("ion-breadcrumbs", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBreadcrumbs(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-breadcrumbs", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColor(this AttributesBuilder<IonBreadcrumbs> b, string color)
+    {
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsAfterCollapse(this AttributesBuilder<IonBreadcrumbs> b, string value)
+    public static void SetItemsAfterCollapse(this AttributesBuilder<IonBreadcrumbs> b, string itemsAfterCollapse)
     {
-        b.SetAttribute("items-after-collapse", value);
+        b.SetAttribute("items-after-collapse", itemsAfterCollapse);
     }
 
     /// <summary>
-    /// The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsBeforeCollapse(this AttributesBuilder<IonBreadcrumbs> b, string value)
+    public static void SetItemsBeforeCollapse(this AttributesBuilder<IonBreadcrumbs> b, string itemsBeforeCollapse)
     {
-        b.SetAttribute("items-before-collapse", value);
+        b.SetAttribute("items-before-collapse", itemsBeforeCollapse);
     }
 
     /// <summary>
-    /// The maximum number of breadcrumbs to show before collapsing.
+    /// <para> The maximum number of breadcrumbs to show before collapsing. </para>
     /// </summary>
-    public static void SetMaxItems(this AttributesBuilder<IonBreadcrumbs> b, string value)
+    public static void SetMaxItems(this AttributesBuilder<IonBreadcrumbs> b, string maxItems)
     {
-        b.SetAttribute("max-items", value);
+        b.SetAttribute("max-items", maxItems);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonBreadcrumbs> b, string value)
+    public static void SetMode(this AttributesBuilder<IonBreadcrumbs> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonBreadcrumbs> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonBreadcrumbs> b)
     {
@@ -85,180 +98,192 @@ public static partial class IonBreadcrumbsControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBreadcrumbs(this LayoutBuilder b, Action<PropsBuilder<IonBreadcrumbs>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-breadcrumbs", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBreadcrumbs(this LayoutBuilder b, Action<PropsBuilder<IonBreadcrumbs>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-breadcrumbs", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBreadcrumbs(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-breadcrumbs", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBreadcrumbs(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-breadcrumbs", children);
     }
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonBreadcrumbs
+    public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, Var<int> itemsAfterCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonBreadcrumbs
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), itemsAfterCollapse);
     }
 
     /// <summary>
-    /// The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, Var<int> value) where T: IonBreadcrumbs
+    public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, int itemsAfterCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), b.Const(itemsAfterCollapse));
     }
+
+
     /// <summary>
-    /// The number of breadcrumbs to show after the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, int value) where T: IonBreadcrumbs
+    public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, Var<int> itemsBeforeCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), itemsBeforeCollapse);
     }
 
     /// <summary>
-    /// The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed. </para>
     /// </summary>
-    public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, Var<int> value) where T: IonBreadcrumbs
+    public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, int itemsBeforeCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), b.Const(itemsBeforeCollapse));
     }
+
+
     /// <summary>
-    /// The number of breadcrumbs to show before the collapsed indicator. If `itemsBeforeCollapse` + `itemsAfterCollapse` is greater than `maxItems`, the breadcrumbs will not be collapsed.
+    /// <para> The maximum number of breadcrumbs to show before collapsing. </para>
     /// </summary>
-    public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, int value) where T: IonBreadcrumbs
+    public static void SetMaxItems<T>(this PropsBuilder<T> b, Var<int> maxItems) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), maxItems);
     }
 
     /// <summary>
-    /// The maximum number of breadcrumbs to show before collapsing.
+    /// <para> The maximum number of breadcrumbs to show before collapsing. </para>
     /// </summary>
-    public static void SetMaxItems<T>(this PropsBuilder<T> b, Var<int> value) where T: IonBreadcrumbs
+    public static void SetMaxItems<T>(this PropsBuilder<T> b, int maxItems) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), value);
-    }
-    /// <summary>
-    /// The maximum number of breadcrumbs to show before collapsing.
-    /// </summary>
-    public static void SetMaxItems<T>(this PropsBuilder<T> b, int value) where T: IonBreadcrumbs
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), b.Const(maxItems));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
+
     /// <summary>
-    /// Emitted when the collapsed indicator is clicked on.
+    /// <para> Emitted when the collapsed indicator is clicked on. </para>
     /// </summary>
     public static void OnIonCollapsedClick<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, BreadcrumbCollapsedClickEventDetail>> action) where TComponent: IonBreadcrumbs
     {
         b.OnEventAction("onionCollapsedClick", action, "detail");
     }
     /// <summary>
-    /// Emitted when the collapsed indicator is clicked on.
+    /// <para> Emitted when the collapsed indicator is clicked on. </para>
     /// </summary>
     public static void OnIonCollapsedClick<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<BreadcrumbCollapsedClickEventDetail>, Var<TModel>> action) where TComponent: IonBreadcrumbs
     {

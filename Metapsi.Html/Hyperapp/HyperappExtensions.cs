@@ -1,10 +1,9 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
-using Metapsi.Ui;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Metapsi.Dom;
+using System.Text;
 
 namespace Metapsi.Html;
 
@@ -51,7 +50,13 @@ public static partial class HyperappExtensions
             return b.App(appConfig);
         });
 
-        var usesExternalResources = GenerateAddExternalResources(moduleBuilder);
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "metapsi.core.js");
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "linq.js");
+        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "uuid.js");
+
+        HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
+
+        var usesExternalResources = GenerateAddExternalResourcesDynamic(moduleBuilder);
 
         var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
 
@@ -71,34 +76,14 @@ public static partial class HyperappExtensions
                 !usesExternalResources ? b.Text("var dispatch = main()") : b.Text(string.Empty))
         };
     }
-    //public static IHtmlNode Hyperapp<TModel>(
-    //    this HtmlBuilder b,
-    //    Func<SyntaxBuilder, Var<HyperType.Init>> init,
-    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
-    //{
-    //    return b.Hyperapp(
-    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
-    //        view,
-    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
-    //}
 
     //public static IHtmlNode Hyperapp<TModel>(
     //    this HtmlBuilder b,
-    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view)
+    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+    //    params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
     //{
-    //    return b.Hyperapp(
-    //        default(Func<SyntaxBuilder, Var<HyperType.Init>>),
-    //        view,
-    //        default(Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>>));
+    //    return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
     //}
-
-    public static IHtmlNode Hyperapp<TModel>(
-        this HtmlBuilder b,
-        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
-        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
-    {
-        return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
-    }
 
     public static IHtmlNode Hyperapp<TModel>(
         this HtmlBuilder b,
@@ -121,11 +106,11 @@ public static partial class HyperappExtensions
             subscriptions: subscriptions);
     }
 
-    public static bool GenerateAddExternalResources(ModuleBuilder b)
+    public static bool GenerateAddExternalResourcesDynamic(ModuleBuilder b)
     {
-        var distinctTags = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
+        var distinctTagConstants = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
 
-        if (!distinctTags.Any())
+        if (!distinctTagConstants.Any())
             return false;
 
         var addExternalResourcesFn = b.Define("addExternalResources", (SyntaxBuilder b, Var<Action> callback) =>
@@ -133,67 +118,93 @@ public static partial class HyperappExtensions
             var scriptLoadPromises = b.NewCollection<Promise>();
 
             var head = b.QuerySelector("head");
-            foreach (var tag in distinctTags)
+            foreach (var tag in distinctTagConstants)
             {
-                switch (tag.Value)
+                DistinctTag distinctTag = tag.Value as DistinctTag;
+                switch (distinctTag.Tag)
                 {
-                    case LinkTag linkTag:
+                    case "link":
                         {
-                            var alreadyPresent = b.QuerySelector(head, $"link[href='{linkTag.href}']");
-                            b.If(
-                                b.Not(b.HasObject(alreadyPresent)),
-                                b =>
-                                {
-
-                                    var element = b.CreateElement(b.Const("link"));
-                                    b.SetAttribute(element, b.Const("rel"), b.Const(linkTag.rel));
-                                    b.SetAttribute(element, b.Const("href"), b.Const(linkTag.href));
-                                    b.AppendChild(head, element);
-                                });
-                        }
-                        break;
-                    case ExternalScriptTag externalScriptTag:
-                        {
-                            var callbacks = b.Def((SyntaxBuilder b, Var<Action<object>> resolve, Var<Action<object>> reject) =>
+                            if (distinctTag.GetAttribute("rel") == "stylesheet")
                             {
-                                var alreadyPresent = b.QuerySelector(head, $"script[src='{externalScriptTag.src}']");
+                                var href = distinctTag.GetAttribute("href");
+                                var alreadyPresent = b.QuerySelector(head, $"link[href='{href}']");
                                 b.If(
                                     b.Not(b.HasObject(alreadyPresent)),
                                     b =>
                                     {
-                                        var element = b.CreateElement(b.Const("script"));
-                                        b.SetAttribute(element, b.Const("src"), b.Const(externalScriptTag.src));
-                                        if (!string.IsNullOrEmpty(externalScriptTag.type))
-                                        {
-                                            b.SetAttribute(element, b.Const("type"), b.Const(externalScriptTag.type));
-                                        }
-                                        b.AppendChild(head, element);
-                                        b.AddEventListener(element, b.Const("load"), b.Def((SyntaxBuilder b) =>
-                                        {
-                                            b.Call(resolve, b.NewObj<object>());
-                                        }));
-                                    },
-                                    b=>
-                                    {
-                                        b.Call(resolve, b.NewObj<object>());
-                                    });
-                            });
 
-                            var promise = b.NewPromise(callbacks);
-                            b.Push(scriptLoadPromises, promise);
+                                        var element = b.CreateElement(b.Const("link"));
+                                        b.SetAttribute(element, b.Const("rel"), b.Const("stylesheet"));
+                                        b.SetAttribute(element, b.Const("href"), b.Const(href));
+                                        b.AppendChild(head, element);
+                                    });
+                            }
                         }
                         break;
-                    case ScriptTag scriptTag:
+                    case "script":
                         {
-                            // TODO: Check if it already exists as well
-                            var element = b.CreateElement(b.Const("script"));
-                            if (!string.IsNullOrEmpty(scriptTag.type))
+                            // Inline script
+                            if (distinctTag.Children.Any())
                             {
-                                b.SetAttribute(element, b.Const("type"), b.Const(scriptTag.type));
+                                // TODO: Check if it already exists as well?
+                                var element = b.CreateElement(b.Const("script"));
+                                var type = distinctTag.GetAttribute("type");
+                                if (!string.IsNullOrEmpty(type))
+                                {
+                                    b.SetAttribute(element, b.Const("type"), b.Const(type));
+                                }
+
+                                StringBuilder scriptContent = new StringBuilder();
+
+                                foreach (var child in distinctTag.Children)
+                                {
+                                    HtmlText scriptText = child as HtmlText;
+
+                                    if (scriptText != null)
+                                    {
+                                        scriptContent.AppendLine(scriptText.Text);
+                                    }
+                                }
+                                var content = b.CreateTextNode(scriptContent.ToString());
+                                b.AppendChild(element, content);
+                                b.AppendChild(head, element);
                             }
-                            var content = b.CreateTextNode(scriptTag.content);
-                            b.AppendChild(element, content);
-                            b.AppendChild(head, element);
+                            // external script
+                            else if (!string.IsNullOrEmpty(distinctTag.GetAttribute("src")))
+                            {
+                                var src = distinctTag.GetAttribute("src");
+                                var type = distinctTag.GetAttribute("type");
+
+                                var callbacks = b.Def((SyntaxBuilder b, Var<Action<object>> resolve, Var<Action<object>> reject) =>
+                                {
+                                    var alreadyPresent = b.QuerySelector(head, $"script[src='{src}']");
+                                    b.If(
+                                        b.Not(b.HasObject(alreadyPresent)),
+                                        b =>
+                                        {
+                                            var element = b.CreateElement(b.Const("script"));
+                                            b.SetAttribute(element, b.Const("src"), b.Const(src));
+                                            if (!string.IsNullOrEmpty(type))
+                                            {
+                                                b.SetAttribute(element, b.Const("type"), b.Const(type));
+                                            }
+                                            b.AppendChild(head, element);
+                                            b.AddEventListener(element, b.Const("load"), b.Def((SyntaxBuilder b) =>
+                                            {
+                                                b.Call(resolve, b.NewObj<object>());
+                                            }));
+                                        },
+                                        b =>
+                                        {
+                                            b.Call(resolve, b.NewObj<object>());
+                                        });
+                                });
+
+                                var promise = b.NewPromise(callbacks);
+                                b.Push(scriptLoadPromises, promise);
+                            }
+                            else throw new NotSupportedException();
                         }
                         break;
                 }

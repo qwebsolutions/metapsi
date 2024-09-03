@@ -2,56 +2,63 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRadio : IonComponent
+public partial class IonRadio
 {
-    public IonRadio() : base("ion-radio") { }
-    /// <summary> 
-    /// The label text to associate with the radio. Use the "labelPlacement" property to control where the label is placed relative to the radio.
-    /// </summary>
-    public static class Slot
-    {
-    }
 }
 
 public static partial class IonRadioControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRadio(this HtmlBuilder b, Action<AttributesBuilder<IonRadio>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio", buildAttributes, children);
+        return b.IonicTag("ion-radio", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRadio(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-radio", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-radio", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL.
+    ///
     /// </summary>
-    public static void SetAlignment(this AttributesBuilder<IonRadio> b, string value)
+    public static IHtmlNode IonRadio(this HtmlBuilder b, Action<AttributesBuilder<IonRadio>> buildAttributes, List<IHtmlNode> children)
     {
-        b.SetAttribute("alignment", value);
+        return b.IonicTag("ion-radio", buildAttributes, children);
     }
     /// <summary>
-    /// How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL.
+    ///
+    /// </summary>
+    public static IHtmlNode IonRadio(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-radio", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// </summary>
+    public static void SetAlignment(this AttributesBuilder<IonRadio> b, string alignment)
+    {
+        b.SetAttribute("alignment", alignment);
+    }
+
+    /// <summary>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
     public static void SetAlignmentCenter(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("alignment", "center");
     }
+
     /// <summary>
-    /// How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL.
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
     public static void SetAlignmentStart(this AttributesBuilder<IonRadio> b)
     {
@@ -59,51 +66,55 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonRadio> b, string value)
+    public static void SetColor(this AttributesBuilder<IonRadio> b, string color)
     {
-        b.SetAttribute("color", value);
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the radio.
+    /// <para> If `true`, the user cannot interact with the radio. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot interact with the radio.
+    /// <para> If `true`, the user cannot interact with the radio. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonRadio> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonRadio> b, bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
-    public static void SetJustify(this AttributesBuilder<IonRadio> b, string value)
+    public static void SetJustify(this AttributesBuilder<IonRadio> b, string justify)
     {
-        b.SetAttribute("justify", value);
+        b.SetAttribute("justify", justify);
     }
+
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifyEnd(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("justify", "end");
     }
+
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifySpaceBetween(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("justify", "space-between");
     }
+
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifyStart(this AttributesBuilder<IonRadio> b)
     {
@@ -111,35 +122,39 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonRadio> b, string value)
+    public static void SetLabelPlacement(this AttributesBuilder<IonRadio> b, string labelPlacement)
     {
-        b.SetAttribute("label-placement", value);
+        b.SetAttribute("label-placement", labelPlacement);
     }
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementEnd(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("label-placement", "end");
     }
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementFixed(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("label-placement", "fixed");
     }
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementStacked(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("label-placement", "stacked");
     }
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementStart(this AttributesBuilder<IonRadio> b)
     {
@@ -147,21 +162,23 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRadio> b, string value)
+    public static void SetMode(this AttributesBuilder<IonRadio> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonRadio> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonRadio> b)
     {
@@ -169,15 +186,15 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonRadio> b, string value)
+    public static void SetName(this AttributesBuilder<IonRadio> b, string name)
     {
-        b.SetAttribute("name", value);
+        b.SetAttribute("name", name);
     }
 
     /// <summary>
-    /// the value of the radio.
+    /// <para> the value of the radio. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<IonRadio> b, string value)
     {
@@ -185,253 +202,282 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRadio(this LayoutBuilder b, Action<PropsBuilder<IonRadio>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-radio", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRadio(this LayoutBuilder b, Action<PropsBuilder<IonRadio>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-radio", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRadio(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-radio", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRadio(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-radio", children);
     }
     /// <summary>
-    /// How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL.
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("alignment"), b.Const("center"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("center"));
     }
+
+
     /// <summary>
-    /// How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL.
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("alignment"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("start"));
     }
 
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRadio
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonRadio
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
 
+
     /// <summary>
-    /// If `true`, the user cannot interact with the radio.
+    /// <para> If `true`, the user cannot interact with the radio. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot interact with the radio.
+    /// <para> If `true`, the user cannot interact with the radio. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRadio
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot interact with the radio.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonRadio
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> If `true`, the user cannot interact with the radio. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonRadio
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("justify"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("end"));
     }
+
+
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("justify"), b.Const("space-between"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("space-between"));
     }
+
+
     /// <summary>
-    /// How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements.
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("justify"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("start"));
     }
 
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("fixed"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("stacked"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property.
+    /// <para> Where to place the label relative to the radio. `"start"`: The label will appear to the left of the radio in LTR and to the right in RTL. `"end"`: The label will appear to the right of the radio in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the radio regardless of the direction. The alignment of the label can be controlled with the `alignment` property. </para>
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the control, which is submitted with the form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonRadio
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRadio
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonRadio
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the control, which is submitted with the form data.
-    /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, string value) where T: IonRadio
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
 
+
     /// <summary>
-    /// the value of the radio.
+    /// <para> the value of the radio. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonRadio
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
     }
+
     /// <summary>
-    /// the value of the radio.
+    /// <para> the value of the radio. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonRadio
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// Emitted when the radio button loses focus.
+    /// <para> Emitted when the radio button loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonRadio
     {
         b.OnEventAction("onionBlur", action);
     }
     /// <summary>
-    /// Emitted when the radio button loses focus.
+    /// <para> Emitted when the radio button loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonRadio
     {
@@ -439,14 +485,14 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// Emitted when the radio button has focus.
+    /// <para> Emitted when the radio button has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonRadio
     {
         b.OnEventAction("onionFocus", action);
     }
     /// <summary>
-    /// Emitted when the radio button has focus.
+    /// <para> Emitted when the radio button has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonRadio
     {

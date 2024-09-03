@@ -12,11 +12,13 @@ public static class Program
 {
     public static async Task Main()
     {
-        List<string> allTags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(
-            await System.IO.File.ReadAllTextAsync(
+
+        var jsonDefinitionsText = await System.IO.File.ReadAllTextAsync(
                 System.IO.Path.Combine(
                     Utils.SearchUpfolder(System.IO.Directory.GetCurrentDirectory(), "Metapsi.Html.Generate"),
-                    "html-tags.json")));
+                    "html-tags.json"));
+
+        var allTags = System.Text.Json.JsonSerializer.Deserialize<List<TagDefinition>>(jsonDefinitionsText);
 
         var outProjectFolder = Utils.SearchUpfolder(System.IO.Directory.GetCurrentDirectory(), "Metapsi.Html");
 
@@ -40,16 +42,59 @@ public static class Program
             NodeConstructor = "H"
         };
 
-        foreach (var tag in allTags.Where(x => !SkippedTags.Contains(x)))
+        foreach (var tag in allTags.Where(x => !SkippedTags.Contains(x.name)))
         {
-            WebComponent webComponent = new WebComponent()
+            CSharpComponent csComponent = new()
             {
-                Description = $"The HTML {tag} tag",
-                Name = "Html" + Utils.ToCSharpValidName(tag),
-                Tag = tag
+                ClassName = "Html" + Utils.ToCSharpValidName(tag.name),
+                HtmlTag = tag.name
             };
+            csComponent.Comments.Add($"The HTML {tag.name} tag");
 
-            await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"{webComponent.Name}.cs"), webComponent.ToCSharpFile(cSharpConverter));
+            foreach (var stringAttribute in tag.battrs)
+            {
+                var defaultTrueSetter= new CSharpPropertySetter()
+                {
+                    SetterName = "Set" + Utils.Capitalize(Utils.ToCSharpValidName(stringAttribute)),
+                    ClientSidePropertyName = stringAttribute,
+                    CSharpType = "bool",
+                    DefaultValue = ""
+                };
+
+                csComponent.AttributeSetters.Add(defaultTrueSetter);
+
+                var valueSetter = new CSharpPropertySetter()
+                {
+                    SetterName = "Set" + Utils.Capitalize(Utils.ToCSharpValidName(stringAttribute)),
+                    ClientSidePropertyName = stringAttribute,
+                    CSharpType = "bool",
+                };
+                valueSetter.Parameters.Add(new CSharpPropertySetterParameter()
+                {
+                    CSharpType = "bool",
+                    ParameterName = Utils.ToParameterName(stringAttribute)
+                });
+                csComponent.AttributeSetters.Add(valueSetter);
+            }
+
+            foreach (var stringAttribute in tag.sattrs)
+            {
+                var setter = new CSharpPropertySetter()
+                {
+                    SetterName = "Set" + Utils.Capitalize(Utils.ToCSharpValidName(stringAttribute)),
+                    ClientSidePropertyName = stringAttribute,
+                    CSharpType = "string",
+                };
+                setter.Parameters.Add(new CSharpPropertySetterParameter()
+                {
+                    CSharpType = "string",
+                    ParameterName = Utils.ToParameterName(stringAttribute)
+                });
+
+                csComponent.AttributeSetters.Add(setter);
+            }
+
+            await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"{csComponent.ClassName}.cs"), csComponent.ToCSharpFile("Metapsi.Html", CSharpConverter.DefaultUsingNamespaces));
         }
     }
 
@@ -61,4 +106,11 @@ public static class Program
         //"meta",
         //"noscript"
     };
+}
+
+public class TagDefinition
+{
+    public string name { get; set; }
+    public List<string> sattrs { get; set; } = new List<string>();
+    public List<string> battrs { get; set; } = new List<string>();
 }

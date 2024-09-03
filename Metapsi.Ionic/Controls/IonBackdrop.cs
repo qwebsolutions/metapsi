@@ -2,182 +2,208 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonBackdrop : IonComponent
+public partial class IonBackdrop
 {
-    public IonBackdrop() : base("ion-backdrop") { }
 }
 
 public static partial class IonBackdropControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonBackdrop(this HtmlBuilder b, Action<AttributesBuilder<IonBackdrop>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-backdrop", buildAttributes, children);
+        return b.IonicTag("ion-backdrop", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonBackdrop(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-backdrop", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-backdrop", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the backdrop will stop propagation on tap.
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackdrop(this HtmlBuilder b, Action<AttributesBuilder<IonBackdrop>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-backdrop", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonBackdrop(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-backdrop", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> If `true`, the backdrop will stop propagation on tap. </para>
     /// </summary>
     public static void SetStopPropagation(this AttributesBuilder<IonBackdrop> b)
     {
         b.SetAttribute("stop-propagation", "");
     }
+
     /// <summary>
-    /// If `true`, the backdrop will stop propagation on tap.
+    /// <para> If `true`, the backdrop will stop propagation on tap. </para>
     /// </summary>
-    public static void SetStopPropagation(this AttributesBuilder<IonBackdrop> b, bool value)
+    public static void SetStopPropagation(this AttributesBuilder<IonBackdrop> b, bool stopPropagation)
     {
-        if (value) b.SetAttribute("stop-propagation", "");
+        if (stopPropagation) b.SetAttribute("stop-propagation", "");
     }
 
     /// <summary>
-    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
     /// </summary>
     public static void SetTappable(this AttributesBuilder<IonBackdrop> b)
     {
         b.SetAttribute("tappable", "");
     }
+
     /// <summary>
-    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
     /// </summary>
-    public static void SetTappable(this AttributesBuilder<IonBackdrop> b, bool value)
+    public static void SetTappable(this AttributesBuilder<IonBackdrop> b, bool tappable)
     {
-        if (value) b.SetAttribute("tappable", "");
+        if (tappable) b.SetAttribute("tappable", "");
     }
 
     /// <summary>
-    /// If `true`, the backdrop will be visible.
+    /// <para> If `true`, the backdrop will be visible. </para>
     /// </summary>
     public static void SetVisible(this AttributesBuilder<IonBackdrop> b)
     {
         b.SetAttribute("visible", "");
     }
+
     /// <summary>
-    /// If `true`, the backdrop will be visible.
+    /// <para> If `true`, the backdrop will be visible. </para>
     /// </summary>
-    public static void SetVisible(this AttributesBuilder<IonBackdrop> b, bool value)
+    public static void SetVisible(this AttributesBuilder<IonBackdrop> b, bool visible)
     {
-        if (value) b.SetAttribute("visible", "");
+        if (visible) b.SetAttribute("visible", "");
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBackdrop(this LayoutBuilder b, Action<PropsBuilder<IonBackdrop>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-backdrop", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBackdrop(this LayoutBuilder b, Action<PropsBuilder<IonBackdrop>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-backdrop", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBackdrop(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-backdrop", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonBackdrop(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-backdrop", children);
     }
     /// <summary>
-    /// If `true`, the backdrop will stop propagation on tap.
+    /// <para> If `true`, the backdrop will stop propagation on tap. </para>
     /// </summary>
     public static void SetStopPropagation<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the backdrop will stop propagation on tap.
+    /// <para> If `true`, the backdrop will stop propagation on tap. </para>
     /// </summary>
-    public static void SetStopPropagation<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    public static void SetStopPropagation<T>(this PropsBuilder<T> b, Var<bool> stopPropagation) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), value);
-    }
-    /// <summary>
-    /// If `true`, the backdrop will stop propagation on tap.
-    /// </summary>
-    public static void SetStopPropagation<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("stopPropagation"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), stopPropagation);
     }
 
     /// <summary>
-    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// <para> If `true`, the backdrop will stop propagation on tap. </para>
+    /// </summary>
+    public static void SetStopPropagation<T>(this PropsBuilder<T> b, bool stopPropagation) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), b.Const(stopPropagation));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
     /// </summary>
     public static void SetTappable<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
+    /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
     /// </summary>
-    public static void SetTappable<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    public static void SetTappable<T>(this PropsBuilder<T> b, Var<bool> tappable) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), value);
-    }
-    /// <summary>
-    /// If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event.
-    /// </summary>
-    public static void SetTappable<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("tappable"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), tappable);
     }
 
     /// <summary>
-    /// If `true`, the backdrop will be visible.
+    /// <para> If `true`, the backdrop will can be clicked and will emit the `ionBackdropTap` event. </para>
+    /// </summary>
+    public static void SetTappable<T>(this PropsBuilder<T> b, bool tappable) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), b.Const(tappable));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the backdrop will be visible. </para>
     /// </summary>
     public static void SetVisible<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the backdrop will be visible.
+    /// <para> If `true`, the backdrop will be visible. </para>
     /// </summary>
-    public static void SetVisible<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonBackdrop
+    public static void SetVisible<T>(this PropsBuilder<T> b, Var<bool> visible) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), value);
-    }
-    /// <summary>
-    /// If `true`, the backdrop will be visible.
-    /// </summary>
-    public static void SetVisible<T>(this PropsBuilder<T> b, bool value) where T: IonBackdrop
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("visible"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), visible);
     }
 
     /// <summary>
-    /// Emitted when the backdrop is tapped.
+    /// <para> If `true`, the backdrop will be visible. </para>
+    /// </summary>
+    public static void SetVisible<T>(this PropsBuilder<T> b, bool visible) where T: IonBackdrop
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), b.Const(visible));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the backdrop is tapped. </para>
     /// </summary>
     public static void OnIonBackdropTap<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonBackdrop
     {
         b.OnEventAction("onionBackdropTap", action);
     }
     /// <summary>
-    /// Emitted when the backdrop is tapped.
+    /// <para> Emitted when the backdrop is tapped. </para>
     /// </summary>
     public static void OnIonBackdropTap<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonBackdrop
     {

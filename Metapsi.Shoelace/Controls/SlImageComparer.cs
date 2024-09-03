@@ -2,43 +2,28 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlImageComparer : SlComponent
+public partial class SlImageComparer
 {
-    public SlImageComparer() : base("sl-image-comparer") { }
     /// <summary>
-    /// The position of the divider as a percentage.
+    ///
     /// </summary>
-    public int position
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("position");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("position", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The before image, an `<img>` or `<svg>` element.
+        /// <summary>
+        /// <para> The before image, an `&lt;img&gt;` or `&lt;svg&gt;` element. </para>
         /// </summary>
         public const string Before = "before";
-        /// <summary> 
-        /// The after image, an `<img>` or `<svg>` element.
+        /// <summary>
+        /// <para> The after image, an `&lt;img&gt;` or `&lt;svg&gt;` element. </para>
         /// </summary>
         public const string After = "after";
-        /// <summary> 
-        /// The icon used inside the handle.
+        /// <summary>
+        /// <para> The icon used inside the handle. </para>
         /// </summary>
         public const string Handle = "handle";
     }
@@ -47,74 +32,112 @@ public partial class SlImageComparer : SlComponent
 public static partial class SlImageComparerControl
 {
     /// <summary>
-    /// Compare visual differences between similar photos with a sliding panel.
+    ///
+    /// </summary>
+    public static IHtmlNode SlImageComparer(this HtmlBuilder b, Action<AttributesBuilder<SlImageComparer>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-image-comparer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlImageComparer(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-image-comparer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlImageComparer(this HtmlBuilder b, Action<AttributesBuilder<SlImageComparer>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-image-comparer", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlImageComparer(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-image-comparer", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The position of the divider as a percentage. </para>
+    /// </summary>
+    public static void SetPosition(this AttributesBuilder<SlImageComparer> b, string position)
+    {
+        b.SetAttribute("position", position);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Action<PropsBuilder<SlImageComparer>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-image-comparer", buildProps, children);
     }
     /// <summary>
-    /// Compare visual differences between similar photos with a sliding panel.
+    ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Action<PropsBuilder<SlImageComparer>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-image-comparer", buildProps, children);
     }
     /// <summary>
-    /// Compare visual differences between similar photos with a sliding panel.
+    ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-image-comparer", children);
     }
     /// <summary>
-    /// Compare visual differences between similar photos with a sliding panel.
+    ///
     /// </summary>
     public static Var<IVNode> SlImageComparer(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-image-comparer", children);
     }
     /// <summary>
-    /// The position of the divider as a percentage.
+    /// <para> The position of the divider as a percentage. </para>
     /// </summary>
-    public static void SetPosition(this PropsBuilder<SlImageComparer> b, Var<int> value)
+    public static void SetPosition<T>(this PropsBuilder<T> b, Var<int> position) where T: SlImageComparer
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), value);
-    }
-    /// <summary>
-    /// The position of the divider as a percentage.
-    /// </summary>
-    public static void SetPosition(this PropsBuilder<SlImageComparer> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), position);
     }
 
     /// <summary>
-    /// Emitted when the position changes.
+    /// <para> The position of the divider as a percentage. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetPosition<T>(this PropsBuilder<T> b, int position) where T: SlImageComparer
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), b.Const(position));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the position changes. </para>
+    /// </summary>
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the position changes.
+    /// <para> Emitted when the position changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the position changes.
+    /// <para> Emitted when the position changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the position changes.
+    /// <para> Emitted when the position changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlImageComparer> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }

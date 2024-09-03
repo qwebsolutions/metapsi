@@ -2,84 +2,131 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlSkeleton : SlComponent
+public partial class SlSkeleton
 {
-    public SlSkeleton() : base("sl-skeleton") { }
-    /// <summary>
-    /// Determines which effect the skeleton will use.
-    /// </summary>
-    public string effect
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("effect");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("effect", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlSkeletonControl
 {
     /// <summary>
-    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    ///
+    /// </summary>
+    public static IHtmlNode SlSkeleton(this HtmlBuilder b, Action<AttributesBuilder<SlSkeleton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-skeleton", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSkeleton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-skeleton", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSkeleton(this HtmlBuilder b, Action<AttributesBuilder<SlSkeleton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-skeleton", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlSkeleton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-skeleton", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> Determines which effect the skeleton will use. </para>
+    /// </summary>
+    public static void SetEffect(this AttributesBuilder<SlSkeleton> b, string effect)
+    {
+        b.SetAttribute("effect", effect);
+    }
+
+    /// <summary>
+    /// <para> Determines which effect the skeleton will use. </para>
+    /// </summary>
+    public static void SetEffectPulse(this AttributesBuilder<SlSkeleton> b)
+    {
+        b.SetAttribute("effect", "pulse");
+    }
+
+    /// <summary>
+    /// <para> Determines which effect the skeleton will use. </para>
+    /// </summary>
+    public static void SetEffectSheen(this AttributesBuilder<SlSkeleton> b)
+    {
+        b.SetAttribute("effect", "sheen");
+    }
+
+    /// <summary>
+    /// <para> Determines which effect the skeleton will use. </para>
+    /// </summary>
+    public static void SetEffectNone(this AttributesBuilder<SlSkeleton> b)
+    {
+        b.SetAttribute("effect", "none");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Action<PropsBuilder<SlSkeleton>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-skeleton", buildProps, children);
     }
     /// <summary>
-    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Action<PropsBuilder<SlSkeleton>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-skeleton", buildProps, children);
     }
     /// <summary>
-    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-skeleton", children);
     }
     /// <summary>
-    /// Skeletons are used to provide a visual representation of where content will eventually be drawn.
+    ///
     /// </summary>
     public static Var<IVNode> SlSkeleton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-skeleton", children);
     }
     /// <summary>
-    /// Determines which effect the skeleton will use.
+    /// <para> Determines which effect the skeleton will use. </para>
     /// </summary>
-    public static void SetEffectPulse(this PropsBuilder<SlSkeleton> b)
+    public static void SetEffectPulse<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("effect"), b.Const("pulse"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("pulse"));
     }
+
+
     /// <summary>
-    /// Determines which effect the skeleton will use.
+    /// <para> Determines which effect the skeleton will use. </para>
     /// </summary>
-    public static void SetEffectSheen(this PropsBuilder<SlSkeleton> b)
+    public static void SetEffectSheen<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("effect"), b.Const("sheen"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("sheen"));
     }
+
+
     /// <summary>
-    /// Determines which effect the skeleton will use.
+    /// <para> Determines which effect the skeleton will use. </para>
     /// </summary>
-    public static void SetEffectNone(this PropsBuilder<SlSkeleton> b)
+    public static void SetEffectNone<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("effect"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("none"));
     }
+
 
 }
 

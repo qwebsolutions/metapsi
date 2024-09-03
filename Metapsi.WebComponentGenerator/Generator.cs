@@ -232,6 +232,11 @@ public static class Generator
         return $"{webComponent.Name}{Utils.ToCSharpValidName(@event.Name)}Detail";
     }
 
+    public static string PropertyTypeFromAnonymous(this WebComponentProperty property, WebComponent webComponent)
+    {
+        return $"{webComponent.Name}{Utils.ToCSharpValidName(property.PropertyName)}";
+    }
+
     public static string StringValue(this TypeScriptLiteral typeScriptLiteral)
     {
         return typeScriptLiteral.Value.Replace("\"", string.Empty);
@@ -242,34 +247,34 @@ public static class Generator
         return converter.ToCSharpType(typeScriptType, converter);
     }
 
-    private static bool IsConvertibleToString(ITypeScriptType typeScriptType, CSharpConverter converter)
-    {
-        if (IsStringLiteral(typeScriptType))
-        {
-            return true;
-        }
+    //private static bool IsConvertibleToString(ITypeScriptType typeScriptType, CSharpConverter converter)
+    //{
+    //    if (IsStringLiteral(typeScriptType))
+    //    {
+    //        return true;
+    //    }
 
-        if (IsObjectType(typeScriptType))
-        {
-            TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)typeScriptType;
-            var csharpType = converter.ToCSharpType(typeScriptObjectType, converter);
+    //    if (IsObjectType(typeScriptType))
+    //    {
+    //        TypeScriptObjectType typeScriptObjectType = (TypeScriptObjectType)typeScriptType;
+    //        var csharpType = converter.ToCSharpType(typeScriptObjectType, converter);
 
-            if (csharpType == "string")
-            {
-                return true;
-            }
-        }
+    //        if (csharpType == "string")
+    //        {
+    //            return true;
+    //        }
+    //    }
 
-        if (IsMultiTypeUnion(typeScriptType))
-        {
-            TypeScriptUnion typeScriptUnion = (TypeScriptUnion)typeScriptType;
-            var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
-            if (withoutUndefined.Any(x => IsConvertibleToString(x, converter)))
-                return true;
-        }
+    //    if (IsMultiTypeUnion(typeScriptType))
+    //    {
+    //        TypeScriptUnion typeScriptUnion = (TypeScriptUnion)typeScriptType;
+    //        var withoutUndefined = typeScriptUnion.Options.Where(x => !IsUndefinedType(x));
+    //        if (withoutUndefined.Any(x => IsConvertibleToString(x, converter)))
+    //            return true;
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 
     public static string GenerateServerSideAttributeSetter(WebComponent component, WebComponentProperty property, CSharpConverter cSharpConverter)
     {

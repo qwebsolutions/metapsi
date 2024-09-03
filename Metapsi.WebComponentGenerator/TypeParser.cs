@@ -9,7 +9,6 @@ using Serenity.TypeScript;
 
 namespace Metapsi.WebComponentGenerator;
 
-
 public interface ITypeScriptType
 {
 }
@@ -413,12 +412,25 @@ public static class Utils
 
     public static string Capitalize(string s)
     {
+        if (string.IsNullOrWhiteSpace(s))
+            return string.Empty;
+
         return s.Length == 1 ? s.ToUpperInvariant() : s.Substring(0, 1).ToUpperInvariant() + s.Substring(1);
     }
 
     public static string ToCSharpValidName(string s)
     {
+        if (string.IsNullOrWhiteSpace(s))
+            return string.Empty;
+
         return string.Join(null, s.Split(new char[] { '-', '/' }).Select(Capitalize));
+    }
+
+    public static string ToParameterName(this string s)
+    {
+        var capitalized = string.Join(null, s.Split(new char[] { '-', '/' }).Select(Capitalize));
+        var parameterName = capitalized.Substring(0, 1).ToLowerInvariant() + capitalized.Substring(1);
+        return FixReservedKeyword(parameterName);
     }
 
     public static string FixReservedKeyword(string s)

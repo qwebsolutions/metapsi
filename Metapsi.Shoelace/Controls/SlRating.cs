@@ -2,131 +2,21 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRating : SlComponent
+public partial class SlRating
 {
-    public SlRating() : base("sl-rating") { }
-    /// <summary>
-    /// A label that describes the rating to assistive devices.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current rating.
-    /// </summary>
-    public int value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The highest rating to show.
-    /// </summary>
-    public int max
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("max");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("max", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`.
-    /// </summary>
-    public int precision
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("precision");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("precision", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Makes the rating readonly.
-    /// </summary>
-    public bool @readonly
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("readonly");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("readonly", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the rating.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements.
-    /// </summary>
-    public System.Func<int,string> getSymbol
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<int,string>>("getSymbol");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("getSymbol", value.ToString());
-        }
-    }
-
     public static class Method
     {
-        /// <summary> 
-        /// Sets focus on the rating.
+        /// <summary>
+        /// <para> Sets focus on the rating. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the rating.
+        /// <summary>
+        /// <para> Removes focus from the rating. </para>
         /// </summary>
         public const string Blur = "blur";
     }
@@ -135,195 +25,341 @@ public partial class SlRating : SlComponent
 public static partial class SlRatingControl
 {
     /// <summary>
-    /// Ratings give users a way to quickly view and provide feedback.
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, Action<AttributesBuilder<SlRating>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-rating", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-rating", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, Action<AttributesBuilder<SlRating>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-rating", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRating(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-rating", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> A label that describes the rating to assistive devices. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlRating> b, string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The current rating. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlRating> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The highest rating to show. </para>
+    /// </summary>
+    public static void SetMax(this AttributesBuilder<SlRating> b, string max)
+    {
+        b.SetAttribute("max", max);
+    }
+
+    /// <summary>
+    /// <para> The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`. </para>
+    /// </summary>
+    public static void SetPrecision(this AttributesBuilder<SlRating> b, string precision)
+    {
+        b.SetAttribute("precision", precision);
+    }
+
+    /// <summary>
+    /// <para> Makes the rating readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlRating> b)
+    {
+        b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> Makes the rating readonly. </para>
+    /// </summary>
+    public static void SetReadonly(this AttributesBuilder<SlRating> b, bool @readonly)
+    {
+        if (@readonly) b.SetAttribute("readonly", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the rating. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRating> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the rating. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRating> b, bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
+    /// </summary>
+    public static void SetGetSymbol(this AttributesBuilder<SlRating> b, string getSymbol)
+    {
+        b.SetAttribute("getSymbol", getSymbol);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Action<PropsBuilder<SlRating>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-rating", buildProps, children);
     }
     /// <summary>
-    /// Ratings give users a way to quickly view and provide feedback.
+    ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Action<PropsBuilder<SlRating>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-rating", buildProps, children);
     }
     /// <summary>
-    /// Ratings give users a way to quickly view and provide feedback.
+    ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-rating", children);
     }
     /// <summary>
-    /// Ratings give users a way to quickly view and provide feedback.
+    ///
     /// </summary>
     public static Var<IVNode> SlRating(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-rating", children);
     }
     /// <summary>
-    /// A label that describes the rating to assistive devices.
+    /// <para> A label that describes the rating to assistive devices. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRating> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
-    }
-    /// <summary>
-    /// A label that describes the rating to assistive devices.
-    /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRating> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The current rating.
+    /// <para> A label that describes the rating to assistive devices. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRating> b, Var<int> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+    }
+
+
+    /// <summary>
+    /// <para> The current rating. </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlRating
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
+
     /// <summary>
-    /// The current rating.
+    /// <para> The current rating. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRating> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlRating
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The highest rating to show.
+    /// <para> The highest rating to show. </para>
     /// </summary>
-    public static void SetMax(this PropsBuilder<SlRating> b, Var<int> value)
+    public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), value);
-    }
-    /// <summary>
-    /// The highest rating to show.
-    /// </summary>
-    public static void SetMax(this PropsBuilder<SlRating> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
     }
 
     /// <summary>
-    /// The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`.
+    /// <para> The highest rating to show. </para>
     /// </summary>
-    public static void SetPrecision(this PropsBuilder<SlRating> b, Var<int> value)
+    public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
     }
+
+
     /// <summary>
-    /// The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`.
+    /// <para> The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`. </para>
     /// </summary>
-    public static void SetPrecision(this PropsBuilder<SlRating> b, int value)
+    public static void SetPrecision<T>(this PropsBuilder<T> b, Var<int> precision) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), precision);
     }
 
     /// <summary>
-    /// Makes the rating readonly.
+    /// <para> The precision at which the rating will increase and decrease. For example, to allow half-star ratings, set this attribute to `0.5`. </para>
     /// </summary>
-    public static void SetReadonly(this PropsBuilder<SlRating> b)
+    public static void SetPrecision<T>(this PropsBuilder<T> b, int precision) where T: SlRating
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), b.Const(precision));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the rating readonly. </para>
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Makes the rating readonly. </para>
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
     }
 
     /// <summary>
-    /// Disables the rating.
+    /// <para> Makes the rating readonly. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlRating> b)
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlRating
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the rating. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the rating. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements.
+    /// <para> Disables the rating. </para>
     /// </summary>
-    public static void SetGetSymbol(this PropsBuilder<SlRating> b, Var<Func<int,string>> f)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,string>>("getSymbol"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements.
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
     /// </summary>
-    public static void SetGetSymbol(this PropsBuilder<SlRating> b, Func<SyntaxBuilder,Var<int>,Var<string>> f)
+    public static void SetGetSymbol<T>(this PropsBuilder<T> b, Var<System.Func<int,string>> getSymbol) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,string>>("getSymbol"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("getSymbol"), getSymbol);
     }
 
     /// <summary>
-    /// Emitted when the rating's value changes.
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetGetSymbol<T>(this PropsBuilder<T> b, System.Func<int,string> getSymbol) where T: SlRating
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("getSymbol"), b.Const(getSymbol));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the rating's value changes. </para>
+    /// </summary>
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the rating's value changes.
+    /// <para> Emitted when the rating's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the rating's value changes.
+    /// <para> Emitted when the rating's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the rating's value changes.
+    /// <para> Emitted when the rating's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", action);
     }
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", action);
     }
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, Var<HyperType.Action<TModel, SlHoverEventArgs>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlHoverEventArgs>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", action, "detail");
     }
     /// <summary>
-    /// Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value.
+    /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TModel>(this PropsBuilder<SlRating> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlHoverEventArgs>, Var<TModel>> action)
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlHoverEventArgs>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", b.MakeAction(action), "detail");
     }

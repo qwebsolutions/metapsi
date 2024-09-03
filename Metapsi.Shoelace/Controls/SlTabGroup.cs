@@ -2,73 +2,27 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabGroup : SlComponent
+public partial class SlTabGroup
 {
-    public SlTabGroup() : base("sl-tab-group") { }
     /// <summary>
-    /// The placement of the tabs.
+    ///
     /// </summary>
-    public string placement
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("placement");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("placement", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter.
-    /// </summary>
-    public string activation
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("activation");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("activation", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the scroll arrows that appear when tabs overflow.
-    /// </summary>
-    public bool noScrollControls
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("no-scroll-controls");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("no-scroll-controls", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// Used for grouping tabs in the tab group. Must be `<sl-tab>` elements.
+        /// <summary>
+        /// <para> Used for grouping tabs in the tab group. Must be `&lt;sl-tab&gt;` elements. </para>
         /// </summary>
         public const string Nav = "nav";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Shows the specified tab panel.
+        /// <summary>
+        /// <para> Shows the specified tab panel. </para>
         /// </summary>
         public const string Show = "show";
     }
@@ -77,171 +31,307 @@ public partial class SlTabGroup : SlComponent
 public static partial class SlTabGroupControl
 {
     /// <summary>
-    /// Tab groups organize content into a container that shows one section at a time.
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, Action<AttributesBuilder<SlTabGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-tab-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-tab-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, Action<AttributesBuilder<SlTabGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The placement of the tabs. </para>
+    /// </summary>
+    public static void SetPlacement(this AttributesBuilder<SlTabGroup> b, string placement)
+    {
+        b.SetAttribute("placement", placement);
+    }
+
+    /// <summary>
+    /// <para> The placement of the tabs. </para>
+    /// </summary>
+    public static void SetPlacementTop(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("placement", "top");
+    }
+
+    /// <summary>
+    /// <para> The placement of the tabs. </para>
+    /// </summary>
+    public static void SetPlacementBottom(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("placement", "bottom");
+    }
+
+    /// <summary>
+    /// <para> The placement of the tabs. </para>
+    /// </summary>
+    public static void SetPlacementStart(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("placement", "start");
+    }
+
+    /// <summary>
+    /// <para> The placement of the tabs. </para>
+    /// </summary>
+    public static void SetPlacementEnd(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("placement", "end");
+    }
+
+    /// <summary>
+    /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
+    /// </summary>
+    public static void SetActivation(this AttributesBuilder<SlTabGroup> b, string activation)
+    {
+        b.SetAttribute("activation", activation);
+    }
+
+    /// <summary>
+    /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
+    /// </summary>
+    public static void SetActivationAuto(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("activation", "auto");
+    }
+
+    /// <summary>
+    /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
+    /// </summary>
+    public static void SetActivationManual(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("activation", "manual");
+    }
+
+    /// <summary>
+    /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
+    /// </summary>
+    public static void SetNoScrollControls(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("no-scroll-controls", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
+    /// </summary>
+    public static void SetNoScrollControls(this AttributesBuilder<SlTabGroup> b, bool noScrollControls)
+    {
+        if (noScrollControls) b.SetAttribute("no-scroll-controls", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Action<PropsBuilder<SlTabGroup>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-tab-group", buildProps, children);
     }
     /// <summary>
-    /// Tab groups organize content into a container that shows one section at a time.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Action<PropsBuilder<SlTabGroup>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-tab-group", buildProps, children);
     }
     /// <summary>
-    /// Tab groups organize content into a container that shows one section at a time.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-tab-group", children);
     }
     /// <summary>
-    /// Tab groups organize content into a container that shows one section at a time.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-tab-group", children);
     }
     /// <summary>
-    /// The placement of the tabs.
+    /// <para> The placement of the tabs. </para>
     /// </summary>
-    public static void SetPlacementTop(this PropsBuilder<SlTabGroup> b)
+    public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("top"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
     }
+
+
     /// <summary>
-    /// The placement of the tabs.
+    /// <para> The placement of the tabs. </para>
     /// </summary>
-    public static void SetPlacementBottom(this PropsBuilder<SlTabGroup> b)
+    public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("bottom"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
     }
+
+
     /// <summary>
-    /// The placement of the tabs.
+    /// <para> The placement of the tabs. </para>
     /// </summary>
-    public static void SetPlacementStart(this PropsBuilder<SlTabGroup> b)
+    public static void SetPlacementStart<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("start"));
     }
+
+
     /// <summary>
-    /// The placement of the tabs.
+    /// <para> The placement of the tabs. </para>
     /// </summary>
-    public static void SetPlacementEnd(this PropsBuilder<SlTabGroup> b)
+    public static void SetPlacementEnd<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("placement"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("end"));
+    }
+
+
+    /// <summary>
+    /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
+    /// </summary>
+    public static void SetActivationAuto<T>(this PropsBuilder<T> b) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("activation"), b.Const("auto"));
+    }
+
+
+    /// <summary>
+    /// <para> When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter. </para>
+    /// </summary>
+    public static void SetActivationManual<T>(this PropsBuilder<T> b) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("activation"), b.Const("manual"));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
+    /// </summary>
+    public static void SetNoScrollControls<T>(this PropsBuilder<T> b) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
+    /// </summary>
+    public static void SetNoScrollControls<T>(this PropsBuilder<T> b, Var<bool> noScrollControls) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), noScrollControls);
     }
 
     /// <summary>
-    /// When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter.
+    /// <para> Disables the scroll arrows that appear when tabs overflow. </para>
     /// </summary>
-    public static void SetActivationAuto(this PropsBuilder<SlTabGroup> b)
+    public static void SetNoScrollControls<T>(this PropsBuilder<T> b, bool noScrollControls) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("activation"), b.Const("auto"));
-    }
-    /// <summary>
-    /// When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter.
-    /// </summary>
-    public static void SetActivationManual(this PropsBuilder<SlTabGroup> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("activation"), b.Const("manual"));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), b.Const(noScrollControls));
     }
 
-    /// <summary>
-    /// Disables the scroll arrows that appear when tabs overflow.
-    /// </summary>
-    public static void SetNoScrollControls(this PropsBuilder<SlTabGroup> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noScrollControls"), b.Const(true));
-    }
 
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", action);
     }
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", action);
     }
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, SlTabShowEventArgs>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlTabShowEventArgs>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", action, "detail");
     }
     /// <summary>
-    /// Emitted when a tab is shown.
+    /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabShowEventArgs>, Var<TModel>> action)
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabShowEventArgs>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", b.MakeAction(action), "detail");
     }
 
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", action);
     }
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", action);
     }
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, Var<HyperType.Action<TModel, SlTabHideEventArgs>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SlTabHideEventArgs>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", action, "detail");
     }
     /// <summary>
-    /// Emitted when a tab is hidden.
+    /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TModel>(this PropsBuilder<SlTabGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabHideEventArgs>, Var<TModel>> action)
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SlTabHideEventArgs>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", b.MakeAction(action), "detail");
     }

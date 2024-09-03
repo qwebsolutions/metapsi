@@ -2,165 +2,28 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCopyButton : SlComponent
+public partial class SlCopyButton
 {
-    public SlCopyButton() : base("sl-copy-button") { }
     /// <summary>
-    /// The text value to copy.
+    ///
     /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`.
-    /// </summary>
-    public string from
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("from");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("from", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the copy button.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A custom label to show in the tooltip.
-    /// </summary>
-    public string copyLabel
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("copy-label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("copy-label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A custom label to show in the tooltip after copying.
-    /// </summary>
-    public string successLabel
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("success-label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("success-label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A custom label to show in the tooltip when a copy error occurs.
-    /// </summary>
-    public string errorLabel
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("error-label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("error-label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The length of time to show feedback before restoring the default trigger.
-    /// </summary>
-    public int feedbackDuration
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("feedback-duration");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("feedback-duration", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The preferred placement of the tooltip.
-    /// </summary>
-    public string tooltipPlacement
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("tooltip-placement");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("tooltip-placement", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios.
-    /// </summary>
-    public bool hoist
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("hoist");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("hoist", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The icon to show in the default copy state. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The icon to show in the default copy state. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string CopyIcon = "copy-icon";
-        /// <summary> 
-        /// The icon to show when the content is copied. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The icon to show when the content is copied. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string SuccessIcon = "success-icon";
-        /// <summary> 
-        /// The icon to show when a copy error occurs. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The icon to show when a copy error occurs. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string ErrorIcon = "error-icon";
     }
@@ -169,224 +32,427 @@ public partial class SlCopyButton : SlComponent
 public static partial class SlCopyButtonControl
 {
     /// <summary>
-    /// Copies text data to the clipboard when the user clicks the trigger.
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, Action<AttributesBuilder<SlCopyButton>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-copy-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-copy-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, Action<AttributesBuilder<SlCopyButton>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-copy-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlCopyButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-copy-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The text value to copy. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlCopyButton> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`. </para>
+    /// </summary>
+    public static void SetFrom(this AttributesBuilder<SlCopyButton> b, string from)
+    {
+        b.SetAttribute("from", from);
+    }
+
+    /// <summary>
+    /// <para> Disables the copy button. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the copy button. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlCopyButton> b, bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> A custom label to show in the tooltip. </para>
+    /// </summary>
+    public static void SetCopyLabel(this AttributesBuilder<SlCopyButton> b, string copyLabel)
+    {
+        b.SetAttribute("copy-label", copyLabel);
+    }
+
+    /// <summary>
+    /// <para> A custom label to show in the tooltip after copying. </para>
+    /// </summary>
+    public static void SetSuccessLabel(this AttributesBuilder<SlCopyButton> b, string successLabel)
+    {
+        b.SetAttribute("success-label", successLabel);
+    }
+
+    /// <summary>
+    /// <para> A custom label to show in the tooltip when a copy error occurs. </para>
+    /// </summary>
+    public static void SetErrorLabel(this AttributesBuilder<SlCopyButton> b, string errorLabel)
+    {
+        b.SetAttribute("error-label", errorLabel);
+    }
+
+    /// <summary>
+    /// <para> The length of time to show feedback before restoring the default trigger. </para>
+    /// </summary>
+    public static void SetFeedbackDuration(this AttributesBuilder<SlCopyButton> b, string feedbackDuration)
+    {
+        b.SetAttribute("feedback-duration", feedbackDuration);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacement(this AttributesBuilder<SlCopyButton> b, string tooltipPlacement)
+    {
+        b.SetAttribute("tooltip-placement", tooltipPlacement);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacementTop(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("tooltip-placement", "top");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacementRight(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("tooltip-placement", "right");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacementBottom(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("tooltip-placement", "bottom");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacementLeft(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("tooltip-placement", "left");
+    }
+
+    /// <summary>
+    /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist(this AttributesBuilder<SlCopyButton> b)
+    {
+        b.SetAttribute("hoist", "");
+    }
+
+    /// <summary>
+    /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist(this AttributesBuilder<SlCopyButton> b, bool hoist)
+    {
+        if (hoist) b.SetAttribute("hoist", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Action<PropsBuilder<SlCopyButton>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-copy-button", buildProps, children);
     }
     /// <summary>
-    /// Copies text data to the clipboard when the user clicks the trigger.
+    ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Action<PropsBuilder<SlCopyButton>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-copy-button", buildProps, children);
     }
     /// <summary>
-    /// Copies text data to the clipboard when the user clicks the trigger.
+    ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-copy-button", children);
     }
     /// <summary>
-    /// Copies text data to the clipboard when the user clicks the trigger.
+    ///
     /// </summary>
     public static Var<IVNode> SlCopyButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-copy-button", children);
     }
     /// <summary>
-    /// The text value to copy.
+    /// <para> The text value to copy. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlCopyButton> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlCopyButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The text value to copy.
+    /// <para> The text value to copy. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlCopyButton> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlCopyButton
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`.
+    /// <para> An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`. </para>
     /// </summary>
-    public static void SetFrom(this PropsBuilder<SlCopyButton> b, Var<string> value)
+    public static void SetFrom<T>(this PropsBuilder<T> b, Var<string> from) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), value);
-    }
-    /// <summary>
-    /// An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`.
-    /// </summary>
-    public static void SetFrom(this PropsBuilder<SlCopyButton> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), from);
     }
 
     /// <summary>
-    /// Disables the copy button.
+    /// <para> An id that references an element in the same document from which data will be copied. If both this and `value` are present, this value will take precedence. By default, the target element's `textContent` will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. `from="el[value]"`. To copy a property, append a dot and the property name, e.g. `from="el.value"`. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlCopyButton> b)
+    public static void SetFrom<T>(this PropsBuilder<T> b, string from) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), b.Const(from));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the copy button. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlCopyButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the copy button. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlCopyButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// A custom label to show in the tooltip.
+    /// <para> Disables the copy button. </para>
     /// </summary>
-    public static void SetCopyLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copy-label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// A custom label to show in the tooltip.
+    /// <para> A custom label to show in the tooltip. </para>
     /// </summary>
-    public static void SetCopyLabel(this PropsBuilder<SlCopyButton> b, string value)
+    public static void SetCopyLabel<T>(this PropsBuilder<T> b, Var<string> copyLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copy-label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), copyLabel);
     }
 
     /// <summary>
-    /// A custom label to show in the tooltip after copying.
+    /// <para> A custom label to show in the tooltip. </para>
     /// </summary>
-    public static void SetSuccessLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
+    public static void SetCopyLabel<T>(this PropsBuilder<T> b, string copyLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("success-label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), b.Const(copyLabel));
     }
+
+
     /// <summary>
-    /// A custom label to show in the tooltip after copying.
+    /// <para> A custom label to show in the tooltip after copying. </para>
     /// </summary>
-    public static void SetSuccessLabel(this PropsBuilder<SlCopyButton> b, string value)
+    public static void SetSuccessLabel<T>(this PropsBuilder<T> b, Var<string> successLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("success-label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), successLabel);
     }
 
     /// <summary>
-    /// A custom label to show in the tooltip when a copy error occurs.
+    /// <para> A custom label to show in the tooltip after copying. </para>
     /// </summary>
-    public static void SetErrorLabel(this PropsBuilder<SlCopyButton> b, Var<string> value)
+    public static void SetSuccessLabel<T>(this PropsBuilder<T> b, string successLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("error-label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), b.Const(successLabel));
     }
+
+
     /// <summary>
-    /// A custom label to show in the tooltip when a copy error occurs.
+    /// <para> A custom label to show in the tooltip when a copy error occurs. </para>
     /// </summary>
-    public static void SetErrorLabel(this PropsBuilder<SlCopyButton> b, string value)
+    public static void SetErrorLabel<T>(this PropsBuilder<T> b, Var<string> errorLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("error-label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), errorLabel);
     }
 
     /// <summary>
-    /// The length of time to show feedback before restoring the default trigger.
+    /// <para> A custom label to show in the tooltip when a copy error occurs. </para>
     /// </summary>
-    public static void SetFeedbackDuration(this PropsBuilder<SlCopyButton> b, Var<int> value)
+    public static void SetErrorLabel<T>(this PropsBuilder<T> b, string errorLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedback-duration"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), b.Const(errorLabel));
     }
+
+
     /// <summary>
-    /// The length of time to show feedback before restoring the default trigger.
+    /// <para> The length of time to show feedback before restoring the default trigger. </para>
     /// </summary>
-    public static void SetFeedbackDuration(this PropsBuilder<SlCopyButton> b, int value)
+    public static void SetFeedbackDuration<T>(this PropsBuilder<T> b, Var<int> feedbackDuration) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedback-duration"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), feedbackDuration);
     }
 
     /// <summary>
-    /// The preferred placement of the tooltip.
+    /// <para> The length of time to show feedback before restoring the default trigger. </para>
     /// </summary>
-    public static void SetTooltipPlacementTop(this PropsBuilder<SlCopyButton> b)
+    public static void SetFeedbackDuration<T>(this PropsBuilder<T> b, int feedbackDuration) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("top"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), b.Const(feedbackDuration));
     }
+
+
     /// <summary>
-    /// The preferred placement of the tooltip.
+    /// <para> The preferred placement of the tooltip. </para>
     /// </summary>
-    public static void SetTooltipPlacementRight(this PropsBuilder<SlCopyButton> b)
+    public static void SetTooltipPlacementTop<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("right"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("top"));
     }
+
+
     /// <summary>
-    /// The preferred placement of the tooltip.
+    /// <para> The preferred placement of the tooltip. </para>
     /// </summary>
-    public static void SetTooltipPlacementBottom(this PropsBuilder<SlCopyButton> b)
+    public static void SetTooltipPlacementRight<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("bottom"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("right"));
     }
+
+
     /// <summary>
-    /// The preferred placement of the tooltip.
+    /// <para> The preferred placement of the tooltip. </para>
     /// </summary>
-    public static void SetTooltipPlacementLeft(this PropsBuilder<SlCopyButton> b)
+    public static void SetTooltipPlacementBottom<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip-placement"), b.Const("left"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("bottom"));
+    }
+
+
+    /// <summary>
+    /// <para> The preferred placement of the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipPlacementLeft<T>(this PropsBuilder<T> b) where T: SlCopyButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("left"));
+    }
+
+
+    /// <summary>
+    /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlCopyButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
+    /// </summary>
+    public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlCopyButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
     }
 
     /// <summary>
-    /// Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios.
+    /// <para> Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with `overflow: auto|hidden|scroll`. Hoisting uses a fixed positioning strategy that works in many, but not all, scenarios. </para>
     /// </summary>
-    public static void SetHoist(this PropsBuilder<SlCopyButton> b)
+    public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("hoist"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
     }
 
+
     /// <summary>
-    /// Emitted when the data has been copied.
+    /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TModel>(this PropsBuilder<SlCopyButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", action);
     }
     /// <summary>
-    /// Emitted when the data has been copied.
+    /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TModel>(this PropsBuilder<SlCopyButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the data has been copied.
+    /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TModel>(this PropsBuilder<SlCopyButton> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", action);
     }
     /// <summary>
-    /// Emitted when the data has been copied.
+    /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TModel>(this PropsBuilder<SlCopyButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the data could not be copied.
+    /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlCopyButton> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
-    /// Emitted when the data could not be copied.
+    /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlCopyButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the data could not be copied.
+    /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlCopyButton> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
-    /// Emitted when the data could not be copied.
+    /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TModel>(this PropsBuilder<SlCopyButton> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }

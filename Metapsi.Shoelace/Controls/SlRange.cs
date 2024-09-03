@@ -2,240 +2,59 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRange : SlComponent
+public partial class SlRange
 {
-    public SlRange() : base("sl-range") { }
     /// <summary>
-    /// The name of the range, submitted as a name/value pair with form data.
+    ///
     /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current value of the range, submitted as a name/value pair with form data.
-    /// </summary>
-    public int value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The range's label. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The range's help text. If you need to display HTML, use the help-text slot instead.
-    /// </summary>
-    public string helpText
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("help-text");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("help-text", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the range.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum acceptable value of the range.
-    /// </summary>
-    public int min
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("min");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("min", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum acceptable value of the range.
-    /// </summary>
-    public int max
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("max");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("max", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The interval at which the range will increase and decrease.
-    /// </summary>
-    public int step
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("step");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("step", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The preferred placement of the range's tooltip.
-    /// </summary>
-    public string tooltip
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("tooltip");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("tooltip", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// A function used to format the tooltip's value. The range's value is passed as the first and only argument. The function should return a string to display in the tooltip.
-    /// </summary>
-    public System.Func<int,string> tooltipFormatter
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<System.Func<int,string>>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The default value of the form control. Primarily used for resetting the form control.
-    /// </summary>
-    public int defaultValue
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The range's label. Alternatively, you can use the `label` attribute.
+        /// <summary>
+        /// <para> The range's label. Alternatively, you can use the `label` attribute. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.
+        /// <summary>
+        /// <para> Text that describes how to use the input. Alternatively, you can use the `help-text` attribute. </para>
         /// </summary>
         public const string HelpText = "help-text";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Sets focus on the range.
+        /// <summary>
+        /// <para> Sets focus on the range. </para>
         /// </summary>
         public const string Focus = "focus";
-        /// <summary> 
-        /// Removes focus from the range.
+        /// <summary>
+        /// <para> Removes focus from the range. </para>
         /// </summary>
         public const string Blur = "blur";
-        /// <summary> 
-        /// Increments the value of the range by the value of the step attribute.
+        /// <summary>
+        /// <para> Increments the value of the range by the value of the step attribute. </para>
         /// </summary>
         public const string StepUp = "stepUp";
-        /// <summary> 
-        /// Decrements the value of the range by the value of the step attribute.
+        /// <summary>
+        /// <para> Decrements the value of the range by the value of the step attribute. </para>
         /// </summary>
         public const string StepDown = "stepDown";
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
     }
@@ -244,329 +63,542 @@ public partial class SlRange : SlComponent
 public static partial class SlRangeControl
 {
     /// <summary>
-    /// Ranges allow the user to select a single value within a given range using a slider.
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, Action<AttributesBuilder<SlRange>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-range", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-range", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, Action<AttributesBuilder<SlRange>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-range", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRange(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-range", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The name of the range, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName(this AttributesBuilder<SlRange> b, string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> The current value of the range, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlRange> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The range's label. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlRange> b, string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The range's help text. If you need to display HTML, use the help-text slot instead. </para>
+    /// </summary>
+    public static void SetHelpText(this AttributesBuilder<SlRange> b, string helpText)
+    {
+        b.SetAttribute("help-text", helpText);
+    }
+
+    /// <summary>
+    /// <para> Disables the range. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRange> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the range. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRange> b, bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> The minimum acceptable value of the range. </para>
+    /// </summary>
+    public static void SetMin(this AttributesBuilder<SlRange> b, string min)
+    {
+        b.SetAttribute("min", min);
+    }
+
+    /// <summary>
+    /// <para> The maximum acceptable value of the range. </para>
+    /// </summary>
+    public static void SetMax(this AttributesBuilder<SlRange> b, string max)
+    {
+        b.SetAttribute("max", max);
+    }
+
+    /// <summary>
+    /// <para> The interval at which the range will increase and decrease. </para>
+    /// </summary>
+    public static void SetStep(this AttributesBuilder<SlRange> b, string step)
+    {
+        b.SetAttribute("step", step);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the range's tooltip. </para>
+    /// </summary>
+    public static void SetTooltip(this AttributesBuilder<SlRange> b, string tooltip)
+    {
+        b.SetAttribute("tooltip", tooltip);
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the range's tooltip. </para>
+    /// </summary>
+    public static void SetTooltipTop(this AttributesBuilder<SlRange> b)
+    {
+        b.SetAttribute("tooltip", "top");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the range's tooltip. </para>
+    /// </summary>
+    public static void SetTooltipBottom(this AttributesBuilder<SlRange> b)
+    {
+        b.SetAttribute("tooltip", "bottom");
+    }
+
+    /// <summary>
+    /// <para> The preferred placement of the range's tooltip. </para>
+    /// </summary>
+    public static void SetTooltipNone(this AttributesBuilder<SlRange> b)
+    {
+        b.SetAttribute("tooltip", "none");
+    }
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlRange> b, string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Action<PropsBuilder<SlRange>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-range", buildProps, children);
     }
     /// <summary>
-    /// Ranges allow the user to select a single value within a given range using a slider.
+    ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Action<PropsBuilder<SlRange>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-range", buildProps, children);
     }
     /// <summary>
-    /// Ranges allow the user to select a single value within a given range using a slider.
+    ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-range", children);
     }
     /// <summary>
-    /// Ranges allow the user to select a single value within a given range using a slider.
+    ///
     /// </summary>
     public static Var<IVNode> SlRange(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-range", children);
     }
     /// <summary>
-    /// The name of the range, submitted as a name/value pair with form data.
+    /// <para> The name of the range, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlRange> b, Var<string> value)
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the range, submitted as a name/value pair with form data.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlRange> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The current value of the range, submitted as a name/value pair with form data.
+    /// <para> The name of the range, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRange> b, Var<int> value)
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> The current value of the range, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlRange
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the range, submitted as a name/value pair with form data.
+    /// <para> The current value of the range, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRange> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlRange
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The range's label. If you need to display HTML, use the `label` slot instead.
+    /// <para> The range's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRange> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
-    }
-    /// <summary>
-    /// The range's label. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRange> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The range's help text. If you need to display HTML, use the help-text slot instead.
+    /// <para> The range's label. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlRange> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// The range's help text. If you need to display HTML, use the help-text slot instead.
+    /// <para> The range's help text. If you need to display HTML, use the help-text slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlRange> b, string value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
     }
 
     /// <summary>
-    /// Disables the range.
+    /// <para> The range's help text. If you need to display HTML, use the help-text slot instead. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlRange> b)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the range. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the range. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// The minimum acceptable value of the range.
+    /// <para> Disables the range. </para>
     /// </summary>
-    public static void SetMin(this PropsBuilder<SlRange> b, Var<int> value)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
+
+
     /// <summary>
-    /// The minimum acceptable value of the range.
+    /// <para> The minimum acceptable value of the range. </para>
     /// </summary>
-    public static void SetMin(this PropsBuilder<SlRange> b, int value)
+    public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
     }
 
     /// <summary>
-    /// The maximum acceptable value of the range.
+    /// <para> The minimum acceptable value of the range. </para>
     /// </summary>
-    public static void SetMax(this PropsBuilder<SlRange> b, Var<int> value)
+    public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
     }
+
+
     /// <summary>
-    /// The maximum acceptable value of the range.
+    /// <para> The maximum acceptable value of the range. </para>
     /// </summary>
-    public static void SetMax(this PropsBuilder<SlRange> b, int value)
+    public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
     }
 
     /// <summary>
-    /// The interval at which the range will increase and decrease.
+    /// <para> The maximum acceptable value of the range. </para>
     /// </summary>
-    public static void SetStep(this PropsBuilder<SlRange> b, Var<int> value)
+    public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
     }
+
+
     /// <summary>
-    /// The interval at which the range will increase and decrease.
+    /// <para> The interval at which the range will increase and decrease. </para>
     /// </summary>
-    public static void SetStep(this PropsBuilder<SlRange> b, int value)
+    public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
     }
 
     /// <summary>
-    /// The preferred placement of the range's tooltip.
+    /// <para> The interval at which the range will increase and decrease. </para>
     /// </summary>
-    public static void SetTooltipTop(this PropsBuilder<SlRange> b)
+    public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: SlRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip"), b.Const("top"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
     }
+
+
     /// <summary>
-    /// The preferred placement of the range's tooltip.
+    /// <para> The preferred placement of the range's tooltip. </para>
     /// </summary>
-    public static void SetTooltipBottom(this PropsBuilder<SlRange> b)
+    public static void SetTooltipTop<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip"), b.Const("bottom"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("top"));
     }
+
+
     /// <summary>
-    /// The preferred placement of the range's tooltip.
+    /// <para> The preferred placement of the range's tooltip. </para>
     /// </summary>
-    public static void SetTooltipNone(this PropsBuilder<SlRange> b)
+    public static void SetTooltipBottom<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("tooltip"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("bottom"));
+    }
+
+
+    /// <summary>
+    /// <para> The preferred placement of the range's tooltip. </para>
+    /// </summary>
+    public static void SetTooltipNone<T>(this PropsBuilder<T> b) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("none"));
+    }
+
+
+    /// <summary>
+    /// <para> A function used to format the tooltip's value. The range's value is passed as the first and only argument. The function should return a string to display in the tooltip. </para>
+    /// </summary>
+    public static void SetTooltipFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,string>> tooltipFormatter) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("tooltipFormatter"), tooltipFormatter);
     }
 
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> A function used to format the tooltip's value. The range's value is passed as the first and only argument. The function should return a string to display in the tooltip. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlRange> b, Var<string> value)
+    public static void SetTooltipFormatter<T>(this PropsBuilder<T> b, System.Func<int,string> tooltipFormatter) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("tooltipFormatter"), b.Const(tooltipFormatter));
     }
+
+
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlRange> b, string value)
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+    }
+
+
+    /// <summary>
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
+    /// </summary>
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<int> defaultValue) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("defaultValue"), defaultValue);
+    }
+
+    /// <summary>
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
+    /// </summary>
+    public static void SetDefaultValue<T>(this PropsBuilder<T> b, int defaultValue) where T: SlRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("defaultValue"), b.Const(defaultValue));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the control loses focus. </para>
+    /// </summary>
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when an alteration to the control's value is committed by the user.
+    /// <para> Emitted when an alteration to the control's value is committed by the user. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the control receives input.
+    /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRange> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRange> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRange
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

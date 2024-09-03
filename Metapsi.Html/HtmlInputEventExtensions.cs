@@ -1,7 +1,4 @@
-﻿using Metapsi.Dom;
-using Metapsi.Hyperapp;
-using Metapsi.Syntax;
-using System.Collections.Generic;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Html;
 

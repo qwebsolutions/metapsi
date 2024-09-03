@@ -1,11 +1,19 @@
-﻿using Metapsi.Hyperapp;
-using Metapsi.Syntax;
-using Metapsi.Ui;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Html;
 
 public static class GlobalAttributeExtensions
 {
+    public static void SetId<T>(this AttributesBuilder<T> b, string id)
+    {
+        b.SetAttribute("id", id);
+    }
+
+    public static void SetSlot<T>(this AttributesBuilder<T> b, string slot)
+    {
+        b.SetAttribute("slot", slot);
+    }
+
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<string> value)
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>(name), value);
@@ -117,7 +125,7 @@ public static class GlobalAttributeExtensions
         b.SetSlot(b.Const(slotName));
     }
 
-    public static void AddStylesheet<T>(this PropsBuilder<T> b, string href)
+    public static void AddStylesheet(this SyntaxBuilder b, string href)
     {
         if (!href.StartsWith("http"))
         {
@@ -125,7 +133,11 @@ public static class GlobalAttributeExtensions
             href = $"/{href}".Replace("//", "/");
         }
 
-        b.Const(new LinkTag("stylesheet", href));
+        var stylesheet = new DistinctTag("link");
+        stylesheet.Attributes.Add("rel", "stylesheet");
+        stylesheet.Attributes.Add("href", href);
+
+        b.Const(stylesheet);
     }
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)

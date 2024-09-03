@@ -13,57 +13,57 @@ namespace Metapsi
             return httpContext.Request.Path.Value.Split("/").Last();
         }
 
-        public static Metapsi.Ui.User User(this HttpContext httpContext)
-        {
-            Metapsi.Ui.User user = new();
+        //public static Metapsi.Ui.User User(this HttpContext httpContext)
+        //{
+        //    Metapsi.Ui.User user = new();
 
-            if (!string.IsNullOrEmpty(httpContext.User.Identity.Name))
-            {
-                //user.AuthType = AuthType.Windows;
-                user.Name = httpContext.User.Identity.Name;
-            }
-            else
-            {
-                var claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.GivenName);
-                if (claim != null)
-                    user.Name = claim.Value;
+        //    if (!string.IsNullOrEmpty(httpContext.User.Identity.Name))
+        //    {
+        //        //user.AuthType = AuthType.Windows;
+        //        user.Name = httpContext.User.Identity.Name;
+        //    }
+        //    else
+        //    {
+        //        var claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.GivenName);
+        //        if (claim != null)
+        //            user.Name = claim.Value;
 
-                claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Surname);
-                if (claim != null)
-                {
-                    user.Name += " " + claim.Value;
-                }
+        //        claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Surname);
+        //        if (claim != null)
+        //        {
+        //            user.Name += " " + claim.Value;
+        //        }
 
-                //user.AuthType = AuthType.Oidc;
-            }
+        //        //user.AuthType = AuthType.Oidc;
+        //    }
 
-            if (string.IsNullOrEmpty(user.Name))
-            {
-                var claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-                if (claim != null)
-                {
-                    user.Name = claim.Value;
-                }
-            }
+        //    if (string.IsNullOrEmpty(user.Name))
+        //    {
+        //        var claim = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        //        if (claim != null)
+        //        {
+        //            user.Name = claim.Value;
+        //        }
+        //    }
 
-            if (httpContext.User.Identity != null)
-            {
-                if (httpContext.User.Identity.AuthenticationType != null)
-                {
-                    switch (httpContext.User.Identity.AuthenticationType.ToLower())
-                    {
-                        case "ldap":
-                            user.AuthType = Metapsi.Ui.AuthType.Windows;
-                            break;
-                        case "oidc":
-                            user.AuthType = Metapsi.Ui.AuthType.Oidc;
-                            break;
-                    }
-                }
-            }
+        //    if (httpContext.User.Identity != null)
+        //    {
+        //        if (httpContext.User.Identity.AuthenticationType != null)
+        //        {
+        //            switch (httpContext.User.Identity.AuthenticationType.ToLower())
+        //            {
+        //                case "ldap":
+        //                    user.AuthType = Metapsi.Ui.AuthType.Windows;
+        //                    break;
+        //                case "oidc":
+        //                    user.AuthType = Metapsi.Ui.AuthType.Oidc;
+        //                    break;
+        //            }
+        //        }
+        //    }
 
-            return user;
-        }
+        //    return user;
+        //}
 
         public static async Task<string> Payload(this HttpContext httpContext)
         {

@@ -2,28 +2,28 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRange : IonComponent
+public partial class IonRange
 {
-    public IonRange() : base("ion-range") { }
+    /// <summary>
+    ///
+    /// </summary>
     public static class Slot
     {
-        /// <summary> 
-        /// Content is placed to the right of the range slider in LTR, and to the left in RTL.
+        /// <summary>
+        /// <para> Content is placed to the right of the range slider in LTR, and to the left in RTL. </para>
         /// </summary>
         public const string End = "end";
-        /// <summary> 
-        /// The label text to associate with the range. Use the "labelPlacement" property to control where the label is placed relative to the range.
+        /// <summary>
+        /// <para> The label text to associate with the range. Use the "labelPlacement" property to control where the label is placed relative to the range. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Content is placed to the left of the range slider in LTR, and to the right in RTL.
+        /// <summary>
+        /// <para> Content is placed to the left of the range slider in LTR, and to the right in RTL. </para>
         /// </summary>
         public const string Start = "start";
     }
@@ -32,111 +32,131 @@ public partial class IonRange : IonComponent
 public static partial class IonRangeControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRange(this HtmlBuilder b, Action<AttributesBuilder<IonRange>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-range", buildAttributes, children);
+        return b.IonicTag("ion-range", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRange(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-range", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-range", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value.
+    ///
     /// </summary>
-    public static void SetActiveBarStart(this AttributesBuilder<IonRange> b, string value)
+    public static IHtmlNode IonRange(this HtmlBuilder b, Action<AttributesBuilder<IonRange>> buildAttributes, List<IHtmlNode> children)
     {
-        b.SetAttribute("active-bar-start", value);
+        return b.IonicTag("ion-range", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRange(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-range", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value. </para>
+    /// </summary>
+    public static void SetActiveBarStart(this AttributesBuilder<IonRange> b, string activeBarStart)
+    {
+        b.SetAttribute("active-bar-start", activeBarStart);
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonRange> b, string value)
+    public static void SetColor(this AttributesBuilder<IonRange> b, string color)
     {
-        b.SetAttribute("color", value);
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value.
+    /// <para> How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonRange> b, string value)
+    public static void SetDebounce(this AttributesBuilder<IonRange> b, string debounce)
     {
-        b.SetAttribute("debounce", value);
+        b.SetAttribute("debounce", debounce);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the range.
+    /// <para> If `true`, the user cannot interact with the range. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot interact with the range.
+    /// <para> If `true`, the user cannot interact with the range. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonRange> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonRange> b, bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// Show two knobs.
+    /// <para> Show two knobs. </para>
     /// </summary>
     public static void SetDualKnobs(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("dual-knobs", "");
     }
+
     /// <summary>
-    /// Show two knobs.
+    /// <para> Show two knobs. </para>
     /// </summary>
-    public static void SetDualKnobs(this AttributesBuilder<IonRange> b, bool value)
+    public static void SetDualKnobs(this AttributesBuilder<IonRange> b, bool dualKnobs)
     {
-        if (value) b.SetAttribute("dual-knobs", "");
+        if (dualKnobs) b.SetAttribute("dual-knobs", "");
     }
 
     /// <summary>
-    /// The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used.
+    /// <para> The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonRange> b, string value)
+    public static void SetLabel(this AttributesBuilder<IonRange> b, string label)
     {
-        b.SetAttribute("label", value);
+        b.SetAttribute("label", label);
     }
 
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonRange> b, string value)
+    public static void SetLabelPlacement(this AttributesBuilder<IonRange> b, string labelPlacement)
     {
-        b.SetAttribute("label-placement", value);
+        b.SetAttribute("label-placement", labelPlacement);
     }
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementEnd(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("label-placement", "end");
     }
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementFixed(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("label-placement", "fixed");
     }
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementStacked(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("label-placement", "stacked");
     }
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementStart(this AttributesBuilder<IonRange> b)
     {
@@ -144,37 +164,39 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// Maximum integer value of the range.
+    /// <para> Maximum integer value of the range. </para>
     /// </summary>
-    public static void SetMax(this AttributesBuilder<IonRange> b, string value)
+    public static void SetMax(this AttributesBuilder<IonRange> b, string max)
     {
-        b.SetAttribute("max", value);
+        b.SetAttribute("max", max);
     }
 
     /// <summary>
-    /// Minimum integer value of the range.
+    /// <para> Minimum integer value of the range. </para>
     /// </summary>
-    public static void SetMin(this AttributesBuilder<IonRange> b, string value)
+    public static void SetMin(this AttributesBuilder<IonRange> b, string min)
     {
-        b.SetAttribute("min", value);
+        b.SetAttribute("min", min);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonRange> b, string value)
+    public static void SetMode(this AttributesBuilder<IonRange> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonRange> b)
     {
@@ -182,68 +204,71 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonRange> b, string value)
+    public static void SetName(this AttributesBuilder<IonRange> b, string name)
     {
-        b.SetAttribute("name", value);
+        b.SetAttribute("name", name);
     }
 
     /// <summary>
-    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
     public static void SetPin(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("pin", "");
     }
+
     /// <summary>
-    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
-    public static void SetPin(this AttributesBuilder<IonRange> b, bool value)
+    public static void SetPin(this AttributesBuilder<IonRange> b, bool pin)
     {
-        if (value) b.SetAttribute("pin", "");
+        if (pin) b.SetAttribute("pin", "");
     }
 
     /// <summary>
-    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
     public static void SetSnaps(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("snaps", "");
     }
+
     /// <summary>
-    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
-    public static void SetSnaps(this AttributesBuilder<IonRange> b, bool value)
+    public static void SetSnaps(this AttributesBuilder<IonRange> b, bool snaps)
     {
-        if (value) b.SetAttribute("snaps", "");
+        if (snaps) b.SetAttribute("snaps", "");
     }
 
     /// <summary>
-    /// Specifies the value granularity.
+    /// <para> Specifies the value granularity. </para>
     /// </summary>
-    public static void SetStep(this AttributesBuilder<IonRange> b, string value)
+    public static void SetStep(this AttributesBuilder<IonRange> b, string step)
     {
-        b.SetAttribute("step", value);
+        b.SetAttribute("step", step);
     }
 
     /// <summary>
-    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
     /// </summary>
     public static void SetTicks(this AttributesBuilder<IonRange> b)
     {
         b.SetAttribute("ticks", "");
     }
+
     /// <summary>
-    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
     /// </summary>
-    public static void SetTicks(this AttributesBuilder<IonRange> b, bool value)
+    public static void SetTicks(this AttributesBuilder<IonRange> b, bool ticks)
     {
-        if (value) b.SetAttribute("ticks", "");
+        if (ticks) b.SetAttribute("ticks", "");
     }
 
     /// <summary>
-    /// the value of the range.
+    /// <para> the value of the range. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<IonRange> b, string value)
     {
@@ -251,419 +276,477 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRange(this LayoutBuilder b, Action<PropsBuilder<IonRange>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-range", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRange(this LayoutBuilder b, Action<PropsBuilder<IonRange>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-range", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRange(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-range", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRange(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-range", children);
     }
     /// <summary>
-    /// The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value.
+    /// <para> The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value. </para>
     /// </summary>
-    public static void SetActiveBarStart<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
+    public static void SetActiveBarStart<T>(this PropsBuilder<T> b, Var<int> activeBarStart) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), value);
-    }
-    /// <summary>
-    /// The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value.
-    /// </summary>
-    public static void SetActiveBarStart<T>(this PropsBuilder<T> b, int value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), activeBarStart);
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The start position of the range active bar. This feature is only available with a single knob (dualKnobs="false"). Valid values are greater than or equal to the min value and less than or equal to the max value. </para>
+    /// </summary>
+    public static void SetActiveBarStart<T>(this PropsBuilder<T> b, int activeBarStart) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), b.Const(activeBarStart));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value. </para>
     /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRange
+    public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
     }
 
     /// <summary>
-    /// How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value.
+    /// <para> How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value. </para>
     /// </summary>
-    public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
+    public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), value);
-    }
-    /// <summary>
-    /// How long, in milliseconds, to wait to trigger the `ionInput` event after each change in the range value.
-    /// </summary>
-    public static void SetDebounce<T>(this PropsBuilder<T> b, int value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
     }
 
+
     /// <summary>
-    /// If `true`, the user cannot interact with the range.
+    /// <para> If `true`, the user cannot interact with the range. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot interact with the range.
+    /// <para> If `true`, the user cannot interact with the range. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot interact with the range.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Show two knobs.
+    /// <para> If `true`, the user cannot interact with the range. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> Show two knobs. </para>
     /// </summary>
     public static void SetDualKnobs<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), b.Const(true));
     }
+
+
     /// <summary>
-    /// Show two knobs.
+    /// <para> Show two knobs. </para>
     /// </summary>
-    public static void SetDualKnobs<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    public static void SetDualKnobs<T>(this PropsBuilder<T> b, Var<bool> dualKnobs) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), value);
-    }
-    /// <summary>
-    /// Show two knobs.
-    /// </summary>
-    public static void SetDualKnobs<T>(this PropsBuilder<T> b, bool value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("dualKnobs"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), dualKnobs);
     }
 
     /// <summary>
-    /// The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used.
+    /// <para> Show two knobs. </para>
     /// </summary>
-    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRange
+    public static void SetDualKnobs<T>(this PropsBuilder<T> b, bool dualKnobs) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), b.Const(dualKnobs));
     }
+
+
     /// <summary>
-    /// The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used.
+    /// <para> The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel<T>(this PropsBuilder<T> b, string value) where T: IonRange
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> The text to display as the control's label. Use this over the `label` slot if you only need plain text. The `label` property will take priority over the `label` slot if both are used. </para>
+    /// </summary>
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+    }
+
+
+    /// <summary>
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("fixed"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("stacked"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction.
+    /// <para> Where to place the label relative to the range. `"start"`: The label will appear to the left of the range in LTR and to the right in RTL. `"end"`: The label will appear to the right of the range in LTR and to the left in RTL. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). `"stacked"`: The label will appear above the range regardless of the direction. </para>
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+    }
+
+
+    /// <summary>
+    /// <para> Maximum integer value of the range. </para>
+    /// </summary>
+    public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
     }
 
     /// <summary>
-    /// Maximum integer value of the range.
+    /// <para> Maximum integer value of the range. </para>
     /// </summary>
-    public static void SetMax<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
+    public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
     }
+
+
     /// <summary>
-    /// Maximum integer value of the range.
+    /// <para> Minimum integer value of the range. </para>
     /// </summary>
-    public static void SetMax<T>(this PropsBuilder<T> b, int value) where T: IonRange
+    public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
     }
 
     /// <summary>
-    /// Minimum integer value of the range.
+    /// <para> Minimum integer value of the range. </para>
     /// </summary>
-    public static void SetMin<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
+    public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), value);
-    }
-    /// <summary>
-    /// Minimum integer value of the range.
-    /// </summary>
-    public static void SetMin<T>(this PropsBuilder<T> b, int value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the control, which is submitted with the form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRange
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The name of the control, which is submitted with the form data.
-    /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, string value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
 
+
     /// <summary>
-    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
     public static void SetPin<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, a pin with integer value is shown when the knob is pressed.
+    /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
-    public static void SetPin<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    public static void SetPin<T>(this PropsBuilder<T> b, Var<bool> pin) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), value);
-    }
-    /// <summary>
-    /// If `true`, a pin with integer value is shown when the knob is pressed.
-    /// </summary>
-    public static void SetPin<T>(this PropsBuilder<T> b, bool value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("pin"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), pin);
     }
 
     /// <summary>
-    /// A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// <para> If `true`, a pin with integer value is shown when the knob is pressed. </para>
     /// </summary>
-    public static void SetPinFormatter<T>(this PropsBuilder<T> b, Var<Func<int,object>> f) where T: IonRange
+    public static void SetPin<T>(this PropsBuilder<T> b, bool pin) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,object>>("pinFormatter"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), b.Const(pin));
     }
+
+
     /// <summary>
-    /// A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// <para> A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetPinFormatter<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<int>,Var<object>> f) where T: IonRange
+    public static void SetPinFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,object>> pinFormatter) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,object>>("pinFormatter"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,object>>("pinFormatter"), pinFormatter);
     }
 
     /// <summary>
-    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// <para> A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
+    /// </summary>
+    public static void SetPinFormatter<T>(this PropsBuilder<T> b, System.Func<int,object> pinFormatter) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,object>>("pinFormatter"), b.Const(pinFormatter));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
     public static void SetSnaps<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+    /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
-    public static void SetSnaps<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    public static void SetSnaps<T>(this PropsBuilder<T> b, Var<bool> snaps) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), value);
-    }
-    /// <summary>
-    /// If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
-    /// </summary>
-    public static void SetSnaps<T>(this PropsBuilder<T> b, bool value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("snaps"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), snaps);
     }
 
     /// <summary>
-    /// Specifies the value granularity.
+    /// <para> If `true`, the knob snaps to tick marks evenly spaced based on the step property value. </para>
     /// </summary>
-    public static void SetStep<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
+    public static void SetSnaps<T>(this PropsBuilder<T> b, bool snaps) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), b.Const(snaps));
     }
+
+
     /// <summary>
-    /// Specifies the value granularity.
+    /// <para> Specifies the value granularity. </para>
     /// </summary>
-    public static void SetStep<T>(this PropsBuilder<T> b, int value) where T: IonRange
+    public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
     }
 
     /// <summary>
-    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// <para> Specifies the value granularity. </para>
+    /// </summary>
+    public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
     /// </summary>
     public static void SetTicks<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+    /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
     /// </summary>
-    public static void SetTicks<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonRange
+    public static void SetTicks<T>(this PropsBuilder<T> b, Var<bool> ticks) where T: IonRange
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), value);
-    }
-    /// <summary>
-    /// If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
-    /// </summary>
-    public static void SetTicks<T>(this PropsBuilder<T> b, bool value) where T: IonRange
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("ticks"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), ticks);
     }
 
     /// <summary>
-    /// the value of the range.
+    /// <para> If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`. </para>
+    /// </summary>
+    public static void SetTicks<T>(this PropsBuilder<T> b, bool ticks) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), b.Const(ticks));
+    }
+
+
+    /// <summary>
+    /// <para> the value of the range. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
+
     /// <summary>
-    /// the value of the range.
+    /// <para> the value of the range. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonRange
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
+
+
     /// <summary>
-    /// the value of the range.
+    /// <para> the value of the range. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> lower,Var<int> upper) where T: IonRange
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<IonRangeValue> value) where T: IonRange
     {
-        var _dynamicParameter = b.NewObj<DynamicObject>();
-        b.SetDynamic(_dynamicParameter, new DynamicProperty<int>("lower"), lower);
-        b.SetDynamic(_dynamicParameter, new DynamicProperty<int>("upper"), upper);
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), _dynamicParameter);
+        b.SetDynamic(b.Props, new DynamicProperty<IonRangeValue>("value"), value);
     }
 
     /// <summary>
-    /// Emitted when the range loses focus.
+    /// <para> the value of the range. </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, IonRangeValue value) where T: IonRange
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<IonRangeValue>("value"), b.Const(value));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted when the range loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionBlur", action);
     }
     /// <summary>
-    /// Emitted when the range loses focus.
+    /// <para> Emitted when the range loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -671,14 +754,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  `ionChange` is not fired when the value is changed programmatically.
+    /// <para> The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  `ionChange` is not fired when the value is changed programmatically. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  `ionChange` is not fired when the value is changed programmatically.
+    /// <para> The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  `ionChange` is not fired when the value is changed programmatically. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -686,14 +769,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// Emitted when the range has focus.
+    /// <para> Emitted when the range has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionFocus", action);
     }
     /// <summary>
-    /// Emitted when the range has focus.
+    /// <para> Emitted when the range has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -701,14 +784,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob.
+    /// <para> The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
-    /// The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob.
+    /// <para> The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -716,14 +799,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// Emitted when the user finishes moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
+    /// <para> Emitted when the user finishes moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction. </para>
     /// </summary>
     public static void OnIonKnobMoveEnd<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeKnobMoveEndEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionKnobMoveEnd", action, "detail");
     }
     /// <summary>
-    /// Emitted when the user finishes moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
+    /// <para> Emitted when the user finishes moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction. </para>
     /// </summary>
     public static void OnIonKnobMoveEnd<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeKnobMoveEndEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -731,18 +814,35 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// Emitted when the user starts moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
+    /// <para> Emitted when the user starts moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction. </para>
     /// </summary>
     public static void OnIonKnobMoveStart<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeKnobMoveStartEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionKnobMoveStart", action, "detail");
     }
     /// <summary>
-    /// Emitted when the user starts moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction.
+    /// <para> Emitted when the user starts moving the range knob, whether through mouse drag, touch gesture, or keyboard interaction. </para>
     /// </summary>
     public static void OnIonKnobMoveStart<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeKnobMoveStartEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionKnobMoveStart", b.MakeAction(action), "detail");
+    }
+
+public class IonRangeValue { }
+    /// <summary>
+    ///
+    /// </summary>
+    public static void SetLower<T>(this PropsBuilder<T> b, Var<int> lower) where T: IonRangeValue
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("lower"), lower);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public static void SetUpper<T>(this PropsBuilder<T> b, Var<int> upper) where T: IonRangeValue
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("upper"), upper);
     }
 
 }

@@ -1,7 +1,4 @@
-﻿using Metapsi.Ui;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
@@ -40,6 +37,11 @@ public static class AttributesBuilderExtensions
     public static void SetClass<TTag>(this AttributesBuilder<TTag> b, string className)
     {
         b.SetAttribute("class", className);
+    }
+
+    public static void SetStyle<TTag>(this AttributesBuilder<TTag> b, string styles)
+    {
+        b.SetAttribute("style", styles);
     }
 
     public static void AddClass<TTag>(this AttributesBuilder<TTag> b, string className)

@@ -34,6 +34,28 @@ namespace Metapsi
             return builder;
         }
 
+        public static WebApplicationBuilder AddMetapsi(
+           this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSingleton<RenderersService>();
+
+            builder.Services.ConfigureHttpJsonOptions(options =>
+            {
+                options.SerializerOptions.PropertyNamingPolicy = null;
+                options.SerializerOptions.WriteIndented = true;
+                options.SerializerOptions.PropertyNameCaseInsensitive = true;
+            });
+
+            return builder;
+        }
+
+        public static WebApplication UseMetapsi(this WebApplication webApplication)
+        {
+            webApplication.UseEmbeddedFiles();
+            return webApplication;
+        }
+
         public static WebApplication UseMetapsi(this WebApplication webApplication, ApplicationSetup applicationSetup)
         {
             webApplication.UseEmbeddedFiles();

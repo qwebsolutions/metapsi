@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
-		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
 	</ItemGroup>
 
 </Project>

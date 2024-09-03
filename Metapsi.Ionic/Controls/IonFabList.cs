@@ -2,79 +2,95 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonFabList : IonComponent
+public partial class IonFabList
 {
-    public IonFabList() : base("ion-fab-list") { }
 }
 
 public static partial class IonFabListControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonFabList(this HtmlBuilder b, Action<AttributesBuilder<IonFabList>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-list", buildAttributes, children);
+        return b.IonicTag("ion-fab-list", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonFabList(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-fab-list", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-fab-list", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the fab list will show all fab buttons in the list.
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabList(this HtmlBuilder b, Action<AttributesBuilder<IonFabList>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-list", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonFabList(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-fab-list", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
     /// </summary>
     public static void SetActivated(this AttributesBuilder<IonFabList> b)
     {
         b.SetAttribute("activated", "");
     }
+
     /// <summary>
-    /// If `true`, the fab list will show all fab buttons in the list.
+    /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
     /// </summary>
-    public static void SetActivated(this AttributesBuilder<IonFabList> b, bool value)
+    public static void SetActivated(this AttributesBuilder<IonFabList> b, bool activated)
     {
-        if (value) b.SetAttribute("activated", "");
+        if (activated) b.SetAttribute("activated", "");
     }
 
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
-    public static void SetSide(this AttributesBuilder<IonFabList> b, string value)
+    public static void SetSide(this AttributesBuilder<IonFabList> b, string side)
     {
-        b.SetAttribute("side", value);
+        b.SetAttribute("side", side);
     }
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideBottom(this AttributesBuilder<IonFabList> b)
     {
         b.SetAttribute("side", "bottom");
     }
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideEnd(this AttributesBuilder<IonFabList> b)
     {
         b.SetAttribute("side", "end");
     }
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideStart(this AttributesBuilder<IonFabList> b)
     {
         b.SetAttribute("side", "start");
     }
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideTop(this AttributesBuilder<IonFabList> b)
     {
@@ -82,83 +98,94 @@ public static partial class IonFabListControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFabList(this LayoutBuilder b, Action<PropsBuilder<IonFabList>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-fab-list", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFabList(this LayoutBuilder b, Action<PropsBuilder<IonFabList>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-fab-list", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFabList(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-fab-list", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonFabList(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-fab-list", children);
     }
     /// <summary>
-    /// If `true`, the fab list will show all fab buttons in the list.
+    /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the fab list will show all fab buttons in the list.
+    /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
     /// </summary>
-    public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonFabList
+    public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> activated) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), value);
-    }
-    /// <summary>
-    /// If `true`, the fab list will show all fab buttons in the list.
-    /// </summary>
-    public static void SetActivated<T>(this PropsBuilder<T> b, bool value) where T: IonFabList
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("activated"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), activated);
     }
 
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> If `true`, the fab list will show all fab buttons in the list. </para>
+    /// </summary>
+    public static void SetActivated<T>(this PropsBuilder<T> b, bool activated) where T: IonFabList
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(activated));
+    }
+
+
+    /// <summary>
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideBottom<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("bottom"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("bottom"));
     }
+
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
     }
+
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
     }
+
+
     /// <summary>
-    /// The side the fab list will show on relative to the main fab button.
+    /// <para> The side the fab list will show on relative to the main fab button. </para>
     /// </summary>
     public static void SetSideTop<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("side"), b.Const("top"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("top"));
     }
+
 
 }
 

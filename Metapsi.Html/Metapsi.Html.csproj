@@ -1,16 +1,34 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<IsPackable>true</IsPackable>
 		<TargetFramework>net7.0</TargetFramework>
 		<Description>Simplified HTML tag methods for client-side generated web pages</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="embedded\Metapsi.Html.js" LogicalName="Metapsi.Html.js" />
+		<ProjectReference Include="..\Metapsi.JavaScript\Metapsi.JavaScript.csproj" />
+		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
+		<ProjectReference Include="..\Metapsi.Web.Contracts\Metapsi.Web.Contracts.csproj" />
+		<ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Metapsi.Hyperapp\Metapsi.Hyperapp.csproj" />
+		<EmbeddedResource Include="embedded\metapsi.dom.js" LogicalName="metapsi.dom.js" />
+		<EmbeddedResource Include="embedded\Metapsi.Html.js" LogicalName="Metapsi.Html.js" />
+		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
+		<EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />
+		<EmbeddedResource Include="embedded\linq.js" LogicalName="linq.js" />
+		<EmbeddedResource Include="embedded\Browser.js" LogicalName="Browser.js" />
+		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
+		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
+		<EmbeddedResource Include="embedded\HyperappCustomElement.js" LogicalName="HyperappCustomElement.js" />
+		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
+		<EmbeddedResource Include="embedded\signalr.js" LogicalName="signalr.js" />
+		<EmbeddedResource Include="embedded\Metapsi.SignalR.js" LogicalName="Metapsi.SignalR.js" />
+		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
+
 	</ItemGroup>
 
 </Project>

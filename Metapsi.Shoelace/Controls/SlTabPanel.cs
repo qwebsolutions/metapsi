@@ -2,101 +2,139 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlTabPanel : SlComponent
+public partial class SlTabPanel
 {
-    public SlTabPanel() : base("sl-tab-panel") { }
-    /// <summary>
-    /// The tab panel's name.
-    /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// When true, the tab panel will be shown.
-    /// </summary>
-    public bool active
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("active");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("active", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlTabPanelControl
 {
     /// <summary>
-    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, Action<AttributesBuilder<SlTabPanel>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-tab-panel", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-tab-panel", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, Action<AttributesBuilder<SlTabPanel>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-panel", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlTabPanel(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-tab-panel", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The tab panel's name. </para>
+    /// </summary>
+    public static void SetName(this AttributesBuilder<SlTabPanel> b, string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> When true, the tab panel will be shown. </para>
+    /// </summary>
+    public static void SetActive(this AttributesBuilder<SlTabPanel> b)
+    {
+        b.SetAttribute("active", "");
+    }
+
+    /// <summary>
+    /// <para> When true, the tab panel will be shown. </para>
+    /// </summary>
+    public static void SetActive(this AttributesBuilder<SlTabPanel> b, bool active)
+    {
+        if (active) b.SetAttribute("active", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Action<PropsBuilder<SlTabPanel>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-tab-panel", buildProps, children);
     }
     /// <summary>
-    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Action<PropsBuilder<SlTabPanel>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-tab-panel", buildProps, children);
     }
     /// <summary>
-    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-tab-panel", children);
     }
     /// <summary>
-    /// Tab panels are used inside [tab groups](/components/tab-group) to display tabbed content.
+    ///
     /// </summary>
     public static Var<IVNode> SlTabPanel(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-tab-panel", children);
     }
     /// <summary>
-    /// The tab panel's name.
+    /// <para> The tab panel's name. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlTabPanel> b, Var<string> value)
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
-    }
-    /// <summary>
-    /// The tab panel's name.
-    /// </summary>
-    public static void SetName(this PropsBuilder<SlTabPanel> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// When true, the tab panel will be shown.
+    /// <para> The tab panel's name. </para>
     /// </summary>
-    public static void SetActive(this PropsBuilder<SlTabPanel> b)
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("active"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
+
+
+    /// <summary>
+    /// <para> When true, the tab panel will be shown. </para>
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b) where T: SlTabPanel
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> When true, the tab panel will be shown. </para>
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> active) where T: SlTabPanel
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), active);
+    }
+
+    /// <summary>
+    /// <para> When true, the tab panel will be shown. </para>
+    /// </summary>
+    public static void SetActive<T>(this PropsBuilder<T> b, bool active) where T: SlTabPanel
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(active));
+    }
+
 
 }
 

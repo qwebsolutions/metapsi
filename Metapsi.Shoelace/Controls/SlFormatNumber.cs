@@ -2,362 +2,424 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlFormatNumber : SlComponent
+public partial class SlFormatNumber
 {
-    public SlFormatNumber() : base("sl-format-number") { }
-    /// <summary>
-    /// The number to format.
-    /// </summary>
-    public int value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The formatting style to use.
-    /// </summary>
-    public string type
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("type");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("type", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Turns off grouping separators.
-    /// </summary>
-    public bool noGrouping
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("no-grouping");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("no-grouping", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting.
-    /// </summary>
-    public string currency
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("currency");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("currency", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// How to display the currency.
-    /// </summary>
-    public string currencyDisplay
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("currency-display");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("currency-display", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum number of integer digits to use. Possible values are 1-21.
-    /// </summary>
-    public int minimumIntegerDigits
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("minimum-integer-digits");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("minimum-integer-digits", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum number of fraction digits to use. Possible values are 0-20.
-    /// </summary>
-    public int minimumFractionDigits
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("minimum-fraction-digits");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("minimum-fraction-digits", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum number of fraction digits to use. Possible values are 0-0.
-    /// </summary>
-    public int maximumFractionDigits
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("maximum-fraction-digits");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("maximum-fraction-digits", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The minimum number of significant digits to use. Possible values are 1-21.
-    /// </summary>
-    public int minimumSignificantDigits
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("minimum-significant-digits");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("minimum-significant-digits", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The maximum number of significant digits to use,. Possible values are 1-21.
-    /// </summary>
-    public int maximumSignificantDigits
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<int>("maximum-significant-digits");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("maximum-significant-digits", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlFormatNumberControl
 {
     /// <summary>
-    /// Formats a number using the specified locale and options.
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, Action<AttributesBuilder<SlFormatNumber>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-format-number", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-format-number", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, Action<AttributesBuilder<SlFormatNumber>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-number", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlFormatNumber(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-format-number", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The number to format. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlFormatNumber> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The formatting style to use. </para>
+    /// </summary>
+    public static void SetType(this AttributesBuilder<SlFormatNumber> b, string type)
+    {
+        b.SetAttribute("type", type);
+    }
+
+    /// <summary>
+    /// <para> The formatting style to use. </para>
+    /// </summary>
+    public static void SetTypeCurrency(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("type", "currency");
+    }
+
+    /// <summary>
+    /// <para> The formatting style to use. </para>
+    /// </summary>
+    public static void SetTypeDecimal(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("type", "decimal");
+    }
+
+    /// <summary>
+    /// <para> The formatting style to use. </para>
+    /// </summary>
+    public static void SetTypePercent(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("type", "percent");
+    }
+
+    /// <summary>
+    /// <para> Turns off grouping separators. </para>
+    /// </summary>
+    public static void SetNoGrouping(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("no-grouping", "");
+    }
+
+    /// <summary>
+    /// <para> Turns off grouping separators. </para>
+    /// </summary>
+    public static void SetNoGrouping(this AttributesBuilder<SlFormatNumber> b, bool noGrouping)
+    {
+        if (noGrouping) b.SetAttribute("no-grouping", "");
+    }
+
+    /// <summary>
+    /// <para> The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting. </para>
+    /// </summary>
+    public static void SetCurrency(this AttributesBuilder<SlFormatNumber> b, string currency)
+    {
+        b.SetAttribute("currency", currency);
+    }
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplay(this AttributesBuilder<SlFormatNumber> b, string currencyDisplay)
+    {
+        b.SetAttribute("currency-display", currencyDisplay);
+    }
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplaySymbol(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("currency-display", "symbol");
+    }
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayNarrowSymbol(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("currency-display", "narrowSymbol");
+    }
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayCode(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("currency-display", "code");
+    }
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayName(this AttributesBuilder<SlFormatNumber> b)
+    {
+        b.SetAttribute("currency-display", "name");
+    }
+
+    /// <summary>
+    /// <para> The minimum number of integer digits to use. Possible values are 1-21. </para>
+    /// </summary>
+    public static void SetMinimumIntegerDigits(this AttributesBuilder<SlFormatNumber> b, string minimumIntegerDigits)
+    {
+        b.SetAttribute("minimum-integer-digits", minimumIntegerDigits);
+    }
+
+    /// <summary>
+    /// <para> The minimum number of fraction digits to use. Possible values are 0-20. </para>
+    /// </summary>
+    public static void SetMinimumFractionDigits(this AttributesBuilder<SlFormatNumber> b, string minimumFractionDigits)
+    {
+        b.SetAttribute("minimum-fraction-digits", minimumFractionDigits);
+    }
+
+    /// <summary>
+    /// <para> The maximum number of fraction digits to use. Possible values are 0-0. </para>
+    /// </summary>
+    public static void SetMaximumFractionDigits(this AttributesBuilder<SlFormatNumber> b, string maximumFractionDigits)
+    {
+        b.SetAttribute("maximum-fraction-digits", maximumFractionDigits);
+    }
+
+    /// <summary>
+    /// <para> The minimum number of significant digits to use. Possible values are 1-21. </para>
+    /// </summary>
+    public static void SetMinimumSignificantDigits(this AttributesBuilder<SlFormatNumber> b, string minimumSignificantDigits)
+    {
+        b.SetAttribute("minimum-significant-digits", minimumSignificantDigits);
+    }
+
+    /// <summary>
+    /// <para> The maximum number of significant digits to use,. Possible values are 1-21. </para>
+    /// </summary>
+    public static void SetMaximumSignificantDigits(this AttributesBuilder<SlFormatNumber> b, string maximumSignificantDigits)
+    {
+        b.SetAttribute("maximum-significant-digits", maximumSignificantDigits);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Action<PropsBuilder<SlFormatNumber>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-format-number", buildProps, children);
     }
     /// <summary>
-    /// Formats a number using the specified locale and options.
+    ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Action<PropsBuilder<SlFormatNumber>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-format-number", buildProps, children);
     }
     /// <summary>
-    /// Formats a number using the specified locale and options.
+    ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-format-number", children);
     }
     /// <summary>
-    /// Formats a number using the specified locale and options.
+    ///
     /// </summary>
     public static Var<IVNode> SlFormatNumber(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-format-number", children);
     }
     /// <summary>
-    /// The number to format.
+    /// <para> The number to format. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlFormatNumber> b, Var<int> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlFormatNumber
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
     }
+
     /// <summary>
-    /// The number to format.
+    /// <para> The number to format. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlFormatNumber> b, int value)
+    public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlFormatNumber
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The formatting style to use.
+    /// <para> The formatting style to use. </para>
     /// </summary>
-    public static void SetTypeCurrency(this PropsBuilder<SlFormatNumber> b)
+    public static void SetTypeCurrency<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("currency"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("currency"));
     }
+
+
     /// <summary>
-    /// The formatting style to use.
+    /// <para> The formatting style to use. </para>
     /// </summary>
-    public static void SetTypeDecimal(this PropsBuilder<SlFormatNumber> b)
+    public static void SetTypeDecimal<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("decimal"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("decimal"));
     }
+
+
     /// <summary>
-    /// The formatting style to use.
+    /// <para> The formatting style to use. </para>
     /// </summary>
-    public static void SetTypePercent(this PropsBuilder<SlFormatNumber> b)
+    public static void SetTypePercent<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("type"), b.Const("percent"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("percent"));
+    }
+
+
+    /// <summary>
+    /// <para> Turns off grouping separators. </para>
+    /// </summary>
+    public static void SetNoGrouping<T>(this PropsBuilder<T> b) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Turns off grouping separators. </para>
+    /// </summary>
+    public static void SetNoGrouping<T>(this PropsBuilder<T> b, Var<bool> noGrouping) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), noGrouping);
     }
 
     /// <summary>
-    /// Turns off grouping separators.
+    /// <para> Turns off grouping separators. </para>
     /// </summary>
-    public static void SetNoGrouping(this PropsBuilder<SlFormatNumber> b)
+    public static void SetNoGrouping<T>(this PropsBuilder<T> b, bool noGrouping) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("noGrouping"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), b.Const(noGrouping));
+    }
+
+
+    /// <summary>
+    /// <para> The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting. </para>
+    /// </summary>
+    public static void SetCurrency<T>(this PropsBuilder<T> b, Var<string> currency) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), currency);
     }
 
     /// <summary>
-    /// The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting.
+    /// <para> The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting. </para>
     /// </summary>
-    public static void SetCurrency(this PropsBuilder<SlFormatNumber> b, Var<string> value)
+    public static void SetCurrency<T>(this PropsBuilder<T> b, string currency) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), b.Const(currency));
     }
+
+
     /// <summary>
-    /// The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code to use when formatting.
+    /// <para> How to display the currency. </para>
     /// </summary>
-    public static void SetCurrency(this PropsBuilder<SlFormatNumber> b, string value)
+    public static void SetCurrencyDisplaySymbol<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("symbol"));
+    }
+
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayNarrowSymbol<T>(this PropsBuilder<T> b) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("narrowSymbol"));
+    }
+
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayCode<T>(this PropsBuilder<T> b) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("code"));
+    }
+
+
+    /// <summary>
+    /// <para> How to display the currency. </para>
+    /// </summary>
+    public static void SetCurrencyDisplayName<T>(this PropsBuilder<T> b) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("name"));
+    }
+
+
+    /// <summary>
+    /// <para> The minimum number of integer digits to use. Possible values are 1-21. </para>
+    /// </summary>
+    public static void SetMinimumIntegerDigits<T>(this PropsBuilder<T> b, Var<int> minimumIntegerDigits) where T: SlFormatNumber
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), minimumIntegerDigits);
     }
 
     /// <summary>
-    /// How to display the currency.
+    /// <para> The minimum number of integer digits to use. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetCurrencyDisplaySymbol(this PropsBuilder<SlFormatNumber> b)
+    public static void SetMinimumIntegerDigits<T>(this PropsBuilder<T> b, int minimumIntegerDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("symbol"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), b.Const(minimumIntegerDigits));
     }
+
+
     /// <summary>
-    /// How to display the currency.
+    /// <para> The minimum number of fraction digits to use. Possible values are 0-20. </para>
     /// </summary>
-    public static void SetCurrencyDisplayNarrowSymbol(this PropsBuilder<SlFormatNumber> b)
+    public static void SetMinimumFractionDigits<T>(this PropsBuilder<T> b, Var<int> minimumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("narrowSymbol"));
-    }
-    /// <summary>
-    /// How to display the currency.
-    /// </summary>
-    public static void SetCurrencyDisplayCode(this PropsBuilder<SlFormatNumber> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("code"));
-    }
-    /// <summary>
-    /// How to display the currency.
-    /// </summary>
-    public static void SetCurrencyDisplayName(this PropsBuilder<SlFormatNumber> b)
-    {
-        b.SetDynamic(b.Props, DynamicProperty.String("currency-display"), b.Const("name"));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), minimumFractionDigits);
     }
 
     /// <summary>
-    /// The minimum number of integer digits to use. Possible values are 1-21.
+    /// <para> The minimum number of fraction digits to use. Possible values are 0-20. </para>
     /// </summary>
-    public static void SetMinimumIntegerDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
+    public static void SetMinimumFractionDigits<T>(this PropsBuilder<T> b, int minimumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-integer-digits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), b.Const(minimumFractionDigits));
     }
+
+
     /// <summary>
-    /// The minimum number of integer digits to use. Possible values are 1-21.
+    /// <para> The maximum number of fraction digits to use. Possible values are 0-0. </para>
     /// </summary>
-    public static void SetMinimumIntegerDigits(this PropsBuilder<SlFormatNumber> b, int value)
+    public static void SetMaximumFractionDigits<T>(this PropsBuilder<T> b, Var<int> maximumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-integer-digits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), maximumFractionDigits);
     }
 
     /// <summary>
-    /// The minimum number of fraction digits to use. Possible values are 0-20.
+    /// <para> The maximum number of fraction digits to use. Possible values are 0-0. </para>
     /// </summary>
-    public static void SetMinimumFractionDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
+    public static void SetMaximumFractionDigits<T>(this PropsBuilder<T> b, int maximumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-fraction-digits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), b.Const(maximumFractionDigits));
     }
+
+
     /// <summary>
-    /// The minimum number of fraction digits to use. Possible values are 0-20.
+    /// <para> The minimum number of significant digits to use. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMinimumFractionDigits(this PropsBuilder<SlFormatNumber> b, int value)
+    public static void SetMinimumSignificantDigits<T>(this PropsBuilder<T> b, Var<int> minimumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-fraction-digits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), minimumSignificantDigits);
     }
 
     /// <summary>
-    /// The maximum number of fraction digits to use. Possible values are 0-0.
+    /// <para> The minimum number of significant digits to use. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMaximumFractionDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
+    public static void SetMinimumSignificantDigits<T>(this PropsBuilder<T> b, int minimumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-fraction-digits"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), b.Const(minimumSignificantDigits));
     }
+
+
     /// <summary>
-    /// The maximum number of fraction digits to use. Possible values are 0-0.
+    /// <para> The maximum number of significant digits to use,. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMaximumFractionDigits(this PropsBuilder<SlFormatNumber> b, int value)
+    public static void SetMaximumSignificantDigits<T>(this PropsBuilder<T> b, Var<int> maximumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-fraction-digits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), maximumSignificantDigits);
     }
 
     /// <summary>
-    /// The minimum number of significant digits to use. Possible values are 1-21.
+    /// <para> The maximum number of significant digits to use,. Possible values are 1-21. </para>
     /// </summary>
-    public static void SetMinimumSignificantDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
+    public static void SetMaximumSignificantDigits<T>(this PropsBuilder<T> b, int maximumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-significant-digits"), value);
-    }
-    /// <summary>
-    /// The minimum number of significant digits to use. Possible values are 1-21.
-    /// </summary>
-    public static void SetMinimumSignificantDigits(this PropsBuilder<SlFormatNumber> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimum-significant-digits"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), b.Const(maximumSignificantDigits));
     }
 
-    /// <summary>
-    /// The maximum number of significant digits to use,. Possible values are 1-21.
-    /// </summary>
-    public static void SetMaximumSignificantDigits(this PropsBuilder<SlFormatNumber> b, Var<int> value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-significant-digits"), value);
-    }
-    /// <summary>
-    /// The maximum number of significant digits to use,. Possible values are 1-21.
-    /// </summary>
-    public static void SetMaximumSignificantDigits(this PropsBuilder<SlFormatNumber> b, int value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximum-significant-digits"), b.Const(value));
-    }
 
 }
 

@@ -48,3 +48,8 @@ public class HTMLIonPickerColumnElement
 {
 
 }
+
+public interface IonicSafeString
+{
+
+}

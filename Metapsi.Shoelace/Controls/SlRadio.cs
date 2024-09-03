@@ -2,195 +2,255 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRadio : SlComponent
+public partial class SlRadio
 {
-    public SlRadio() : base("sl-radio") { }
-    /// <summary>
-    /// The radio's value. When selected, the radio group will receive this value.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Disables the radio.
-    /// </summary>
-    public bool disabled
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("disabled");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("disabled", value.ToString());
-        }
-    }
-
 }
 
 public static partial class SlRadioControl
 {
     /// <summary>
-    /// Radios allow the user to select a single option from a group.
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, Action<AttributesBuilder<SlRadio>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-radio", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-radio", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, Action<AttributesBuilder<SlRadio>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadio(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The radio's value. When selected, the radio group will receive this value. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlRadio> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlRadio> b, string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlRadio> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlRadio> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlRadio> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> Disables the radio. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRadio> b)
+    {
+        b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    /// <para> Disables the radio. </para>
+    /// </summary>
+    public static void SetDisabled(this AttributesBuilder<SlRadio> b, bool disabled)
+    {
+        if (disabled) b.SetAttribute("disabled", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Action<PropsBuilder<SlRadio>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-radio", buildProps, children);
     }
     /// <summary>
-    /// Radios allow the user to select a single option from a group.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Action<PropsBuilder<SlRadio>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-radio", buildProps, children);
     }
     /// <summary>
-    /// Radios allow the user to select a single option from a group.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-radio", children);
     }
     /// <summary>
-    /// Radios allow the user to select a single option from a group.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadio(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-radio", children);
     }
     /// <summary>
-    /// The radio's value. When selected, the radio group will receive this value.
+    /// <para> The radio's value. When selected, the radio group will receive this value. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRadio> b, Var<string> value)
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlRadio
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The radio's value. When selected, the radio group will receive this value.
+    /// <para> The radio's value. When selected, the radio group will receive this value. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRadio> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlRadio
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlRadio> b)
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
     }
+
+
     /// <summary>
-    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
     /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlRadio> b)
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted.
+    /// <para> The radio's size. When used inside a radio group, the size will be determined by the radio group's size so this attribute can typically be omitted. </para>
     /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlRadio> b)
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the radio. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRadio
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Disables the radio. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRadio
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// Disables the radio.
+    /// <para> Disables the radio. </para>
     /// </summary>
-    public static void SetDisabled(this PropsBuilder<SlRadio> b)
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRadio
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
     }
 
+
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
-    /// Emitted when the control loses focus.
+    /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
-    /// Emitted when the control gains focus.
+    /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TModel>(this PropsBuilder<SlRadio> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }

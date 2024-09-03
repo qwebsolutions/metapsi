@@ -2,24 +2,24 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonDatetimeButton : IonComponent
+public partial class IonDatetimeButton
 {
-    public IonDatetimeButton() : base("ion-datetime-button") { }
+    /// <summary>
+    ///
+    /// </summary>
     public static class Slot
     {
-        /// <summary> 
-        /// Content displayed inside of the date button.
+        /// <summary>
+        /// <para> Content displayed inside of the date button. </para>
         /// </summary>
         public const string DateTarget = "date-target";
-        /// <summary> 
-        /// Content displayed inside of the time button.
+        /// <summary>
+        /// <para> Content displayed inside of the time button. </para>
         /// </summary>
         public const string TimeTarget = "time-target";
     }
@@ -28,66 +28,83 @@ public partial class IonDatetimeButton : IonComponent
 public static partial class IonDatetimeButtonControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, Action<AttributesBuilder<IonDatetimeButton>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime-button", buildAttributes, children);
+        return b.IonicTag("ion-datetime-button", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-datetime-button", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-datetime-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    ///
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonDatetimeButton> b, string value)
+    public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, Action<AttributesBuilder<IonDatetimeButton>> buildAttributes, List<IHtmlNode> children)
     {
-        b.SetAttribute("color", value);
+        return b.IonicTag("ion-datetime-button", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonDatetimeButton(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-datetime-button", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
+    /// </summary>
+    public static void SetColor(this AttributesBuilder<IonDatetimeButton> b, string color)
+    {
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// The ID of the `ion-datetime` instance associated with the datetime button.
+    /// <para> The ID of the `ion-datetime` instance associated with the datetime button. </para>
     /// </summary>
-    public static void SetDatetime(this AttributesBuilder<IonDatetimeButton> b, string value)
+    public static void SetDatetime(this AttributesBuilder<IonDatetimeButton> b, string datetime)
     {
-        b.SetAttribute("datetime", value);
+        b.SetAttribute("datetime", datetime);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the button.
+    /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonDatetimeButton> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot interact with the button.
+    /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonDatetimeButton> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonDatetimeButton> b, bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonDatetimeButton> b, string value)
+    public static void SetMode(this AttributesBuilder<IonDatetimeButton> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonDatetimeButton> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonDatetimeButton> b)
     {
@@ -95,162 +112,174 @@ public static partial class IonDatetimeButtonControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonDatetimeButton(this LayoutBuilder b, Action<PropsBuilder<IonDatetimeButton>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-datetime-button", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonDatetimeButton(this LayoutBuilder b, Action<PropsBuilder<IonDatetimeButton>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-datetime-button", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonDatetimeButton(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-datetime-button", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonDatetimeButton(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-datetime-button", children);
     }
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The ID of the `ion-datetime` instance associated with the datetime button. </para>
     /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonDatetimeButton
+    public static void SetDatetime<T>(this PropsBuilder<T> b, Var<string> datetime) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonDatetimeButton
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("datetime"), datetime);
     }
 
     /// <summary>
-    /// The ID of the `ion-datetime` instance associated with the datetime button.
+    /// <para> The ID of the `ion-datetime` instance associated with the datetime button. </para>
     /// </summary>
-    public static void SetDatetime<T>(this PropsBuilder<T> b, Var<string> value) where T: IonDatetimeButton
+    public static void SetDatetime<T>(this PropsBuilder<T> b, string datetime) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("datetime"), value);
-    }
-    /// <summary>
-    /// The ID of the `ion-datetime` instance associated with the datetime button.
-    /// </summary>
-    public static void SetDatetime<T>(this PropsBuilder<T> b, string value) where T: IonDatetimeButton
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("datetime"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("datetime"), b.Const(datetime));
     }
 
+
     /// <summary>
-    /// If `true`, the user cannot interact with the button.
+    /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot interact with the button.
+    /// <para> If `true`, the user cannot interact with the button. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonDatetimeButton
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot interact with the button.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonDatetimeButton
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> If `true`, the user cannot interact with the button. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonDatetimeButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonDatetimeButton
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
+
 
 }
 

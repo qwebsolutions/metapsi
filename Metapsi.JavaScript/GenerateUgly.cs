@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 
 namespace Metapsi.JavaScript
@@ -51,7 +50,7 @@ namespace Metapsi.JavaScript
                     }
                     else if (c.Value is System.Linq.Expressions.Expression)
                     {
-                        builder.Append($"var {c.Name}={Metapsi.Hyperapp.JsLinq.Convert(c.Value as System.Linq.Expressions.Expression)};");
+                        builder.Append($"var {c.Name}={LinqConverter.ToJavaScript(c.Value as System.Linq.Expressions.Expression)};");
                     }
                     else
                     {

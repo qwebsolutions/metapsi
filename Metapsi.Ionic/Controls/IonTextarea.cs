@@ -2,41 +2,41 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonTextarea : IonComponent
+public partial class IonTextarea
 {
-    public IonTextarea() : base("ion-textarea") { }
+    /// <summary>
+    ///
+    /// </summary>
     public static class Slot
     {
-        /// <summary> 
-        /// Content to display at the trailing edge of the textarea. (EXPERIMENTAL)
+        /// <summary>
+        /// <para> Content to display at the trailing edge of the textarea. (EXPERIMENTAL) </para>
         /// </summary>
         public const string End = "end";
-        /// <summary> 
-        /// The label text to associate with the textarea. Use the `labelPlacement` property to control where the label is placed relative to the textarea. Use this if you need to render a label with custom HTML. (EXPERIMENTAL)
+        /// <summary>
+        /// <para> The label text to associate with the textarea. Use the `labelPlacement` property to control where the label is placed relative to the textarea. Use this if you need to render a label with custom HTML. (EXPERIMENTAL) </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Content to display at the leading edge of the textarea. (EXPERIMENTAL)
+        /// <summary>
+        /// <para> Content to display at the leading edge of the textarea. (EXPERIMENTAL) </para>
         /// </summary>
         public const string Start = "start";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Returns the native `&lt;textarea&gt;` element used under the hood.
-        /// <para>() =&gt; Promise&lt;HTMLTextAreaElement&gt;</para>
+        /// <summary>
+        /// <para> Returns the native `&lt;textarea&gt;` element used under the hood. </para>
+        /// <para> () =&gt; Promise&lt;HTMLTextAreaElement&gt; </para>
         /// </summary>
         public const string GetInputElement = "getInputElement";
-        /// <summary> 
-        /// Sets focus on the native `textarea` in `ion-textarea`. Use this method instead of the global `textarea.focus()`.  See [managing focus](/docs/developing/managing-focus) for more information.
-        /// <para>() =&gt; Promise&lt;void&gt;</para>
+        /// <summary>
+        /// <para> Sets focus on the native `textarea` in `ion-textarea`. Use this method instead of the global `textarea.focus()`.  See [managing focus](/docs/developing/managing-focus) for more information. </para>
+        /// <para> () =&gt; Promise&lt;void&gt; </para>
         /// </summary>
         public const string SetFocus = "setFocus";
     }
@@ -45,177 +45,203 @@ public partial class IonTextarea : IonComponent
 public static partial class IonTextareaControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonTextarea(this HtmlBuilder b, Action<AttributesBuilder<IonTextarea>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-textarea", buildAttributes, children);
+        return b.IonicTag("ion-textarea", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonTextarea(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-textarea", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-textarea", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
+    ///
+    /// </summary>
+    public static IHtmlNode IonTextarea(this HtmlBuilder b, Action<AttributesBuilder<IonTextarea>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-textarea", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonTextarea(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-textarea", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
     public static void SetAutoGrow(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("auto-grow", "");
     }
+
     /// <summary>
-    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
+    /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
-    public static void SetAutoGrow(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetAutoGrow(this AttributesBuilder<IonTextarea> b, bool autoGrow)
     {
-        if (value) b.SetAttribute("auto-grow", "");
+        if (autoGrow) b.SetAttribute("auto-grow", "");
     }
 
     /// <summary>
-    /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
+    /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
     /// </summary>
-    public static void SetAutocapitalize(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetAutocapitalize(this AttributesBuilder<IonTextarea> b, string autocapitalize)
     {
-        b.SetAttribute("autocapitalize", value);
+        b.SetAttribute("autocapitalize", autocapitalize);
     }
 
     /// <summary>
-    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
     public static void SetAutofocus(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("autofocus", "");
     }
+
     /// <summary>
-    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
-    public static void SetAutofocus(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetAutofocus(this AttributesBuilder<IonTextarea> b, bool autofocus)
     {
-        if (value) b.SetAttribute("autofocus", "");
+        if (autofocus) b.SetAttribute("autofocus", "");
     }
 
     /// <summary>
-    /// If `true`, the value will be cleared after focus upon edit.
+    /// <para> If `true`, the value will be cleared after focus upon edit. </para>
     /// </summary>
     public static void SetClearOnEdit(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("clear-on-edit", "");
     }
+
     /// <summary>
-    /// If `true`, the value will be cleared after focus upon edit.
+    /// <para> If `true`, the value will be cleared after focus upon edit. </para>
     /// </summary>
-    public static void SetClearOnEdit(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetClearOnEdit(this AttributesBuilder<IonTextarea> b, bool clearOnEdit)
     {
-        if (value) b.SetAttribute("clear-on-edit", "");
+        if (clearOnEdit) b.SetAttribute("clear-on-edit", "");
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
-    public static void SetColor(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetColor(this AttributesBuilder<IonTextarea> b, string color)
     {
-        b.SetAttribute("color", value);
+        b.SetAttribute("color", color);
     }
 
     /// <summary>
-    /// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer.
+    /// <para> The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. </para>
     /// </summary>
-    public static void SetCols(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetCols(this AttributesBuilder<IonTextarea> b, string cols)
     {
-        b.SetAttribute("cols", value);
+        b.SetAttribute("cols", cols);
     }
 
     /// <summary>
-    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
     public static void SetCounter(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("counter", "");
     }
+
     /// <summary>
-    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
-    public static void SetCounter(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetCounter(this AttributesBuilder<IonTextarea> b, bool counter)
     {
-        if (value) b.SetAttribute("counter", "");
+        if (counter) b.SetAttribute("counter", "");
     }
 
     /// <summary>
-    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
-    public static void SetDebounce(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetDebounce(this AttributesBuilder<IonTextarea> b, string debounce)
     {
-        b.SetAttribute("debounce", value);
+        b.SetAttribute("debounce", debounce);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the textarea.
+    /// <para> If `true`, the user cannot interact with the textarea. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("disabled", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot interact with the textarea.
+    /// <para> If `true`, the user cannot interact with the textarea. </para>
     /// </summary>
-    public static void SetDisabled(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetDisabled(this AttributesBuilder<IonTextarea> b, bool disabled)
     {
-        if (value) b.SetAttribute("disabled", "");
+        if (disabled) b.SetAttribute("disabled", "");
     }
 
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
-    public static void SetEnterkeyhint(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetEnterkeyhint(this AttributesBuilder<IonTextarea> b, string enterkeyhint)
     {
-        b.SetAttribute("enterkeyhint", value);
+        b.SetAttribute("enterkeyhint", enterkeyhint);
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintDone(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "done");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintEnter(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "enter");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintGo(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "go");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintNext(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "next");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintPrevious(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "previous");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintSearch(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("enterkeyhint", "search");
     }
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintSend(this AttributesBuilder<IonTextarea> b)
     {
@@ -223,29 +249,31 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// Text that is placed under the textarea and displayed when an error is detected.
+    /// <para> Text that is placed under the textarea and displayed when an error is detected. </para>
     /// </summary>
-    public static void SetErrorText(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetErrorText(this AttributesBuilder<IonTextarea> b, string errorText)
     {
-        b.SetAttribute("error-text", value);
+        b.SetAttribute("error-text", errorText);
     }
 
     /// <summary>
-    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
-    public static void SetFill(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetFill(this AttributesBuilder<IonTextarea> b, string fill)
     {
-        b.SetAttribute("fill", value);
+        b.SetAttribute("fill", fill);
     }
+
     /// <summary>
-    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
     public static void SetFillOutline(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("fill", "outline");
     }
+
     /// <summary>
-    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
     public static void SetFillSolid(this AttributesBuilder<IonTextarea> b)
     {
@@ -253,71 +281,79 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// Text that is placed under the textarea and displayed when no error is detected.
+    /// <para> Text that is placed under the textarea and displayed when no error is detected. </para>
     /// </summary>
-    public static void SetHelperText(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetHelperText(this AttributesBuilder<IonTextarea> b, string helperText)
     {
-        b.SetAttribute("helper-text", value);
+        b.SetAttribute("helper-text", helperText);
     }
 
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
-    public static void SetInputmode(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetInputmode(this AttributesBuilder<IonTextarea> b, string inputmode)
     {
-        b.SetAttribute("inputmode", value);
+        b.SetAttribute("inputmode", inputmode);
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeDecimal(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "decimal");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeEmail(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "email");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeNone(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "none");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeNumeric(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "numeric");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeSearch(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "search");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeTel(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "tel");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeText(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("inputmode", "text");
     }
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeUrl(this AttributesBuilder<IonTextarea> b)
     {
@@ -325,50 +361,55 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used.
+    /// <para> The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetLabel(this AttributesBuilder<IonTextarea> b, string label)
     {
-        b.SetAttribute("label", value);
+        b.SetAttribute("label", label);
     }
 
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
-    public static void SetLabelPlacement(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetLabelPlacement(this AttributesBuilder<IonTextarea> b, string labelPlacement)
     {
-        b.SetAttribute("label-placement", value);
+        b.SetAttribute("label-placement", labelPlacement);
     }
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementEnd(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("label-placement", "end");
     }
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementFixed(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("label-placement", "fixed");
     }
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementFloating(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("label-placement", "floating");
     }
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementStacked(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("label-placement", "stacked");
     }
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementStart(this AttributesBuilder<IonTextarea> b)
     {
@@ -376,37 +417,39 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// This attribute specifies the maximum number of characters that the user can enter.
+    /// <para> This attribute specifies the maximum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetMaxlength(this AttributesBuilder<IonTextarea> b, string maxlength)
     {
-        b.SetAttribute("maxlength", value);
+        b.SetAttribute("maxlength", maxlength);
     }
 
     /// <summary>
-    /// This attribute specifies the minimum number of characters that the user can enter.
+    /// <para> This attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMinlength(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetMinlength(this AttributesBuilder<IonTextarea> b, string minlength)
     {
-        b.SetAttribute("minlength", value);
+        b.SetAttribute("minlength", minlength);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetMode(this AttributesBuilder<IonTextarea> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonTextarea> b)
     {
@@ -414,68 +457,71 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetName(this AttributesBuilder<IonTextarea> b, string name)
     {
-        b.SetAttribute("name", value);
+        b.SetAttribute("name", name);
     }
 
     /// <summary>
-    /// Instructional text that shows before the input has a value.
+    /// <para> Instructional text that shows before the input has a value. </para>
     /// </summary>
-    public static void SetPlaceholder(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetPlaceholder(this AttributesBuilder<IonTextarea> b, string placeholder)
     {
-        b.SetAttribute("placeholder", value);
+        b.SetAttribute("placeholder", placeholder);
     }
 
     /// <summary>
-    /// If `true`, the user cannot modify the value.
+    /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
     public static void SetReadonly(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("readonly", "");
     }
+
     /// <summary>
-    /// If `true`, the user cannot modify the value.
+    /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
-    public static void SetReadonly(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetReadonly(this AttributesBuilder<IonTextarea> b, bool @readonly)
     {
-        if (value) b.SetAttribute("readonly", "");
+        if (@readonly) b.SetAttribute("readonly", "");
     }
 
     /// <summary>
-    /// If `true`, the user must fill in a value before submitting a form.
+    /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
     public static void SetRequired(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("required", "");
     }
+
     /// <summary>
-    /// If `true`, the user must fill in a value before submitting a form.
+    /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
-    public static void SetRequired(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetRequired(this AttributesBuilder<IonTextarea> b, bool required)
     {
-        if (value) b.SetAttribute("required", "");
+        if (required) b.SetAttribute("required", "");
     }
 
     /// <summary>
-    /// The number of visible text lines for the control.
+    /// <para> The number of visible text lines for the control. </para>
     /// </summary>
-    public static void SetRows(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetRows(this AttributesBuilder<IonTextarea> b, string rows)
     {
-        b.SetAttribute("rows", value);
+        b.SetAttribute("rows", rows);
     }
 
     /// <summary>
-    /// The shape of the textarea. If "round" it will have an increased border radius.
+    /// <para> The shape of the textarea. If "round" it will have an increased border radius. </para>
     /// </summary>
-    public static void SetShape(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetShape(this AttributesBuilder<IonTextarea> b, string shape)
     {
-        b.SetAttribute("shape", value);
+        b.SetAttribute("shape", shape);
     }
+
     /// <summary>
-    /// The shape of the textarea. If "round" it will have an increased border radius.
+    /// <para> The shape of the textarea. If "round" it will have an increased border radius. </para>
     /// </summary>
     public static void SetShapeRound(this AttributesBuilder<IonTextarea> b)
     {
@@ -483,22 +529,23 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// If `true`, the element will have its spelling and grammar checked.
+    /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
     public static void SetSpellcheck(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("spellcheck", "");
     }
+
     /// <summary>
-    /// If `true`, the element will have its spelling and grammar checked.
+    /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
-    public static void SetSpellcheck(this AttributesBuilder<IonTextarea> b, bool value)
+    public static void SetSpellcheck(this AttributesBuilder<IonTextarea> b, bool spellcheck)
     {
-        if (value) b.SetAttribute("spellcheck", "");
+        if (spellcheck) b.SetAttribute("spellcheck", "");
     }
 
     /// <summary>
-    /// The value of the textarea.
+    /// <para> The value of the textarea. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<IonTextarea> b, string value)
     {
@@ -506,28 +553,31 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
-    public static void SetWrap(this AttributesBuilder<IonTextarea> b, string value)
+    public static void SetWrap(this AttributesBuilder<IonTextarea> b, string wrap)
     {
-        b.SetAttribute("wrap", value);
+        b.SetAttribute("wrap", wrap);
     }
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapHard(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("wrap", "hard");
     }
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapOff(this AttributesBuilder<IonTextarea> b)
     {
         b.SetAttribute("wrap", "off");
     }
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapSoft(this AttributesBuilder<IonTextarea> b)
     {
@@ -535,694 +585,804 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonTextarea(this LayoutBuilder b, Action<PropsBuilder<IonTextarea>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-textarea", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonTextarea(this LayoutBuilder b, Action<PropsBuilder<IonTextarea>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-textarea", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonTextarea(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-textarea", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonTextarea(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-textarea", children);
     }
     /// <summary>
-    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
+    /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
     public static void SetAutoGrow<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autoGrow"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
+    /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
-    public static void SetAutoGrow<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetAutoGrow<T>(this PropsBuilder<T> b, Var<bool> autoGrow) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autoGrow"), value);
-    }
-    /// <summary>
-    /// If `true`, the textarea container will grow and shrink based on the contents of the textarea.
-    /// </summary>
-    public static void SetAutoGrow<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autoGrow"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), autoGrow);
     }
 
     /// <summary>
-    /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
+    /// <para> If `true`, the textarea container will grow and shrink based on the contents of the textarea. </para>
     /// </summary>
-    public static void SetAutocapitalize<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetAutoGrow<T>(this PropsBuilder<T> b, bool autoGrow) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), b.Const(autoGrow));
     }
+
+
     /// <summary>
-    /// Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`.
+    /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
     /// </summary>
-    public static void SetAutocapitalize<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
+    public static void SetAutocapitalize<T>(this PropsBuilder<T> b, Var<string> autocapitalize) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), autocapitalize);
     }
 
     /// <summary>
-    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// <para> Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. Available options: `"off"`, `"none"`, `"on"`, `"sentences"`, `"words"`, `"characters"`. </para>
+    /// </summary>
+    public static void SetAutocapitalize<T>(this PropsBuilder<T> b, string autocapitalize) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const(autocapitalize));
+    }
+
+
+    /// <summary>
+    /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
     }
+
+
     /// <summary>
-    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
+    /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
     /// </summary>
-    public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), value);
-    }
-    /// <summary>
-    /// Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information.
-    /// </summary>
-    public static void SetAutofocus<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("autofocus"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
     }
 
     /// <summary>
-    /// If `true`, the value will be cleared after focus upon edit.
+    /// <para> Sets the [`autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus) on the native input element.  This may not be sufficient for the element to be focused on page load. See [managing focus](/docs/developing/managing-focus) for more information. </para>
+    /// </summary>
+    public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the value will be cleared after focus upon edit. </para>
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the value will be cleared after focus upon edit.
+    /// <para> If `true`, the value will be cleared after focus upon edit. </para>
     /// </summary>
-    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, Var<bool> clearOnEdit) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), value);
-    }
-    /// <summary>
-    /// If `true`, the value will be cleared after focus upon edit.
-    /// </summary>
-    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("clearOnEdit"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), clearOnEdit);
     }
 
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> If `true`, the value will be cleared after focus upon edit. </para>
+    /// </summary>
+    public static void SetClearOnEdit<T>(this PropsBuilder<T> b, bool clearOnEdit) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(clearOnEdit));
+    }
+
+
+    /// <summary>
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("danger"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("dark"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("light"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("primary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("secondary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("success"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("tertiary"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics). </para>
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("color"), b.Const("warning"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
     }
+
+
     /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+    /// <para> The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. </para>
     /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetCols<T>(this PropsBuilder<T> b, Var<int> cols) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), value);
-    }
-    /// <summary>
-    /// The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
-    /// </summary>
-    public static void SetColor<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), cols);
     }
 
     /// <summary>
-    /// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer.
+    /// <para> The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. </para>
     /// </summary>
-    public static void SetCols<T>(this PropsBuilder<T> b, Var<int> value) where T: IonTextarea
+    public static void SetCols<T>(this PropsBuilder<T> b, int cols) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), value);
-    }
-    /// <summary>
-    /// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer.
-    /// </summary>
-    public static void SetCols<T>(this PropsBuilder<T> b, int value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), b.Const(cols));
     }
 
+
     /// <summary>
-    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
+    /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
-    public static void SetCounter<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetCounter<T>(this PropsBuilder<T> b, Var<bool> counter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), value);
-    }
-    /// <summary>
-    /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
-    /// </summary>
-    public static void SetCounter<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("counter"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), counter);
     }
 
     /// <summary>
-    /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// <para> If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly. </para>
     /// </summary>
-    public static void SetCounterFormatter<T>(this PropsBuilder<T> b, Var<Func<int,int,string>> f) where T: IonTextarea
+    public static void SetCounter<T>(this PropsBuilder<T> b, bool counter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,int,string>>("counterFormatter"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(counter));
     }
+
+
     /// <summary>
-    /// A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback.
+    /// <para> A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetCounterFormatter<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<int>,Var<int>,Var<string>> f) where T: IonTextarea
+    public static void SetCounterFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,int,string>> counterFormatter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<int,int,string>>("counterFormatter"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), counterFormatter);
     }
 
     /// <summary>
-    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// <para> A callback used to format the counter text. By default the counter text is set to "itemLength / maxLength".  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> value) where T: IonTextarea
+    public static void SetCounterFormatter<T>(this PropsBuilder<T> b, System.Func<int,int,string> counterFormatter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), b.Const(counterFormatter));
     }
+
+
     /// <summary>
-    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
     /// </summary>
-    public static void SetDebounce<T>(this PropsBuilder<T> b, int value) where T: IonTextarea
+    public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
     }
 
     /// <summary>
-    /// If `true`, the user cannot interact with the textarea.
+    /// <para> Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke. </para>
+    /// </summary>
+    public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the user cannot interact with the textarea. </para>
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot interact with the textarea.
+    /// <para> If `true`, the user cannot interact with the textarea. </para>
     /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot interact with the textarea.
-    /// </summary>
-    public static void SetDisabled<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("disabled"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
     }
 
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> If `true`, the user cannot interact with the textarea. </para>
+    /// </summary>
+    public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+    }
+
+
+    /// <summary>
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("done"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("enter"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("go"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("next"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("previous"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("search"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
+    /// <para> A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`. </para>
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("enterkeyhint"), b.Const("send"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+    }
+
+
+    /// <summary>
+    /// <para> Text that is placed under the textarea and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
     }
 
     /// <summary>
-    /// Text that is placed under the textarea and displayed when an error is detected.
+    /// <para> Text that is placed under the textarea and displayed when an error is detected. </para>
     /// </summary>
-    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), value);
-    }
-    /// <summary>
-    /// Text that is placed under the textarea and displayed when an error is detected.
-    /// </summary>
-    public static void SetErrorText<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
     }
 
+
     /// <summary>
-    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("fill"), b.Const("outline"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
     }
+
+
     /// <summary>
-    /// The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode.
+    /// <para> The fill for the item. If `"solid"` the item will have a background. If `"outline"` the item will be transparent with a border. Only available in `md` mode. </para>
     /// </summary>
     public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("fill"), b.Const("solid"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
+    }
+
+
+    /// <summary>
+    /// <para> Text that is placed under the textarea and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
     }
 
     /// <summary>
-    /// Text that is placed under the textarea and displayed when no error is detected.
+    /// <para> Text that is placed under the textarea and displayed when no error is detected. </para>
     /// </summary>
-    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), value);
-    }
-    /// <summary>
-    /// Text that is placed under the textarea and displayed when no error is detected.
-    /// </summary>
-    public static void SetHelperText<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
     }
 
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("decimal"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("email"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("none"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("numeric"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("search"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("tel"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("text"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
     }
+
+
     /// <summary>
-    /// A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    /// <para> A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`. </para>
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("inputmode"), b.Const("url"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+    }
+
+
+    /// <summary>
+    /// <para> The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
+    /// </summary>
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used.
+    /// <para> The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used. </para>
     /// </summary>
-    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
-    }
-    /// <summary>
-    /// The visible label associated with the textarea.  Use this if you need to render a plaintext label.  The `label` property will take priority over the `label` slot if both are used.
-    /// </summary>
-    public static void SetLabel<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
 
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("end"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("fixed"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("floating"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("stacked"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
     }
+
+
     /// <summary>
-    /// Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+    /// <para> Where to place the label relative to the textarea. `"start"`: The label will appear to the left of the textarea in LTR and to the right in RTL. `"end"`: The label will appear to the right of the textarea in LTR and to the left in RTL. `"floating"`: The label will appear smaller and above the textarea when the textarea is focused or it has a value. Otherwise it will appear on top of the textarea. `"stacked"`: The label will appear smaller and above the textarea regardless even when the textarea is blurred or has no value. `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("..."). </para>
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("labelPlacement"), b.Const("start"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+    }
+
+
+    /// <summary>
+    /// <para> This attribute specifies the maximum number of characters that the user can enter. </para>
+    /// </summary>
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
     }
 
     /// <summary>
-    /// This attribute specifies the maximum number of characters that the user can enter.
+    /// <para> This attribute specifies the maximum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> value) where T: IonTextarea
+    public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
     }
+
+
     /// <summary>
-    /// This attribute specifies the maximum number of characters that the user can enter.
+    /// <para> This attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMaxlength<T>(this PropsBuilder<T> b, int value) where T: IonTextarea
+    public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
     }
 
     /// <summary>
-    /// This attribute specifies the minimum number of characters that the user can enter.
+    /// <para> This attribute specifies the minimum number of characters that the user can enter. </para>
     /// </summary>
-    public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> value) where T: IonTextarea
+    public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), value);
-    }
-    /// <summary>
-    /// This attribute specifies the minimum number of characters that the user can enter.
-    /// </summary>
-    public static void SetMinlength<T>(this PropsBuilder<T> b, int value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
     }
 
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+    }
+
+
+    /// <summary>
+    /// <para> The name of the control, which is submitted with the form data. </para>
+    /// </summary>
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
     }
+
+
     /// <summary>
-    /// The name of the control, which is submitted with the form data.
+    /// <para> Instructional text that shows before the input has a value. </para>
     /// </summary>
-    public static void SetName<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
     }
 
     /// <summary>
-    /// Instructional text that shows before the input has a value.
+    /// <para> Instructional text that shows before the input has a value. </para>
     /// </summary>
-    public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
+    public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), value);
-    }
-    /// <summary>
-    /// Instructional text that shows before the input has a value.
-    /// </summary>
-    public static void SetPlaceholder<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
     }
 
+
     /// <summary>
-    /// If `true`, the user cannot modify the value.
+    /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user cannot modify the value.
+    /// <para> If `true`, the user cannot modify the value. </para>
     /// </summary>
-    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), value);
-    }
-    /// <summary>
-    /// If `true`, the user cannot modify the value.
-    /// </summary>
-    public static void SetReadonly<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("readonly"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
     }
 
     /// <summary>
-    /// If `true`, the user must fill in a value before submitting a form.
+    /// <para> If `true`, the user cannot modify the value. </para>
+    /// </summary>
+    public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the user must fill in a value before submitting a form.
+    /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
-    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), value);
-    }
-    /// <summary>
-    /// If `true`, the user must fill in a value before submitting a form.
-    /// </summary>
-    public static void SetRequired<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
     }
 
     /// <summary>
-    /// The number of visible text lines for the control.
+    /// <para> If `true`, the user must fill in a value before submitting a form. </para>
     /// </summary>
-    public static void SetRows<T>(this PropsBuilder<T> b, Var<int> value) where T: IonTextarea
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
+
+
     /// <summary>
-    /// The number of visible text lines for the control.
+    /// <para> The number of visible text lines for the control. </para>
     /// </summary>
-    public static void SetRows<T>(this PropsBuilder<T> b, int value) where T: IonTextarea
+    public static void SetRows<T>(this PropsBuilder<T> b, Var<int> rows) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), rows);
     }
 
     /// <summary>
-    /// The shape of the textarea. If "round" it will have an increased border radius.
+    /// <para> The number of visible text lines for the control. </para>
+    /// </summary>
+    public static void SetRows<T>(this PropsBuilder<T> b, int rows) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(rows));
+    }
+
+
+    /// <summary>
+    /// <para> The shape of the textarea. If "round" it will have an increased border radius. </para>
     /// </summary>
     public static void SetShapeRound<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("shape"), b.Const("round"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("round"));
     }
 
+
     /// <summary>
-    /// If `true`, the element will have its spelling and grammar checked.
+    /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the element will have its spelling and grammar checked.
+    /// <para> If `true`, the element will have its spelling and grammar checked. </para>
     /// </summary>
-    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonTextarea
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), value);
-    }
-    /// <summary>
-    /// If `true`, the element will have its spelling and grammar checked.
-    /// </summary>
-    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool value) where T: IonTextarea
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("spellcheck"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
     }
 
     /// <summary>
-    /// The value of the textarea.
+    /// <para> If `true`, the element will have its spelling and grammar checked. </para>
+    /// </summary>
+    public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: IonTextarea
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+    }
+
+
+    /// <summary>
+    /// <para> The value of the textarea. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The value of the textarea.
+    /// <para> The value of the textarea. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapHard<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("wrap"), b.Const("hard"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("hard"));
     }
+
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapOff<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("wrap"), b.Const("off"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("off"));
     }
+
+
     /// <summary>
-    /// Indicates how the control wraps text.
+    /// <para> Indicates how the control wraps text. </para>
     /// </summary>
     public static void SetWrapSoft<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("wrap"), b.Const("soft"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("soft"));
     }
 
+
     /// <summary>
-    /// Emitted when the input loses focus.
+    /// <para> Emitted when the input loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, FocusEvent>> action) where TComponent: IonTextarea
     {
         b.OnEventAction("onionBlur", action, "detail");
     }
     /// <summary>
-    /// Emitted when the input loses focus.
+    /// <para> Emitted when the input loses focus. </para>
     /// </summary>
     public static void OnIonBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action) where TComponent: IonTextarea
     {
@@ -1230,14 +1390,14 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// The `ionChange` event is fired when the user modifies the textarea's value. Unlike the `ionInput` event, the `ionChange` event is fired when the element loses focus after its value has been modified.
+    /// <para> The `ionChange` event is fired when the user modifies the textarea's value. Unlike the `ionInput` event, the `ionChange` event is fired when the element loses focus after its value has been modified. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, TextareaChangeEventDetail>> action) where TComponent: IonTextarea
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// The `ionChange` event is fired when the user modifies the textarea's value. Unlike the `ionInput` event, the `ionChange` event is fired when the element loses focus after its value has been modified.
+    /// <para> The `ionChange` event is fired when the user modifies the textarea's value. Unlike the `ionInput` event, the `ionChange` event is fired when the element loses focus after its value has been modified. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TextareaChangeEventDetail>, Var<TModel>> action) where TComponent: IonTextarea
     {
@@ -1245,14 +1405,14 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// Emitted when the input has focus.
+    /// <para> Emitted when the input has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, FocusEvent>> action) where TComponent: IonTextarea
     {
         b.OnEventAction("onionFocus", action, "detail");
     }
     /// <summary>
-    /// Emitted when the input has focus.
+    /// <para> Emitted when the input has focus. </para>
     /// </summary>
     public static void OnIonFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<FocusEvent>, Var<TModel>> action) where TComponent: IonTextarea
     {
@@ -1260,14 +1420,14 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
-    /// The `ionInput` event is fired each time the user modifies the textarea's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the textarea's value. This typically happens for each keystroke as the user types.  When `clearOnEdit` is enabled, the `ionInput` event will be fired when the user clears the textarea by performing a keydown event.
+    /// <para> The `ionInput` event is fired each time the user modifies the textarea's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the textarea's value. This typically happens for each keystroke as the user types.  When `clearOnEdit` is enabled, the `ionInput` event will be fired when the user clears the textarea by performing a keydown event. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, TextareaInputEventDetail>> action) where TComponent: IonTextarea
     {
         b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
-    /// The `ionInput` event is fired each time the user modifies the textarea's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the textarea's value. This typically happens for each keystroke as the user types.  When `clearOnEdit` is enabled, the `ionInput` event will be fired when the user clears the textarea by performing a keydown event.
+    /// <para> The `ionInput` event is fired each time the user modifies the textarea's value. Unlike the `ionChange` event, the `ionInput` event is fired for each alteration to the textarea's value. This typically happens for each keystroke as the user types.  When `clearOnEdit` is enabled, the `ionInput` event will be fired when the user clears the textarea by performing a keydown event. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TextareaInputEventDetail>, Var<TModel>> action) where TComponent: IonTextarea
     {

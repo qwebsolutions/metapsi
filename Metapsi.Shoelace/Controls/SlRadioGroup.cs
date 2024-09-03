@@ -2,149 +2,43 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlRadioGroup : SlComponent
+public partial class SlRadioGroup
 {
-    public SlRadioGroup() : base("sl-radio-group") { }
     /// <summary>
-    /// The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead.
+    ///
     /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The radio groups's help text. If you need to display HTML, use the `help-text` slot instead.
-    /// </summary>
-    public string helpText
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("help-text");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("help-text", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The name of the radio group, submitted as a name/value pair with form data.
-    /// </summary>
-    public string name
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("name");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("name", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The current value of the radio group, submitted as a name/value pair with form data.
-    /// </summary>
-    public string value
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("value");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("value", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// The radio group's size. This size will be applied to all child radios and radio buttons.
-    /// </summary>
-    public string size
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("size");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("size", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
-    /// </summary>
-    public string form
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("form");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("form", value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Ensures a child radio is checked before allowing the containing form to submit.
-    /// </summary>
-    public bool required
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<bool>("required");
-        }
-        set
-        {
-            if (!value) return;
-            this.GetTag().SetAttribute("required", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The radio group's label. Required for proper accessibility. Alternatively, you can use the `label` attribute.
+        /// <summary>
+        /// <para> The radio group's label. Required for proper accessibility. Alternatively, you can use the `label` attribute. </para>
         /// </summary>
         public const string Label = "label";
-        /// <summary> 
-        /// Text that describes how to use the radio group. Alternatively, you can use the `help-text` attribute.
+        /// <summary>
+        /// <para> Text that describes how to use the radio group. Alternatively, you can use the `help-text` attribute. </para>
         /// </summary>
         public const string HelpText = "help-text";
     }
     public static class Method
     {
-        /// <summary> 
-        /// Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.
+        /// <summary>
+        /// <para> Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. </para>
         /// </summary>
         public const string CheckValidity = "checkValidity";
-        /// <summary> 
-        /// Gets the associated form, if one exists.
+        /// <summary>
+        /// <para> Gets the associated form, if one exists. </para>
         /// </summary>
         public const string GetForm = "getForm";
-        /// <summary> 
-        /// Checks for validity and shows the browser's validation message if the control is invalid.
+        /// <summary>
+        /// <para> Checks for validity and shows the browser's validation message if the control is invalid. </para>
         /// </summary>
         public const string ReportValidity = "reportValidity";
-        /// <summary> 
-        /// Sets a custom validation message. Pass an empty string to restore validity.
+        /// <summary>
+        /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
     }
@@ -153,224 +47,373 @@ public partial class SlRadioGroup : SlComponent
 public static partial class SlRadioGroupControl
 {
     /// <summary>
-    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<SlRadioGroup>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-radio-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-radio-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, Action<AttributesBuilder<SlRadioGroup>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio-group", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlRadioGroup(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-radio-group", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlRadioGroup> b, string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    /// <para> The radio groups's help text. If you need to display HTML, use the `help-text` slot instead. </para>
+    /// </summary>
+    public static void SetHelpText(this AttributesBuilder<SlRadioGroup> b, string helpText)
+    {
+        b.SetAttribute("help-text", helpText);
+    }
+
+    /// <summary>
+    /// <para> The name of the radio group, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetName(this AttributesBuilder<SlRadioGroup> b, string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> The current value of the radio group, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue(this AttributesBuilder<SlRadioGroup> b, string value)
+    {
+        b.SetAttribute("value", value);
+    }
+
+    /// <summary>
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
+    /// </summary>
+    public static void SetSize(this AttributesBuilder<SlRadioGroup> b, string size)
+    {
+        b.SetAttribute("size", size);
+    }
+
+    /// <summary>
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
+    /// </summary>
+    public static void SetSizeSmall(this AttributesBuilder<SlRadioGroup> b)
+    {
+        b.SetAttribute("size", "small");
+    }
+
+    /// <summary>
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
+    /// </summary>
+    public static void SetSizeMedium(this AttributesBuilder<SlRadioGroup> b)
+    {
+        b.SetAttribute("size", "medium");
+    }
+
+    /// <summary>
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
+    /// </summary>
+    public static void SetSizeLarge(this AttributesBuilder<SlRadioGroup> b)
+    {
+        b.SetAttribute("size", "large");
+    }
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm(this AttributesBuilder<SlRadioGroup> b, string form)
+    {
+        b.SetAttribute("form", form);
+    }
+
+    /// <summary>
+    /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlRadioGroup> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<SlRadioGroup> b, bool required)
+    {
+        if (required) b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Action<PropsBuilder<SlRadioGroup>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-radio-group", buildProps, children);
     }
     /// <summary>
-    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Action<PropsBuilder<SlRadioGroup>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-radio-group", buildProps, children);
     }
     /// <summary>
-    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-radio-group", children);
     }
     /// <summary>
-    /// Radio groups are used to group multiple [radios](/components/radio) or [radio buttons](/components/radio-button) so they function as a single form control.
+    ///
     /// </summary>
     public static Var<IVNode> SlRadioGroup(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-radio-group", children);
     }
     /// <summary>
-    /// The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead.
+    /// <para> The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRadioGroup> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
-    }
-    /// <summary>
-    /// The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead.
-    /// </summary>
-    public static void SetLabel(this PropsBuilder<SlRadioGroup> b, string value)
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
 
     /// <summary>
-    /// The radio groups's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The radio group's label. Required for proper accessibility. If you need to display HTML, use the `label` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlRadioGroup> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
+
     /// <summary>
-    /// The radio groups's help text. If you need to display HTML, use the `help-text` slot instead.
+    /// <para> The radio groups's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetHelpText(this PropsBuilder<SlRadioGroup> b, string value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("help-text"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
     }
 
     /// <summary>
-    /// The name of the radio group, submitted as a name/value pair with form data.
+    /// <para> The radio groups's help text. If you need to display HTML, use the `help-text` slot instead. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlRadioGroup> b, Var<string> value)
+    public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
     }
+
+
     /// <summary>
-    /// The name of the radio group, submitted as a name/value pair with form data.
+    /// <para> The name of the radio group, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetName(this PropsBuilder<SlRadioGroup> b, string value)
+    public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
     }
 
     /// <summary>
-    /// The current value of the radio group, submitted as a name/value pair with form data.
+    /// <para> The name of the radio group, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRadioGroup> b, Var<string> value)
+    public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> The current value of the radio group, submitted as a name/value pair with form data. </para>
+    /// </summary>
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
     }
+
     /// <summary>
-    /// The current value of the radio group, submitted as a name/value pair with form data.
+    /// <para> The current value of the radio group, submitted as a name/value pair with form data. </para>
     /// </summary>
-    public static void SetValue(this PropsBuilder<SlRadioGroup> b, string value)
+    public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
     }
 
+
     /// <summary>
-    /// The radio group's size. This size will be applied to all child radios and radio buttons.
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
     /// </summary>
-    public static void SetSizeSmall(this PropsBuilder<SlRadioGroup> b)
+    public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("small"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
     }
+
+
     /// <summary>
-    /// The radio group's size. This size will be applied to all child radios and radio buttons.
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
     /// </summary>
-    public static void SetSizeMedium(this PropsBuilder<SlRadioGroup> b)
+    public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("medium"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
     }
+
+
     /// <summary>
-    /// The radio group's size. This size will be applied to all child radios and radio buttons.
+    /// <para> The radio group's size. This size will be applied to all child radios and radio buttons. </para>
     /// </summary>
-    public static void SetSizeLarge(this PropsBuilder<SlRadioGroup> b)
+    public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("size"), b.Const("large"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+    }
+
+
+    /// <summary>
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// </summary>
+    public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
     }
 
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlRadioGroup> b, Var<string> value)
+    public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
     }
+
+
     /// <summary>
-    /// By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+    /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
     /// </summary>
-    public static void SetForm(this PropsBuilder<SlRadioGroup> b, string value)
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
     }
 
     /// <summary>
-    /// Ensures a child radio is checked before allowing the containing form to submit.
+    /// <para> Ensures a child radio is checked before allowing the containing form to submit. </para>
     /// </summary>
-    public static void SetRequired(this PropsBuilder<SlRadioGroup> b)
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlRadioGroup
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("required"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
 
+
     /// <summary>
-    /// Emitted when the radio group's selected value changes.
+    /// <para> Emitted when the radio group's selected value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the radio group's selected value changes.
+    /// <para> Emitted when the radio group's selected value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the radio group's selected value changes.
+    /// <para> Emitted when the radio group's selected value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
-    /// Emitted when the radio group's selected value changes.
+    /// <para> Emitted when the radio group's selected value changes. </para>
     /// </summary>
-    public static void OnSlChange<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the radio group receives user input.
+    /// <para> Emitted when the radio group receives user input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the radio group receives user input.
+    /// <para> Emitted when the radio group receives user input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the radio group receives user input.
+    /// <para> Emitted when the radio group receives user input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
-    /// Emitted when the radio group receives user input.
+    /// <para> Emitted when the radio group receives user input. </para>
     /// </summary>
-    public static void OnSlInput<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel, DomEvent>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }
 
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRadioGroup> b, Var<HyperType.Action<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TModel>(this PropsBuilder<SlRadioGroup> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action)
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: SlRadioGroup
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

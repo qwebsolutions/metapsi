@@ -1,8 +1,7 @@
-﻿using Metapsi.Ui;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
+
 
 namespace Metapsi.Html;
 
@@ -38,8 +37,6 @@ public class HtmlBuilder
     public static HtmlDocument FromDefault(Action<HtmlBuilder> build)
     {
         var b = new HtmlBuilder();
-        //b.Document.Attributes["lang"] = "en-US";
-        //b.Document.Attributes["dir"] = "ltr";
         b.HeadAppend(
             b.HtmlMeta(
                 b =>
@@ -90,8 +87,7 @@ public static class HtmlBuilderExtensions
     {
         foreach (var node in nodes)
         {
-            var html = node.ToString();
-            if (!b.Document.Head.Children.Select(x => x.ToHtml()).Contains(html))
+            if (!b.Document.Head.Children.Contains(node, new HtmlNodeComparer()))
             {
                 b.Document.Head.Children.Add(node);
             }
@@ -103,7 +99,7 @@ public static class HtmlBuilderExtensions
         b.Document.Body.Children.AddRange(nodes);
     }
 
-    public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, params IHtmlNode[] children)
+    public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
         return new HtmlTag(tagName)
         {
@@ -112,32 +108,78 @@ public static class HtmlBuilderExtensions
         };
     }
 
+    public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, params IHtmlNode[] children)
+    {
+        return b.Tag(tagName, attributes, children.ToList());
+    }
+
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, params IHtmlNode[] children)
     {
-        return new HtmlTag(tagName)
-        {
-            Attributes = new Dictionary<string, string>(),
-            Children = children.ToList()
-        };
+        return b.Tag(tagName, children.ToList());
     }
 
-    public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Action<AttributesBuilder<object>> buildAttributes, params IHtmlNode[] children)
+    public static IHtmlNode Tag(this HtmlBuilder b, string tagName, List<IHtmlNode> children)
     {
-        AttributesBuilder<object> builder = new();
-        buildAttributes(builder);
-        return b.Tag(tagName, builder.Attributes, children);
+        return b.Tag(tagName, new Dictionary<string, string>(), children);
     }
 
-    public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, params IHtmlNode[] children)
+    //public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Action<AttributesBuilder<object>> buildAttributes, params IHtmlNode[] children)
+    //{
+    //    AttributesBuilder<object> builder = new();
+    //    buildAttributes(builder);
+    //    return b.Tag(tagName, builder.Attributes, children);
+    //}
+
+    public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, List<IHtmlNode> children)
     {
         AttributesBuilder<TTag> builder = new();
         buildAttributes(builder);
         return b.Tag(tagName, builder.Attributes, children);
     }
 
+    public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.Tag(tagName, buildAttributes, children.ToList());
+    }
+
     public static IHtmlNode Text(this HtmlBuilder b, string text)
     {
         return new HtmlText(text);
+    }
+
+    public static void AddStylesheet(this HtmlBuilder b, string href)
+    {
+        if (!href.StartsWith("http"))
+        {
+            // If it is not absolute path, make it absolute
+            href = $"/{href}".Replace("//", "/");
+        }
+        b.HeadAppend(
+            b.HtmlLink(
+                b =>
+                {
+                    b.SetHref(href);
+                    b.SetRel("stylesheet");
+                }));
+    }
+
+    public static void AddScript(this HtmlBuilder b, string src, string type = null)
+    {
+        b.HeadAppend(
+            b.HtmlScript(
+                b =>
+                {
+                    b.SetSrc(src);
+                    if (!string.IsNullOrEmpty(type))
+                    {
+                        b.SetType(type);
+                    }
+                }));
+    }
+
+    public static void AddScriptModule(this HtmlBuilder b, string src)
+    {
+        b.AddScript(src, "module");
     }
 
     public static void AddModuleStylesheet(this HtmlBuilder b)
@@ -148,7 +190,7 @@ public static class HtmlBuilderExtensions
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", cssName);
+            b.SetAttribute("href", "/" + cssName);
         }));
     }
 

@@ -2,35 +2,20 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Shoelace;
 
 
-public partial class SlBreadcrumb : SlComponent
+public partial class SlBreadcrumb
 {
-    public SlBreadcrumb() : base("sl-breadcrumb") { }
     /// <summary>
-    /// The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users.
+    ///
     /// </summary>
-    public string label
-    {
-        get
-        {
-            return this.GetTag().GetAttribute<string>("label");
-        }
-        set
-        {
-            this.GetTag().SetAttribute("label", value.ToString());
-        }
-    }
-
     public static class Slot
     {
-        /// <summary> 
-        /// The separator to use between breadcrumb items. Works best with `<sl-icon>`.
+        /// <summary>
+        /// <para> The separator to use between breadcrumb items. Works best with `&lt;sl-icon&gt;`. </para>
         /// </summary>
         public const string Separator = "separator";
     }
@@ -39,47 +24,85 @@ public partial class SlBreadcrumb : SlComponent
 public static partial class SlBreadcrumbControl
 {
     /// <summary>
-    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumb>> buildAttributes, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-breadcrumb", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, params IHtmlNode[] children)
+    {
+        return b.SlTag("sl-breadcrumb", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, Action<AttributesBuilder<SlBreadcrumb>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode SlBreadcrumb(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.SlTag("sl-breadcrumb", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users. </para>
+    /// </summary>
+    public static void SetLabel(this AttributesBuilder<SlBreadcrumb> b, string label)
+    {
+        b.SetAttribute("label", label);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumb>> buildProps, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-breadcrumb", buildProps, children);
     }
     /// <summary>
-    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Action<PropsBuilder<SlBreadcrumb>> buildProps, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-breadcrumb", buildProps, children);
     }
     /// <summary>
-    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.SlNode("sl-breadcrumb", children);
     }
     /// <summary>
-    /// Breadcrumbs provide a group of links so users can easily navigate a website's hierarchy.
+    ///
     /// </summary>
     public static Var<IVNode> SlBreadcrumb(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.SlNode("sl-breadcrumb", children);
     }
     /// <summary>
-    /// The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users.
+    /// <para> The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlBreadcrumb> b, Var<string> value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
     }
+
     /// <summary>
-    /// The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users.
+    /// <para> The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by screen readers and other assistive devices to provide more context for users. </para>
     /// </summary>
-    public static void SetLabel(this PropsBuilder<SlBreadcrumb> b, string value)
+    public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
     }
+
 
 }
 

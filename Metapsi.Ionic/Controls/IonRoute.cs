@@ -2,162 +2,183 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonRoute : IonComponent
+public partial class IonRoute
 {
-    public IonRoute() : base("ion-route") { }
 }
 
 public static partial class IonRouteControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRoute(this HtmlBuilder b, Action<AttributesBuilder<IonRoute>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-route", buildAttributes, children);
+        return b.IonicTag("ion-route", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonRoute(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-route", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-route", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select.
+    ///
     /// </summary>
-    public static void SetComponent(this AttributesBuilder<IonRoute> b, string value)
+    public static IHtmlNode IonRoute(this HtmlBuilder b, Action<AttributesBuilder<IonRoute>> buildAttributes, List<IHtmlNode> children)
     {
-        b.SetAttribute("component", value);
+        return b.IonicTag("ion-route", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonRoute(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-route", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select. </para>
+    /// </summary>
+    public static void SetComponent(this AttributesBuilder<IonRoute> b, string component)
+    {
+        b.SetAttribute("component", component);
     }
 
     /// <summary>
-    /// Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props.
+    /// <para> Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props. </para>
     /// </summary>
-    public static void SetUrl(this AttributesBuilder<IonRoute> b, string value)
+    public static void SetUrl(this AttributesBuilder<IonRoute> b, string url)
     {
-        b.SetAttribute("url", value);
+        b.SetAttribute("url", url);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRoute(this LayoutBuilder b, Action<PropsBuilder<IonRoute>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-route", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRoute(this LayoutBuilder b, Action<PropsBuilder<IonRoute>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-route", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRoute(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-route", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonRoute(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-route", children);
     }
     /// <summary>
-    /// A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified.
+    /// <para> A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Var<Func<object>> f) where T: IonRoute
+    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Var<System.Func<object>> beforeEnter) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object>>("beforeEnter"), f);
-    }
-    /// <summary>
-    /// A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified.
-    /// </summary>
-    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>> f) where T: IonRoute
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object>>("beforeEnter"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object>>("beforeEnter"), beforeEnter);
     }
 
     /// <summary>
-    /// A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified.
+    /// <para> A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Var<Func<object>> f) where T: IonRoute
+    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, System.Func<object> beforeEnter) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object>>("beforeLeave"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object>>("beforeEnter"), b.Const(beforeEnter));
     }
+
+
     /// <summary>
-    /// A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified.
+    /// <para> A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>> f) where T: IonRoute
+    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Var<System.Func<object>> beforeLeave) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object>>("beforeLeave"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object>>("beforeLeave"), beforeLeave);
     }
 
     /// <summary>
-    /// Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select.
+    /// <para> A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRoute
+    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, System.Func<object> beforeLeave) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object>>("beforeLeave"), b.Const(beforeLeave));
     }
+
+
     /// <summary>
-    /// Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select.
+    /// <para> Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select. </para>
     /// </summary>
-    public static void SetComponent<T>(this PropsBuilder<T> b, string value) where T: IonRoute
+    public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> component) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), component);
     }
 
     /// <summary>
-    /// A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered.
+    /// <para> Name of the component to load/select in the navigation outlet (`ion-tabs`, `ion-nav`) when the route matches.  The value of this property is not always the tagname of the component to load, in `ion-tabs` it actually refers to the name of the `ion-tab` to select. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonRoute
+    public static void SetComponent<T>(this PropsBuilder<T> b, string component) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(component));
     }
+
+
     /// <summary>
-    /// A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered.
+    /// <para> A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonRoute
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), componentProps);
     }
 
     /// <summary>
-    /// Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props.
+    /// <para> A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered. </para>
     /// </summary>
-    public static void SetUrl<T>(this PropsBuilder<T> b, Var<string> value) where T: IonRoute
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(componentProps));
     }
+
+
     /// <summary>
-    /// Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props.
+    /// <para> Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props. </para>
     /// </summary>
-    public static void SetUrl<T>(this PropsBuilder<T> b, string value) where T: IonRoute
+    public static void SetUrl<T>(this PropsBuilder<T> b, Var<string> url) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), url);
     }
 
     /// <summary>
-    /// Used internally by `ion-router` to know when this route did change.
+    /// <para> Relative path that needs to match in order for this route to apply.  Accepts paths similar to expressjs so that you can define parameters in the url /foo/:bar where bar would be available in incoming props. </para>
+    /// </summary>
+    public static void SetUrl<T>(this PropsBuilder<T> b, string url) where T: IonRoute
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), b.Const(url));
+    }
+
+
+    /// <summary>
+    /// <para> Used internally by `ion-router` to know when this route did change. </para>
     /// </summary>
     public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonRoute
     {
         b.OnEventAction("onionRouteDataChanged", action, "detail");
     }
     /// <summary>
-    /// Used internally by `ion-router` to know when this route did change.
+    /// <para> Used internally by `ion-router` to know when this route did change. </para>
     /// </summary>
     public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonRoute
     {

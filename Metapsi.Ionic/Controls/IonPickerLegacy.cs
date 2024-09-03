@@ -2,44 +2,41 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ui;
 using Metapsi.Html;
-using Metapsi.Dom;
 
 namespace Metapsi.Ionic;
 
 
-public partial class IonPickerLegacy : IonComponent
+public partial class IonPickerLegacy
 {
-    public IonPickerLegacy() : base("ion-picker-legacy") { }
     public static class Method
     {
-        /// <summary> 
-        /// Dismiss the picker overlay after it has been presented.
-        /// <para>(data?: any, role?: string) =&gt; Promise&lt;boolean&gt;</para>
-        /// <para>data Any data to emit in the dismiss events.</para>
-        /// <para>role The role of the element that is dismissing the picker. This can be useful in a button handler for determining which button was clicked to dismiss the picker. Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`.</para>
+        /// <summary>
+        /// <para> Dismiss the picker overlay after it has been presented. </para>
+        /// <para> (data?: any, role?: string) =&gt; Promise&lt;boolean&gt; </para>
+        /// <para> data Any data to emit in the dismiss events. </para>
+        /// <para> role The role of the element that is dismissing the picker. This can be useful in a button handler for determining which button was clicked to dismiss the picker. Some examples include: ``"cancel"`, `"destructive"`, "selected"`, and `"backdrop"`. </para>
         /// </summary>
         public const string Dismiss = "dismiss";
-        /// <summary> 
-        /// Get the column that matches the specified name.
-        /// <para>(name: string) =&gt; Promise&lt;PickerColumn | undefined&gt;</para>
-        /// <para>name The name of the column.</para>
+        /// <summary>
+        /// <para> Get the column that matches the specified name. </para>
+        /// <para> (name: string) =&gt; Promise&lt;PickerColumn | undefined&gt; </para>
+        /// <para> name The name of the column. </para>
         /// </summary>
         public const string GetColumn = "getColumn";
-        /// <summary> 
-        /// Returns a promise that resolves when the picker did dismiss.
-        /// <para>&lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt;</para>
+        /// <summary>
+        /// <para> Returns a promise that resolves when the picker did dismiss. </para>
+        /// <para> &lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt; </para>
         /// </summary>
         public const string OnDidDismiss = "onDidDismiss";
-        /// <summary> 
-        /// Returns a promise that resolves when the picker will dismiss.
-        /// <para>&lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt;</para>
+        /// <summary>
+        /// <para> Returns a promise that resolves when the picker will dismiss. </para>
+        /// <para> &lt;T = any&gt;() =&gt; Promise&lt;OverlayEventDetail&lt;T&gt;&gt; </para>
         /// </summary>
         public const string OnWillDismiss = "onWillDismiss";
-        /// <summary> 
-        /// Present the picker overlay after it has been created.
-        /// <para>() =&gt; Promise&lt;void&gt;</para>
+        /// <summary>
+        /// <para> Present the picker overlay after it has been created. </para>
+        /// <para> () =&gt; Promise&lt;void&gt; </para>
         /// </summary>
         public const string Present = "present";
     }
@@ -48,111 +45,131 @@ public partial class IonPickerLegacy : IonComponent
 public static partial class IonPickerLegacyControl
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, Action<AttributesBuilder<IonPickerLegacy>> buildAttributes, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-legacy", buildAttributes, children);
+        return b.IonicTag("ion-picker-legacy", buildAttributes, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, params IHtmlNode[] children)
     {
-        return b.Tag("ion-picker-legacy", new Dictionary<string, string>(), children);
+        return b.IonicTag("ion-picker-legacy", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// If `true`, the picker will animate.
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, Action<AttributesBuilder<IonPickerLegacy>> buildAttributes, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-legacy", buildAttributes, children);
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    public static IHtmlNode IonPickerLegacy(this HtmlBuilder b, List<IHtmlNode> children)
+    {
+        return b.IonicTag("ion-picker-legacy", new Dictionary<string, string>(), children);
+    }
+    /// <summary>
+    /// <para> If `true`, the picker will animate. </para>
     /// </summary>
     public static void SetAnimated(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("animated", "");
     }
+
     /// <summary>
-    /// If `true`, the picker will animate.
+    /// <para> If `true`, the picker will animate. </para>
     /// </summary>
-    public static void SetAnimated(this AttributesBuilder<IonPickerLegacy> b, bool value)
+    public static void SetAnimated(this AttributesBuilder<IonPickerLegacy> b, bool animated)
     {
-        if (value) b.SetAttribute("animated", "");
+        if (animated) b.SetAttribute("animated", "");
     }
 
     /// <summary>
-    /// If `true`, the picker will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
     public static void SetBackdropDismiss(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("backdrop-dismiss", "");
     }
+
     /// <summary>
-    /// If `true`, the picker will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss(this AttributesBuilder<IonPickerLegacy> b, bool value)
+    public static void SetBackdropDismiss(this AttributesBuilder<IonPickerLegacy> b, bool backdropDismiss)
     {
-        if (value) b.SetAttribute("backdrop-dismiss", "");
+        if (backdropDismiss) b.SetAttribute("backdrop-dismiss", "");
     }
 
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass(this AttributesBuilder<IonPickerLegacy> b, string value)
+    public static void SetCssClass(this AttributesBuilder<IonPickerLegacy> b, string cssClass)
     {
-        b.SetAttribute("css-class", value);
+        b.SetAttribute("css-class", cssClass);
     }
 
     /// <summary>
-    /// Number of milliseconds to wait before dismissing the picker.
+    /// <para> Number of milliseconds to wait before dismissing the picker. </para>
     /// </summary>
-    public static void SetDuration(this AttributesBuilder<IonPickerLegacy> b, string value)
+    public static void SetDuration(this AttributesBuilder<IonPickerLegacy> b, string duration)
     {
-        b.SetAttribute("duration", value);
+        b.SetAttribute("duration", duration);
     }
 
     /// <summary>
-    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
+    /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
     /// </summary>
     public static void SetIsOpen(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("is-open", "");
     }
+
     /// <summary>
-    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
+    /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen(this AttributesBuilder<IonPickerLegacy> b, bool value)
+    public static void SetIsOpen(this AttributesBuilder<IonPickerLegacy> b, bool isOpen)
     {
-        if (value) b.SetAttribute("is-open", "");
+        if (isOpen) b.SetAttribute("is-open", "");
     }
 
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
     public static void SetKeyboardClose(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("keyboard-close", "");
     }
+
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose(this AttributesBuilder<IonPickerLegacy> b, bool value)
+    public static void SetKeyboardClose(this AttributesBuilder<IonPickerLegacy> b, bool keyboardClose)
     {
-        if (value) b.SetAttribute("keyboard-close", "");
+        if (keyboardClose) b.SetAttribute("keyboard-close", "");
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
-    public static void SetMode(this AttributesBuilder<IonPickerLegacy> b, string value)
+    public static void SetMode(this AttributesBuilder<IonPickerLegacy> b, string mode)
     {
-        b.SetAttribute("mode", value);
+        b.SetAttribute("mode", mode);
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("mode", "ios");
     }
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd(this AttributesBuilder<IonPickerLegacy> b)
     {
@@ -160,324 +177,367 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// If `true`, a backdrop will be displayed behind the picker.
+    /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
     public static void SetShowBackdrop(this AttributesBuilder<IonPickerLegacy> b)
     {
         b.SetAttribute("show-backdrop", "");
     }
+
     /// <summary>
-    /// If `true`, a backdrop will be displayed behind the picker.
+    /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
-    public static void SetShowBackdrop(this AttributesBuilder<IonPickerLegacy> b, bool value)
+    public static void SetShowBackdrop(this AttributesBuilder<IonPickerLegacy> b, bool showBackdrop)
     {
-        if (value) b.SetAttribute("show-backdrop", "");
+        if (showBackdrop) b.SetAttribute("show-backdrop", "");
     }
 
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the picker to open when clicked.
+    /// <para> An ID corresponding to the trigger element that causes the picker to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger(this AttributesBuilder<IonPickerLegacy> b, string value)
+    public static void SetTrigger(this AttributesBuilder<IonPickerLegacy> b, string trigger)
     {
-        b.SetAttribute("trigger", value);
+        b.SetAttribute("trigger", trigger);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPickerLegacy(this LayoutBuilder b, Action<PropsBuilder<IonPickerLegacy>> buildProps, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-picker-legacy", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPickerLegacy(this LayoutBuilder b, Action<PropsBuilder<IonPickerLegacy>> buildProps, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-picker-legacy", buildProps, children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPickerLegacy(this LayoutBuilder b, Var<List<IVNode>> children)
     {
         return b.IonicNode("ion-picker-legacy", children);
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static Var<IVNode> IonPickerLegacy(this LayoutBuilder b, params Var<IVNode>[] children)
     {
         return b.IonicNode("ion-picker-legacy", children);
     }
     /// <summary>
-    /// If `true`, the picker will animate.
+    /// <para> If `true`, the picker will animate. </para>
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the picker will animate.
+    /// <para> If `true`, the picker will animate. </para>
     /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPickerLegacy
+    public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), value);
-    }
-    /// <summary>
-    /// If `true`, the picker will animate.
-    /// </summary>
-    public static void SetAnimated<T>(this PropsBuilder<T> b, bool value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("animated"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
     }
 
     /// <summary>
-    /// If `true`, the picker will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the picker will animate. </para>
+    /// </summary>
+    public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the picker will be dismissed when the backdrop is clicked.
+    /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPickerLegacy
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> backdropDismiss) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), value);
-    }
-    /// <summary>
-    /// If `true`, the picker will be dismissed when the backdrop is clicked.
-    /// </summary>
-    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("backdropDismiss"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), backdropDismiss);
     }
 
     /// <summary>
-    /// Array of buttons to be displayed at the top of the picker.
+    /// <para> If `true`, the picker will be dismissed when the backdrop is clicked. </para>
     /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<PickerButton>> value) where T: IonPickerLegacy
+    public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool backdropDismiss) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<PickerButton>>("buttons"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(backdropDismiss));
     }
+
+
     /// <summary>
-    /// Array of buttons to be displayed at the top of the picker.
+    /// <para> Array of buttons to be displayed at the top of the picker. </para>
     /// </summary>
-    public static void SetButtons<T>(this PropsBuilder<T> b, List<PickerButton> value) where T: IonPickerLegacy
+    public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<PickerButton>> buttons) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<PickerButton>>("buttons"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<PickerButton>>("buttons"), buttons);
     }
 
     /// <summary>
-    /// Array of columns to be displayed in the picker.
+    /// <para> Array of buttons to be displayed at the top of the picker. </para>
     /// </summary>
-    public static void SetColumns<T>(this PropsBuilder<T> b, Var<List<PickerColumn>> value) where T: IonPickerLegacy
+    public static void SetButtons<T>(this PropsBuilder<T> b, List<PickerButton> buttons) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<PickerColumn>>("columns"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<List<PickerButton>>("buttons"), b.Const(buttons));
     }
+
+
     /// <summary>
-    /// Array of columns to be displayed in the picker.
+    /// <para> Array of columns to be displayed in the picker. </para>
     /// </summary>
-    public static void SetColumns<T>(this PropsBuilder<T> b, List<PickerColumn> value) where T: IonPickerLegacy
+    public static void SetColumns<T>(this PropsBuilder<T> b, Var<List<PickerColumn>> columns) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<PickerColumn>>("columns"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<PickerColumn>>("columns"), columns);
     }
 
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Array of columns to be displayed in the picker. </para>
     /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> value) where T: IonPickerLegacy
+    public static void SetColumns<T>(this PropsBuilder<T> b, List<PickerColumn> columns) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<List<PickerColumn>>("columns"), b.Const(columns));
     }
+
+
     /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, string value) where T: IonPickerLegacy
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> cssClass) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(value));
-    }
-    /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
-    /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), value);
-    }
-    /// <summary>
-    /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
-    /// </summary>
-    public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), cssClass);
     }
 
     /// <summary>
-    /// Number of milliseconds to wait before dismissing the picker.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> value) where T: IonPickerLegacy
+    public static void SetCssClass<T>(this PropsBuilder<T> b, string cssClass) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(cssClass));
     }
+
+
     /// <summary>
-    /// Number of milliseconds to wait before dismissing the picker.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetDuration<T>(this PropsBuilder<T> b, int value) where T: IonPickerLegacy
+    public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> cssClass) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), cssClass);
     }
 
     /// <summary>
-    /// Animation to use when the picker is presented.
+    /// <para> Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonPickerLegacy
+    public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> cssClass) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(cssClass));
     }
+
+
     /// <summary>
-    /// Animation to use when the picker is presented.
+    /// <para> Number of milliseconds to wait before dismissing the picker. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonPickerLegacy
+    public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("enterAnimation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
     }
 
     /// <summary>
-    /// Additional attributes to pass to the picker.
+    /// <para> Number of milliseconds to wait before dismissing the picker. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonPickerLegacy
+    public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
     }
+
+
     /// <summary>
-    /// Additional attributes to pass to the picker.
+    /// <para> Animation to use when the picker is presented. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonPickerLegacy
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
-    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
+    /// <para> Animation to use when the picker is presented. </para>
+    /// </summary>
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), b.Const(enterAnimation));
+    }
+
+
+    /// <summary>
+    /// <para> Additional attributes to pass to the picker. </para>
+    /// </summary>
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+    }
+
+    /// <summary>
+    /// <para> Additional attributes to pass to the picker. </para>
+    /// </summary>
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
+    /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
     /// </summary>
-    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPickerLegacy
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), value);
-    }
-    /// <summary>
-    /// If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code.
-    /// </summary>
-    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("isOpen"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
     }
 
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the picker will open. If `false`, the picker will close. Use this if you need finer grained control over presentation, otherwise just use the pickerController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the picker dismisses. You will need to do that in your code. </para>
+    /// </summary>
+    public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPickerLegacy
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), value);
-    }
-    /// <summary>
-    /// If `true`, the keyboard will be automatically dismissed when the overlay is presented.
-    /// </summary>
-    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("keyboardClose"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
-    /// Animation to use when the picker is dismissed.
+    /// <para> If `true`, the keyboard will be automatically dismissed when the overlay is presented. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<Func<object,object,Animation>> f) where T: IonPickerLegacy
+    public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), f);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
     }
+
+
     /// <summary>
-    /// Animation to use when the picker is dismissed.
+    /// <para> Animation to use when the picker is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Func<SyntaxBuilder,Var<object>,Var<object>,Var<Animation>> f) where T: IonPickerLegacy
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Func<object,object,Animation>>("leaveAnimation"), b.Def(f));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> Animation to use when the picker is dismissed. </para>
+    /// </summary>
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+    }
+
+
+    /// <summary>
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("ios"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
     }
+
+
     /// <summary>
-    /// The mode determines which platform styles to use.
+    /// <para> The mode determines which platform styles to use. </para>
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.String("mode"), b.Const("md"));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
     }
 
+
     /// <summary>
-    /// If `true`, a backdrop will be displayed behind the picker.
+    /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(true));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(true));
     }
+
+
     /// <summary>
-    /// If `true`, a backdrop will be displayed behind the picker.
+    /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
-    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> value) where T: IonPickerLegacy
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> showBackdrop) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), value);
-    }
-    /// <summary>
-    /// If `true`, a backdrop will be displayed behind the picker.
-    /// </summary>
-    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool value) where T: IonPickerLegacy
-    {
-        b.SetDynamic(b.Props, DynamicProperty.Bool("showBackdrop"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), showBackdrop);
     }
 
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the picker to open when clicked.
+    /// <para> If `true`, a backdrop will be displayed behind the picker. </para>
     /// </summary>
-    public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> value) where T: IonPickerLegacy
+    public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool showBackdrop) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(showBackdrop));
     }
+
+
     /// <summary>
-    /// An ID corresponding to the trigger element that causes the picker to open when clicked.
+    /// <para> An ID corresponding to the trigger element that causes the picker to open when clicked. </para>
     /// </summary>
-    public static void SetTrigger<T>(this PropsBuilder<T> b, string value) where T: IonPickerLegacy
+    public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonPickerLegacy
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
     }
 
     /// <summary>
-    /// Emitted after the picker has dismissed. Shorthand for ionPickerDidDismiss.
+    /// <para> An ID corresponding to the trigger element that causes the picker to open when clicked. </para>
+    /// </summary>
+    public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonPickerLegacy
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+    }
+
+
+    /// <summary>
+    /// <para> Emitted after the picker has dismissed. Shorthand for ionPickerDidDismiss. </para>
     /// </summary>
     public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("ondidDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted after the picker has dismissed. Shorthand for ionPickerDidDismiss.
+    /// <para> Emitted after the picker has dismissed. Shorthand for ionPickerDidDismiss. </para>
     /// </summary>
     public static void OnDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -485,14 +545,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted after the picker has presented. Shorthand for ionPickerWillDismiss.
+    /// <para> Emitted after the picker has presented. Shorthand for ionPickerWillDismiss. </para>
     /// </summary>
     public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("ondidPresent", action);
     }
     /// <summary>
-    /// Emitted after the picker has presented. Shorthand for ionPickerWillDismiss.
+    /// <para> Emitted after the picker has presented. Shorthand for ionPickerWillDismiss. </para>
     /// </summary>
     public static void OnDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -500,14 +560,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted after the picker has dismissed.
+    /// <para> Emitted after the picker has dismissed. </para>
     /// </summary>
     public static void OnIonPickerDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onionPickerDidDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted after the picker has dismissed.
+    /// <para> Emitted after the picker has dismissed. </para>
     /// </summary>
     public static void OnIonPickerDidDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -515,14 +575,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted after the picker has presented.
+    /// <para> Emitted after the picker has presented. </para>
     /// </summary>
     public static void OnIonPickerDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onionPickerDidPresent", action);
     }
     /// <summary>
-    /// Emitted after the picker has presented.
+    /// <para> Emitted after the picker has presented. </para>
     /// </summary>
     public static void OnIonPickerDidPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -530,14 +590,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted before the picker has dismissed.
+    /// <para> Emitted before the picker has dismissed. </para>
     /// </summary>
     public static void OnIonPickerWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onionPickerWillDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted before the picker has dismissed.
+    /// <para> Emitted before the picker has dismissed. </para>
     /// </summary>
     public static void OnIonPickerWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -545,14 +605,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted before the picker has presented.
+    /// <para> Emitted before the picker has presented. </para>
     /// </summary>
     public static void OnIonPickerWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onionPickerWillPresent", action);
     }
     /// <summary>
-    /// Emitted before the picker has presented.
+    /// <para> Emitted before the picker has presented. </para>
     /// </summary>
     public static void OnIonPickerWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -560,14 +620,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted before the picker has dismissed. Shorthand for ionPickerWillDismiss.
+    /// <para> Emitted before the picker has dismissed. Shorthand for ionPickerWillDismiss. </para>
     /// </summary>
     public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, OverlayEventDetail>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onwillDismiss", action, "detail");
     }
     /// <summary>
-    /// Emitted before the picker has dismissed. Shorthand for ionPickerWillDismiss.
+    /// <para> Emitted before the picker has dismissed. Shorthand for ionPickerWillDismiss. </para>
     /// </summary>
     public static void OnWillDismiss<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<OverlayEventDetail>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
@@ -575,14 +635,14 @@ public static partial class IonPickerLegacyControl
     }
 
     /// <summary>
-    /// Emitted before the picker has presented. Shorthand for ionPickerWillPresent.
+    /// <para> Emitted before the picker has presented. Shorthand for ionPickerWillPresent. </para>
     /// </summary>
     public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonPickerLegacy
     {
         b.OnEventAction("onwillPresent", action);
     }
     /// <summary>
-    /// Emitted before the picker has presented. Shorthand for ionPickerWillPresent.
+    /// <para> Emitted before the picker has presented. Shorthand for ionPickerWillPresent. </para>
     /// </summary>
     public static void OnWillPresent<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonPickerLegacy
     {
