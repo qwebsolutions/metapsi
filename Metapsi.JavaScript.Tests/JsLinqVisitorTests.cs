@@ -31,7 +31,10 @@ public class JsLinqVisitorTests
 
         //Expect((Entity x, Guid paramId) => x.Children.Where(x => x.StringProperty != paramId.ToString()).ToList(), "");
         //Expect((Entity p) => !(p.StringProperty == "abc"), "");
-        Expect((Entity e, EntityType t) => e.EntityType == t, "");
+        //Expect((Entity e, EntityType t) => e.EntityType == t, "");
+        Expect(
+            (Entity e) => !((e.StringProperty == e.InnerEntity.StringProperty || e.StringProperty != e.InnerEntity.InnerEntity.StringProperty) && e.InnerEntity.IntProperty == e.IntProperty),
+            "");
     }
 
     public enum EntityType

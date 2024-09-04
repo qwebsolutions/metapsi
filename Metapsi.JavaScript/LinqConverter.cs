@@ -25,9 +25,13 @@ namespace Metapsi.JavaScript
 
         protected override Expression VisitBinary(BinaryExpression node)
         {
+            jsBuilder.Append("(");
             Visit(node.Left);
+            jsBuilder.Append(" ");
             jsBuilder.Append(GetOperator(node.NodeType));
+            jsBuilder.Append(" ");
             Visit(node.Right);
+            jsBuilder.Append(")");
             return node;
         }
 
@@ -374,7 +378,9 @@ namespace Metapsi.JavaScript
             else
             {
                 jsBuilder.Append(GetOperator(node.NodeType));
+                //jsBuilder.Append("(");
                 base.Visit(node.Operand);
+                //jsBuilder.Append(")");
             }
 
             return node;
