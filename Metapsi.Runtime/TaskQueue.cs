@@ -57,4 +57,36 @@ namespace Metapsi
             await tcs.Task;
         }
     }
+
+    public class TaskQueue<T>
+    {
+        private TaskQueue taskQueue = new TaskQueue();
+        public T State { get; set; } = default(T);
+
+        public TaskQueue(T state)
+        {
+            this.State = state;
+        }
+
+        public void StopProcessing()
+        {
+            this.taskQueue.StopProcessing();
+        }
+
+        public async Task<TResult> Enqueue<TResult>(System.Func<T, Task<TResult>> task)
+        {
+            return await taskQueue.Enqueue(async () =>
+            {
+                return await task(this.State);
+            });
+        }
+
+        public async Task Enqueue(System.Func<T, Task> task)
+        {
+            await taskQueue.Enqueue(async () =>
+            {
+                await task(this.State);
+            });
+        }
+    }
 }
