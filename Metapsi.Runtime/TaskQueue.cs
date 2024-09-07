@@ -48,7 +48,13 @@ namespace Metapsi
 
         public async Task Enqueue(System.Func<Task> task)
         {
-            await this.tasksChannel.Writer.WriteAsync(task);
+            var tcs = new TaskCompletionSource<bool>();
+            await this.tasksChannel.Writer.WriteAsync(async () =>
+            {
+                await task();
+                tcs.SetResult(true);
+            });
+            await tcs.Task;
         }
     }
 }
