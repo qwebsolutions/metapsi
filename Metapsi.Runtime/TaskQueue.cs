@@ -61,11 +61,11 @@ namespace Metapsi
     public class TaskQueue<T>
     {
         private TaskQueue taskQueue = new TaskQueue();
-        public T State { get; set; } = default(T);
+        private T state { get; set; } = default(T);
 
         public TaskQueue(T state)
         {
-            this.State = state;
+            this.state = state;
         }
 
         public void StopProcessing()
@@ -77,7 +77,7 @@ namespace Metapsi
         {
             return await taskQueue.Enqueue(async () =>
             {
-                return await task(this.State);
+                return await task(this.state);
             });
         }
 
@@ -85,7 +85,16 @@ namespace Metapsi
         {
             await taskQueue.Enqueue(async () =>
             {
-                await task(this.State);
+                await task(this.state);
+            });
+        }
+
+        public async Task<T> GetState()
+        {
+            // Get state through the queue so it's thread safe
+            return await taskQueue.Enqueue(async () =>
+            {
+                return this.state;
             });
         }
     }
