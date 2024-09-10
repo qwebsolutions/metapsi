@@ -268,6 +268,10 @@ namespace Metapsi
                     string.Empty;
             }
 
+            /// <summary>
+            /// Binds application stop to Event.Shutdown and revives the application
+            /// </summary>
+            /// <returns></returns>
             public Application Revive()
             {
                 Application application = null;
