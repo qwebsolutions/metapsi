@@ -29,13 +29,13 @@ namespace Metapsi
             });
         }
 
-        public void StopProcessing()
+        public virtual void StopProcessing()
         {
             this.cancellationTokenSource.Cancel();
             this.tasksChannel.Writer.Complete();
         }
 
-        public async Task<TResult> Enqueue<TResult>(System.Func<Task<TResult>> task)
+        public virtual async Task<TResult> Enqueue<TResult>(System.Func<Task<TResult>> task)
         {
             var tcs = new TaskCompletionSource<TResult>();
             await this.tasksChannel.Writer.WriteAsync(async () =>
@@ -46,7 +46,7 @@ namespace Metapsi
             return await tcs.Task;
         }
 
-        public async Task Enqueue(System.Func<Task> task)
+        public virtual async Task Enqueue(System.Func<Task> task)
         {
             var tcs = new TaskCompletionSource<bool>();
             await this.tasksChannel.Writer.WriteAsync(async () =>
@@ -73,7 +73,7 @@ namespace Metapsi
             this.taskQueue.StopProcessing();
         }
 
-        public async Task<TResult> Enqueue<TResult>(System.Func<T, Task<TResult>> task)
+        public virtual async Task<TResult> Enqueue<TResult>(System.Func<T, Task<TResult>> task)
         {
             return await taskQueue.Enqueue(async () =>
             {
@@ -81,7 +81,7 @@ namespace Metapsi
             });
         }
 
-        public async Task Enqueue(System.Func<T, Task> task)
+        public virtual async Task Enqueue(System.Func<T, Task> task)
         {
             await taskQueue.Enqueue(async () =>
             {
@@ -89,7 +89,7 @@ namespace Metapsi
             });
         }
 
-        public async Task<T> GetState()
+        public virtual async Task<T> GetState()
         {
             // Get state through the queue so it's thread safe
             return await taskQueue.Enqueue(async () =>

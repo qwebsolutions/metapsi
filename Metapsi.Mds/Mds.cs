@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Metapsi
 {
-    public static class Mds
+    public static partial class Mds
     {
         public static class ExitCode
         {
@@ -732,14 +732,6 @@ namespace Metapsi
                 {
                     e.Using(localDbLogger).EnqueueCommand(CommandDbPooler.CheckCommands);
                 });
-        }
-
-        public static class Event
-        {
-            public class Shutdown : IData
-            {
-
-            }
         }
     }
 }

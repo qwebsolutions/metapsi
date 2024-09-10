@@ -47,6 +47,16 @@ public static class Program
 {
     public static async Task Main()
     {
+        Console.WriteLine(typeof(Dictionary<string, HashSet<Guid>>).CSharpTypeName(TypeQualifier.All));
+        Console.WriteLine(typeof(int).CSharpTypeName());
+        Console.WriteLine(typeof(DateTime).CSharpTypeName());
+        Console.WriteLine(typeof(List<string>).CSharpTypeName());
+        Console.WriteLine(typeof(byte[]).CSharpTypeName());
+
+
+        await Task.Delay(100000);
+
+
         // AddMetapsiSignalR preserves JSON capitalization
         var app = WebApplication.CreateBuilder().AddMetapsi().AddMetapsiSignalR().Build();
         app.UseMetapsi();
