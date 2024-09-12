@@ -14,8 +14,21 @@ namespace Metapsi
 
     public class TypeData
     {
+        /// <summary>
+        /// Short type name
+        /// </summary>
         public string TypeName { get; set; }
+        /// <summary>
+        /// Namespace
+        /// </summary>
         public string Namespace { get; set; }
+        /// <summary>
+        /// Parent types for nested classes
+        /// </summary>
+        public List<String> DeclaringTypes { get; set; } = new List<string>();
+        /// <summary>
+        /// Generic types of the current type
+        /// </summary>
         public List<TypeData> GenericTypes { get; set; } = new List<TypeData>();
     }
 
@@ -45,7 +58,8 @@ namespace Metapsi
         {
             TypeData typeData = new TypeData()
             {
-                Namespace = type.Namespace
+                Namespace = type.Namespace,
+                DeclaringTypes = type.GetDeclaringTypes().Select(x=>x.Name).ToList()
             };
 
             if (!type.IsGenericType)
@@ -66,6 +80,23 @@ namespace Metapsi
             return typeData;
         }
 
+        public static List<Type> GetDeclaringTypes(this System.Type type)
+        {
+            List<Type> types = new List<Type>();
+            while (true)
+            {
+                if (type.DeclaringType != null)
+                {
+                    types.Add(type.DeclaringType);
+                    type = type.DeclaringType;
+                }
+                else
+                {
+                    return types;
+                }
+            }
+        }
+
         public static string CSharpTypeName(this TypeData type, TypeQualifier typeQualifier = TypeQualifier.Short, bool usePrimitiveNames = false)
         {
             string currentTypeName = type.TypeName;
@@ -83,6 +114,12 @@ namespace Metapsi
                 namespacePlaceholder = $"{type.Namespace}.";
             }
 
+            string declaringTypePlaceholder = "";
+            if (type.DeclaringTypes.Any())
+            {
+                declaringTypePlaceholder = string.Join(".", type.DeclaringTypes) + ".";
+            }
+
             string genericsPlaceholder = "";
 
             if (type.GenericTypes.Any())
@@ -97,7 +134,7 @@ namespace Metapsi
                 genericsPlaceholder = $"<{string.Join(",", type.GenericTypes.Select(x => x.CSharpTypeName(typeQualifier, usePrimitiveNames)))}>";
             }
 
-            return $"{namespacePlaceholder}{currentTypeName}{genericsPlaceholder}";
+            return $"{namespacePlaceholder}{declaringTypePlaceholder}{currentTypeName}{genericsPlaceholder}";
         }
 
         public static string CSharpTypeName(this System.Type type, TypeQualifier typeQualifier = TypeQualifier.Short, bool usePrimitiveNames = false)

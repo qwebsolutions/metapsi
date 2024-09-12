@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
 
@@ -31,57 +32,15 @@ namespace Metapsi.Sqlite
 
     public static class SqliteQueueExtensions
     {
-        /*
-        public static async Task<TResult> WithRollback<TResult>(this SqliteQueue sqliteQueue, Func<OpenTransaction, Task<TResult>> dbQuery)
+        public static async Task SetJournalMode(this SqliteQueue sqliteQueue, string mode)
         {
-            return await sqliteQueue.Enqueue(async (conn) =>
-            {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
-                var result = await dbQuery(new OpenTransaction()
-                {
-                    Connection = conn,
-                    Transaction = transaction
-                });
-                transaction.Rollback();
-                System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback<{typeof(TResult).CSharpTypeName()}> {sw.ElapsedMilliseconds}");
-                return result;
-            });
+            await sqliteQueue.Enqueue(async (conn) => await conn.ExecuteAsync($"PRAGMA journal_mode={mode};"));
         }
 
-        public static async Task WithCommit(this SqliteQueue sqliteQueue, Func<OpenTransaction, Task> dbAction)
+        public static async Task SetJournalModeWal(this SqliteQueue sqliteQueue)
         {
-            await sqliteQueue.Enqueue(async (conn) =>
-            {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
-                await dbAction(new OpenTransaction()
-                {
-                    Connection = conn,
-                    Transaction = transaction
-                });
-                transaction.Commit();
-                System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithCommit {sw.ElapsedMilliseconds}");
-            });
+            await sqliteQueue.SetJournalMode("WAL");
         }
-
-        public static async Task<TResult> WithCommit<TResult>(this SqliteQueue sqliteQueue, Func<OpenTransaction, Task<TResult>> dbAction)
-        {
-            return await sqliteQueue.Enqueue(async (conn) =>
-            {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
-                var result = await dbAction(new OpenTransaction()
-                {
-                    Connection = conn,
-                    Transaction = transaction
-                });
-                transaction.Commit();
-
-                System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithCommit<{typeof(TResult).CSharpTypeName()}> {sw.ElapsedMilliseconds}");
-                return result;
-            });
-        }*/
 
         public static async Task<TResult> WithCommit<TResult>(this SqliteQueue sqliteQueue, Func<SQLiteTransaction, Task<TResult>> dbAction)
         {
@@ -119,6 +78,18 @@ namespace Metapsi.Sqlite
                 transaction.Rollback();
                 System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback<{typeof(TResult).CSharpTypeName()}> {sw.ElapsedMilliseconds}");
                 return result;
+            });
+        }
+
+        public static async Task WithRollback(this SqliteQueue sqliteQueue, Func<SQLiteTransaction, Task> dbQuery)
+        {
+            await sqliteQueue.Enqueue(async (conn) =>
+            {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                var transaction = conn.BeginTransaction();
+                await dbQuery(transaction);
+                transaction.Rollback();
+                System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback {sw.ElapsedMilliseconds}");
             });
         }
     }

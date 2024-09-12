@@ -80,7 +80,7 @@ public static partial class SlNodeExtensions
         b.TrackWebComponent(tag);
     }
 
-    private static void ImportShoelaceTag(LayoutBuilder b, string tag)
+    private static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
         b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
         b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");

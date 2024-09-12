@@ -10,8 +10,4 @@
 		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="embedded\Metapsi.Shoelace.js" LogicalName="Metapsi.Shoelace.js"></EmbeddedResource>
-	</ItemGroup>
-
 </Project>

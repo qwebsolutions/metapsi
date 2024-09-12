@@ -68,7 +68,7 @@ namespace Metapsi.Hyperapp
             return methodPath.Replace("//", "/");
         }
 
-        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -76,17 +76,17 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
         {
             return b.FormatDate(date, b.Const(locale), options);
         }
 
-        public static Var<string> FormatDate(this LayoutBuilder b, Var<DateTime> date, string locale)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale)
         {
             return b.FormatDate(date, locale, b.NewObj<DynamicObject>());
         }
 
-        public static Var<string> EnglishDayName(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> EnglishDayName(this SyntaxBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
             b.SetDynamic(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
@@ -94,7 +94,7 @@ namespace Metapsi.Hyperapp
             return FormatDate(b, date, "en-gb", formatParams);
         }
 
-        public static Var<string> EnglishDayAndShortMonth(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> EnglishDayAndShortMonth(this SyntaxBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
             b.SetDynamic(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
@@ -103,7 +103,7 @@ namespace Metapsi.Hyperapp
             return FormatDate(b, date, "en-gb", formatParams);
         }
 
-        public static Var<string> FormatNullableDate(this LayoutBuilder b, Var<DateTime?> date, string locale)
+        public static Var<string> FormatNullableDate(this SyntaxBuilder b, Var<DateTime?> date, string locale)
         {
             return b.If(
                 b.HasObject(date),
@@ -111,7 +111,7 @@ namespace Metapsi.Hyperapp
                 b => b.Const(""));
         }
 
-        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date, Var<string> languageFormat)
+        public static Var<string> FormatDatetime(this SyntaxBuilder b, Var<DateTime> date, Var<string> languageFormat)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -120,21 +120,21 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date, string languageFormat)
+        public static Var<string> FormatDatetime(this SyntaxBuilder b, Var<DateTime> date, string languageFormat)
         {
             return b.FormatDatetime(date, b.Const(languageFormat));
         }
 
-        public static Var<string> FormatDatetime(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> FormatDatetime(this SyntaxBuilder b, Var<DateTime> date)
         {
             return b.FormatDatetime(date, b.GetLocale());
         }
 
-        public static Var<string> ItalianFormat(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> ItalianFormat(this SyntaxBuilder b, Var<DateTime> date)
         {
             return FormatDatetime(b, date, "it-IT");
         }
-        public static Var<string> UKFormat(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> UKFormat(this SyntaxBuilder b, Var<DateTime> date)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
@@ -144,38 +144,38 @@ namespace Metapsi.Hyperapp
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
         }
 
-        public static Var<string> UKDate(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> UKDate(this SyntaxBuilder b, Var<DateTime> date)
         {
             return FormatDate(b, date, "en-gb");
         }
 
-        public static Var<string> UKNullableDate(this LayoutBuilder b, Var<DateTime?> date)
+        public static Var<string> UKNullableDate(this SyntaxBuilder b, Var<DateTime?> date)
         {
             return b.FormatNullableDate(date, "en-gb");
         }
 
-        public static Var<string> USFormat(this LayoutBuilder b, Var<DateTime> date)
+        public static Var<string> USFormat(this SyntaxBuilder b, Var<DateTime> date)
         {
             return FormatDatetime(b, date, "en-us");
         }
-        public static Var<string> ItalianFormat(this LayoutBuilder b, Var<string> dateString)
+        public static Var<string> ItalianFormat(this SyntaxBuilder b, Var<string> dateString)
         {
             return b.ItalianFormat(dateString.As<DateTime>());
         }
 
 
-        public static string GetModuleStylesheetName(this LayoutBuilder b, Assembly assembly)
+        public static string GetModuleStylesheetName(this SyntaxBuilder b, Assembly assembly)
         {
             return $"{assembly.GetName().Name}.css";
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        public static void AddModuleStylesheet(this LayoutBuilder b)
+        public static void AddModuleStylesheet(this SyntaxBuilder b)
         {
             b.AddModuleStylesheet(System.Reflection.Assembly.GetCallingAssembly());
         }
 
-        public static void AddModuleStylesheet(this LayoutBuilder b, Assembly assembly)
+        public static void AddModuleStylesheet(this SyntaxBuilder b, Assembly assembly)
         {
             var cssName = b.GetModuleStylesheetName(assembly);
             
@@ -193,7 +193,7 @@ namespace Metapsi.Hyperapp
         /// <param name="assembly"></param>
         /// <param name="src"></param>
         /// <param name="type"></param>
-        public static void AddScript(this LayoutBuilder b, Assembly assembly, string src, string type = "")
+        public static void AddScript(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
             // Use resource file name for embedding
             StaticFiles.Add(assembly, src.Trim('/'));
@@ -213,7 +213,7 @@ namespace Metapsi.Hyperapp
             b.Const(scriptTag);
         }
 
-        public static void AddScript(this LayoutBuilder b, string src, string type = "")
+        public static void AddScript(this SyntaxBuilder b, string src, string type = "")
         {
             if (!src.StartsWith("http"))
             {

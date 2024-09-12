@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Metapsi.Syntax;
 
@@ -174,6 +175,34 @@ namespace Metapsi.Html
         public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, string content)
         {
             return b.CreateTextNode(b.Const(content));
+        }
+
+        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, Var<string> tag, Action<PropsBuilder<T>> buildProps, Var<List<DomElement>> children)
+        {
+            var domElement = b.CreateElement(tag);
+            b.CallOnObject<DomElement>(
+                b.GetProperty<object>(
+                    b.Self(),
+                    b.Const("Object")),
+                "assign",
+                domElement,
+                b.SetProps(b.NewObj<DynamicObject>(), buildProps));
+            b.Foreach(
+                children,
+                (b, c) =>
+                {
+                    b.AppendChild(domElement, c);
+                });
+            return domElement;
+        }
+        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, Var<List<DomElement>> children)
+        {
+            return b.CreateElement(b.Const(tag), buildProps, children);
+        }
+
+        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, params Var<DomElement>[] children)
+        {
+            return b.CreateElement(b.Const(tag), buildProps, b.List(children));
         }
 
         public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName)

@@ -45,8 +45,17 @@ public class Refresh
 
 public static class Program
 {
+    public class Nested
+    {
+        public class NestedAgain
+        {
+        }
+    }
+
     public static async Task Main()
     {
+        Console.WriteLine(typeof(List<Nested.NestedAgain>).CSharpTypeName());
+
         Console.WriteLine(typeof(Dictionary<string, HashSet<Guid>>).CSharpTypeName(TypeQualifier.All));
         Console.WriteLine(typeof(int).CSharpTypeName());
         Console.WriteLine(typeof(DateTime).CSharpTypeName());
