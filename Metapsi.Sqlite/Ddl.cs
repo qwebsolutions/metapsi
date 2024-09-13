@@ -11,6 +11,14 @@ namespace Metapsi.Sqlite
 {
     public static class Ddl
     {
+        public static string GetSqliteTypeAffinity(this Type cSharpType)
+        {
+            var typeMapping = ScalarMappings.SingleOrDefault(x => x.CSharpType == cSharpType);
+            if (typeMapping != null)
+                return typeMapping.SqliteType;
+            return "TEXT";
+        }
+
         public class ScalarMapping
         {
             public ScalarMapping(Type cSharpType, string sqliteType)

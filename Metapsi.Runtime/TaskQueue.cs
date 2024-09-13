@@ -23,8 +23,16 @@ namespace Metapsi
             {
                 while (true)
                 {
-                    var nextTask = await this.tasksChannel.Reader.ReadAsync(cancellationTokenSource.Token);
-                    await nextTask();
+                    try
+                    {
+                        var nextTask = await this.tasksChannel.Reader.ReadAsync(cancellationTokenSource.Token);
+                        await nextTask(); // this only starts the task
+                    }
+                    catch (Exception ex)
+                    {
+                        // This should run forever, never rethrow here
+                        Console.Error.WriteLine(ex.ToString());
+                    }
                 }
             });
         }
@@ -40,8 +48,15 @@ namespace Metapsi
             var tcs = new TaskCompletionSource<TResult>();
             await this.tasksChannel.Writer.WriteAsync(async () =>
             {
-                var result = await task();
-                tcs.SetResult(result);
+                try
+                {
+                    var result = await task();
+                    tcs.SetResult(result);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
             });
             return await tcs.Task;
         }
@@ -51,8 +66,15 @@ namespace Metapsi
             var tcs = new TaskCompletionSource<bool>();
             await this.tasksChannel.Writer.WriteAsync(async () =>
             {
-                await task();
-                tcs.SetResult(true);
+                try
+                {
+                    await task();
+                    tcs.SetResult(true);
+                }
+                catch(Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
             });
             await tcs.Task;
         }
