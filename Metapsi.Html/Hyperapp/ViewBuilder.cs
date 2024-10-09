@@ -179,10 +179,15 @@ namespace Metapsi.Hyperapp
         {
             var cssName = b.GetModuleStylesheetName(assembly);
             var staticFile = StaticFiles.Get(cssName);
-            cssName += "?h=" + staticFile.Hash;
+            if (staticFile != null)
+            {
+                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
+                {
+                    cssName = cssName + "?h=" + staticFile.Hash;
+                }
+            }
             b.AddStylesheet(cssName);
         }
-
 
         /// <summary>
         /// Adds embedded resource script. File name is case-sensitive
@@ -193,14 +198,23 @@ namespace Metapsi.Hyperapp
         /// <param name="type"></param>
         public static void AddScript(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
+            var staticFile = StaticFiles.Get(src);
+            if (staticFile != null)
+            {
+                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
+                {
+                    src = src + "?h=" + staticFile.Hash;
+                }
+            }
+
             // Use URL for script path
             if (!src.StartsWith('/'))
             {
                 src = "/" + src.ToLowerInvariant();
             }
-            var staticFile = StaticFiles.Get(src);
+
             DistinctTag scriptTag = new DistinctTag("script");
-            scriptTag.SetAttribute("src", src + "?h=" + staticFile.Hash);
+            scriptTag.SetAttribute("src", src);
             if (!string.IsNullOrEmpty(type))
             {
                 scriptTag.SetAttribute("type", type);
