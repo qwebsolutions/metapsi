@@ -12,11 +12,6 @@ public static class StaticFiles
 {
     private static Dictionary<string, EmbeddedStaticFile> embeddedResources = new Dictionary<string, EmbeddedStaticFile>();
 
-    //private static string Key(Assembly assembly, string resourceName)
-    //{
-    //    return assembly.FullName + resourceName.ToLower();
-    //}
-
     public class EmbeddedStaticFile
     {
         public string OriginalCaseResourceName { get; set; }
@@ -27,8 +22,6 @@ public static class StaticFiles
     }
 
     private static TaskQueue<Dictionary<string, EmbeddedStaticFile>> taskQueue = new TaskQueue<Dictionary<string, EmbeddedStaticFile>>(embeddedResources);
-
-    //private static List<EmbeddedStaticFileReference> staticFileReferences = new();
 
     public static async Task AddAll(Assembly assembly, string pattern = null)
     {
@@ -99,24 +92,6 @@ public static class StaticFiles
             }
         });
     }
-
-    //public static async Task<byte[]> GetContent(string fileName)
-    //{
-    //    // The file name is probably already lowercase, as it's generally requested by the web server
-    //    fileName = fileName.ToLower();
-
-    //    return await taskQueue.Enqueue(async (staticFileReferences) =>
-    //    {
-    //        var existingStaticResource = staticFileReferences.GetValueOrDefault(fileName);
-
-    //        if(existingStaticResource == null)
-    //        {
-    //            return null;
-    //        }
-
-    //        return existingStaticResource.Content;
-    //    });
-    //}
 
     public static EmbeddedStaticFile Get(string fileName)
     {

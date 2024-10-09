@@ -63,7 +63,7 @@ public static class Program
         Console.WriteLine(typeof(byte[]).CSharpTypeName());
 
 
-        await StaticFiles.AutoAdd();
+        //await StaticFiles.AutoAdd();
 
         //await Task.Delay(100000);
 

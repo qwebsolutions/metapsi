@@ -84,7 +84,6 @@ public static class Control
     {
         b.AddScript("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
         b.AddScript(typeof(TomSelect).Assembly, "metapsi.tomselect.js", "module");
-        StaticFiles.AddAll(typeof(TomSelect).Assembly);
 
         // Use own props builder to serialize the default values of the TomSelect class
         var tomSelectPropsBuilder = new PropsBuilder<TomSelect>() { Props = b.NewObj<TomSelect>() };
