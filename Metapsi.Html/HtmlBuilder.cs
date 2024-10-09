@@ -186,11 +186,11 @@ public static class HtmlBuilderExtensions
     {
         var assembly = System.Reflection.Assembly.GetCallingAssembly();
         var cssName = $"{assembly.GetName().Name}.css";
-        StaticFiles.Add(assembly, cssName);
+        var staticFile = StaticFiles.Get(cssName);
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", "/" + cssName);
+            b.SetAttribute("href", "/" + cssName + "?h=" + staticFile.Hash);
         }));
     }
 

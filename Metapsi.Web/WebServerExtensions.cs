@@ -93,32 +93,35 @@ namespace Metapsi
                 if (!string.IsNullOrEmpty(context.Request.Path))
                 {
                     var fileName = context.Request.Path.Value.ToLower().Trim('/');
-
-                    var bytes = await StaticFiles.Get(fileName);
-                    if (bytes != null)
+                    var embeddedFile = StaticFiles.Get(fileName);
+                    if (embeddedFile != null)
                     {
-                        handled = true;
-
-                        var contentType = GetMimeTypeForFileExtension(fileName);
-
-                        switch (contentType)
+                        var bytes = embeddedFile.Content;
+                        if (bytes != null)
                         {
-                            case "text/html":
-                                {
-                                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                                    handled = true;
-                                }
-                                break;
-                            default:
-                                {
+                            handled = true;
+
+                            var contentType = GetMimeTypeForFileExtension(fileName);
+
+                            switch (contentType)
+                            {
+                                case "text/html":
+                                    {
+                                        context.Response.StatusCode = StatusCodes.Status404NotFound;
+                                        handled = true;
+                                    }
+                                    break;
+                                default:
+                                    {
 #if !DEBUG
                                     context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
 #endif
-                                    context.Response.ContentType = contentType;
-                                    await context.Response.BodyWriter.WriteAsync(bytes);
-                                    handled = true;
-                                }
-                                break;
+                                        context.Response.ContentType = contentType;
+                                        await context.Response.BodyWriter.WriteAsync(bytes);
+                                        handled = true;
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }

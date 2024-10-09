@@ -12,13 +12,11 @@ public static class PromiseExtensions
 {
     public static Var<Promise> NewPromise(this SyntaxBuilder b, Var<System.Action<System.Action<object>, System.Action<object>>> callback)
     {
-        StaticFiles.Add(typeof(PromiseExtensions).Assembly, "Metapsi.Html.js");
         return b.CallExternal<Promise>("Metapsi.Html", "NewPromise", callback);
     }
 
     public static Var<object> Promise(this SyntaxBuilder b)
     {
-        StaticFiles.Add(typeof(PromiseExtensions).Assembly, "Metapsi.Html.js");
         return b.CallExternal<object>("Metapsi.Html", "GetStaticPromise");
     }
 

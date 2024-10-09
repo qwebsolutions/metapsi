@@ -14,10 +14,6 @@ public static class HtmlScriptExtensions
 
     public static IHtmlNode HtmlScriptModule(this HtmlBuilder b, Action<AttributesBuilder<HtmlScript>> setAttributes, Action<SyntaxBuilder> buildScript)
     {
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "metapsi.core.js");
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "linq.js");
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "uuid.js");
-
         ModuleBuilder moduleBuilder = new ModuleBuilder();
         moduleBuilder.Define("main", buildScript);
         //GenerateAddExternalResources(b, moduleBuilder);

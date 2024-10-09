@@ -63,7 +63,9 @@ public static class Program
         Console.WriteLine(typeof(byte[]).CSharpTypeName());
 
 
-        await Task.Delay(100000);
+        await StaticFiles.AutoAdd();
+
+        //await Task.Delay(100000);
 
 
         // AddMetapsiSignalR preserves JSON capitalization

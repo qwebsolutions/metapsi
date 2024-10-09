@@ -18,10 +18,6 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
-            StaticFiles.Add(typeof(Metapsi.Hyperapp.ExternalFunctions).Assembly, "metapsi.core.js");
-            StaticFiles.Add(typeof(Metapsi.Hyperapp.ExternalFunctions).Assembly, "linq.js");
-            StaticFiles.Add(typeof(Metapsi.Hyperapp.ExternalFunctions).Assembly, "uuid.js");
-            StaticFiles.Add(typeof(Metapsi.Hyperapp.ExternalFunctions).Assembly, "hyperapp.js");
             return b.CallExternal<IVNode>("hyperapp", "text", text);
         }
 
@@ -48,7 +44,6 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, Var<List<IVNode>> children)
         {
-            StaticFiles.Add(typeof(Metapsi.Hyperapp.ExternalFunctions).Assembly, "hyperapp.js");
             return b.CallExternal<IVNode>("hyperapp", "h", tag, props, b.Call(ValidChildren, children));
         }
 

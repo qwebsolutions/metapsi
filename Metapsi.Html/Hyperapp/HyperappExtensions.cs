@@ -50,10 +50,6 @@ public static partial class HyperappExtensions
             return b.App(appConfig);
         });
 
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "metapsi.core.js");
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "linq.js");
-        StaticFiles.Add(typeof(HtmlScriptExtensions).Assembly, "uuid.js");
-
         HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
 
         var usesExternalResources = GenerateAddExternalResourcesDynamic(moduleBuilder);
