@@ -9,9 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="2.1.15" />
+		<PackageReference Include="Dapper" Version="2.1.35" />
 		<PackageReference Include="sqlite" Version="3.13.0" />
-		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
 	</ItemGroup>
 
 	<ItemGroup>

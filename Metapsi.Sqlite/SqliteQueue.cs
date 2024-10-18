@@ -21,6 +21,30 @@ namespace Metapsi.Sqlite
             return connection;
         }
 
+        public SQLiteConnection GetReadOnlyConnection()
+        {
+            return Db.ToReadOnlyConnection(this.DbPath);
+        }
+
+        public async Task<SQLiteConnection> OpenReadOnlyConnectionAsync()
+        {
+            var connection = Db.ToReadOnlyConnection(this.DbPath);
+            await connection.OpenAsync();
+            return connection;
+        }
+
+        public async Task Read(Func<SQLiteConnection, Task> read)
+        {
+            using var connection = await OpenReadOnlyConnectionAsync();
+            await read(connection);
+        }
+
+        public async Task<T> Read<T>(Func<SQLiteConnection, Task<T>> read)
+        {
+            using var connection = await OpenReadOnlyConnectionAsync();
+            return await read(connection);
+        }
+
         public async Task CloseConnection()
         {
             await this.Enqueue(async (connection) =>

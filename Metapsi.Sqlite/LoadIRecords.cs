@@ -31,6 +31,13 @@ namespace Metapsi.Sqlite
             return new SQLiteConnection(ToConnectionString(filePath));
         }
 
+        public static SQLiteConnection ToReadOnlyConnection(string filePath)
+        {
+            var connectionString = ToConnectionString(filePath);
+            connectionString += ";ReadOnly=True;";
+            return new SQLiteConnection(connectionString);
+        }
+
         public static async Task<TResult> WithRollback<TResult>(string filePath, Func<OpenTransaction, Task<TResult>> dbQuery)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
