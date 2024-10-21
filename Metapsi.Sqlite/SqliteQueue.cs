@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Threading.Tasks;
 
@@ -33,16 +34,18 @@ namespace Metapsi.Sqlite
             return connection;
         }
 
-        public async Task Read(Func<SQLiteConnection, Task> read)
+        public async Task Read(Func<DbTransaction, Task> read)
         {
             using var connection = await OpenReadOnlyConnectionAsync();
-            await read(connection);
+            await connection.Read(read);
+            // 'using' closes the connection
         }
 
-        public async Task<T> Read<T>(Func<SQLiteConnection, Task<T>> read)
+        public async Task<T> Read<T>(Func<DbTransaction, Task<T>> read)
         {
             using var connection = await OpenReadOnlyConnectionAsync();
-            return await read(connection);
+            return await connection.Read(read);
+            // 'using' closes the connection
         }
 
         public async Task CloseConnection()
@@ -115,6 +118,21 @@ namespace Metapsi.Sqlite
                 transaction.Rollback();
                 System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback {sw.ElapsedMilliseconds}");
             });
+        }
+
+        public static async Task Read(this DbConnection dbConnection, Func<DbTransaction, Task> dbQuery)
+        {
+            var transaction = dbConnection.BeginTransaction();
+            await dbQuery(transaction);
+            transaction.Rollback();
+        }
+
+        public static async Task<TResult> Read<TResult>(this DbConnection dbConnection, Func<DbTransaction, Task<TResult>> dbQuery)
+        {
+            var transaction = dbConnection.BeginTransaction();
+            var result = await dbQuery(transaction);
+            transaction.Rollback();
+            return result;
         }
     }
 }
