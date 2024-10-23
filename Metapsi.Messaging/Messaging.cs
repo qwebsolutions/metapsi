@@ -343,10 +343,14 @@ public static class MessagingExtensions
 
     public static void RaiseNotification<T>(this CommandContext commandContext, T messagingEvent)
     {
+        var type = messagingEvent.GetType();
+
         // Send internally to Redis notifier
         commandContext.PostEvent(new OutgoingMessageEvent()
         {
-            Type = messagingEvent.GetType().AssemblyQualifiedName,
+            // Use pseudo assembly qualified name, ignoring version and other stuff,
+            // as they might be not in sync between sender & receiver
+            Type = $"{type.FullName}, {type.Assembly.GetName().Name}",
             Json = Metapsi.Serialize.ToJson(messagingEvent)
         });
     }

@@ -65,3 +65,19 @@ public partial class SlCheckbox : IAllowsBinding<SlCheckbox>
         };
     }
 }
+
+public partial class SlSelect : IAllowsBinding<SlSelect>
+{
+    ControlBinder<SlSelect> IAllowsBinding<SlSelect>.GetControlBinder()
+    {
+        return new ControlBinder<SlSelect>()
+        {
+            NewValueEventName = "sl-change",
+            GetEventValue = (b, @event) =>
+            {
+                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
+            },
+            SetControlValue = SlSelectControl.SetValue
+        };
+    }
+}
