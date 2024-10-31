@@ -1,9 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
 	  <Description>Generates JavaScript from Metapsi.Module logic</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+	  <EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />
+	  <EmbeddedResource Include="embedded\linq.js" LogicalName="linq.js" />
+	  <EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />

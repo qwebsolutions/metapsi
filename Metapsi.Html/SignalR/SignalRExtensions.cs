@@ -97,6 +97,8 @@ public static class SignalRExtensions
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
+        EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "signalr.js");
+        EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "Metapsi.SignalR.js");
         b.CallExternal("Metapsi.SignalR", "Connect", b.Const(hubPath), register, onConnect);
     }
 

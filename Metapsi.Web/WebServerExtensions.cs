@@ -93,7 +93,7 @@ namespace Metapsi
                 if (!string.IsNullOrEmpty(context.Request.Path))
                 {
                     var fileName = context.Request.Path.Value.ToLower().Trim('/');
-                    var embeddedFile = StaticFiles.Get(fileName);
+                    var embeddedFile = await Metapsi.EmbeddedFiles.GetAsync(fileName);
                     if (embeddedFile != null)
                     {
                         var bytes = embeddedFile.Content;

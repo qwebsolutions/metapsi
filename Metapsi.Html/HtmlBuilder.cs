@@ -186,7 +186,7 @@ public static class HtmlBuilderExtensions
     {
         var assembly = System.Reflection.Assembly.GetCallingAssembly();
         var cssName = $"{assembly.GetName().Name}.css";
-        var staticFile = StaticFiles.Get(cssName);
+        var staticFile = EmbeddedFiles.Add(assembly, cssName);//.Get(cssName);
         if (staticFile != null)
         {
             if (!string.IsNullOrWhiteSpace(staticFile.Hash))

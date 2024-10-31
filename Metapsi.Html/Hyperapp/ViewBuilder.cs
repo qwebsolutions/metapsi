@@ -178,7 +178,7 @@ namespace Metapsi.Hyperapp
         public static void AddModuleStylesheet(this SyntaxBuilder b, Assembly assembly)
         {
             var cssName = b.GetModuleStylesheetName(assembly);
-            var staticFile = StaticFiles.Get(cssName);
+            var staticFile = EmbeddedFiles.Add(assembly, cssName);
             if (staticFile != null)
             {
                 if (!string.IsNullOrWhiteSpace(staticFile.Hash))
@@ -198,7 +198,7 @@ namespace Metapsi.Hyperapp
         /// <param name="type"></param>
         public static void AddScript(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
-            var staticFile = StaticFiles.Get(src);
+            var staticFile = EmbeddedFiles.Add(assembly, src);
             if (staticFile != null)
             {
                 if (!string.IsNullOrWhiteSpace(staticFile.Hash))

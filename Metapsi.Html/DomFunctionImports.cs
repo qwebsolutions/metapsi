@@ -61,23 +61,21 @@ namespace Metapsi.Html
 
     public static class FunctionImports
     {
-        private const string ModuleName = "metapsi.dom";
+        private const string ModuleName = "metapsi.core";
 
-        public static Var<TOut> CallDomFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
+        public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            //StaticFiles.Add(typeof(FunctionImports).Assembly, "metapsi.dom.js");
             return b.CallExternal<TOut>(ModuleName, function, arguments);
         }
 
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            //StaticFiles.Add(typeof(FunctionImports).Assembly, "metapsi.dom.js");
             b.CallExternal(ModuleName, function, arguments);
         }
 
         public static Var<object> Self(this SyntaxBuilder b)
         {
-            return b.CallDomFunction<object>(nameof(Self));
+            return b.CallCoreFunction<object>(nameof(Self));
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace Metapsi.Html
         /// <returns></returns>
         public static IVariable Throw(this SyntaxBuilder b, Var<string> errorMessage)
         {
-            return b.CallDomFunction<IVariable>(nameof(Throw), errorMessage);
+            return b.CallCoreFunction<IVariable>(nameof(Throw), errorMessage);
         }
 
         public static Var<Window> Window(this SyntaxBuilder b)
@@ -101,12 +99,12 @@ namespace Metapsi.Html
             List<IVariable> withFunc = new List<IVariable>();
             withFunc.Add(constructor);
             withFunc.AddRange(args);
-            return b.CallDomFunction<T>("New", withFunc.ToArray());
+            return b.CallCoreFunction<T>("New", withFunc.ToArray());
         }
 
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)
         {
-            return b.CallDomFunction<bool>("In", value, inObject);
+            return b.CallCoreFunction<bool>("In", value, inObject);
         }
 
         //public static Var<T> New<T>(this SyntaxBuilder b, Var<IFunction> function, params IVariable[] args)

@@ -12,12 +12,12 @@ public static class PromiseExtensions
 {
     public static Var<Promise> NewPromise(this SyntaxBuilder b, Var<System.Action<System.Action<object>, System.Action<object>>> callback)
     {
-        return b.CallExternal<Promise>("Metapsi.Html", "NewPromise", callback);
+        return b.CallExternal<Promise>("metapsi.core", "NewPromise", callback);
     }
 
     public static Var<object> Promise(this SyntaxBuilder b)
     {
-        return b.CallExternal<object>("Metapsi.Html", "GetStaticPromise");
+        return b.CallExternal<object>("metapsi.core", "GetStaticPromise");
     }
 
     public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<object>> onSuccess, Var<System.Action<object>> onFailure)

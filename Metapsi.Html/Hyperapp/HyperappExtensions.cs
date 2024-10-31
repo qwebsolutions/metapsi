@@ -27,6 +27,7 @@ public static partial class HyperappExtensions
         Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
         Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
+        EmbeddedFiles.Add(typeof(HyperAppNode).Assembly, "hyperapp.js");
         string mountDivId = "id-" + Guid.NewGuid().ToString();
 
         ModuleBuilder moduleBuilder = new ModuleBuilder();

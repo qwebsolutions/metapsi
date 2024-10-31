@@ -54,10 +54,14 @@ namespace Metapsi.JavaScript
                 moduleImports[imp.Module].Add(imp.Symbol);
             }
 
+            EmbeddedFiles.Add(typeof(Metapsi.JavaScript.PrettyBuilder).Assembly, "metapsi.core.js");
+            EmbeddedFiles.Add(typeof(LinqConverter).Assembly, "uuid.js");
+
             foreach (var externalModule in moduleImports)
             {
                 if (externalModule.Key == "linq")
                 {
+                    EmbeddedFiles.Add(typeof(LinqConverter).Assembly, "linq.js");
                     builder.AppendLine($"import Enumerable from \"/{externalModule.Key}.js{Version.WithTag(options.Version)}\";");
                 }
                 else
