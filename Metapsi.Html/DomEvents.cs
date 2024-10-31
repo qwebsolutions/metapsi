@@ -63,6 +63,11 @@ public static partial class EventExtensions
         b.CallOnObject(element, "removeEventListener", eventName, handler);
     }
 
+    public static void RemoveEventListener<TEvent>(this SyntaxBuilder b, IVariable element, Var<string> eventName, Var<Action<TEvent>> handler)
+    {
+        b.CallOnObject(element, "removeEventListener", eventName, handler);
+    }
+
     public static Var<CustomEvent<T>> CreateCustomEvent<T>(this SyntaxBuilder b, Var<string> eventName, Action<PropsBuilder<CustomEventOptions<T>>> setOptions)
     {
         var customEventOptions = b.SetProps(b.NewObj<DynamicObject>(), setOptions);

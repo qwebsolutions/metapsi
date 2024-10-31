@@ -98,9 +98,11 @@ namespace Metapsi.Syntax
             return this.GetProperty<TProp>(item, Const(property.PropertyName));
         }
 
-        public void Comment(string comment)
+        public void Comment(string comment,
+            [System.Runtime.CompilerServices.CallerFilePath] String file = "",
+            [System.Runtime.CompilerServices.CallerLineNumber] Int32 line = 0)
         {
-            blockBuilder.Comment(comment);
+            blockBuilder.Comment(comment, file, line);
         }
 
         internal IVariable GetLax(

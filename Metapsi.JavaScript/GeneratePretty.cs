@@ -244,7 +244,19 @@ namespace Metapsi.JavaScript
 
         public static string Generate(LineComment lineComment, int nestingLevel, JsBuilderOptions options)
         {
-            return $"{Indent(nestingLevel, options)}// {lineComment.Comment}";
+            var callerPlaceholder = string.Empty;
+            if (!string.IsNullOrWhiteSpace(lineComment.FileName))
+                callerPlaceholder += lineComment.FileName;
+            if (lineComment.LineNumber > 0)
+            {
+                callerPlaceholder += " " + lineComment.LineNumber;
+            }
+
+            if (!string.IsNullOrEmpty(callerPlaceholder))
+            {
+                callerPlaceholder = ", " + callerPlaceholder;
+            }
+            return $"{Indent(nestingLevel, options)}// {lineComment.Comment}{callerPlaceholder}";
         }
 
         public static string Generate(IFunction function, int nestingLevel, bool export, JsBuilderOptions options)

@@ -139,6 +139,8 @@ namespace Metapsi.Syntax
 
     public class LineComment : ISyntaxElement
     {
+        public string FileName { get; set; }
+        public int LineNumber { get; set; }
         public string Comment { get; set; }
     }
 

@@ -171,9 +171,16 @@ namespace Metapsi.Syntax
             Set<TItem, TProp>(var, access, Const(value));
         }
 
-        public void Comment(string comment)
+        public void Comment(string comment, string fileName = null, int lineNumber = 0)
         {
-            Block.Lines.Add(new LineComment() { Comment = comment });
+            var lineComment =
+                new LineComment()
+                {
+                    Comment = comment,
+                    FileName = fileName,
+                    LineNumber = lineNumber
+                };
+            Block.Lines.Add(lineComment);
         }
 
         public (bool alreadyDefined, IFunction functionRef) PlaceDefinition<TFunc>(TFunc builder) where TFunc : Delegate

@@ -10,7 +10,7 @@ using Metapsi.Ionic;
 using System.Collections.Generic;
 using System.Linq;
 using Metapsi.SignalR;
-using System.Reflection;
+using static Metapsi.Hyperapp.HyperType;
 
 public class DataModel
 {
