@@ -2,8 +2,7 @@
 
 Metapsi is a full stack .NET framework that features queued processing and C# defined client-side web pages.
 
-https://metapsi.dev
-
+Documentation and sandbox at https://metapsi.dev
 
 ## How to create a Metapsi project
 
@@ -22,10 +21,10 @@ dotnet new console
 		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Metapsi.Html" Version="*" />
-		<PackageReference Include="Metapsi.Ionic" Version="*" />
+        <PackageReference Include="Metapsi.Html" Version="*" />
+        <PackageReference Include="Metapsi.Ionic" Version="*" />
         <PackageReference Include="Metapsi.Shoelace" Version="*" />
-		<PackageReference Include="Metapsi.ServiceDoc" Version="*" />
+        <PackageReference Include="Metapsi.ServiceDoc" Version="*" />
 	</ItemGroup>
 
 	<ItemGroup>
