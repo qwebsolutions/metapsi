@@ -16,20 +16,20 @@ dotnet new console
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
-	</PropertyGroup>
-	<ItemGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
         <PackageReference Include="Metapsi.Html" Version="*" />
         <PackageReference Include="Metapsi.Ionic" Version="*" />
         <PackageReference Include="Metapsi.Shoelace" Version="*" />
         <PackageReference Include="Metapsi.ServiceDoc" Version="*" />
-	</ItemGroup>
+    </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="embedded\MyProject.css" LogicalName="MyProject.css" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="embedded\MyProject.css" LogicalName="MyProject.css" />
+    </ItemGroup>
 
 </Project>
 ```
