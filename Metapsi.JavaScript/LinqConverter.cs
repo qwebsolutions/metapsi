@@ -183,7 +183,14 @@ namespace Metapsi.JavaScript
         {
             base.Visit(node.Expression);
             jsBuilder.Append(".");
-            jsBuilder.Append(node.Member.Name);
+
+            // Shy support for string length
+            if (node.Expression.Type == typeof(string) && node.Member.Name == "Length")
+            {
+                jsBuilder.Append("length");
+            }
+            else
+                jsBuilder.Append(node.Member.Name);
             return node;
         }
 
