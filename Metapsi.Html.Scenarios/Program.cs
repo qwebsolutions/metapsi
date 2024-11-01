@@ -13,8 +13,19 @@ using Metapsi.SignalR;
 
 public class DataModel
 {
+    public bool ShowText { get; set; }
     public string Title { get; set; } = "Title";
-    public string Message { get; set; } = "Hi! It works!";
+    public string Message { get; set; } = "";
+
+    public string Length { get; set; }
+
+    public NestedDataModel Nested { get; set; } = new();
+    public DateTime SomeDate { get; set; }
+}
+
+public class NestedDataModel
+{
+    public string NestedMessage { get; set; } = "Default";
 }
 
 public class Entry
@@ -119,7 +130,7 @@ public static class Program
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub();
-        //await StaticFiles.AddAll(typeof(HyperType).Assembly);
+
         app.MapGet("/", () => Page.Result(new DataModel()));
         app.MapServerActions("someOtherPath");
         
@@ -246,14 +257,22 @@ public static class Program
                                 b.SlInput(
                                     b=>
                                     {
-                                        b.OnInputAction(
-                                            b.CallServer(
-                                                async (DataModel model, string inputString) =>
-                                                {
-                                                    model.Message = inputString;
-                                                    return model;
-                                                }));
-                                        b.SetValue(b.Get(model, x => x.Message));
+                                        var notUsed = b.Get(model, x => x.Length);
+
+                                        //b.OnInputAction(
+                                        //    b.CallServer(
+                                        //        async (DataModel model, string inputString) =>
+                                        //        {
+                                        //            model.Message = inputString;
+                                        //            model.ShowText = inputString.Length % 2 == 0;
+                                        //            return model;
+                                        //        }));
+
+                                        //b.SetValue(b.Get(model, x => x.Message));
+
+                                        //b.BindTo(model, x => x.Message);
+                                        b.BindTo(model, x => x.Nested, x => x.NestedMessage);
+                                        //b.BindTo(model, x => x.SomeDate, x => x.Minute);
 
                                     }),
                                 b.SlButton(
@@ -270,6 +289,16 @@ public static class Program
                                         //});
                                     },
                                     b.Text(b.Get(model, x=>x.Message)))),
+                            b.Optional(
+                                b.Get(model, x=>x.Nested.NestedMessage.Length%2 == 0),
+                                //b.Get(
+                                //    model, 
+                                //    b.Def<SyntaxBuilder, string,int>(Metapsi.Syntax.Core.StringLength),
+                                //    (model, sl)=> sl(model.Nested.NestedMessage) %2 == 0),
+                                    //b.StringLength(
+                                        //b.Get(model, x=>x.Message)),
+                                        //x=> x%2 == 0),
+                                b=> b.Text("Hidden text")),
                             b.SlButton(
                                 b =>
                                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 
 namespace Metapsi.Html;
@@ -177,6 +178,19 @@ public static class HtmlBuilderExtensions
                 }));
     }
 
+    public static void AddScript(this HtmlBuilder b, Assembly assembly, string jsFile, string type = null)
+    {
+        var embeddedFile = EmbeddedFiles.Add(assembly, jsFile);
+        if (embeddedFile != null)
+        {
+            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
+            {
+                jsFile = jsFile + "?h=" + embeddedFile.Hash;
+            }
+        }
+        b.AddScript(jsFile, type);
+    }
+
     public static void AddScriptModule(this HtmlBuilder b, string src)
     {
         b.AddScript(src, "module");
@@ -186,18 +200,23 @@ public static class HtmlBuilderExtensions
     {
         var assembly = System.Reflection.Assembly.GetCallingAssembly();
         var cssName = $"{assembly.GetName().Name}.css";
-        var staticFile = EmbeddedFiles.Add(assembly, cssName);//.Get(cssName);
-        if (staticFile != null)
+        b.AddStylesheet(assembly, cssName);
+    }
+
+    public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
+    {
+        var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
+        if (embeddedFile != null)
         {
-            if (!string.IsNullOrWhiteSpace(staticFile.Hash))
+            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
             {
-                cssName = cssName + "?h=" + staticFile.Hash;
+                cssFile = cssFile + "?h=" + embeddedFile.Hash;
             }
         }
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", "/" + cssName);
+            b.SetAttribute("href", "/" + cssFile);
         }));
     }
 
