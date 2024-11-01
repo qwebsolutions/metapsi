@@ -4,6 +4,166 @@ Metapsi is a full stack .NET framework that features queued processing and C# de
 
 https://metapsi.dev
 
+
+## How to create a Metapsi project
+
+Initialize a new console project
+
+```
+dotnet new console
+```
+
+### Csproj sample
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Metapsi.Html" Version="*" />
+		<PackageReference Include="Metapsi.Ionic" Version="*" />
+        <PackageReference Include="Metapsi.Shoelace" Version="*" />
+		<PackageReference Include="Metapsi.ServiceDoc" Version="*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\MyProject.css" LogicalName="MyProject.css" />
+	</ItemGroup>
+
+</Project>
+```
+
+### Program.cs sample
+
+```C#
+using Microsoft.AspNetCore.Builder;
+using System.Threading.Tasks;
+using Metapsi;
+using Metapsi.Html;
+using Metapsi.Hyperapp;
+using Metapsi.Ionic;
+
+public class MyProjectModel
+{
+    public string ServerSideRenderedText { get; set; } = "This div is rendered server-side";
+    public string ClientSideRenderedText { get; set; } = "This div is rendered client-side";
+    public string Text { get; set; }
+    public bool TextPosted { get; set; }
+}
+
+public static class Program
+{
+    public static async Task Main()
+    {
+        var app = WebApplication.CreateBuilder().AddMetapsi().Build();
+        app.UseMetapsi();
+        app.Urls.Add("http://localhost:5000");
+        app.MapServerActions();
+        app.MapGet("/", () => Page.Result(new MyProjectModel()));
+
+        app.UseRenderer<MyProjectModel>(
+            model => HtmlBuilder.FromDefault(
+            b =>
+            {
+                b.AddStylesheet(typeof(Program).Assembly, "MyProject.css");
+
+                b.BodyAppend(
+                    b.HtmlDiv(
+                        b =>
+                        {
+                            b.SetClass("server-side");
+                        },
+                        b.Text(model.ServerSideRenderedText),
+                        b.Hyperapp(
+                            model,
+                            (b, model) =>
+                            {
+                                return b.HtmlDiv(
+                                    b =>
+                                    {
+                                        b.SetClass("client-side");
+                                    },
+                                    b.Text(b.Get(model, x => x.ClientSideRenderedText)),
+                                    b.HtmlDiv(
+                                        b =>
+                                        {
+                                            b.AddStyle("display", "flex");
+                                            b.AddStyle("gap", "10px");
+                                        },
+                                        b.HtmlInput(
+                                            b =>
+                                            {
+                                                b.SetPlaceholder("Enter some text here");
+                                                b.SetDisabled(b.Get(model, x => x.TextPosted));
+                                                b.BindTo(model, x => x.Text);
+                                            }),
+                                        b.HtmlButton(
+                                            b =>
+                                            {
+                                                b.AddStyle("color", "rgb(146 64 14)");
+                                                b.SetDisabled(b.Get(model, x => x.TextPosted));
+                                                b.OnClickAction(
+                                                    b.CallServer(
+                                                        async (MyProjectModel model) =>
+                                                        {
+                                                            model.TextPosted = true;
+                                                            return model;
+                                                        }));
+                                            },
+                                            b.Text("Done"))));
+                            })));
+            }).ToHtml());
+
+        await app.RunAsync();
+    }
+}
+```
+
+### Embedded css sample (MyProject.css)
+
+```CSS
+body {
+    font-family: Arial;
+    font-size: 16px;
+}
+
+.server-side {
+    border: 1px solid rgb(6 95 70);
+    border-radius: 6px;
+    color: rgb(6 95 70);
+    padding: 10px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.client-side {
+    border: 1px solid rgb(146 64 14);
+    border-radius: 6px;
+    color: rgb(146 64 14);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+```
+
+The "it just works" experience heavily relies on embedded resources. To add embedded resources to your project, include them in your csproj and then reference them as in the Program.cs sample
+
+
+## Packages
+
+You can reference one or more of the Metapsi packages, based on the project requirements
+
+* Metapsi.Runtime - Some basic core functionality of Metapsi. Usually you don't need to add it explicitly, as it's referenced by all the other packages
+* Metapsi.Html - Allows you to build server-side & client-side rendered web pages
+* Metapsi.Ionic - Out of the box support for Ionic framework (references Metapsi.Html)
+* Metapsi.Shoelace - Out of the box support for Shoelace web components (references Metapsi.Html)
+* Metapsi.ServiceDoc - SQLITE based index database used for configuration & quick prototyping
+
 ## Metapsi.Html overview
 
 ```mermaid
