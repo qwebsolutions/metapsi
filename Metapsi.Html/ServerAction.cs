@@ -35,17 +35,20 @@ public static class ServerAction
     {
         var _ = actionsQueue.Enqueue(async (actions) =>
         {
-            ServerActionDelegate serverActionDelegate = new ServerActionDelegate()
+            if (!actions.ContainsKey(action.Method.Name))
             {
-                Delegate = action
-            };
+                ServerActionDelegate serverActionDelegate = new ServerActionDelegate()
+                {
+                    Delegate = action
+                };
 
-            foreach (var parameter in action.Method.GetParameters())
-            {
-                serverActionDelegate.ParameterTypes.Add(parameter.ParameterType);
+                foreach (var parameter in action.Method.GetParameters())
+                {
+                    serverActionDelegate.ParameterTypes.Add(parameter.ParameterType);
+                }
+
+                actions[action.Method.Name] = serverActionDelegate;
             }
-
-            actions.Add(action.Method.Name, serverActionDelegate);
         });
     }
 
