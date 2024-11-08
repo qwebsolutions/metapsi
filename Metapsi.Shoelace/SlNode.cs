@@ -66,7 +66,7 @@ public static partial class SlNodeExtensions
         return b.Tag(tag, children);
     }
 
-    private static void ImportShoelaceTag(HtmlBuilder b, string tag)
+    public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
         b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
         b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");
@@ -80,7 +80,7 @@ public static partial class SlNodeExtensions
         b.TrackWebComponent(tag);
     }
 
-    private static void ImportShoelaceTag(SyntaxBuilder b, string tag)
+    public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
         b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
         b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");

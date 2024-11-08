@@ -141,5 +141,15 @@ namespace Metapsi
         {
             return type.GetTypeData().CSharpTypeName(typeQualifier, usePrimitiveNames);
         }
+
+        /// <summary>
+        /// Get full type name + assembly name, but ignore version
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetSemiQualifiedTypeName(this System.Type type)
+        {
+            return $"{type.FullName}, {type.Assembly.GetName().Name}";
+        }
     }
 }

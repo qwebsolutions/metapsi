@@ -98,7 +98,7 @@ namespace Metapsi.Syntax
             return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
         }
 
-        internal IVariable DefineFunc<TDelegate>(string functionName, TDelegate builder)
+        public IVariable DefineFunc<TDelegate>(string functionName, TDelegate builder)
             where TDelegate : Delegate
         {
             var func = new Function<TDelegate>() { Name = functionName };
@@ -107,7 +107,7 @@ namespace Metapsi.Syntax
             return MakeVar(func.Name, ClientFuncType(builder));
         }
 
-        internal IVariable DefineAction<TDelegate>(string actionName, TDelegate builder)
+        public IVariable DefineAction<TDelegate>(string actionName, TDelegate builder)
             where TDelegate : Delegate
         {
             var action = new Function<TDelegate>() { Name = actionName };

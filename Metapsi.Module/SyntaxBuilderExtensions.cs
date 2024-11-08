@@ -191,6 +191,12 @@ namespace Metapsi.Syntax
             return b.blockBuilder.DefineFunc(builder).As<Func<P1, P2, P3, TOut>>();
         }
 
+        public static Var<Func<P1, P2, P3, P4, TOut>> Def<TSyntaxBuilder, P1, P2, P3, P4, TOut>(this SyntaxBuilder b, Func<TSyntaxBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<TOut>> builder)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            return b.blockBuilder.DefineFunc(builder).As<Func<P1, P2, P3, P4, TOut>>();
+        }
+
         // Call actions
 
         public static void Call(this SyntaxBuilder b, Var<Action> action)
@@ -238,6 +244,11 @@ namespace Metapsi.Syntax
         public static Var<TOut> Call<P1, P2, P3, TOut>(this SyntaxBuilder b, Var<Func<P1, P2, P3, TOut>> func, Var<P1> p1, Var<P2> p2, Var<P3> p3) 
         {
             return b.blockBuilder.CallFunction<TOut>(func, p1, p2, p3);
+        }
+
+        public static Var<TOut> Call<P1, P2, P3, P4, TOut>(this SyntaxBuilder b, Var<Func<P1, P2, P3, P4, TOut>> func, Var<P1> p1, Var<P2> p2, Var<P3> p3, Var<P4> p4)
+        {
+            return b.blockBuilder.CallFunction<TOut>(func, p1, p2, p3, p4);
         }
 
         // Define & call actions
@@ -296,6 +307,12 @@ namespace Metapsi.Syntax
             where TSyntaxBuilder: SyntaxBuilder
         {
             return b.Call(b.Def(func), p1, p2, p3);
+        }
+
+        public static Var<TOut> Call<TSyntaxBuilder, P1, P2, P3, P4, TOut>(this TSyntaxBuilder b, Func<TSyntaxBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<TOut>> func, Var<P1> p1, Var<P2> p2, Var<P3> p3, Var<P4> p4)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            return b.Call(b.Def(func), p1, p2, p3, p4);
         }
 
         public static Var<TResult> Get<TInput, TResult>(
