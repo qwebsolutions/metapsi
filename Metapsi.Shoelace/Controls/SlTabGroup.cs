@@ -139,6 +139,22 @@ public static partial class SlTabGroupControl
     }
 
     /// <summary>
+    /// <para> Prevent scroll buttons from being hidden when inactive. </para>
+    /// </summary>
+    public static void SetFixedScrollControls(this AttributesBuilder<SlTabGroup> b)
+    {
+        b.SetAttribute("fixed-scroll-controls", "");
+    }
+
+    /// <summary>
+    /// <para> Prevent scroll buttons from being hidden when inactive. </para>
+    /// </summary>
+    public static void SetFixedScrollControls(this AttributesBuilder<SlTabGroup> b, bool fixedScrollControls)
+    {
+        if (fixedScrollControls) b.SetAttribute("fixed-scroll-controls", "");
+    }
+
+    /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlTabGroup(this LayoutBuilder b, Action<PropsBuilder<SlTabGroup>> buildProps, Var<List<IVNode>> children)
@@ -243,6 +259,49 @@ public static partial class SlTabGroupControl
     public static void SetNoScrollControls<T>(this PropsBuilder<T> b, bool noScrollControls) where T: SlTabGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), b.Const(noScrollControls));
+    }
+
+
+    /// <summary>
+    /// <para> Prevent scroll buttons from being hidden when inactive. </para>
+    /// </summary>
+    public static void SetFixedScrollControls<T>(this PropsBuilder<T> b) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> Prevent scroll buttons from being hidden when inactive. </para>
+    /// </summary>
+    public static void SetFixedScrollControls<T>(this PropsBuilder<T> b, Var<bool> fixedScrollControls) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), fixedScrollControls);
+    }
+
+    /// <summary>
+    /// <para> Prevent scroll buttons from being hidden when inactive. </para>
+    /// </summary>
+    public static void SetFixedScrollControls<T>(this PropsBuilder<T> b, bool fixedScrollControls) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), b.Const(fixedScrollControls));
+    }
+
+
+    /// <summary>
+    /// <para> The reality of the browser means that we can't expect the scroll position to be exactly what we want it to be, so we add one pixel of wiggle room to our calculations. </para>
+    /// </summary>
+    public static void SetScrollOffset<T>(this PropsBuilder<T> b, Var<int> scrollOffset) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("scrollOffset"), scrollOffset);
+    }
+
+    /// <summary>
+    /// <para> The reality of the browser means that we can't expect the scroll position to be exactly what we want it to be, so we add one pixel of wiggle room to our calculations. </para>
+    /// </summary>
+    public static void SetScrollOffset<T>(this PropsBuilder<T> b, int scrollOffset) where T: SlTabGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<int>("scrollOffset"), b.Const(scrollOffset));
     }
 
 

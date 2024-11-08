@@ -41,6 +41,10 @@ public partial class SlRadioGroup
         /// <para> Sets a custom validation message. Pass an empty string to restore validity. </para>
         /// </summary>
         public const string SetCustomValidity = "setCustomValidity";
+        /// <summary>
+        /// <para> Sets focus on the radio-group. </para>
+        /// </summary>
+        public const string Focus = "focus";
     }
 }
 

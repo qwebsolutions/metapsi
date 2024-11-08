@@ -155,6 +155,30 @@ public static partial class SlAlertControl
     }
 
     /// <summary>
+    /// <para> Enables a countdown that indicates the remaining time the alert will be displayed. Typically used to indicate the remaining time before a whole app refresh. </para>
+    /// </summary>
+    public static void SetCountdown(this AttributesBuilder<SlAlert> b, string countdown)
+    {
+        b.SetAttribute("countdown", countdown);
+    }
+
+    /// <summary>
+    /// <para> Enables a countdown that indicates the remaining time the alert will be displayed. Typically used to indicate the remaining time before a whole app refresh. </para>
+    /// </summary>
+    public static void SetCountdownRtl(this AttributesBuilder<SlAlert> b)
+    {
+        b.SetAttribute("countdown", "rtl");
+    }
+
+    /// <summary>
+    /// <para> Enables a countdown that indicates the remaining time the alert will be displayed. Typically used to indicate the remaining time before a whole app refresh. </para>
+    /// </summary>
+    public static void SetCountdownLtr(this AttributesBuilder<SlAlert> b)
+    {
+        b.SetAttribute("countdown", "ltr");
+    }
+
+    /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlAlert(this LayoutBuilder b, Action<PropsBuilder<SlAlert>> buildProps, Var<List<IVNode>> children)
@@ -293,6 +317,24 @@ public static partial class SlAlertControl
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: SlAlert
     {
         b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+    }
+
+
+    /// <summary>
+    /// <para> Enables a countdown that indicates the remaining time the alert will be displayed. Typically used to indicate the remaining time before a whole app refresh. </para>
+    /// </summary>
+    public static void SetCountdownRtl<T>(this PropsBuilder<T> b) where T: SlAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("countdown"), b.Const("rtl"));
+    }
+
+
+    /// <summary>
+    /// <para> Enables a countdown that indicates the remaining time the alert will be displayed. Typically used to indicate the remaining time before a whole app refresh. </para>
+    /// </summary>
+    public static void SetCountdownLtr<T>(this PropsBuilder<T> b) where T: SlAlert
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("countdown"), b.Const("ltr"));
     }
 
 

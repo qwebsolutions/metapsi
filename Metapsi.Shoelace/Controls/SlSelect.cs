@@ -23,6 +23,10 @@ public partial class SlSelect
         /// </summary>
         public const string Prefix = "prefix";
         /// <summary>
+        /// <para> Used to append a presentational icon or similar element to the combobox. </para>
+        /// </summary>
+        public const string Suffix = "suffix";
+        /// <summary>
         /// <para> An icon to use in lieu of the default clear icon. </para>
         /// </summary>
         public const string ClearIcon = "clear-icon";

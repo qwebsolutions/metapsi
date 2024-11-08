@@ -251,6 +251,38 @@ public static partial class SlDropdownControl
     }
 
     /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSync(this AttributesBuilder<SlDropdown> b, string sync)
+    {
+        b.SetAttribute("sync", sync);
+    }
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncWidth(this AttributesBuilder<SlDropdown> b)
+    {
+        b.SetAttribute("sync", "width");
+    }
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncHeight(this AttributesBuilder<SlDropdown> b)
+    {
+        b.SetAttribute("sync", "height");
+    }
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncBoth(this AttributesBuilder<SlDropdown> b)
+    {
+        b.SetAttribute("sync", "both");
+    }
+
+    /// <summary>
     ///
     /// </summary>
     public static Var<IVNode> SlDropdown(this LayoutBuilder b, Action<PropsBuilder<SlDropdown>> buildProps, Var<List<IVNode>> children)
@@ -538,6 +570,33 @@ public static partial class SlDropdownControl
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlDropdown
     {
         b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+    }
+
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncWidth<T>(this PropsBuilder<T> b) where T: SlDropdown
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("width"));
+    }
+
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncHeight<T>(this PropsBuilder<T> b) where T: SlDropdown
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("height"));
+    }
+
+
+    /// <summary>
+    /// <para> Syncs the popup width or height to that of the trigger element. </para>
+    /// </summary>
+    public static void SetSyncBoth<T>(this PropsBuilder<T> b) where T: SlDropdown
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("both"));
     }
 
 

@@ -9,17 +9,6 @@ namespace Metapsi.Shoelace;
 
 public partial class SlTab
 {
-    public static class Method
-    {
-        /// <summary>
-        /// <para> Sets focus to the tab. </para>
-        /// </summary>
-        public const string Focus = "focus";
-        /// <summary>
-        /// <para> Removes focus from the tab. </para>
-        /// </summary>
-        public const string Blur = "blur";
-    }
 }
 
 public static partial class SlTabControl
