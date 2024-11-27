@@ -138,6 +138,12 @@ namespace Metapsi.Syntax
             return b.blockBuilder.DefineAction(builder).As<Action<P1, P2, P3, P4>>();
         }
 
+        public static Var<Action<P1, P2, P3, P4, P5>> Def<TSyntaxBuilder, P1, P2, P3, P4, P5>(this SyntaxBuilder b, Action<TSyntaxBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<P5>> builder)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            return b.blockBuilder.DefineAction(builder).As<Action<P1, P2, P3, P4, P5>>();
+        }
+
 
         // Define global functions
 
@@ -224,6 +230,11 @@ namespace Metapsi.Syntax
             b.blockBuilder.CallAction(action, p1, p2, p3, p4);
         }
 
+        public static void Call<P1, P2, P3, P4, P5>(this SyntaxBuilder b, Var<Action<P1, P2, P3, P4, P5>> action, Var<P1> p1, Var<P2> p2, Var<P3> p3, Var<P4> p4, Var<P5> p5)
+        {
+            b.blockBuilder.CallAction(action, p1, p2, p3, p4, p5);
+        }
+
         // Call functions
 
         public static Var<TOut> Call<TOut>(this SyntaxBuilder b, Var<Func<TOut>> func)
@@ -281,6 +292,12 @@ namespace Metapsi.Syntax
             where TSyntaxBuilder : SyntaxBuilder
         {
             b.Call(b.Def(action), p1, p2, p3, p4);
+        }
+
+        public static void Call<TSyntaxBuilder, P1, P2, P3, P4, P5>(this TSyntaxBuilder b, Action<TSyntaxBuilder, Var<P1>, Var<P2>, Var<P3>, Var<P4>, Var<P5>> action, Var<P1> p1, Var<P2> p2, Var<P3> p3, Var<P4> p4, Var<P5> p5)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            b.Call(b.Def(action), p1, p2, p3, p4, p5);
         }
 
         // Define & call functions

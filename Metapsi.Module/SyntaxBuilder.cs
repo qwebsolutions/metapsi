@@ -105,7 +105,7 @@ namespace Metapsi.Syntax
             blockBuilder.Comment(comment, file, line);
         }
 
-        internal IVariable GetLax(
+        public IVariable GetLax(
             LambdaExpression expression,
             params IVariable[] arguments)
         {

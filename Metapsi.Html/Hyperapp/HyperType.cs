@@ -113,16 +113,17 @@ namespace Metapsi.Hyperapp
             return b.MakeStateWithEffects(state, effects.Select(b.MakeEffect).ToArray());
         }
 
-        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, params Var<Effect>[] effects)
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, Var<List<HyperType.Effect>> effects)
         {
             var output = b.NewCollection<object>();
             b.Push(output, state.As<object>());
-            foreach (Var<Effect> effect in effects)
-            {
-                b.Push(output, effect.As<object>());
-            }
-
+            b.PushRange(output, effects.As<List<object>>());
             return output.As<HyperType.StateWithEffects>();
+        }
+
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, params Var<Effect>[] effects)
+        {
+            return b.MakeStateWithEffects(state, b.List(effects));
         }
 
         public static Var<HyperType.Action<TState>> MakeAction<TState>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TState>> func)
