@@ -153,6 +153,7 @@ namespace Metapsi.JavaScript
             if (node.Parameters.Count == 0)
             {
                 jsBuilder.Append("() =>");
+                base.Visit(node.Body);
             }
             else if (node.Parameters.Count == 1)
             {
