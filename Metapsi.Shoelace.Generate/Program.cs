@@ -107,10 +107,25 @@ public static class Program
                     Description = declaration.summary,
                     Tag = declaration.tagName
                 };
+                if(declaration.tagName == "sl-select")
+                {
 
+                }
                 foreach (var member in declaration.members.Where(x => x.kind == "field").Where(x => !string.IsNullOrWhiteSpace(x.description)).Where(x => !x.@readonly))
                 {
                     var typeString = member.type.text;
+
+                    if (string.IsNullOrWhiteSpace(member.type.text))
+                    {
+                        var privateField = declaration.members.SingleOrDefault(x => x.name == $"_{member.name}");
+                        if (privateField != null)
+                        {
+                            if (!string.IsNullOrWhiteSpace(privateField.type.text))
+                            {
+                                typeString = privateField.type.text;
+                            }
+                        }
+                    }
 
                     if (member.@default == "Infinity")
                     {

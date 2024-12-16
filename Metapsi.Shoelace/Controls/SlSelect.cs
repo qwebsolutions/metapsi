@@ -115,7 +115,7 @@ public static partial class SlSelectControl
     }
 
     /// <summary>
-    /// <para> The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.** </para>
+    /// <para> The default value of the form control. Primarily used for resetting the form control. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<SlSelect> b, string value)
     {

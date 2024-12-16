@@ -18,7 +18,7 @@ export const Slice = (initialString, start, end) => initialString.slice(start, e
 export const Replace = (initialString, oldText, newText) => initialString.replace(oldText, newText);
 export const Push = (into, item) => into.push(item)
 export const Clear = (collection) => collection.length = 0;
-export const IndexOf = (collection, item) => collection.IndexOf(item)
+export const IndexOf = (collection, item) => collection.indexOf(item)
 export const Remove = (collection, item) => {
     var index = collection.indexOf(item)
     if (index >= 0) {
