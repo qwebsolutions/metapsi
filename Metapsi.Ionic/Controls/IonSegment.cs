@@ -411,14 +411,14 @@ public static partial class IonSegmentControl
 
 
     /// <summary>
-    /// <para> Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`. </para>
+    /// <para> Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SegmentChangeEventDetail>> action) where TComponent: IonSegment
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`. </para>
+    /// <para> Emitted when the value property has changed and any dragging pointer has been released from `ion-segment`.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SegmentChangeEventDetail>, Var<TModel>> action) where TComponent: IonSegment
     {

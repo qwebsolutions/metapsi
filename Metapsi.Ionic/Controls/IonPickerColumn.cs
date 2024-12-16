@@ -307,14 +307,14 @@ public static partial class IonPickerColumnControl
 
 
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, PickerColumnChangeEventDetail>> action) where TComponent: IonPickerColumn
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<PickerColumnChangeEventDetail>, Var<TModel>> action) where TComponent: IonPickerColumn
     {

@@ -1473,14 +1473,14 @@ public static partial class IonDatetimeControl
     }
 
     /// <summary>
-    /// <para> Emitted when the value (selected date) has changed. </para>
+    /// <para> Emitted when the value (selected date) has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DatetimeChangeEventDetail>> action) where TComponent: IonDatetime
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value (selected date) has changed. </para>
+    /// <para> Emitted when the value (selected date) has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DatetimeChangeEventDetail>, Var<TModel>> action) where TComponent: IonDatetime
     {

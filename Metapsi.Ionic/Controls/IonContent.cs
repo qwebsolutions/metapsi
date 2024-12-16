@@ -96,6 +96,30 @@ public static partial class IonContentControl
     }
 
     /// <summary>
+    /// <para> Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to `'before'`. </para>
+    /// </summary>
+    public static void SetFixedSlotPlacement(this AttributesBuilder<IonContent> b, string fixedSlotPlacement)
+    {
+        b.SetAttribute("fixed-slot-placement", fixedSlotPlacement);
+    }
+
+    /// <summary>
+    /// <para> Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to `'before'`. </para>
+    /// </summary>
+    public static void SetFixedSlotPlacementAfter(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("fixed-slot-placement", "after");
+    }
+
+    /// <summary>
+    /// <para> Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to `'before'`. </para>
+    /// </summary>
+    public static void SetFixedSlotPlacementBefore(this AttributesBuilder<IonContent> b)
+    {
+        b.SetAttribute("fixed-slot-placement", "before");
+    }
+
+    /// <summary>
     /// <para> If `true` and the content does not cause an overflow scroll, the scroll interaction will cause a bounce. If the content exceeds the bounds of ionContent, nothing will change. Note, this does not disable the system bounce on iOS. That is an OS level setting. </para>
     /// </summary>
     public static void SetForceOverscroll(this AttributesBuilder<IonContent> b)
@@ -281,6 +305,24 @@ public static partial class IonContentControl
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonContent
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to `'before'`. </para>
+    /// </summary>
+    public static void SetFixedSlotPlacementAfter<T>(this PropsBuilder<T> b) where T: IonContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fixedSlotPlacement"), b.Const("after"));
+    }
+
+
+    /// <summary>
+    /// <para> Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to `'before'`. </para>
+    /// </summary>
+    public static void SetFixedSlotPlacementBefore<T>(this PropsBuilder<T> b) where T: IonContent
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("fixedSlotPlacement"), b.Const("before"));
     }
 
 

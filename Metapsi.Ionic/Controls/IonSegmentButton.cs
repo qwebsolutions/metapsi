@@ -42,6 +42,14 @@ public static partial class IonSegmentButtonControl
         return b.IonicTag("ion-segment-button", new Dictionary<string, string>(), children);
     }
     /// <summary>
+    /// <para> The `id` of the segment content. </para>
+    /// </summary>
+    public static void SetContentId(this AttributesBuilder<IonSegmentButton> b, string contentId)
+    {
+        b.SetAttribute("content-id", contentId);
+    }
+
+    /// <summary>
     /// <para> If `true`, the user cannot interact with the segment button. </para>
     /// </summary>
     public static void SetDisabled(this AttributesBuilder<IonSegmentButton> b)
@@ -205,6 +213,23 @@ public static partial class IonSegmentButtonControl
     {
         return b.IonicNode("ion-segment-button", children);
     }
+    /// <summary>
+    /// <para> The `id` of the segment content. </para>
+    /// </summary>
+    public static void SetContentId<T>(this PropsBuilder<T> b, Var<string> contentId) where T: IonSegmentButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), contentId);
+    }
+
+    /// <summary>
+    /// <para> The `id` of the segment content. </para>
+    /// </summary>
+    public static void SetContentId<T>(this PropsBuilder<T> b, string contentId) where T: IonSegmentButton
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), b.Const(contentId));
+    }
+
+
     /// <summary>
     /// <para> If `true`, the user cannot interact with the segment button. </para>
     /// </summary>

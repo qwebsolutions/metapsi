@@ -13,8 +13,9 @@ public partial class IonMenu
     {
         /// <summary>
         /// <para> Closes the menu. If the menu is already closed or it can't be closed, it returns `false`. </para>
-        /// <para> (animated?: boolean) =&gt; Promise&lt;boolean&gt; </para>
+        /// <para> (animated?: boolean, role?: string) =&gt; Promise&lt;boolean&gt; </para>
         /// <para> animated  </para>
+        /// <para> role  </para>
         /// </summary>
         public const string Close = "close";
         /// <summary>
@@ -35,9 +36,10 @@ public partial class IonMenu
         public const string Open = "open";
         /// <summary>
         /// <para> Opens or closes the button. If the operation can't be completed successfully, it returns `false`. </para>
-        /// <para> (shouldOpen: boolean, animated?: boolean) =&gt; Promise&lt;boolean&gt; </para>
+        /// <para> (shouldOpen: boolean, animated?: boolean, role?: string) =&gt; Promise&lt;boolean&gt; </para>
         /// <para> shouldOpen  </para>
         /// <para> animated  </para>
+        /// <para> role  </para>
         /// </summary>
         public const string SetOpen = "setOpen";
         /// <summary>
@@ -370,16 +372,16 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> Emitted when the menu is closed. </para>
     /// </summary>
-    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
+    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, MenuCloseEventDetail>> action) where TComponent: IonMenu
     {
-        b.OnEventAction("onionDidClose", action);
+        b.OnEventAction("onionDidClose", action, "detail");
     }
     /// <summary>
     /// <para> Emitted when the menu is closed. </para>
     /// </summary>
-    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
+    public static void OnIonDidClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<MenuCloseEventDetail>, Var<TModel>> action) where TComponent: IonMenu
     {
-        b.OnEventAction("onionDidClose", b.MakeAction(action));
+        b.OnEventAction("onionDidClose", b.MakeAction(action), "detail");
     }
 
     /// <summary>
@@ -400,16 +402,16 @@ public static partial class IonMenuControl
     /// <summary>
     /// <para> Emitted when the menu is about to be closed. </para>
     /// </summary>
-    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel>> action) where TComponent: IonMenu
+    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, MenuCloseEventDetail>> action) where TComponent: IonMenu
     {
-        b.OnEventAction("onionWillClose", action);
+        b.OnEventAction("onionWillClose", action, "detail");
     }
     /// <summary>
     /// <para> Emitted when the menu is about to be closed. </para>
     /// </summary>
-    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>> action) where TComponent: IonMenu
+    public static void OnIonWillClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<MenuCloseEventDetail>, Var<TModel>> action) where TComponent: IonMenu
     {
-        b.OnEventAction("onionWillClose", b.MakeAction(action));
+        b.OnEventAction("onionWillClose", b.MakeAction(action), "detail");
     }
 
     /// <summary>

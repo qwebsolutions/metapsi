@@ -141,7 +141,7 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterface(this AttributesBuilder<IonSelect> b, string @interface)
     {
@@ -149,7 +149,7 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfaceActionSheet(this AttributesBuilder<IonSelect> b)
     {
@@ -157,7 +157,7 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfaceAlert(this AttributesBuilder<IonSelect> b)
     {
@@ -165,7 +165,15 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
+    /// </summary>
+    public static void SetInterfaceModal(this AttributesBuilder<IonSelect> b)
+    {
+        b.SetAttribute("interface", "modal");
+    }
+
+    /// <summary>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfacePopover(this AttributesBuilder<IonSelect> b)
     {
@@ -173,7 +181,7 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
+    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
     public static void SetInterfaceOptions(this AttributesBuilder<IonSelect> b, string interfaceOptions)
     {
@@ -594,7 +602,7 @@ public static partial class IonSelectControl
 
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfaceActionSheet<T>(this PropsBuilder<T> b) where T: IonSelect
     {
@@ -603,7 +611,7 @@ public static partial class IonSelectControl
 
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfaceAlert<T>(this PropsBuilder<T> b) where T: IonSelect
     {
@@ -612,7 +620,16 @@ public static partial class IonSelectControl
 
 
     /// <summary>
-    /// <para> The interface the select should use: `action-sheet`, `popover` or `alert`. </para>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
+    /// </summary>
+    public static void SetInterfaceModal<T>(this PropsBuilder<T> b) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("interface"), b.Const("modal"));
+    }
+
+
+    /// <summary>
+    /// <para> The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`. </para>
     /// </summary>
     public static void SetInterfacePopover<T>(this PropsBuilder<T> b) where T: IonSelect
     {
@@ -621,7 +638,7 @@ public static partial class IonSelectControl
 
 
     /// <summary>
-    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
+    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
     public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, Var<object> interfaceOptions) where T: IonSelect
     {
@@ -629,7 +646,7 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
+    /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
     public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, object interfaceOptions) where T: IonSelect
     {
@@ -912,14 +929,14 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, SelectChangeEventDetail>> action) where TComponent: IonSelect
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<SelectChangeEventDetail>, Var<TModel>> action) where TComponent: IonSelect
     {

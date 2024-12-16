@@ -181,6 +181,22 @@ public static partial class IonPopoverControl
     }
 
     /// <summary>
+    /// <para> If `true`, focus will not be allowed to move outside of this overlay. If `false`, focus will be allowed to move outside of the overlay.  In most scenarios this property should remain set to `true`. Setting this property to `false` can cause severe accessibility issues as users relying on assistive technologies may be able to move focus into a confusing state. We recommend only setting this to `false` when absolutely necessary.  Developers may want to consider disabling focus trapping if this overlay presents a non-Ionic overlay from a 3rd party library. Developers would disable focus trapping on the Ionic overlay when presenting the 3rd party overlay and then re-enable focus trapping when dismissing the 3rd party overlay and moving focus back to the Ionic overlay. </para>
+    /// </summary>
+    public static void SetFocusTrap(this AttributesBuilder<IonPopover> b)
+    {
+        b.SetAttribute("focus-trap", "");
+    }
+
+    /// <summary>
+    /// <para> If `true`, focus will not be allowed to move outside of this overlay. If `false`, focus will be allowed to move outside of the overlay.  In most scenarios this property should remain set to `true`. Setting this property to `false` can cause severe accessibility issues as users relying on assistive technologies may be able to move focus into a confusing state. We recommend only setting this to `false` when absolutely necessary.  Developers may want to consider disabling focus trapping if this overlay presents a non-Ionic overlay from a 3rd party library. Developers would disable focus trapping on the Ionic overlay when presenting the 3rd party overlay and then re-enable focus trapping when dismissing the 3rd party overlay and moving focus back to the Ionic overlay. </para>
+    /// </summary>
+    public static void SetFocusTrap(this AttributesBuilder<IonPopover> b, bool focusTrap)
+    {
+        if (focusTrap) b.SetAttribute("focus-trap", "");
+    }
+
+    /// <summary>
     /// <para> If `true`, the popover will open. If `false`, the popover will close. Use this if you need finer grained control over presentation, otherwise just use the popoverController or the `trigger` property. Note: `isOpen` will not automatically be set back to `false` when the popover dismisses. You will need to do that in your code. </para>
     /// </summary>
     public static void SetIsOpen(this AttributesBuilder<IonPopover> b)
@@ -686,6 +702,32 @@ public static partial class IonPopoverControl
     public static void SetEvent<T>(this PropsBuilder<T> b, object @event) where T: IonPopover
     {
         b.SetDynamic(b.Props, new DynamicProperty<object>("event"), b.Const(@event));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, focus will not be allowed to move outside of this overlay. If `false`, focus will be allowed to move outside of the overlay.  In most scenarios this property should remain set to `true`. Setting this property to `false` can cause severe accessibility issues as users relying on assistive technologies may be able to move focus into a confusing state. We recommend only setting this to `false` when absolutely necessary.  Developers may want to consider disabling focus trapping if this overlay presents a non-Ionic overlay from a 3rd party library. Developers would disable focus trapping on the Ionic overlay when presenting the 3rd party overlay and then re-enable focus trapping when dismissing the 3rd party overlay and moving focus back to the Ionic overlay. </para>
+    /// </summary>
+    public static void SetFocusTrap<T>(this PropsBuilder<T> b) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> If `true`, focus will not be allowed to move outside of this overlay. If `false`, focus will be allowed to move outside of the overlay.  In most scenarios this property should remain set to `true`. Setting this property to `false` can cause severe accessibility issues as users relying on assistive technologies may be able to move focus into a confusing state. We recommend only setting this to `false` when absolutely necessary.  Developers may want to consider disabling focus trapping if this overlay presents a non-Ionic overlay from a 3rd party library. Developers would disable focus trapping on the Ionic overlay when presenting the 3rd party overlay and then re-enable focus trapping when dismissing the 3rd party overlay and moving focus back to the Ionic overlay. </para>
+    /// </summary>
+    public static void SetFocusTrap<T>(this PropsBuilder<T> b, Var<bool> focusTrap) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), focusTrap);
+    }
+
+    /// <summary>
+    /// <para> If `true`, focus will not be allowed to move outside of this overlay. If `false`, focus will be allowed to move outside of the overlay.  In most scenarios this property should remain set to `true`. Setting this property to `false` can cause severe accessibility issues as users relying on assistive technologies may be able to move focus into a confusing state. We recommend only setting this to `false` when absolutely necessary.  Developers may want to consider disabling focus trapping if this overlay presents a non-Ionic overlay from a 3rd party library. Developers would disable focus trapping on the Ionic overlay when presenting the 3rd party overlay and then re-enable focus trapping when dismissing the 3rd party overlay and moving focus back to the Ionic overlay. </para>
+    /// </summary>
+    public static void SetFocusTrap<T>(this PropsBuilder<T> b, bool focusTrap) where T: IonPopover
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(focusTrap));
     }
 
 

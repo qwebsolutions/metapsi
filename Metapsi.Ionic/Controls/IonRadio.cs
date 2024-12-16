@@ -42,7 +42,7 @@ public static partial class IonRadioControl
         return b.IonicTag("ion-radio", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetAlignment(this AttributesBuilder<IonRadio> b, string alignment)
     {
@@ -50,7 +50,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter(this AttributesBuilder<IonRadio> b)
     {
@@ -58,7 +58,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart(this AttributesBuilder<IonRadio> b)
     {
@@ -90,7 +90,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustify(this AttributesBuilder<IonRadio> b, string justify)
     {
@@ -98,7 +98,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd(this AttributesBuilder<IonRadio> b)
     {
@@ -106,7 +106,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween(this AttributesBuilder<IonRadio> b)
     {
@@ -114,7 +114,7 @@ public static partial class IonRadioControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart(this AttributesBuilder<IonRadio> b)
     {
@@ -230,7 +230,7 @@ public static partial class IonRadioControl
         return b.IonicNode("ion-radio", children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonRadio
     {
@@ -239,7 +239,7 @@ public static partial class IonRadioControl
 
 
     /// <summary>
-    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the radio and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonRadio
     {
@@ -355,7 +355,7 @@ public static partial class IonRadioControl
 
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonRadio
     {
@@ -364,7 +364,7 @@ public static partial class IonRadioControl
 
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonRadio
     {
@@ -373,7 +373,7 @@ public static partial class IonRadioControl
 
 
     /// <summary>
-    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and radio within a line. `"start"`: The label and radio will appear on the left in LTR and on the right in RTL. `"end"`: The label and radio will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and radio will appear on opposite ends of the line with space between the two elements. Setting this property will change the radio `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonRadio
     {

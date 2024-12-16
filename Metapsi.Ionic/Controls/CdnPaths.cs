@@ -2,5 +2,5 @@ namespace Metapsi.Ionic;
 
 public static partial class Cdn
 {
-    public static string Version = "8.0.0-rc.1";
+    public static string Version = "8.4.1";
 }

@@ -42,7 +42,7 @@ public static partial class IonToggleControl
         return b.IonicTag("ion-toggle", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetAlignment(this AttributesBuilder<IonToggle> b, string alignment)
     {
@@ -50,7 +50,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter(this AttributesBuilder<IonToggle> b)
     {
@@ -58,7 +58,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart(this AttributesBuilder<IonToggle> b)
     {
@@ -122,7 +122,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustify(this AttributesBuilder<IonToggle> b, string justify)
     {
@@ -130,7 +130,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd(this AttributesBuilder<IonToggle> b)
     {
@@ -138,7 +138,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween(this AttributesBuilder<IonToggle> b)
     {
@@ -146,7 +146,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart(this AttributesBuilder<IonToggle> b)
     {
@@ -262,7 +262,7 @@ public static partial class IonToggleControl
         return b.IonicNode("ion-toggle", children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonToggle
     {
@@ -271,7 +271,7 @@ public static partial class IonToggleControl
 
 
     /// <summary>
-    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the toggle and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonToggle
     {
@@ -439,7 +439,7 @@ public static partial class IonToggleControl
 
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonToggle
     {
@@ -448,7 +448,7 @@ public static partial class IonToggleControl
 
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonToggle
     {
@@ -457,7 +457,7 @@ public static partial class IonToggleControl
 
 
     /// <summary>
-    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonToggle
     {
@@ -569,14 +569,14 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> Emitted when the user switches the toggle on or off. Does not emit when programmatically changing the value of the `checked` property. </para>
+    /// <para> Emitted when the user switches the toggle on or off.  This event will not emit when programmatically setting the `checked` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, ToggleChangeEventDetail>> action) where TComponent: IonToggle
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the user switches the toggle on or off. Does not emit when programmatically changing the value of the `checked` property. </para>
+    /// <para> Emitted when the user switches the toggle on or off.  This event will not emit when programmatically setting the `checked` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<ToggleChangeEventDetail>, Var<TModel>> action) where TComponent: IonToggle
     {

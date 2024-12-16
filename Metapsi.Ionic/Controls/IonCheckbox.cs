@@ -42,7 +42,7 @@ public static partial class IonCheckboxControl
         return b.IonicTag("ion-checkbox", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetAlignment(this AttributesBuilder<IonCheckbox> b, string alignment)
     {
@@ -50,7 +50,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter(this AttributesBuilder<IonCheckbox> b)
     {
@@ -58,7 +58,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart(this AttributesBuilder<IonCheckbox> b)
     {
@@ -122,7 +122,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustify(this AttributesBuilder<IonCheckbox> b, string justify)
     {
@@ -130,7 +130,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd(this AttributesBuilder<IonCheckbox> b)
     {
@@ -138,7 +138,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween(this AttributesBuilder<IonCheckbox> b)
     {
@@ -146,7 +146,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart(this AttributesBuilder<IonCheckbox> b)
     {
@@ -262,7 +262,7 @@ public static partial class IonCheckboxControl
         return b.IonicNode("ion-checkbox", children);
     }
     /// <summary>
-    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
@@ -271,7 +271,7 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
-    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. </para>
+    /// <para> How to control the alignment of the checkbox and label on the cross axis. `"start"`: The label and control will appear on the left of the cross axis in LTR, and on the right side in RTL. `"center"`: The label and control will appear at the center of the cross axis in both LTR and RTL. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
@@ -439,7 +439,7 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
@@ -448,7 +448,7 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
@@ -457,7 +457,7 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
-    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. </para>
+    /// <para> How to pack the label and checkbox within a line. `"start"`: The label and checkbox will appear on the left in LTR and on the right in RTL. `"end"`: The label and checkbox will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and checkbox will appear on opposite ends of the line with space between the two elements. Setting this property will change the checkbox `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
@@ -569,14 +569,14 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> Emitted when the checked property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the checked property. </para>
+    /// <para> Emitted when the checked property has changed as a result of a user action such as a click.  This event will not emit when programmatically setting the `checked` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, CheckboxChangeEventDetail>> action) where TComponent: IonCheckbox
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the checked property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the checked property. </para>
+    /// <para> Emitted when the checked property has changed as a result of a user action such as a click.  This event will not emit when programmatically setting the `checked` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<CheckboxChangeEventDetail>, Var<TModel>> action) where TComponent: IonCheckbox
     {

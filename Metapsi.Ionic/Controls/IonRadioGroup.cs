@@ -204,14 +204,14 @@ public static partial class IonRadioGroupControl
 
 
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RadioGroupChangeEventDetail>> action) where TComponent: IonRadioGroup
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value has changed. </para>
+    /// <para> Emitted when the value has changed.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RadioGroupChangeEventDetail>, Var<TModel>> action) where TComponent: IonRadioGroup
     {

@@ -364,14 +364,14 @@ public static partial class IonAccordionGroupControl
 
 
     /// <summary>
-    /// <para> Emitted when the value property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the value property. </para>
+    /// <para> Emitted when the value property has changed as a result of a user action such as a click.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, AccordionGroupChangeEventDetail>> action) where TComponent: IonAccordionGroup
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> Emitted when the value property has changed as a result of a user action such as a click. This event will not emit when programmatically setting the value property. </para>
+    /// <para> Emitted when the value property has changed as a result of a user action such as a click.  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<AccordionGroupChangeEventDetail>, Var<TModel>> action) where TComponent: IonAccordionGroup
     {
