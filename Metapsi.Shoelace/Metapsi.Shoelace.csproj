@@ -3,11 +3,13 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>true</IsPackable>
-		<Description>Use Shoelace 2.19.0 with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)</Description>
+		<Description>Use Shoelace 2.19.1 with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
 	</ItemGroup>
+
+	<Import Project="embedded.target" />
 
 </Project>

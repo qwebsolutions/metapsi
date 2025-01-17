@@ -3,11 +3,13 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
+
     public static IHtmlNode IonicTag<T>(
         this HtmlBuilder b,
         string tag,
@@ -75,9 +77,10 @@ public static class IonicNodeImport
     private static void ImportIonic(
         this HtmlBuilder b)
     {
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.esm.js", "module");
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.js");
-        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/css/ionic.bundle.css");
+        EmbedAll();
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
     }
 
     public static Var<IVNode> IonicNode<TProps>(
@@ -86,9 +89,10 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
     {
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.esm.js", "module");
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.js");
-        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/css/ionic.bundle.css");
+        EmbedAll();
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, buildProps, children);
     }
@@ -126,9 +130,10 @@ public static class IonicNodeImport
         Var<string> tag,
         Var<List<IVNode>> children)
     {
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.esm.js", "module");
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/dist/ionic/ionic.js");
-        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@ionic/core@{Cdn.Version}/css/ionic.bundle.css");
+        EmbedAll();
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
+        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, children);
     }
@@ -147,5 +152,16 @@ public static class IonicNodeImport
         params Var<IVNode>[] children)
     {
         return b.IonicNode(b.Const(tag), b.List(children));
+    }
+
+    private static bool embedded = false;
+
+    private static void EmbedAll()
+    {
+        if (!embedded)
+        {
+            embedded = true;
+            EmbeddedFiles.AddAll(typeof(IonicNodeImport).Assembly);
+        }
     }
 }

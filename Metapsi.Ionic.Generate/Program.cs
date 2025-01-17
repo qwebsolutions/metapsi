@@ -3,7 +3,9 @@ using Metapsi.WebComponentGenerator;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Formats.Tar;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -26,7 +28,9 @@ public static class Program
 
         var metadataFileUrl = Utils.JsDelivrFileUrl("ionic", "core", version, "docs.json");
 
-        var packageMetadata = await new HttpClient().GetStringAsync(metadataFileUrl);
+        var httpClient = new HttpClient();
+
+        var packageMetadata = await httpClient.GetStringAsync(metadataFileUrl);
 
         var ionicGeneratorFolder = Utils.SearchUpfolder(System.IO.Path.GetDirectoryName(Directory.GetCurrentDirectory()), "Metapsi.Ionic.Generate");
 
@@ -258,7 +262,7 @@ public static class Program
                     if (tsType.Contains("|"))
                     {
                         csType = "DynamicObject";
-                        if(tsType == "LiteralUnion<'cancel' | 'destructive' | 'selected', string>")
+                        if (tsType == "LiteralUnion<'cancel' | 'destructive' | 'selected', string>")
                         {
                             csType = "string";
                         }
@@ -266,7 +270,7 @@ public static class Program
                         {
                             csType = "string";
                         }
-                        else if(tsType == "string | string[]")
+                        else if (tsType == "string | string[]")
                         {
                             csType = "string";
                         }
@@ -323,7 +327,7 @@ public static class Program
         importsBuilder.AppendLine();
         importsBuilder.AppendLine("public static partial class Cdn");
         importsBuilder.AppendLine("{");
-        importsBuilder.AppendLine($"    public static string Version = \"{version}\";");
+        importsBuilder.AppendLine($"    public const string Version = \"{version}\";");
         importsBuilder.AppendLine("}");
 
         await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(controlsOutputFolder, $"CdnPaths.cs"), importsBuilder.ToString());
@@ -332,5 +336,75 @@ public static class Program
         var csProjPath = System.IO.Path.Combine(ionicProjectFolder, "Metapsi.Ionic.csproj");
         var projectDescription = $"Use Ionic {version} with Metapsi for client-side generated web pages (https://ionicframework.com)";
         Utils.SetCsProjDescription(csProjPath, projectDescription);
+
+        var registryTarGzPath = $"https://registry.npmjs.org/@ionic/core/-/core-{version}.tgz";
+
+        var tgzStream = await httpClient.GetStreamAsync(registryTarGzPath);
+
+        var embeddedFilesFolder = System.IO.Path.Combine(ionicProjectFolder, "embedded");
+        if (System.IO.Directory.Exists(embeddedFilesFolder))
+        {
+            System.IO.Directory.Delete(embeddedFilesFolder, true);
+        }
+
+        ExtractEmbeddedFiles(tgzStream, embeddedFilesFolder);
+
+        var targetFileContent = EmbeddedResourcesGenerator.GetEmbeddedFilesTargetFile(
+            embeddedFilesFolder,
+            resource =>
+            {
+                if (resource.LogicalName.Contains("ionic/"))
+                {
+                    resource.LogicalName = resource.LogicalName.Replace("ionic/", $"ionic@{version}/");
+                }
+                if (resource.LogicalName.Contains("ionic.bundle.css"))
+                {
+                    resource.LogicalName = resource.LogicalName = $"ionic@{version}/ionic.bundle.css";
+                }
+            });
+
+        var targetFilePath = System.IO.Path.Combine(ionicProjectFolder, "embedded.target");
+
+        await System.IO.File.WriteAllTextAsync(targetFilePath, targetFileContent);
+    }
+
+    public static void ExtractEmbeddedFiles(
+        Stream fromTarGzStream,
+        string intoEmbeddedFilesFolder)
+    {
+
+        using GZipStream gz = new(fromTarGzStream, CompressionMode.Decompress, leaveOpen: true);
+
+        using var reader = new TarReader(gz, leaveOpen: true);
+
+        while (reader.GetNextEntry() is TarEntry entry)
+        {
+            if (entry.Name.StartsWith("package/dist/ionic"))
+            {
+                var relativeFileName = Path.GetRelativePath("package/dist", entry.Name);
+                var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                var folder = Path.GetDirectoryName(outFilePath);
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                }
+
+                entry.ExtractToFile(outFilePath, overwrite: false);
+            }
+
+            if (entry.Name.EndsWith("ionic.bundle.css"))
+            {
+                var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, "ionic.bundle.css");
+
+                var folder = Path.GetDirectoryName(outFilePath);
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                }
+
+                entry.ExtractToFile(outFilePath, overwrite: false);
+            }
+        }
     }
 }

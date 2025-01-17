@@ -21,7 +21,7 @@ public static class EmbeddedFiles
 
     private static TaskQueue<ConcurrentDictionary<string, EmbeddedFile>> taskQueue = new(embeddedResources);
 
-    public static async Task AddAll(Assembly assembly, string pattern = null)
+    public static async Task AddAllAsync(Assembly assembly, string pattern = null)
     {
         foreach (var resourceName in assembly.GetManifestResourceNames())
         {
@@ -40,13 +40,32 @@ public static class EmbeddedFiles
         }
     }
 
+    public static void AddAll(Assembly assembly, string pattern = null)
+    {
+        foreach (var resourceName in assembly.GetManifestResourceNames())
+        {
+            bool include = true;
+            if (pattern != null)
+            {
+                if (!resourceName.Contains(pattern))
+                {
+                    include = false;
+                }
+            }
+            if (include)
+            {
+                Add(assembly, resourceName);
+            }
+        }
+    }
+
     public static async Task AutoAdd(string byPrefix = "Metapsi")
     {
         foreach (Assembly assembly in System.AppDomain.CurrentDomain.GetAssemblies())
         {
             if (assembly.GetName().Name.StartsWith(byPrefix))
             {
-                await AddAll(assembly);
+                await AddAllAsync(assembly);
             }
         }
     }

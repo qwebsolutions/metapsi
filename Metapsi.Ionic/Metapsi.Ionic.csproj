@@ -10,4 +10,5 @@
 		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
 	</ItemGroup>
 
+	<Import Project="embedded.target" />
 </Project>

@@ -2,6 +2,9 @@
 using Metapsi.WebComponentGenerator;
 using System;
 using System.Collections.Generic;
+using System.Formats.Tar;
+using System.IO.Compression;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -253,9 +256,127 @@ public static class Program
         var projectDescription = $"Use Shoelace {version} with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)";
         Utils.SetCsProjDescription(csProjPath, projectDescription);
 
+        var registryTarGzPath = $"https://registry.npmjs.org/@shoelace-style/shoelace/-/shoelace-{version}.tgz";
+
+        var tgzStream = await new HttpClient().GetStreamAsync(registryTarGzPath);
+
+        var embeddedFilesFolder = System.IO.Path.Combine(shoelaceProjectFolder, "embedded");
+        if (System.IO.Directory.Exists(embeddedFilesFolder))
+        {
+            System.IO.Directory.Delete(embeddedFilesFolder, true);
+        }
+
+        ExtractEmbeddedFiles(tgzStream, importPaths.Select(x => x.Value).ToList(), embeddedFilesFolder);
+
+        var targetFileContent = EmbeddedResourcesGenerator.GetEmbeddedFilesTargetFile(
+            embeddedFilesFolder,
+            resource =>
+            {
+                resource.LogicalName = $"shoelace@{version}/" + resource.LogicalName;
+            });
+
+        var targetFilePath = System.IO.Path.Combine(shoelaceProjectFolder, "embedded.target");
+
+        await System.IO.File.WriteAllTextAsync(targetFilePath, targetFileContent);
+
     }
     public static HashSet<string> SkippedControls()
     {
         return new HashSet<string>() { "SlPopup" };
+    }
+
+
+    public static void ExtractEmbeddedFiles(
+        Stream fromTarGzStream,
+        List<string> importPaths,
+        string intoEmbeddedFilesFolder)
+    {
+        //importPaths = importPaths.Select(x => x.Replace("\\", "/")).ToList();
+
+        using GZipStream gz = new(fromTarGzStream, CompressionMode.Decompress, leaveOpen: true);
+
+        using var reader = new TarReader(gz, leaveOpen: true);
+
+        while (reader.GetNextEntry() is TarEntry entry)
+        {
+            if (entry.Name.StartsWith("package/cdn/components"))
+            {
+                var relativeFileName = Path.GetRelativePath("package/cdn/", entry.Name);
+
+                if (importPaths.Contains(relativeFileName.Replace("\\", "/")))
+                {
+                    var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                    var folder = Path.GetDirectoryName(outFilePath);
+                    if (!System.IO.Directory.Exists(folder))
+                    {
+                        System.IO.Directory.CreateDirectory(folder);
+                    }
+
+                    entry.ExtractToFile(outFilePath, overwrite: false);
+                }
+            }
+
+            if (entry.Name.StartsWith("package/cdn/chunks"))
+            {
+                var relativeFileName = Path.GetRelativePath("package/cdn/", entry.Name);
+                var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                var folder = Path.GetDirectoryName(outFilePath);
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                }
+
+                entry.ExtractToFile(outFilePath, overwrite: false);
+            }
+
+            if (entry.Name.StartsWith("package/cdn/assets/icons"))
+            {
+                var relativeFileName = Path.GetRelativePath("package/cdn/", entry.Name);
+                var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                var folder = Path.GetDirectoryName(outFilePath);
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                }
+
+                entry.ExtractToFile(outFilePath, overwrite: false);
+            }
+
+
+            //package/cdn/themes/dark.css
+            if (entry.Name.StartsWith("package/cdn/themes"))
+            {
+                if (entry.Name.EndsWith(".css"))
+                {
+                    var relativeFileName = Path.GetRelativePath("package/cdn/", entry.Name);
+                    var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                    var folder = Path.GetDirectoryName(outFilePath);
+                    if (!System.IO.Directory.Exists(folder))
+                    {
+                        System.IO.Directory.CreateDirectory(folder);
+                    }
+
+                    entry.ExtractToFile(outFilePath, overwrite: false);
+                }
+            }
+
+            if (entry.Name.StartsWith("package/cdn/utilities/base-path.js"))
+            {
+                var relativeFileName = Path.GetRelativePath("package/cdn/", entry.Name);
+                var outFilePath = System.IO.Path.Combine(intoEmbeddedFilesFolder, relativeFileName);
+
+                var folder = Path.GetDirectoryName(outFilePath);
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                }
+
+                entry.ExtractToFile(outFilePath, overwrite: false);
+            }
+        }
     }
 }

@@ -68,25 +68,27 @@ public static partial class SlNodeExtensions
 
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
-        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");
+        EmbedAll();
+        b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
+        b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         b.HeadAppend(
             b.HtmlScript(
                 b =>
                 {
                     b.SetTypeModule();
                 },
-                b.Text($"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n")));
+                b.Text($"import {{ setBasePath }} from '/shoelace@{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n")));
         b.TrackWebComponent(tag);
     }
 
     public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
-        b.AddStylesheet($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/themes/light.css");
-        b.AddScript($"https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/{Cdn.ImportPaths[tag]}", "module");
+        EmbedAll();
+        b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
+        b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
 
         b.AddInlineScript(
-            $"import {{ setBasePath }} from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/utilities/base-path.js';\r\n  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@{Cdn.Version}/cdn/');\r\n",
+            $"import {{ setBasePath }} from '/shoelace@{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n",
             "module");
     }
 
@@ -128,5 +130,16 @@ public static partial class SlNodeExtensions
     {
         ImportShoelaceTag(b, tag);
         return b.H(tag, children);
+    }
+
+    private static bool embedded = false;
+
+    private static void EmbedAll()
+    {
+        if (!embedded)
+        {
+            embedded = true;
+            EmbeddedFiles.AddAll(typeof(SlNodeExtensions).Assembly);
+        }
     }
 }
