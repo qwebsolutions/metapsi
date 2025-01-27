@@ -1,5 +1,4 @@
 ﻿using Metapsi.Html;
-using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
 
@@ -30,37 +29,6 @@ public partial class SlInput : IHasInputTextEvent<SlInput>
             GetEventValue = (b, @event) =>
             {
                 return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
-            }
-        };
-    }
-}
-
-public partial class SlCheckbox : IAllowsBinding<SlCheckbox>
-{
-    ControlBinder<SlCheckbox> IAllowsBinding<SlCheckbox>.GetControlBinder()
-    {
-        return new ControlBinder<SlCheckbox>()
-        {
-            NewValueEventName = "sl-change",
-            GetEventValue = (b, @event) =>
-            {
-                b.Log("sl-change event", @event);
-                var isChecked = b.NavigateProperties<DomEvent, string>(@event, "target", "checked");
-                var returnValueString = b.AsString(isChecked);
-                b.Log("returnValue", returnValueString);
-                return returnValueString;
-            },
-            SetControlValue = (b, value) =>
-            {
-                b.Log("SetControlValue", value);
-
-                b.If(
-                    b.AreEqual(value, b.AsString(b.Const(true))),
-                    b =>
-                    {
-                        b.Log("SetChecked!");
-                        b.SetChecked();
-                    });
             }
         };
     }

@@ -595,5 +595,3 @@ function version(uuid) {
 }
 
 export { nil as NIL, parse, stringify, v1, v3, v4, v5, validate, version };
-
-//# sourceMappingURL=npm:uuid@9.0.0.map
