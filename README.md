@@ -2,7 +2,20 @@
 
 Metapsi is a full stack .NET framework that features queued processing and C# defined client-side web pages.
 
-Documentation and sandbox at https://metapsi.dev
+Key features:
+* C# typed all the way
+* Server-side rendering
+* Client-side rendering
+* Client-side LINQ expressions
+* Implicit Model-View-Update architecture (elm style)
+* Out-of-the-box support for Shoelace and Ionic
+* Automatic JS imports of the required modules only
+* Self-contained: no NPM needed, no static files to deploy
+
+
+Documentation and sandbox at https://metapsi.dev 
+
+Ready to run samples at https://github.com/qwebsolutions/metapsi.samples
 
 ## How to create a Metapsi project
 
