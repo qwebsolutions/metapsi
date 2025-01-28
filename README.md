@@ -3,6 +3,7 @@
 Metapsi is a full stack .NET framework that features queued processing and C# defined client-side web pages.
 
 Key features:
+* JavaScript on request
 * C# typed all the way
 * Server-side rendering
 * Client-side rendering
