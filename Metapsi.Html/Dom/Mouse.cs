@@ -35,7 +35,7 @@ public static partial class EventExtensionsClick
 
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
-        Var<HyperType.Action<TState, DomEvent>> onClick)
+        Var<HyperType.Action<TState, Event>> onClick)
         where TControl : new()
     {
         b.OnEventAction("click", onClick);
@@ -43,7 +43,7 @@ public static partial class EventExtensionsClick
 
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
-        System.Func<SyntaxBuilder, Var<TState>, Var<DomEvent>, Var<TState>> onClick)
+        System.Func<SyntaxBuilder, Var<TState>, Var<Event>, Var<TState>> onClick)
         where TControl : new()
     {
         b.OnEventAction("click", b.MakeAction(onClick));

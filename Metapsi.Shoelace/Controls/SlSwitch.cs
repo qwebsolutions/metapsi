@@ -424,14 +424,14 @@ public static partial class SlSwitchControl
     /// <summary>
     /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSwitch
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSwitch
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
@@ -454,14 +454,14 @@ public static partial class SlSwitchControl
     /// <summary>
     /// <para> Emitted when the control's checked state changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSwitch
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// <para> Emitted when the control's checked state changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSwitch
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
@@ -484,14 +484,14 @@ public static partial class SlSwitchControl
     /// <summary>
     /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSwitch
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-input", action);
     }
     /// <summary>
     /// <para> Emitted when the control receives input. </para>
     /// </summary>
-    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSwitch
+    public static void OnSlInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-input", b.MakeAction(action));
     }
@@ -514,14 +514,14 @@ public static partial class SlSwitchControl
     /// <summary>
     /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSwitch
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSwitch
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }
@@ -544,14 +544,14 @@ public static partial class SlSwitchControl
     /// <summary>
     /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSwitch
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-invalid", action);
     }
     /// <summary>
     /// <para> Emitted when the form control has been checked for validity and its constraints aren't satisfied. </para>
     /// </summary>
-    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSwitch
+    public static void OnSlInvalid<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSwitch
     {
         b.OnEventAction("onsl-invalid", b.MakeAction(action));
     }

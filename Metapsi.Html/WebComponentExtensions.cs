@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Metapsi.Syntax;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -31,6 +32,24 @@ public static class WebComponentExtensions
         {
             tracker.WebComponentTags.Add(webComponentTag);
         }
+    }
+
+    public static Var<Promise> WhenDefined(this SyntaxBuilder b, Var<string> tag)
+    {
+        var customElements = b.GetProperty<DynamicObject>(b.Self(), "customElements");
+        var whenDefinedPromise = b.CallOnObject<Promise>(customElements, "whenDefined", tag);
+        return whenDefinedPromise;
+    }
+
+    public static Var<Promise> WhenDefined(this SyntaxBuilder b, Var<List<string>> tags)
+    {
+        var whenAllDefined = b.PromiseAll(b.Map(tags, (b, tag) => b.WhenDefined(tag)));
+        return whenAllDefined;
+    }
+
+    public static Var<Promise> WhenDefined(this SyntaxBuilder b, params string[] tags)
+    {
+        return b.WhenDefined(b.Const(tags.ToList()));
     }
 }
 

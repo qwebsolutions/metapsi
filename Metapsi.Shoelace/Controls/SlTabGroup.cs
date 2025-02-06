@@ -308,14 +308,14 @@ public static partial class SlTabGroupControl
     /// <summary>
     /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTabGroup
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", action);
     }
     /// <summary>
     /// <para> Emitted when a tab is shown. </para>
     /// </summary>
-    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTabGroup
+    public static void OnSlTabShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-show", b.MakeAction(action));
     }
@@ -353,14 +353,14 @@ public static partial class SlTabGroupControl
     /// <summary>
     /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTabGroup
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", action);
     }
     /// <summary>
     /// <para> Emitted when a tab is hidden. </para>
     /// </summary>
-    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTabGroup
+    public static void OnSlTabHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTabGroup
     {
         b.OnEventAction("onsl-tab-hide", b.MakeAction(action));
     }

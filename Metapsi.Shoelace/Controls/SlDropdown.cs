@@ -603,14 +603,14 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Emitted when the dropdown opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDropdown
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// <para> Emitted when the dropdown opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDropdown
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
@@ -633,14 +633,14 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Emitted after the dropdown opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDropdown
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// <para> Emitted after the dropdown opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDropdown
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
@@ -663,14 +663,14 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Emitted when the dropdown closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDropdown
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// <para> Emitted when the dropdown closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDropdown
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
@@ -693,14 +693,14 @@ public static partial class SlDropdownControl
     /// <summary>
     /// <para> Emitted after the dropdown closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDropdown
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// <para> Emitted after the dropdown closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDropdown
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDropdown
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }

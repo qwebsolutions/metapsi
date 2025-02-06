@@ -409,14 +409,14 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Emitted when the animation is canceled. </para>
     /// </summary>
-    public static void OnSlCancel<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAnimation
+    public static void OnSlCancel<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-cancel", action);
     }
     /// <summary>
     /// <para> Emitted when the animation is canceled. </para>
     /// </summary>
-    public static void OnSlCancel<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAnimation
+    public static void OnSlCancel<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-cancel", b.MakeAction(action));
     }
@@ -439,14 +439,14 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Emitted when the animation finishes. </para>
     /// </summary>
-    public static void OnSlFinish<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAnimation
+    public static void OnSlFinish<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-finish", action);
     }
     /// <summary>
     /// <para> Emitted when the animation finishes. </para>
     /// </summary>
-    public static void OnSlFinish<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAnimation
+    public static void OnSlFinish<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-finish", b.MakeAction(action));
     }
@@ -469,14 +469,14 @@ public static partial class SlAnimationControl
     /// <summary>
     /// <para> Emitted when the animation starts or restarts. </para>
     /// </summary>
-    public static void OnSlStart<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAnimation
+    public static void OnSlStart<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-start", action);
     }
     /// <summary>
     /// <para> Emitted when the animation starts or restarts. </para>
     /// </summary>
-    public static void OnSlStart<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAnimation
+    public static void OnSlStart<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAnimation
     {
         b.OnEventAction("onsl-start", b.MakeAction(action));
     }

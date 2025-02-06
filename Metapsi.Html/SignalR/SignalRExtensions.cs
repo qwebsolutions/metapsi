@@ -107,7 +107,11 @@ public static class SignalRExtensions
         b.CallOnObject(b.Props, "on", b.Const(RaiseEventCode), b.Def((SyntaxBuilder b, Var<RaiseEventArgs> eventArgs) =>
         {
             b.Log("SignalR received event:", eventArgs);
-            b.DispatchCustomEvent(b.Get(eventArgs, x => x.EventName), b.Get(eventArgs, x => x.EventArgs));
+            b.DispatchEvent(
+                b.Window(), 
+                b.NewCustomEvent(
+                    b.Get(eventArgs, x => x.EventName), 
+                    b.Get(eventArgs, x => x.EventArgs)));
         }));
     }
 }

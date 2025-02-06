@@ -325,14 +325,14 @@ public static partial class SlTagControl
     /// <summary>
     /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTag
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", action);
     }
     /// <summary>
     /// <para> Emitted when the remove button is activated. </para>
     /// </summary>
-    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTag
+    public static void OnSlRemove<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTag
     {
         b.OnEventAction("onsl-remove", b.MakeAction(action));
     }

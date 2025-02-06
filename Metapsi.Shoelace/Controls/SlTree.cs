@@ -145,14 +145,14 @@ public static partial class SlTreeControl
     /// <summary>
     /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTree
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", action);
     }
     /// <summary>
     /// <para> Emitted when a tree item is selected or deselected. </para>
     /// </summary>
-    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTree
+    public static void OnSlSelectionChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTree
     {
         b.OnEventAction("onsl-selection-change", b.MakeAction(action));
     }

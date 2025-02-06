@@ -178,14 +178,14 @@ public static partial class SlAnimatedImageControl
     /// <summary>
     /// <para> Emitted when the image loads successfully. </para>
     /// </summary>
-    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAnimatedImage
+    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAnimatedImage
     {
         b.OnEventAction("onsl-load", action);
     }
     /// <summary>
     /// <para> Emitted when the image loads successfully. </para>
     /// </summary>
-    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAnimatedImage
+    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAnimatedImage
     {
         b.OnEventAction("onsl-load", b.MakeAction(action));
     }
@@ -208,14 +208,14 @@ public static partial class SlAnimatedImageControl
     /// <summary>
     /// <para> Emitted when the image fails to load. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAnimatedImage
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAnimatedImage
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
     /// <para> Emitted when the image fails to load. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAnimatedImage
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAnimatedImage
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }

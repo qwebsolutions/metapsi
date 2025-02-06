@@ -179,14 +179,14 @@ public static partial class SlIconControl
     /// <summary>
     /// <para> Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit. </para>
     /// </summary>
-    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlIcon
+    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlIcon
     {
         b.OnEventAction("onsl-load", action);
     }
     /// <summary>
     /// <para> Emitted when the icon has loaded. When using `spriteSheet: true` this will not emit. </para>
     /// </summary>
-    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlIcon
+    public static void OnSlLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlIcon
     {
         b.OnEventAction("onsl-load", b.MakeAction(action));
     }
@@ -209,14 +209,14 @@ public static partial class SlIconControl
     /// <summary>
     /// <para> Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlIcon
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlIcon
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
     /// <para> Emitted when the icon fails to load due to an error. When using `spriteSheet: true` this will not emit. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlIcon
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlIcon
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }

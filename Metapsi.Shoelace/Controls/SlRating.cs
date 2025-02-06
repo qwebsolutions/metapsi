@@ -292,14 +292,14 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> Emitted when the rating's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRating
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// <para> Emitted when the rating's value changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRating
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }
@@ -322,14 +322,14 @@ public static partial class SlRatingControl
     /// <summary>
     /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRating
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", action);
     }
     /// <summary>
     /// <para> Emitted when the user hovers over a value. The `phase` property indicates when hovering starts, moves to a new value, or ends. The `value` property tells what the rating's value would be if the user were to commit to the hovered value. </para>
     /// </summary>
-    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRating
+    public static void OnSlHover<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlRating
     {
         b.OnEventAction("onsl-hover", b.MakeAction(action));
     }

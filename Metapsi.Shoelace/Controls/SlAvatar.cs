@@ -258,14 +258,14 @@ public static partial class SlAvatarControl
     /// <summary>
     /// <para> The image could not be loaded. This may because of an invalid URL, a temporary network condition, or some unknown cause. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlAvatar
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlAvatar
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
     /// <para> The image could not be loaded. This may because of an invalid URL, a temporary network condition, or some unknown cause. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlAvatar
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlAvatar
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }

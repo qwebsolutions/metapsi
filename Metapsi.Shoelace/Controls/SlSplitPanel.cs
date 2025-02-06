@@ -316,14 +316,14 @@ public static partial class SlSplitPanelControl
     /// <summary>
     /// <para> Emitted when the divider's position changes. </para>
     /// </summary>
-    public static void OnSlReposition<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlSplitPanel
+    public static void OnSlReposition<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlSplitPanel
     {
         b.OnEventAction("onsl-reposition", action);
     }
     /// <summary>
     /// <para> Emitted when the divider's position changes. </para>
     /// </summary>
-    public static void OnSlReposition<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlSplitPanel
+    public static void OnSlReposition<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlSplitPanel
     {
         b.OnEventAction("onsl-reposition", b.MakeAction(action));
     }

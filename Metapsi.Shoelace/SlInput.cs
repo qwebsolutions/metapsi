@@ -11,7 +11,7 @@ public partial class SlInput : IAllowsBinding<SlInput>
             NewValueEventName = "sl-input",
             GetEventValue = (b, @event) =>
             {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
+                return b.NavigateProperties<Event, string>(@event, "target", "value");
             },
             SetControlValue = SlInputControl.SetValue
         };
@@ -28,7 +28,7 @@ public partial class SlInput : IHasInputTextEvent<SlInput>
             InputTextEventName = "sl-input",
             GetEventValue = (b, @event) =>
             {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
+                return b.NavigateProperties<Event, string>(@event, "target", "value");
             }
         };
     }
@@ -43,7 +43,7 @@ public partial class SlSelect : IAllowsBinding<SlSelect>
             NewValueEventName = "sl-change",
             GetEventValue = (b, @event) =>
             {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
+                return b.NavigateProperties<Event, string>(@event, "target", "value");
             },
             SetControlValue = SlSelectControl.SetValue
         };

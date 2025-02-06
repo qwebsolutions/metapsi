@@ -7,7 +7,7 @@ public class InputTextEventDescription<TControl>
     where TControl : new()
 {
     public string InputTextEventName { get; set; }
-    public System.Func<SyntaxBuilder, Var<DomEvent>, Var<string>> GetEventValue { get; set; }
+    public System.Func<SyntaxBuilder, Var<Event>, Var<string>> GetEventValue { get; set; }
 }
 
 public interface IHasInputTextEvent<TControl>
@@ -24,9 +24,9 @@ public static class InputTextEvent
         return new InputTextEventDescription<TControl>()
         {
             InputTextEventName = "input",
-            GetEventValue = (SyntaxBuilder b, Var<DomEvent> @event) =>
+            GetEventValue = (SyntaxBuilder b, Var<Event> @event) =>
             {
-                return b.NavigateProperties<DomEvent, string>(@event, "currentTarget", "value");
+                return b.NavigateProperties<Event, string>(@event, "currentTarget", "value");
             }
         };
     }

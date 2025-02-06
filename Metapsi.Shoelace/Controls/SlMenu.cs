@@ -72,14 +72,14 @@ public static partial class SlMenuControl
     /// <summary>
     /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlMenu
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", action);
     }
     /// <summary>
     /// <para> Emitted when a menu item is selected. </para>
     /// </summary>
-    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlMenu
+    public static void OnSlSelect<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlMenu
     {
         b.OnEventAction("onsl-select", b.MakeAction(action));
     }

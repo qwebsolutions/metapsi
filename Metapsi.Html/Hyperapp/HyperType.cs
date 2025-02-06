@@ -31,7 +31,7 @@ namespace Metapsi.Hyperapp
         {
             public Init init { get; set; }
             public Func<TState, IVNode> view { get; set; }
-            public DomElement node { get; set; }
+            public Element node { get; set; }
             public Func<TState, List<Subscription>> subscriptions { get; set; }
             public Func<Dispatcher, Dispatcher> dispatch { get; set; }
         }

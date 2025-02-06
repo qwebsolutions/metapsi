@@ -428,14 +428,14 @@ public static partial class SlCarouselControl
     /// <summary>
     /// <para> Emitted when the active slide changes. </para>
     /// </summary>
-    public static void OnSlSlideChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlCarousel
+    public static void OnSlSlideChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlCarousel
     {
         b.OnEventAction("onsl-slide-change", action);
     }
     /// <summary>
     /// <para> Emitted when the active slide changes. </para>
     /// </summary>
-    public static void OnSlSlideChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlCarousel
+    public static void OnSlSlideChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlCarousel
     {
         b.OnEventAction("onsl-slide-change", b.MakeAction(action));
     }

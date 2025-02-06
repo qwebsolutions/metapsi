@@ -28,14 +28,14 @@ public static partial class EventExtensions
         this PropsBuilder<TControl> b,
         string eventName,
         Var<HyperType.Action<TState, TDetail>> action,
-        Var<Func<DomEvent, TDetail>> getDetail)
+        Var<Func<Event, TDetail>> getDetail)
     {
         if (!eventName.StartsWith("on"))
             eventName = "on" + eventName;
 
         b.SetDynamic(
             b.Props,
-            new DynamicProperty<HyperType.Action<TState, DomEvent>>(eventName),
+            new DynamicProperty<HyperType.Action<TState, Event>>(eventName),
             b.Call(OnDetailAction, action, getDetail));
     }
 
@@ -59,16 +59,16 @@ public static partial class EventExtensions
         Var<HyperType.Action<TState, TDetail>> action,
         params string[] payloadPath)
     {
-        var getDetail = b.Def((SyntaxBuilder b, Var<DomEvent> @event) => b.NavigateProperties<DomEvent, TDetail>(@event, payloadPath));
+        var getDetail = b.Def((SyntaxBuilder b, Var<Event> @event) => b.NavigateProperties<Event, TDetail>(@event, payloadPath));
         b.OnEventAction(eventName, action, getDetail);
     }
 
-    private static Var<HyperType.Action<TState, DomEvent>> OnDetailAction<TState, TDetail>(
+    private static Var<HyperType.Action<TState, Event>> OnDetailAction<TState, TDetail>(
         this SyntaxBuilder b,
         Var<HyperType.Action<TState, TDetail>> action,
-        Var<Func<DomEvent, TDetail>> getDetail)
+        Var<Func<Event, TDetail>> getDetail)
     {
-        return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<DomEvent> @event) =>
+        return b.MakeAction((SyntaxBuilder b, Var<TState> state, Var<Event> @event) =>
         {
             //b.StopPropagation(@event);
             var detail = b.Call(getDetail, @event);

@@ -307,14 +307,14 @@ public static partial class SlMutationObserverControl
     /// <summary>
     /// <para> Emitted when a mutation occurs. </para>
     /// </summary>
-    public static void OnSlMutation<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlMutationObserver
+    public static void OnSlMutation<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlMutationObserver
     {
         b.OnEventAction("onsl-mutation", action);
     }
     /// <summary>
     /// <para> Emitted when a mutation occurs. </para>
     /// </summary>
-    public static void OnSlMutation<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlMutationObserver
+    public static void OnSlMutation<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlMutationObserver
     {
         b.OnEventAction("onsl-mutation", b.MakeAction(action));
     }

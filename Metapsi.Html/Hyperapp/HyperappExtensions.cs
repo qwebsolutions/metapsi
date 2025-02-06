@@ -53,8 +53,6 @@ public static partial class HyperappExtensions
 
         HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
 
-        var usesExternalResources = GenerateAddExternalResourcesDynamic(moduleBuilder);
-
         var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
 
         return new HyperAppNode()
@@ -69,8 +67,7 @@ public static partial class HyperappExtensions
                     b.SetAttribute("type", "module");
                 },
                 b.Text(moduleScript),
-                usesExternalResources ? b.Text("addExternalResources(() => {var dispatch = main()});") : b.Text(string.Empty),
-                !usesExternalResources ? b.Text("var dispatch = main()") : b.Text(string.Empty))
+                b.Text("var dispatch = main()"))
         };
     }
 
@@ -103,7 +100,8 @@ public static partial class HyperappExtensions
             subscriptions: subscriptions);
     }
 
-    public static bool GenerateAddExternalResourcesDynamic(ModuleBuilder b)
+    [Obsolete("", true)]
+    private static bool GenerateAddExternalResourcesDynamic(ModuleBuilder b)
     {
         var distinctTagConstants = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
 

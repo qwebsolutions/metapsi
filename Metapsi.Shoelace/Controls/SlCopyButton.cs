@@ -400,14 +400,14 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlCopyButton
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", action);
     }
     /// <summary>
     /// <para> Emitted when the data has been copied. </para>
     /// </summary>
-    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlCopyButton
+    public static void OnSlCopy<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-copy", b.MakeAction(action));
     }
@@ -430,14 +430,14 @@ public static partial class SlCopyButtonControl
     /// <summary>
     /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlCopyButton
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", action);
     }
     /// <summary>
     /// <para> Emitted when the data could not be copied. </para>
     /// </summary>
-    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlCopyButton
+    public static void OnSlError<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlCopyButton
     {
         b.OnEventAction("onsl-error", b.MakeAction(action));
     }

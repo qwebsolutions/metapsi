@@ -223,14 +223,14 @@ public static partial class SlTabControl
     /// <summary>
     /// <para> Emitted when the tab is closable and the close button is activated. </para>
     /// </summary>
-    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTab
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", action);
     }
     /// <summary>
     /// <para> Emitted when the tab is closable and the close button is activated. </para>
     /// </summary>
-    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTab
+    public static void OnSlClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTab
     {
         b.OnEventAction("onsl-close", b.MakeAction(action));
     }

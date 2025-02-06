@@ -198,14 +198,14 @@ public static partial class SlRadioControl
     /// <summary>
     /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadio
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", action);
     }
     /// <summary>
     /// <para> Emitted when the control loses focus. </para>
     /// </summary>
-    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadio
+    public static void OnSlBlur<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-blur", b.MakeAction(action));
     }
@@ -228,14 +228,14 @@ public static partial class SlRadioControl
     /// <summary>
     /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlRadio
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", action);
     }
     /// <summary>
     /// <para> Emitted when the control gains focus. </para>
     /// </summary>
-    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlRadio
+    public static void OnSlFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlRadio
     {
         b.OnEventAction("onsl-focus", b.MakeAction(action));
     }

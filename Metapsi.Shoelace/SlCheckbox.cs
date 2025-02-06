@@ -12,7 +12,7 @@ public partial class SlCheckbox : IAllowsBinding<SlCheckbox>
             NewValueEventName = "sl-change",
             GetEventValue = (b, @event) =>
             {
-                var isChecked = b.NavigateProperties<DomEvent, string>(@event, "target", "checked");
+                var isChecked = b.NavigateProperties<Html.Event, string>(@event, "target", "checked");
                 var returnValueString = b.AsString(isChecked);
                 return returnValueString;
             },

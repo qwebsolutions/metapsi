@@ -114,14 +114,14 @@ public static partial class SlResizeObserverControl
     /// <summary>
     /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlResizeObserver
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", action);
     }
     /// <summary>
     /// <para> Emitted when the element is resized. </para>
     /// </summary>
-    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlResizeObserver
+    public static void OnSlResize<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlResizeObserver
     {
         b.OnEventAction("onsl-resize", b.MakeAction(action));
     }

@@ -531,14 +531,14 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Emitted when the tooltip begins to show. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTooltip
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// <para> Emitted when the tooltip begins to show. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTooltip
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
@@ -561,14 +561,14 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Emitted after the tooltip has shown and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTooltip
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// <para> Emitted after the tooltip has shown and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTooltip
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
@@ -591,14 +591,14 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Emitted when the tooltip begins to hide. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTooltip
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// <para> Emitted when the tooltip begins to hide. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTooltip
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
@@ -621,14 +621,14 @@ public static partial class SlTooltipControl
     /// <summary>
     /// <para> Emitted after the tooltip has hidden and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTooltip
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// <para> Emitted after the tooltip has hidden and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTooltip
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTooltip
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }

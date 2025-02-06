@@ -115,14 +115,14 @@ public static partial class SlImageComparerControl
     /// <summary>
     /// <para> Emitted when the position changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlImageComparer
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", action);
     }
     /// <summary>
     /// <para> Emitted when the position changes. </para>
     /// </summary>
-    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlImageComparer
+    public static void OnSlChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlImageComparer
     {
         b.OnEventAction("onsl-change", b.MakeAction(action));
     }

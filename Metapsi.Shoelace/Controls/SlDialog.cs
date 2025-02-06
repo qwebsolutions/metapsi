@@ -210,14 +210,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted when the dialog opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// <para> Emitted when the dialog opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
@@ -240,14 +240,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted after the dialog opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// <para> Emitted after the dialog opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
@@ -270,14 +270,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted when the dialog closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// <para> Emitted when the dialog closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
@@ -300,14 +300,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted after the dialog closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// <para> Emitted after the dialog closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }
@@ -330,14 +330,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input. </para>
     /// </summary>
-    public static void OnSlInitialFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlInitialFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-initial-focus", action);
     }
     /// <summary>
     /// <para> Emitted when the dialog opens and is ready to receive focus. Calling `event.preventDefault()` will prevent focusing and allow you to set it on a different element, such as an input. </para>
     /// </summary>
-    public static void OnSlInitialFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlInitialFocus<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-initial-focus", b.MakeAction(action));
     }
@@ -360,14 +360,14 @@ public static partial class SlDialogControl
     /// <summary>
     /// <para> Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss. </para>
     /// </summary>
-    public static void OnSlRequestClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDialog
+    public static void OnSlRequestClose<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-request-close", action);
     }
     /// <summary>
     /// <para> Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing escape. Calling `event.preventDefault()` will keep the dialog open. Avoid using this unless closing the dialog will result in destructive behavior such as data loss. </para>
     /// </summary>
-    public static void OnSlRequestClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDialog
+    public static void OnSlRequestClose<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDialog
     {
         b.OnEventAction("onsl-request-close", b.MakeAction(action));
     }

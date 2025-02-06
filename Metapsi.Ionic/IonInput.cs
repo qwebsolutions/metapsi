@@ -10,7 +10,7 @@ public partial class IonInput : IAllowsBinding<IonInput>
         {
             NewValueEventName = "ionInput",
             SetControlValue = (b, value) => b.SetValue(value),
-            GetEventValue = (b, domEvent) => b.NavigateProperties<DomEvent, string>(domEvent, "detail", "value")
+            GetEventValue = (b, domEvent) => b.NavigateProperties<Html.Event, string>(domEvent, "detail", "value")
         };
     }
 }
@@ -23,7 +23,7 @@ public partial class IonTextarea : IAllowsBinding<IonTextarea>
         {
             NewValueEventName = "ionInput",
             SetControlValue = (b, value) => b.SetValue(value),
-            GetEventValue = (b, domEvent) => b.NavigateProperties<DomEvent, string>(domEvent, "detail", "value")
+            GetEventValue = (b, domEvent) => b.NavigateProperties<Html.Event, string>(domEvent, "detail", "value")
         };
     }
 }

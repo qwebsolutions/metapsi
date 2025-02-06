@@ -8,7 +8,7 @@ public class ControlBinder<TControl>
     where TControl : new()
 {
     public string NewValueEventName { get; set; }
-    public System.Func<SyntaxBuilder, Var<DomEvent>, Var<string>> GetEventValue { get; set; }
+    public System.Func<SyntaxBuilder, Var<Event>, Var<string>> GetEventValue { get; set; }
     public System.Action<PropsBuilder<TControl>, Var<string>> SetControlValue { get; set; }
 }
 
@@ -49,9 +49,9 @@ public static class Binding
         return new ControlBinder<TControl>()
         {
             NewValueEventName = "input",
-            GetEventValue = (SyntaxBuilder b, Var<DomEvent> @event) =>
+            GetEventValue = (SyntaxBuilder b, Var<Event> @event) =>
             {
-                return b.NavigateProperties<DomEvent, string>(@event, "currentTarget", "value");
+                return b.NavigateProperties<Event, string>(@event, "currentTarget", "value");
             },
             SetControlValue = (b, value) => b.SetAttribute("value", value)
         };

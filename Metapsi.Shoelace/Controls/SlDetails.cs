@@ -210,14 +210,14 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Emitted when the details opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDetails
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-show", action);
     }
     /// <summary>
     /// <para> Emitted when the details opens. </para>
     /// </summary>
-    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDetails
+    public static void OnSlShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-show", b.MakeAction(action));
     }
@@ -240,14 +240,14 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Emitted after the details opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDetails
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-after-show", action);
     }
     /// <summary>
     /// <para> Emitted after the details opens and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDetails
+    public static void OnSlAfterShow<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-after-show", b.MakeAction(action));
     }
@@ -270,14 +270,14 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Emitted when the details closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDetails
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-hide", action);
     }
     /// <summary>
     /// <para> Emitted when the details closes. </para>
     /// </summary>
-    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDetails
+    public static void OnSlHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-hide", b.MakeAction(action));
     }
@@ -300,14 +300,14 @@ public static partial class SlDetailsControl
     /// <summary>
     /// <para> Emitted after the details closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlDetails
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-after-hide", action);
     }
     /// <summary>
     /// <para> Emitted after the details closes and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlDetails
+    public static void OnSlAfterHide<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlDetails
     {
         b.OnEventAction("onsl-after-hide", b.MakeAction(action));
     }

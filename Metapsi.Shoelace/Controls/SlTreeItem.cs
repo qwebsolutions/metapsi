@@ -261,14 +261,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted when the tree item expands. </para>
     /// </summary>
-    public static void OnSlExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-expand", action);
     }
     /// <summary>
     /// <para> Emitted when the tree item expands. </para>
     /// </summary>
-    public static void OnSlExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-expand", b.MakeAction(action));
     }
@@ -291,14 +291,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted after the tree item expands and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlAfterExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-after-expand", action);
     }
     /// <summary>
     /// <para> Emitted after the tree item expands and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlAfterExpand<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-after-expand", b.MakeAction(action));
     }
@@ -321,14 +321,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted when the tree item collapses. </para>
     /// </summary>
-    public static void OnSlCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-collapse", action);
     }
     /// <summary>
     /// <para> Emitted when the tree item collapses. </para>
     /// </summary>
-    public static void OnSlCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-collapse", b.MakeAction(action));
     }
@@ -351,14 +351,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted after the tree item collapses and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlAfterCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-after-collapse", action);
     }
     /// <summary>
     /// <para> Emitted after the tree item collapses and all animations are complete. </para>
     /// </summary>
-    public static void OnSlAfterCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlAfterCollapse<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-after-collapse", b.MakeAction(action));
     }
@@ -381,14 +381,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted when the tree item's lazy state changes. </para>
     /// </summary>
-    public static void OnSlLazyChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlLazyChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-lazy-change", action);
     }
     /// <summary>
     /// <para> Emitted when the tree item's lazy state changes. </para>
     /// </summary>
-    public static void OnSlLazyChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlLazyChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-lazy-change", b.MakeAction(action));
     }
@@ -411,14 +411,14 @@ public static partial class SlTreeItemControl
     /// <summary>
     /// <para> Emitted when a lazy item is selected. Use this event to asynchronously load data and append items to the tree before expanding. After appending new items, remove the `lazy` attribute to remove the loading state and update the tree. </para>
     /// </summary>
-    public static void OnSlLazyLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DomEvent>> action) where TComponent: SlTreeItem
+    public static void OnSlLazyLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Event>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-lazy-load", action);
     }
     /// <summary>
     /// <para> Emitted when a lazy item is selected. Use this event to asynchronously load data and append items to the tree before expanding. After appending new items, remove the `lazy` attribute to remove the loading state and update the tree. </para>
     /// </summary>
-    public static void OnSlLazyLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DomEvent>, Var<TModel>> action) where TComponent: SlTreeItem
+    public static void OnSlLazyLoad<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Event>, Var<TModel>> action) where TComponent: SlTreeItem
     {
         b.OnEventAction("onsl-lazy-load", b.MakeAction(action));
     }
