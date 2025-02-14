@@ -172,7 +172,7 @@ public static class Program
                     {
                         Name = @event.name,
                         Comment = Utils.SingleLine(@event.description),
-                        Type = new TypeScriptObjectType() { TypeName = "DomEvent" }
+                        Type = new TypeScriptObjectType() { TypeName = "Event" }
                     });
 
                     shoelaceComponent.Events.Add(new WebComponentEvent()

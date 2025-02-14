@@ -674,34 +674,34 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonPopover
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), enterAnimation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
     /// <para> Animation to use when the popover is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonPopover
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
     }
 
 
     /// <summary>
     /// <para> The event to pass to the popover animation. </para>
     /// </summary>
-    public static void SetEvent<T>(this PropsBuilder<T> b, Var<object> @event) where T: IonPopover
+    public static void SetEvent<T>(this PropsBuilder<T> b, Var<DynamicObject> @event) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("event"), @event);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("event"), @event);
     }
 
     /// <summary>
     /// <para> The event to pass to the popover animation. </para>
     /// </summary>
-    public static void SetEvent<T>(this PropsBuilder<T> b, object @event) where T: IonPopover
+    public static void SetEvent<T>(this PropsBuilder<T> b, DynamicObject @event) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("event"), b.Const(@event));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("event"), b.Const(@event));
     }
 
 
@@ -829,17 +829,17 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonPopover
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
     /// <para> Animation to use when the popover is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonPopover
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 

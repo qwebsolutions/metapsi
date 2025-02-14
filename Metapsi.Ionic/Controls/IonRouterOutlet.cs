@@ -138,17 +138,17 @@ public static partial class IonRouterOutletControl
     /// <summary>
     /// <para> This property allows to create custom transition using AnimationBuilder functions. </para>
     /// </summary>
-    public static void SetAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> animation) where T: IonRouterOutlet
+    public static void SetAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> animation) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("animation"), animation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), animation);
     }
 
     /// <summary>
     /// <para> This property allows to create custom transition using AnimationBuilder functions. </para>
     /// </summary>
-    public static void SetAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> animation) where T: IonRouterOutlet
+    public static void SetAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> animation) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("animation"), b.Const(animation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), b.Const(animation));
     }
 
 

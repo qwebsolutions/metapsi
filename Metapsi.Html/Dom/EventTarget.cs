@@ -1,5 +1,6 @@
 ﻿using Metapsi.Syntax;
 using System;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 namespace Metapsi.Html;
@@ -197,3 +198,5 @@ public static class EventTargetExtensions
         b.CallOnObject(target, "removeEventListener", type, listener);
     }
 }
+
+

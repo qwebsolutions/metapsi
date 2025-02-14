@@ -197,17 +197,17 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> The transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> routerAnimation) where T: IonNavLink
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("routerAnimation"), routerAnimation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
     /// <para> The transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> routerAnimation) where T: IonNavLink
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("routerAnimation"), b.Const(routerAnimation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), b.Const(routerAnimation));
     }
 
 

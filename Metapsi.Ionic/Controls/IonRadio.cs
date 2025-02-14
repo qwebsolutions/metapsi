@@ -455,17 +455,17 @@ public static partial class IonRadioControl
     /// <summary>
     /// <para> the value of the radio. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonRadio
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonRadio
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
     }
 
     /// <summary>
     /// <para> the value of the radio. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonRadio
+    public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonRadio
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
     }
 
 

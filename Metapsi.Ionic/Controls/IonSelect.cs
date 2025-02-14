@@ -509,17 +509,17 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-select. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<object,object,bool>> compareWith) where T: IonSelect
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,bool>> compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,bool>>("compareWith"), compareWith);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), compareWith);
     }
 
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-select. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<object,object,bool> compareWith) where T: IonSelect
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,bool> compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,bool>>("compareWith"), b.Const(compareWith));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), b.Const(compareWith));
     }
 
 
@@ -640,17 +640,17 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
-    public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, Var<object> interfaceOptions) where T: IonSelect
+    public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, Var<DynamicObject> interfaceOptions) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("interfaceOptions"), interfaceOptions);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("interfaceOptions"), interfaceOptions);
     }
 
     /// <summary>
     /// <para> Any additional options that the `alert`, `action-sheet` or `popover` interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface. </para>
     /// </summary>
-    public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, object interfaceOptions) where T: IonSelect
+    public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, DynamicObject interfaceOptions) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("interfaceOptions"), b.Const(interfaceOptions));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("interfaceOptions"), b.Const(interfaceOptions));
     }
 
 
@@ -884,17 +884,17 @@ public static partial class IonSelectControl
     /// <summary>
     /// <para> The value of the select. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonSelect
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
     }
 
     /// <summary>
     /// <para> The value of the select. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonSelect
+    public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
     }
 
 

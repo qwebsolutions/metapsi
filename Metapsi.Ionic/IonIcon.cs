@@ -50,4 +50,29 @@ public static class IonIconControl
     {
         b.SetName(b.Const(name));
     }
+
+    public static void SetColor(this PropsBuilder<IonIcon> b, Var<string> color)
+    {
+        b.SetProperty(b.Props, b.Const("color"), color);
+    }
+
+    public static void SetColor(this PropsBuilder<IonIcon> b, string color)
+    {
+        b.SetColor(b.Const(color));
+    }
+
+    public static void SetSize(this PropsBuilder<IonIcon> b, Var<string> size)
+    {
+        b.SetProperty(b.Props, b.Const("size"), size);
+    }
+
+    public static void SetSizeLarge(this PropsBuilder<IonIcon> b)
+    {
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
+    }
+
+    public static void SetSizeSmall(this PropsBuilder<IonIcon> b)
+    {
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
+    }
 }

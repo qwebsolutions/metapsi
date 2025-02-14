@@ -539,17 +539,17 @@ public static partial class IonCheckboxControl
     /// <summary>
     /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonCheckbox
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), value);
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
     }
 
     /// <summary>
     /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonCheckbox
+    public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("value"), b.Const(value));
+        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
     }
 
 

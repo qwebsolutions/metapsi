@@ -361,17 +361,17 @@ public static partial class IonAlertControl
     /// <summary>
     /// <para> Animation to use when the alert is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonAlert
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), enterAnimation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
     /// <para> Animation to use when the alert is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonAlert
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
     }
 
 
@@ -481,17 +481,17 @@ public static partial class IonAlertControl
     /// <summary>
     /// <para> Animation to use when the alert is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonAlert
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
     /// <para> Animation to use when the alert is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonAlert
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<object,object,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 
