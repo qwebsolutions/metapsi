@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Metapsi.Syntax;
 
 namespace Metapsi.Syntax
@@ -337,9 +338,10 @@ namespace Metapsi.Syntax
             return b.CallExternal<int>(ModuleName, nameof(Minus), number);
         }
 
-        public static Var<int> Add(this SyntaxBuilder b, Var<int> firstNumber, Var<int> secondNumber)
+        public static Var<T> Add<T>(this SyntaxBuilder b, Var<T> firstNumber, Var<T> secondNumber)
+            where T: INumber<T>
         {
-            return b.CallExternal<int>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
 
         public static Var<string> ToFixed(this SyntaxBuilder b, Var<decimal> number, Var<int> digits)

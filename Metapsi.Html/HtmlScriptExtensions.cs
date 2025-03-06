@@ -16,7 +16,7 @@ public static class HtmlScriptExtensions
     {
         ModuleBuilder moduleBuilder = new ModuleBuilder();
         moduleBuilder.Define("main", buildScript);
-        //GenerateAddExternalResources(b, moduleBuilder);
+        GenerateAddExternalResources(b, moduleBuilder);
         return b.HtmlScript(
             b =>
             {

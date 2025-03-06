@@ -104,3 +104,7 @@ export const Self = () => self;
 export const Throw = (message) => { throw new Error(message) }
 export const New = (f, ...args) => new f(...args);
 export const In = (value, obj) => value in obj;
+export const While = (checkFn, doFn) => { while (checkFn()) { doFn() } }
+export const AsyncForeach = async (collection, doStuff) => {
+    for (const item of collection) await doStuff(item)
+}

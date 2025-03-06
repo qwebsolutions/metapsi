@@ -15,6 +15,11 @@ public interface HTMLInputElement : HTMLElement
     /// The checked property of the HTMLInputElement interface specifies the current checkedness of the element; that is, whether the form control is checked or not.
     /// </summary>
     public bool @checked { get; set; }
+
+    /// <summary>
+    /// The HTMLInputElement.files property allows you to access the FileList selected with the &lt;input type="file"&gt; element.
+    /// </summary>
+    public FileList files { get; }
 }
 
 /// <summary>
@@ -59,5 +64,18 @@ public static class HTMLInputElementExtensions
         where TEvent : Event
     {
         return b.Get(b.GetTargetHtmlInput(e), x => x.@checked);
+    }
+
+    /// <summary>
+    /// Returns e.target.files
+    /// </summary>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    public static Var<FileList> GetTargetFiles<TEvent>(this SyntaxBuilder b, Var<TEvent> e)
+        where TEvent : Event
+    {
+        return b.Get(b.GetTargetHtmlInput(e), x => x.files);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi;
+using Metapsi.Syntax;
 using System;
 
 public class PropsBuilder<TProps> : SyntaxBuilder
@@ -18,6 +19,14 @@ public class PropsBuilder<TProps> : SyntaxBuilder
 
 public static class PropsBuilderExtensions
 {
+    /// <summary>
+    /// Sets properties on an already existing object
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="obj"></param>
+    /// <param name="setProps"></param>
+    /// <returns></returns>
     public static Var<T> SetProps<T>(this SyntaxBuilder b, IVariable obj, Action<PropsBuilder<T>> setProps)
     {
         var propsBuilder = new PropsBuilder<T>();
@@ -30,6 +39,25 @@ public static class PropsBuilderExtensions
         return propsBuilder.Props;
     }
 
+    /// <summary>
+    /// Sets properties on an empty object. This does not use the default values of the T object properties
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="setProps"></param>
+    /// <returns></returns>
+    public static Var<T> SetProps<T>(this SyntaxBuilder b, Action<PropsBuilder<T>> setProps)
+    {
+        return b.SetProps(b.NewObj<DynamicObject>(), setProps);
+    }
+
+    /// <summary>
+    /// Creates a new object of type T using the default values of the object properties
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="setProps"></param>
+    /// <returns></returns>
     public static Var<T> NewObj<T>(this SyntaxBuilder b, Action<PropsBuilder<T>> setProps)
         where T : new()
     {

@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Metapsi.Syntax;
 using Microsoft.AspNetCore.Identity;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Html
 {
@@ -77,6 +78,56 @@ namespace Metapsi.Html
         public static Var<object> Self(this SyntaxBuilder b)
         {
             return b.CallCoreFunction<object>(nameof(Self));
+        }
+
+        /// <summary>
+        /// While loop
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="checkFn"></param>
+        /// <param name="doFn"></param>
+        public static void While(this SyntaxBuilder b, Var<Func<bool>> checkFn, Var<Action> doFn)
+        {
+            b.CallExternal(ModuleName, "While", checkFn, doFn);
+        }
+
+        /// <summary>
+        /// While loop
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="checkFn"></param>
+        /// <param name="doFn"></param>
+        public static void While(this SyntaxBuilder b, Func<SyntaxBuilder, Var<bool>> checkFn, Action<SyntaxBuilder> doFn)
+        {
+            b.While(b.Def(checkFn), b.Def(doFn));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="collection"></param>
+        /// <param name="doStuff"></param>
+        /// <returns></returns>
+        public static Var<Promise> AsyncForeach<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<Func<T, Promise>> doStuff)
+        {
+            return b.CallCoreFunction<Promise>("AsyncForeach", collection, doStuff);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSyntaxBuilder"></typeparam>
+        /// <typeparam name="TItem"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="collection"></param>
+        /// <param name="doStuff"></param>
+        /// <returns></returns>
+        public static Var<Promise> AsyncForeach<TSyntaxBuilder, TItem>(this TSyntaxBuilder b, Var<List<TItem>> collection, Func<SyntaxBuilder, Var<TItem>, Var<Promise>> doStuff)
+            where TSyntaxBuilder: SyntaxBuilder
+        {
+            return b.CallCoreFunction<Promise>("AsyncForeach", collection, b.Def(doStuff));
         }
 
         /// <summary>
@@ -262,27 +313,6 @@ namespace Metapsi.Html
             b.SetProperty(b.GetProperty<object>(b.Window(), "location"), b.Const("href"), url);
         }
 
-        public static void ScrollIntoView(this SyntaxBuilder b, Var<Element> domElement)
-        {
-            b.If(
-                b.HasObject(domElement),
-                b =>
-                {
-                    var scrollOptions = b.NewObj<DynamicObject>();
-                    b.SetProperty(scrollOptions, b.Const("behavior"), b.Const("smooth"));
-                    b.CallOnObject(domElement, "scrollIntoView", scrollOptions);
-                });
-        }
-
-        public static void ScrollBy(this SyntaxBuilder b, Var<int> x, Var<int> y)
-        {
-            b.CallOnObject(b.Window(), "scrollBy", x, y);
-        }
-
-        public static void ScrollTo(this SyntaxBuilder b, Var<int> x, Var<int> y)
-        {
-            b.CallOnObject(b.Window(), "scrollTo", x, y);
-        }
 
         public static Var<string> GetLocale(this SyntaxBuilder b)
         {

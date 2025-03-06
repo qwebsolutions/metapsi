@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 namespace Metapsi.SignalR;
 
 public class SignalRConnection
@@ -35,6 +36,11 @@ public static class SignalRExtensions
 {
     public const string RaiseEventCode = "raiseEvent";
 
+    /// <summary>
+    /// Configures the SignalR serializer to work with json payloads
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
     public static WebApplicationBuilder AddMetapsiSignalR(this WebApplicationBuilder builder)
     {
         builder.Services.AddSignalR()
@@ -45,6 +51,11 @@ public static class SignalRExtensions
         return builder;
     }
 
+    /// <summary>
+    /// Adds a SignalR hub on DefaultMetapsiSignalRHub.Path
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
     public static HubEndpointConventionBuilder MapDefaultSignalRHub(this IEndpointRouteBuilder builder)
     {
         var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(DefaultMetapsiSignalRHub.Path);
@@ -52,11 +63,19 @@ public static class SignalRExtensions
         return hubBuilder;
     }
 
-    public static async Task RaiseEvent<T>(this IClientProxy clientProxy, T eventArgs)
+    public static async Task RaiseEvent(this IClientProxy clientProxy, string eventName)
+    {
+        await clientProxy.SendAsync(RaiseEventCode, new RaiseEventArgs<object>()
+        {
+            EventName = eventName
+        });
+    }
+
+    public static async Task RaiseCustomEvent<T>(this IClientProxy clientProxy, string eventName, T eventArgs)
     {
         await clientProxy.SendAsync(RaiseEventCode, new RaiseEventArgs<T>()
         {
-            EventName = typeof(T).Name,
+            EventName = eventName,
             EventArgs = eventArgs
         });
     }
