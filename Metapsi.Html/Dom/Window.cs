@@ -1,10 +1,17 @@
-﻿namespace Metapsi.Html;
+﻿using Metapsi.Syntax;
+
+namespace Metapsi.Html;
 
 /// <summary>
 /// The Window interface represents a window containing a DOM document; the document property points to the DOM document loaded in that window.
 /// </summary>
 public interface Window : EventTarget
 {
+    /// <summary>
+    /// The caches read-only property of the Window interface returns the CacheStorage object associated with the current context. This object enables functionality such as storing assets for offline use, and generating custom responses to requests.
+    /// </summary>
+    public CacheStorage caches { get; }
+
     /// <summary>
     /// window.document returns a reference to the document contained in the window.
     /// </summary>

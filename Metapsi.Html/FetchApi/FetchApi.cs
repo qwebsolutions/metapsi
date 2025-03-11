@@ -121,6 +121,11 @@ public static class FetchApi
         return b.CallOnObject<Promise>(b.Self(), "fetch", url, fetchOptions);
     }
 
+    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<Request> request)
+    {
+        return b.CallOnObject<Promise>(b.Self(), "fetch", request);
+    }
+
     public static void GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchGet = b.Fetch(getUrl);

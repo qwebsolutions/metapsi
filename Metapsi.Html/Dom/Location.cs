@@ -1,4 +1,7 @@
-﻿namespace Metapsi.Html;
+﻿using Metapsi.Syntax;
+using System.Reflection.Emit;
+
+namespace Metapsi.Html;
 
 /// <summary>
 /// The Location interface represents the location (URL) of the object it is linked to. Changes done on it are reflected on the object it relates to. Both the Document and Window interface have such a linked Location, accessible via Document.location and Window.location respectively.
@@ -49,4 +52,53 @@ public interface Location
     /// The search property of the Location interface is a search string, also called a query string, that is a string containing a "?" followed by the parameters of the location's URL. If the URL does not have a search query, this property contains an empty string, "".
     /// </summary>
     public string search { get; set; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public static class LocationExtensions
+{
+    /// <summary>
+    /// The assign() method of the Location interface causes the window to load and display the document at the URL specified. After the navigation occurs, the user can navigate back to the page that called Location.assign() by pressing the "back" button.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="location"></param>
+    /// <param name="url">A string or any other object with a stringifier, such as a URL object, containing the URL of the page to navigate to; for example, an absolute URL such as https://developer.mozilla.org/en-US/docs/Web/API/Location/reload, or a relative URL — such as /Web (just a path, for navigating to another document at the same origin) or #specifications (just a fragment string, for navigating to some part of the same page), and so on.</param>
+    public static void LocationAssign(this SyntaxBuilder b, Var<Location> location, Var<string> url)
+    {
+        b.CallOnObject(location, "assign", url);
+    }
+
+    /// <summary>
+    /// The reload() method of the Location interface reloads the current URL, like the Refresh button.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="location"></param>
+    public static void LocationReload(this SyntaxBuilder b, Var<Location> location)
+    {
+        b.CallOnObject(location, "reload");
+    }
+
+    /// <summary>
+    /// The replace() method of the Location interface replaces the current resource with the one at the provided URL. The difference from the assign() method is that after using replace() the current page will not be saved in session History, meaning the user won't be able to use the back button to navigate to it. 
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="location"></param>
+    /// <param name="url">A string or any other object with a stringifier, such as a URL object, containing the URL of the page to navigate to.</param>
+    public static void LocationReplace(this SyntaxBuilder b, Var<Location> location, Var<string> url)
+    {
+        b.CallOnObject(location, "replace", url);
+    }
+
+    /// <summary>
+    /// The toString() stringifier method of the Location interface returns a string containing the whole URL. It is a read-only version of Location.href.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="location"></param>
+    /// <returns></returns>
+    public static Var<string> LocationToString(this SyntaxBuilder b, Var<Location> location)
+    {
+        return b.CallOnObject<string>(location, "toString");
+    }
 }
