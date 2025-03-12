@@ -23,7 +23,7 @@
 		<EmbeddedResource Include="embedded\signalr.js" LogicalName="signalr.js" />
 		<EmbeddedResource Include="embedded\Metapsi.SignalR.js" LogicalName="Metapsi.SignalR.js" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
-		<EmbeddedResource Include="embedded\MetapsiCustomElements.js" LogicalName="MetapsiCustomElements.js" />
+		<EmbeddedResource Include="embedded\metapsi-custom-elements.js" LogicalName="metapsi-custom-elements.js" />
 
 	</ItemGroup>
 

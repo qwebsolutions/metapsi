@@ -10,7 +10,7 @@ namespace Metapsi.Html;
 
 public static partial class CustomElementExtensions
 {
-    private const string ExternalScriptName = "MetapsiCustomElements";
+    private const string ExternalScriptName = "metapsi-custom-elements";
 
     /// <summary>
     /// Gets a custom element tag name based on T

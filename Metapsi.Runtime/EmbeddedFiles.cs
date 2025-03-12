@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -154,5 +156,10 @@ public static class EmbeddedFiles
         var embeddedFile = GetEmbeddedFileReference(assembly, resourceName);
         embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
         return embeddedFile;
+    }
+
+    public static List<EmbeddedFile> GetAll()
+    {
+        return embeddedResources.Select(x => x.Value).ToList();
     }
 }
