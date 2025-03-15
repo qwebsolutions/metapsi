@@ -5,9 +5,13 @@ using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
-public class ClientSideException
+/// <summary>
+/// 
+/// </summary>
+[Obsolete]
+public interface ClientSideException : Error
 {
-    public string message { get; set; }
+
 }
 
 public class FetchOptions
@@ -126,19 +130,19 @@ public static class FetchApi
         return b.CallOnObject<Promise>(b.Self(), "fetch", request);
     }
 
-    public static void GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    public static Var<Promise> GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchGet = b.Fetch(getUrl);
-        b.HandleJsonResponse(fetchGet, onSuccess, onFailure);
+        return b.HandleJsonResponse(fetchGet, onSuccess, onFailure);
     }
 
-    public static void GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Action<PropsBuilder<FetchOptions>> setProps, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    public static Var<Promise> GetJson<T>(this SyntaxBuilder b, Var<string> getUrl, Action<PropsBuilder<FetchOptions>> setProps, Var<System.Action<T>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchGet = b.Fetch(getUrl, setProps);
-        b.HandleJsonResponse(fetchGet, onSuccess, onFailure);
+        return b.HandleJsonResponse(fetchGet, onSuccess, onFailure);
     }
 
-    public static void PostJson<TOut>(this SyntaxBuilder b, Var<string> postUrl, Action<PropsBuilder<FetchOptions>> setProps, Var<System.Action<TOut>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    public static Var<Promise> PostJson<TOut>(this SyntaxBuilder b, Var<string> postUrl, Action<PropsBuilder<FetchOptions>> setProps, Var<System.Action<TOut>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchPost = b.Fetch(postUrl, b =>
         {
@@ -146,10 +150,10 @@ public static class FetchApi
             b.SetJsonContentTypeHeaders();
             setProps(b);
         });
-        b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
+        return b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
     }
 
-    public static void PostJson<TIn, TOut>(this SyntaxBuilder b, Var<string> postUrl, Var<TIn> postObject, Var<System.Action<TOut>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    public static Var<Promise> PostJson<TIn, TOut>(this SyntaxBuilder b, Var<string> postUrl, Var<TIn> postObject, Var<System.Action<TOut>> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchPost = b.Fetch(postUrl, b =>
         {
@@ -157,10 +161,10 @@ public static class FetchApi
             b.SetJsonBody(postObject);
             b.SetJsonContentTypeHeaders();
         });
-        b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
+        return b.HandleJsonResponse(fetchPost, onSuccess, onFailure);
     }
 
-    public static void PostJson<TIn>(this SyntaxBuilder b, Var<string> postUrl, Var<TIn> postObject, Var<System.Action> onSuccess, Var<System.Action<ClientSideException>> onFailure)
+    public static Var<Promise> PostJson<TIn>(this SyntaxBuilder b, Var<string> postUrl, Var<TIn> postObject, Var<System.Action> onSuccess, Var<System.Action<ClientSideException>> onFailure)
     {
         var fetchPost = b.Fetch(postUrl, b =>
         {
@@ -168,7 +172,7 @@ public static class FetchApi
             b.SetJsonBody(postObject);
             b.SetJsonContentTypeHeaders();
         });
-        b.HandleResponse(fetchPost, onSuccess, onFailure);
+        return b.HandleResponse(fetchPost, onSuccess, onFailure);
     }
 
     public static Var<Promise> HandleResponse(
@@ -177,7 +181,7 @@ public static class FetchApi
         Var<System.Action> onSuccess,
         Var<System.Action<ClientSideException>> onFailure)
     {
-        var networkPromise = b.Then(
+        var networkPromise = b.PromiseThen(
             fetchPromise,
             b.Def((SyntaxBuilder b, Var<object> r) =>
             {
@@ -192,7 +196,7 @@ public static class FetchApi
                     b =>
                     {
                         var bodyTextPromise = b.CallOnObject<Promise>(r, "text");
-                        var errorPromise = b.Then(
+                        var errorPromise = b.PromiseThen(
                             bodyTextPromise,
                             b.Def((SyntaxBuilder b, Var<object> body) =>
                             {
@@ -207,7 +211,7 @@ public static class FetchApi
                     });
             }));
 
-        var catchPromise = b.Catch(
+        var catchPromise = b.PromiseCatch(
             networkPromise,
             b.Def((SyntaxBuilder b, Var<ClientSideException> ex) =>
             {
@@ -223,7 +227,7 @@ public static class FetchApi
         Var<System.Action<T>> onSuccess,
         Var<System.Action<ClientSideException>> onFailure)
     {
-        var networkPromise = b.Then(
+        var networkPromise = b.PromiseThen(
             fetchPromise,
             b.Def((SyntaxBuilder b, Var<object> r) =>
             {
@@ -234,7 +238,7 @@ public static class FetchApi
                     b =>
                     {
                         var bodyTextPromise = b.CallOnObject<Promise>(r, "text");
-                        var errorPromise = b.Then(
+                        var errorPromise = b.PromiseThen(
                             bodyTextPromise,
                             b.Def((SyntaxBuilder b, Var<object> body) =>
                             {
@@ -249,13 +253,13 @@ public static class FetchApi
                     });
             }));
 
-        var successPromise = b.Then(
+        var successPromise = b.PromiseThen(
             networkPromise,
             b.Def((SyntaxBuilder b, Var<T> r) =>
             {
                 b.Call(onSuccess, r);
             }));
-        var catchPromise = b.Catch(
+        var catchPromise = b.PromiseCatch(
             successPromise,
             b.Def((SyntaxBuilder b, Var<ClientSideException> ex) =>
             {

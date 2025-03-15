@@ -162,4 +162,9 @@ public static class EmbeddedFiles
     {
         return embeddedResources.Select(x => x.Value).ToList();
     }
+
+    public static List<string> GetAllPaths()
+    {
+        return GetAll().Select(x => x.LowerCaseFileName).ToList();
+    }
 }

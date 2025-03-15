@@ -4,7 +4,6 @@ using System;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
@@ -134,7 +133,7 @@ public static partial class CustomElementExtensions
         Reference<HyperType.Dispatcher> dispatchRef = new();
         return b.HtmlCustomElement(
             tagName,
-            (SyntaxBuilder b, Var<Element> node) =>
+            render: (SyntaxBuilder b, Var<Element> node) =>
             {
                 // Call init again to "reset" the application
                 // For example, if some ID changes, everything needs to reload
@@ -190,7 +189,7 @@ public static partial class CustomElementExtensions
         var customElementScript = b.HtmlCustomElement(
             (SyntaxBuilder b, Var<Element> element) =>
             {
-                var initProps = b.GetProperty<TInitProps>(element, "props");
+                var initProps = b.GetInitProps<TInitProps>(element);
                 return b.If(
                     b.HasObject(initProps),
                     b =>
@@ -206,6 +205,19 @@ public static partial class CustomElementExtensions
             subscriptions);
         b.HeadAppend(customElementScript);
         return b.GetCustomElementTagName<TModel>();
+    }
+
+    /// <summary>
+    /// Retrieves the 'props' property of element as T
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    public static Var<T> GetInitProps<T>(this SyntaxBuilder b, Var<Element> e)
+    {
+        var initProps = b.GetProperty<T>(e, "props");
+        return initProps;
     }
 }
 
