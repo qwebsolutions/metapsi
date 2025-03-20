@@ -41,7 +41,7 @@ export const defineRACCustomElement = (tagName, render, attach, cleanup) => {
             set props(value) {
                 if (this._props !== value) {
                     this._props = value;
-                    this.refresh()
+                    //this.refresh()
                 }
             }
 

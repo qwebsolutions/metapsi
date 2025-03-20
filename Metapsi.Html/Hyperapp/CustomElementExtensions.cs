@@ -135,36 +135,43 @@ public static partial class CustomElementExtensions
             tagName,
             render: (SyntaxBuilder b, Var<Element> node) =>
             {
-                // Call init again to "reset" the application
-                // For example, if some ID changes, everything needs to reload
-
                 var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
+                b.If(
+                    b.Not(b.HasObject(dispatch)),
+                    b =>
+                    {
+                        var appConfig = b.NewObj<HyperType.App<TModel>>();
 
-                b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
-                {
-                    return b.Call(init, node);
-                }));
+                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+                        {
+                            return render(b, tagName, model);
+                        });
+
+                        b.Set(appConfig, x => x.view, view);
+                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
+                        b.Set(appConfig, x => x.node, node);
+                        b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
+
+                        var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
+                        b.SetRef(b.GlobalRef(dispatchRef), dispatch);
+                    },
+                    b =>
+                    {
+                        b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+                        {
+                            return b.Call(init, node);
+                        }));
+                    });
             },
             attach: (SyntaxBuilder b, Var<Element> node) =>
             {
-                var appConfig = b.NewObj<HyperType.App<TModel>>();
 
-                var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-                {
-                    return render(b, tagName, model);
-                });
-
-                b.Set(appConfig, x => x.view, view);
-                b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                b.Set(appConfig, x => x.node, node);
-                b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
-
-                var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
-                b.SetRef(b.GlobalRef(dispatchRef), dispatch);
             },
             cleanup: (SyntaxBuilder b, Var<Element> node) =>
             {
                 b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                // Remove dispatcher so the controls gets rendered when reused
+                b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
             });
     }
 

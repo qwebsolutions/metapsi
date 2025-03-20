@@ -107,7 +107,7 @@ public static class PromiseExtensions
         Var<Promise> promise,
         Func<SyntaxBuilder, Var<TReason>, Var<TResult>> onRejected)
     {
-        return b.PromiseCatch(promise, onRejected);
+        return b.PromiseCatch(promise, b.Def(onRejected));
     }
 
     /// <summary>

@@ -26,6 +26,11 @@ public interface Element : Node
     public string outerHTML { get; set; }
 
     /// <summary>
+    /// The Element.previousElementSibling read-only property returns the Element immediately prior to the specified one in its parent's children list, or null if the specified element is the first one in the list.
+    /// </summary>
+    public Element previousElementSibling { get;  }
+
+    /// <summary>
     /// The Element.scrollTop property gets or sets the number of pixels by which an element's content is scrolled from its top edge
     /// </summary>
     public decimal scrollTop { get; set; }
