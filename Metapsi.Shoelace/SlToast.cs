@@ -14,7 +14,7 @@ public static partial class SlNodeExtensions
         b.AppendChild(body, alert);
         var customElements = b.GetProperty<object>(b.Self(), "customElements");
         var whenDefined = b.CallOnObject<Promise>(customElements,"whenDefined", b.Const("sl-alert"));
-        b.Then(whenDefined, b.Def((SyntaxBuilder b, Var<object> p) =>
+        b.PromiseThen(whenDefined, b.Def((SyntaxBuilder b, Var<object> p) =>
         {
             b.CallOnObject(alert, "toast");
         }));

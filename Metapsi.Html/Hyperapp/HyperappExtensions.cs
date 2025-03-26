@@ -205,7 +205,7 @@ public static partial class HyperappExtensions
                 }
             }
 
-            b.Then(
+            b.PromiseThen(
                 b.PromiseAll(scriptLoadPromises),
                 b.Def((SyntaxBuilder b, Var<object> success) =>
                 {

@@ -15,10 +15,60 @@ public interface Headers
 }
 
 /// <summary>
+/// An object containing any HTTP headers that you want to pre-populate your Headers object with. 
+/// </summary>
+public interface HeadersInit
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
 public static class HeadersExtensions
 {
+    /// <summary>
+    /// The Headers() constructor creates a new Headers object.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="setHeaders"></param>
+    /// <returns></returns>
+    public static Var<Headers> NewHeaders(this SyntaxBuilder b, Action<PropsBuilder<HeadersInit>> setHeaders)
+    {
+        return b.New<Headers>(b.SetProps(b.NewObj<DynamicObject>(), setHeaders));
+    }
+
+    /// <summary>
+    /// Add headers to the HeadersInit object
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public static void AddHeaders(this PropsBuilder<HeadersInit> b, Var<string> name, Var<string> value)
+    {
+        b.SetProperty(b.Props, name, value);
+    }
+
+    /// <summary>
+    /// Add headers to the HeadersInit object
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public static void AddHeaders(this PropsBuilder<HeadersInit> b, string name, string value)
+    {
+        b.AddHeaders(b.Const(name), b.Const(value));
+    }
+
+    /// <summary>
+    /// Adds "Content-Type" "application/json" headers
+    /// </summary>
+    /// <param name="b"></param>
+    public static void AddContentTypeJson(this PropsBuilder<HeadersInit> b)
+    {
+        b.AddHeaders("Content-Type", "application/json");
+    }
+
     /// <summary>
     /// The append() method of the Headers interface appends a new value onto an existing header inside a Headers object, or adds the header if it does not already exist.
     /// </summary>

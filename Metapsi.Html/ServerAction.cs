@@ -104,7 +104,7 @@ public static class ServerAction
         this SyntaxBuilder b,
         Func<TModel, TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, ClientSideException>> onError)
+        Var<HyperType.Action<TModel, Html.Error>> onError)
     {
         return b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TInput> input) =>
         {
@@ -121,7 +121,7 @@ public static class ServerAction
         this SyntaxBuilder b,
         Func<TModel, TInput, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
-        Var<HyperType.Action<TModel, ClientSideException>> onError = null)
+        Var<HyperType.Action<TModel, Html.Error>> onError = null)
     {
         if (onSuccess == null)
         {
@@ -152,7 +152,7 @@ public static class ServerAction
         this SyntaxBuilder b,
         Func<TModel, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
-        Var<HyperType.Action<TModel, ClientSideException>> onError = null)
+        Var<HyperType.Action<TModel, Html.Error>> onError = null)
     {
         if (onSuccess == null)
         {
@@ -183,7 +183,7 @@ public static class ServerAction
         Var<TInput> input,
         Func<TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, ClientSideException>> onError)
+        Var<HyperType.Action<TModel, Html.Error>> onError)
     {
         return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
         {
@@ -200,7 +200,7 @@ public static class ServerAction
         Var<TInput> input,
         Func<TModel, TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, ClientSideException>> onError)
+        Var<HyperType.Action<TModel, Html.Error>> onError)
     {
         return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
         {
@@ -219,10 +219,10 @@ public static class ServerAction
         Var<List<object>> parameters,
         Delegate serverAction,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, ClientSideException>> onError)
+        Var<HyperType.Action<TModel, Html.Error>> onError)
     {
         ServerAction.Store(serverAction);
-        return b.PostJson<TModel, ServerAction.Call, TOutput>(
+        return b.PostJsonEffect<TModel, ServerAction.Call, TOutput>(
             b.Const(ServerAction.PostPath),
             b.NewObj<ServerAction.Call>(
                 b =>

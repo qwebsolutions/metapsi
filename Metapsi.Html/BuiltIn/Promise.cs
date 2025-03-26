@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using static Metapsi.Html.ServerAction;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -491,33 +492,33 @@ public static class PromiseExtensions
         return b.CallOnObject<PromiseResolvers>(b.StaticPromise(), "withResolvers");
     }
 
-    [Obsolete]
-    public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<object>> onSuccess, Var<System.Action<object>> onFailure)
-    {
-        return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
-    }
+    //[Obsolete]
+    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<object>> onSuccess, Var<System.Action<object>> onFailure)
+    //{
+    //    return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
+    //}
 
-    [Obsolete]
-    public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess, Var<System.Action<object>> onFailure)
-    {
-        return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
-    }
+    //[Obsolete]
+    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess, Var<System.Action<object>> onFailure)
+    //{
+    //    return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
+    //}
 
-    [Obsolete]
-    public static Var<Promise> Then<T>(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<T>> onSuccess)
-    {
-        return b.CallOnObject<Promise>(promise, "then", onSuccess);
-    }
+    //[Obsolete]
+    //public static Var<Promise> Then<T>(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<T>> onSuccess)
+    //{
+    //    return b.CallOnObject<Promise>(promise, "then", onSuccess);
+    //}
 
-    [Obsolete]
-    public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess)
-    {
-        return b.CallOnObject<Promise>(promise, "then", onSuccess);
-    }
+    //[Obsolete]
+    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess)
+    //{
+    //    return b.CallOnObject<Promise>(promise, "then", onSuccess);
+    //}
 
-    [Obsolete]
-    public static Var<Promise> Catch(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<ClientSideException>> onFailure)
-    {
-        return b.CallOnObject<Promise>(promise, "catch", onFailure);
-    }
+    //[Obsolete]
+    //public static Var<Promise> Catch(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<ClientSideException>> onFailure)
+    //{
+    //    return b.CallOnObject<Promise>(promise, "catch", onFailure);
+    //}
 }
