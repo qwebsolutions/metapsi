@@ -1,3 +1,5 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class TextareaInputEventDetail 

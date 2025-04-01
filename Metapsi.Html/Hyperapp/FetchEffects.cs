@@ -58,12 +58,12 @@ public static class FetchEffects
 
                 var handleActionPromise = b.PromiseThen(httpResponsePromise, (SyntaxBuilder b, Var<TOut> response) =>
                 {
-                    b.Dispatch(dispatch, successAction, response);
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
                 });
 
                 b.PromiseCatch(handleActionPromise, (SyntaxBuilder b, Var<Error> error) =>
                 {
-                    b.Dispatch(dispatch, errorAction, error);
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
                 });
             });
     }
@@ -106,11 +106,11 @@ public static class FetchEffects
                             {
                                 b.Throw(b.Get(response, x => x.statusText));
                             });
-                        b.Dispatch(dispatch, successAction);
+                        b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction));
                     });
                 b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
                 {
-                    b.Dispatch(dispatch, errorAction, error);
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
                 });
             });
     }
@@ -158,12 +158,12 @@ public static class FetchEffects
 
                 var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>
                 {
-                    b.Dispatch(dispatch, successAction, response);
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
                 });
 
                 b.PromiseCatch(jsonPromise, (SyntaxBuilder b, Var<Error> error) =>
                 {
-                    b.Dispatch(dispatch, errorAction, error);
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
                 });
             });
     }

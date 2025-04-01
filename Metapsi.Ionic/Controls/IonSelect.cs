@@ -109,6 +109,14 @@ public static partial class IonSelectControl
     }
 
     /// <summary>
+    /// <para> Text that is placed under the select and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText(this AttributesBuilder<IonSelect> b, string errorText)
+    {
+        b.SetAttribute("error-text", errorText);
+    }
+
+    /// <summary>
     /// <para> The toggle icon to show when the select is open. If defined, the icon rotation behavior in `md` mode will be disabled. If undefined, `toggleIcon` will be used for when the select is both open and closed. </para>
     /// </summary>
     public static void SetExpandedIcon(this AttributesBuilder<IonSelect> b, string expandedIcon)
@@ -138,6 +146,14 @@ public static partial class IonSelectControl
     public static void SetFillSolid(this AttributesBuilder<IonSelect> b)
     {
         b.SetAttribute("fill", "solid");
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the select and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText(this AttributesBuilder<IonSelect> b, string helperText)
+    {
+        b.SetAttribute("helper-text", helperText);
     }
 
     /// <summary>
@@ -338,6 +354,22 @@ public static partial class IonSelectControl
     public static void SetPlaceholder(this AttributesBuilder<IonSelect> b, string placeholder)
     {
         b.SetAttribute("placeholder", placeholder);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonSelect> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonSelect> b, bool required)
+    {
+        if (required) b.SetAttribute("required", "");
     }
 
     /// <summary>
@@ -567,6 +599,23 @@ public static partial class IonSelectControl
 
 
     /// <summary>
+    /// <para> Text that is placed under the select and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the select and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+    }
+
+
+    /// <summary>
     /// <para> The toggle icon to show when the select is open. If defined, the icon rotation behavior in `md` mode will be disabled. If undefined, `toggleIcon` will be used for when the select is both open and closed. </para>
     /// </summary>
     public static void SetExpandedIcon<T>(this PropsBuilder<T> b, Var<string> expandedIcon) where T: IonSelect
@@ -598,6 +647,23 @@ public static partial class IonSelectControl
     public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
+    }
+
+
+    /// <summary>
+    /// <para> Text that is placed under the select and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the select and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
     }
 
 
@@ -835,6 +901,32 @@ public static partial class IonSelectControl
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonSelect
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonSelect
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
 
 

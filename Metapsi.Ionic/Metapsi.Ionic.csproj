@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Description>Use Ionic 8.4.2 with Metapsi for client-side generated web pages (https://ionicframework.com)</Description>
+		<Description>Use Ionic 8.5.2 with Metapsi for client-side generated web pages (https://ionicframework.com)</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 

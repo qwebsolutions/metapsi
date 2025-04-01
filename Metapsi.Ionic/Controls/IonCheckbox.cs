@@ -106,6 +106,22 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText(this AttributesBuilder<IonCheckbox> b, string errorText)
+    {
+        b.SetAttribute("error-text", errorText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText(this AttributesBuilder<IonCheckbox> b, string helperText)
+    {
+        b.SetAttribute("helper-text", helperText);
+    }
+
+    /// <summary>
     /// <para> If `true`, the checkbox will visually appear as indeterminate. </para>
     /// </summary>
     public static void SetIndeterminate(this AttributesBuilder<IonCheckbox> b)
@@ -223,6 +239,22 @@ public static partial class IonCheckboxControl
     public static void SetName(this AttributesBuilder<IonCheckbox> b, string name)
     {
         b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonCheckbox> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonCheckbox> b, bool required)
+    {
+        if (required) b.SetAttribute("required", "");
     }
 
     /// <summary>
@@ -413,6 +445,40 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+    }
+
+
+    /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the checkbox label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+    }
+
+
+    /// <summary>
     /// <para> If `true`, the checkbox will visually appear as indeterminate. </para>
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b) where T: IonCheckbox
@@ -533,6 +599,32 @@ public static partial class IonCheckboxControl
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonCheckbox
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonCheckbox
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
 
 

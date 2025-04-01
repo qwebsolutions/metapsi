@@ -122,6 +122,22 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText(this AttributesBuilder<IonToggle> b, string errorText)
+    {
+        b.SetAttribute("error-text", errorText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText(this AttributesBuilder<IonToggle> b, string helperText)
+    {
+        b.SetAttribute("helper-text", helperText);
+    }
+
+    /// <summary>
     /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustify(this AttributesBuilder<IonToggle> b, string justify)
@@ -223,6 +239,22 @@ public static partial class IonToggleControl
     public static void SetName(this AttributesBuilder<IonToggle> b, string name)
     {
         b.SetAttribute("name", name);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonToggle> b)
+    {
+        b.SetAttribute("required", "");
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired(this AttributesBuilder<IonToggle> b, bool required)
+    {
+        if (required) b.SetAttribute("required", "");
     }
 
     /// <summary>
@@ -439,6 +471,40 @@ public static partial class IonToggleControl
 
 
     /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when an error is detected. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+    }
+
+
+    /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+    }
+
+    /// <summary>
+    /// <para> Text that is placed under the toggle label and displayed when no error is detected. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+    }
+
+
+    /// <summary>
     /// <para> How to pack the label and toggle within a line. `"start"`: The label and toggle will appear on the left in LTR and on the right in RTL. `"end"`: The label and toggle will appear on the right in LTR and on the left in RTL. `"space-between"`: The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle `display` to `block`. </para>
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonToggle
@@ -533,6 +599,32 @@ public static partial class IonToggleControl
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonToggle
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+    }
+
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+    }
+
+    /// <summary>
+    /// <para> If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid. </para>
+    /// </summary>
+    public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonToggle
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
     }
 
 

@@ -93,7 +93,7 @@ public static class EventExtensions
 
     public static Var<HyperType.Subscription> Listen<TModel, TEventTarget>(
         this SyntaxBuilder b,
-        Var<EventTarget> target,
+        Var<TEventTarget> target,
         Var<string> eventType,
         Var<HyperType.Action<TModel>> action)
         where TEventTarget : EventTarget

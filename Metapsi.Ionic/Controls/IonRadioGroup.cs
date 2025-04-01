@@ -66,6 +66,22 @@ public static partial class IonRadioGroupControl
     }
 
     /// <summary>
+    /// <para> The error text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetErrorText(this AttributesBuilder<IonRadioGroup> b, string errorText)
+    {
+        b.SetAttribute("error-text", errorText);
+    }
+
+    /// <summary>
+    /// <para> The helper text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetHelperText(this AttributesBuilder<IonRadioGroup> b, string helperText)
+    {
+        b.SetAttribute("helper-text", helperText);
+    }
+
+    /// <summary>
     /// <para> The name of the control, which is submitted with the form data. </para>
     /// </summary>
     public static void SetName(this AttributesBuilder<IonRadioGroup> b, string name)
@@ -166,6 +182,40 @@ public static partial class IonRadioGroupControl
     public static void SetCompareWith<T>(this PropsBuilder<T> b, string compareWith) where T: IonRadioGroup
     {
         b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), b.Const(compareWith));
+    }
+
+
+    /// <summary>
+    /// <para> The error text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+    }
+
+    /// <summary>
+    /// <para> The error text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+    }
+
+
+    /// <summary>
+    /// <para> The helper text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+    }
+
+    /// <summary>
+    /// <para> The helper text to display at the top of the radio group. </para>
+    /// </summary>
+    public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonRadioGroup
+    {
+        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
     }
 
 
