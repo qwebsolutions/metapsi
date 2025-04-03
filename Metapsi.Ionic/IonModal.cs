@@ -1,6 +1,7 @@
 ﻿using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Ionic;
 
@@ -19,6 +20,32 @@ public static partial class IonModalControl
     public static Var<Promise> PresentIonModal(this SyntaxBuilder b, string modalId)
     {
         return b.PresentIonModal(b.Const(modalId));
+    }
+
+    public static Var<HyperType.Effect> PresentIonModalEffect(this SyntaxBuilder b, Var<string> modalId)
+    {
+        return b.MakeEffect(b => b.PresentIonModal(modalId));
+    }
+
+    public static Var<HyperType.Effect> PresentIonModalEffect<TModel>(this SyntaxBuilder b, Var<string> modalId, Var<HyperType.Action<TModel>> thenAction)
+    {
+        return b.MakeEffect(
+        (b, dispatch) =>
+        {
+            var presentPromise = b.PresentIonModal(modalId);
+            if (thenAction != null)
+            {
+                b.PromiseThen(presentPromise, (SyntaxBuilder b, Var<bool> result) =>
+                {
+                    b.Dispatch(dispatch, thenAction);
+                });
+            }
+        });
+    }
+
+    public static Var<HyperType.Effect> PresentIonModalEffect(this SyntaxBuilder b, string modalId)
+    {
+        return b.PresentIonModalEffect(b.Const(modalId));
     }
 
     public static Var<Promise> DismissIonModal<TElement>(this SyntaxBuilder b, Var<TElement> domElement, IVariable data = null, Var<string> role = null) where TElement : Html.Element

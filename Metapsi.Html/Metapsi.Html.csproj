@@ -21,7 +21,7 @@
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
 		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
 		<EmbeddedResource Include="embedded\signalr.js" LogicalName="signalr.js" />
-		<EmbeddedResource Include="embedded\Metapsi.SignalR.js" LogicalName="Metapsi.SignalR.js" />
+		<EmbeddedResource Include="embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
 		<EmbeddedResource Include="embedded\metapsi-custom-elements.js" LogicalName="metapsi-custom-elements.js" />
 

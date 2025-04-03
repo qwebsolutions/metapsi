@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi.Html;
 
@@ -31,4 +32,33 @@ public interface Window : EventTarget
     /// The Window.navigator read-only property returns a reference to the Navigator object, which has methods and properties about the application running the script.
     /// </summary>
     public Navigator navigator { get; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public static class WindowExtensions
+{
+    /// <summary>
+    /// The Window interface's matchMedia() method returns a new MediaQueryList object that can then be used to determine if the document matches the media query string, as well as to monitor the document to detect when it matches (or stops matching) that media query.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="window"></param>
+    /// <param name="mediaQueryString">A string specifying the media query to parse into a MediaQueryList.</param>
+    /// <returns></returns>
+    public static Var<MediaQueryList> WindowMatchMedia(this SyntaxBuilder b, Var<Window> window, Var<string> mediaQueryString)
+    {
+        return b.CallOnObject<MediaQueryList>(window, "matchMedia", mediaQueryString);
+    }
+
+    /// <summary>
+    /// The Window interface's matchMedia() method returns a new MediaQueryList object that can then be used to determine if the document matches the media query string, as well as to monitor the document to detect when it matches (or stops matching) that media query.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="mediaQueryString">A string specifying the media query to parse into a MediaQueryList.</param>
+    /// <returns></returns>
+    public static Var<MediaQueryList> WindowMatchMedia(this SyntaxBuilder b, Var<string> mediaQueryString)
+    {
+        return b.WindowMatchMedia(b.Window(), mediaQueryString);
+    }
 }

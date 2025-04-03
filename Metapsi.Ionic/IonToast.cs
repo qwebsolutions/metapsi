@@ -26,7 +26,19 @@ public static partial class IonToastControl
             });
         }));
 
-        b.NodeAppendChild(b.QuerySelector("ion-app"), toast);
+        var ionApp = b.QuerySelector("ion-app");
+        b.If(
+            b.HasObject(ionApp),
+            b =>
+            {
+                b.NodeAppendChild(ionApp, toast);
+            },
+            b =>
+            {
+                var body = b.Get(b.Document(), x => x.body);
+                b.NodeAppendChild(body, toast);
+            });
+
         return b.CallOnObject<Promise>(toast, "present");
     }
 }

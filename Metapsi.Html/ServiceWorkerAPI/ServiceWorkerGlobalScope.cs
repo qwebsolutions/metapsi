@@ -36,6 +36,15 @@ namespace Metapsi.Html
         {
             return b.CallOnObject<Promise>(serviceWorkerGlobalScope, "skipWaiting");
         }
-    }
 
+        /// <summary>
+        /// The skipWaiting() method of the ServiceWorkerGlobalScope interface forces the waiting service worker to become the active service worker. Use this method with Clients.claim() to ensure that updates to the underlying service worker take effect immediately for both the current client and all other active clients.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns>A Promise that resolves with undefined after trying to activate the newly installed service worker.</returns>
+        public static Var<Promise> ServiceWorkerGlobalScopeSkipWaiting(this SyntaxBuilder b)
+        {
+            return b.ServiceWorkerGlobalScopeSkipWaiting(b.Self().As<ServiceWorkerGlobalScope>());
+        }
+    }
 }
