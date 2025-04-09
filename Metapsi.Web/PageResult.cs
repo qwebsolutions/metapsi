@@ -10,25 +10,40 @@ namespace Metapsi
     internal class PageResult<TModel> : IResult
     {
         private readonly TModel model;
+        private Func<TModel, string> renderer;
 
         public PageResult(TModel model)
         {
             this.model = model;
         }
 
+        public PageResult(TModel model, Func<TModel, string> renderer)
+        {
+            this.model = model;
+            this.renderer = renderer;
+        }
+
         public async Task ExecuteAsync(HttpContext httpContext)
         {
-            var renderersService = httpContext.RequestServices.GetService(typeof(RenderersService));
-            var renderers = (renderersService as RenderersService).Renderers;
-
             var html = string.Empty;
 
             try
             {
-                html = renderers[typeof(TModel)].DynamicInvoke(this.model) as string;
+                if (this.renderer != null)
+                {
+                    html = this.renderer(this.model);
+                }
+                else
+                {
+                    var renderersService = httpContext.RequestServices.GetService(typeof(RenderersService));
+                    var renderers = (renderersService as RenderersService).Renderers;
+                    html = renderers[typeof(TModel)].DynamicInvoke(this.model) as string;
+                }
             }
             catch (Exception ex)
             {
+                var renderersService = httpContext.RequestServices.GetService(typeof(RenderersService));
+                var renderers = (renderersService as RenderersService).Renderers;
                 html = renderers[typeof(System.Exception)].DynamicInvoke(ex) as string;
             }
 
@@ -48,6 +63,11 @@ namespace Metapsi
         public static IResult Model<T>(T model)
         {
             return new PageResult<T>(model);
+        }
+
+        public static IResult Result<T>(T model, Func<T, string> renderer)
+        {
+            return new PageResult<T>(model, renderer);
         }
     }
 }

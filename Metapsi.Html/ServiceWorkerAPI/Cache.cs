@@ -87,7 +87,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to true if the cache entry is deleted, or false otherwise.</returns>
         public static Var<Promise> CacheDelete(this SyntaxBuilder b, Var<Cache> cache, Var<string> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "delete", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "delete", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to true if the cache entry is deleted, or false otherwise.</returns>
         public static Var<Promise> CacheDelete(this SyntaxBuilder b, Var<Cache> cache, Var<Request> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "delete", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "delete", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to an array of Request objects.</returns>
         public static Var<Promise> CacheKeys(this SyntaxBuilder b, Var<Cache> cache, Var<string> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "keys", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "keys", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to an array of Request objects.</returns>
         public static Var<Promise> CacheKeys(this SyntaxBuilder b, Var<Cache> cache, Var<Request> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "keys", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "keys", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to the first Response that matches the request or to undefined if no match is found.</returns>
         public static Var<Promise> CacheMatch(this SyntaxBuilder b, Var<Cache> cache, Var<string> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "match", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "match", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to the first Response that matches the request or to undefined if no match is found.</returns>
         public static Var<Promise> CacheMatch(this SyntaxBuilder b, Var<Cache> cache, Var<Request> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "match", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "match", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to an array of all matching responses in the Cache object.</returns>
         public static Var<Promise> CacheMatchAll(this SyntaxBuilder b, Var<Cache> cache, Var<string> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "matchAll", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "matchAll", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to an array of all matching responses in the Cache object.</returns>
         public static Var<Promise> CacheMatchAll(this SyntaxBuilder b, Var<Cache> cache, Var<Request> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(cache, "matchAll", request, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(cache, "matchAll", request, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>

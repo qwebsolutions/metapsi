@@ -23,6 +23,16 @@ public class HtmlCheckbox : IAllowsBinding<HtmlCheckbox>
 
 public static class HtmlInputExtensions
 {
+    public static void SetName(this AttributesBuilder<HtmlInput> b, string name)
+    {
+        b.SetAttribute("name", name);
+    }
+
+    public static void SetType(this AttributesBuilder<HtmlInput> b, string type)
+    {
+        b.SetAttribute("type", type);
+    }
+
     public static void SetType(this PropsBuilder<HtmlInput> b, string type)
     {
         b.SetType(b.Const(type));

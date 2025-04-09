@@ -121,7 +121,7 @@ public static class ResponseExtensions
     /// <returns>A Response object.</returns>
     public static Var<Response> ResponseJson(this SyntaxBuilder b, IVariable data, System.Action<PropsBuilder<ResponseOptions>> setOptions)
     {
-        var options = b.SetProps(setOptions);
+        var options = b.SetProps(b.NewObj(), setOptions);
         return b.CallOnObject<Response>(
             b.GetProperty<DynamicObject>(b.Self(), "Response"),
             "json",

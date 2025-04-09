@@ -40,18 +40,6 @@ public static class PropsBuilderExtensions
     }
 
     /// <summary>
-    /// Sets properties on an empty object. This does not use the default values of the T object properties
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="setProps"></param>
-    /// <returns></returns>
-    public static Var<T> SetProps<T>(this SyntaxBuilder b, Action<PropsBuilder<T>> setProps)
-    {
-        return b.SetProps(b.NewObj<DynamicObject>(), setProps);
-    }
-
-    /// <summary>
     /// Creates a new object of type T using the default values of the object properties
     /// </summary>
     /// <typeparam name="T"></typeparam>

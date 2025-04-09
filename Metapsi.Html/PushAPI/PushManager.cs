@@ -56,6 +56,6 @@ public static class PushManagerExtensions
     /// <returns></returns>
     public static Var<Promise> PushManagerSubscribe(this SyntaxBuilder b, Var<PushManager> pushManager, System.Action<PropsBuilder<PushManagerSubscribeOptions>> setOptions)
     {
-        return b.CallOnObject<Promise>(pushManager, "subscribe", b.SetProps(setOptions));
+        return b.CallOnObject<Promise>(pushManager, "subscribe", b.SetProps(b.NewObj(), setOptions));
     }
 }

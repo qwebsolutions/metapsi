@@ -6,13 +6,15 @@ namespace Metapsi.Syntax
 {
     public static class SyntaxBuilderExtensions
     {
-        //public static void If<TSyntaxBuilder>(
-        //    this TSyntaxBuilder b,
-        //    Var<bool> varIsTrue, Action<TSyntaxBuilder> bTrue, Action<TSyntaxBuilder> bFalse = null)
-        //    where TSyntaxBuilder : SyntaxBuilder
-        //{
-        //    b.If(varIsTrue, bTrue, bFalse);
-        //}
+        /// <summary>
+        /// Creates an empty object
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<DynamicObject> NewObj(this SyntaxBuilder b)
+        {
+            return b.NewObj<DynamicObject>();
+        }
 
         public static Var<TResult> If<TSyntaxBuilder, TResult>(
             this TSyntaxBuilder b,

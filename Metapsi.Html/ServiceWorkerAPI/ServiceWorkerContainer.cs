@@ -111,7 +111,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves with a ServiceWorkerRegistration object.</returns>
         public static Var<Promise> ServiceWorkerContainerRegister(this SyntaxBuilder b, Var<ServiceWorkerContainer> serviceWorkerContainer, Var<string> scriptURL, System.Action<PropsBuilder<ServiceWorkerContainerRegisterOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(serviceWorkerContainer, "register", scriptURL, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(serviceWorkerContainer, "register", scriptURL, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>

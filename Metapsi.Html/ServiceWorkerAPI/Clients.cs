@@ -74,7 +74,7 @@ namespace Metapsi.Html
         /// <returns>A Promise that resolves to an array of Client objects.</returns>
         public static Var<Promise> ClientsMatchAll(this SyntaxBuilder b, Var<Clients> clients, System.Action<PropsBuilder<ClientsMatchAllOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(clients, "matchAll", b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(clients, "matchAll", b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>

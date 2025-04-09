@@ -78,14 +78,18 @@ public static partial class IonModalControl
         return b.MakeEffect(
             (b, dispatch) =>
             {
-                var dismissPromise = b.DismissIonModal(modalId, data, role);
-                if (thenAction != null)
-                {
-                    b.PromiseThen(dismissPromise, (SyntaxBuilder b, Var<bool> result) =>
+                b.RequestAnimationFrame(
+                    b =>
                     {
-                        b.Dispatch(dispatch, thenAction);
+                        var dismissPromise = b.DismissIonModal(modalId, data, role);
+                        if (thenAction != null)
+                        {
+                            b.PromiseThen(dismissPromise, (SyntaxBuilder b, Var<bool> result) =>
+                            {
+                                b.Dispatch(dispatch, thenAction);
+                            });
+                        }
                     });
-                }
             });
     }
 

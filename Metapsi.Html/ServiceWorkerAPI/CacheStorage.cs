@@ -110,7 +110,7 @@ public static class CacheStorageExtensions
     /// <returns></returns>
     public static Var<Promise> CacheStorageMatch(this SyntaxBuilder b, Var<CacheStorage> cacheStorage, Var<string> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
     {
-        return b.CallOnObject<Promise>(cacheStorage, "match", request, b.SetProps(setOptions));
+        return b.CallOnObject<Promise>(cacheStorage, "match", request, b.SetProps(b.NewObj(), setOptions));
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public static class CacheStorageExtensions
     /// <returns></returns>
     public static Var<Promise> CacheStorageMatch(this SyntaxBuilder b, Var<CacheStorage> cacheStorage, Var<Request> request, System.Action<PropsBuilder<CacheStorageMatchOptions>> setOptions)
     {
-        return b.CallOnObject<Promise>(cacheStorage, "match", request, b.SetProps(setOptions));
+        return b.CallOnObject<Promise>(cacheStorage, "match", request, b.SetProps(b.NewObj(), setOptions));
     }
 
     /// <summary>

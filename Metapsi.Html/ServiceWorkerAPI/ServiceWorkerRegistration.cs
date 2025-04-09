@@ -178,7 +178,7 @@ namespace Metapsi.Html
         /// <returns></returns>
         public static Var<Promise> ServiceWorkerRegistrationGetNotifications(this SyntaxBuilder b, Var<ServiceWorkerRegistration> serviceWorkerRegistration, System.Action<PropsBuilder<ServiceWorkerRegistrationGetNotificationsOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(serviceWorkerRegistration, "getNotifications", b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(serviceWorkerRegistration, "getNotifications", b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Metapsi.Html
         /// <returns></returns>
         public static Var<Promise> ServiceWorkerRegistrationShowNotification(this SyntaxBuilder b, Var<ServiceWorkerRegistration> serviceWorkerRegistration, Var<string> title, System.Action<PropsBuilder<ServiceWorkerRegistrationShowNotificationOptions>> setOptions)
         {
-            return b.CallOnObject<Promise>(serviceWorkerRegistration, "showNotification", title, b.SetProps(setOptions));
+            return b.CallOnObject<Promise>(serviceWorkerRegistration, "showNotification", title, b.SetProps(b.NewObj(), setOptions));
         }
 
         /// <summary>
