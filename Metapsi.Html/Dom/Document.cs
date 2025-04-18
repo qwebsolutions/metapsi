@@ -16,6 +16,16 @@ public interface Document: Node
     /// The activeElement read-only property of the Document interface returns the Element within the DOM that is receiving keyboard events such as keydown and keyup. This is usually analogous to the focused element.
     /// </summary>
     Element activeElement { get; }
+
+    /// <summary>
+    /// The head read-only property of the Document interface returns the &lt;head&gt; element of the current document.
+    /// </summary>
+    HTMLHeadElement head { get; }
+
+    /// <summary>
+    /// The Document.readyState property describes the loading state of the document. When the value of this property changes, a readystatechange event fires on the document object.
+    /// </summary>
+    string readyState { get; }
 }
 
 /// <summary>

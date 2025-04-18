@@ -74,12 +74,11 @@ public static class IonicNodeImport
         return b.Tag(tag, children);
     }
 
-    private static void ImportIonic(
-        this HtmlBuilder b)
+    public static void ImportIonic(HtmlBuilder b)
     {
         EmbedAll();
         b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
     }
 
@@ -91,7 +90,7 @@ public static class IonicNodeImport
     {
         EmbedAll();
         b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, buildProps, children);
@@ -132,7 +131,7 @@ public static class IonicNodeImport
     {
         EmbedAll();
         b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, children);

@@ -47,6 +47,18 @@ namespace Metapsi.Syntax
         public List<Import> Imports { get; set; } = new();
         public List<Constant> Consts { get; set; } = new();
         public List<IFunction> Functions { get; set; } = new();
+
+        /// <summary>
+        /// Creates a module where <paramref name="main"/> is the entry point. It does not execute <paramref name="main"/>
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Module Build(Action<SyntaxBuilder> main)
+        {
+            ModuleBuilder moduleBuilder = new ModuleBuilder();
+            moduleBuilder.Define("main", main);
+            return moduleBuilder.Module;
+        }
     }
 
     public class FunctionCall : ISyntaxElement

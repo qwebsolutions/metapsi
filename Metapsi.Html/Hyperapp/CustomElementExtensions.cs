@@ -4,6 +4,8 @@ using System;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Linq;
+using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
@@ -18,12 +20,22 @@ public static partial class CustomElementExtensions
     /// <returns>tag name</returns>
     public static string GetCustomElementTagName<T>()
     {
-        var genericTypes = string.Join("-", typeof(T).GenericTypeArguments.Select(x => x.Name.ToLower().Replace("`", string.Empty)));
+        return GetCustomElementTagName(typeof(T));
+    }
+
+    /// <summary>
+    /// Gets a custom element tag name based on t
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static string GetCustomElementTagName(Type t)
+    {
+        var genericTypes = string.Join("-", t.GenericTypeArguments.Select(x => x.Name.ToLower().Replace("`", string.Empty)));
         if (!string.IsNullOrEmpty(genericTypes))
         {
             genericTypes = $"-{genericTypes}";
         }
-        var nestedClassName = typeof(T).CSharpTypeName().ToLower().Replace(".", "-").Replace("`", string.Empty);
+        var nestedClassName = t.CSharpTypeName().ToLower().Replace(".", "-").Replace("`", string.Empty);
         return $"metapsi-{nestedClassName}{genericTypes}";
     }
     /// <summary>
@@ -66,6 +78,179 @@ public static partial class CustomElementExtensions
     }
 
     /// <summary>
+    /// Define a render/attach/cleanup custom element
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="render"></param>
+    /// <param name="attach"></param>
+    /// <param name="cleanup"></param>
+    public static void DefineCustomElement(
+        this SyntaxBuilder b,
+        Var<string> tagName,
+        Var<Action<Element>> render,
+        Var<Action<Element>> attach,
+        Var<Action<Element>> cleanup)
+    {
+        b.AddScript(typeof(CustomElementExtensions).Assembly, $"{ExternalScriptName}.js", "module");
+        var scriptTags = b.Module.GetDistinctTags("script");
+        var stylesheets = b.Module.GetDistinctTags("link");
+
+        var contentElement = b.Ref(b.NewObj<DynamicObject>().As<Element>());
+
+        //var wrappedAttach = b.Def(
+        //    (SyntaxBuilder b, Var<Element> element) =>
+        //    {
+        //        //b.Log("script tags", b.Const(scriptTags));
+        //        var shadowRoot = b.ElementAttachShadow(element, b => b.Set(x => x.mode, "open"));
+        //        //foreach (var tag in scriptTags)
+        //        //{
+        //        //    var newNode = b.CreateElement(b.Get(b.Const(tag), x => x.Tag));
+        //        //    b.ObjectAssign(newNode, b.Get(b.Const(tag), x => x.Attributes));
+        //        //    b.NodeAppendChild(shadowRoot, newNode);
+        //        //}
+
+        //        //foreach (var tag in stylesheets)
+        //        //{
+        //        //    var newNode = b.CreateElement(b.Get(b.Const(tag), x => x.Tag));
+        //        //    b.ObjectAssign(newNode, b.Get(b.Const(tag), x => x.Attributes));
+        //        //    b.NodeAppendChild(shadowRoot, newNode);
+        //        //}
+                
+        //        //b.SetRef(contentElement, b.NodeAppendChild(shadowRoot, b.CreateElement(b.Const("div"))));
+
+        //        b.Call(attach, element);
+        //    });
+
+        //var wrappedRender = b.Def((SyntaxBuilder b, Var<Element> element) =>
+        //{
+        //    b.Call(render, b.Get(element, x => x.shadowRoot).As<Element>());
+        //    //b.Call(render, b.GetRef(contentElement));
+        //});
+
+        b.CallExternal(
+            ExternalScriptName,
+            "defineRACCustomElement",
+            tagName,
+            render,
+            attach,
+            cleanup);
+    }
+
+    /// <summary>
+    /// Define a render/attach/cleanup custom element
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="render"></param>
+    /// <param name="attach"></param>
+    /// <param name="cleanup"></param>
+    public static void DefineCustomElement(
+        this SyntaxBuilder b,
+        string tagName,
+        Action<SyntaxBuilder, Var<Element>> render,
+        Action<SyntaxBuilder, Var<Element>> attach = null,
+        Action<SyntaxBuilder, Var<Element>> cleanup = null)
+    {
+        if (attach == null) attach = (SyntaxBuilder b, Var<Element> node) => { };
+        if (cleanup == null) cleanup = (SyntaxBuilder b, Var<Element> node) => { };
+
+        var jsRender = b.Def("render", render);
+        var jsAttach = b.Def("attach", attach);
+        var jsCleanup = b.Def("cleanup", cleanup);
+        b.DefineCustomElement(b.Const(tagName), jsRender, jsAttach, jsCleanup);
+    }
+
+    /// <summary>
+    /// Define a Hyperapp custom element
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="init"></param>
+    /// <param name="render"></param>
+    /// <param name="subscriptions"></param>
+    /// <remarks>The render function must return b.H(tagName) as root element</remarks>
+    public static void DefineCustomElement<TModel>(
+        this SyntaxBuilder b,
+        Func<SyntaxBuilder, Var<Element>, Var<HyperType.StateWithEffects>> init,
+        Func<LayoutBuilder, string, Var<TModel>, Var<IVNode>> render,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        var tagName = GetCustomElementTagName<TModel>();
+
+        Reference<HyperType.Dispatcher> dispatchRef = new();
+        b.DefineCustomElement(
+            tagName,
+            render: (SyntaxBuilder b, Var<Element> node) =>
+            {
+                var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
+                b.If(
+                    b.Not(b.HasObject(dispatch)),
+                    b =>
+                    {
+                        var appConfig = b.NewObj<HyperType.App<TModel>>();
+
+                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+                        {
+                            var outNode = render(b, tagName, model);
+                            //var scriptTags = b.Module.GetDistinctTags("script");
+                            //var stylesheets = b.Module.GetDistinctTags("link");
+
+                            //foreach (var tag in scriptTags)
+                            //{
+                            //    if (!tag.GetAttribute("src").Contains("ionic"))
+                            //    {
+                            //        b.CallOnObject(
+                            //            b.GetProperty<List<IVNode>>(outNode, "children"),
+                            //            "unshift",
+                            //            b.H(b.Const(tag.Tag), b.Get(b.Const(tag), x => x.Attributes).As<DynamicObject>()));
+                            //    }
+                            //}
+
+                            //foreach (var tag in stylesheets)
+                            //{
+                            //    if (!tag.GetAttribute("href").Contains("ionic"))
+                            //    {
+                            //        b.CallOnObject(
+                            //            b.GetProperty<List<IVNode>>(outNode, "children"),
+                            //            "unshift",
+                            //            b.H(b.Const(tag.Tag), b.Get(b.Const(tag), x => x.Attributes).As<DynamicObject>()));
+                            //    }
+                            //}
+
+                            return outNode;
+                        });
+
+                        b.Set(appConfig, x => x.view, view);
+                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
+                        //b.Set(appConfig, x => x.node, b.Get(node, x => x.shadowRoot).As<Element>());
+                        b.Set(appConfig, x => x.node, node);
+                        b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
+
+                        var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
+                        b.SetRef(b.GlobalRef(dispatchRef), dispatch);
+                    },
+                    b =>
+                    {
+                        b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+                        {
+                            return b.Call(init, node);
+                        }));
+                    });
+            },
+            attach: (SyntaxBuilder b, Var<Element> node) =>
+            {
+                //var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
+            },
+            cleanup: (SyntaxBuilder b, Var<Element> node) =>
+            {
+                b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                // Remove dispatcher so the controls gets rendered when reused
+                b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+            });
+    }
+
+    /// <summary>
     /// Adds a head script tag that defines a custom element with the children list as inner HTML 
     /// </summary>
     /// <param name="b"></param>
@@ -84,22 +269,9 @@ public static partial class CustomElementExtensions
         Action<SyntaxBuilder, Var<Element>> attach = null,
         Action<SyntaxBuilder, Var<Element>> cleanup = null)
     {
-        if (attach == null) attach = (SyntaxBuilder b, Var<Element> node) => { };
-        if (cleanup == null) cleanup = (SyntaxBuilder b, Var<Element> node) => { };
-
         return b.HtmlScriptModule(b =>
         {
-            var jsRender = b.Def("render", render);
-            var jsAttach = b.Def("attach", attach);
-            var jsCleanup = b.Def("cleanup", cleanup);
-            b.AddScript(typeof(CustomElementExtensions).Assembly, $"{ExternalScriptName}.js", "module");
-            b.CallExternal(
-                ExternalScriptName,
-                "defineRACCustomElement",
-                b.Const(tagName),
-                jsRender,
-                jsAttach,
-                jsCleanup);
+            b.DefineCustomElement(tagName, render, attach, cleanup);
         });
     }
 
@@ -130,48 +302,10 @@ public static partial class CustomElementExtensions
     {
         var tagName = GetCustomElementTagName<TModel>();
 
-        Reference<HyperType.Dispatcher> dispatchRef = new();
-        return b.HtmlCustomElement(
-            tagName,
-            render: (SyntaxBuilder b, Var<Element> node) =>
+        return b.HtmlScriptModule(
+            b =>
             {
-                var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
-                b.If(
-                    b.Not(b.HasObject(dispatch)),
-                    b =>
-                    {
-                        var appConfig = b.NewObj<HyperType.App<TModel>>();
-
-                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-                        {
-                            return render(b, tagName, model);
-                        });
-
-                        b.Set(appConfig, x => x.view, view);
-                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                        b.Set(appConfig, x => x.node, node);
-                        b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
-
-                        var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
-                        b.SetRef(b.GlobalRef(dispatchRef), dispatch);
-                    },
-                    b =>
-                    {
-                        b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
-                        {
-                            return b.Call(init, node);
-                        }));
-                    });
-            },
-            attach: (SyntaxBuilder b, Var<Element> node) =>
-            {
-
-            },
-            cleanup: (SyntaxBuilder b, Var<Element> node) =>
-            {
-                b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-                // Remove dispatcher so the controls gets rendered when reused
-                b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+                b.DefineCustomElement(init, render, subscriptions);
             });
     }
 

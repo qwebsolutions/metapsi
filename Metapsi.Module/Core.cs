@@ -52,6 +52,7 @@ namespace Metapsi.Syntax
 
         public static Var<TResult> CallOnObject<TResult>(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
+            b.DebugComment(function);
             List<IVariable> allParams = new List<IVariable>();
             allParams.Add(@object);
             allParams.Add(b.Const(function));

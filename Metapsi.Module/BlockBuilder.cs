@@ -229,6 +229,7 @@ namespace Metapsi.Syntax
 
         internal IVariable DefineAction(Delegate builder)
         {
+            this.DebugComment(builder.Method.Name);
             var (alreadyDefined, clientAction) = PlaceDefinition(builder);
             if (!alreadyDefined)
             {
@@ -239,6 +240,7 @@ namespace Metapsi.Syntax
 
         internal IVariable DefineFunc(Delegate builder)
         {
+            this.DebugComment(builder.Method.Name);
             var (alreadyDefined, clientFunc) = PlaceDefinition(builder);
             if (!alreadyDefined)
             {

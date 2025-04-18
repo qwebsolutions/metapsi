@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using static Metapsi.EmbeddedFiles;
 
 namespace Metapsi;
 
@@ -124,10 +125,19 @@ public static class EmbeddedFiles
             stream.CopyTo(ms);
             embeddedFile.Content = ms.ToArray();
         }
-        var hash = System.IO.Hashing.XxHash32.HashToUInt32(embeddedFile.Content);
-        embeddedFile.Hash = hash.ToString();
+        embeddedFile.Hash = Hash(embeddedFile.Content);
 
         return embeddedFile;
+    }
+
+    public static string Hash(byte[] bytes)
+    {
+        return System.IO.Hashing.XxHash32.HashToUInt32(bytes).ToString();
+    }
+
+    public static string Hash(string content)
+    {
+        return Hash(System.Text.Encoding.UTF8.GetBytes(content));
     }
 
     public static async Task<EmbeddedFile> GetAsync(string fileName)

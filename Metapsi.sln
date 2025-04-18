@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Html.Scenarios", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.Swiper", "Metapsi.Swiper\Metapsi.Swiper.csproj", "{5F70C34C-4CC9-193D-BCF9-51810B5E3E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.Swiper.Generate", "Metapsi.Swiper.Generate\Metapsi.Swiper.Generate.csproj", "{638B9DEC-252A-2B49-A67C-7FD29EDCD2FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{5F70C34C-4CC9-193D-BCF9-51810B5E3E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F70C34C-4CC9-193D-BCF9-51810B5E3E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F70C34C-4CC9-193D-BCF9-51810B5E3E04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638B9DEC-252A-2B49-A67C-7FD29EDCD2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638B9DEC-252A-2B49-A67C-7FD29EDCD2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638B9DEC-252A-2B49-A67C-7FD29EDCD2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638B9DEC-252A-2B49-A67C-7FD29EDCD2FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

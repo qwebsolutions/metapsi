@@ -15,42 +15,25 @@ public static partial class Control
 {
     public static IHtmlNode SwiperContainer(this HtmlBuilder b, Action<AttributesBuilder<SwiperContainer>> setProps, params IHtmlNode[] slides)
     {
-        b.ImportSwiper();
+        EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
+        b.HeadAppend(b.HtmlScriptModule(b => b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register")));
         return b.Tag("swiper-container", setProps, slides);
     }
 
     public static Var<IVNode> SwiperContainer(this LayoutBuilder b, Action<PropsBuilder<SwiperContainer>> setProps, Var<List<IVNode>> slides)
     {
-        b.ImportSwiper();
+        EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
+        b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
 
         var nodeProps = b.NewObj(setProps);
-        var initParameters = b.Get(nodeProps, x => x.InitParameters);
-        b.Push(
-            slides, 
-            b.HtmlScript(
-                b.Text(
-                    "Object.assign(document.currentScript.parentNode, window." + initParameters.Name+ ");document.currentScript.parentNode.initialize()"
-                    )));
-        b.DeleteProperty(nodeProps, b.Const(nameof(Metapsi.Swiper.SwiperContainer.InitParameters)));
-        b.SetProperty(b.Window(), b.Const(initParameters.Name), initParameters);
-
         return b.H(b.Const("swiper-container"), nodeProps.As<DynamicObject>(), slides);
     }
 
     public static Var<IVNode> SwiperContainer(this LayoutBuilder b, Action<PropsBuilder<SwiperContainer>> setProps, params Var<IVNode>[] slides)
     {
-        b.ImportSwiper();
+        EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
+        b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
         return b.SwiperContainer(setProps, b.List(slides));
-    }
-
-    private static void ImportSwiper(this LayoutBuilder b)
-    {
-        b.AddScript(typeof(Control).Assembly, "swiper-element-bundle.min.js", "module");
-    }
-
-    private static void ImportSwiper(this HtmlBuilder b)
-    {
-        b.AddScript(typeof(Control).Assembly, "swiper-element-bundle.min.js", "module");
     }
 
     public static void SetSwiperParameter(this PropsBuilder<SwiperContainer> b, string parameter, IVariable value)

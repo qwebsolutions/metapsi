@@ -69,7 +69,11 @@ namespace Metapsi.JavaScript
                     if (options.ImportType == ImportType.Destructured)
                     {
                         var symbolsList = string.Join(", ", externalModule.Value);
-                        builder.AppendLine($"import {{ {symbolsList} }} from \"/{externalModule.Key}.js{Version.WithTag(options.Version)}\";");
+                        var extensionPlaceholder =
+                            externalModule.Key.EndsWith(".js") || externalModule.Key.EndsWith(".mjs") ?
+                            string.Empty : ".js";
+                        var relativePlaceholder = externalModule.Key.StartsWith("http") ? "" : "/";
+                        builder.AppendLine($"import {{ {symbolsList} }} from \"{relativePlaceholder}{externalModule.Key}{extensionPlaceholder}{Version.WithTag(options.Version)}\";");
                     }
                     else
                     {

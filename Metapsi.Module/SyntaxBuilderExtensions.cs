@@ -16,6 +16,18 @@ namespace Metapsi.Syntax
             return b.NewObj<DynamicObject>();
         }
 
+        internal static void DebugComment(this BlockBuilder b, string comment)
+        {
+#if DEBUG
+            b.Comment(comment);
+#endif
+        }
+
+        public static void DebugComment(this SyntaxBuilder b, string comment)
+        {
+            b.blockBuilder.DebugComment(comment);
+        }
+
         public static Var<TResult> If<TSyntaxBuilder, TResult>(
             this TSyntaxBuilder b,
             Var<bool> varIsTrue,

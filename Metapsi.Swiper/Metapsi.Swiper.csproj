@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<Description>Swiper Element (https://swiperjs.com/element)</Description>
+		<Description>Use Swiper Element 11.2.6 with Metapsi for both server-side and client-side web pages (https://swiperjs.com/element)</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
@@ -10,8 +10,6 @@
 		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="embedded\swiper-element-bundle.min.js" LogicalName="swiper-element-bundle.min.js" />
-	</ItemGroup>
+	<Import Project="embedded.target" />
 
 </Project>

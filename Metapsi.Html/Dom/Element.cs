@@ -16,6 +16,11 @@ public interface Element : Node
     public string id { get; set; }
 
     /// <summary>
+    /// The Element.firstElementChild read-only property returns an element's first child Element, or null if there are no child elements.
+    /// </summary>
+    Element firstElementChild { get; }
+
+    /// <summary>
     /// The Element property innerHTML gets or sets the HTML or XML markup contained within the element.
     /// </summary>
     public string innerHTML { get; set; }
@@ -34,6 +39,11 @@ public interface Element : Node
     /// The Element.scrollTop property gets or sets the number of pixels by which an element's content is scrolled from its top edge
     /// </summary>
     public decimal scrollTop { get; set; }
+
+    /// <summary>
+    /// The Element.shadowRoot read-only property represents the shadow root hosted by the element.
+    /// </summary>
+    public ShadowRoot shadowRoot { get; }
 
     /// <summary>
     /// The slot property of the Element interface returns the name of the shadow DOM slot the element is inserted in.
@@ -107,8 +117,54 @@ public class ScrollIntoViewOptions
 /// <summary>
 /// 
 /// </summary>
+public interface AttachShadowOptions
+{
+    /// <summary>
+    /// A string specifying the encapsulation mode for the shadow DOM tree. 
+    /// </summary>
+    string mode { get; set; }
+
+    /// <summary>
+    /// A boolean that specifies whether the shadow root is clonable: when set to true, the shadow host cloned with Node.cloneNode() or Document.importNode() will include shadow root in the copy. Its default value is false.
+    /// </summary>
+    bool clonable { get; set; }
+
+    /// <summary>
+    /// A boolean that, when set to true, specifies behavior that mitigates custom element issues around focusability. When a non-focusable part of the shadow DOM is clicked, the first focusable part is given focus, and the shadow host is given any available :focus styling. Its default value is false.
+    /// </summary>
+    bool delegatesFocus { get; set; }
+
+    /// <summary>
+    /// A boolean that, when set to true, indicates that the shadow root is serializable. If set, the shadow root may be serialized by calling the Element.getHTML() or ShadowRoot.getHTML() methods with the options.serializableShadowRoots parameter set true. Its default value is false.
+    /// </summary>
+    bool serializable { get; set; }
+
+    /// <summary>
+    /// A string specifying the slot assignment mode for the shadow DOM tree.
+    /// </summary>
+    string slotAssignment { get; set; }
+}
+
+/// <summary>
+/// 
+/// </summary>
 public static class ElementExtensions
 {
+
+    /// <summary>
+    /// The Element.attachShadow() method attaches a shadow DOM tree to the specified element and returns a reference to its ShadowRoot.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="element"></param>
+    /// <param name="setOptions"></param>
+    /// <returns>Returns a <see cref="ShadowRoot"/> object.</returns>
+    public static Var<ShadowRoot> ElementAttachShadow<T>(this SyntaxBuilder b, Var<T> element, System.Action<PropsBuilder<AttachShadowOptions>> setOptions)
+        where T : Element
+    {
+        return b.CallOnObject<ShadowRoot>(element, "attachShadow", b.SetProps(b.NewObj(), setOptions));
+    }
+
     public static Var<Element> QuerySelector(this SyntaxBuilder b, Var<Element> parent, Var<string> selectors)
     {
         return b.CallOnObject<Element>(parent, "querySelector", selectors);
