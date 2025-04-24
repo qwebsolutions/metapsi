@@ -19,6 +19,11 @@ public interface Window : EventTarget
     public Document document { get; }
 
     /// <summary>
+    /// The isSecureContext read-only property of the Window interface returns a boolean indicating whether the current context is secure (true) or not (false).
+    /// </summary>
+    bool isSecureContext { get; }
+
+    /// <summary>
     /// The localStorage read-only property of the window interface allows you to access a Storage object for the Document's origin; the stored data is saved across browser sessions.
     /// </summary>
     public Storage localStorage { get; }

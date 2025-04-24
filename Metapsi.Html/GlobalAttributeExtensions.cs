@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
@@ -81,11 +82,34 @@ public static class GlobalAttributeExtensions
         b.SetClass(b.Const(@class));
     }
 
+    private static Var<List<DynamicObject>> GetClassList<T>(this PropsBuilder<T> b)
+    {
+        var classList = b.GetProperty<List<DynamicObject>>(b.Props, b.Const("class"));
+        return b.If(
+            b.HasObject(classList),
+            b => classList,
+            b =>
+            {
+                var newList = b.NewCollection<DynamicObject>();
+                b.SetProperty(b.Props, b.Const("class"), newList);
+                return newList;
+            });
+    }
+
     public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class)
     {
-        var currentClass = b.GetDynamic(b.Props, new DynamicProperty<string>("class"));
-        var updatedClass = b.Concat(currentClass, b.Const(" "), @class);
-        b.SetClass(updatedClass);
+        b.Push(b.GetClassList(), @class.As<DynamicObject>());
+        return b;
+    }
+
+    public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class, Var<bool> enabled)
+    {
+        b.Push(b.GetClassList(), b.NewObj<DynamicObject>(
+            b =>
+            {
+                b.SetProperty(b.Props, @class, enabled);
+            }));
+
         return b;
     }
 

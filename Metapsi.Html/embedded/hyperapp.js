@@ -78,7 +78,15 @@ var patchProperty = (node, key, oldValue, newValue, listener, isSvg) => {
         node[key][k] = oldValue
       }
     }
-  } else if (key[0] === "o" && key[1] === "n") {
+  } else if (key === "class") {
+      var o = oldValue ? oldValue.split(" ").filter(x => x.trim()) : [];
+      var n = newValue ? newValue.split(" ").filter(x => x.trim()) : [];
+      var r = o.filter(x => !n.includes(x));
+      var a = n.filter(x => !o.includes(x));
+      node.classList.remove(...r);
+      node.classList.add(...a);
+  }
+  else if (key[0] === "o" && key[1] === "n") {
     if (
       !((node.events || (node.events = {}))[(key = key.slice(2))] = newValue)
     ) {

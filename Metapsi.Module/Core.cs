@@ -45,9 +45,14 @@ namespace Metapsi.Syntax
             b.CallExternal(ModuleName, nameof(SetProperty), into, propertyName, value);
         }
 
-        public static void DeleteProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName)
+        public static void DeleteProperty(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
         {
-            b.CallExternal(ModuleName, nameof(DeleteProperty), into, propertyName);
+            b.CallExternal(ModuleName, nameof(DeleteProperty), from, propertyName);
+        }
+
+        public static void DeleteProperty<T, TProp>(this SyntaxBuilder b, Var<T> from, System.Linq.Expressions.Expression<Func<T, TProp>> property)
+        {
+            b.DeleteProperty(from, b.Const(property.PropertyName()));
         }
 
         public static Var<TResult> CallOnObject<TResult>(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
