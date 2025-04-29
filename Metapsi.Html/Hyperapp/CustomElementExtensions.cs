@@ -98,36 +98,6 @@ public static partial class CustomElementExtensions
 
         var contentElement = b.Ref(b.NewObj<DynamicObject>().As<Element>());
 
-        //var wrappedAttach = b.Def(
-        //    (SyntaxBuilder b, Var<Element> element) =>
-        //    {
-        //        //b.Log("script tags", b.Const(scriptTags));
-        //        var shadowRoot = b.ElementAttachShadow(element, b => b.Set(x => x.mode, "open"));
-        //        //foreach (var tag in scriptTags)
-        //        //{
-        //        //    var newNode = b.CreateElement(b.Get(b.Const(tag), x => x.Tag));
-        //        //    b.ObjectAssign(newNode, b.Get(b.Const(tag), x => x.Attributes));
-        //        //    b.NodeAppendChild(shadowRoot, newNode);
-        //        //}
-
-        //        //foreach (var tag in stylesheets)
-        //        //{
-        //        //    var newNode = b.CreateElement(b.Get(b.Const(tag), x => x.Tag));
-        //        //    b.ObjectAssign(newNode, b.Get(b.Const(tag), x => x.Attributes));
-        //        //    b.NodeAppendChild(shadowRoot, newNode);
-        //        //}
-                
-        //        //b.SetRef(contentElement, b.NodeAppendChild(shadowRoot, b.CreateElement(b.Const("div"))));
-
-        //        b.Call(attach, element);
-        //    });
-
-        //var wrappedRender = b.Def((SyntaxBuilder b, Var<Element> element) =>
-        //{
-        //    b.Call(render, b.Get(element, x => x.shadowRoot).As<Element>());
-        //    //b.Call(render, b.GetRef(contentElement));
-        //});
-
         b.CallExternal(
             ExternalScriptName,
             "defineRACCustomElement",
@@ -193,31 +163,6 @@ public static partial class CustomElementExtensions
                         var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
                         {
                             var outNode = render(b, tagName, model);
-                            //var scriptTags = b.Module.GetDistinctTags("script");
-                            //var stylesheets = b.Module.GetDistinctTags("link");
-
-                            //foreach (var tag in scriptTags)
-                            //{
-                            //    if (!tag.GetAttribute("src").Contains("ionic"))
-                            //    {
-                            //        b.CallOnObject(
-                            //            b.GetProperty<List<IVNode>>(outNode, "children"),
-                            //            "unshift",
-                            //            b.H(b.Const(tag.Tag), b.Get(b.Const(tag), x => x.Attributes).As<DynamicObject>()));
-                            //    }
-                            //}
-
-                            //foreach (var tag in stylesheets)
-                            //{
-                            //    if (!tag.GetAttribute("href").Contains("ionic"))
-                            //    {
-                            //        b.CallOnObject(
-                            //            b.GetProperty<List<IVNode>>(outNode, "children"),
-                            //            "unshift",
-                            //            b.H(b.Const(tag.Tag), b.Get(b.Const(tag), x => x.Attributes).As<DynamicObject>()));
-                            //    }
-                            //}
-
                             return outNode;
                         });
 

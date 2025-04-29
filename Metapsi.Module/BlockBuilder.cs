@@ -130,24 +130,10 @@ namespace Metapsi.Syntax
 
         public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, Var<TProp> value)
         {
-            if (!(access.Body is MemberExpression))
-            {
-                throw new Exception($"Expression {access} is not valid in setter. Setter can only be used on properties of accessor variable");
-            }
-            else if ((access.Body as MemberExpression).Expression is MemberExpression)
-            {
-                // If nested member expression
-                throw new Exception($"Expression {access} is not valid in setter. Setter can only be used on properties of accessor variable");
-            }
-
-            Set(var, new Property()
-            {
-                InterfaceType = typeof(TItem),
-                PropertyName = access.PropertyName()
-            }, value);
+            SetLax(var, access, value);
         }
 
-        public void SetLax<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
+        public void SetLax<TItem>(Var<TItem> var, LambdaExpression access, IVariable value)
         {
             if (!(access.Body is MemberExpression))
             {

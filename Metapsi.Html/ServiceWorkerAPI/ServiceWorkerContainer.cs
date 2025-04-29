@@ -10,7 +10,7 @@ namespace Metapsi.Html
     /// <summary>
     /// The ServiceWorkerContainer interface of the Service Worker API provides an object representing the service worker as an overall unit in the network ecosystem, including facilities to register, unregister and update service workers, and access the state of service workers and their registrations.
     /// </summary>
-    public interface ServiceWorkerContainer
+    public interface ServiceWorkerContainer : EventTarget
     {
         /// <summary>
         /// The controller read-only property of the ServiceWorkerContainer interface returns a ServiceWorker object if its state is activating or activated (the same object returned by ServiceWorkerRegistration.active). This property returns null if the request is a force refresh (Shift + refresh) or if there is no active worker.

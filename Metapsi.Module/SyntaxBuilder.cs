@@ -45,6 +45,8 @@ namespace Metapsi.Syntax
 
         public Var<T> Const<T>(T constant)
         {
+            if (constant is IVariable)
+                throw new ArgumentException("Constant is not a server-side value");
             return blockBuilder.Const(constant);
         }
 
@@ -78,14 +80,22 @@ namespace Metapsi.Syntax
             blockBuilder.Set<TItem, TProp>(var, access, value);
         }
 
-        public void SetLax<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
+        public void SetLax<TItem>(Var<TItem> var, LambdaExpression access, IVariable value)
         {
             blockBuilder.SetLax(var, access, value);
         }
 
         public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
         {
-            Set<TItem, TProp>(var, access, Const(value));
+            // Guard against 'double clienting'
+            if (value is IVariable)
+            {
+                SetLax(var, access, value as IVariable);
+            }
+            else
+            {
+                Set<TItem, TProp>(var, access, Const(value));
+            }
         }
 
         public void SetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property, Var<TProp> value)

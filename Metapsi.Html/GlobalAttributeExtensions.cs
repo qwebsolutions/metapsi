@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using System;
 using System.Collections.Generic;
 
 namespace Metapsi.Html;
@@ -74,7 +75,9 @@ public static class GlobalAttributeExtensions
 
     public static void SetClass<T>(this PropsBuilder<T> b, Var<string> @class)
     {
-        b.SetAttribute("class", @class);
+        var classList = b.GetClassList();
+        b.Clear(classList);
+        b.Push(classList.As<List<string>>(), @class);
     }
 
     public static void SetClass<T>(this PropsBuilder<T> b, string @class)

@@ -43,7 +43,8 @@ namespace Metapsi.Html
         /// <param name="b"></param>
         /// <param name="client"></param>
         /// <param name="message">The message to send to the client. This can be any structured-cloneable type.</param>
-        public static void ClientPostMessage(this SyntaxBuilder b, Var<Client> client, IVariable message)
+        public static void ClientPostMessage<TClient>(this SyntaxBuilder b, Var<TClient> client, IVariable message)
+            where TClient: Client
         {
             b.CallOnObject(client, "postMessage", message);
         }
@@ -55,7 +56,8 @@ namespace Metapsi.Html
         /// <param name="client"></param>
         /// <param name="message">The message to send to the client. This can be any structured-cloneable type.</param>
         /// <param name="transfer">An optional array of transferable objects to transfer ownership of. The ownership of these objects is given to the destination side and they are no longer usable on the sending side. These transferable objects should be attached to the message; otherwise they would be moved but not actually accessible on the receiving end.</param>
-        public static void ClientPostMessage(this SyntaxBuilder b, Var<Client> client, IVariable message, Var<List<object>> transfer)
+        public static void ClientPostMessage<TClient>(this SyntaxBuilder b, Var<TClient> client, IVariable message, Var<List<object>> transfer)
+            where TClient: Client
         {
             b.CallOnObject(client, "postMessage", message, transfer);
         }

@@ -205,6 +205,13 @@ public static class Program
 
                     csTypeDeclaration = csTypeDeclaration.Replace(" extends ", " : ");
                     csTypeDeclaration = csTypeDeclaration.Trim().TrimEnd('{');
+
+                    if (declaration.Contains("event?: Event"))
+                    {
+                        codeBuilder.AppendLine("using Metapsi.Html;");
+                        codeBuilder.AppendLine();
+                    }
+
                     codeBuilder.AppendLine("namespace Metapsi.Ionic;");
                     codeBuilder.AppendLine();
                     codeBuilder.AppendLine(csTypeDeclaration);

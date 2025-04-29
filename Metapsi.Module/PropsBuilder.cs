@@ -66,7 +66,15 @@ public static class PropsBuilderExtensions
 
     public static void Set<TObject, TValue>(this PropsBuilder<TObject> b, System.Linq.Expressions.Expression<Func<TObject, TValue>> onProperty, TValue value)
     {
-        b.Set(onProperty, b.Const(value));
+        // Guard against 'double clienting'
+        if (value is IVariable)
+        {
+            b.SetLax(b.Props, onProperty, value as IVariable);
+        }
+        else
+        {
+            b.Set(onProperty, b.Const(value));
+        }
     }
 
     public static Var<TValue> Get<TObject, TValue>(this PropsBuilder<TObject> b, System.Linq.Expressions.Expression<Func<TObject, TValue>> property)
