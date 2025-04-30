@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Metapsi.Html;
 
@@ -232,5 +233,36 @@ public static class ServerAction
                 }),
             onSuccess,
             onError);
+    }
+
+    /// <summary>
+    /// Return the URL of an API based on route name.
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="endpointName"></param>
+    /// <param name="getParameters"></param>
+    /// <remarks>If the URL has multiple segments you need to provide their mapped names.
+    /// <para>Ex. MapGet("/user/{id}" ... ).WithName("get-user") -> FindApiUrl("get-user", "id")</para>
+    /// </remarks>
+    /// <returns></returns>
+    public static string FindApiUrl(this HttpContext httpContext, string endpointName, params string[] getParameters)
+    {
+        var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
+
+        RouteValueDictionary values = new RouteValueDictionary();
+        foreach (var p in getParameters)
+        {
+            values.Add(p, "-");
+        }
+
+        var path = linkGenerator.GetPathByName(endpointName, values);
+
+        if (string.IsNullOrEmpty(path))
+        {
+            return string.Empty;
+        }
+
+        var stripped = path.Replace("/-", string.Empty);
+        return stripped;
     }
 }

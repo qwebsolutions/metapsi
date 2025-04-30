@@ -8,7 +8,6 @@ namespace Metapsi.Swiper;
 
 public class SwiperContainer
 {
-    public DynamicObject InitParameters { get; set; } = new DynamicObject();
 }
 
 public static partial class Control
@@ -34,10 +33,5 @@ public static partial class Control
         EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
         b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
         return b.SwiperContainer(setProps, b.List(slides));
-    }
-
-    public static void SetSwiperParameter(this PropsBuilder<SwiperContainer> b, string parameter, IVariable value)
-    {
-        b.SetProperty(b.Get(b.Props, x => x.InitParameters), b.Const(parameter), value);
     }
 }

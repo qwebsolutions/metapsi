@@ -102,6 +102,10 @@ public static class Program
 
     public static async Task Main()
     {
+        //var converted = Metapsi.JavaScript.LinqConverter.ToJavaScript(() => "test");
+
+        //Environment.Exit(0);
+
         //Console.WriteLine(typeof(List<Nested.NestedAgain>).CSharpTypeName());
 
         //Console.WriteLine(typeof(Dictionary<string, HashSet<Guid>>).CSharpTypeName(TypeQualifier.All));
@@ -115,14 +119,14 @@ public static class Program
 
         //await Task.Delay(100000);
 
-        Form x = new();
-        x.Controls = new Widget[] 
-            { 
-                new TextBox() { OnChange = ()=>
-                {
-                }
-            } 
-        };
+        //Form x = new();
+        //x.Controls = new Widget[] 
+        //    { 
+        //        new TextBox() { OnChange = ()=>
+        //        {
+        //        }
+        //    } 
+        //};
 
 
         // AddMetapsiSignalR preserves JSON capitalization
@@ -131,12 +135,11 @@ public static class Program
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub();
 
-        app.MapGet("/", () => Page.Result(new DataModel()));
-        app.MapServerActions("someOtherPath");
-        
-        
+        //app.MapGet("/", () => Page.Result(new DataModel()));
+        //app.MapServerActions("someOtherPath");
 
-        //app.MapGet("/market", () => Page.Result(new MarketData()));
+
+        app.MapGet("/market", () => Page.Result(new MarketData()));
         //app.UseRenderer<DataModel>(model => $"<html><head><title>{model.Title}</title></head><body>{model.Message}</body></html>");
 
         //app.UseRenderer<DataModel>(
@@ -235,113 +238,121 @@ public static class Program
 
         string line = "abc";
 
-        app.UseRenderer<DataModel>(
-            model => HtmlBuilder.FromDefault(
-            b =>
-            {
-                b.UseWebComponentsFadeIn();
-                b.HeadAppend(b.HtmlTitle(model.Title));
-                b.BodyAppend(
-                    b.Hyperapp(
-                        model,
-                        (b, model) =>
-                        b.HtmlDiv(
-                            b.SlDialog(
-                                b =>
-                                {
-                                    b.AddStyle("font-family", "var(--sl-font-sans)");
-                                    b.SetId("shoelace-dialog");
-                                    b.SetLabel("Shoelace dialog");
-                                },
-                                b.Text(b.Get(model, x => x.Message)),
-                                b.SlInput(
-                                    b=>
-                                    {
-                                        var notUsed = b.Get(model, x => x.Length);
+        //app.UseRenderer<DataModel>(
+        //    model => HtmlBuilder.FromDefault(
+        //    b =>
+        //    {
+        //        b.UseWebComponentsFadeIn();
+        //        b.HeadAppend(b.HtmlTitle(model.Title));
+        //        b.BodyAppend(
+        //            b.Hyperapp(
+        //                model,
+        //                (b, model) =>
+        //                b.HtmlDiv(
+        //                    b.SlDialog(
+        //                        b =>
+        //                        {
+        //                            b.AddStyle("font-family", "var(--sl-font-sans)");
+        //                            b.SetId("shoelace-dialog");
+        //                            b.SetLabel("Shoelace dialog");
+        //                        },
+        //                        b.SlIcon(
+        //                            b=>
+        //                            {
+        //                                b.SetName("trash");
+        //                            }),
+        //                        b.IonButton(
+        //                            b.IonIcon("people-circle"),
+        //                            b.Text("Test")),
+        //                        b.Text(b.Get(model, x => x.Message)),
+        //                        b.SlInput(
+        //                            b=>
+        //                            {
+        //                                var notUsed = b.Get(model, x => x.Length);
 
-                                        //b.OnInputAction(
-                                        //    b.CallServer(
-                                        //        async (DataModel model, string inputString) =>
-                                        //        {
-                                        //            model.Message = inputString;
-                                        //            model.ShowText = inputString.Length % 2 == 0;
-                                        //            return model;
-                                        //        }));
+        //                                //b.OnInputAction(
+        //                                //    b.CallServer(
+        //                                //        async (DataModel model, string inputString) =>
+        //                                //        {
+        //                                //            model.Message = inputString;
+        //                                //            model.ShowText = inputString.Length % 2 == 0;
+        //                                //            return model;
+        //                                //        }));
 
-                                        //b.SetValue(b.Get(model, x => x.Message));
+        //                                //b.SetValue(b.Get(model, x => x.Message));
 
-                                        //b.BindTo(model, x => x.Message);
-                                        b.BindTo(model, x => x.Nested, x => x.NestedMessage);
-                                        //b.BindTo(model, x => x.SomeDate, x => x.Minute);
+        //                                //b.BindTo(model, x => x.Message);
+        //                                b.BindTo(model, x => x.Nested, x => x.NestedMessage);
+        //                                //b.BindTo(model, x => x.SomeDate, x => x.Minute);
 
-                                    }),
-                                b.SlButton(
-                                    b =>
-                                    {
-                                        b.SetSlot(SlDialog.Slot.Footer);
-                                        b.SetVariantSuccess();
-                                        //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-                                        //{
-                                        //    var comment = b.Comment("Shoelace dialog here");
+        //                            }),
+        //                        b.SlButton(
+        //                            b =>
+        //                            {
+        //                                b.SetSlot(SlDialog.Slot.Footer);
+        //                                b.SetVariantSuccess();
+        //                                //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
+        //                                //{
+        //                                //    var comment = b.Comment("Shoelace dialog here");
 
-                                        //    b.HideDialog("shoelace-dialog");
-                                        //    return b.Clone(model);
-                                        //});
-                                    },
-                                    b.Text(b.Get(model, x=>x.Message)))),
-                            b.Optional(
-                                b.Get(model, x=>x.Nested.NestedMessage.Length%2 == 0),
-                                //b.Get(
-                                //    model, 
-                                //    b.Def<SyntaxBuilder, string,int>(Metapsi.Syntax.Core.StringLength),
-                                //    (model, sl)=> sl(model.Nested.NestedMessage) %2 == 0),
-                                    //b.StringLength(
-                                        //b.Get(model, x=>x.Message)),
-                                        //x=> x%2 == 0),
-                                b=> b.Text("Hidden text")),
-                            b.SlButton(
-                                b =>
-                                {
-                                    b.OnClickAction(b.CallServer(
-                                        async (model) =>
-                                        {
-                                            model.Message = "WORKS!";
-                                            return model;
-                                        },
-                                        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
-                                        {
-                                            b.ShowDialog("shoelace-dialog");
-                                            return newModel;
-                                        })));
+        //                                //    b.HideDialog("shoelace-dialog");
+        //                                //    return b.Clone(model);
+        //                                //});
+        //                            },
+        //                            b.Text(b.Get(model, x=>x.Message)))),
+        //                    b.Optional(
+        //                        b.Get(model, x=>x.Nested.NestedMessage.Length%2 == 0),
+        //                        //b.Get(
+        //                        //    model, 
+        //                        //    b.Def<SyntaxBuilder, string,int>(Metapsi.Syntax.Core.StringLength),
+        //                        //    (model, sl)=> sl(model.Nested.NestedMessage) %2 == 0),
+        //                            //b.StringLength(
+        //                                //b.Get(model, x=>x.Message)),
+        //                                //x=> x%2 == 0),
+        //                        b=> b.Text("Hidden text")),
+        //                    b.SlButton(
+        //                        b =>
+        //                        {
+        //                            b.OnClickAction(b.CallServer(
+        //                                async (model) =>
+        //                                {
+        //                                    model.Message = "WORKS!";
+        //                                    return model;
+        //                                },
+        //                                b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
+        //                                {
+        //                                    b.ShowDialog("shoelace-dialog");
+        //                                    return newModel;
+        //                                })));
 
-                                    //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-                                    //{
-                                    //    return b.CallServerAction(
-                                    //        model,
-                                    //        model,
-                                    //        async (model) =>
-                                    //        {
-                                    //            model.Message = "Changed server side";
-                                    //            return model;
-                                    //        },
-                                    //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
-                                    //        {
-                                    //            return newModel;
-                                    //        }),
-                                    //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<ClientSideException> ex) =>
-                                    //        {
-                                    //            return model;
-                                    //        }));
-                                    //});
+        //                            //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
+        //                            //{
+        //                            //    return b.CallServerAction(
+        //                            //        model,
+        //                            //        model,
+        //                            //        async (model) =>
+        //                            //        {
+        //                            //            model.Message = "Changed server side";
+        //                            //            return model;
+        //                            //        },
+        //                            //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
+        //                            //        {
+        //                            //            return newModel;
+        //                            //        }),
+        //                            //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<ClientSideException> ex) =>
+        //                            //        {
+        //                            //            return model;
+        //                            //        }));
+        //                            //});
 
-                                    //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-                                    //{
-                                    //    b.ShowDialog("shoelace-dialog");
-                                    //    return b.Clone(model);
-                                    //});
-                                },
-                                b.Text("Open dialog")))));
-            }).ToHtml());
+        //                            //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
+        //                            //{
+        //                            //    b.ShowDialog("shoelace-dialog");
+        //                            //    return b.Clone(model);
+        //                            //});
+        //                        },
+        //                        b.Text("Open dialog")))));
+        //    }).ToHtml());
 
         //app.UseRenderer<DataModel>(
         //    model => HtmlBuilder.FromDefault(
@@ -384,18 +395,18 @@ public static class Program
         //                }));
         //    }).ToHtml());
 
-        //app.UseRenderer<MarketData>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.UseWebComponentsFadeIn();
-        //        b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
-        //        b.BodyAppend(
-        //            b.Hyperapp<MarketData>(
-        //                InitializeClientSideApp,
-        //                RenderClientSideApp,
-        //                ListenToUpdates));
-        //    }).ToHtml());
+        app.UseRenderer<MarketData>(
+            model => HtmlBuilder.FromDefault(
+            b =>
+            {
+                b.UseWebComponentsFadeIn();
+                b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
+                b.BodyAppend(
+                    b.Hyperapp<MarketData>(
+                        InitializeClientSideApp,
+                        RenderClientSideApp,
+                        ListenToUpdates));
+            }).ToHtml());
 
         var _notAwaited = Task.Run(GenerateRandomData);
 
@@ -496,11 +507,14 @@ public static class Program
     public static Var<HyperType.Subscription> ListenToUpdates(SyntaxBuilder b, Var<MarketData> _modelNotUsed)
     {
         // Listen to SignalR event
-        return b.Listen(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Refresh> refreshEvent) =>
-        {
-            // Return the data. Hyperapp triggers automatic refresh
-            return b.Get(refreshEvent, x => x.MarketData);
-        }));
+        return b.Listen(
+            b.Window(),
+            b.Const("Refresh"),
+            b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<CustomEvent<Refresh>> refreshEvent) =>
+            {
+                // Return the data. Hyperapp triggers automatic refresh
+                return b.Get(refreshEvent, x => x.detail.MarketData);
+            }));
     }
 
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
@@ -559,10 +573,12 @@ public static class Program
             }
 
             // Raise SignalR event with new data
-            await DefaultMetapsiSignalRHub.HubContext.Clients.All.RaiseEvent(new Refresh()
-            {
-                MarketData = marketData
-            });
+            await DefaultMetapsiSignalRHub.HubContext.Clients.All.RaiseCustomEvent(
+                typeof(Refresh).Name,
+                new Refresh()
+                {
+                    MarketData = marketData
+                });
         }
     }
 }
