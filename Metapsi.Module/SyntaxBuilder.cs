@@ -114,7 +114,12 @@ namespace Metapsi.Syntax
         {
             blockBuilder.Comment(comment, file, line);
         }
-
+        /// <summary>
+        /// Dynamically runs any lambda expression. Used when the parameter and return types are not statically known
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
         public IVariable GetLax(
             LambdaExpression expression,
             params IVariable[] arguments)
@@ -124,6 +129,14 @@ namespace Metapsi.Syntax
             return blockBuilder.CallFunction<object>(constExpr, arguments);
         }
 
+        /// <summary>
+        /// Runs a lambda expression
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="input"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public Var<TResult> Get<TInput, TResult>(
             Var<TInput> input,
             Expression<Func<TInput, TResult>> expression)
@@ -131,6 +144,16 @@ namespace Metapsi.Syntax
             return GetLax(expression, input).As<TResult>();
         }
 
+        /// <summary>
+        /// Runs a lambda expression
+        /// </summary>
+        /// <typeparam name="TInput1"></typeparam>
+        /// <typeparam name="TInput2"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public Var<TResult> Get<TInput1, TInput2, TResult>(
             Var<TInput1> input1,
             Var<TInput2> input2,
@@ -139,6 +162,18 @@ namespace Metapsi.Syntax
             return GetLax(expression, input1, input2).As<TResult>();
         }
 
+        /// <summary>
+        /// Runs a lambda expression
+        /// </summary>
+        /// <typeparam name="TInput1"></typeparam>
+        /// <typeparam name="TInput2"></typeparam>
+        /// <typeparam name="TInput3"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="input3"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public Var<TResult> Get<TInput1, TInput2, TInput3, TResult>(
             Var<TInput1> input1,
             Var<TInput2> input2,
@@ -148,6 +183,20 @@ namespace Metapsi.Syntax
             return GetLax(expression, input1, input2, input3).As<TResult>();
         }
 
+        /// <summary>
+        /// Runs a lambda expression
+        /// </summary>
+        /// <typeparam name="TInput1"></typeparam>
+        /// <typeparam name="TInput2"></typeparam>
+        /// <typeparam name="TInput3"></typeparam>
+        /// <typeparam name="TInput4"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="input3"></param>
+        /// <param name="input4"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TResult>(
             Var<TInput1> input1,
             Var<TInput2> input2,
@@ -158,6 +207,22 @@ namespace Metapsi.Syntax
             return GetLax(expression, input1, input2, input3, input4).As<TResult>();
         }
 
+        /// <summary>
+        /// Runs a lambda expression
+        /// </summary>
+        /// <typeparam name="TInput1"></typeparam>
+        /// <typeparam name="TInput2"></typeparam>
+        /// <typeparam name="TInput3"></typeparam>
+        /// <typeparam name="TInput4"></typeparam>
+        /// <typeparam name="TInput5"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="input3"></param>
+        /// <param name="input4"></param>
+        /// <param name="input5"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TInput5, TResult>(
             Var<TInput1> input1,
             Var<TInput2> input2,

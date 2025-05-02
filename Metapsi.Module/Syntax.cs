@@ -9,7 +9,7 @@ namespace Metapsi.Syntax
 {
     public interface IVariable
     {
-        string Name { get; }
+        string Name { get; set; }
         public Type Type { get; }
     }
 
@@ -96,7 +96,7 @@ namespace Metapsi.Syntax
             Name = name;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public Type Type => typeof(T);
     }
