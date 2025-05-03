@@ -1,4 +1,5 @@
 ﻿using Metapsi.JavaScript;
+using Metapsi.JavaScript.ModuleContracts;
 using Metapsi.Syntax;
 using System;
 using System.Linq;
@@ -23,7 +24,7 @@ public static class HtmlScriptExtensions
                 b.SetAttribute("type", "module");
                 setAttributes(b);
             },
-            b.Text(PrettyBuilder.Generate(moduleBuilder.Module)),
+            b.Text(moduleBuilder.Module.GetDefinition().ToJs()),
             b.Text("main()"));
     }
 

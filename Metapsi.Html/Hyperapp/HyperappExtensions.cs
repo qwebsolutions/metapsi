@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Text;
+using Metapsi.JavaScript.ModuleContracts;
 
 namespace Metapsi.Html;
 
@@ -53,7 +54,9 @@ public static partial class HyperappExtensions
 
         HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
 
-        var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
+        //var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
+        var moduleDefinition = moduleBuilder.Module.GetDefinition();
+        var moduleScript = moduleDefinition.ToJs();
 
         return new HyperAppNode()
         {

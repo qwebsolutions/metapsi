@@ -105,3 +105,21 @@ export const While = (checkFn, doFn) => { while (checkFn()) { doFn() } }
 export const AsyncForeach = async (collection, doStuff) => {
     for (const item of collection) await doStuff(item)
 }
+
+export const mForEach = (collection, doStuff) => {
+    collection.forEach(doStuff);
+}
+
+export const mIf = (check, ifTrue, ifFalse) => {
+    if (check) {
+        ifTrue();
+        return;
+    }
+    if (ifFalse) {
+        ifFalse();
+    }
+}
+
+export const mSet = (on, prop, val) => {
+    on[prop] = val
+}

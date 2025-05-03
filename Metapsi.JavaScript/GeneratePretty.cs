@@ -33,7 +33,7 @@ namespace Metapsi.JavaScript
     {
         //public const int IndentSize = 4;
 
-        public static string Generate(Module module, JsBuilderOptions options = null)
+        private static string Generate(Module module, JsBuilderOptions options = null)
         {
             if (options == null)
                 options = new JsBuilderOptions();

@@ -9,7 +9,7 @@ namespace Metapsi.JavaScript
 {
     public static partial class UglyBuilder
     {
-        public static string Generate(Module module, string version)
+        private static string Generate(Module module, string version)
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             StringBuilder builder = new StringBuilder();

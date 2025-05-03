@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.JavaScript.ModuleContracts;
+using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,22 +45,24 @@ public static class JsModule
     {
         StringBuilder stringBuilder = new StringBuilder();
 
-        switch (style)
-        {
-            case GenerateStyle.Default:
-#if DEBUG
-                stringBuilder.AppendLine(PrettyBuilder.Generate(module));
-#else
-                stringBuilder.AppendLine(UglyBuilder.Generate(moduleBuilder.Module, string.Empty));
-#endif
-                break;
-            case GenerateStyle.Pretty:
-                stringBuilder.AppendLine(PrettyBuilder.Generate(module));
-                break;
-            case GenerateStyle.Ugly:
-                stringBuilder.AppendLine(UglyBuilder.Generate(module, string.Empty));
-                break;
-        }
+        stringBuilder.AppendLine(module.GetDefinition().ToJs());
+
+//        switch (style)
+//        {
+//            case GenerateStyle.Default:
+//#if DEBUG
+//                stringBuilder.AppendLine(PrettyBuilder.Generate(module));
+//#else
+//                stringBuilder.AppendLine(UglyBuilder.Generate(moduleBuilder.Module, string.Empty));
+//#endif
+//                break;
+//            case GenerateStyle.Pretty:
+//                stringBuilder.AppendLine(PrettyBuilder.Generate(module));
+//                break;
+//            case GenerateStyle.Ugly:
+//                stringBuilder.AppendLine(UglyBuilder.Generate(module, string.Empty));
+//                break;
+//        }
         if (callMain)
         {
             stringBuilder.AppendLine("main()");

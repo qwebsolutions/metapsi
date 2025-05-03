@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -325,6 +326,22 @@ public static class ModuleExtensions
     public static ModuleDefinition GetDefinition(this Syntax.Module module)
     {
         ModuleDefinition outModule = new();
+        foreach (var import in module.Imports)
+        {
+            if (import.Symbol != "Enumerable")
+            {
+                var importModule = import.Module;
+                if(!importModule.StartsWith("/"))
+                {
+                    importModule = "/" + importModule;
+                }
+                if(!importModule.EndsWith("js"))
+                {
+                    importModule += ".js";
+                }
+                outModule.ImportName(importModule, import.Symbol);
+            }
+        }
         foreach (var constant in module.Consts)
         {
             if (constant.Value is System.Linq.Expressions.Expression)
@@ -350,7 +367,6 @@ public static class ModuleExtensions
                         Value = Metapsi.Serialize.ToJson(constant.Value)
                     }
                 });
-                //Console.WriteLine(Metapsi.Serialize.ToJson(constant.Value));
             }
         }
         foreach (var function in module.Functions)
@@ -381,7 +397,6 @@ public static class ModuleExtensions
 
         foreach (var line in block.Lines)
         {
-            ISyntaxElement p;
             switch (line)
             {
                 case LineComment lineComment:
@@ -414,7 +429,7 @@ public static class ModuleExtensions
                     break;
                 case IfBlock ifBlock:
                     {
-                        moduleDefinition.ImportName("metapsi.core.js", "mIf");
+                        moduleDefinition.ImportName("/metapsi.core.js", "mIf");
                         var ifCall = new CallNode()
                         {
                             Fn = new IdentifierNode() { Name = "mIf" }
@@ -430,7 +445,7 @@ public static class ModuleExtensions
                     break;
                 case IForeachBlock foreachBlock:
                     {
-                        moduleDefinition.ImportName("metapsi.core.js", "mForEach");
+                        moduleDefinition.ImportName("/metapsi.core.js", "mForEach");
                         body.Add(new CallNode()
                         {
                             Fn = new IdentifierNode() { Name = "mForEach" },
@@ -451,7 +466,60 @@ public static class ModuleExtensions
                     break;
                 case IFunction function:
                     {
-                        body.Add(ToFnNode(function, moduleDefinition));
+                        body.Add(
+                            new AssignmentNode()
+                            {
+                                Name = function.Name,
+                                Node = ToFnNode(function, moduleDefinition)
+                            });
+                    }
+                    break;
+                case IObjectConstructor obj:
+                    {
+                        body.Add(new AssignmentNode()
+                        {
+                            Name = obj.IntoVar.Name,
+                            Node = new LiteralNode()
+                            {
+                                Value = Metapsi.Serialize.ToJson(obj.From)
+                            }
+                        });
+                    }
+                    break;
+                case ICollectionConstructor col:
+                    {
+                        body.Add(new AssignmentNode()
+                        {
+                            Name = col.IntoVar.Name,
+                            Node = new LiteralNode()
+                            {
+                                Value = Metapsi.Serialize.ToJson(new List<object>())
+                            }
+                        });
+                    }
+                    break;
+                case IPropertyAssignment setter:
+                    {
+                        moduleDefinition.ImportName("/metapsi.core.js", "mSet");
+                        body.Add(new CallNode()
+                        {
+                            Fn = new IdentifierNode() { Name = "mSet" },
+                            Arguments = new List<ISyntaxNode>()
+                            {
+                                new IdentifierNode()
+                                {
+                                    Name = setter.ObjectVar.Name,
+                                },
+                                new LiteralNode()
+                                {
+                                    Value = Metapsi.Serialize.ToJson(setter.Property.PropertyName),
+                                },
+                                new IdentifierNode()
+                                {
+                                    Name= setter.FromVar.Name,
+                                }
+                            }
+                        });
                     }
                     break;
                 default:
@@ -459,6 +527,163 @@ public static class ModuleExtensions
             }
         }
         return body;
+    }
+
+    public static string ToJs(this ModuleDefinition moduleDefinition)
+    {
+        EmbeddedFiles.Add(typeof(Metapsi.JavaScript.PrettyBuilder).Assembly, "metapsi.core.js");
+        EmbeddedFiles.Add(typeof(LinqConverter).Assembly, "uuid.js");
+        EmbeddedFiles.Add(typeof(LinqConverter).Assembly, "linq.js");
+
+        StringBuilder outJs = new StringBuilder();
+
+        foreach (var comment in moduleDefinition.Comments)
+        {
+            var lines = comment.Split("\n");
+            foreach (var line in lines)
+            {
+                outJs.AppendLine($"// {line}");
+            }
+        }
+
+        foreach (var import in moduleDefinition.Imports)
+        {
+            var source = import.Key;
+            var importDefinition = import.Value;
+
+            if (!string.IsNullOrEmpty(importDefinition.Default))
+            {
+                outJs.AppendLine($"import {importDefinition.Default} from \"{source}\";");
+            }
+            else
+            {
+                List<string> importNames = new List<string>();
+                foreach (var name in importDefinition.Imports)
+                {
+                    importNames.Add(name);
+                }
+
+                var joined = string.Join(", ", importNames);
+
+                outJs.AppendLine($"import {{ {joined} }} from \"{source}\";");
+            }
+        }
+
+        foreach (var node in moduleDefinition.Nodes)
+        {
+            outJs.AppendLine(node.ToJs());
+            //if (node.Type == NodeType.Assignment)
+            //{
+            //    AssignmentNode assignment = (AssignmentNode)node;
+            //    if (assignment.Node.Type == NodeType.Literal)
+            //    {
+            //        var literal = (LiteralNode)assignment.Node;
+            //        outJs.AppendLine($"const {assignment.Name} = {Metapsi.Serialize.FromJson<object>(literal.Value)}");
+            //    }
+            //    else if (assignment.Node.Type == NodeType.Linq)
+            //    {
+            //        var linqNode = (LinqNode)assignment.Node;
+            //        outJs.AppendLine($"const {assignment.Name} = {linqNode.Expr}");
+            //    }
+            //    else if (assignment.Node.Type == NodeType.Fn)
+            //    {
+            //        var fnNode = (FnNode)assignment.Node;
+            //        outJs.AppendLine($"const {assignment.Name} = {ToJs(fnNode)}");
+            //    }
+            //}
+            //else if (node.Type == NodeType.Call)
+            //{
+            //    var callNode = (CallNode)node;
+            //}
+        }
+
+        return outJs.ToString();
+    }
+
+    public static string ToJs(this ISyntaxNode syntaxNode)
+    {
+        switch (syntaxNode.Type)
+        {
+            case NodeType.Literal:
+                {
+                    var literal = syntaxNode as LiteralNode;
+                    return literal.Value;
+                }
+            case NodeType.Identifier:
+                {
+                    var identifier = syntaxNode as IdentifierNode;
+                    return identifier.Name;
+                }
+            case NodeType.Assignment:
+                {
+                    var assignment = syntaxNode as AssignmentNode;
+                    return $"let {assignment.Name} = " + assignment.Node.ToJs();
+                }
+            case NodeType.Fn:
+                {
+                    var fnDef = syntaxNode as FnNode;
+                    return ToJs(fnDef);
+                }
+            case NodeType.Linq:
+                {
+                    var linqNode = syntaxNode as LinqNode;
+                    return linqNode.Expr;
+                }
+            case NodeType.Call:
+                {
+                    var callNode = syntaxNode as CallNode;
+                    return ToJs(callNode);
+                }
+            case NodeType.Comment:
+                {
+                    var commentNode = syntaxNode as CommentNode;
+                    return $"// {commentNode.Comment}";
+                }
+            default:
+                throw new NotSupportedException(syntaxNode.Type.ToString());
+        }
+    }
+
+    public static string ToJs(this FnNode fnNode)
+    {
+        StringBuilder outJs = new StringBuilder();
+        var parameters = string.Join(", ", fnNode.Parameters);
+        outJs.AppendLine($"({parameters}) => {{ ");
+        foreach (var line in fnNode.Body)
+        {
+            outJs.AppendLine(line.ToJs());
+        }
+
+        if (fnNode.Return != null)
+        {
+            outJs.AppendLine($"return {fnNode.Return}");
+        }
+
+        outJs.Append("}");
+
+        return outJs.ToString();
+    }
+
+    public static string ToJs(this CallNode callNode)
+    {
+        StringBuilder outJs = new StringBuilder();
+        if (callNode.Fn.Type == NodeType.Fn)
+        {
+            outJs.Append(ToJs(callNode.Fn as FnNode));
+        }
+        else if (callNode.Fn.Type == NodeType.Identifier)
+        {
+            outJs.Append((callNode.Fn as IdentifierNode).Name);
+        }
+        else throw new NotSupportedException($"Cannot call {callNode.Fn.Type}");
+        List<string> arguments = new List<string>();
+        foreach (var argument in callNode.Arguments)
+        {
+            arguments.Add(argument.ToJs());
+        }
+
+        outJs.Append($"({string.Join(", ", arguments)})");
+        return outJs.ToString();
     }
 }
 
