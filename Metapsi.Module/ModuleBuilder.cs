@@ -17,7 +17,11 @@ namespace Metapsi.Syntax
         /// </summary>
         public HashSet<object> Metadata { get; set; } = new HashSet<object>();
 
-        private Dictionary<Delegate, string> functionsCache = new Dictionary<Delegate, string>();
+        /// <summary>
+        /// Store function name to avoid duplicate signatures. 
+        /// Use name as because static functions with different generic arguments create different delegates
+        /// </summary>
+        private HashSet<string> functionsCache = new HashSet<string>();
         private Dictionary<object, IVariable> constantsCache = new Dictionary<object, IVariable>();
 
         private Dictionary<string, IVariable> expressionsCache = new Dictionary<string, IVariable>();
@@ -242,11 +246,6 @@ namespace Metapsi.Syntax
             return expressionsCache[s];
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="function"></param>
-        /// <returns>True if added, false if already defined</returns>
         internal Var<T> AddFunction<T>(Delegate function, string name = null)
             where T : Delegate
         {
@@ -257,17 +256,20 @@ namespace Metapsi.Syntax
                     throw new ArgumentException("Function name cannot be identified. Either make the function static of provide a name");
                 }
 
-                name = function.Method.Name;
+                name = ModuleBuilder.QualifiedName(function.Method);
             }
 
-            if (!functionsCache.ContainsKey(function))
+            if (!functionsCache.Contains(name))
             {
+                // Add it to the cache BEFORE building the function.
+                // This avoids infinite recursion
+                functionsCache.Add(name);
+
                 Module.Nodes.Add(new AssignmentNode()
                 {
                     Name = name,
                     Node = FnNodeExtensions.FromDelegate(new SyntaxBuilder(this), function)
                 });
-                functionsCache[function] = name;
             }
 
             return new Var<T>(name);
