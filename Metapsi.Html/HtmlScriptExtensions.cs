@@ -1,5 +1,4 @@
-﻿using Metapsi.JavaScript;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 using System;
 using System.Linq;
 
@@ -45,16 +44,15 @@ public static class HtmlScriptExtensions
             b.Text(code));
     }
 
-    //public static bool GenerateAddExternalResources(HtmlBuilder b, ModuleBuilder moduleBuilder)
-    //{
-    //    var distinctTagConstants = moduleBuilder.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
+    public static bool GenerateAddExternalResources(HtmlBuilder b, Module module)
+    {
+        var requiredTags = module.GetRequiredTagsMetadata();
 
-    //    foreach (var tag in distinctTagConstants)
-    //    {
-    //        var distinctTag = tag.Value as DistinctTag;
-    //        b.HeadAppend(distinctTag);
-    //    }
+        foreach (var tag in requiredTags)
+        {
+            b.HeadAppend(tag);
+        }
 
-    //    return true;
-    //}
+        return true;
+    }
 }

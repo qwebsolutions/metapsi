@@ -79,8 +79,6 @@ namespace Metapsi.Syntax
             allParams.Add(@object);
             allParams.Add(b.Const(function));
             allParams.AddRange(parameters);
-            b.Log("callOnObject", b.Const(function));
-            b.Log("callOnObject", b.Const(allParams));
             return b.CallDynamic<TResult>(callOnObject, allParams.ToArray());
         }
 
@@ -375,24 +373,24 @@ namespace Metapsi.Syntax
             return b.CallExternal<int>(ModuleName, nameof(Minus), number);
         }
 
-        public static Var<T> Add<T>(this SyntaxBuilder b, Var<int> firstNumber, Var<int> secondNumber)
+        public static Var<int> Add(this SyntaxBuilder b, Var<int> firstNumber, Var<int> secondNumber)
         {
-            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallExternal<int>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
 
-        public static Var<T> Add<T>(this SyntaxBuilder b, Var<decimal> firstNumber, Var<decimal> secondNumber)
+        public static Var<decimal> Add(this SyntaxBuilder b, Var<decimal> firstNumber, Var<decimal> secondNumber)
         {
-            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallExternal<decimal>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
 
-        public static Var<T> Add<T>(this SyntaxBuilder b, Var<long> firstNumber, Var<long> secondNumber)
+        public static Var<long> Add(this SyntaxBuilder b, Var<long> firstNumber, Var<long> secondNumber)
         {
-            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallExternal<long>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
 
-        public static Var<T> Add<T>(this SyntaxBuilder b, Var<double> firstNumber, Var<double> secondNumber)
+        public static Var<double> Add(this SyntaxBuilder b, Var<double> firstNumber, Var<double> secondNumber)
         {
-            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallExternal<double>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
 
         public static Var<string> ToFixed(this SyntaxBuilder b, Var<decimal> number, Var<int> digits)

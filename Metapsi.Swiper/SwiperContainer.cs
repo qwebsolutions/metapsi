@@ -28,7 +28,7 @@ public static partial class Control
     public static Var<IVNode> SwiperContainer(this LayoutBuilder b, Action<PropsBuilder<SwiperContainer>> setProps, Var<List<IVNode>> slides)
     {
         b.AddSwiper();
-        var nodeProps = b.NewObj(setProps);
+        var nodeProps = b.SetProps(b.NewObj(), setProps);
         return b.H(b.Const("swiper-container"), nodeProps.As<DynamicObject>(), slides);
     }
 

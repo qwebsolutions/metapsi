@@ -82,8 +82,8 @@ public static class Control
 {
     public static Var<IVNode> TomSelect(this LayoutBuilder b, Action<PropsBuilder<TomSelect>> buildProps)
     {
-        b.AddScript("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
-        b.AddScript(typeof(TomSelect).Assembly, "metapsi.tomselect.js", "module");
+        b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
+        b.AddRequiredScriptMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js", "module");
 
         // Use own props builder to serialize the default values of the TomSelect class
         var tomSelectPropsBuilder = new PropsBuilder<TomSelect>(b) { Props = b.NewObj<TomSelect>() };

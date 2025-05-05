@@ -12,12 +12,6 @@ namespace Metapsi.Syntax
     public class ModuleBuilder
     {
         /// <summary>
-        /// Keeps references to instances used for building the module
-        /// Used to avoid duplicates and to keep track of external dependencies like scripts, images, etc
-        /// </summary>
-        public HashSet<object> Metadata { get; set; } = new HashSet<object>();
-
-        /// <summary>
         /// Store function name to avoid duplicate signatures. 
         /// Use name as because static functions with different generic arguments create different delegates
         /// </summary>
@@ -308,15 +302,6 @@ namespace Metapsi.Syntax
         {
             return this.AddFunction<Func<TResult>>(b, functionName);
         }
-
-        //public IVariable AddImport(string module, string symbol)
-        //{
-        //    Import import = new Import(module, symbol);
-        //    Module.Imports.Add(import);
-
-        //    return new Var<object>(symbol);
-        //}
     }
-
 }
 

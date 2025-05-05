@@ -97,7 +97,7 @@ public static partial class SlNodeExtensions
     public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
         EmbedAll();
-        b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
+        b.AddRequiredStylesheetMetadata($"/shoelace@{Cdn.Version}/themes/light.css");
         //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         SetBasePath(b);
         b.ImportSideEffect($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}");

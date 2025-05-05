@@ -72,7 +72,7 @@ public static partial class CustomElementExtensions
         var innerHtml = HttpUtility.JavaScriptStringEncode(string.Join("\n", children.Select(x => x.ToHtml())));
         return b.HtmlScriptModule(b =>
         {
-            b.AddScript(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
+            b.AddRequiredScriptMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
             var define = b.ImportName<Action<string, string>>(ExternalScriptName, "defineStaticCustomElement");
             b.Call(define, b.Const(tagName), b.Const(innerHtml));
         });
@@ -93,7 +93,7 @@ public static partial class CustomElementExtensions
         Var<Action<Element>> attach,
         Var<Action<Element>> cleanup)
     {
-        b.AddScript(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
+        b.AddRequiredScriptMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
         var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(ExternalScriptName, "defineRACCustomElement");
         b.Call(define, tagName, render, attach, cleanup);
     }

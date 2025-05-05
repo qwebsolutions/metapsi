@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Metapsi.Html;
+using System.Collections.Generic;
 
 namespace Metapsi.Hyperapp
 {
@@ -186,7 +187,7 @@ namespace Metapsi.Hyperapp
                     cssName = cssName + "?h=" + staticFile.Hash;
                 }
             }
-            b.AddStylesheet(cssName);
+            b.AddRequiredStylesheetMetadata(cssName);
         }
 
         /// <summary>
@@ -196,57 +197,66 @@ namespace Metapsi.Hyperapp
         /// <param name="assembly"></param>
         /// <param name="src"></param>
         /// <param name="type"></param>
-        public static void AddScript(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
+        public static void AddRequiredScriptMetadata(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
             var staticFile = EmbeddedFiles.Add(assembly, src);
-            if (staticFile != null)
-            {
-                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
-                {
-                    src = src + "?h=" + staticFile.Hash;
-                }
-            }
+            b.AddRequiredScriptMetadata(src, type);
+            //if (staticFile != null)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(staticFile.Hash))
+            //    {
+            //        src = src + "?h=" + staticFile.Hash;
+            //    }
+            //}
 
-            // Use URL for script path
-            if (!src.StartsWith('/'))
-            {
-                src = "/" + src.ToLowerInvariant();
-            }
+            //// Use URL for script path
+            //if (!src.StartsWith('/'))
+            //{
+            //    src = "/" + src.ToLowerInvariant();
+            //}
 
-            DistinctTag scriptTag = new DistinctTag("script");
-            scriptTag.SetAttribute("src", src);
-            if (!string.IsNullOrEmpty(type))
-            {
-                scriptTag.SetAttribute("type", type);
-            }
-            b.Const(scriptTag);
+            //DistinctTag scriptTag = new DistinctTag("script");
+            //scriptTag.SetAttribute("src", src);
+            //if (!string.IsNullOrEmpty(type))
+            //{
+            //    scriptTag.SetAttribute("type", type);
+            //}
+            //b.Const(scriptTag);
         }
 
-        public static void AddScript(this SyntaxBuilder b, string src, string type = "")
+        public static void AddRequiredScriptMetadata(this SyntaxBuilder b, string src, string type = "")
         {
-            if (!src.StartsWith("http"))
-            {
-                // If it is not absolute path, make it absolute
-                src = $"/{src}".Replace("//", "/");
-            }
-            DistinctTag scriptTag = new DistinctTag("script");
+            var scriptTag = new HtmlTag("script");
             scriptTag.SetAttribute("src", src);
             if (!string.IsNullOrEmpty(type))
             {
                 scriptTag.SetAttribute("type", type);
             }
-            b.Const(scriptTag);
+            b.AddRequiredTagMetadata(scriptTag);
+            //if (!src.StartsWith("http"))
+            //{
+            //    // If it is not absolute path, make it absolute
+            //    src = $"/{src}".Replace("//", "/");
+            //}
+            //DistinctTag scriptTag = new DistinctTag("script");
+            //scriptTag.SetAttribute("src", src);
+            //if (!string.IsNullOrEmpty(type))
+            //{
+            //    scriptTag.SetAttribute("type", type);
+            //}
+            //b.Const(scriptTag);
         }
 
         public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
         {
-            DistinctTag scriptTag = new DistinctTag("script");
+            HtmlTag scriptTag = new HtmlTag("script");
             if (!string.IsNullOrEmpty(type))
             {
                 scriptTag.SetAttribute("type", type);
             }
             scriptTag.AddChild(new HtmlText(scriptContent));
-            b.Const(scriptTag);
+            //b.Const(scriptTag);
+            b.AddRequiredTagMetadata(scriptTag);
         }
     }
 }

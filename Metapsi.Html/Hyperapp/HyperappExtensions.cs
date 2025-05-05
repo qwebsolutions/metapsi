@@ -62,7 +62,7 @@ public static partial class HyperappExtensions
             return b.Call(app, appConfig);
         });
 
-        //HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder);
+        HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder.Module);
 
         //var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
         var moduleScript = moduleBuilder.Module.ToJs();

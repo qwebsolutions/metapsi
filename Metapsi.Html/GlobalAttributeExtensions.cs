@@ -150,19 +150,23 @@ public static class GlobalAttributeExtensions
         b.SetSlot(b.Const(slotName));
     }
 
-    public static void AddStylesheet(this SyntaxBuilder b, string href)
+    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, string href)
     {
-        if (!href.StartsWith("http"))
-        {
-            // If it is not absolute path, make it absolute
-            href = $"/{href}".Replace("//", "/");
-        }
-
-        var stylesheet = new DistinctTag("link");
+        var stylesheet= new HtmlTag("link");
         stylesheet.Attributes.Add("rel", "stylesheet");
         stylesheet.Attributes.Add("href", href);
 
-        b.Const(stylesheet);
+        b.AddRequiredTagMetadata(stylesheet);
+
+        //if (!href.StartsWith("http"))
+        //{
+        //    // If it is not absolute path, make it absolute
+        //    href = $"/{href}".Replace("//", "/");
+        //}
+
+        //var stylesheet = new DistinctTag("link");
+
+        //b.Const(stylesheet);
     }
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)
