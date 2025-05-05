@@ -119,5 +119,34 @@ namespace Metapsi.Syntax
 
             b.nodes.Add(ifStatementNode);
         }
+
+        /// <summary>
+        /// Swith expression
+        /// </summary>
+        /// <typeparam name="TSyntaxBuilder"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <typeparam name="TInput"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="v"></param>
+        /// <param name="default"></param>
+        /// <param name="cases"></param>
+        /// <returns></returns>
+        public static Var<TResult> Switch<TSyntaxBuilder, TResult, TInput>(
+            this TSyntaxBuilder b,
+            Var<TInput> v,
+            Func<TSyntaxBuilder, Var<TResult>> @default,
+            params (TInput, Func<TSyntaxBuilder, Var<TResult>>)[] cases)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            var caseFuncRef = b.Ref(b.Def(@default));
+
+            foreach (var @case in cases)
+            {
+                var eq = b.AreEqual(v, b.Const(@case.Item1));
+                b.If(eq, b => b.SetRef(caseFuncRef, b.Def(@case.Item2)));
+            }
+
+            return b.Call(b.GetRef(caseFuncRef));
+        }
     }
 }

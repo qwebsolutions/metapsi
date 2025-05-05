@@ -21,7 +21,7 @@ namespace Metapsi
                         IgnoreReadOnlyFields = true,
                         IgnoreReadOnlyProperties = true
                     };
-                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    //newOptions.Converters.Add(new DynamicObjectConverter());
                     
                     // Only assign after options are fully built to avoid multi-threading errors
                     toJsonOptions = newOptions;
@@ -40,7 +40,7 @@ namespace Metapsi
                 {
                     var newOptions = new JsonSerializerOptions();
                     newOptions.Converters.Add(new RecordCollectionConverterFactory());
-                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    //newOptions.Converters.Add(new DynamicObjectConverter());
 
                     // Only assign after options are fully built to avoid multi-threading errors
                     fromJsonOptions = newOptions;
@@ -58,7 +58,7 @@ namespace Metapsi
                 {
                     var newOptions = new System.Text.Json.JsonSerializerOptions();
                     newOptions.IncludeFields = true;
-                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    //newOptions.Converters.Add(new DynamicObjectConverter());
                     newOptions.IgnoreReadOnlyFields = true;
                     newOptions.IgnoreReadOnlyProperties = true;
 
@@ -79,7 +79,7 @@ namespace Metapsi
                 {
                     var newOptions = new System.Text.Json.JsonSerializerOptions();
                     newOptions.Converters.Add(new RecordCollectionConverterFactory());
-                    newOptions.Converters.Add(new DynamicObjectConverter());
+                    //newOptions.Converters.Add(new DynamicObjectConverter());
                     newOptions.IncludeFields = true;
 
                     // Only assign after options are fully built to avoid multi-threading errors

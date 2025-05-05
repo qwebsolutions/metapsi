@@ -81,15 +81,26 @@ public static partial class SlNodeExtensions
         b.TrackWebComponent(tag);
     }
 
+    private static Reference<bool> basePathSet = new Reference<bool>();
+
+    private static void SetBasePath(SyntaxBuilder b)
+    {
+        var setBasePath = b.ImportName<Action<string>>($"/shoelace@{Cdn.Version}/utilities/base-path.js", "setBasePath");
+
+        b.If(b.Not(b.GetRef(b.Const(basePathSet))),
+            b =>
+            {
+                b.Call(setBasePath, b.Const($"/shoelace@{Cdn.Version}/"));
+            });
+    }
+
     public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
         EmbedAll();
         b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
-        b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
-
-        b.AddInlineScript(
-            $"import {{ setBasePath }} from '/shoelace@{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n",
-            "module");
+        //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
+        SetBasePath(b);
+        b.ImportSideEffect($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}");
     }
 
     public static Var<IVNode> SlNode<TProps>(

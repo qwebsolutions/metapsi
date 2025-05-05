@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace Metapsi.Syntax
 {
@@ -67,6 +69,12 @@ namespace Metapsi.Syntax
         /// Local name for default export
         /// </summary>
         public string Default { get; set; }
+
+        /// <summary>
+        /// Import with no name, performs side effect
+        /// </summary>
+        public bool SideEffect { get; set; }
+
         /// <summary>
         /// Named imports
         /// </summary>
@@ -328,6 +336,12 @@ namespace Metapsi.Syntax
 
     public static class ModuleExtensions
     {
+        /// <summary>
+        /// Import name
+        /// </summary>
+        /// <param name="moduleDefinition"></param>
+        /// <param name="source"></param>
+        /// <param name="importName"></param>
         public static void ImportName(this ModuleDefinition moduleDefinition, string source, string importName)
         {
             moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
@@ -340,6 +354,12 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
+        /// <summary>
+        /// Import default with name <paramref name="asName"/>
+        /// </summary>
+        /// <param name="moduleDefinition"></param>
+        /// <param name="source"></param>
+        /// <param name="asName"></param>
         public static void ImportDefault(this ModuleDefinition moduleDefinition, string source, string asName)
         {
             moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
@@ -349,6 +369,23 @@ namespace Metapsi.Syntax
             }
 
             import.Default = asName;
+            moduleDefinition.Imports[source] = import;
+        }
+
+        /// <summary>
+        /// Side effect import 
+        /// </summary>
+        /// <param name="moduleDefinition"></param>
+        /// <param name="source"></param>
+        public static void ImportSideEffect(this ModuleDefinition moduleDefinition, string source)
+        {
+            moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
+            if (import == null)
+            {
+                import = new ImportDefinition();
+            }
+
+            import.SideEffect = true;
             moduleDefinition.Imports[source] = import;
         }
 
@@ -584,7 +621,8 @@ namespace Metapsi.Syntax
                 {
                     outJs.AppendLine($"import {importDefinition.Default} from \"{source}\";");
                 }
-                else
+                
+                if(importDefinition.Imports.Any())
                 {
                     List<string> importNames = new List<string>();
                     foreach (var name in importDefinition.Imports)
@@ -595,6 +633,11 @@ namespace Metapsi.Syntax
                     var joined = string.Join(", ", importNames);
 
                     outJs.AppendLine($"import {{ {joined} }} from \"{source}\";");
+                }
+
+                if (importDefinition.SideEffect)
+                {
+                    outJs.AppendLine($"import \"{source}\";");
                 }
             }
 

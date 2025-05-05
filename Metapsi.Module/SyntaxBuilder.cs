@@ -54,6 +54,12 @@ namespace Metapsi.Syntax
             this.moduleBuilder.Module.ImportDefault(source, asName);
         }
 
+        public void ImportSideEffect(string source)
+        {
+            source = FixSource(source);
+            this.moduleBuilder.Module.ImportSideEffect(source);
+        }
+
         public void DebugComment(string comment)
         {
 #if DEBUG
