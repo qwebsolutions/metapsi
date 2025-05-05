@@ -218,7 +218,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(true));
     }
 
 
@@ -227,7 +227,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> active) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), active);
+        b.SetProperty(b.Props, b.Const("active"), active);
     }
 
     /// <summary>
@@ -235,7 +235,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, bool active) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(active));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(active));
     }
 
 
@@ -244,7 +244,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -253,7 +253,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -262,7 +262,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -271,7 +271,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -280,7 +280,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -289,7 +289,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -298,7 +298,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -307,7 +307,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -316,7 +316,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -325,7 +325,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -334,7 +334,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
+        b.SetProperty(b.Props, b.Const("download"), download);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
+        b.SetProperty(b.Props, b.Const("download"), b.Const(download));
     }
 
 
@@ -368,7 +368,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -376,7 +376,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -385,7 +385,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -394,7 +394,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -403,7 +403,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
+        b.SetProperty(b.Props, b.Const("rel"), rel);
     }
 
     /// <summary>
@@ -411,7 +411,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
+        b.SetProperty(b.Props, b.Const("rel"), b.Const(rel));
     }
 
 
@@ -420,7 +420,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), routerAnimation);
+        b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), b.Const(routerAnimation));
+        b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }
 
 
@@ -437,7 +437,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("back"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("back"));
     }
 
 
@@ -446,7 +446,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("forward"));
     }
 
 
@@ -455,7 +455,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("root"));
     }
 
 
@@ -464,7 +464,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetSeparator<T>(this PropsBuilder<T> b) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("separator"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("separator"), b.Const(true));
     }
 
 
@@ -473,7 +473,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetSeparator<T>(this PropsBuilder<T> b, Var<bool> separator) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("separator"), separator);
+        b.SetProperty(b.Props, b.Const("separator"), separator);
     }
 
     /// <summary>
@@ -481,7 +481,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetSeparator<T>(this PropsBuilder<T> b, bool separator) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("separator"), b.Const(separator));
+        b.SetProperty(b.Props, b.Const("separator"), b.Const(separator));
     }
 
 
@@ -490,7 +490,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> target) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), target);
+        b.SetProperty(b.Props, b.Const("target"), target);
     }
 
     /// <summary>
@@ -498,7 +498,7 @@ public static partial class IonBreadcrumbControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, string target) where T: IonBreadcrumb
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(target));
+        b.SetProperty(b.Props, b.Const("target"), b.Const(target));
     }
 
 

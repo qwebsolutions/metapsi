@@ -180,7 +180,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPosition<T>(this PropsBuilder<T> b, Var<int> position) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), position);
+        b.SetProperty(b.Props, b.Const("position"), position);
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPosition<T>(this PropsBuilder<T> b, int position) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), b.Const(position));
+        b.SetProperty(b.Props, b.Const("position"), b.Const(position));
     }
 
 
@@ -197,7 +197,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPositionInPixels<T>(this PropsBuilder<T> b, Var<int> positionInPixels) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("positionInPixels"), positionInPixels);
+        b.SetProperty(b.Props, b.Const("positionInPixels"), positionInPixels);
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPositionInPixels<T>(this PropsBuilder<T> b, int positionInPixels) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("positionInPixels"), b.Const(positionInPixels));
+        b.SetProperty(b.Props, b.Const("positionInPixels"), b.Const(positionInPixels));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const(true));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b, Var<bool> vertical) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), vertical);
+        b.SetProperty(b.Props, b.Const("vertical"), vertical);
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b, bool vertical) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(vertical));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const(vertical));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -249,7 +249,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPrimaryStart<T>(this PropsBuilder<T> b) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("primary"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("primary"), b.Const("start"));
     }
 
 
@@ -275,7 +275,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetPrimaryEnd<T>(this PropsBuilder<T> b) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("primary"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("primary"), b.Const("end"));
     }
 
 
@@ -284,7 +284,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetSnap<T>(this PropsBuilder<T> b, Var<string> snap) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("snap"), snap);
+        b.SetProperty(b.Props, b.Const("snap"), snap);
     }
 
     /// <summary>
@@ -292,7 +292,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetSnap<T>(this PropsBuilder<T> b, string snap) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("snap"), b.Const(snap));
+        b.SetProperty(b.Props, b.Const("snap"), b.Const(snap));
     }
 
 
@@ -301,7 +301,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetSnapThreshold<T>(this PropsBuilder<T> b, Var<int> snapThreshold) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("snapThreshold"), snapThreshold);
+        b.SetProperty(b.Props, b.Const("snapThreshold"), snapThreshold);
     }
 
     /// <summary>
@@ -309,7 +309,7 @@ public static partial class SlSplitPanelControl
     /// </summary>
     public static void SetSnapThreshold<T>(this PropsBuilder<T> b, int snapThreshold) where T: SlSplitPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("snapThreshold"), b.Const(snapThreshold));
+        b.SetProperty(b.Props, b.Const("snapThreshold"), b.Const(snapThreshold));
     }
 
 

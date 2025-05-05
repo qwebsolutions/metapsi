@@ -106,7 +106,7 @@ public static partial class SlSkeletonControl
     /// </summary>
     public static void SetEffectPulse<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("pulse"));
+        b.SetProperty(b.Props, b.Const("effect"), b.Const("pulse"));
     }
 
 
@@ -115,7 +115,7 @@ public static partial class SlSkeletonControl
     /// </summary>
     public static void SetEffectSheen<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("sheen"));
+        b.SetProperty(b.Props, b.Const("effect"), b.Const("sheen"));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class SlSkeletonControl
     /// </summary>
     public static void SetEffectNone<T>(this PropsBuilder<T> b) where T: SlSkeleton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("effect"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("effect"), b.Const("none"));
     }
 
 

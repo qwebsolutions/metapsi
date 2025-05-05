@@ -130,7 +130,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -148,7 +148,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -157,7 +157,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -166,7 +166,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -175,7 +175,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -184,7 +184,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -193,7 +193,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -202,7 +202,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -211,7 +211,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -220,7 +220,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -229,7 +229,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetSelectedTab<T>(this PropsBuilder<T> b, Var<string> selectedTab) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selectedTab"), selectedTab);
+        b.SetProperty(b.Props, b.Const("selectedTab"), selectedTab);
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetSelectedTab<T>(this PropsBuilder<T> b, string selectedTab) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selectedTab"), b.Const(selectedTab));
+        b.SetProperty(b.Props, b.Const("selectedTab"), b.Const(selectedTab));
     }
 
 
@@ -246,7 +246,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -255,7 +255,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -263,7 +263,7 @@ public static partial class IonTabBarControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonTabBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 

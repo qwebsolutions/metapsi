@@ -98,7 +98,7 @@ public static partial class IonCardContentControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonCardContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonCardContentControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonCardContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 

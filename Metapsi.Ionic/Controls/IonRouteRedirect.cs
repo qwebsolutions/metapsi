@@ -90,7 +90,7 @@ public static partial class IonRouteRedirectControl
     /// </summary>
     public static void SetFrom<T>(this PropsBuilder<T> b, Var<string> from) where T: IonRouteRedirect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), from);
+        b.SetProperty(b.Props, b.Const("from"), from);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public static partial class IonRouteRedirectControl
     /// </summary>
     public static void SetFrom<T>(this PropsBuilder<T> b, string from) where T: IonRouteRedirect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), b.Const(from));
+        b.SetProperty(b.Props, b.Const("from"), b.Const(from));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonRouteRedirectControl
     /// </summary>
     public static void SetTo<T>(this PropsBuilder<T> b, Var<string> to) where T: IonRouteRedirect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("to"), to);
+        b.SetProperty(b.Props, b.Const("to"), to);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class IonRouteRedirectControl
     /// </summary>
     public static void SetTo<T>(this PropsBuilder<T> b, string to) where T: IonRouteRedirect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("to"), b.Const(to));
+        b.SetProperty(b.Props, b.Const("to"), b.Const(to));
     }
 
 

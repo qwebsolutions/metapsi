@@ -98,7 +98,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -115,7 +115,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<HTMLElement> component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, HTMLElement component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -132,7 +132,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, string component) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -149,7 +149,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetTab<T>(this PropsBuilder<T> b, Var<string> tab) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), tab);
+        b.SetProperty(b.Props, b.Const("tab"), tab);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public static partial class IonTabControl
     /// </summary>
     public static void SetTab<T>(this PropsBuilder<T> b, string tab) where T: IonTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), b.Const(tab));
+        b.SetProperty(b.Props, b.Const("tab"), b.Const(tab));
     }
 
 

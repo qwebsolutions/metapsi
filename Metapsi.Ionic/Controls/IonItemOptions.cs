@@ -98,7 +98,7 @@ public static partial class IonItemOptionsControl
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonItemOptions
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("end"));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonItemOptionsControl
     /// </summary>
     public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonItemOptions
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("start"));
     }
 
 

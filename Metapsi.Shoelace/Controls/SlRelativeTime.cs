@@ -154,7 +154,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, Var<DateTime> date) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTime>("date"), date);
+        b.SetProperty(b.Props, b.Const("date"), date);
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, DateTime date) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTime>("date"), b.Const(date));
+        b.SetProperty(b.Props, b.Const("date"), b.Const(date));
     }
 
 
@@ -171,7 +171,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, Var<string> date) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("date"), date);
+        b.SetProperty(b.Props, b.Const("date"), date);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, string date) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("date"), b.Const(date));
+        b.SetProperty(b.Props, b.Const("date"), b.Const(date));
     }
 
 
@@ -188,7 +188,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetFormatLong<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("long"));
     }
 
 
@@ -197,7 +197,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetFormatShort<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("short"));
     }
 
 
@@ -206,7 +206,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetFormatNarrow<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("narrow"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("narrow"));
     }
 
 
@@ -215,7 +215,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetNumericAlways<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("numeric"), b.Const("always"));
+        b.SetProperty(b.Props, b.Const("numeric"), b.Const("always"));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetNumericAuto<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("numeric"), b.Const("auto"));
+        b.SetProperty(b.Props, b.Const("numeric"), b.Const("auto"));
     }
 
 
@@ -233,7 +233,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetSync<T>(this PropsBuilder<T> b) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("sync"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("sync"), b.Const(true));
     }
 
 
@@ -242,7 +242,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetSync<T>(this PropsBuilder<T> b, Var<bool> sync) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("sync"), sync);
+        b.SetProperty(b.Props, b.Const("sync"), sync);
     }
 
     /// <summary>
@@ -250,7 +250,7 @@ public static partial class SlRelativeTimeControl
     /// </summary>
     public static void SetSync<T>(this PropsBuilder<T> b, bool sync) where T: SlRelativeTime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("sync"), b.Const(sync));
+        b.SetProperty(b.Props, b.Const("sync"), b.Const(sync));
     }
 
 

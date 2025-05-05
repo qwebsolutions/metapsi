@@ -519,7 +519,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantDefault<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("default"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("default"));
     }
 
 
@@ -528,7 +528,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("primary"));
     }
 
 
@@ -537,7 +537,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("success"));
     }
 
 
@@ -546,7 +546,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("neutral"));
     }
 
 
@@ -555,7 +555,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("warning"));
     }
 
 
@@ -564,7 +564,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("danger"));
     }
 
 
@@ -573,7 +573,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetVariantText<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("text"));
     }
 
 
@@ -582,7 +582,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -591,7 +591,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -600,7 +600,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -609,7 +609,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCaret<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("caret"), b.Const(true));
     }
 
 
@@ -618,7 +618,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCaret<T>(this PropsBuilder<T> b, Var<bool> caret) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), caret);
+        b.SetProperty(b.Props, b.Const("caret"), caret);
     }
 
     /// <summary>
@@ -626,7 +626,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCaret<T>(this PropsBuilder<T> b, bool caret) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("caret"), b.Const(caret));
+        b.SetProperty(b.Props, b.Const("caret"), b.Const(caret));
     }
 
 
@@ -635,7 +635,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -644,7 +644,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -652,7 +652,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -661,7 +661,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const(true));
     }
 
 
@@ -670,7 +670,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b, Var<bool> loading) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), loading);
+        b.SetProperty(b.Props, b.Const("loading"), loading);
     }
 
     /// <summary>
@@ -678,7 +678,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b, bool loading) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(loading));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const(loading));
     }
 
 
@@ -687,7 +687,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetOutline<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("outline"), b.Const(true));
     }
 
 
@@ -696,7 +696,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetOutline<T>(this PropsBuilder<T> b, Var<bool> outline) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), outline);
+        b.SetProperty(b.Props, b.Const("outline"), outline);
     }
 
     /// <summary>
@@ -704,7 +704,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetOutline<T>(this PropsBuilder<T> b, bool outline) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("outline"), b.Const(outline));
+        b.SetProperty(b.Props, b.Const("outline"), b.Const(outline));
     }
 
 
@@ -713,7 +713,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -722,7 +722,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -730,7 +730,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 
@@ -739,7 +739,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("circle"), b.Const(true));
     }
 
 
@@ -748,7 +748,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b, Var<bool> circle) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), circle);
+        b.SetProperty(b.Props, b.Const("circle"), circle);
     }
 
     /// <summary>
@@ -756,7 +756,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b, bool circle) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("circle"), b.Const(circle));
+        b.SetProperty(b.Props, b.Const("circle"), b.Const(circle));
     }
 
 
@@ -765,7 +765,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("button"));
     }
 
 
@@ -774,7 +774,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("submit"));
     }
 
 
@@ -783,7 +783,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("reset"));
     }
 
 
@@ -792,7 +792,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -800,7 +800,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -809,7 +809,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -817,7 +817,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -826,7 +826,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -834,7 +834,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -843,7 +843,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTarget_blank<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_blank"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_blank"));
     }
 
 
@@ -852,7 +852,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTarget_parent<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_parent"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_parent"));
     }
 
 
@@ -861,7 +861,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTarget_self<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_self"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_self"));
     }
 
 
@@ -870,7 +870,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetTarget_top<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_top"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_top"));
     }
 
 
@@ -879,7 +879,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
+        b.SetProperty(b.Props, b.Const("rel"), rel);
     }
 
     /// <summary>
@@ -887,7 +887,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
+        b.SetProperty(b.Props, b.Const("rel"), b.Const(rel));
     }
 
 
@@ -896,7 +896,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
+        b.SetProperty(b.Props, b.Const("download"), download);
     }
 
     /// <summary>
@@ -904,7 +904,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
+        b.SetProperty(b.Props, b.Const("download"), b.Const(download));
     }
 
 
@@ -913,7 +913,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -921,7 +921,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -930,7 +930,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormAction<T>(this PropsBuilder<T> b, Var<string> formAction) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), formAction);
+        b.SetProperty(b.Props, b.Const("formAction"), formAction);
     }
 
     /// <summary>
@@ -938,7 +938,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormAction<T>(this PropsBuilder<T> b, string formAction) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formAction"), b.Const(formAction));
+        b.SetProperty(b.Props, b.Const("formAction"), b.Const(formAction));
     }
 
 
@@ -947,7 +947,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormEnctypeApplicationXWwwFormUrlencoded<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("application/x-www-form-urlencoded"));
+        b.SetProperty(b.Props, b.Const("formEnctype"), b.Const("application/x-www-form-urlencoded"));
     }
 
 
@@ -956,7 +956,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormEnctypeMultipartFormData<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("multipart/form-data"));
+        b.SetProperty(b.Props, b.Const("formEnctype"), b.Const("multipart/form-data"));
     }
 
 
@@ -965,7 +965,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormEnctypeTextPlain<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formEnctype"), b.Const("text/plain"));
+        b.SetProperty(b.Props, b.Const("formEnctype"), b.Const("text/plain"));
     }
 
 
@@ -974,7 +974,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormMethodPost<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formMethod"), b.Const("post"));
+        b.SetProperty(b.Props, b.Const("formMethod"), b.Const("post"));
     }
 
 
@@ -983,7 +983,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormMethodGet<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formMethod"), b.Const("get"));
+        b.SetProperty(b.Props, b.Const("formMethod"), b.Const("get"));
     }
 
 
@@ -992,7 +992,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormNoValidate<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("formNoValidate"), b.Const(true));
     }
 
 
@@ -1001,7 +1001,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormNoValidate<T>(this PropsBuilder<T> b, Var<bool> formNoValidate) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), formNoValidate);
+        b.SetProperty(b.Props, b.Const("formNoValidate"), formNoValidate);
     }
 
     /// <summary>
@@ -1009,7 +1009,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormNoValidate<T>(this PropsBuilder<T> b, bool formNoValidate) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("formNoValidate"), b.Const(formNoValidate));
+        b.SetProperty(b.Props, b.Const("formNoValidate"), b.Const(formNoValidate));
     }
 
 
@@ -1018,7 +1018,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormTarget_self<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_self"));
+        b.SetProperty(b.Props, b.Const("formTarget"), b.Const("_self"));
     }
 
 
@@ -1027,7 +1027,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormTarget_blank<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_blank"));
+        b.SetProperty(b.Props, b.Const("formTarget"), b.Const("_blank"));
     }
 
 
@@ -1036,7 +1036,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormTarget_parent<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_parent"));
+        b.SetProperty(b.Props, b.Const("formTarget"), b.Const("_parent"));
     }
 
 
@@ -1045,7 +1045,7 @@ public static partial class SlButtonControl
     /// </summary>
     public static void SetFormTarget_top<T>(this PropsBuilder<T> b) where T: SlButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("formTarget"), b.Const("_top"));
+        b.SetProperty(b.Props, b.Const("formTarget"), b.Const("_top"));
     }
 
 

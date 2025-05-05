@@ -315,7 +315,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -324,7 +324,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -332,7 +332,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -341,7 +341,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top"));
     }
 
 
@@ -350,7 +350,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementTopStart<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top-start"));
     }
 
 
@@ -359,7 +359,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementTopEnd<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top-end"));
     }
 
 
@@ -368,7 +368,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom"));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementBottomStart<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom-start"));
     }
 
 
@@ -386,7 +386,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementBottomEnd<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom-end"));
     }
 
 
@@ -395,7 +395,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementRight<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right"));
     }
 
 
@@ -404,7 +404,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementRightStart<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right-start"));
     }
 
 
@@ -413,7 +413,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementRightEnd<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right-end"));
     }
 
 
@@ -422,7 +422,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementLeft<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left"));
     }
 
 
@@ -431,7 +431,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementLeftStart<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left-start"));
     }
 
 
@@ -440,7 +440,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetPlacementLeftEnd<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left-end"));
     }
 
 
@@ -449,7 +449,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -458,7 +458,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -466,7 +466,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -475,7 +475,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetStayOpenOnSelect<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stayOpenOnSelect"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("stayOpenOnSelect"), b.Const(true));
     }
 
 
@@ -484,7 +484,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetStayOpenOnSelect<T>(this PropsBuilder<T> b, Var<bool> stayOpenOnSelect) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stayOpenOnSelect"), stayOpenOnSelect);
+        b.SetProperty(b.Props, b.Const("stayOpenOnSelect"), stayOpenOnSelect);
     }
 
     /// <summary>
@@ -492,7 +492,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetStayOpenOnSelect<T>(this PropsBuilder<T> b, bool stayOpenOnSelect) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stayOpenOnSelect"), b.Const(stayOpenOnSelect));
+        b.SetProperty(b.Props, b.Const("stayOpenOnSelect"), b.Const(stayOpenOnSelect));
     }
 
 
@@ -501,7 +501,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetContainingElement<T>(this PropsBuilder<T> b, Var<object> containingElement) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("containingElement"), containingElement);
+        b.SetProperty(b.Props, b.Const("containingElement"), containingElement);
     }
 
     /// <summary>
@@ -509,7 +509,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetContainingElement<T>(this PropsBuilder<T> b, object containingElement) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("containingElement"), b.Const(containingElement));
+        b.SetProperty(b.Props, b.Const("containingElement"), b.Const(containingElement));
     }
 
 
@@ -518,7 +518,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDistance<T>(this PropsBuilder<T> b, Var<int> distance) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("distance"), distance);
+        b.SetProperty(b.Props, b.Const("distance"), distance);
     }
 
     /// <summary>
@@ -526,7 +526,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetDistance<T>(this PropsBuilder<T> b, int distance) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("distance"), b.Const(distance));
+        b.SetProperty(b.Props, b.Const("distance"), b.Const(distance));
     }
 
 
@@ -535,7 +535,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetSkidding<T>(this PropsBuilder<T> b, Var<int> skidding) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("skidding"), skidding);
+        b.SetProperty(b.Props, b.Const("skidding"), skidding);
     }
 
     /// <summary>
@@ -543,7 +543,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetSkidding<T>(this PropsBuilder<T> b, int skidding) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("skidding"), b.Const(skidding));
+        b.SetProperty(b.Props, b.Const("skidding"), b.Const(skidding));
     }
 
 
@@ -552,7 +552,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(true));
     }
 
 
@@ -561,7 +561,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
+        b.SetProperty(b.Props, b.Const("hoist"), hoist);
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(hoist));
     }
 
 
@@ -578,7 +578,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetSyncWidth<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("width"));
+        b.SetProperty(b.Props, b.Const("sync"), b.Const("width"));
     }
 
 
@@ -587,7 +587,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetSyncHeight<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("height"));
+        b.SetProperty(b.Props, b.Const("sync"), b.Const("height"));
     }
 
 
@@ -596,7 +596,7 @@ public static partial class SlDropdownControl
     /// </summary>
     public static void SetSyncBoth<T>(this PropsBuilder<T> b) where T: SlDropdown
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sync"), b.Const("both"));
+        b.SetProperty(b.Props, b.Const("sync"), b.Const("both"));
     }
 
 

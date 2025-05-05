@@ -130,7 +130,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetPanel<T>(this PropsBuilder<T> b, Var<string> panel) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), panel);
+        b.SetProperty(b.Props, b.Const("panel"), panel);
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetPanel<T>(this PropsBuilder<T> b, string panel) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("panel"), b.Const(panel));
+        b.SetProperty(b.Props, b.Const("panel"), b.Const(panel));
     }
 
 
@@ -147,7 +147,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(true));
     }
 
 
@@ -156,7 +156,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> active) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), active);
+        b.SetProperty(b.Props, b.Const("active"), active);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, bool active) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(active));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(active));
     }
 
 
@@ -173,7 +173,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("closable"), b.Const(true));
     }
 
 
@@ -182,7 +182,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b, Var<bool> closable) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), closable);
+        b.SetProperty(b.Props, b.Const("closable"), closable);
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b, bool closable) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(closable));
+        b.SetProperty(b.Props, b.Const("closable"), b.Const(closable));
     }
 
 
@@ -199,7 +199,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -208,7 +208,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public static partial class SlTabControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 

@@ -100,7 +100,7 @@ public static partial class SlImageComparerControl
     /// </summary>
     public static void SetPosition<T>(this PropsBuilder<T> b, Var<int> position) where T: SlImageComparer
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), position);
+        b.SetProperty(b.Props, b.Const("position"), position);
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public static partial class SlImageComparerControl
     /// </summary>
     public static void SetPosition<T>(this PropsBuilder<T> b, int position) where T: SlImageComparer
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("position"), b.Const(position));
+        b.SetProperty(b.Props, b.Const("position"), b.Const(position));
     }
 
 

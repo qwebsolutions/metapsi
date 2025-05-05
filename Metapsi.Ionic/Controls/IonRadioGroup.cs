@@ -130,7 +130,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowEmptySelection"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("allowEmptySelection"), b.Const(true));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b, Var<bool> allowEmptySelection) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowEmptySelection"), allowEmptySelection);
+        b.SetProperty(b.Props, b.Const("allowEmptySelection"), allowEmptySelection);
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetAllowEmptySelection<T>(this PropsBuilder<T> b, bool allowEmptySelection) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowEmptySelection"), b.Const(allowEmptySelection));
+        b.SetProperty(b.Props, b.Const("allowEmptySelection"), b.Const(allowEmptySelection));
     }
 
 
@@ -156,7 +156,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,bool>> compareWith) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), compareWith);
+        b.SetProperty(b.Props, b.Const("compareWith"), compareWith);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,bool> compareWith) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), b.Const(compareWith));
+        b.SetProperty(b.Props, b.Const("compareWith"), b.Const(compareWith));
     }
 
 
@@ -173,7 +173,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<string> compareWith) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), compareWith);
+        b.SetProperty(b.Props, b.Const("compareWith"), compareWith);
     }
 
     /// <summary>
@@ -181,7 +181,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, string compareWith) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), b.Const(compareWith));
+        b.SetProperty(b.Props, b.Const("compareWith"), b.Const(compareWith));
     }
 
 
@@ -190,7 +190,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+        b.SetProperty(b.Props, b.Const("errorText"), errorText);
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+        b.SetProperty(b.Props, b.Const("errorText"), b.Const(errorText));
     }
 
 
@@ -207,7 +207,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+        b.SetProperty(b.Props, b.Const("helperText"), helperText);
     }
 
     /// <summary>
@@ -215,7 +215,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+        b.SetProperty(b.Props, b.Const("helperText"), b.Const(helperText));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -249,7 +249,7 @@ public static partial class IonRadioGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonRadioGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

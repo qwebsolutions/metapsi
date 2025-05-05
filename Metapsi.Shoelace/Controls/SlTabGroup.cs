@@ -187,7 +187,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top"));
     }
 
 
@@ -196,7 +196,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom"));
     }
 
 
@@ -205,7 +205,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetPlacementStart<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("start"));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetPlacementEnd<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("end"));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetActivationAuto<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("activation"), b.Const("auto"));
+        b.SetProperty(b.Props, b.Const("activation"), b.Const("auto"));
     }
 
 
@@ -232,7 +232,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetActivationManual<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("activation"), b.Const("manual"));
+        b.SetProperty(b.Props, b.Const("activation"), b.Const("manual"));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetNoScrollControls<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("noScrollControls"), b.Const(true));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetNoScrollControls<T>(this PropsBuilder<T> b, Var<bool> noScrollControls) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), noScrollControls);
+        b.SetProperty(b.Props, b.Const("noScrollControls"), noScrollControls);
     }
 
     /// <summary>
@@ -258,7 +258,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetNoScrollControls<T>(this PropsBuilder<T> b, bool noScrollControls) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noScrollControls"), b.Const(noScrollControls));
+        b.SetProperty(b.Props, b.Const("noScrollControls"), b.Const(noScrollControls));
     }
 
 
@@ -267,7 +267,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetFixedScrollControls<T>(this PropsBuilder<T> b) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("fixedScrollControls"), b.Const(true));
     }
 
 
@@ -276,7 +276,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetFixedScrollControls<T>(this PropsBuilder<T> b, Var<bool> fixedScrollControls) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), fixedScrollControls);
+        b.SetProperty(b.Props, b.Const("fixedScrollControls"), fixedScrollControls);
     }
 
     /// <summary>
@@ -284,7 +284,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetFixedScrollControls<T>(this PropsBuilder<T> b, bool fixedScrollControls) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixedScrollControls"), b.Const(fixedScrollControls));
+        b.SetProperty(b.Props, b.Const("fixedScrollControls"), b.Const(fixedScrollControls));
     }
 
 
@@ -293,7 +293,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetScrollOffset<T>(this PropsBuilder<T> b, Var<int> scrollOffset) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("scrollOffset"), scrollOffset);
+        b.SetProperty(b.Props, b.Const("scrollOffset"), scrollOffset);
     }
 
     /// <summary>
@@ -301,7 +301,7 @@ public static partial class SlTabGroupControl
     /// </summary>
     public static void SetScrollOffset<T>(this PropsBuilder<T> b, int scrollOffset) where T: SlTabGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("scrollOffset"), b.Const(scrollOffset));
+        b.SetProperty(b.Props, b.Const("scrollOffset"), b.Const(scrollOffset));
     }
 
 

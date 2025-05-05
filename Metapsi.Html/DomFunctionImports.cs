@@ -67,12 +67,14 @@ namespace Metapsi.Html
 
         public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            return b.CallExternal<TOut>(ModuleName, function, arguments);
+            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            return b.CallDynamic<TOut>(fn, arguments);
         }
 
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            b.CallExternal(ModuleName, function, arguments);
+            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            b.CallDynamic(fn, arguments);
         }
 
         public static Var<object> Self(this SyntaxBuilder b)
@@ -88,7 +90,7 @@ namespace Metapsi.Html
         /// <param name="doFn"></param>
         public static void While(this SyntaxBuilder b, Var<Func<bool>> checkFn, Var<Action> doFn)
         {
-            b.CallExternal(ModuleName, "While", checkFn, doFn);
+            b.CallDomFunction("While", checkFn, doFn);
         }
 
         /// <summary>

@@ -617,7 +617,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutoGrow<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autoGrow"), b.Const(true));
     }
 
 
@@ -626,7 +626,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutoGrow<T>(this PropsBuilder<T> b, Var<bool> autoGrow) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), autoGrow);
+        b.SetProperty(b.Props, b.Const("autoGrow"), autoGrow);
     }
 
     /// <summary>
@@ -634,7 +634,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutoGrow<T>(this PropsBuilder<T> b, bool autoGrow) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoGrow"), b.Const(autoGrow));
+        b.SetProperty(b.Props, b.Const("autoGrow"), b.Const(autoGrow));
     }
 
 
@@ -643,7 +643,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, Var<string> autocapitalize) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), autocapitalize);
+        b.SetProperty(b.Props, b.Const("autocapitalize"), autocapitalize);
     }
 
     /// <summary>
@@ -651,7 +651,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, string autocapitalize) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const(autocapitalize));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const(autocapitalize));
     }
 
 
@@ -660,7 +660,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(true));
     }
 
 
@@ -669,7 +669,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
+        b.SetProperty(b.Props, b.Const("autofocus"), autofocus);
     }
 
     /// <summary>
@@ -677,7 +677,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(autofocus));
     }
 
 
@@ -686,7 +686,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), b.Const(true));
     }
 
 
@@ -695,7 +695,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b, Var<bool> clearOnEdit) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), clearOnEdit);
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), clearOnEdit);
     }
 
     /// <summary>
@@ -703,7 +703,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b, bool clearOnEdit) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(clearOnEdit));
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), b.Const(clearOnEdit));
     }
 
 
@@ -712,7 +712,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -721,7 +721,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -730,7 +730,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -739,7 +739,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -748,7 +748,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -757,7 +757,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -766,7 +766,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -775,7 +775,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -784,7 +784,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -793,7 +793,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCols<T>(this PropsBuilder<T> b, Var<int> cols) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), cols);
+        b.SetProperty(b.Props, b.Const("cols"), cols);
     }
 
     /// <summary>
@@ -801,7 +801,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCols<T>(this PropsBuilder<T> b, int cols) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("cols"), b.Const(cols));
+        b.SetProperty(b.Props, b.Const("cols"), b.Const(cols));
     }
 
 
@@ -810,7 +810,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("counter"), b.Const(true));
     }
 
 
@@ -819,7 +819,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b, Var<bool> counter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), counter);
+        b.SetProperty(b.Props, b.Const("counter"), counter);
     }
 
     /// <summary>
@@ -827,7 +827,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b, bool counter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(counter));
+        b.SetProperty(b.Props, b.Const("counter"), b.Const(counter));
     }
 
 
@@ -836,7 +836,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCounterFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,int,string>> counterFormatter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), counterFormatter);
+        b.SetProperty(b.Props, b.Const("counterFormatter"), counterFormatter);
     }
 
     /// <summary>
@@ -844,7 +844,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetCounterFormatter<T>(this PropsBuilder<T> b, System.Func<int,int,string> counterFormatter) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), b.Const(counterFormatter));
+        b.SetProperty(b.Props, b.Const("counterFormatter"), b.Const(counterFormatter));
     }
 
 
@@ -853,7 +853,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
+        b.SetProperty(b.Props, b.Const("debounce"), debounce);
     }
 
     /// <summary>
@@ -861,7 +861,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
+        b.SetProperty(b.Props, b.Const("debounce"), b.Const(debounce));
     }
 
 
@@ -870,7 +870,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -879,7 +879,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -887,7 +887,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -896,7 +896,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("done"));
     }
 
 
@@ -905,7 +905,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("enter"));
     }
 
 
@@ -914,7 +914,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("go"));
     }
 
 
@@ -923,7 +923,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("next"));
     }
 
 
@@ -932,7 +932,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("previous"));
     }
 
 
@@ -941,7 +941,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("search"));
     }
 
 
@@ -950,7 +950,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("send"));
     }
 
 
@@ -959,7 +959,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+        b.SetProperty(b.Props, b.Const("errorText"), errorText);
     }
 
     /// <summary>
@@ -967,7 +967,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+        b.SetProperty(b.Props, b.Const("errorText"), b.Const(errorText));
     }
 
 
@@ -976,7 +976,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("outline"));
     }
 
 
@@ -985,7 +985,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("solid"));
     }
 
 
@@ -994,7 +994,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+        b.SetProperty(b.Props, b.Const("helperText"), helperText);
     }
 
     /// <summary>
@@ -1002,7 +1002,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+        b.SetProperty(b.Props, b.Const("helperText"), b.Const(helperText));
     }
 
 
@@ -1011,7 +1011,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("decimal"));
     }
 
 
@@ -1020,7 +1020,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("email"));
     }
 
 
@@ -1029,7 +1029,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("none"));
     }
 
 
@@ -1038,7 +1038,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("numeric"));
     }
 
 
@@ -1047,7 +1047,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("search"));
     }
 
 
@@ -1056,7 +1056,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("tel"));
     }
 
 
@@ -1065,7 +1065,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("text"));
     }
 
 
@@ -1074,7 +1074,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("url"));
     }
 
 
@@ -1083,7 +1083,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -1091,7 +1091,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -1100,7 +1100,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("end"));
     }
 
 
@@ -1109,7 +1109,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("fixed"));
     }
 
 
@@ -1118,7 +1118,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("floating"));
     }
 
 
@@ -1127,7 +1127,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("stacked"));
     }
 
 
@@ -1136,7 +1136,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("start"));
     }
 
 
@@ -1145,7 +1145,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
+        b.SetProperty(b.Props, b.Const("maxlength"), maxlength);
     }
 
     /// <summary>
@@ -1153,7 +1153,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
+        b.SetProperty(b.Props, b.Const("maxlength"), b.Const(maxlength));
     }
 
 
@@ -1162,7 +1162,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
+        b.SetProperty(b.Props, b.Const("minlength"), minlength);
     }
 
     /// <summary>
@@ -1170,7 +1170,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+        b.SetProperty(b.Props, b.Const("minlength"), b.Const(minlength));
     }
 
 
@@ -1179,7 +1179,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -1188,7 +1188,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -1197,7 +1197,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -1205,7 +1205,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -1214,7 +1214,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -1222,7 +1222,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -1231,7 +1231,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -1240,7 +1240,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -1248,7 +1248,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -1257,7 +1257,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -1266,7 +1266,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -1274,7 +1274,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -1283,7 +1283,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetRows<T>(this PropsBuilder<T> b, Var<int> rows) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), rows);
+        b.SetProperty(b.Props, b.Const("rows"), rows);
     }
 
     /// <summary>
@@ -1291,7 +1291,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetRows<T>(this PropsBuilder<T> b, int rows) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(rows));
+        b.SetProperty(b.Props, b.Const("rows"), b.Const(rows));
     }
 
 
@@ -1300,7 +1300,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetShapeRound<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("round"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("round"));
     }
 
 
@@ -1309,7 +1309,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(true));
     }
 
 
@@ -1318,7 +1318,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
+        b.SetProperty(b.Props, b.Const("spellcheck"), spellcheck);
     }
 
     /// <summary>
@@ -1326,7 +1326,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(spellcheck));
     }
 
 
@@ -1335,7 +1335,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -1343,7 +1343,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -1352,7 +1352,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetWrapHard<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("hard"));
+        b.SetProperty(b.Props, b.Const("wrap"), b.Const("hard"));
     }
 
 
@@ -1361,7 +1361,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetWrapOff<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("wrap"), b.Const("off"));
     }
 
 
@@ -1370,7 +1370,7 @@ public static partial class IonTextareaControl
     /// </summary>
     public static void SetWrapSoft<T>(this PropsBuilder<T> b) where T: IonTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("wrap"), b.Const("soft"));
+        b.SetProperty(b.Props, b.Const("wrap"), b.Const("soft"));
     }
 
 

@@ -18,7 +18,7 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> VoidNode(this LayoutBuilder b)
         {
-            return b.CallExternal<IVNode>("hyperapp", "h", b.Const(VoidNodeTag), b.NewObj<DynamicObject>());
+            return b.H(b.Const(VoidNodeTag), b.NewObj<DynamicObject>());
         }
 
         public static Var<string> Url(this SyntaxBuilder b, Delegate handler)
@@ -89,7 +89,7 @@ namespace Metapsi.Hyperapp
         public static Var<string> EnglishDayName(this SyntaxBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
+            b.SetProperty(formatParams, b.Const("weekday"), b.Const("long"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
@@ -97,8 +97,8 @@ namespace Metapsi.Hyperapp
         public static Var<string> EnglishDayAndShortMonth(this SyntaxBuilder b, Var<DateTime> date)
         {
             var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
-            b.SetDynamic(formatParams, new DynamicProperty<string>("month"), b.Const("short"));
+            b.SetProperty(formatParams, b.Const("day"), b.Const("numeric"));
+            b.SetProperty(formatParams, b.Const("month"), b.Const("short"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
@@ -139,8 +139,8 @@ namespace Metapsi.Hyperapp
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
             var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("timeStyle"), b.Const("short"));
-            b.SetDynamic(formatParams, new DynamicProperty<string>("dateStyle"), b.Const("short"));
+            b.SetProperty(formatParams, b.Const("timeStyle"), b.Const("short"));
+            b.SetProperty(formatParams, b.Const("dateStyle"), b.Const("short"));
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
         }
 

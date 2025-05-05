@@ -98,7 +98,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -115,7 +115,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(true));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, Var<bool> active) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), active);
+        b.SetProperty(b.Props, b.Const("active"), active);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class SlTabPanelControl
     /// </summary>
     public static void SetActive<T>(this PropsBuilder<T> b, bool active) where T: SlTabPanel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("active"), b.Const(active));
+        b.SetProperty(b.Props, b.Const("active"), b.Const(active));
     }
 
 

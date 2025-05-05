@@ -308,7 +308,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetActiveBarStart<T>(this PropsBuilder<T> b, Var<int> activeBarStart) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), activeBarStart);
+        b.SetProperty(b.Props, b.Const("activeBarStart"), activeBarStart);
     }
 
     /// <summary>
@@ -316,7 +316,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetActiveBarStart<T>(this PropsBuilder<T> b, int activeBarStart) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("activeBarStart"), b.Const(activeBarStart));
+        b.SetProperty(b.Props, b.Const("activeBarStart"), b.Const(activeBarStart));
     }
 
 
@@ -325,7 +325,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -334,7 +334,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -343,7 +343,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -352,7 +352,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -361,7 +361,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -370,7 +370,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -379,7 +379,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -388,7 +388,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -397,7 +397,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -406,7 +406,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
+        b.SetProperty(b.Props, b.Const("debounce"), debounce);
     }
 
     /// <summary>
@@ -414,7 +414,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
+        b.SetProperty(b.Props, b.Const("debounce"), b.Const(debounce));
     }
 
 
@@ -423,7 +423,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -432,7 +432,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -440,7 +440,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -449,7 +449,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDualKnobs<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("dualKnobs"), b.Const(true));
     }
 
 
@@ -458,7 +458,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDualKnobs<T>(this PropsBuilder<T> b, Var<bool> dualKnobs) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), dualKnobs);
+        b.SetProperty(b.Props, b.Const("dualKnobs"), dualKnobs);
     }
 
     /// <summary>
@@ -466,7 +466,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetDualKnobs<T>(this PropsBuilder<T> b, bool dualKnobs) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dualKnobs"), b.Const(dualKnobs));
+        b.SetProperty(b.Props, b.Const("dualKnobs"), b.Const(dualKnobs));
     }
 
 
@@ -475,7 +475,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -483,7 +483,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -492,7 +492,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("end"));
     }
 
 
@@ -501,7 +501,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("fixed"));
     }
 
 
@@ -510,7 +510,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("stacked"));
     }
 
 
@@ -519,7 +519,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("start"));
     }
 
 
@@ -528,7 +528,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -536,7 +536,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -545,7 +545,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -553,7 +553,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -562,7 +562,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -571,7 +571,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -580,7 +580,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -588,7 +588,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -597,7 +597,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetPin<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pin"), b.Const(true));
     }
 
 
@@ -606,7 +606,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetPin<T>(this PropsBuilder<T> b, Var<bool> pin) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), pin);
+        b.SetProperty(b.Props, b.Const("pin"), pin);
     }
 
     /// <summary>
@@ -614,7 +614,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetPin<T>(this PropsBuilder<T> b, bool pin) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pin"), b.Const(pin));
+        b.SetProperty(b.Props, b.Const("pin"), b.Const(pin));
     }
 
 
@@ -623,7 +623,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetPinFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,DynamicObject>> pinFormatter) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,DynamicObject>>("pinFormatter"), pinFormatter);
+        b.SetProperty(b.Props, b.Const("pinFormatter"), pinFormatter);
     }
 
     /// <summary>
@@ -631,7 +631,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetPinFormatter<T>(this PropsBuilder<T> b, System.Func<int,DynamicObject> pinFormatter) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,DynamicObject>>("pinFormatter"), b.Const(pinFormatter));
+        b.SetProperty(b.Props, b.Const("pinFormatter"), b.Const(pinFormatter));
     }
 
 
@@ -640,7 +640,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetSnaps<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("snaps"), b.Const(true));
     }
 
 
@@ -649,7 +649,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetSnaps<T>(this PropsBuilder<T> b, Var<bool> snaps) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), snaps);
+        b.SetProperty(b.Props, b.Const("snaps"), snaps);
     }
 
     /// <summary>
@@ -657,7 +657,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetSnaps<T>(this PropsBuilder<T> b, bool snaps) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("snaps"), b.Const(snaps));
+        b.SetProperty(b.Props, b.Const("snaps"), b.Const(snaps));
     }
 
 
@@ -666,7 +666,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
+        b.SetProperty(b.Props, b.Const("step"), step);
     }
 
     /// <summary>
@@ -674,7 +674,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
+        b.SetProperty(b.Props, b.Const("step"), b.Const(step));
     }
 
 
@@ -683,7 +683,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetTicks<T>(this PropsBuilder<T> b) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("ticks"), b.Const(true));
     }
 
 
@@ -692,7 +692,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetTicks<T>(this PropsBuilder<T> b, Var<bool> ticks) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), ticks);
+        b.SetProperty(b.Props, b.Const("ticks"), ticks);
     }
 
     /// <summary>
@@ -700,7 +700,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetTicks<T>(this PropsBuilder<T> b, bool ticks) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("ticks"), b.Const(ticks));
+        b.SetProperty(b.Props, b.Const("ticks"), b.Const(ticks));
     }
 
 
@@ -709,7 +709,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -717,7 +717,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -726,7 +726,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<IonRangeValue> value) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonRangeValue>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -734,7 +734,7 @@ public static partial class IonRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, IonRangeValue value) where T: IonRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonRangeValue>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -834,7 +834,7 @@ public class IonRangeValue { }
     /// </summary>
     public static void SetLower<T>(this PropsBuilder<T> b, Var<int> lower) where T: IonRangeValue
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("lower"), lower);
+        b.SetProperty(b.Props, b.Const("lower"), lower);
     }
 
     /// <summary>
@@ -842,7 +842,7 @@ public class IonRangeValue { }
     /// </summary>
     public static void SetUpper<T>(this PropsBuilder<T> b, Var<int> upper) where T: IonRangeValue
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("upper"), upper);
+        b.SetProperty(b.Props, b.Const("upper"), upper);
     }
 
 }

@@ -513,7 +513,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetCancelText<T>(this PropsBuilder<T> b, Var<string> cancelText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelText"), cancelText);
+        b.SetProperty(b.Props, b.Const("cancelText"), cancelText);
     }
 
     /// <summary>
@@ -521,7 +521,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetCancelText<T>(this PropsBuilder<T> b, string cancelText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelText"), b.Const(cancelText));
+        b.SetProperty(b.Props, b.Const("cancelText"), b.Const(cancelText));
     }
 
 
@@ -530,7 +530,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetClearText<T>(this PropsBuilder<T> b, Var<string> clearText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearText"), clearText);
+        b.SetProperty(b.Props, b.Const("clearText"), clearText);
     }
 
     /// <summary>
@@ -538,7 +538,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetClearText<T>(this PropsBuilder<T> b, string clearText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearText"), b.Const(clearText));
+        b.SetProperty(b.Props, b.Const("clearText"), b.Const(clearText));
     }
 
 
@@ -547,7 +547,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -556,7 +556,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -565,7 +565,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -574,7 +574,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -583,7 +583,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -592,7 +592,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -601,7 +601,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -610,7 +610,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -619,7 +619,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -628,7 +628,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, Var<int> dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("dayValues"), dayValues);
+        b.SetProperty(b.Props, b.Const("dayValues"), dayValues);
     }
 
     /// <summary>
@@ -636,7 +636,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, int dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("dayValues"), b.Const(dayValues));
+        b.SetProperty(b.Props, b.Const("dayValues"), b.Const(dayValues));
     }
 
 
@@ -645,7 +645,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, Var<List<int>> dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("dayValues"), dayValues);
+        b.SetProperty(b.Props, b.Const("dayValues"), dayValues);
     }
 
     /// <summary>
@@ -653,7 +653,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, List<int> dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("dayValues"), b.Const(dayValues));
+        b.SetProperty(b.Props, b.Const("dayValues"), b.Const(dayValues));
     }
 
 
@@ -662,7 +662,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, Var<string> dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("dayValues"), dayValues);
+        b.SetProperty(b.Props, b.Const("dayValues"), dayValues);
     }
 
     /// <summary>
@@ -670,7 +670,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDayValues<T>(this PropsBuilder<T> b, string dayValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("dayValues"), b.Const(dayValues));
+        b.SetProperty(b.Props, b.Const("dayValues"), b.Const(dayValues));
     }
 
 
@@ -679,7 +679,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -688,7 +688,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -696,7 +696,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -705,7 +705,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDoneText<T>(this PropsBuilder<T> b, Var<string> doneText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("doneText"), doneText);
+        b.SetProperty(b.Props, b.Const("doneText"), doneText);
     }
 
     /// <summary>
@@ -713,7 +713,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetDoneText<T>(this PropsBuilder<T> b, string doneText) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("doneText"), b.Const(doneText));
+        b.SetProperty(b.Props, b.Const("doneText"), b.Const(doneText));
     }
 
 
@@ -722,7 +722,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetFirstDayOfWeek<T>(this PropsBuilder<T> b, Var<int> firstDayOfWeek) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("firstDayOfWeek"), firstDayOfWeek);
+        b.SetProperty(b.Props, b.Const("firstDayOfWeek"), firstDayOfWeek);
     }
 
     /// <summary>
@@ -730,7 +730,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetFirstDayOfWeek<T>(this PropsBuilder<T> b, int firstDayOfWeek) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("firstDayOfWeek"), b.Const(firstDayOfWeek));
+        b.SetProperty(b.Props, b.Const("firstDayOfWeek"), b.Const(firstDayOfWeek));
     }
 
 
@@ -739,7 +739,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetFormatOptions<T>(this PropsBuilder<T> b, Var<IonDatetimeFormatOptions> formatOptions) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonDatetimeFormatOptions>("formatOptions"), formatOptions);
+        b.SetProperty(b.Props, b.Const("formatOptions"), formatOptions);
     }
 
     /// <summary>
@@ -747,7 +747,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetFormatOptions<T>(this PropsBuilder<T> b, IonDatetimeFormatOptions formatOptions) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonDatetimeFormatOptions>("formatOptions"), b.Const(formatOptions));
+        b.SetProperty(b.Props, b.Const("formatOptions"), b.Const(formatOptions));
     }
 
 
@@ -756,7 +756,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHighlightedDates<T>(this PropsBuilder<T> b, Var<System.Func<string,DatetimeHighlightStyle>> highlightedDates) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<string,DatetimeHighlightStyle>>("highlightedDates"), highlightedDates);
+        b.SetProperty(b.Props, b.Const("highlightedDates"), highlightedDates);
     }
 
     /// <summary>
@@ -764,7 +764,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHighlightedDates<T>(this PropsBuilder<T> b, System.Func<string,DatetimeHighlightStyle> highlightedDates) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<string,DatetimeHighlightStyle>>("highlightedDates"), b.Const(highlightedDates));
+        b.SetProperty(b.Props, b.Const("highlightedDates"), b.Const(highlightedDates));
     }
 
 
@@ -773,7 +773,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHighlightedDates<T>(this PropsBuilder<T> b, Var<List<DatetimeHighlight>> highlightedDates) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<DatetimeHighlight>>("highlightedDates"), highlightedDates);
+        b.SetProperty(b.Props, b.Const("highlightedDates"), highlightedDates);
     }
 
     /// <summary>
@@ -781,7 +781,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHighlightedDates<T>(this PropsBuilder<T> b, List<DatetimeHighlight> highlightedDates) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<DatetimeHighlight>>("highlightedDates"), b.Const(highlightedDates));
+        b.SetProperty(b.Props, b.Const("highlightedDates"), b.Const(highlightedDates));
     }
 
 
@@ -790,7 +790,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourCycleH11<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h11"));
+        b.SetProperty(b.Props, b.Const("hourCycle"), b.Const("h11"));
     }
 
 
@@ -799,7 +799,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourCycleH12<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h12"));
+        b.SetProperty(b.Props, b.Const("hourCycle"), b.Const("h12"));
     }
 
 
@@ -808,7 +808,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourCycleH23<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h23"));
+        b.SetProperty(b.Props, b.Const("hourCycle"), b.Const("h23"));
     }
 
 
@@ -817,7 +817,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourCycleH24<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourCycle"), b.Const("h24"));
+        b.SetProperty(b.Props, b.Const("hourCycle"), b.Const("h24"));
     }
 
 
@@ -826,7 +826,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, Var<int> hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("hourValues"), hourValues);
+        b.SetProperty(b.Props, b.Const("hourValues"), hourValues);
     }
 
     /// <summary>
@@ -834,7 +834,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, int hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("hourValues"), b.Const(hourValues));
+        b.SetProperty(b.Props, b.Const("hourValues"), b.Const(hourValues));
     }
 
 
@@ -843,7 +843,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, Var<List<int>> hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("hourValues"), hourValues);
+        b.SetProperty(b.Props, b.Const("hourValues"), hourValues);
     }
 
     /// <summary>
@@ -851,7 +851,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, List<int> hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("hourValues"), b.Const(hourValues));
+        b.SetProperty(b.Props, b.Const("hourValues"), b.Const(hourValues));
     }
 
 
@@ -860,7 +860,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, Var<string> hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourValues"), hourValues);
+        b.SetProperty(b.Props, b.Const("hourValues"), hourValues);
     }
 
     /// <summary>
@@ -868,7 +868,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetHourValues<T>(this PropsBuilder<T> b, string hourValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourValues"), b.Const(hourValues));
+        b.SetProperty(b.Props, b.Const("hourValues"), b.Const(hourValues));
     }
 
 
@@ -877,7 +877,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetIsDateEnabled<T>(this PropsBuilder<T> b, Var<System.Func<string,bool>> isDateEnabled) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<string,bool>>("isDateEnabled"), isDateEnabled);
+        b.SetProperty(b.Props, b.Const("isDateEnabled"), isDateEnabled);
     }
 
     /// <summary>
@@ -885,7 +885,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetIsDateEnabled<T>(this PropsBuilder<T> b, System.Func<string,bool> isDateEnabled) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<string,bool>>("isDateEnabled"), b.Const(isDateEnabled));
+        b.SetProperty(b.Props, b.Const("isDateEnabled"), b.Const(isDateEnabled));
     }
 
 
@@ -894,7 +894,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetLocale<T>(this PropsBuilder<T> b, Var<string> locale) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("locale"), locale);
+        b.SetProperty(b.Props, b.Const("locale"), locale);
     }
 
     /// <summary>
@@ -902,7 +902,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetLocale<T>(this PropsBuilder<T> b, string locale) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("locale"), b.Const(locale));
+        b.SetProperty(b.Props, b.Const("locale"), b.Const(locale));
     }
 
 
@@ -911,7 +911,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<string> max) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -919,7 +919,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, string max) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -928,7 +928,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<string> min) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -936,7 +936,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, string min) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -945,7 +945,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, Var<int> minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minuteValues"), minuteValues);
+        b.SetProperty(b.Props, b.Const("minuteValues"), minuteValues);
     }
 
     /// <summary>
@@ -953,7 +953,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, int minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minuteValues"), b.Const(minuteValues));
+        b.SetProperty(b.Props, b.Const("minuteValues"), b.Const(minuteValues));
     }
 
 
@@ -962,7 +962,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, Var<List<int>> minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("minuteValues"), minuteValues);
+        b.SetProperty(b.Props, b.Const("minuteValues"), minuteValues);
     }
 
     /// <summary>
@@ -970,7 +970,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, List<int> minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("minuteValues"), b.Const(minuteValues));
+        b.SetProperty(b.Props, b.Const("minuteValues"), b.Const(minuteValues));
     }
 
 
@@ -979,7 +979,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, Var<string> minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("minuteValues"), minuteValues);
+        b.SetProperty(b.Props, b.Const("minuteValues"), minuteValues);
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMinuteValues<T>(this PropsBuilder<T> b, string minuteValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("minuteValues"), b.Const(minuteValues));
+        b.SetProperty(b.Props, b.Const("minuteValues"), b.Const(minuteValues));
     }
 
 
@@ -996,7 +996,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -1005,7 +1005,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -1014,7 +1014,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, Var<int> monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("monthValues"), monthValues);
+        b.SetProperty(b.Props, b.Const("monthValues"), monthValues);
     }
 
     /// <summary>
@@ -1022,7 +1022,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, int monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("monthValues"), b.Const(monthValues));
+        b.SetProperty(b.Props, b.Const("monthValues"), b.Const(monthValues));
     }
 
 
@@ -1031,7 +1031,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, Var<List<int>> monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("monthValues"), monthValues);
+        b.SetProperty(b.Props, b.Const("monthValues"), monthValues);
     }
 
     /// <summary>
@@ -1039,7 +1039,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, List<int> monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("monthValues"), b.Const(monthValues));
+        b.SetProperty(b.Props, b.Const("monthValues"), b.Const(monthValues));
     }
 
 
@@ -1048,7 +1048,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, Var<string> monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("monthValues"), monthValues);
+        b.SetProperty(b.Props, b.Const("monthValues"), monthValues);
     }
 
     /// <summary>
@@ -1056,7 +1056,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMonthValues<T>(this PropsBuilder<T> b, string monthValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("monthValues"), b.Const(monthValues));
+        b.SetProperty(b.Props, b.Const("monthValues"), b.Const(monthValues));
     }
 
 
@@ -1065,7 +1065,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -1074,7 +1074,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -1082,7 +1082,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -1091,7 +1091,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -1099,7 +1099,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -1108,7 +1108,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPreferWheel<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("preferWheel"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("preferWheel"), b.Const(true));
     }
 
 
@@ -1117,7 +1117,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPreferWheel<T>(this PropsBuilder<T> b, Var<bool> preferWheel) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("preferWheel"), preferWheel);
+        b.SetProperty(b.Props, b.Const("preferWheel"), preferWheel);
     }
 
     /// <summary>
@@ -1125,7 +1125,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPreferWheel<T>(this PropsBuilder<T> b, bool preferWheel) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("preferWheel"), b.Const(preferWheel));
+        b.SetProperty(b.Props, b.Const("preferWheel"), b.Const(preferWheel));
     }
 
 
@@ -1134,7 +1134,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationDate<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("date"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("date"));
     }
 
 
@@ -1143,7 +1143,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationDateTime<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("date-time"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("date-time"));
     }
 
 
@@ -1152,7 +1152,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationMonth<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("month"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("month"));
     }
 
 
@@ -1161,7 +1161,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationMonthYear<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("month-year"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("month-year"));
     }
 
 
@@ -1170,7 +1170,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationTime<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("time"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("time"));
     }
 
 
@@ -1179,7 +1179,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationTimeDate<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("time-date"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("time-date"));
     }
 
 
@@ -1188,7 +1188,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetPresentationYear<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("presentation"), b.Const("year"));
+        b.SetProperty(b.Props, b.Const("presentation"), b.Const("year"));
     }
 
 
@@ -1197,7 +1197,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -1206,7 +1206,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -1214,7 +1214,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -1223,7 +1223,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowClearButton<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showClearButton"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showClearButton"), b.Const(true));
     }
 
 
@@ -1232,7 +1232,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowClearButton<T>(this PropsBuilder<T> b, Var<bool> showClearButton) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showClearButton"), showClearButton);
+        b.SetProperty(b.Props, b.Const("showClearButton"), showClearButton);
     }
 
     /// <summary>
@@ -1240,7 +1240,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowClearButton<T>(this PropsBuilder<T> b, bool showClearButton) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showClearButton"), b.Const(showClearButton));
+        b.SetProperty(b.Props, b.Const("showClearButton"), b.Const(showClearButton));
     }
 
 
@@ -1249,7 +1249,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultButtons<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultButtons"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showDefaultButtons"), b.Const(true));
     }
 
 
@@ -1258,7 +1258,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultButtons<T>(this PropsBuilder<T> b, Var<bool> showDefaultButtons) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultButtons"), showDefaultButtons);
+        b.SetProperty(b.Props, b.Const("showDefaultButtons"), showDefaultButtons);
     }
 
     /// <summary>
@@ -1266,7 +1266,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultButtons<T>(this PropsBuilder<T> b, bool showDefaultButtons) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultButtons"), b.Const(showDefaultButtons));
+        b.SetProperty(b.Props, b.Const("showDefaultButtons"), b.Const(showDefaultButtons));
     }
 
 
@@ -1275,7 +1275,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTimeLabel<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTimeLabel"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showDefaultTimeLabel"), b.Const(true));
     }
 
 
@@ -1284,7 +1284,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTimeLabel<T>(this PropsBuilder<T> b, Var<bool> showDefaultTimeLabel) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTimeLabel"), showDefaultTimeLabel);
+        b.SetProperty(b.Props, b.Const("showDefaultTimeLabel"), showDefaultTimeLabel);
     }
 
     /// <summary>
@@ -1292,7 +1292,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTimeLabel<T>(this PropsBuilder<T> b, bool showDefaultTimeLabel) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTimeLabel"), b.Const(showDefaultTimeLabel));
+        b.SetProperty(b.Props, b.Const("showDefaultTimeLabel"), b.Const(showDefaultTimeLabel));
     }
 
 
@@ -1301,7 +1301,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTitle"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showDefaultTitle"), b.Const(true));
     }
 
 
@@ -1310,7 +1310,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b, Var<bool> showDefaultTitle) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTitle"), showDefaultTitle);
+        b.SetProperty(b.Props, b.Const("showDefaultTitle"), showDefaultTitle);
     }
 
     /// <summary>
@@ -1318,7 +1318,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetShowDefaultTitle<T>(this PropsBuilder<T> b, bool showDefaultTitle) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showDefaultTitle"), b.Const(showDefaultTitle));
+        b.SetProperty(b.Props, b.Const("showDefaultTitle"), b.Const(showDefaultTitle));
     }
 
 
@@ -1327,7 +1327,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetSizeCover<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("cover"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("cover"));
     }
 
 
@@ -1336,7 +1336,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetSizeFixed<T>(this PropsBuilder<T> b) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("fixed"));
     }
 
 
@@ -1345,7 +1345,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetTitleSelectedDatesFormatter<T>(this PropsBuilder<T> b, Var<System.Func<List<string>,string>> titleSelectedDatesFormatter) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<List<string>,string>>("titleSelectedDatesFormatter"), titleSelectedDatesFormatter);
+        b.SetProperty(b.Props, b.Const("titleSelectedDatesFormatter"), titleSelectedDatesFormatter);
     }
 
     /// <summary>
@@ -1353,7 +1353,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetTitleSelectedDatesFormatter<T>(this PropsBuilder<T> b, System.Func<List<string>,string> titleSelectedDatesFormatter) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<List<string>,string>>("titleSelectedDatesFormatter"), b.Const(titleSelectedDatesFormatter));
+        b.SetProperty(b.Props, b.Const("titleSelectedDatesFormatter"), b.Const(titleSelectedDatesFormatter));
     }
 
 
@@ -1362,7 +1362,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -1370,7 +1370,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -1379,7 +1379,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -1387,7 +1387,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, List<string> value) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -1396,7 +1396,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, Var<int> yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("yearValues"), yearValues);
+        b.SetProperty(b.Props, b.Const("yearValues"), yearValues);
     }
 
     /// <summary>
@@ -1404,7 +1404,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, int yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("yearValues"), b.Const(yearValues));
+        b.SetProperty(b.Props, b.Const("yearValues"), b.Const(yearValues));
     }
 
 
@@ -1413,7 +1413,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, Var<List<int>> yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("yearValues"), yearValues);
+        b.SetProperty(b.Props, b.Const("yearValues"), yearValues);
     }
 
     /// <summary>
@@ -1421,7 +1421,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, List<int> yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("yearValues"), b.Const(yearValues));
+        b.SetProperty(b.Props, b.Const("yearValues"), b.Const(yearValues));
     }
 
 
@@ -1430,7 +1430,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, Var<string> yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("yearValues"), yearValues);
+        b.SetProperty(b.Props, b.Const("yearValues"), yearValues);
     }
 
     /// <summary>
@@ -1438,7 +1438,7 @@ public static partial class IonDatetimeControl
     /// </summary>
     public static void SetYearValues<T>(this PropsBuilder<T> b, string yearValues) where T: IonDatetime
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("yearValues"), b.Const(yearValues));
+        b.SetProperty(b.Props, b.Const("yearValues"), b.Const(yearValues));
     }
 
 
@@ -1508,7 +1508,7 @@ public class IonDatetimeFormatOptions { }
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, Var<DateTimeFormatOptions> date) where T: IonDatetimeFormatOptions
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTimeFormatOptions>("date"), date);
+        b.SetProperty(b.Props, b.Const("date"), date);
     }
 
     /// <summary>
@@ -1516,7 +1516,7 @@ public class IonDatetimeFormatOptions { }
     /// </summary>
     public static void SetTime<T>(this PropsBuilder<T> b, Var<DateTimeFormatOptions> time) where T: IonDatetimeFormatOptions
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTimeFormatOptions>("time"), time);
+        b.SetProperty(b.Props, b.Const("time"), time);
     }
 
 }

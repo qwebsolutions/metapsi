@@ -33,9 +33,9 @@ public static partial class EventExtensions
         if (!eventName.StartsWith("on"))
             eventName = "on" + eventName;
 
-        b.SetDynamic(
+        b.SetProperty(
             b.Props,
-            new DynamicProperty<HyperType.Action<TState, Event>>(eventName),
+            b.Const(eventName),
             b.Call(OnDetailAction, action, getDetail));
     }
 
@@ -47,9 +47,9 @@ public static partial class EventExtensions
         if (!eventName.StartsWith("on"))
             eventName = "on" + eventName;
 
-        b.SetDynamic(
+        b.SetProperty(
             b.Props,
-            new DynamicProperty<HyperType.Action<TState>>(eventName),
+            b.Const(eventName),
             action);
     }
 

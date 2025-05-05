@@ -378,7 +378,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, Var<DateTime> date) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTime>("date"), date);
+        b.SetProperty(b.Props, b.Const("date"), date);
     }
 
     /// <summary>
@@ -386,7 +386,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, DateTime date) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DateTime>("date"), b.Const(date));
+        b.SetProperty(b.Props, b.Const("date"), b.Const(date));
     }
 
 
@@ -395,7 +395,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, Var<string> date) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("date"), date);
+        b.SetProperty(b.Props, b.Const("date"), date);
     }
 
     /// <summary>
@@ -403,7 +403,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDate<T>(this PropsBuilder<T> b, string date) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("date"), b.Const(date));
+        b.SetProperty(b.Props, b.Const("date"), b.Const(date));
     }
 
 
@@ -412,7 +412,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetWeekdayNarrow<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("weekday"), b.Const("narrow"));
+        b.SetProperty(b.Props, b.Const("weekday"), b.Const("narrow"));
     }
 
 
@@ -421,7 +421,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetWeekdayShort<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("weekday"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("weekday"), b.Const("short"));
     }
 
 
@@ -430,7 +430,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetWeekdayLong<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("weekday"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("weekday"), b.Const("long"));
     }
 
 
@@ -439,7 +439,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetEraNarrow<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("era"), b.Const("narrow"));
+        b.SetProperty(b.Props, b.Const("era"), b.Const("narrow"));
     }
 
 
@@ -448,7 +448,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetEraShort<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("era"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("era"), b.Const("short"));
     }
 
 
@@ -457,7 +457,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetEraLong<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("era"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("era"), b.Const("long"));
     }
 
 
@@ -466,7 +466,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetYearNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("year"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("year"), b.Const("numeric"));
     }
 
 
@@ -475,7 +475,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetYear2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("year"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("year"), b.Const("2-digit"));
     }
 
 
@@ -484,7 +484,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMonthNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("month"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("month"), b.Const("numeric"));
     }
 
 
@@ -493,7 +493,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMonth2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("month"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("month"), b.Const("2-digit"));
     }
 
 
@@ -502,7 +502,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMonthNarrow<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("month"), b.Const("narrow"));
+        b.SetProperty(b.Props, b.Const("month"), b.Const("narrow"));
     }
 
 
@@ -511,7 +511,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMonthShort<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("month"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("month"), b.Const("short"));
     }
 
 
@@ -520,7 +520,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMonthLong<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("month"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("month"), b.Const("long"));
     }
 
 
@@ -529,7 +529,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDayNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("day"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("day"), b.Const("numeric"));
     }
 
 
@@ -538,7 +538,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetDay2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("day"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("day"), b.Const("2-digit"));
     }
 
 
@@ -547,7 +547,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHourNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hour"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("hour"), b.Const("numeric"));
     }
 
 
@@ -556,7 +556,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHour2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hour"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("hour"), b.Const("2-digit"));
     }
 
 
@@ -565,7 +565,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMinuteNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("minute"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("minute"), b.Const("numeric"));
     }
 
 
@@ -574,7 +574,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetMinute2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("minute"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("minute"), b.Const("2-digit"));
     }
 
 
@@ -583,7 +583,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetSecondNumeric<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("second"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("second"), b.Const("numeric"));
     }
 
 
@@ -592,7 +592,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetSecond2Digit<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("second"), b.Const("2-digit"));
+        b.SetProperty(b.Props, b.Const("second"), b.Const("2-digit"));
     }
 
 
@@ -601,7 +601,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZoneNameShort<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZoneName"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("timeZoneName"), b.Const("short"));
     }
 
 
@@ -610,7 +610,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZoneNameLong<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZoneName"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("timeZoneName"), b.Const("long"));
     }
 
 
@@ -619,7 +619,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZone<T>(this PropsBuilder<T> b, Var<string> timeZone) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZone"), timeZone);
+        b.SetProperty(b.Props, b.Const("timeZone"), timeZone);
     }
 
     /// <summary>
@@ -627,7 +627,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetTimeZone<T>(this PropsBuilder<T> b, string timeZone) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("timeZone"), b.Const(timeZone));
+        b.SetProperty(b.Props, b.Const("timeZone"), b.Const(timeZone));
     }
 
 
@@ -636,7 +636,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHourFormatAuto<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourFormat"), b.Const("auto"));
+        b.SetProperty(b.Props, b.Const("hourFormat"), b.Const("auto"));
     }
 
 
@@ -645,7 +645,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHourFormat12<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourFormat"), b.Const("12"));
+        b.SetProperty(b.Props, b.Const("hourFormat"), b.Const("12"));
     }
 
 
@@ -654,7 +654,7 @@ public static partial class SlFormatDateControl
     /// </summary>
     public static void SetHourFormat24<T>(this PropsBuilder<T> b) where T: SlFormatDate
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("hourFormat"), b.Const("24"));
+        b.SetProperty(b.Props, b.Const("hourFormat"), b.Const("24"));
     }
 
 

@@ -1,8 +1,6 @@
-﻿using Metapsi.JavaScript.ModuleContracts;
-using Metapsi.Syntax;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using Metapsi.Syntax;
 
 namespace Metapsi.JavaScript;
 
@@ -31,8 +29,9 @@ public static class JsModule
 
     public static string GetJs(Action<SyntaxBuilder> main, GenerateStyle style = GenerateStyle.Default)
     {
-        var module = Module.Build(main);
-        return module.ToJs(style);
+        var moduleBuilder = new ModuleBuilder();
+        moduleBuilder.AddFunction("main", main);
+        return moduleBuilder.Module.ToJs();
     }
 
     /// <summary>
@@ -41,11 +40,11 @@ public static class JsModule
     /// <param name="module"></param>
     /// <param name="style"></param>
     /// <returns></returns>
-    public static string ToJs(this Module module, GenerateStyle style = GenerateStyle.Default, bool callMain = true)
+    public static string ToJs(this ModuleDefinition module, GenerateStyle style = GenerateStyle.Default, bool callMain = true)
     {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.AppendLine(module.GetDefinition().ToJs());
+        stringBuilder.AppendLine(module.ToJs());
 
 //        switch (style)
 //        {

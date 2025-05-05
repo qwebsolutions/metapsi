@@ -1,4 +1,5 @@
 ﻿using Metapsi.Syntax;
+using System;
 
 namespace Metapsi.Hyperapp
 {
@@ -10,11 +11,11 @@ namespace Metapsi.Hyperapp
             Var<HyperType.Action<TState>> action)
         {
             var debounceProps = b.NewObj<DynamicObject>();
-            b.SetDynamic(debounceProps, new DynamicProperty<int>("wait"), delayMs);
-            b.SetDynamic(debounceProps, new DynamicProperty<HyperType.Action<TState>>("action"), action);
+            b.SetProperty(debounceProps, b.Const("wait"), delayMs);
+            b.SetProperty(debounceProps, b.Const("action"), action);
 
-            var debounceEffect = b.CallExternal<HyperType.Effect>("Debounce", "Debounce", debounceProps);
-            return debounceEffect;
+            var debounce = b.ImportName<Func<DynamicObject, HyperType.Effect>>("Debounce.js", "Debounce");
+            return b.Call(debounce, debounceProps);
         }
     }
 }

@@ -211,7 +211,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -220,7 +220,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -237,7 +237,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("closable"), b.Const(true));
     }
 
 
@@ -246,7 +246,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b, Var<bool> closable) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), closable);
+        b.SetProperty(b.Props, b.Const("closable"), closable);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetClosable<T>(this PropsBuilder<T> b, bool closable) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("closable"), b.Const(closable));
+        b.SetProperty(b.Props, b.Const("closable"), b.Const(closable));
     }
 
 
@@ -263,7 +263,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("primary"));
     }
 
 
@@ -272,7 +272,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("success"));
     }
 
 
@@ -281,7 +281,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("neutral"));
     }
 
 
@@ -290,7 +290,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("warning"));
     }
 
 
@@ -299,7 +299,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("danger"));
     }
 
 
@@ -308,7 +308,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
+        b.SetProperty(b.Props, b.Const("duration"), duration);
     }
 
     /// <summary>
@@ -316,7 +316,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+        b.SetProperty(b.Props, b.Const("duration"), b.Const(duration));
     }
 
 
@@ -325,7 +325,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetCountdownRtl<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("countdown"), b.Const("rtl"));
+        b.SetProperty(b.Props, b.Const("countdown"), b.Const("rtl"));
     }
 
 
@@ -334,7 +334,7 @@ public static partial class SlAlertControl
     /// </summary>
     public static void SetCountdownLtr<T>(this PropsBuilder<T> b) where T: SlAlert
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("countdown"), b.Const("ltr"));
+        b.SetProperty(b.Props, b.Const("countdown"), b.Const("ltr"));
     }
 
 

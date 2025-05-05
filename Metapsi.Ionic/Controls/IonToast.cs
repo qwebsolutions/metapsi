@@ -323,7 +323,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -332,7 +332,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -340,7 +340,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -349,7 +349,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<string>> buttons) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), buttons);
+        b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
 
     /// <summary>
@@ -357,7 +357,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetButtons<T>(this PropsBuilder<T> b, List<string> buttons) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("buttons"), b.Const(buttons));
+        b.SetProperty(b.Props, b.Const("buttons"), b.Const(buttons));
     }
 
 
@@ -366,7 +366,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetButtons<T>(this PropsBuilder<T> b, Var<List<ToastButton>> buttons) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<ToastButton>>("buttons"), buttons);
+        b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetButtons<T>(this PropsBuilder<T> b, List<ToastButton> buttons) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<ToastButton>>("buttons"), b.Const(buttons));
+        b.SetProperty(b.Props, b.Const("buttons"), b.Const(buttons));
     }
 
 
@@ -383,7 +383,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -392,7 +392,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -401,7 +401,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -410,7 +410,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -419,7 +419,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -428,7 +428,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -437,7 +437,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -446,7 +446,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -455,7 +455,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -464,7 +464,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> cssClass) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), cssClass);
+        b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
 
     /// <summary>
@@ -472,7 +472,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, string cssClass) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(cssClass));
+        b.SetProperty(b.Props, b.Const("cssClass"), b.Const(cssClass));
     }
 
 
@@ -481,7 +481,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> cssClass) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), cssClass);
+        b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
 
     /// <summary>
@@ -489,7 +489,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> cssClass) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(cssClass));
+        b.SetProperty(b.Props, b.Const("cssClass"), b.Const(cssClass));
     }
 
 
@@ -498,7 +498,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
+        b.SetProperty(b.Props, b.Const("duration"), duration);
     }
 
     /// <summary>
@@ -506,7 +506,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+        b.SetProperty(b.Props, b.Const("duration"), b.Const(duration));
     }
 
 
@@ -515,7 +515,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
+        b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
@@ -523,7 +523,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
 
 
@@ -532,7 +532,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetHeader<T>(this PropsBuilder<T> b, Var<string> header) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), header);
+        b.SetProperty(b.Props, b.Const("header"), header);
     }
 
     /// <summary>
@@ -540,7 +540,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetHeader<T>(this PropsBuilder<T> b, string header) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), b.Const(header));
+        b.SetProperty(b.Props, b.Const("header"), b.Const(header));
     }
 
 
@@ -549,7 +549,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
 
     /// <summary>
@@ -557,7 +557,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
 
 
@@ -566,7 +566,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetIcon<T>(this PropsBuilder<T> b, Var<string> icon) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("icon"), icon);
+        b.SetProperty(b.Props, b.Const("icon"), icon);
     }
 
     /// <summary>
@@ -574,7 +574,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetIcon<T>(this PropsBuilder<T> b, string icon) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("icon"), b.Const(icon));
+        b.SetProperty(b.Props, b.Const("icon"), b.Const(icon));
     }
 
 
@@ -583,7 +583,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(true));
     }
 
 
@@ -592,7 +592,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
+        b.SetProperty(b.Props, b.Const("isOpen"), isOpen);
     }
 
     /// <summary>
@@ -600,7 +600,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(isOpen));
     }
 
 
@@ -609,7 +609,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(true));
     }
 
 
@@ -618,7 +618,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
+        b.SetProperty(b.Props, b.Const("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
@@ -626,7 +626,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(keyboardClose));
     }
 
 
@@ -635,7 +635,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetLayoutBaseline<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("baseline"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("baseline"));
     }
 
 
@@ -644,7 +644,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetLayoutStacked<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("stacked"));
     }
 
 
@@ -653,7 +653,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
@@ -661,7 +661,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 
@@ -670,7 +670,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, Var<IonicSafeString> message) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("message"), message);
+        b.SetProperty(b.Props, b.Const("message"), message);
     }
 
 
@@ -680,7 +680,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, Var<string> message) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), message);
+        b.SetProperty(b.Props, b.Const("message"), message);
     }
 
     /// <summary>
@@ -688,7 +688,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, string message) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), b.Const(message));
+        b.SetProperty(b.Props, b.Const("message"), b.Const(message));
     }
 
 
@@ -697,7 +697,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -706,7 +706,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -715,7 +715,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionBottom<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("position"), b.Const("bottom"));
     }
 
 
@@ -724,7 +724,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionMiddle<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("middle"));
+        b.SetProperty(b.Props, b.Const("position"), b.Const("middle"));
     }
 
 
@@ -733,7 +733,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionTop<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("position"), b.Const("top"));
     }
 
 
@@ -742,7 +742,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionAnchor<T>(this PropsBuilder<T> b, Var<HTMLElement> positionAnchor) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("positionAnchor"), positionAnchor);
+        b.SetProperty(b.Props, b.Const("positionAnchor"), positionAnchor);
     }
 
     /// <summary>
@@ -750,7 +750,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionAnchor<T>(this PropsBuilder<T> b, HTMLElement positionAnchor) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("positionAnchor"), b.Const(positionAnchor));
+        b.SetProperty(b.Props, b.Const("positionAnchor"), b.Const(positionAnchor));
     }
 
 
@@ -759,7 +759,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionAnchor<T>(this PropsBuilder<T> b, Var<string> positionAnchor) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("positionAnchor"), positionAnchor);
+        b.SetProperty(b.Props, b.Const("positionAnchor"), positionAnchor);
     }
 
     /// <summary>
@@ -767,7 +767,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetPositionAnchor<T>(this PropsBuilder<T> b, string positionAnchor) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("positionAnchor"), b.Const(positionAnchor));
+        b.SetProperty(b.Props, b.Const("positionAnchor"), b.Const(positionAnchor));
     }
 
 
@@ -776,7 +776,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetSwipeGestureVertical<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("swipeGesture"), b.Const("vertical"));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const("vertical"));
     }
 
 
@@ -785,7 +785,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -794,7 +794,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -802,7 +802,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 
@@ -811,7 +811,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
+        b.SetProperty(b.Props, b.Const("trigger"), trigger);
     }
 
     /// <summary>
@@ -819,7 +819,7 @@ public static partial class IonToastControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonToast
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+        b.SetProperty(b.Props, b.Const("trigger"), b.Const(trigger));
     }
 
 

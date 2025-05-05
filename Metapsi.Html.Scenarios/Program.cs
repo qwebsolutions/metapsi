@@ -5,8 +5,6 @@ using System;
 using Metapsi.Html;
 using Metapsi.Syntax;
 using Metapsi.Hyperapp;
-using Metapsi.Shoelace;
-using Metapsi.Ionic;
 using System.Collections.Generic;
 using System.Linq;
 using Metapsi.SignalR;
@@ -16,6 +14,7 @@ public class DataModel
     public bool ShowText { get; set; }
     public string Title { get; set; } = "Title";
     public string Message { get; set; } = "";
+    public List<string> List { get; set; } = new();
 
     public string Length { get; set; }
 
@@ -102,6 +101,49 @@ public static class Program
 
     public static async Task Main()
     {
+
+        //var module = Metapsi.Syntax.Module.Build(b =>
+        //{
+        //    var inlineFunc = b.Def((SyntaxBuilder b, Var<DataModel> model) =>
+        //    {
+        //        var title = b.Get(model, x => x.Title);
+        //        b.Log(title);
+        //        var nested = b.Get(model, x => x.Nested);
+        //        b.Log(b.Get(nested, x => x.NestedMessage));
+        //        b.If(
+        //            b.Get(model, x => x.List.Any()),
+        //            b =>
+        //            {
+
+        //            },
+        //            b=>
+        //            {
+
+        //            });
+        //        b.Foreach(
+        //            b.Get(model, x => x.List),
+        //            (b, item) =>
+        //            {
+        //                b.Log("item is ", item);
+        //                var one = b.Const(1);
+        //            });
+        //    });
+
+        //    b.Call(inlineFunc, b.Const(new DataModel()));
+        //});
+
+        //var serializable = module.GetDefinition();
+        //var options = new JsonSerializerOptions();
+        //options.Converters.Add(new SyntaxNodeConverter());
+        //options.Converters.Add(new JsonStringEnumConverter());
+        //options.WriteIndented = true;
+        //var moduleJson = System.Text.Json.JsonSerializer.Serialize(serializable, options);
+        //var back = System.Text.Json.JsonSerializer.Deserialize<ModuleDefinition>(moduleJson, options);
+        //Console.WriteLine("!!!!!!!!!!! TO JS");
+        //Console.WriteLine(back.ToJs());
+
+        //Environment.Exit(0);
+
         //var converted = Metapsi.JavaScript.LinqConverter.ToJavaScript(() => "test");
 
         //Environment.Exit(0);
@@ -528,6 +570,7 @@ public static class Program
                         b =>
                         {
                             b.AddStyle("display", "flex");
+                            b.Comment("Display flex");
                             b.AddStyle(
                                 "color",
                                 b.If(

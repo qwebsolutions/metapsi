@@ -114,7 +114,7 @@ public static partial class IonRouterControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Var<string> root) where T: IonRouter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("root"), root);
+        b.SetProperty(b.Props, b.Const("root"), root);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public static partial class IonRouterControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, string root) where T: IonRouter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("root"), b.Const(root));
+        b.SetProperty(b.Props, b.Const("root"), b.Const(root));
     }
 
 
@@ -131,7 +131,7 @@ public static partial class IonRouterControl
     /// </summary>
     public static void SetUseHash<T>(this PropsBuilder<T> b) where T: IonRouter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("useHash"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("useHash"), b.Const(true));
     }
 
 
@@ -140,7 +140,7 @@ public static partial class IonRouterControl
     /// </summary>
     public static void SetUseHash<T>(this PropsBuilder<T> b, Var<bool> useHash) where T: IonRouter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("useHash"), useHash);
+        b.SetProperty(b.Props, b.Const("useHash"), useHash);
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ public static partial class IonRouterControl
     /// </summary>
     public static void SetUseHash<T>(this PropsBuilder<T> b, bool useHash) where T: IonRouter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("useHash"), b.Const(useHash));
+        b.SetProperty(b.Props, b.Const("useHash"), b.Const(useHash));
     }
 
 

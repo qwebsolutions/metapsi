@@ -266,7 +266,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffset<T>(this PropsBuilder<T> b, Var<string> offset) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), offset);
+        b.SetProperty(b.Props, b.Const("offset"), offset);
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffset<T>(this PropsBuilder<T> b, string offset) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offset"), b.Const(offset));
+        b.SetProperty(b.Props, b.Const("offset"), b.Const(offset));
     }
 
 
@@ -283,7 +283,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetLg<T>(this PropsBuilder<T> b, Var<string> offsetLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), offsetLg);
+        b.SetProperty(b.Props, b.Const("offsetLg"), offsetLg);
     }
 
     /// <summary>
@@ -291,7 +291,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetLg<T>(this PropsBuilder<T> b, string offsetLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetLg"), b.Const(offsetLg));
+        b.SetProperty(b.Props, b.Const("offsetLg"), b.Const(offsetLg));
     }
 
 
@@ -300,7 +300,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetMd<T>(this PropsBuilder<T> b, Var<string> offsetMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), offsetMd);
+        b.SetProperty(b.Props, b.Const("offsetMd"), offsetMd);
     }
 
     /// <summary>
@@ -308,7 +308,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetMd<T>(this PropsBuilder<T> b, string offsetMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetMd"), b.Const(offsetMd));
+        b.SetProperty(b.Props, b.Const("offsetMd"), b.Const(offsetMd));
     }
 
 
@@ -317,7 +317,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetSm<T>(this PropsBuilder<T> b, Var<string> offsetSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), offsetSm);
+        b.SetProperty(b.Props, b.Const("offsetSm"), offsetSm);
     }
 
     /// <summary>
@@ -325,7 +325,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetSm<T>(this PropsBuilder<T> b, string offsetSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetSm"), b.Const(offsetSm));
+        b.SetProperty(b.Props, b.Const("offsetSm"), b.Const(offsetSm));
     }
 
 
@@ -334,7 +334,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetXl<T>(this PropsBuilder<T> b, Var<string> offsetXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), offsetXl);
+        b.SetProperty(b.Props, b.Const("offsetXl"), offsetXl);
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetXl<T>(this PropsBuilder<T> b, string offsetXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXl"), b.Const(offsetXl));
+        b.SetProperty(b.Props, b.Const("offsetXl"), b.Const(offsetXl));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetXs<T>(this PropsBuilder<T> b, Var<string> offsetXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), offsetXs);
+        b.SetProperty(b.Props, b.Const("offsetXs"), offsetXs);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetOffsetXs<T>(this PropsBuilder<T> b, string offsetXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("offsetXs"), b.Const(offsetXs));
+        b.SetProperty(b.Props, b.Const("offsetXs"), b.Const(offsetXs));
     }
 
 
@@ -368,7 +368,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPull<T>(this PropsBuilder<T> b, Var<string> pull) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), pull);
+        b.SetProperty(b.Props, b.Const("pull"), pull);
     }
 
     /// <summary>
@@ -376,7 +376,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPull<T>(this PropsBuilder<T> b, string pull) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pull"), b.Const(pull));
+        b.SetProperty(b.Props, b.Const("pull"), b.Const(pull));
     }
 
 
@@ -385,7 +385,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullLg<T>(this PropsBuilder<T> b, Var<string> pullLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), pullLg);
+        b.SetProperty(b.Props, b.Const("pullLg"), pullLg);
     }
 
     /// <summary>
@@ -393,7 +393,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullLg<T>(this PropsBuilder<T> b, string pullLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullLg"), b.Const(pullLg));
+        b.SetProperty(b.Props, b.Const("pullLg"), b.Const(pullLg));
     }
 
 
@@ -402,7 +402,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullMd<T>(this PropsBuilder<T> b, Var<string> pullMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), pullMd);
+        b.SetProperty(b.Props, b.Const("pullMd"), pullMd);
     }
 
     /// <summary>
@@ -410,7 +410,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullMd<T>(this PropsBuilder<T> b, string pullMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullMd"), b.Const(pullMd));
+        b.SetProperty(b.Props, b.Const("pullMd"), b.Const(pullMd));
     }
 
 
@@ -419,7 +419,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullSm<T>(this PropsBuilder<T> b, Var<string> pullSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), pullSm);
+        b.SetProperty(b.Props, b.Const("pullSm"), pullSm);
     }
 
     /// <summary>
@@ -427,7 +427,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullSm<T>(this PropsBuilder<T> b, string pullSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullSm"), b.Const(pullSm));
+        b.SetProperty(b.Props, b.Const("pullSm"), b.Const(pullSm));
     }
 
 
@@ -436,7 +436,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullXl<T>(this PropsBuilder<T> b, Var<string> pullXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), pullXl);
+        b.SetProperty(b.Props, b.Const("pullXl"), pullXl);
     }
 
     /// <summary>
@@ -444,7 +444,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullXl<T>(this PropsBuilder<T> b, string pullXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXl"), b.Const(pullXl));
+        b.SetProperty(b.Props, b.Const("pullXl"), b.Const(pullXl));
     }
 
 
@@ -453,7 +453,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullXs<T>(this PropsBuilder<T> b, Var<string> pullXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), pullXs);
+        b.SetProperty(b.Props, b.Const("pullXs"), pullXs);
     }
 
     /// <summary>
@@ -461,7 +461,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPullXs<T>(this PropsBuilder<T> b, string pullXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullXs"), b.Const(pullXs));
+        b.SetProperty(b.Props, b.Const("pullXs"), b.Const(pullXs));
     }
 
 
@@ -470,7 +470,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPush<T>(this PropsBuilder<T> b, Var<string> push) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), push);
+        b.SetProperty(b.Props, b.Const("push"), push);
     }
 
     /// <summary>
@@ -478,7 +478,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPush<T>(this PropsBuilder<T> b, string push) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("push"), b.Const(push));
+        b.SetProperty(b.Props, b.Const("push"), b.Const(push));
     }
 
 
@@ -487,7 +487,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushLg<T>(this PropsBuilder<T> b, Var<string> pushLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), pushLg);
+        b.SetProperty(b.Props, b.Const("pushLg"), pushLg);
     }
 
     /// <summary>
@@ -495,7 +495,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushLg<T>(this PropsBuilder<T> b, string pushLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushLg"), b.Const(pushLg));
+        b.SetProperty(b.Props, b.Const("pushLg"), b.Const(pushLg));
     }
 
 
@@ -504,7 +504,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushMd<T>(this PropsBuilder<T> b, Var<string> pushMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), pushMd);
+        b.SetProperty(b.Props, b.Const("pushMd"), pushMd);
     }
 
     /// <summary>
@@ -512,7 +512,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushMd<T>(this PropsBuilder<T> b, string pushMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushMd"), b.Const(pushMd));
+        b.SetProperty(b.Props, b.Const("pushMd"), b.Const(pushMd));
     }
 
 
@@ -521,7 +521,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushSm<T>(this PropsBuilder<T> b, Var<string> pushSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), pushSm);
+        b.SetProperty(b.Props, b.Const("pushSm"), pushSm);
     }
 
     /// <summary>
@@ -529,7 +529,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushSm<T>(this PropsBuilder<T> b, string pushSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushSm"), b.Const(pushSm));
+        b.SetProperty(b.Props, b.Const("pushSm"), b.Const(pushSm));
     }
 
 
@@ -538,7 +538,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushXl<T>(this PropsBuilder<T> b, Var<string> pushXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), pushXl);
+        b.SetProperty(b.Props, b.Const("pushXl"), pushXl);
     }
 
     /// <summary>
@@ -546,7 +546,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushXl<T>(this PropsBuilder<T> b, string pushXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXl"), b.Const(pushXl));
+        b.SetProperty(b.Props, b.Const("pushXl"), b.Const(pushXl));
     }
 
 
@@ -555,7 +555,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushXs<T>(this PropsBuilder<T> b, Var<string> pushXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), pushXs);
+        b.SetProperty(b.Props, b.Const("pushXs"), pushXs);
     }
 
     /// <summary>
@@ -563,7 +563,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetPushXs<T>(this PropsBuilder<T> b, string pushXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pushXs"), b.Const(pushXs));
+        b.SetProperty(b.Props, b.Const("pushXs"), b.Const(pushXs));
     }
 
 
@@ -572,7 +572,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSize<T>(this PropsBuilder<T> b, Var<string> size) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), size);
+        b.SetProperty(b.Props, b.Const("size"), size);
     }
 
     /// <summary>
@@ -580,7 +580,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSize<T>(this PropsBuilder<T> b, string size) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const(size));
+        b.SetProperty(b.Props, b.Const("size"), b.Const(size));
     }
 
 
@@ -589,7 +589,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeLg<T>(this PropsBuilder<T> b, Var<string> sizeLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), sizeLg);
+        b.SetProperty(b.Props, b.Const("sizeLg"), sizeLg);
     }
 
     /// <summary>
@@ -597,7 +597,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeLg<T>(this PropsBuilder<T> b, string sizeLg) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeLg"), b.Const(sizeLg));
+        b.SetProperty(b.Props, b.Const("sizeLg"), b.Const(sizeLg));
     }
 
 
@@ -606,7 +606,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeMd<T>(this PropsBuilder<T> b, Var<string> sizeMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), sizeMd);
+        b.SetProperty(b.Props, b.Const("sizeMd"), sizeMd);
     }
 
     /// <summary>
@@ -614,7 +614,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeMd<T>(this PropsBuilder<T> b, string sizeMd) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeMd"), b.Const(sizeMd));
+        b.SetProperty(b.Props, b.Const("sizeMd"), b.Const(sizeMd));
     }
 
 
@@ -623,7 +623,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeSm<T>(this PropsBuilder<T> b, Var<string> sizeSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), sizeSm);
+        b.SetProperty(b.Props, b.Const("sizeSm"), sizeSm);
     }
 
     /// <summary>
@@ -631,7 +631,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeSm<T>(this PropsBuilder<T> b, string sizeSm) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeSm"), b.Const(sizeSm));
+        b.SetProperty(b.Props, b.Const("sizeSm"), b.Const(sizeSm));
     }
 
 
@@ -640,7 +640,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeXl<T>(this PropsBuilder<T> b, Var<string> sizeXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), sizeXl);
+        b.SetProperty(b.Props, b.Const("sizeXl"), sizeXl);
     }
 
     /// <summary>
@@ -648,7 +648,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeXl<T>(this PropsBuilder<T> b, string sizeXl) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXl"), b.Const(sizeXl));
+        b.SetProperty(b.Props, b.Const("sizeXl"), b.Const(sizeXl));
     }
 
 
@@ -657,7 +657,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeXs<T>(this PropsBuilder<T> b, Var<string> sizeXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), sizeXs);
+        b.SetProperty(b.Props, b.Const("sizeXs"), sizeXs);
     }
 
     /// <summary>
@@ -665,7 +665,7 @@ public static partial class IonColControl
     /// </summary>
     public static void SetSizeXs<T>(this PropsBuilder<T> b, string sizeXs) where T: IonCol
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("sizeXs"), b.Const(sizeXs));
+        b.SetProperty(b.Props, b.Const("sizeXs"), b.Const(sizeXs));
     }
 
 

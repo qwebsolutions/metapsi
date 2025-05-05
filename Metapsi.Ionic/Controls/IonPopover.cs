@@ -477,7 +477,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("center"));
+        b.SetProperty(b.Props, b.Const("alignment"), b.Const("center"));
     }
 
 
@@ -486,7 +486,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAlignmentEnd<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("alignment"), b.Const("end"));
     }
 
 
@@ -495,7 +495,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("alignment"), b.Const("start"));
     }
 
 
@@ -504,7 +504,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -513,7 +513,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -521,7 +521,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -530,7 +530,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetArrow<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("arrow"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("arrow"), b.Const(true));
     }
 
 
@@ -539,7 +539,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetArrow<T>(this PropsBuilder<T> b, Var<bool> arrow) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("arrow"), arrow);
+        b.SetProperty(b.Props, b.Const("arrow"), arrow);
     }
 
     /// <summary>
@@ -547,7 +547,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetArrow<T>(this PropsBuilder<T> b, bool arrow) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("arrow"), b.Const(arrow));
+        b.SetProperty(b.Props, b.Const("arrow"), b.Const(arrow));
     }
 
 
@@ -556,7 +556,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(true));
     }
 
 
@@ -565,7 +565,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> backdropDismiss) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), backdropDismiss);
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), backdropDismiss);
     }
 
     /// <summary>
@@ -573,7 +573,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool backdropDismiss) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(backdropDismiss));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(backdropDismiss));
     }
 
 
@@ -582,7 +582,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -590,7 +590,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -599,7 +599,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<HTMLElement> component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -607,7 +607,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, HTMLElement component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -616,7 +616,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, string component) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -633,7 +633,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), componentProps);
+        b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
 
     /// <summary>
@@ -641,7 +641,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(componentProps));
+        b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
 
 
@@ -650,7 +650,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetDismissOnSelect<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dismissOnSelect"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("dismissOnSelect"), b.Const(true));
     }
 
 
@@ -659,7 +659,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetDismissOnSelect<T>(this PropsBuilder<T> b, Var<bool> dismissOnSelect) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dismissOnSelect"), dismissOnSelect);
+        b.SetProperty(b.Props, b.Const("dismissOnSelect"), dismissOnSelect);
     }
 
     /// <summary>
@@ -667,7 +667,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetDismissOnSelect<T>(this PropsBuilder<T> b, bool dismissOnSelect) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("dismissOnSelect"), b.Const(dismissOnSelect));
+        b.SetProperty(b.Props, b.Const("dismissOnSelect"), b.Const(dismissOnSelect));
     }
 
 
@@ -676,7 +676,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
+        b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
@@ -684,7 +684,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
 
 
@@ -693,7 +693,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetEvent<T>(this PropsBuilder<T> b, Var<DynamicObject> @event) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("event"), @event);
+        b.SetProperty(b.Props, b.Const("event"), @event);
     }
 
     /// <summary>
@@ -701,7 +701,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetEvent<T>(this PropsBuilder<T> b, DynamicObject @event) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("event"), b.Const(@event));
+        b.SetProperty(b.Props, b.Const("event"), b.Const(@event));
     }
 
 
@@ -710,7 +710,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("focusTrap"), b.Const(true));
     }
 
 
@@ -719,7 +719,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b, Var<bool> focusTrap) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), focusTrap);
+        b.SetProperty(b.Props, b.Const("focusTrap"), focusTrap);
     }
 
     /// <summary>
@@ -727,7 +727,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b, bool focusTrap) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(focusTrap));
+        b.SetProperty(b.Props, b.Const("focusTrap"), b.Const(focusTrap));
     }
 
 
@@ -736,7 +736,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
 
     /// <summary>
@@ -744,7 +744,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
 
 
@@ -753,7 +753,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(true));
     }
 
 
@@ -762,7 +762,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
+        b.SetProperty(b.Props, b.Const("isOpen"), isOpen);
     }
 
     /// <summary>
@@ -770,7 +770,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(isOpen));
     }
 
 
@@ -779,7 +779,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), b.Const(true));
     }
 
 
@@ -788,7 +788,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, Var<bool> keepContentsMounted) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), keepContentsMounted);
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), keepContentsMounted);
     }
 
     /// <summary>
@@ -796,7 +796,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, bool keepContentsMounted) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), b.Const(keepContentsMounted));
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), b.Const(keepContentsMounted));
     }
 
 
@@ -805,7 +805,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(true));
     }
 
 
@@ -814,7 +814,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
+        b.SetProperty(b.Props, b.Const("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
@@ -822,7 +822,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(keyboardClose));
     }
 
 
@@ -831,7 +831,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 
@@ -848,7 +848,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -857,7 +857,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -866,7 +866,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetReferenceEvent<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("reference"), b.Const("event"));
+        b.SetProperty(b.Props, b.Const("reference"), b.Const("event"));
     }
 
 
@@ -875,7 +875,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetReferenceTrigger<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("reference"), b.Const("trigger"));
+        b.SetProperty(b.Props, b.Const("reference"), b.Const("trigger"));
     }
 
 
@@ -884,7 +884,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(true));
     }
 
 
@@ -893,7 +893,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> showBackdrop) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), showBackdrop);
+        b.SetProperty(b.Props, b.Const("showBackdrop"), showBackdrop);
     }
 
     /// <summary>
@@ -901,7 +901,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool showBackdrop) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(showBackdrop));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(showBackdrop));
     }
 
 
@@ -910,7 +910,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideBottom<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("bottom"));
     }
 
 
@@ -919,7 +919,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("end"));
     }
 
 
@@ -928,7 +928,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideLeft<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("left"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("left"));
     }
 
 
@@ -937,7 +937,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideRight<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("right"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("right"));
     }
 
 
@@ -946,7 +946,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("start"));
     }
 
 
@@ -955,7 +955,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSideTop<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("top"));
     }
 
 
@@ -964,7 +964,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSizeAuto<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("auto"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("auto"));
     }
 
 
@@ -973,7 +973,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetSizeCover<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("cover"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("cover"));
     }
 
 
@@ -982,7 +982,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -991,7 +991,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -999,7 +999,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 
@@ -1008,7 +1008,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
+        b.SetProperty(b.Props, b.Const("trigger"), trigger);
     }
 
     /// <summary>
@@ -1016,7 +1016,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+        b.SetProperty(b.Props, b.Const("trigger"), b.Const(trigger));
     }
 
 
@@ -1025,7 +1025,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTriggerActionClick<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("click"));
+        b.SetProperty(b.Props, b.Const("triggerAction"), b.Const("click"));
     }
 
 
@@ -1034,7 +1034,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTriggerActionContextMenu<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("context-menu"));
+        b.SetProperty(b.Props, b.Const("triggerAction"), b.Const("context-menu"));
     }
 
 
@@ -1043,7 +1043,7 @@ public static partial class IonPopoverControl
     /// </summary>
     public static void SetTriggerActionHover<T>(this PropsBuilder<T> b) where T: IonPopover
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("triggerAction"), b.Const("hover"));
+        b.SetProperty(b.Props, b.Const("triggerAction"), b.Const("hover"));
     }
 
 

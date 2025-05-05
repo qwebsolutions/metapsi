@@ -130,7 +130,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), src);
+        b.SetProperty(b.Props, b.Const("src"), src);
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(src));
+        b.SetProperty(b.Props, b.Const("src"), b.Const(src));
     }
 
 
@@ -147,7 +147,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetModeCors<T>(this PropsBuilder<T> b) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("cors"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("cors"));
     }
 
 
@@ -156,7 +156,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetModeNoCors<T>(this PropsBuilder<T> b) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("no-cors"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("no-cors"));
     }
 
 
@@ -165,7 +165,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetModeSameOrigin<T>(this PropsBuilder<T> b) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("same-origin"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("same-origin"));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetAllowScripts<T>(this PropsBuilder<T> b) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowScripts"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("allowScripts"), b.Const(true));
     }
 
 
@@ -183,7 +183,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetAllowScripts<T>(this PropsBuilder<T> b, Var<bool> allowScripts) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowScripts"), allowScripts);
+        b.SetProperty(b.Props, b.Const("allowScripts"), allowScripts);
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ public static partial class SlIncludeControl
     /// </summary>
     public static void SetAllowScripts<T>(this PropsBuilder<T> b, bool allowScripts) where T: SlInclude
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("allowScripts"), b.Const(allowScripts));
+        b.SetProperty(b.Props, b.Const("allowScripts"), b.Const(allowScripts));
     }
 
 

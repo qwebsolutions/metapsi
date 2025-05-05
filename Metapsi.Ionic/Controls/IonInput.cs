@@ -1193,7 +1193,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, Var<string> autocapitalize) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), autocapitalize);
+        b.SetProperty(b.Props, b.Const("autocapitalize"), autocapitalize);
     }
 
     /// <summary>
@@ -1201,7 +1201,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, string autocapitalize) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const(autocapitalize));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const(autocapitalize));
     }
 
 
@@ -1210,7 +1210,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("name"));
     }
 
 
@@ -1219,7 +1219,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteEmail<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("email"));
     }
 
 
@@ -1228,7 +1228,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTel<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel"));
     }
 
 
@@ -1237,7 +1237,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteUrl<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("url"));
     }
 
 
@@ -1246,7 +1246,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteOn<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("on"));
     }
 
 
@@ -1255,7 +1255,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteOff<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("off"));
     }
 
 
@@ -1264,7 +1264,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteHonorificPrefix<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-prefix"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("honorific-prefix"));
     }
 
 
@@ -1273,7 +1273,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteGivenName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("given-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("given-name"));
     }
 
 
@@ -1282,7 +1282,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAdditionalName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("additional-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("additional-name"));
     }
 
 
@@ -1291,7 +1291,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteFamilyName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("family-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("family-name"));
     }
 
 
@@ -1300,7 +1300,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteHonorificSuffix<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-suffix"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("honorific-suffix"));
     }
 
 
@@ -1309,7 +1309,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteNickname<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("nickname"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("nickname"));
     }
 
 
@@ -1318,7 +1318,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteUsername<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("username"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("username"));
     }
 
 
@@ -1327,7 +1327,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteNewPassword<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("new-password"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("new-password"));
     }
 
 
@@ -1336,7 +1336,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCurrentPassword<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("current-password"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("current-password"));
     }
 
 
@@ -1345,7 +1345,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteOneTimeCode<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("one-time-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("one-time-code"));
     }
 
 
@@ -1354,7 +1354,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteOrganizationTitle<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization-title"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("organization-title"));
     }
 
 
@@ -1363,7 +1363,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteOrganization<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("organization"));
     }
 
 
@@ -1372,7 +1372,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteStreetAddress<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("street-address"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("street-address"));
     }
 
 
@@ -1381,7 +1381,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLine1<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line1"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line1"));
     }
 
 
@@ -1390,7 +1390,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLine2<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line2"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line2"));
     }
 
 
@@ -1399,7 +1399,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLine3<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line3"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line3"));
     }
 
 
@@ -1408,7 +1408,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLevel4<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level4"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level4"));
     }
 
 
@@ -1417,7 +1417,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLevel3<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level3"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level3"));
     }
 
 
@@ -1426,7 +1426,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLevel2<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level2"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level2"));
     }
 
 
@@ -1435,7 +1435,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteAddressLevel1<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level1"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level1"));
     }
 
 
@@ -1444,7 +1444,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCountry<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("country"));
     }
 
 
@@ -1453,7 +1453,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCountryName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("country-name"));
     }
 
 
@@ -1462,7 +1462,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompletePostalCode<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("postal-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("postal-code"));
     }
 
 
@@ -1471,7 +1471,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-name"));
     }
 
 
@@ -1480,7 +1480,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcGivenName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-given-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-given-name"));
     }
 
 
@@ -1489,7 +1489,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcAdditionalName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-additional-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-additional-name"));
     }
 
 
@@ -1498,7 +1498,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcFamilyName<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-family-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-family-name"));
     }
 
 
@@ -1507,7 +1507,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcNumber<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-number"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-number"));
     }
 
 
@@ -1516,7 +1516,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcExp<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp"));
     }
 
 
@@ -1525,7 +1525,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcExpMonth<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-month"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp-month"));
     }
 
 
@@ -1534,7 +1534,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcExpYear<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-year"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp-year"));
     }
 
 
@@ -1543,7 +1543,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcCsc<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-csc"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-csc"));
     }
 
 
@@ -1552,7 +1552,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteCcType<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-type"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-type"));
     }
 
 
@@ -1561,7 +1561,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTransactionCurrency<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-currency"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("transaction-currency"));
     }
 
 
@@ -1570,7 +1570,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTransactionAmount<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-amount"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("transaction-amount"));
     }
 
 
@@ -1579,7 +1579,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteLanguage<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("language"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("language"));
     }
 
 
@@ -1588,7 +1588,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteBday<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday"));
     }
 
 
@@ -1597,7 +1597,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteBdayDay<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-day"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-day"));
     }
 
 
@@ -1606,7 +1606,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteBdayMonth<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-month"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-month"));
     }
 
 
@@ -1615,7 +1615,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteBdayYear<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-year"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-year"));
     }
 
 
@@ -1624,7 +1624,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteSex<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("sex"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("sex"));
     }
 
 
@@ -1633,7 +1633,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTelCountryCode<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-country-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-country-code"));
     }
 
 
@@ -1642,7 +1642,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTelNational<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-national"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-national"));
     }
 
 
@@ -1651,7 +1651,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTelAreaCode<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-area-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-area-code"));
     }
 
 
@@ -1660,7 +1660,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTelLocal<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-local"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-local"));
     }
 
 
@@ -1669,7 +1669,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteTelExtension<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-extension"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-extension"));
     }
 
 
@@ -1678,7 +1678,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompleteImpp<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("impp"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("impp"));
     }
 
 
@@ -1687,7 +1687,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocompletePhoto<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("photo"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("photo"));
     }
 
 
@@ -1696,7 +1696,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("off"));
     }
 
 
@@ -1705,7 +1705,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("on"));
     }
 
 
@@ -1714,7 +1714,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(true));
     }
 
 
@@ -1723,7 +1723,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
+        b.SetProperty(b.Props, b.Const("autofocus"), autofocus);
     }
 
     /// <summary>
@@ -1731,7 +1731,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(autofocus));
     }
 
 
@@ -1740,7 +1740,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearInput<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearInput"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("clearInput"), b.Const(true));
     }
 
 
@@ -1749,7 +1749,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearInput<T>(this PropsBuilder<T> b, Var<bool> clearInput) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearInput"), clearInput);
+        b.SetProperty(b.Props, b.Const("clearInput"), clearInput);
     }
 
     /// <summary>
@@ -1757,7 +1757,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearInput<T>(this PropsBuilder<T> b, bool clearInput) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearInput"), b.Const(clearInput));
+        b.SetProperty(b.Props, b.Const("clearInput"), b.Const(clearInput));
     }
 
 
@@ -1766,7 +1766,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearInputIcon<T>(this PropsBuilder<T> b, Var<string> clearInputIcon) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearInputIcon"), clearInputIcon);
+        b.SetProperty(b.Props, b.Const("clearInputIcon"), clearInputIcon);
     }
 
     /// <summary>
@@ -1774,7 +1774,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearInputIcon<T>(this PropsBuilder<T> b, string clearInputIcon) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearInputIcon"), b.Const(clearInputIcon));
+        b.SetProperty(b.Props, b.Const("clearInputIcon"), b.Const(clearInputIcon));
     }
 
 
@@ -1783,7 +1783,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), b.Const(true));
     }
 
 
@@ -1792,7 +1792,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b, Var<bool> clearOnEdit) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), clearOnEdit);
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), clearOnEdit);
     }
 
     /// <summary>
@@ -1800,7 +1800,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetClearOnEdit<T>(this PropsBuilder<T> b, bool clearOnEdit) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearOnEdit"), b.Const(clearOnEdit));
+        b.SetProperty(b.Props, b.Const("clearOnEdit"), b.Const(clearOnEdit));
     }
 
 
@@ -1809,7 +1809,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -1818,7 +1818,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -1827,7 +1827,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -1836,7 +1836,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -1845,7 +1845,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -1854,7 +1854,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -1863,7 +1863,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -1872,7 +1872,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -1881,7 +1881,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -1890,7 +1890,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("counter"), b.Const(true));
     }
 
 
@@ -1899,7 +1899,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b, Var<bool> counter) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), counter);
+        b.SetProperty(b.Props, b.Const("counter"), counter);
     }
 
     /// <summary>
@@ -1907,7 +1907,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetCounter<T>(this PropsBuilder<T> b, bool counter) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("counter"), b.Const(counter));
+        b.SetProperty(b.Props, b.Const("counter"), b.Const(counter));
     }
 
 
@@ -1916,7 +1916,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetCounterFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,int,string>> counterFormatter) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), counterFormatter);
+        b.SetProperty(b.Props, b.Const("counterFormatter"), counterFormatter);
     }
 
     /// <summary>
@@ -1924,7 +1924,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetCounterFormatter<T>(this PropsBuilder<T> b, System.Func<int,int,string> counterFormatter) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,int,string>>("counterFormatter"), b.Const(counterFormatter));
+        b.SetProperty(b.Props, b.Const("counterFormatter"), b.Const(counterFormatter));
     }
 
 
@@ -1933,7 +1933,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
+        b.SetProperty(b.Props, b.Const("debounce"), debounce);
     }
 
     /// <summary>
@@ -1941,7 +1941,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
+        b.SetProperty(b.Props, b.Const("debounce"), b.Const(debounce));
     }
 
 
@@ -1950,7 +1950,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -1959,7 +1959,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -1967,7 +1967,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -1976,7 +1976,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("done"));
     }
 
 
@@ -1985,7 +1985,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("enter"));
     }
 
 
@@ -1994,7 +1994,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("go"));
     }
 
 
@@ -2003,7 +2003,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("next"));
     }
 
 
@@ -2012,7 +2012,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("previous"));
     }
 
 
@@ -2021,7 +2021,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("search"));
     }
 
 
@@ -2030,7 +2030,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("send"));
     }
 
 
@@ -2039,7 +2039,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+        b.SetProperty(b.Props, b.Const("errorText"), errorText);
     }
 
     /// <summary>
@@ -2047,7 +2047,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+        b.SetProperty(b.Props, b.Const("errorText"), b.Const(errorText));
     }
 
 
@@ -2056,7 +2056,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("outline"));
     }
 
 
@@ -2065,7 +2065,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("solid"));
     }
 
 
@@ -2074,7 +2074,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+        b.SetProperty(b.Props, b.Const("helperText"), helperText);
     }
 
     /// <summary>
@@ -2082,7 +2082,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+        b.SetProperty(b.Props, b.Const("helperText"), b.Const(helperText));
     }
 
 
@@ -2091,7 +2091,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("decimal"));
     }
 
 
@@ -2100,7 +2100,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("email"));
     }
 
 
@@ -2109,7 +2109,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("none"));
     }
 
 
@@ -2118,7 +2118,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("numeric"));
     }
 
 
@@ -2127,7 +2127,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("search"));
     }
 
 
@@ -2136,7 +2136,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("tel"));
     }
 
 
@@ -2145,7 +2145,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("text"));
     }
 
 
@@ -2154,7 +2154,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("url"));
     }
 
 
@@ -2163,7 +2163,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -2171,7 +2171,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -2180,7 +2180,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("end"));
     }
 
 
@@ -2189,7 +2189,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("fixed"));
     }
 
 
@@ -2198,7 +2198,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("floating"));
     }
 
 
@@ -2207,7 +2207,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("stacked"));
     }
 
 
@@ -2216,7 +2216,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("start"));
     }
 
 
@@ -2225,7 +2225,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -2233,7 +2233,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -2242,7 +2242,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<string> max) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -2250,7 +2250,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, string max) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -2259,7 +2259,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
+        b.SetProperty(b.Props, b.Const("maxlength"), maxlength);
     }
 
     /// <summary>
@@ -2267,7 +2267,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
+        b.SetProperty(b.Props, b.Const("maxlength"), b.Const(maxlength));
     }
 
 
@@ -2276,7 +2276,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -2284,7 +2284,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -2293,7 +2293,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<string> min) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -2301,7 +2301,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, string min) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -2310,7 +2310,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
+        b.SetProperty(b.Props, b.Const("minlength"), minlength);
     }
 
     /// <summary>
@@ -2318,7 +2318,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+        b.SetProperty(b.Props, b.Const("minlength"), b.Const(minlength));
     }
 
 
@@ -2327,7 +2327,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -2336,7 +2336,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -2345,7 +2345,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -2354,7 +2354,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -2362,7 +2362,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -2371,7 +2371,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -2379,7 +2379,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -2388,7 +2388,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetPattern<T>(this PropsBuilder<T> b, Var<string> pattern) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), pattern);
+        b.SetProperty(b.Props, b.Const("pattern"), pattern);
     }
 
     /// <summary>
@@ -2396,7 +2396,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetPattern<T>(this PropsBuilder<T> b, string pattern) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), b.Const(pattern));
+        b.SetProperty(b.Props, b.Const("pattern"), b.Const(pattern));
     }
 
 
@@ -2405,7 +2405,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -2413,7 +2413,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -2422,7 +2422,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -2431,7 +2431,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -2439,7 +2439,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -2448,7 +2448,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -2457,7 +2457,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -2465,7 +2465,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -2474,7 +2474,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetShapeRound<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("round"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("round"));
     }
 
 
@@ -2483,7 +2483,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(true));
     }
 
 
@@ -2492,7 +2492,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
+        b.SetProperty(b.Props, b.Const("spellcheck"), spellcheck);
     }
 
     /// <summary>
@@ -2500,7 +2500,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(spellcheck));
     }
 
 
@@ -2509,7 +2509,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, Var<string> step) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("step"), step);
+        b.SetProperty(b.Props, b.Const("step"), step);
     }
 
     /// <summary>
@@ -2517,7 +2517,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, string step) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("step"), b.Const(step));
+        b.SetProperty(b.Props, b.Const("step"), b.Const(step));
     }
 
 
@@ -2526,7 +2526,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeDate<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("date"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("date"));
     }
 
 
@@ -2535,7 +2535,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeDatetimeLocal<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("datetime-local"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("datetime-local"));
     }
 
 
@@ -2544,7 +2544,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("email"));
     }
 
 
@@ -2553,7 +2553,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeMonth<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("month"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("month"));
     }
 
 
@@ -2562,7 +2562,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("number"));
     }
 
 
@@ -2571,7 +2571,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("password"));
     }
 
 
@@ -2580,7 +2580,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("search"));
     }
 
 
@@ -2589,7 +2589,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("tel"));
     }
 
 
@@ -2598,7 +2598,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeText<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("text"));
     }
 
 
@@ -2607,7 +2607,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeTime<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("time"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("time"));
     }
 
 
@@ -2616,7 +2616,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("url"));
     }
 
 
@@ -2625,7 +2625,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetTypeWeek<T>(this PropsBuilder<T> b) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("week"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("week"));
     }
 
 
@@ -2634,7 +2634,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -2642,7 +2642,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -2651,7 +2651,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -2659,7 +2659,7 @@ public static partial class IonInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

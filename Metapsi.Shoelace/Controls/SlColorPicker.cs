@@ -343,7 +343,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -394,7 +394,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetFormatHex<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("hex"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("hex"));
     }
 
 
@@ -403,7 +403,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetFormatRgb<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("rgb"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("rgb"));
     }
 
 
@@ -412,7 +412,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetFormatHsl<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("hsl"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("hsl"));
     }
 
 
@@ -421,7 +421,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetFormatHsv<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("format"), b.Const("hsv"));
+        b.SetProperty(b.Props, b.Const("format"), b.Const("hsv"));
     }
 
 
@@ -430,7 +430,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetInline<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inline"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("inline"), b.Const(true));
     }
 
 
@@ -439,7 +439,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetInline<T>(this PropsBuilder<T> b, Var<bool> inline) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inline"), inline);
+        b.SetProperty(b.Props, b.Const("inline"), inline);
     }
 
     /// <summary>
@@ -447,7 +447,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetInline<T>(this PropsBuilder<T> b, bool inline) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inline"), b.Const(inline));
+        b.SetProperty(b.Props, b.Const("inline"), b.Const(inline));
     }
 
 
@@ -456,7 +456,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -465,7 +465,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -474,7 +474,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -483,7 +483,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetNoFormatToggle<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noFormatToggle"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("noFormatToggle"), b.Const(true));
     }
 
 
@@ -492,7 +492,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetNoFormatToggle<T>(this PropsBuilder<T> b, Var<bool> noFormatToggle) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noFormatToggle"), noFormatToggle);
+        b.SetProperty(b.Props, b.Const("noFormatToggle"), noFormatToggle);
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetNoFormatToggle<T>(this PropsBuilder<T> b, bool noFormatToggle) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noFormatToggle"), b.Const(noFormatToggle));
+        b.SetProperty(b.Props, b.Const("noFormatToggle"), b.Const(noFormatToggle));
     }
 
 
@@ -509,7 +509,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -517,7 +517,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -526,7 +526,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -535,7 +535,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -543,7 +543,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -552,7 +552,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(true));
     }
 
 
@@ -561,7 +561,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
+        b.SetProperty(b.Props, b.Const("hoist"), hoist);
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(hoist));
     }
 
 
@@ -578,7 +578,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetOpacity<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("opacity"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("opacity"), b.Const(true));
     }
 
 
@@ -587,7 +587,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetOpacity<T>(this PropsBuilder<T> b, Var<bool> opacity) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("opacity"), opacity);
+        b.SetProperty(b.Props, b.Const("opacity"), opacity);
     }
 
     /// <summary>
@@ -595,7 +595,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetOpacity<T>(this PropsBuilder<T> b, bool opacity) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("opacity"), b.Const(opacity));
+        b.SetProperty(b.Props, b.Const("opacity"), b.Const(opacity));
     }
 
 
@@ -604,7 +604,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetUppercase<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("uppercase"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("uppercase"), b.Const(true));
     }
 
 
@@ -613,7 +613,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetUppercase<T>(this PropsBuilder<T> b, Var<bool> uppercase) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("uppercase"), uppercase);
+        b.SetProperty(b.Props, b.Const("uppercase"), uppercase);
     }
 
     /// <summary>
@@ -621,7 +621,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetUppercase<T>(this PropsBuilder<T> b, bool uppercase) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("uppercase"), b.Const(uppercase));
+        b.SetProperty(b.Props, b.Const("uppercase"), b.Const(uppercase));
     }
 
 
@@ -630,7 +630,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSwatches<T>(this PropsBuilder<T> b, Var<string> swatches) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("swatches"), swatches);
+        b.SetProperty(b.Props, b.Const("swatches"), swatches);
     }
 
     /// <summary>
@@ -638,7 +638,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSwatches<T>(this PropsBuilder<T> b, string swatches) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("swatches"), b.Const(swatches));
+        b.SetProperty(b.Props, b.Const("swatches"), b.Const(swatches));
     }
 
 
@@ -647,7 +647,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSwatches<T>(this PropsBuilder<T> b, Var<List<string>> swatches) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("swatches"), swatches);
+        b.SetProperty(b.Props, b.Const("swatches"), swatches);
     }
 
     /// <summary>
@@ -655,7 +655,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetSwatches<T>(this PropsBuilder<T> b, List<string> swatches) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("swatches"), b.Const(swatches));
+        b.SetProperty(b.Props, b.Const("swatches"), b.Const(swatches));
     }
 
 
@@ -664,7 +664,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -672,7 +672,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -681,7 +681,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -690,7 +690,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -698,7 +698,7 @@ public static partial class SlColorPickerControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlColorPicker
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 

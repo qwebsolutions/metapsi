@@ -11,7 +11,7 @@ namespace Metapsi.Html;
 
 public static partial class CustomElementExtensions
 {
-    private const string ExternalScriptName = "metapsi-custom-elements";
+    private const string ExternalScriptName = "metapsi-custom-elements.js";
 
     /// <summary>
     /// Gets a custom element tag name based on T
@@ -72,8 +72,9 @@ public static partial class CustomElementExtensions
         var innerHtml = HttpUtility.JavaScriptStringEncode(string.Join("\n", children.Select(x => x.ToHtml())));
         return b.HtmlScriptModule(b =>
         {
-            b.AddScript(typeof(CustomElementExtensions).Assembly, $"{ExternalScriptName}.js", "module");
-            b.CallExternal(ExternalScriptName, "defineStaticCustomElement", b.Const(tagName), b.Const(innerHtml));
+            b.AddScript(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
+            var define = b.ImportName<Action<string, string>>(ExternalScriptName, "defineStaticCustomElement");
+            b.Call(define, b.Const(tagName), b.Const(innerHtml));
         });
     }
 
@@ -92,19 +93,9 @@ public static partial class CustomElementExtensions
         Var<Action<Element>> attach,
         Var<Action<Element>> cleanup)
     {
-        b.AddScript(typeof(CustomElementExtensions).Assembly, $"{ExternalScriptName}.js", "module");
-        var scriptTags = b.Module.GetDistinctTags("script");
-        var stylesheets = b.Module.GetDistinctTags("link");
-
-        var contentElement = b.Ref(b.NewObj<DynamicObject>().As<Element>());
-
-        b.CallExternal(
-            ExternalScriptName,
-            "defineRACCustomElement",
-            tagName,
-            render,
-            attach,
-            cleanup);
+        b.AddScript(typeof(CustomElementExtensions).Assembly, ExternalScriptName, "module");
+        var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(ExternalScriptName, "defineRACCustomElement");
+        b.Call(define, tagName, render, attach, cleanup);
     }
 
     /// <summary>
@@ -158,7 +149,7 @@ public static partial class CustomElementExtensions
                     b.Not(b.HasObject(dispatch)),
                     b =>
                     {
-                        var appConfig = b.NewObj<HyperType.App<TModel>>();
+                        var appConfig = b.NewObj().As<HyperType.App<TModel>>();
 
                         var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
                         {
@@ -172,7 +163,9 @@ public static partial class CustomElementExtensions
                         b.Set(appConfig, x => x.node, node);
                         b.Set(appConfig, x => x.subscriptions, b.MakeSubscriptions<TModel>(subscriptions.ToList()));
 
-                        var dispatch = b.App(appConfig.As<HyperType.App<TModel>>());
+                        var app = HyperappExtensions.ImportHyperapp<TModel>(b);
+
+                        var dispatch = b.Call(app, appConfig.As<HyperType.App<TModel>>());
                         b.SetRef(b.GlobalRef(dispatchRef), dispatch);
                     },
                     b =>

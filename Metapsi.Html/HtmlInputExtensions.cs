@@ -69,6 +69,6 @@ public static class HtmlInputExtensions
         // 'checked' is special, as property it means 'current value', as attribute it means 'initial value'
         // Hyperapp requires it to always be set, even if false, otherwise it gets confused and doesn't know
         // it needs to change the value
-        b.SetDynamic(b.Props, DynamicProperty.Bool("checked"), isChecked);
+        b.SetProperty(b.Props, b.Const("checked"), isChecked);
     }
 }

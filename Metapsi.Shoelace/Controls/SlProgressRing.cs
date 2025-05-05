@@ -90,7 +90,7 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class SlProgressRingControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlProgressRing
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 

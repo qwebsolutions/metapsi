@@ -298,7 +298,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetAlignmentCenter<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("center"));
+        b.SetProperty(b.Props, b.Const("alignment"), b.Const("center"));
     }
 
 
@@ -307,7 +307,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetAlignmentStart<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alignment"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("alignment"), b.Const("start"));
     }
 
 
@@ -316,7 +316,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("checked"), b.Const(true));
     }
 
 
@@ -325,7 +325,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b, Var<bool> @checked) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), @checked);
+        b.SetProperty(b.Props, b.Const("checked"), @checked);
     }
 
     /// <summary>
@@ -333,7 +333,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b, bool @checked) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(@checked));
+        b.SetProperty(b.Props, b.Const("checked"), b.Const(@checked));
     }
 
 
@@ -342,7 +342,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -369,7 +369,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -378,7 +378,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -387,7 +387,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -396,7 +396,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -405,7 +405,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -414,7 +414,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -423,7 +423,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -432,7 +432,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -440,7 +440,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -449,7 +449,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+        b.SetProperty(b.Props, b.Const("errorText"), errorText);
     }
 
     /// <summary>
@@ -457,7 +457,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+        b.SetProperty(b.Props, b.Const("errorText"), b.Const(errorText));
     }
 
 
@@ -466,7 +466,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+        b.SetProperty(b.Props, b.Const("helperText"), helperText);
     }
 
     /// <summary>
@@ -474,7 +474,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+        b.SetProperty(b.Props, b.Const("helperText"), b.Const(helperText));
     }
 
 
@@ -483,7 +483,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("indeterminate"), b.Const(true));
     }
 
 
@@ -492,7 +492,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b, Var<bool> indeterminate) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), indeterminate);
+        b.SetProperty(b.Props, b.Const("indeterminate"), indeterminate);
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b, bool indeterminate) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), b.Const(indeterminate));
+        b.SetProperty(b.Props, b.Const("indeterminate"), b.Const(indeterminate));
     }
 
 
@@ -509,7 +509,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("end"));
     }
 
 
@@ -518,7 +518,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("space-between"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("space-between"));
     }
 
 
@@ -527,7 +527,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("start"));
     }
 
 
@@ -536,7 +536,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("end"));
     }
 
 
@@ -545,7 +545,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("fixed"));
     }
 
 
@@ -554,7 +554,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("stacked"));
     }
 
 
@@ -563,7 +563,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("start"));
     }
 
 
@@ -572,7 +572,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -581,7 +581,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -590,7 +590,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -598,7 +598,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -607,7 +607,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -616,7 +616,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -633,7 +633,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -641,7 +641,7 @@ public static partial class IonCheckboxControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonCheckbox
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

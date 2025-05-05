@@ -279,7 +279,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetContent<T>(this PropsBuilder<T> b, Var<string> content) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("content"), content);
+        b.SetProperty(b.Props, b.Const("content"), content);
     }
 
     /// <summary>
@@ -287,7 +287,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetContent<T>(this PropsBuilder<T> b, string content) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("content"), b.Const(content));
+        b.SetProperty(b.Props, b.Const("content"), b.Const(content));
     }
 
 
@@ -296,7 +296,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top"));
     }
 
 
@@ -305,7 +305,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementTopStart<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top-start"));
     }
 
 
@@ -314,7 +314,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementTopEnd<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top-end"));
     }
 
 
@@ -323,7 +323,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementRight<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right"));
     }
 
 
@@ -332,7 +332,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementRightStart<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right-start"));
     }
 
 
@@ -341,7 +341,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementRightEnd<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("right-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("right-end"));
     }
 
 
@@ -350,7 +350,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom"));
     }
 
 
@@ -359,7 +359,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementBottomStart<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom-start"));
     }
 
 
@@ -368,7 +368,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementBottomEnd<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom-end"));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementLeft<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left"));
     }
 
 
@@ -386,7 +386,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementLeftStart<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left-start"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left-start"));
     }
 
 
@@ -395,7 +395,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetPlacementLeftEnd<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("left-end"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("left-end"));
     }
 
 
@@ -404,7 +404,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -413,7 +413,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -421,7 +421,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -430,7 +430,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetDistance<T>(this PropsBuilder<T> b, Var<int> distance) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("distance"), distance);
+        b.SetProperty(b.Props, b.Const("distance"), distance);
     }
 
     /// <summary>
@@ -438,7 +438,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetDistance<T>(this PropsBuilder<T> b, int distance) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("distance"), b.Const(distance));
+        b.SetProperty(b.Props, b.Const("distance"), b.Const(distance));
     }
 
 
@@ -447,7 +447,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -456,7 +456,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -464,7 +464,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -473,7 +473,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetSkidding<T>(this PropsBuilder<T> b, Var<int> skidding) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("skidding"), skidding);
+        b.SetProperty(b.Props, b.Const("skidding"), skidding);
     }
 
     /// <summary>
@@ -481,7 +481,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetSkidding<T>(this PropsBuilder<T> b, int skidding) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("skidding"), b.Const(skidding));
+        b.SetProperty(b.Props, b.Const("skidding"), b.Const(skidding));
     }
 
 
@@ -490,7 +490,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
+        b.SetProperty(b.Props, b.Const("trigger"), trigger);
     }
 
     /// <summary>
@@ -498,7 +498,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+        b.SetProperty(b.Props, b.Const("trigger"), b.Const(trigger));
     }
 
 
@@ -507,7 +507,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(true));
     }
 
 
@@ -516,7 +516,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
+        b.SetProperty(b.Props, b.Const("hoist"), hoist);
     }
 
     /// <summary>
@@ -524,7 +524,7 @@ public static partial class SlTooltipControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlTooltip
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(hoist));
     }
 
 

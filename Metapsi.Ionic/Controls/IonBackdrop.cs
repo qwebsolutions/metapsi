@@ -122,7 +122,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetStopPropagation<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("stopPropagation"), b.Const(true));
     }
 
 
@@ -131,7 +131,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetStopPropagation<T>(this PropsBuilder<T> b, Var<bool> stopPropagation) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), stopPropagation);
+        b.SetProperty(b.Props, b.Const("stopPropagation"), stopPropagation);
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetStopPropagation<T>(this PropsBuilder<T> b, bool stopPropagation) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("stopPropagation"), b.Const(stopPropagation));
+        b.SetProperty(b.Props, b.Const("stopPropagation"), b.Const(stopPropagation));
     }
 
 
@@ -148,7 +148,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetTappable<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("tappable"), b.Const(true));
     }
 
 
@@ -157,7 +157,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetTappable<T>(this PropsBuilder<T> b, Var<bool> tappable) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), tappable);
+        b.SetProperty(b.Props, b.Const("tappable"), tappable);
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetTappable<T>(this PropsBuilder<T> b, bool tappable) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("tappable"), b.Const(tappable));
+        b.SetProperty(b.Props, b.Const("tappable"), b.Const(tappable));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetVisible<T>(this PropsBuilder<T> b) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("visible"), b.Const(true));
     }
 
 
@@ -183,7 +183,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetVisible<T>(this PropsBuilder<T> b, Var<bool> visible) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), visible);
+        b.SetProperty(b.Props, b.Const("visible"), visible);
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ public static partial class IonBackdropControl
     /// </summary>
     public static void SetVisible<T>(this PropsBuilder<T> b, bool visible) where T: IonBackdrop
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("visible"), b.Const(visible));
+        b.SetProperty(b.Props, b.Const("visible"), b.Const(visible));
     }
 
 

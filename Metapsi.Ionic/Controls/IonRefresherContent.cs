@@ -178,7 +178,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetPullingIcon<T>(this PropsBuilder<T> b, Var<string> pullingIcon) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullingIcon"), pullingIcon);
+        b.SetProperty(b.Props, b.Const("pullingIcon"), pullingIcon);
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetPullingIcon<T>(this PropsBuilder<T> b, string pullingIcon) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullingIcon"), b.Const(pullingIcon));
+        b.SetProperty(b.Props, b.Const("pullingIcon"), b.Const(pullingIcon));
     }
 
 
@@ -195,7 +195,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetPullingText<T>(this PropsBuilder<T> b, Var<IonicSafeString> pullingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("pullingText"), pullingText);
+        b.SetProperty(b.Props, b.Const("pullingText"), pullingText);
     }
 
 
@@ -205,7 +205,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetPullingText<T>(this PropsBuilder<T> b, Var<string> pullingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullingText"), pullingText);
+        b.SetProperty(b.Props, b.Const("pullingText"), pullingText);
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetPullingText<T>(this PropsBuilder<T> b, string pullingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pullingText"), b.Const(pullingText));
+        b.SetProperty(b.Props, b.Const("pullingText"), b.Const(pullingText));
     }
 
 
@@ -222,7 +222,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerBubbles<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("bubbles"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("bubbles"));
     }
 
 
@@ -231,7 +231,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("circles"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("circles"));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("circular"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("circular"));
     }
 
 
@@ -249,7 +249,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("crescent"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("crescent"));
     }
 
 
@@ -258,7 +258,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerDots<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("dots"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("dots"));
     }
 
 
@@ -267,7 +267,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerLines<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("lines"));
     }
 
 
@@ -276,7 +276,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-sharp"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("lines-sharp"));
     }
 
 
@@ -285,7 +285,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-sharp-small"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("lines-sharp-small"));
     }
 
 
@@ -294,7 +294,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingSpinner"), b.Const("lines-small"));
+        b.SetProperty(b.Props, b.Const("refreshingSpinner"), b.Const("lines-small"));
     }
 
 
@@ -303,7 +303,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingText<T>(this PropsBuilder<T> b, Var<IonicSafeString> refreshingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("refreshingText"), refreshingText);
+        b.SetProperty(b.Props, b.Const("refreshingText"), refreshingText);
     }
 
 
@@ -313,7 +313,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingText<T>(this PropsBuilder<T> b, Var<string> refreshingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingText"), refreshingText);
+        b.SetProperty(b.Props, b.Const("refreshingText"), refreshingText);
     }
 
     /// <summary>
@@ -321,7 +321,7 @@ public static partial class IonRefresherContentControl
     /// </summary>
     public static void SetRefreshingText<T>(this PropsBuilder<T> b, string refreshingText) where T: IonRefresherContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("refreshingText"), b.Const(refreshingText));
+        b.SetProperty(b.Props, b.Const("refreshingText"), b.Const(refreshingText));
     }
 
 

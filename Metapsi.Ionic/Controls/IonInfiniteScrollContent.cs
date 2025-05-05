@@ -162,7 +162,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerBubbles<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("bubbles"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("bubbles"));
     }
 
 
@@ -171,7 +171,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("circles"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("circles"));
     }
 
 
@@ -180,7 +180,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("circular"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("circular"));
     }
 
 
@@ -189,7 +189,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("crescent"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("crescent"));
     }
 
 
@@ -198,7 +198,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerDots<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("dots"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("dots"));
     }
 
 
@@ -207,7 +207,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerLines<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("lines"));
     }
 
 
@@ -216,7 +216,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-sharp"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("lines-sharp"));
     }
 
 
@@ -225,7 +225,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-sharp-small"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("lines-sharp-small"));
     }
 
 
@@ -234,7 +234,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingSpinner"), b.Const("lines-small"));
+        b.SetProperty(b.Props, b.Const("loadingSpinner"), b.Const("lines-small"));
     }
 
 
@@ -243,7 +243,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingText<T>(this PropsBuilder<T> b, Var<IonicSafeString> loadingText) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("loadingText"), loadingText);
+        b.SetProperty(b.Props, b.Const("loadingText"), loadingText);
     }
 
 
@@ -253,7 +253,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingText<T>(this PropsBuilder<T> b, Var<string> loadingText) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingText"), loadingText);
+        b.SetProperty(b.Props, b.Const("loadingText"), loadingText);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public static partial class IonInfiniteScrollContentControl
     /// </summary>
     public static void SetLoadingText<T>(this PropsBuilder<T> b, string loadingText) where T: IonInfiniteScrollContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loadingText"), b.Const(loadingText));
+        b.SetProperty(b.Props, b.Const("loadingText"), b.Const(loadingText));
     }
 
 

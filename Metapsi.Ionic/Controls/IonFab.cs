@@ -178,7 +178,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(true));
     }
 
 
@@ -187,7 +187,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> activated) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), activated);
+        b.SetProperty(b.Props, b.Const("activated"), activated);
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, bool activated) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(activated));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(activated));
     }
 
 
@@ -204,7 +204,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetEdge<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("edge"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("edge"), b.Const(true));
     }
 
 
@@ -213,7 +213,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetEdge<T>(this PropsBuilder<T> b, Var<bool> edge) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("edge"), edge);
+        b.SetProperty(b.Props, b.Const("edge"), edge);
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetEdge<T>(this PropsBuilder<T> b, bool edge) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("edge"), b.Const(edge));
+        b.SetProperty(b.Props, b.Const("edge"), b.Const(edge));
     }
 
 
@@ -230,7 +230,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetHorizontalCenter<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("horizontal"), b.Const("center"));
+        b.SetProperty(b.Props, b.Const("horizontal"), b.Const("center"));
     }
 
 
@@ -239,7 +239,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetHorizontalEnd<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("horizontal"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("horizontal"), b.Const("end"));
     }
 
 
@@ -248,7 +248,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetHorizontalStart<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("horizontal"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("horizontal"), b.Const("start"));
     }
 
 
@@ -257,7 +257,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetVerticalBottom<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const("bottom"));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetVerticalCenter<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("center"));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const("center"));
     }
 
 
@@ -275,7 +275,7 @@ public static partial class IonFabControl
     /// </summary>
     public static void SetVerticalTop<T>(this PropsBuilder<T> b) where T: IonFab
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("vertical"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const("top"));
     }
 
 

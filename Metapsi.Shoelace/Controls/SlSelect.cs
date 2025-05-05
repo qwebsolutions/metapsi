@@ -387,7 +387,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -395,7 +395,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -404,7 +404,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -412,7 +412,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -421,7 +421,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -429,7 +429,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, List<string> value) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -438,7 +438,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -446,7 +446,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 
@@ -455,7 +455,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<List<string>> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -463,7 +463,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, List<string> defaultValue) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 
@@ -472,7 +472,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -481,7 +481,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -490,7 +490,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -499,7 +499,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -507,7 +507,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -516,7 +516,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -525,7 +525,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -533,7 +533,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -542,7 +542,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMaxOptionsVisible<T>(this PropsBuilder<T> b, Var<int> maxOptionsVisible) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), maxOptionsVisible);
+        b.SetProperty(b.Props, b.Const("maxOptionsVisible"), maxOptionsVisible);
     }
 
     /// <summary>
@@ -550,7 +550,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetMaxOptionsVisible<T>(this PropsBuilder<T> b, int maxOptionsVisible) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxOptionsVisible"), b.Const(maxOptionsVisible));
+        b.SetProperty(b.Props, b.Const("maxOptionsVisible"), b.Const(maxOptionsVisible));
     }
 
 
@@ -559,7 +559,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -568,7 +568,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -576,7 +576,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -585,7 +585,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("clearable"), b.Const(true));
     }
 
 
@@ -594,7 +594,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b, Var<bool> clearable) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), clearable);
+        b.SetProperty(b.Props, b.Const("clearable"), clearable);
     }
 
     /// <summary>
@@ -602,7 +602,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b, bool clearable) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(clearable));
+        b.SetProperty(b.Props, b.Const("clearable"), b.Const(clearable));
     }
 
 
@@ -611,7 +611,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -620,7 +620,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -628,7 +628,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -637,7 +637,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(true));
     }
 
 
@@ -646,7 +646,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
+        b.SetProperty(b.Props, b.Const("hoist"), hoist);
     }
 
     /// <summary>
@@ -654,7 +654,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(hoist));
     }
 
 
@@ -663,7 +663,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(true));
     }
 
 
@@ -672,7 +672,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
+        b.SetProperty(b.Props, b.Const("filled"), filled);
     }
 
     /// <summary>
@@ -680,7 +680,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(filled));
     }
 
 
@@ -689,7 +689,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -698,7 +698,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -706,7 +706,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 
@@ -715,7 +715,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -723,7 +723,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -732,7 +732,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPlacementTop<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("top"));
     }
 
 
@@ -741,7 +741,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetPlacementBottom<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placement"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("placement"), b.Const("bottom"));
     }
 
 
@@ -750,7 +750,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
+        b.SetProperty(b.Props, b.Const("helpText"), helpText);
     }
 
     /// <summary>
@@ -758,7 +758,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+        b.SetProperty(b.Props, b.Const("helpText"), b.Const(helpText));
     }
 
 
@@ -767,7 +767,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -775,7 +775,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -784,7 +784,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -793,7 +793,7 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -801,24 +801,24 @@ public static partial class SlSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
     /// <summary>
     /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag<T>(this PropsBuilder<T> b, Var<System.Func<SlOption,int,object>> getTag) where T: SlSelect
+    public static void SetGetTag<T>(this PropsBuilder<T> b, Var<System.Func<SlOption,int,DynamicObject>> getTag) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<SlOption,int,object>>("getTag"), getTag);
+        b.SetProperty(b.Props, b.Const("getTag"), getTag);
     }
 
     /// <summary>
     /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag<T>(this PropsBuilder<T> b, System.Func<SlOption,int,object> getTag) where T: SlSelect
+    public static void SetGetTag<T>(this PropsBuilder<T> b, System.Func<SlOption,int,DynamicObject> getTag) where T: SlSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<SlOption,int,object>>("getTag"), b.Const(getTag));
+        b.SetProperty(b.Props, b.Const("getTag"), b.Const(getTag));
     }
 
 

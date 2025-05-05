@@ -226,7 +226,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -235,7 +235,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -252,7 +252,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
+        b.SetProperty(b.Props, b.Const("download"), download);
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
+        b.SetProperty(b.Props, b.Const("download"), b.Const(download));
     }
 
 
@@ -269,7 +269,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -286,7 +286,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutIconBottom<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-bottom"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-bottom"));
     }
 
 
@@ -295,7 +295,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutIconEnd<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-end"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-end"));
     }
 
 
@@ -304,7 +304,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutIconHide<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-hide"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-hide"));
     }
 
 
@@ -313,7 +313,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutIconStart<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-start"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-start"));
     }
 
 
@@ -322,7 +322,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutIconTop<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-top"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-top"));
     }
 
 
@@ -331,7 +331,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetLayoutLabelHide<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("label-hide"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("label-hide"));
     }
 
 
@@ -340,7 +340,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -349,7 +349,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -358,7 +358,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
+        b.SetProperty(b.Props, b.Const("rel"), rel);
     }
 
     /// <summary>
@@ -366,7 +366,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
+        b.SetProperty(b.Props, b.Const("rel"), b.Const(rel));
     }
 
 
@@ -375,7 +375,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("selected"), b.Const(true));
     }
 
 
@@ -384,7 +384,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b, Var<bool> selected) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), selected);
+        b.SetProperty(b.Props, b.Const("selected"), selected);
     }
 
     /// <summary>
@@ -392,7 +392,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b, bool selected) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), b.Const(selected));
+        b.SetProperty(b.Props, b.Const("selected"), b.Const(selected));
     }
 
 
@@ -401,7 +401,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetTab<T>(this PropsBuilder<T> b, Var<string> tab) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), tab);
+        b.SetProperty(b.Props, b.Const("tab"), tab);
     }
 
     /// <summary>
@@ -409,7 +409,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetTab<T>(this PropsBuilder<T> b, string tab) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tab"), b.Const(tab));
+        b.SetProperty(b.Props, b.Const("tab"), b.Const(tab));
     }
 
 
@@ -418,7 +418,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> target) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), target);
+        b.SetProperty(b.Props, b.Const("target"), target);
     }
 
     /// <summary>
@@ -426,7 +426,7 @@ public static partial class IonTabButtonControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, string target) where T: IonTabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(target));
+        b.SetProperty(b.Props, b.Const("target"), b.Const(target));
     }
 
 

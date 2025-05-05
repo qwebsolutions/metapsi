@@ -154,7 +154,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetInset<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inset"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("inset"), b.Const(true));
     }
 
 
@@ -163,7 +163,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetInset<T>(this PropsBuilder<T> b, Var<bool> inset) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inset"), inset);
+        b.SetProperty(b.Props, b.Const("inset"), inset);
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetInset<T>(this PropsBuilder<T> b, bool inset) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("inset"), b.Const(inset));
+        b.SetProperty(b.Props, b.Const("inset"), b.Const(inset));
     }
 
 
@@ -180,7 +180,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetLinesFull<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("full"));
+        b.SetProperty(b.Props, b.Const("lines"), b.Const("full"));
     }
 
 
@@ -189,7 +189,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetLinesInset<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("inset"));
+        b.SetProperty(b.Props, b.Const("lines"), b.Const("inset"));
     }
 
 
@@ -198,7 +198,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetLinesNone<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("lines"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("lines"), b.Const("none"));
     }
 
 
@@ -207,7 +207,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -216,7 +216,7 @@ public static partial class IonListControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 

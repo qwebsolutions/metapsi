@@ -331,7 +331,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -340,7 +340,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -348,7 +348,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -357,7 +357,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(true));
     }
 
 
@@ -366,7 +366,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> backdropDismiss) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), backdropDismiss);
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), backdropDismiss);
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool backdropDismiss) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(backdropDismiss));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(backdropDismiss));
     }
 
 
@@ -383,7 +383,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, Var<string> cssClass) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), cssClass);
+        b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
 
     /// <summary>
@@ -391,7 +391,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, string cssClass) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cssClass"), b.Const(cssClass));
+        b.SetProperty(b.Props, b.Const("cssClass"), b.Const(cssClass));
     }
 
 
@@ -400,7 +400,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, Var<List<string>> cssClass) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), cssClass);
+        b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
 
     /// <summary>
@@ -408,7 +408,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetCssClass<T>(this PropsBuilder<T> b, List<string> cssClass) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("cssClass"), b.Const(cssClass));
+        b.SetProperty(b.Props, b.Const("cssClass"), b.Const(cssClass));
     }
 
 
@@ -417,7 +417,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
+        b.SetProperty(b.Props, b.Const("duration"), duration);
     }
 
     /// <summary>
@@ -425,7 +425,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+        b.SetProperty(b.Props, b.Const("duration"), b.Const(duration));
     }
 
 
@@ -434,7 +434,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
+        b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
@@ -442,7 +442,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
 
 
@@ -451,7 +451,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
 
     /// <summary>
@@ -459,7 +459,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
 
 
@@ -468,7 +468,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(true));
     }
 
 
@@ -477,7 +477,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
+        b.SetProperty(b.Props, b.Const("isOpen"), isOpen);
     }
 
     /// <summary>
@@ -485,7 +485,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(isOpen));
     }
 
 
@@ -494,7 +494,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(true));
     }
 
 
@@ -503,7 +503,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
+        b.SetProperty(b.Props, b.Const("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
@@ -511,7 +511,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(keyboardClose));
     }
 
 
@@ -520,7 +520,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
@@ -528,7 +528,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 
@@ -537,7 +537,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, Var<IonicSafeString> message) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<IonicSafeString>("message"), message);
+        b.SetProperty(b.Props, b.Const("message"), message);
     }
 
 
@@ -547,7 +547,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, Var<string> message) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), message);
+        b.SetProperty(b.Props, b.Const("message"), message);
     }
 
     /// <summary>
@@ -555,7 +555,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetMessage<T>(this PropsBuilder<T> b, string message) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("message"), b.Const(message));
+        b.SetProperty(b.Props, b.Const("message"), b.Const(message));
     }
 
 
@@ -564,7 +564,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -573,7 +573,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -582,7 +582,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(true));
     }
 
 
@@ -591,7 +591,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> showBackdrop) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), showBackdrop);
+        b.SetProperty(b.Props, b.Const("showBackdrop"), showBackdrop);
     }
 
     /// <summary>
@@ -599,7 +599,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool showBackdrop) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(showBackdrop));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(showBackdrop));
     }
 
 
@@ -608,7 +608,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerBubbles<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("bubbles"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("bubbles"));
     }
 
 
@@ -617,7 +617,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerCircles<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("circles"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("circles"));
     }
 
 
@@ -626,7 +626,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerCircular<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("circular"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("circular"));
     }
 
 
@@ -635,7 +635,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerCrescent<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("crescent"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("crescent"));
     }
 
 
@@ -644,7 +644,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerDots<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("dots"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("dots"));
     }
 
 
@@ -653,7 +653,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerLines<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("lines"));
     }
 
 
@@ -662,7 +662,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerLinesSharp<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-sharp"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("lines-sharp"));
     }
 
 
@@ -671,7 +671,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-sharp-small"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("lines-sharp-small"));
     }
 
 
@@ -680,7 +680,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetSpinnerLinesSmall<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("spinner"), b.Const("lines-small"));
+        b.SetProperty(b.Props, b.Const("spinner"), b.Const("lines-small"));
     }
 
 
@@ -689,7 +689,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -698,7 +698,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -706,7 +706,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 
@@ -715,7 +715,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
+        b.SetProperty(b.Props, b.Const("trigger"), trigger);
     }
 
     /// <summary>
@@ -723,7 +723,7 @@ public static partial class IonLoadingControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonLoading
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+        b.SetProperty(b.Props, b.Const("trigger"), b.Const(trigger));
     }
 
 

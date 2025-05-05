@@ -98,7 +98,7 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static void SetAutoHide<T>(this PropsBuilder<T> b) where T: IonMenuToggle
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoHide"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autoHide"), b.Const(true));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static void SetAutoHide<T>(this PropsBuilder<T> b, Var<bool> autoHide) where T: IonMenuToggle
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoHide"), autoHide);
+        b.SetProperty(b.Props, b.Const("autoHide"), autoHide);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static void SetAutoHide<T>(this PropsBuilder<T> b, bool autoHide) where T: IonMenuToggle
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoHide"), b.Const(autoHide));
+        b.SetProperty(b.Props, b.Const("autoHide"), b.Const(autoHide));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static void SetMenu<T>(this PropsBuilder<T> b, Var<string> menu) where T: IonMenuToggle
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("menu"), menu);
+        b.SetProperty(b.Props, b.Const("menu"), menu);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class IonMenuToggleControl
     /// </summary>
     public static void SetMenu<T>(this PropsBuilder<T> b, string menu) where T: IonMenuToggle
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("menu"), b.Const(menu));
+        b.SetProperty(b.Props, b.Const("menu"), b.Const(menu));
     }
 
 

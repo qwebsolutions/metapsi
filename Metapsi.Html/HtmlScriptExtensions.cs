@@ -1,5 +1,4 @@
 ﻿using Metapsi.JavaScript;
-using Metapsi.JavaScript.ModuleContracts;
 using Metapsi.Syntax;
 using System;
 using System.Linq;
@@ -16,15 +15,15 @@ public static class HtmlScriptExtensions
     public static IHtmlNode HtmlScriptModule(this HtmlBuilder b, Action<AttributesBuilder<HtmlScript>> setAttributes, Action<SyntaxBuilder> buildScript)
     {
         ModuleBuilder moduleBuilder = new ModuleBuilder();
-        moduleBuilder.Define("main", buildScript);
-        GenerateAddExternalResources(b, moduleBuilder);
+        moduleBuilder.AddFunction("main", buildScript);
+        //GenerateAddExternalResources(b, moduleBuilder);
         return b.HtmlScript(
             b =>
             {
                 b.SetAttribute("type", "module");
                 setAttributes(b);
             },
-            b.Text(moduleBuilder.Module.GetDefinition().ToJs()),
+            b.Text(moduleBuilder.Module.ToJs()),
             b.Text("main()"));
     }
 
@@ -46,16 +45,16 @@ public static class HtmlScriptExtensions
             b.Text(code));
     }
 
-    public static bool GenerateAddExternalResources(HtmlBuilder b, ModuleBuilder moduleBuilder)
-    {
-        var distinctTagConstants = moduleBuilder.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
+    //public static bool GenerateAddExternalResources(HtmlBuilder b, ModuleBuilder moduleBuilder)
+    //{
+    //    var distinctTagConstants = moduleBuilder.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
 
-        foreach (var tag in distinctTagConstants)
-        {
-            var distinctTag = tag.Value as DistinctTag;
-            b.HeadAppend(distinctTag);
-        }
+    //    foreach (var tag in distinctTagConstants)
+    //    {
+    //        var distinctTag = tag.Value as DistinctTag;
+    //        b.HeadAppend(distinctTag);
+    //    }
 
-        return true;
-    }
+    //    return true;
+    //}
 }

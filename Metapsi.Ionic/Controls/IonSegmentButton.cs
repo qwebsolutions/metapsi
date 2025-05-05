@@ -218,7 +218,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, Var<string> contentId) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), contentId);
+        b.SetProperty(b.Props, b.Const("contentId"), contentId);
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, string contentId) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), b.Const(contentId));
+        b.SetProperty(b.Props, b.Const("contentId"), b.Const(contentId));
     }
 
 
@@ -235,7 +235,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -244,7 +244,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -252,7 +252,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -261,7 +261,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutIconBottom<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-bottom"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-bottom"));
     }
 
 
@@ -270,7 +270,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutIconEnd<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-end"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-end"));
     }
 
 
@@ -279,7 +279,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutIconHide<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-hide"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-hide"));
     }
 
 
@@ -288,7 +288,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutIconStart<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-start"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-start"));
     }
 
 
@@ -297,7 +297,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutIconTop<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("icon-top"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("icon-top"));
     }
 
 
@@ -306,7 +306,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetLayoutLabelHide<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("layout"), b.Const("label-hide"));
+        b.SetProperty(b.Props, b.Const("layout"), b.Const("label-hide"));
     }
 
 
@@ -315,7 +315,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -324,7 +324,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -333,7 +333,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("button"));
     }
 
 
@@ -342,7 +342,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("reset"));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("submit"));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ public static partial class IonSegmentButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonSegmentButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

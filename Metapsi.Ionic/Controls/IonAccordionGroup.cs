@@ -194,7 +194,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -203,7 +203,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -211,7 +211,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -220,7 +220,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -229,7 +229,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -246,7 +246,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetExpandCompact<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("expand"), b.Const("compact"));
+        b.SetProperty(b.Props, b.Const("expand"), b.Const("compact"));
     }
 
 
@@ -255,7 +255,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetExpandInset<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("expand"), b.Const("inset"));
+        b.SetProperty(b.Props, b.Const("expand"), b.Const("inset"));
     }
 
 
@@ -264,7 +264,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -273,7 +273,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -282,7 +282,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -291,7 +291,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -308,7 +308,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -317,7 +317,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -325,7 +325,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -334,7 +334,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<List<string>> value) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public static partial class IonAccordionGroupControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, List<string> value) where T: IonAccordionGroup
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<string>>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

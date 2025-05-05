@@ -118,7 +118,8 @@ public static class SignalRExtensions
     {
         EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "signalr.js");
         EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "metapsi-signalr.js");
-        b.CallExternal("metapsi-signalr", "Connect", b.Const(hubPath), register, onConnect);
+        var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>("metapsi-signalr", "Connect");
+        b.Call(connect, b.Const(hubPath), register, onConnect);
     }
 
     public static void ListenToServerEvents(this PropsBuilder<SignalRConnection> b)

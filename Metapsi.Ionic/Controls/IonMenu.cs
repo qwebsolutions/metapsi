@@ -226,7 +226,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, Var<string> contentId) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), contentId);
+        b.SetProperty(b.Props, b.Const("contentId"), contentId);
     }
 
     /// <summary>
@@ -234,7 +234,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, string contentId) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), b.Const(contentId));
+        b.SetProperty(b.Props, b.Const("contentId"), b.Const(contentId));
     }
 
 
@@ -243,7 +243,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -252,7 +252,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -269,7 +269,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetMaxEdgeStart<T>(this PropsBuilder<T> b, Var<int> maxEdgeStart) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxEdgeStart"), maxEdgeStart);
+        b.SetProperty(b.Props, b.Const("maxEdgeStart"), maxEdgeStart);
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetMaxEdgeStart<T>(this PropsBuilder<T> b, int maxEdgeStart) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxEdgeStart"), b.Const(maxEdgeStart));
+        b.SetProperty(b.Props, b.Const("maxEdgeStart"), b.Const(maxEdgeStart));
     }
 
 
@@ -286,7 +286,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetMenuId<T>(this PropsBuilder<T> b, Var<string> menuId) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("menuId"), menuId);
+        b.SetProperty(b.Props, b.Const("menuId"), menuId);
     }
 
     /// <summary>
@@ -294,7 +294,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetMenuId<T>(this PropsBuilder<T> b, string menuId) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("menuId"), b.Const(menuId));
+        b.SetProperty(b.Props, b.Const("menuId"), b.Const(menuId));
     }
 
 
@@ -303,7 +303,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("end"));
     }
 
 
@@ -312,7 +312,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("start"));
     }
 
 
@@ -321,7 +321,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(true));
     }
 
 
@@ -330,7 +330,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> swipeGesture) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), swipeGesture);
+        b.SetProperty(b.Props, b.Const("swipeGesture"), swipeGesture);
     }
 
     /// <summary>
@@ -338,7 +338,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool swipeGesture) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(swipeGesture));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(swipeGesture));
     }
 
 
@@ -347,7 +347,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetTypeOverlay<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("overlay"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("overlay"));
     }
 
 
@@ -356,7 +356,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetTypePush<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("push"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("push"));
     }
 
 
@@ -365,7 +365,7 @@ public static partial class IonMenuControl
     /// </summary>
     public static void SetTypeReveal<T>(this PropsBuilder<T> b) where T: IonMenu
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reveal"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("reveal"));
     }
 
 

@@ -172,7 +172,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetCloseDuration<T>(this PropsBuilder<T> b, Var<string> closeDuration) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("closeDuration"), closeDuration);
+        b.SetProperty(b.Props, b.Const("closeDuration"), closeDuration);
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetCloseDuration<T>(this PropsBuilder<T> b, string closeDuration) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("closeDuration"), b.Const(closeDuration));
+        b.SetProperty(b.Props, b.Const("closeDuration"), b.Const(closeDuration));
     }
 
 
@@ -189,7 +189,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -198,7 +198,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -215,7 +215,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -233,7 +233,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullFactor<T>(this PropsBuilder<T> b, Var<int> pullFactor) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullFactor"), pullFactor);
+        b.SetProperty(b.Props, b.Const("pullFactor"), pullFactor);
     }
 
     /// <summary>
@@ -241,7 +241,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullFactor<T>(this PropsBuilder<T> b, int pullFactor) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullFactor"), b.Const(pullFactor));
+        b.SetProperty(b.Props, b.Const("pullFactor"), b.Const(pullFactor));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullMax<T>(this PropsBuilder<T> b, Var<int> pullMax) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullMax"), pullMax);
+        b.SetProperty(b.Props, b.Const("pullMax"), pullMax);
     }
 
     /// <summary>
@@ -258,7 +258,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullMax<T>(this PropsBuilder<T> b, int pullMax) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullMax"), b.Const(pullMax));
+        b.SetProperty(b.Props, b.Const("pullMax"), b.Const(pullMax));
     }
 
 
@@ -267,7 +267,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullMin<T>(this PropsBuilder<T> b, Var<int> pullMin) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullMin"), pullMin);
+        b.SetProperty(b.Props, b.Const("pullMin"), pullMin);
     }
 
     /// <summary>
@@ -275,7 +275,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetPullMin<T>(this PropsBuilder<T> b, int pullMin) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("pullMin"), b.Const(pullMin));
+        b.SetProperty(b.Props, b.Const("pullMin"), b.Const(pullMin));
     }
 
 
@@ -284,7 +284,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetSnapbackDuration<T>(this PropsBuilder<T> b, Var<string> snapbackDuration) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("snapbackDuration"), snapbackDuration);
+        b.SetProperty(b.Props, b.Const("snapbackDuration"), snapbackDuration);
     }
 
     /// <summary>
@@ -292,7 +292,7 @@ public static partial class IonRefresherControl
     /// </summary>
     public static void SetSnapbackDuration<T>(this PropsBuilder<T> b, string snapbackDuration) where T: IonRefresher
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("snapbackDuration"), b.Const(snapbackDuration));
+        b.SetProperty(b.Props, b.Const("snapbackDuration"), b.Const(snapbackDuration));
     }
 
 

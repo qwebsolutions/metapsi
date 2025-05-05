@@ -157,7 +157,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -191,7 +191,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -208,7 +208,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetPrecision<T>(this PropsBuilder<T> b, Var<int> precision) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), precision);
+        b.SetProperty(b.Props, b.Const("precision"), precision);
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetPrecision<T>(this PropsBuilder<T> b, int precision) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("precision"), b.Const(precision));
+        b.SetProperty(b.Props, b.Const("precision"), b.Const(precision));
     }
 
 
@@ -225,7 +225,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -234,7 +234,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -251,7 +251,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -260,7 +260,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -268,7 +268,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -277,7 +277,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetGetSymbol<T>(this PropsBuilder<T> b, Var<System.Func<int,string>> getSymbol) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("getSymbol"), getSymbol);
+        b.SetProperty(b.Props, b.Const("getSymbol"), getSymbol);
     }
 
     /// <summary>
@@ -285,7 +285,7 @@ public static partial class SlRatingControl
     /// </summary>
     public static void SetGetSymbol<T>(this PropsBuilder<T> b, System.Func<int,string> getSymbol) where T: SlRating
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("getSymbol"), b.Const(getSymbol));
+        b.SetProperty(b.Props, b.Const("getSymbol"), b.Const(getSymbol));
     }
 
 

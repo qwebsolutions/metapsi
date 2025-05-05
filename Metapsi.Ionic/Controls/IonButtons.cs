@@ -90,7 +90,7 @@ public static partial class IonButtonsControl
     /// </summary>
     public static void SetCollapse<T>(this PropsBuilder<T> b) where T: IonButtons
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("collapse"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("collapse"), b.Const(true));
     }
 
 
@@ -99,7 +99,7 @@ public static partial class IonButtonsControl
     /// </summary>
     public static void SetCollapse<T>(this PropsBuilder<T> b, Var<bool> collapse) where T: IonButtons
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("collapse"), collapse);
+        b.SetProperty(b.Props, b.Const("collapse"), collapse);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public static partial class IonButtonsControl
     /// </summary>
     public static void SetCollapse<T>(this PropsBuilder<T> b, bool collapse) where T: IonButtons
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("collapse"), b.Const(collapse));
+        b.SetProperty(b.Props, b.Const("collapse"), b.Const(collapse));
     }
 
 

@@ -18,7 +18,8 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
-            return b.CallExternal<IVNode>("hyperapp", "text", text);
+            var textFn = b.ImportName<Func<string, IVNode>>("hyperapp.js", "text");
+            return b.Call(textFn, text);
         }
 
         /// <summary>
@@ -44,7 +45,8 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, Var<List<IVNode>> children)
         {
-            return b.CallExternal<IVNode>("hyperapp", "h", tag, props, b.Call(ValidChildren, children));
+            var h = b.ImportName<Func<string, DynamicObject, List<IVNode>, IVNode>>("hyperapp.js", "h");
+            return b.Call(h, tag, props, b.Call(ValidChildren, children));
         }
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, Var<List<IVNode>> children)
@@ -99,7 +101,7 @@ namespace Metapsi.Hyperapp
         public static Var<bool> IsVoidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)
             where TSyntaxBuilder : SyntaxBuilder
         {
-            return b.AreEqual(b.GetDynamic(node, DynamicProperty.String("tag")), b.Const(ViewBuilder.VoidNodeTag));
+            return b.AreEqual(b.GetProperty<string>(node, b.Const("tag")), b.Const(ViewBuilder.VoidNodeTag));
         }
 
         public static Var<bool> IsValidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)

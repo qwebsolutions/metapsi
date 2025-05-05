@@ -138,7 +138,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -155,7 +155,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetUnitByte<T>(this PropsBuilder<T> b) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("unit"), b.Const("byte"));
+        b.SetProperty(b.Props, b.Const("unit"), b.Const("byte"));
     }
 
 
@@ -164,7 +164,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetUnitBit<T>(this PropsBuilder<T> b) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("unit"), b.Const("bit"));
+        b.SetProperty(b.Props, b.Const("unit"), b.Const("bit"));
     }
 
 
@@ -173,7 +173,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetDisplayLong<T>(this PropsBuilder<T> b) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("display"), b.Const("long"));
+        b.SetProperty(b.Props, b.Const("display"), b.Const("long"));
     }
 
 
@@ -182,7 +182,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetDisplayShort<T>(this PropsBuilder<T> b) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("display"), b.Const("short"));
+        b.SetProperty(b.Props, b.Const("display"), b.Const("short"));
     }
 
 
@@ -191,7 +191,7 @@ public static partial class SlFormatBytesControl
     /// </summary>
     public static void SetDisplayNarrow<T>(this PropsBuilder<T> b) where T: SlFormatBytes
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("display"), b.Const("narrow"));
+        b.SetProperty(b.Props, b.Const("display"), b.Const("narrow"));
     }
 
 

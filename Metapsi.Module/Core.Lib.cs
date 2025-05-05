@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using Metapsi.Syntax;
 
 namespace Metapsi.Syntax
 {
-    public static class Core
+    public static partial class Core
     {
-        private const string ModuleName = "metapsi.core";
+        public const string ModuleName = "metapsi.core";
+
+        private static Var<T> ImportCore<T>(SyntaxBuilder b, string symbol)
+        {
+            EmbeddedFiles.AddAll(typeof(Core).Assembly);
+            return b.ImportName<T>(ModuleName, symbol);
+        }
+
+        private static Var<Delegate> ImportFn(SyntaxBuilder b, string symbol)
+        {
+            return ImportCore<Delegate>(b, symbol);
+        }
+
+        private static Var<T> CallCore<T>(this SyntaxBuilder b, string symbol, params IVariable[] args)
+        {
+            return b.CallDynamic<T>(ImportFn(b, symbol), args);
+        }
+
+        private static void CallCore(this SyntaxBuilder b, string symbol, params IVariable[] args)
+        {
+            b.CallDynamic(ImportFn(b, symbol), args);
+        }
+
+        [Obsolete]
+        private static void CallExternal(this SyntaxBuilder b, string moduleName, string symbol, params IVariable[] args)
+        {
+            b.CallDynamic(ImportFn(b, symbol), args);
+        }
+
+        [Obsolete]
+        private static Var<T> CallExternal<T>(this SyntaxBuilder b, string moduleName, string symbol, params IVariable[] args)
+        {
+            return b.CallDynamic<T>(ImportFn(b, symbol), args);
+        }
 
         public static Var<T> GetProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
         {
-            return b.CallExternal<T>(ModuleName, nameof(GetProperty), from, propertyName);
+            var import = ImportCore<Delegate>(b, "GetProperty");
+            return b.CallDynamic<T>(import, from, propertyName);
         }
 
         public static Var<T> GetProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
@@ -20,49 +52,36 @@ namespace Metapsi.Syntax
             return b.GetProperty<T>(from, b.Const(propertyName));
         }
 
-        public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
-            where T : new()
-        {
-            var props = b.GetProperty<T>(from, propertyName);
-            b.If(
-                b.Not(b.HasObject(props)),
-                b =>
-                {
-                    b.SetProperty(from, propertyName, b.NewObj<T>());
-                });
+        //public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
+        //    where T : new()
+        //{
+        //    var props = b.GetProperty<T>(from, propertyName);
+        //    b.If(
+        //        b.Not(b.HasObject(props)),
+        //        (SyntaxBuilder b) =>
+        //        {
+        //            b.SetProperty(from, propertyName, b.NewObj<T>());
+        //        });
 
-            return b.GetProperty<T>(from, propertyName);
-        }
+        //    return b.GetProperty<T>(from, propertyName);
+        //}
 
-        public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
-            where T : new()
-        {
-            return b.GetOrCreateProperty<T>(from, b.Const(propertyName));
-        }
-
-        public static void SetProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
-        {
-            b.CallExternal(ModuleName, nameof(SetProperty), into, propertyName, value);
-        }
-
-        public static void DeleteProperty(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
-        {
-            b.CallExternal(ModuleName, nameof(DeleteProperty), from, propertyName);
-        }
-
-        public static void DeleteProperty<T, TProp>(this SyntaxBuilder b, Var<T> from, System.Linq.Expressions.Expression<Func<T, TProp>> property)
-        {
-            b.DeleteProperty(from, b.Const(property.PropertyName()));
-        }
+        //public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
+        //    where T : new()
+        //{
+        //    return b.GetOrCreateProperty<T>(from, b.Const(propertyName));
+        //}
 
         public static Var<TResult> CallOnObject<TResult>(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
-            b.DebugComment(function);
+            var callOnObject = ImportCore<Delegate>(b, "CallOnObject");
             List<IVariable> allParams = new List<IVariable>();
             allParams.Add(@object);
             allParams.Add(b.Const(function));
             allParams.AddRange(parameters);
-            return b.CallExternal<TResult>(ModuleName, nameof(CallOnObject), allParams.ToArray());
+            b.Log("callOnObject", b.Const(function));
+            b.Log("callOnObject", b.Const(allParams));
+            return b.CallDynamic<TResult>(callOnObject, allParams.ToArray());
         }
 
         public static void CallOnObject(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
@@ -73,13 +92,26 @@ namespace Metapsi.Syntax
 
         public static Var<bool> AreEqual<T>(this SyntaxBuilder b, Var<T> v1, Var<T> v2)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(AreEqual), v1, v2);
+            var areEqual = ImportCore<Delegate>(b, "AreEqual");
+            return b.CallDynamic<bool>(areEqual, v1, v2);
         }
 
         public static Var<string> AsString(this SyntaxBuilder b, IVariable o)
         {
-            return b.CallExternal<string>(ModuleName, nameof(AsString), o);
+            return b.CallDynamic<string>(ImportFn(b, "AsString"), o);
         }
+
+        //public static Var<TResult> If<TResult>(
+        //    this SyntaxBuilder b,
+        //    Var<bool> check,
+        //    Var<Func<TResult>> ifTrue,
+        //    Var<Func<TResult>> ifFalse)
+        //{
+        //    var ifFn = ImportFn(b, "mIf");
+        //    return b.CallDynamic<TResult>(ifFn, ifTrue, ifFalse);
+        //}
+
+
 
         public static Var<string> Concat(this SyntaxBuilder b, Var<string> s1, Var<string> s2, params Var<string>[] other)
         {
@@ -91,12 +123,12 @@ namespace Metapsi.Syntax
                 b.Push(args, extra);
             }
 
-            return b.CallExternal<string>(ModuleName, nameof(Concat), args);
+            return b.CallCore<string>(nameof(Concat), args);
         }
 
         public static Var<string> Trim(this SyntaxBuilder b, Var<string> s)
         {
-            return b.CallExternal<string>(ModuleName, nameof(Trim), s);
+            return b.CallCore<string>(nameof(Trim), s);
         }
 
         public static Var<List<T>> List<T>(this SyntaxBuilder b, IEnumerable<Var<T>> items)
@@ -113,7 +145,7 @@ namespace Metapsi.Syntax
 
         public static void Push<T>(this SyntaxBuilder b, Var<List<T>> onCollection, Var<T> item)
         {
-            b.CallExternal(ModuleName, nameof(Push), onCollection, item);
+            b.CallCore(nameof(Push), onCollection, item);
         }
 
         public static void PushRange<T>(this SyntaxBuilder b, Var<List<T>> onCollection, Var<List<T>> newItems)
@@ -247,10 +279,9 @@ namespace Metapsi.Syntax
             return b.GetRef(r);
         }
 
-
         public static Var<string> JoinStrings(this SyntaxBuilder b, Var<string> separator, Var<List<string>> values)
         {
-            var checkedValues = b.Get(values, x => x.Where( x=> x != null && x != "").ToList());
+            var checkedValues = b.Get(values, x => x.Where(x => x != null && x != "").ToList());
             return b.CallExternal<string>(ModuleName, nameof(Concat), b.Join(separator, checkedValues));
         }
 
@@ -324,19 +355,19 @@ namespace Metapsi.Syntax
             return b.CallExternal<string>(ModuleName, nameof(SubstringStartLength), inputString, start, end);
         }
 
-        public static Var<string> Slice(this SyntaxBuilder b, Var<string> inputString,Var<int> start, Var<int> end)
+        public static Var<string> Slice(this SyntaxBuilder b, Var<string> inputString, Var<int> start, Var<int> end)
         {
             return b.CallExternal<string>(ModuleName, nameof(Slice), inputString, start, end);
         }
 
         public static Var<int> StringLength(this SyntaxBuilder b, Var<string> inputString)
         {
-            return b.GetDynamic(inputString.As<DynamicObject>(), new DynamicProperty<int>("length"));
+            return b.GetProperty<int>(inputString,"length");
         }
 
         public static Var<int> CollectionLength<T>(this SyntaxBuilder b, Var<List<T>> collection)
         {
-            return b.GetDynamic(collection.As<DynamicObject>(), new DynamicProperty<int>("length"));
+            return b.GetProperty<int>(collection, "length");
         }
 
         public static Var<int> Minus(this SyntaxBuilder b, Var<int> number)
@@ -344,8 +375,22 @@ namespace Metapsi.Syntax
             return b.CallExternal<int>(ModuleName, nameof(Minus), number);
         }
 
-        public static Var<T> Add<T>(this SyntaxBuilder b, Var<T> firstNumber, Var<T> secondNumber)
-            where T: INumber<T>
+        public static Var<T> Add<T>(this SyntaxBuilder b, Var<int> firstNumber, Var<int> secondNumber)
+        {
+            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+        }
+
+        public static Var<T> Add<T>(this SyntaxBuilder b, Var<decimal> firstNumber, Var<decimal> secondNumber)
+        {
+            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+        }
+
+        public static Var<T> Add<T>(this SyntaxBuilder b, Var<long> firstNumber, Var<long> secondNumber)
+        {
+            return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
+        }
+
+        public static Var<T> Add<T>(this SyntaxBuilder b, Var<double> firstNumber, Var<double> secondNumber)
         {
             return b.CallExternal<T>(ModuleName, nameof(Add), firstNumber, secondNumber);
         }
@@ -367,7 +412,7 @@ namespace Metapsi.Syntax
             {
                 return v;
             }
-            else if (typeof(T).IsAssignableTo(typeof(System.Collections.IEnumerable)))
+            else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(typeof(T)))
             {
                 return b.CallExternal<T>(ModuleName, "CloneCollection", v);
             }
@@ -390,17 +435,17 @@ namespace Metapsi.Syntax
         /// <param name="b"></param>
         /// <param name="into"></param>
         /// <param name="source"></param>
-        public static void CopyProperties<TInto,TFrom>(this SyntaxBuilder b, Var<TInto> into, Var<TFrom> source, CopyType copyType = CopyType.Reference)
+        public static void CopyProperties<TInto, TFrom>(this SyntaxBuilder b, Var<TInto> into, Var<TFrom> source, CopyType copyType = CopyType.Reference)
         {
             var intoProperties = typeof(TInto).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
             var fromProperties = typeof(TFrom).GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
-            var commonProperties = intoProperties.Select(x=>x.Name).Intersect(fromProperties.Select(x=>x.Name));
+            var commonProperties = intoProperties.Select(x => x.Name).Intersect(fromProperties.Select(x => x.Name));
 
             foreach (var propertyName in commonProperties)
             {
                 var sourceValue = b.GetProperty<object>(source, b.Const(propertyName));
-                if(copyType == CopyType.Clone)
+                if (copyType == CopyType.Clone)
                 {
                     sourceValue = b.Clone(sourceValue);
                 }

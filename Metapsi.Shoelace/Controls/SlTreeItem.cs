@@ -159,7 +159,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetExpanded<T>(this PropsBuilder<T> b) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expanded"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("expanded"), b.Const(true));
     }
 
 
@@ -168,7 +168,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetExpanded<T>(this PropsBuilder<T> b, Var<bool> expanded) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expanded"), expanded);
+        b.SetProperty(b.Props, b.Const("expanded"), expanded);
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetExpanded<T>(this PropsBuilder<T> b, bool expanded) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expanded"), b.Const(expanded));
+        b.SetProperty(b.Props, b.Const("expanded"), b.Const(expanded));
     }
 
 
@@ -185,7 +185,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("selected"), b.Const(true));
     }
 
 
@@ -194,7 +194,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b, Var<bool> selected) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), selected);
+        b.SetProperty(b.Props, b.Const("selected"), selected);
     }
 
     /// <summary>
@@ -202,7 +202,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetSelected<T>(this PropsBuilder<T> b, bool selected) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selected"), b.Const(selected));
+        b.SetProperty(b.Props, b.Const("selected"), b.Const(selected));
     }
 
 
@@ -211,7 +211,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -220,7 +220,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -237,7 +237,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetLazy<T>(this PropsBuilder<T> b) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("lazy"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("lazy"), b.Const(true));
     }
 
 
@@ -246,7 +246,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetLazy<T>(this PropsBuilder<T> b, Var<bool> lazy) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("lazy"), lazy);
+        b.SetProperty(b.Props, b.Const("lazy"), lazy);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public static partial class SlTreeItemControl
     /// </summary>
     public static void SetLazy<T>(this PropsBuilder<T> b, bool lazy) where T: SlTreeItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("lazy"), b.Const(lazy));
+        b.SetProperty(b.Props, b.Const("lazy"), b.Const(lazy));
     }
 
 

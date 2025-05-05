@@ -184,7 +184,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -193,7 +193,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -201,7 +201,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -210,7 +210,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -219,7 +219,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -228,7 +228,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -237,7 +237,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -245,7 +245,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -254,7 +254,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetToggleIcon<T>(this PropsBuilder<T> b, Var<string> toggleIcon) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), toggleIcon);
+        b.SetProperty(b.Props, b.Const("toggleIcon"), toggleIcon);
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetToggleIcon<T>(this PropsBuilder<T> b, string toggleIcon) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), b.Const(toggleIcon));
+        b.SetProperty(b.Props, b.Const("toggleIcon"), b.Const(toggleIcon));
     }
 
 
@@ -271,7 +271,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetToggleIconSlotEnd<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIconSlot"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("toggleIconSlot"), b.Const("end"));
     }
 
 
@@ -280,7 +280,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetToggleIconSlotStart<T>(this PropsBuilder<T> b) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIconSlot"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("toggleIconSlot"), b.Const("start"));
     }
 
 
@@ -289,7 +289,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public static partial class IonAccordionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonAccordion
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

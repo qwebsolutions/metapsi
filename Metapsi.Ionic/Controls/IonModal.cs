@@ -334,7 +334,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -343,7 +343,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBackdropBreakpoint<T>(this PropsBuilder<T> b, Var<int> backdropBreakpoint) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("backdropBreakpoint"), backdropBreakpoint);
+        b.SetProperty(b.Props, b.Const("backdropBreakpoint"), backdropBreakpoint);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBackdropBreakpoint<T>(this PropsBuilder<T> b, int backdropBreakpoint) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("backdropBreakpoint"), b.Const(backdropBreakpoint));
+        b.SetProperty(b.Props, b.Const("backdropBreakpoint"), b.Const(backdropBreakpoint));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(true));
     }
 
 
@@ -386,7 +386,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, Var<bool> backdropDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), backdropDismiss);
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), backdropDismiss);
     }
 
     /// <summary>
@@ -394,7 +394,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBackdropDismiss<T>(this PropsBuilder<T> b, bool backdropDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("backdropDismiss"), b.Const(backdropDismiss));
+        b.SetProperty(b.Props, b.Const("backdropDismiss"), b.Const(backdropDismiss));
     }
 
 
@@ -403,7 +403,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBreakpoints<T>(this PropsBuilder<T> b, Var<List<int>> breakpoints) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("breakpoints"), breakpoints);
+        b.SetProperty(b.Props, b.Const("breakpoints"), breakpoints);
     }
 
     /// <summary>
@@ -411,7 +411,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetBreakpoints<T>(this PropsBuilder<T> b, List<int> breakpoints) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<int>>("breakpoints"), b.Const(breakpoints));
+        b.SetProperty(b.Props, b.Const("breakpoints"), b.Const(breakpoints));
     }
 
 
@@ -420,7 +420,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetCanDismiss<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,string,DynamicObject>> canDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,string,DynamicObject>>("canDismiss"), canDismiss);
+        b.SetProperty(b.Props, b.Const("canDismiss"), canDismiss);
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetCanDismiss<T>(this PropsBuilder<T> b, System.Func<DynamicObject,string,DynamicObject> canDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,string,DynamicObject>>("canDismiss"), b.Const(canDismiss));
+        b.SetProperty(b.Props, b.Const("canDismiss"), b.Const(canDismiss));
     }
 
 
@@ -437,7 +437,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetCanDismiss<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("canDismiss"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("canDismiss"), b.Const(true));
     }
 
 
@@ -446,7 +446,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetCanDismiss<T>(this PropsBuilder<T> b, Var<bool> canDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("canDismiss"), canDismiss);
+        b.SetProperty(b.Props, b.Const("canDismiss"), canDismiss);
     }
 
     /// <summary>
@@ -454,7 +454,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetCanDismiss<T>(this PropsBuilder<T> b, bool canDismiss) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("canDismiss"), b.Const(canDismiss));
+        b.SetProperty(b.Props, b.Const("canDismiss"), b.Const(canDismiss));
     }
 
 
@@ -463,7 +463,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), enterAnimation);
+        b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
 
     /// <summary>
@@ -471,7 +471,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("enterAnimation"), b.Const(enterAnimation));
+        b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
 
 
@@ -480,7 +480,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetExpandToScroll<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expandToScroll"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("expandToScroll"), b.Const(true));
     }
 
 
@@ -489,7 +489,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetExpandToScroll<T>(this PropsBuilder<T> b, Var<bool> expandToScroll) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expandToScroll"), expandToScroll);
+        b.SetProperty(b.Props, b.Const("expandToScroll"), expandToScroll);
     }
 
     /// <summary>
@@ -497,7 +497,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetExpandToScroll<T>(this PropsBuilder<T> b, bool expandToScroll) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("expandToScroll"), b.Const(expandToScroll));
+        b.SetProperty(b.Props, b.Const("expandToScroll"), b.Const(expandToScroll));
     }
 
 
@@ -506,7 +506,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("focusTrap"), b.Const(true));
     }
 
 
@@ -515,7 +515,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b, Var<bool> focusTrap) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), focusTrap);
+        b.SetProperty(b.Props, b.Const("focusTrap"), focusTrap);
     }
 
     /// <summary>
@@ -523,7 +523,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetFocusTrap<T>(this PropsBuilder<T> b, bool focusTrap) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("focusTrap"), b.Const(focusTrap));
+        b.SetProperty(b.Props, b.Const("focusTrap"), b.Const(focusTrap));
     }
 
 
@@ -532,7 +532,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHandle<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("handle"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("handle"), b.Const(true));
     }
 
 
@@ -541,7 +541,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHandle<T>(this PropsBuilder<T> b, Var<bool> handle) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("handle"), handle);
+        b.SetProperty(b.Props, b.Const("handle"), handle);
     }
 
     /// <summary>
@@ -549,7 +549,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHandle<T>(this PropsBuilder<T> b, bool handle) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("handle"), b.Const(handle));
+        b.SetProperty(b.Props, b.Const("handle"), b.Const(handle));
     }
 
 
@@ -558,7 +558,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHandleBehaviorCycle<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("handleBehavior"), b.Const("cycle"));
+        b.SetProperty(b.Props, b.Const("handleBehavior"), b.Const("cycle"));
     }
 
 
@@ -567,7 +567,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHandleBehaviorNone<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("handleBehavior"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("handleBehavior"), b.Const("none"));
     }
 
 
@@ -576,7 +576,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), htmlAttributes);
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("htmlAttributes"), b.Const(htmlAttributes));
+        b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
 
 
@@ -593,7 +593,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetInitialBreakpoint<T>(this PropsBuilder<T> b, Var<int> initialBreakpoint) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("initialBreakpoint"), initialBreakpoint);
+        b.SetProperty(b.Props, b.Const("initialBreakpoint"), initialBreakpoint);
     }
 
     /// <summary>
@@ -601,7 +601,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetInitialBreakpoint<T>(this PropsBuilder<T> b, int initialBreakpoint) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("initialBreakpoint"), b.Const(initialBreakpoint));
+        b.SetProperty(b.Props, b.Const("initialBreakpoint"), b.Const(initialBreakpoint));
     }
 
 
@@ -610,7 +610,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(true));
     }
 
 
@@ -619,7 +619,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, Var<bool> isOpen) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), isOpen);
+        b.SetProperty(b.Props, b.Const("isOpen"), isOpen);
     }
 
     /// <summary>
@@ -627,7 +627,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetIsOpen<T>(this PropsBuilder<T> b, bool isOpen) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("isOpen"), b.Const(isOpen));
+        b.SetProperty(b.Props, b.Const("isOpen"), b.Const(isOpen));
     }
 
 
@@ -636,7 +636,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), b.Const(true));
     }
 
 
@@ -645,7 +645,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, Var<bool> keepContentsMounted) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), keepContentsMounted);
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), keepContentsMounted);
     }
 
     /// <summary>
@@ -653,7 +653,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeepContentsMounted<T>(this PropsBuilder<T> b, bool keepContentsMounted) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keepContentsMounted"), b.Const(keepContentsMounted));
+        b.SetProperty(b.Props, b.Const("keepContentsMounted"), b.Const(keepContentsMounted));
     }
 
 
@@ -662,7 +662,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(true));
     }
 
 
@@ -671,7 +671,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, Var<bool> keyboardClose) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), keyboardClose);
+        b.SetProperty(b.Props, b.Const("keyboardClose"), keyboardClose);
     }
 
     /// <summary>
@@ -679,7 +679,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetKeyboardClose<T>(this PropsBuilder<T> b, bool keyboardClose) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("keyboardClose"), b.Const(keyboardClose));
+        b.SetProperty(b.Props, b.Const("keyboardClose"), b.Const(keyboardClose));
     }
 
 
@@ -688,7 +688,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), leaveAnimation);
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
 
     /// <summary>
@@ -696,7 +696,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("leaveAnimation"), b.Const(leaveAnimation));
+        b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }
 
 
@@ -705,7 +705,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -714,7 +714,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -723,7 +723,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetPresentingElement<T>(this PropsBuilder<T> b, Var<HTMLElement> presentingElement) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("presentingElement"), presentingElement);
+        b.SetProperty(b.Props, b.Const("presentingElement"), presentingElement);
     }
 
     /// <summary>
@@ -731,7 +731,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetPresentingElement<T>(this PropsBuilder<T> b, HTMLElement presentingElement) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("presentingElement"), b.Const(presentingElement));
+        b.SetProperty(b.Props, b.Const("presentingElement"), b.Const(presentingElement));
     }
 
 
@@ -740,7 +740,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(true));
     }
 
 
@@ -749,7 +749,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, Var<bool> showBackdrop) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), showBackdrop);
+        b.SetProperty(b.Props, b.Const("showBackdrop"), showBackdrop);
     }
 
     /// <summary>
@@ -757,7 +757,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetShowBackdrop<T>(this PropsBuilder<T> b, bool showBackdrop) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("showBackdrop"), b.Const(showBackdrop));
+        b.SetProperty(b.Props, b.Const("showBackdrop"), b.Const(showBackdrop));
     }
 
 
@@ -766,7 +766,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, Var<string> trigger) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), trigger);
+        b.SetProperty(b.Props, b.Const("trigger"), trigger);
     }
 
     /// <summary>
@@ -774,7 +774,7 @@ public static partial class IonModalControl
     /// </summary>
     public static void SetTrigger<T>(this PropsBuilder<T> b, string trigger) where T: IonModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("trigger"), b.Const(trigger));
+        b.SetProperty(b.Props, b.Const("trigger"), b.Const(trigger));
     }
 
 

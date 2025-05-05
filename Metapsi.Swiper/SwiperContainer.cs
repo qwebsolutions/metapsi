@@ -12,26 +12,29 @@ public class SwiperContainer
 
 public static partial class Control
 {
-    public static IHtmlNode SwiperContainer(this HtmlBuilder b, Action<AttributesBuilder<SwiperContainer>> setProps, params IHtmlNode[] slides)
+    private static void AddSwiper(this SyntaxBuilder b)
     {
         EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
-        b.HeadAppend(b.HtmlScriptModule(b => b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register")));
+        var register = b.ImportName<Action>($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
+        b.Call(register);
+    }
+
+    public static IHtmlNode SwiperContainer(this HtmlBuilder b, Action<AttributesBuilder<SwiperContainer>> setProps, params IHtmlNode[] slides)
+    {
+        b.HeadAppend(b.HtmlScriptModule(AddSwiper));
         return b.Tag("swiper-container", setProps, slides);
     }
 
     public static Var<IVNode> SwiperContainer(this LayoutBuilder b, Action<PropsBuilder<SwiperContainer>> setProps, Var<List<IVNode>> slides)
     {
-        EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
-        b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
-
+        b.AddSwiper();
         var nodeProps = b.NewObj(setProps);
         return b.H(b.Const("swiper-container"), nodeProps.As<DynamicObject>(), slides);
     }
 
     public static Var<IVNode> SwiperContainer(this LayoutBuilder b, Action<PropsBuilder<SwiperContainer>> setProps, params Var<IVNode>[] slides)
     {
-        EmbeddedFiles.AddAll(typeof(SwiperContainer).Assembly);
-        b.CallExternal($"swiper@{Cdn.Version}/swiper-element-bundle.mjs", "register");
+        b.AddSwiper();
         return b.SwiperContainer(setProps, b.List(slides));
     }
 }

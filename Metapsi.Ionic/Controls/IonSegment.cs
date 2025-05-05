@@ -178,7 +178,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -187,7 +187,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -196,7 +196,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -205,7 +205,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -232,7 +232,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -259,7 +259,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -268,7 +268,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -276,7 +276,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -285,7 +285,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -294,7 +294,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -303,7 +303,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetScrollable<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("scrollable"), b.Const(true));
     }
 
 
@@ -312,7 +312,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetScrollable<T>(this PropsBuilder<T> b, Var<bool> scrollable) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollable"), scrollable);
+        b.SetProperty(b.Props, b.Const("scrollable"), scrollable);
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetScrollable<T>(this PropsBuilder<T> b, bool scrollable) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollable"), b.Const(scrollable));
+        b.SetProperty(b.Props, b.Const("scrollable"), b.Const(scrollable));
     }
 
 
@@ -329,7 +329,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSelectOnFocus<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selectOnFocus"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("selectOnFocus"), b.Const(true));
     }
 
 
@@ -338,7 +338,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSelectOnFocus<T>(this PropsBuilder<T> b, Var<bool> selectOnFocus) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selectOnFocus"), selectOnFocus);
+        b.SetProperty(b.Props, b.Const("selectOnFocus"), selectOnFocus);
     }
 
     /// <summary>
@@ -346,7 +346,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSelectOnFocus<T>(this PropsBuilder<T> b, bool selectOnFocus) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("selectOnFocus"), b.Const(selectOnFocus));
+        b.SetProperty(b.Props, b.Const("selectOnFocus"), b.Const(selectOnFocus));
     }
 
 
@@ -355,7 +355,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(true));
     }
 
 
@@ -364,7 +364,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> swipeGesture) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), swipeGesture);
+        b.SetProperty(b.Props, b.Const("swipeGesture"), swipeGesture);
     }
 
     /// <summary>
@@ -372,7 +372,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool swipeGesture) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(swipeGesture));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(swipeGesture));
     }
 
 
@@ -381,7 +381,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -389,7 +389,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -398,7 +398,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -406,7 +406,7 @@ public static partial class IonSegmentControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonSegment
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

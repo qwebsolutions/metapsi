@@ -983,7 +983,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -992,7 +992,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -1000,7 +1000,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -1009,7 +1009,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, Var<string> autocapitalize) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), autocapitalize);
+        b.SetProperty(b.Props, b.Const("autocapitalize"), autocapitalize);
     }
 
     /// <summary>
@@ -1017,7 +1017,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocapitalize<T>(this PropsBuilder<T> b, string autocapitalize) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const(autocapitalize));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const(autocapitalize));
     }
 
 
@@ -1026,7 +1026,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("name"));
     }
 
 
@@ -1035,7 +1035,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("email"));
     }
 
 
@@ -1044,7 +1044,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel"));
     }
 
 
@@ -1053,7 +1053,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("url"));
     }
 
 
@@ -1062,7 +1062,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteOn<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("on"));
     }
 
 
@@ -1071,7 +1071,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteOff<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("off"));
     }
 
 
@@ -1080,7 +1080,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteHonorificPrefix<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-prefix"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("honorific-prefix"));
     }
 
 
@@ -1089,7 +1089,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteGivenName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("given-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("given-name"));
     }
 
 
@@ -1098,7 +1098,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAdditionalName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("additional-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("additional-name"));
     }
 
 
@@ -1107,7 +1107,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteFamilyName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("family-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("family-name"));
     }
 
 
@@ -1116,7 +1116,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteHonorificSuffix<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("honorific-suffix"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("honorific-suffix"));
     }
 
 
@@ -1125,7 +1125,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteNickname<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("nickname"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("nickname"));
     }
 
 
@@ -1134,7 +1134,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteUsername<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("username"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("username"));
     }
 
 
@@ -1143,7 +1143,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteNewPassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("new-password"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("new-password"));
     }
 
 
@@ -1152,7 +1152,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCurrentPassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("current-password"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("current-password"));
     }
 
 
@@ -1161,7 +1161,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteOneTimeCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("one-time-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("one-time-code"));
     }
 
 
@@ -1170,7 +1170,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteOrganizationTitle<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization-title"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("organization-title"));
     }
 
 
@@ -1179,7 +1179,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteOrganization<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("organization"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("organization"));
     }
 
 
@@ -1188,7 +1188,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteStreetAddress<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("street-address"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("street-address"));
     }
 
 
@@ -1197,7 +1197,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLine1<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line1"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line1"));
     }
 
 
@@ -1206,7 +1206,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLine2<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line2"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line2"));
     }
 
 
@@ -1215,7 +1215,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLine3<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-line3"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-line3"));
     }
 
 
@@ -1224,7 +1224,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLevel4<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level4"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level4"));
     }
 
 
@@ -1233,7 +1233,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLevel3<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level3"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level3"));
     }
 
 
@@ -1242,7 +1242,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLevel2<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level2"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level2"));
     }
 
 
@@ -1251,7 +1251,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteAddressLevel1<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("address-level1"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("address-level1"));
     }
 
 
@@ -1260,7 +1260,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCountry<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("country"));
     }
 
 
@@ -1269,7 +1269,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCountryName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("country-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("country-name"));
     }
 
 
@@ -1278,7 +1278,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompletePostalCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("postal-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("postal-code"));
     }
 
 
@@ -1287,7 +1287,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-name"));
     }
 
 
@@ -1296,7 +1296,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcGivenName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-given-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-given-name"));
     }
 
 
@@ -1305,7 +1305,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcAdditionalName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-additional-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-additional-name"));
     }
 
 
@@ -1314,7 +1314,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcFamilyName<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-family-name"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-family-name"));
     }
 
 
@@ -1323,7 +1323,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcNumber<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-number"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-number"));
     }
 
 
@@ -1332,7 +1332,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcExp<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp"));
     }
 
 
@@ -1341,7 +1341,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcExpMonth<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-month"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp-month"));
     }
 
 
@@ -1350,7 +1350,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcExpYear<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-exp-year"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-exp-year"));
     }
 
 
@@ -1359,7 +1359,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcCsc<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-csc"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-csc"));
     }
 
 
@@ -1368,7 +1368,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteCcType<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("cc-type"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("cc-type"));
     }
 
 
@@ -1377,7 +1377,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTransactionCurrency<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-currency"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("transaction-currency"));
     }
 
 
@@ -1386,7 +1386,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTransactionAmount<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("transaction-amount"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("transaction-amount"));
     }
 
 
@@ -1395,7 +1395,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteLanguage<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("language"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("language"));
     }
 
 
@@ -1404,7 +1404,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteBday<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday"));
     }
 
 
@@ -1413,7 +1413,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteBdayDay<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-day"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-day"));
     }
 
 
@@ -1422,7 +1422,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteBdayMonth<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-month"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-month"));
     }
 
 
@@ -1431,7 +1431,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteBdayYear<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("bday-year"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("bday-year"));
     }
 
 
@@ -1440,7 +1440,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteSex<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("sex"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("sex"));
     }
 
 
@@ -1449,7 +1449,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTelCountryCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-country-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-country-code"));
     }
 
 
@@ -1458,7 +1458,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTelNational<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-national"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-national"));
     }
 
 
@@ -1467,7 +1467,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTelAreaCode<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-area-code"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-area-code"));
     }
 
 
@@ -1476,7 +1476,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTelLocal<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-local"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-local"));
     }
 
 
@@ -1485,7 +1485,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteTelExtension<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("tel-extension"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("tel-extension"));
     }
 
 
@@ -1494,7 +1494,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompleteImpp<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("impp"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("impp"));
     }
 
 
@@ -1503,7 +1503,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocompletePhoto<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const("photo"));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const("photo"));
     }
 
 
@@ -1512,7 +1512,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("off"));
     }
 
 
@@ -1521,7 +1521,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("on"));
     }
 
 
@@ -1530,7 +1530,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetCancelButtonIcon<T>(this PropsBuilder<T> b, Var<string> cancelButtonIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelButtonIcon"), cancelButtonIcon);
+        b.SetProperty(b.Props, b.Const("cancelButtonIcon"), cancelButtonIcon);
     }
 
     /// <summary>
@@ -1538,7 +1538,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetCancelButtonIcon<T>(this PropsBuilder<T> b, string cancelButtonIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelButtonIcon"), b.Const(cancelButtonIcon));
+        b.SetProperty(b.Props, b.Const("cancelButtonIcon"), b.Const(cancelButtonIcon));
     }
 
 
@@ -1547,7 +1547,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetCancelButtonText<T>(this PropsBuilder<T> b, Var<string> cancelButtonText) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelButtonText"), cancelButtonText);
+        b.SetProperty(b.Props, b.Const("cancelButtonText"), cancelButtonText);
     }
 
     /// <summary>
@@ -1555,7 +1555,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetCancelButtonText<T>(this PropsBuilder<T> b, string cancelButtonText) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelButtonText"), b.Const(cancelButtonText));
+        b.SetProperty(b.Props, b.Const("cancelButtonText"), b.Const(cancelButtonText));
     }
 
 
@@ -1564,7 +1564,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetClearIcon<T>(this PropsBuilder<T> b, Var<string> clearIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearIcon"), clearIcon);
+        b.SetProperty(b.Props, b.Const("clearIcon"), clearIcon);
     }
 
     /// <summary>
@@ -1572,7 +1572,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetClearIcon<T>(this PropsBuilder<T> b, string clearIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("clearIcon"), b.Const(clearIcon));
+        b.SetProperty(b.Props, b.Const("clearIcon"), b.Const(clearIcon));
     }
 
 
@@ -1581,7 +1581,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -1590,7 +1590,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -1599,7 +1599,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -1608,7 +1608,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -1617,7 +1617,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -1626,7 +1626,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -1635,7 +1635,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -1644,7 +1644,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -1653,7 +1653,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -1662,7 +1662,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, Var<int> debounce) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), debounce);
+        b.SetProperty(b.Props, b.Const("debounce"), debounce);
     }
 
     /// <summary>
@@ -1670,7 +1670,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetDebounce<T>(this PropsBuilder<T> b, int debounce) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("debounce"), b.Const(debounce));
+        b.SetProperty(b.Props, b.Const("debounce"), b.Const(debounce));
     }
 
 
@@ -1679,7 +1679,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -1688,7 +1688,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -1696,7 +1696,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -1705,7 +1705,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("done"));
     }
 
 
@@ -1714,7 +1714,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("enter"));
     }
 
 
@@ -1723,7 +1723,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("go"));
     }
 
 
@@ -1732,7 +1732,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("next"));
     }
 
 
@@ -1741,7 +1741,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("previous"));
     }
 
 
@@ -1750,7 +1750,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("search"));
     }
 
 
@@ -1759,7 +1759,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("send"));
     }
 
 
@@ -1768,7 +1768,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("decimal"));
     }
 
 
@@ -1777,7 +1777,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("email"));
     }
 
 
@@ -1786,7 +1786,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("none"));
     }
 
 
@@ -1795,7 +1795,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("numeric"));
     }
 
 
@@ -1804,7 +1804,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("search"));
     }
 
 
@@ -1813,7 +1813,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("tel"));
     }
 
 
@@ -1822,7 +1822,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("text"));
     }
 
 
@@ -1831,7 +1831,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("url"));
     }
 
 
@@ -1840,7 +1840,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
+        b.SetProperty(b.Props, b.Const("maxlength"), maxlength);
     }
 
     /// <summary>
@@ -1848,7 +1848,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
+        b.SetProperty(b.Props, b.Const("maxlength"), b.Const(maxlength));
     }
 
 
@@ -1857,7 +1857,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
+        b.SetProperty(b.Props, b.Const("minlength"), minlength);
     }
 
     /// <summary>
@@ -1865,7 +1865,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+        b.SetProperty(b.Props, b.Const("minlength"), b.Const(minlength));
     }
 
 
@@ -1874,7 +1874,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -1883,7 +1883,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -1892,7 +1892,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -1900,7 +1900,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -1909,7 +1909,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -1917,7 +1917,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -1926,7 +1926,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetSearchIcon<T>(this PropsBuilder<T> b, Var<string> searchIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("searchIcon"), searchIcon);
+        b.SetProperty(b.Props, b.Const("searchIcon"), searchIcon);
     }
 
     /// <summary>
@@ -1934,7 +1934,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetSearchIcon<T>(this PropsBuilder<T> b, string searchIcon) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("searchIcon"), b.Const(searchIcon));
+        b.SetProperty(b.Props, b.Const("searchIcon"), b.Const(searchIcon));
     }
 
 
@@ -1943,7 +1943,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowCancelButtonAlways<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showCancelButton"), b.Const("always"));
+        b.SetProperty(b.Props, b.Const("showCancelButton"), b.Const("always"));
     }
 
 
@@ -1952,7 +1952,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowCancelButtonFocus<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showCancelButton"), b.Const("focus"));
+        b.SetProperty(b.Props, b.Const("showCancelButton"), b.Const("focus"));
     }
 
 
@@ -1961,7 +1961,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowCancelButtonNever<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showCancelButton"), b.Const("never"));
+        b.SetProperty(b.Props, b.Const("showCancelButton"), b.Const("never"));
     }
 
 
@@ -1970,7 +1970,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowClearButtonAlways<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("always"));
+        b.SetProperty(b.Props, b.Const("showClearButton"), b.Const("always"));
     }
 
 
@@ -1979,7 +1979,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowClearButtonFocus<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("focus"));
+        b.SetProperty(b.Props, b.Const("showClearButton"), b.Const("focus"));
     }
 
 
@@ -1988,7 +1988,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetShowClearButtonNever<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("showClearButton"), b.Const("never"));
+        b.SetProperty(b.Props, b.Const("showClearButton"), b.Const("never"));
     }
 
 
@@ -1997,7 +1997,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(true));
     }
 
 
@@ -2006,7 +2006,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
+        b.SetProperty(b.Props, b.Const("spellcheck"), spellcheck);
     }
 
     /// <summary>
@@ -2014,7 +2014,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(spellcheck));
     }
 
 
@@ -2023,7 +2023,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("email"));
     }
 
 
@@ -2032,7 +2032,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("number"));
     }
 
 
@@ -2041,7 +2041,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("password"));
     }
 
 
@@ -2050,7 +2050,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("search"));
     }
 
 
@@ -2059,7 +2059,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("tel"));
     }
 
 
@@ -2068,7 +2068,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeText<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("text"));
     }
 
 
@@ -2077,7 +2077,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("url"));
     }
 
 
@@ -2086,7 +2086,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -2094,7 +2094,7 @@ public static partial class IonSearchbarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonSearchbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

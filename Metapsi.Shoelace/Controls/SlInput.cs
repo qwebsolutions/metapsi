@@ -775,7 +775,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeDate<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("date"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("date"));
     }
 
 
@@ -784,7 +784,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeDatetimeLocal<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("datetime-local"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("datetime-local"));
     }
 
 
@@ -793,7 +793,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("email"));
     }
 
 
@@ -802,7 +802,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("number"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("number"));
     }
 
 
@@ -811,7 +811,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("password"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("password"));
     }
 
 
@@ -820,7 +820,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("search"));
     }
 
 
@@ -829,7 +829,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("tel"));
     }
 
 
@@ -838,7 +838,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeText<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("text"));
     }
 
 
@@ -847,7 +847,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeTime<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("time"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("time"));
     }
 
 
@@ -856,7 +856,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("url"));
     }
 
 
@@ -865,7 +865,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -873,7 +873,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -882,7 +882,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -890,7 +890,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -899,7 +899,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -907,7 +907,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 
@@ -916,7 +916,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -925,7 +925,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -934,7 +934,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -943,7 +943,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(true));
     }
 
 
@@ -952,7 +952,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
+        b.SetProperty(b.Props, b.Const("filled"), filled);
     }
 
     /// <summary>
@@ -960,7 +960,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(filled));
     }
 
 
@@ -969,7 +969,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -978,7 +978,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -986,7 +986,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 
@@ -995,7 +995,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -1003,7 +1003,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -1012,7 +1012,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
+        b.SetProperty(b.Props, b.Const("helpText"), helpText);
     }
 
     /// <summary>
@@ -1020,7 +1020,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+        b.SetProperty(b.Props, b.Const("helpText"), b.Const(helpText));
     }
 
 
@@ -1029,7 +1029,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("clearable"), b.Const(true));
     }
 
 
@@ -1038,7 +1038,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b, Var<bool> clearable) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), clearable);
+        b.SetProperty(b.Props, b.Const("clearable"), clearable);
     }
 
     /// <summary>
@@ -1046,7 +1046,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetClearable<T>(this PropsBuilder<T> b, bool clearable) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("clearable"), b.Const(clearable));
+        b.SetProperty(b.Props, b.Const("clearable"), b.Const(clearable));
     }
 
 
@@ -1055,7 +1055,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -1064,7 +1064,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -1072,7 +1072,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -1081,7 +1081,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -1089,7 +1089,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -1098,7 +1098,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -1107,7 +1107,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -1115,7 +1115,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -1124,7 +1124,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordToggle<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("passwordToggle"), b.Const(true));
     }
 
 
@@ -1133,7 +1133,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordToggle<T>(this PropsBuilder<T> b, Var<bool> passwordToggle) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), passwordToggle);
+        b.SetProperty(b.Props, b.Const("passwordToggle"), passwordToggle);
     }
 
     /// <summary>
@@ -1141,7 +1141,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordToggle<T>(this PropsBuilder<T> b, bool passwordToggle) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordToggle"), b.Const(passwordToggle));
+        b.SetProperty(b.Props, b.Const("passwordToggle"), b.Const(passwordToggle));
     }
 
 
@@ -1150,7 +1150,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordVisible<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("passwordVisible"), b.Const(true));
     }
 
 
@@ -1159,7 +1159,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordVisible<T>(this PropsBuilder<T> b, Var<bool> passwordVisible) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), passwordVisible);
+        b.SetProperty(b.Props, b.Const("passwordVisible"), passwordVisible);
     }
 
     /// <summary>
@@ -1167,7 +1167,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPasswordVisible<T>(this PropsBuilder<T> b, bool passwordVisible) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("passwordVisible"), b.Const(passwordVisible));
+        b.SetProperty(b.Props, b.Const("passwordVisible"), b.Const(passwordVisible));
     }
 
 
@@ -1176,7 +1176,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetNoSpinButtons<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("noSpinButtons"), b.Const(true));
     }
 
 
@@ -1185,7 +1185,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetNoSpinButtons<T>(this PropsBuilder<T> b, Var<bool> noSpinButtons) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), noSpinButtons);
+        b.SetProperty(b.Props, b.Const("noSpinButtons"), noSpinButtons);
     }
 
     /// <summary>
@@ -1193,7 +1193,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetNoSpinButtons<T>(this PropsBuilder<T> b, bool noSpinButtons) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noSpinButtons"), b.Const(noSpinButtons));
+        b.SetProperty(b.Props, b.Const("noSpinButtons"), b.Const(noSpinButtons));
     }
 
 
@@ -1202,7 +1202,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -1210,7 +1210,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -1219,7 +1219,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -1228,7 +1228,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -1236,7 +1236,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -1245,7 +1245,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPattern<T>(this PropsBuilder<T> b, Var<string> pattern) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), pattern);
+        b.SetProperty(b.Props, b.Const("pattern"), pattern);
     }
 
     /// <summary>
@@ -1253,7 +1253,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetPattern<T>(this PropsBuilder<T> b, string pattern) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("pattern"), b.Const(pattern));
+        b.SetProperty(b.Props, b.Const("pattern"), b.Const(pattern));
     }
 
 
@@ -1262,7 +1262,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
+        b.SetProperty(b.Props, b.Const("minlength"), minlength);
     }
 
     /// <summary>
@@ -1270,7 +1270,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+        b.SetProperty(b.Props, b.Const("minlength"), b.Const(minlength));
     }
 
 
@@ -1279,7 +1279,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
+        b.SetProperty(b.Props, b.Const("maxlength"), maxlength);
     }
 
     /// <summary>
@@ -1287,7 +1287,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
+        b.SetProperty(b.Props, b.Const("maxlength"), b.Const(maxlength));
     }
 
 
@@ -1296,7 +1296,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -1304,7 +1304,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -1313,7 +1313,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<string> min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -1321,7 +1321,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, string min) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -1330,7 +1330,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -1338,7 +1338,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -1347,7 +1347,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<string> max) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -1355,7 +1355,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, string max) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -1364,7 +1364,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
+        b.SetProperty(b.Props, b.Const("step"), step);
     }
 
     /// <summary>
@@ -1372,7 +1372,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
+        b.SetProperty(b.Props, b.Const("step"), b.Const(step));
     }
 
 
@@ -1381,7 +1381,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetStepAny<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("step"), b.Const("any"));
+        b.SetProperty(b.Props, b.Const("step"), b.Const("any"));
     }
 
 
@@ -1390,7 +1390,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeOff<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("off"));
     }
 
 
@@ -1399,7 +1399,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeNone<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("none"));
     }
 
 
@@ -1408,7 +1408,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeOn<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("on"));
     }
 
 
@@ -1417,7 +1417,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeSentences<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("sentences"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("sentences"));
     }
 
 
@@ -1426,7 +1426,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeWords<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("words"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("words"));
     }
 
 
@@ -1435,7 +1435,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocapitalizeCharacters<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("characters"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("characters"));
     }
 
 
@@ -1444,7 +1444,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocorrectOff<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("off"));
     }
 
 
@@ -1453,7 +1453,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocorrectOn<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const("on"));
     }
 
 
@@ -1462,7 +1462,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocomplete<T>(this PropsBuilder<T> b, Var<string> autocomplete) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), autocomplete);
+        b.SetProperty(b.Props, b.Const("autocomplete"), autocomplete);
     }
 
     /// <summary>
@@ -1470,7 +1470,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutocomplete<T>(this PropsBuilder<T> b, string autocomplete) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(autocomplete));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const(autocomplete));
     }
 
 
@@ -1479,7 +1479,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(true));
     }
 
 
@@ -1488,7 +1488,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
+        b.SetProperty(b.Props, b.Const("autofocus"), autofocus);
     }
 
     /// <summary>
@@ -1496,7 +1496,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(autofocus));
     }
 
 
@@ -1505,7 +1505,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("enter"));
     }
 
 
@@ -1514,7 +1514,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("done"));
     }
 
 
@@ -1523,7 +1523,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("go"));
     }
 
 
@@ -1532,7 +1532,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("next"));
     }
 
 
@@ -1541,7 +1541,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("previous"));
     }
 
 
@@ -1550,7 +1550,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("search"));
     }
 
 
@@ -1559,7 +1559,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("send"));
     }
 
 
@@ -1568,7 +1568,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(true));
     }
 
 
@@ -1577,7 +1577,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
+        b.SetProperty(b.Props, b.Const("spellcheck"), spellcheck);
     }
 
     /// <summary>
@@ -1585,7 +1585,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(spellcheck));
     }
 
 
@@ -1594,7 +1594,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("none"));
     }
 
 
@@ -1603,7 +1603,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("text"));
     }
 
 
@@ -1612,7 +1612,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("decimal"));
     }
 
 
@@ -1621,7 +1621,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("numeric"));
     }
 
 
@@ -1630,7 +1630,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("tel"));
     }
 
 
@@ -1639,7 +1639,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("search"));
     }
 
 
@@ -1648,7 +1648,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("email"));
     }
 
 
@@ -1657,24 +1657,24 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("url"));
     }
 
 
     /// <summary>
     /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
     /// </summary>
-    public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<object> valueAsDate) where T: SlInput
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<DynamicObject> valueAsDate) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), valueAsDate);
+        b.SetProperty(b.Props, b.Const("valueAsDate"), valueAsDate);
     }
 
     /// <summary>
     /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
     /// </summary>
-    public static void SetValueAsDate<T>(this PropsBuilder<T> b, object valueAsDate) where T: SlInput
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, DynamicObject valueAsDate) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<object>("valueAsDate"), b.Const(valueAsDate));
+        b.SetProperty(b.Props, b.Const("valueAsDate"), b.Const(valueAsDate));
     }
 
 
@@ -1683,7 +1683,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetValueAsNumber<T>(this PropsBuilder<T> b, Var<int> valueAsNumber) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), valueAsNumber);
+        b.SetProperty(b.Props, b.Const("valueAsNumber"), valueAsNumber);
     }
 
     /// <summary>
@@ -1691,7 +1691,7 @@ public static partial class SlInputControl
     /// </summary>
     public static void SetValueAsNumber<T>(this PropsBuilder<T> b, int valueAsNumber) where T: SlInput
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("valueAsNumber"), b.Const(valueAsNumber));
+        b.SetProperty(b.Props, b.Const("valueAsNumber"), b.Const(valueAsNumber));
     }
 
 

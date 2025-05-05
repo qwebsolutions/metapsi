@@ -162,7 +162,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttr<T>(this PropsBuilder<T> b, Var<string> attr) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("attr"), attr);
+        b.SetProperty(b.Props, b.Const("attr"), attr);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttr<T>(this PropsBuilder<T> b, string attr) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("attr"), b.Const(attr));
+        b.SetProperty(b.Props, b.Const("attr"), b.Const(attr));
     }
 
 
@@ -179,7 +179,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttrOldValue<T>(this PropsBuilder<T> b) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("attrOldValue"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("attrOldValue"), b.Const(true));
     }
 
 
@@ -188,7 +188,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttrOldValue<T>(this PropsBuilder<T> b, Var<bool> attrOldValue) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("attrOldValue"), attrOldValue);
+        b.SetProperty(b.Props, b.Const("attrOldValue"), attrOldValue);
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetAttrOldValue<T>(this PropsBuilder<T> b, bool attrOldValue) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("attrOldValue"), b.Const(attrOldValue));
+        b.SetProperty(b.Props, b.Const("attrOldValue"), b.Const(attrOldValue));
     }
 
 
@@ -205,7 +205,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharData<T>(this PropsBuilder<T> b) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charData"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("charData"), b.Const(true));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharData<T>(this PropsBuilder<T> b, Var<bool> charData) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charData"), charData);
+        b.SetProperty(b.Props, b.Const("charData"), charData);
     }
 
     /// <summary>
@@ -222,7 +222,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharData<T>(this PropsBuilder<T> b, bool charData) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charData"), b.Const(charData));
+        b.SetProperty(b.Props, b.Const("charData"), b.Const(charData));
     }
 
 
@@ -231,7 +231,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharDataOldValue<T>(this PropsBuilder<T> b) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charDataOldValue"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("charDataOldValue"), b.Const(true));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharDataOldValue<T>(this PropsBuilder<T> b, Var<bool> charDataOldValue) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charDataOldValue"), charDataOldValue);
+        b.SetProperty(b.Props, b.Const("charDataOldValue"), charDataOldValue);
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetCharDataOldValue<T>(this PropsBuilder<T> b, bool charDataOldValue) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("charDataOldValue"), b.Const(charDataOldValue));
+        b.SetProperty(b.Props, b.Const("charDataOldValue"), b.Const(charDataOldValue));
     }
 
 
@@ -257,7 +257,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetChildList<T>(this PropsBuilder<T> b) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("childList"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("childList"), b.Const(true));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetChildList<T>(this PropsBuilder<T> b, Var<bool> childList) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("childList"), childList);
+        b.SetProperty(b.Props, b.Const("childList"), childList);
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetChildList<T>(this PropsBuilder<T> b, bool childList) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("childList"), b.Const(childList));
+        b.SetProperty(b.Props, b.Const("childList"), b.Const(childList));
     }
 
 
@@ -283,7 +283,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -292,7 +292,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ public static partial class SlMutationObserverControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlMutationObserver
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 

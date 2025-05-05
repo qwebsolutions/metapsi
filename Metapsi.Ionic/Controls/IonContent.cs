@@ -232,7 +232,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -259,7 +259,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -268,7 +268,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -277,7 +277,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -286,7 +286,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -295,7 +295,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -304,7 +304,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -313,7 +313,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetFixedSlotPlacementAfter<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fixedSlotPlacement"), b.Const("after"));
+        b.SetProperty(b.Props, b.Const("fixedSlotPlacement"), b.Const("after"));
     }
 
 
@@ -322,7 +322,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetFixedSlotPlacementBefore<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fixedSlotPlacement"), b.Const("before"));
+        b.SetProperty(b.Props, b.Const("fixedSlotPlacement"), b.Const("before"));
     }
 
 
@@ -331,7 +331,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetForceOverscroll<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("forceOverscroll"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("forceOverscroll"), b.Const(true));
     }
 
 
@@ -340,7 +340,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetForceOverscroll<T>(this PropsBuilder<T> b, Var<bool> forceOverscroll) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("forceOverscroll"), forceOverscroll);
+        b.SetProperty(b.Props, b.Const("forceOverscroll"), forceOverscroll);
     }
 
     /// <summary>
@@ -348,7 +348,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetForceOverscroll<T>(this PropsBuilder<T> b, bool forceOverscroll) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("forceOverscroll"), b.Const(forceOverscroll));
+        b.SetProperty(b.Props, b.Const("forceOverscroll"), b.Const(forceOverscroll));
     }
 
 
@@ -357,7 +357,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetFullscreen<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fullscreen"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("fullscreen"), b.Const(true));
     }
 
 
@@ -366,7 +366,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetFullscreen<T>(this PropsBuilder<T> b, Var<bool> fullscreen) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fullscreen"), fullscreen);
+        b.SetProperty(b.Props, b.Const("fullscreen"), fullscreen);
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetFullscreen<T>(this PropsBuilder<T> b, bool fullscreen) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fullscreen"), b.Const(fullscreen));
+        b.SetProperty(b.Props, b.Const("fullscreen"), b.Const(fullscreen));
     }
 
 
@@ -383,7 +383,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollEvents<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollEvents"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("scrollEvents"), b.Const(true));
     }
 
 
@@ -392,7 +392,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollEvents<T>(this PropsBuilder<T> b, Var<bool> scrollEvents) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollEvents"), scrollEvents);
+        b.SetProperty(b.Props, b.Const("scrollEvents"), scrollEvents);
     }
 
     /// <summary>
@@ -400,7 +400,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollEvents<T>(this PropsBuilder<T> b, bool scrollEvents) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollEvents"), b.Const(scrollEvents));
+        b.SetProperty(b.Props, b.Const("scrollEvents"), b.Const(scrollEvents));
     }
 
 
@@ -409,7 +409,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollX<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollX"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("scrollX"), b.Const(true));
     }
 
 
@@ -418,7 +418,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollX<T>(this PropsBuilder<T> b, Var<bool> scrollX) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollX"), scrollX);
+        b.SetProperty(b.Props, b.Const("scrollX"), scrollX);
     }
 
     /// <summary>
@@ -426,7 +426,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollX<T>(this PropsBuilder<T> b, bool scrollX) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollX"), b.Const(scrollX));
+        b.SetProperty(b.Props, b.Const("scrollX"), b.Const(scrollX));
     }
 
 
@@ -435,7 +435,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollY<T>(this PropsBuilder<T> b) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollY"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("scrollY"), b.Const(true));
     }
 
 
@@ -444,7 +444,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollY<T>(this PropsBuilder<T> b, Var<bool> scrollY) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollY"), scrollY);
+        b.SetProperty(b.Props, b.Const("scrollY"), scrollY);
     }
 
     /// <summary>
@@ -452,7 +452,7 @@ public static partial class IonContentControl
     /// </summary>
     public static void SetScrollY<T>(this PropsBuilder<T> b, bool scrollY) where T: IonContent
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("scrollY"), b.Const(scrollY));
+        b.SetProperty(b.Props, b.Const("scrollY"), b.Const(scrollY));
     }
 
 

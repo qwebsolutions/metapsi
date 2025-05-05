@@ -194,7 +194,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("primary"));
     }
 
 
@@ -203,7 +203,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("success"));
     }
 
 
@@ -212,7 +212,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("neutral"));
     }
 
 
@@ -221,7 +221,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("warning"));
     }
 
 
@@ -230,7 +230,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("danger"));
     }
 
 
@@ -239,7 +239,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetVariantText<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("text"));
     }
 
 
@@ -248,7 +248,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -257,7 +257,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -275,7 +275,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -284,7 +284,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -292,7 +292,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 
@@ -301,7 +301,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetRemovable<T>(this PropsBuilder<T> b) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("removable"), b.Const(true));
     }
 
 
@@ -310,7 +310,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetRemovable<T>(this PropsBuilder<T> b, Var<bool> removable) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), removable);
+        b.SetProperty(b.Props, b.Const("removable"), removable);
     }
 
     /// <summary>
@@ -318,7 +318,7 @@ public static partial class SlTagControl
     /// </summary>
     public static void SetRemovable<T>(this PropsBuilder<T> b, bool removable) where T: SlTag
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("removable"), b.Const(removable));
+        b.SetProperty(b.Props, b.Const("removable"), b.Const(removable));
     }
 
 

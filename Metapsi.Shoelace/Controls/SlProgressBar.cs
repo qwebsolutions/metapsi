@@ -106,7 +106,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -123,7 +123,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("indeterminate"), b.Const(true));
     }
 
 
@@ -132,7 +132,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b, Var<bool> indeterminate) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), indeterminate);
+        b.SetProperty(b.Props, b.Const("indeterminate"), indeterminate);
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetIndeterminate<T>(this PropsBuilder<T> b, bool indeterminate) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("indeterminate"), b.Const(indeterminate));
+        b.SetProperty(b.Props, b.Const("indeterminate"), b.Const(indeterminate));
     }
 
 
@@ -149,7 +149,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public static partial class SlProgressBarControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 

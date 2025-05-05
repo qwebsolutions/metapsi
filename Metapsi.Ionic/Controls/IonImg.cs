@@ -90,7 +90,7 @@ public static partial class IonImgControl
     /// </summary>
     public static void SetAlt<T>(this PropsBuilder<T> b, Var<string> alt) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), alt);
+        b.SetProperty(b.Props, b.Const("alt"), alt);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public static partial class IonImgControl
     /// </summary>
     public static void SetAlt<T>(this PropsBuilder<T> b, string alt) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("alt"), b.Const(alt));
+        b.SetProperty(b.Props, b.Const("alt"), b.Const(alt));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonImgControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), src);
+        b.SetProperty(b.Props, b.Const("src"), src);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class IonImgControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: IonImg
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(src));
+        b.SetProperty(b.Props, b.Const("src"), b.Const(src));
     }
 
 

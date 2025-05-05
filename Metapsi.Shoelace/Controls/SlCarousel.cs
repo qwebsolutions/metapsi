@@ -231,7 +231,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetLoop<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loop"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("loop"), b.Const(true));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetLoop<T>(this PropsBuilder<T> b, Var<bool> loop) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loop"), loop);
+        b.SetProperty(b.Props, b.Const("loop"), loop);
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetLoop<T>(this PropsBuilder<T> b, bool loop) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loop"), b.Const(loop));
+        b.SetProperty(b.Props, b.Const("loop"), b.Const(loop));
     }
 
 
@@ -257,7 +257,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetNavigation<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("navigation"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("navigation"), b.Const(true));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetNavigation<T>(this PropsBuilder<T> b, Var<bool> navigation) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("navigation"), navigation);
+        b.SetProperty(b.Props, b.Const("navigation"), navigation);
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetNavigation<T>(this PropsBuilder<T> b, bool navigation) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("navigation"), b.Const(navigation));
+        b.SetProperty(b.Props, b.Const("navigation"), b.Const(navigation));
     }
 
 
@@ -283,7 +283,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetPagination<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pagination"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pagination"), b.Const(true));
     }
 
 
@@ -292,7 +292,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetPagination<T>(this PropsBuilder<T> b, Var<bool> pagination) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pagination"), pagination);
+        b.SetProperty(b.Props, b.Const("pagination"), pagination);
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetPagination<T>(this PropsBuilder<T> b, bool pagination) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pagination"), b.Const(pagination));
+        b.SetProperty(b.Props, b.Const("pagination"), b.Const(pagination));
     }
 
 
@@ -309,7 +309,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplay<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoplay"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autoplay"), b.Const(true));
     }
 
 
@@ -318,7 +318,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplay<T>(this PropsBuilder<T> b, Var<bool> autoplay) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoplay"), autoplay);
+        b.SetProperty(b.Props, b.Const("autoplay"), autoplay);
     }
 
     /// <summary>
@@ -326,7 +326,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplay<T>(this PropsBuilder<T> b, bool autoplay) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autoplay"), b.Const(autoplay));
+        b.SetProperty(b.Props, b.Const("autoplay"), b.Const(autoplay));
     }
 
 
@@ -335,7 +335,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplayInterval<T>(this PropsBuilder<T> b, Var<int> autoplayInterval) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("autoplayInterval"), autoplayInterval);
+        b.SetProperty(b.Props, b.Const("autoplayInterval"), autoplayInterval);
     }
 
     /// <summary>
@@ -343,7 +343,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetAutoplayInterval<T>(this PropsBuilder<T> b, int autoplayInterval) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("autoplayInterval"), b.Const(autoplayInterval));
+        b.SetProperty(b.Props, b.Const("autoplayInterval"), b.Const(autoplayInterval));
     }
 
 
@@ -352,7 +352,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetSlidesPerPage<T>(this PropsBuilder<T> b, Var<int> slidesPerPage) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("slidesPerPage"), slidesPerPage);
+        b.SetProperty(b.Props, b.Const("slidesPerPage"), slidesPerPage);
     }
 
     /// <summary>
@@ -360,7 +360,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetSlidesPerPage<T>(this PropsBuilder<T> b, int slidesPerPage) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("slidesPerPage"), b.Const(slidesPerPage));
+        b.SetProperty(b.Props, b.Const("slidesPerPage"), b.Const(slidesPerPage));
     }
 
 
@@ -369,7 +369,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetSlidesPerMove<T>(this PropsBuilder<T> b, Var<int> slidesPerMove) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("slidesPerMove"), slidesPerMove);
+        b.SetProperty(b.Props, b.Const("slidesPerMove"), slidesPerMove);
     }
 
     /// <summary>
@@ -377,7 +377,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetSlidesPerMove<T>(this PropsBuilder<T> b, int slidesPerMove) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("slidesPerMove"), b.Const(slidesPerMove));
+        b.SetProperty(b.Props, b.Const("slidesPerMove"), b.Const(slidesPerMove));
     }
 
 
@@ -386,7 +386,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetOrientationHorizontal<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("orientation"), b.Const("horizontal"));
+        b.SetProperty(b.Props, b.Const("orientation"), b.Const("horizontal"));
     }
 
 
@@ -395,7 +395,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetOrientationVertical<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("orientation"), b.Const("vertical"));
+        b.SetProperty(b.Props, b.Const("orientation"), b.Const("vertical"));
     }
 
 
@@ -404,7 +404,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetMouseDragging<T>(this PropsBuilder<T> b) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("mouseDragging"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("mouseDragging"), b.Const(true));
     }
 
 
@@ -413,7 +413,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetMouseDragging<T>(this PropsBuilder<T> b, Var<bool> mouseDragging) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("mouseDragging"), mouseDragging);
+        b.SetProperty(b.Props, b.Const("mouseDragging"), mouseDragging);
     }
 
     /// <summary>
@@ -421,7 +421,7 @@ public static partial class SlCarouselControl
     /// </summary>
     public static void SetMouseDragging<T>(this PropsBuilder<T> b, bool mouseDragging) where T: SlCarousel
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("mouseDragging"), b.Const(mouseDragging));
+        b.SetProperty(b.Props, b.Const("mouseDragging"), b.Const(mouseDragging));
     }
 
 

@@ -130,7 +130,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetCollapseFade<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("collapse"), b.Const("fade"));
+        b.SetProperty(b.Props, b.Const("collapse"), b.Const("fade"));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -148,7 +148,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -157,7 +157,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -166,7 +166,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ public static partial class IonFooterControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonFooter
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 

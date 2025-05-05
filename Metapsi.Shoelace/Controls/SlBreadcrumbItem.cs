@@ -148,7 +148,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -165,7 +165,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetTarget_blank<T>(this PropsBuilder<T> b) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_blank"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_blank"));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetTarget_parent<T>(this PropsBuilder<T> b) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_parent"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_parent"));
     }
 
 
@@ -183,7 +183,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetTarget_self<T>(this PropsBuilder<T> b) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_self"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_self"));
     }
 
 
@@ -192,7 +192,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetTarget_top<T>(this PropsBuilder<T> b) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_top"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_top"));
     }
 
 
@@ -201,7 +201,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
+        b.SetProperty(b.Props, b.Const("rel"), rel);
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public static partial class SlBreadcrumbItemControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: SlBreadcrumbItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
+        b.SetProperty(b.Props, b.Const("rel"), b.Const(rel));
     }
 
 

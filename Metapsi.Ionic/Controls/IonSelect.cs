@@ -445,7 +445,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCancelText<T>(this PropsBuilder<T> b, Var<string> cancelText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelText"), cancelText);
+        b.SetProperty(b.Props, b.Const("cancelText"), cancelText);
     }
 
     /// <summary>
@@ -453,7 +453,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCancelText<T>(this PropsBuilder<T> b, string cancelText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("cancelText"), b.Const(cancelText));
+        b.SetProperty(b.Props, b.Const("cancelText"), b.Const(cancelText));
     }
 
 
@@ -462,7 +462,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -471,7 +471,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -480,7 +480,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -489,7 +489,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -498,7 +498,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -507,7 +507,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -516,7 +516,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -525,7 +525,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -534,7 +534,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -543,7 +543,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,bool>> compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), compareWith);
+        b.SetProperty(b.Props, b.Const("compareWith"), compareWith);
     }
 
     /// <summary>
@@ -551,7 +551,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,bool> compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,bool>>("compareWith"), b.Const(compareWith));
+        b.SetProperty(b.Props, b.Const("compareWith"), b.Const(compareWith));
     }
 
 
@@ -560,7 +560,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<string> compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), compareWith);
+        b.SetProperty(b.Props, b.Const("compareWith"), compareWith);
     }
 
     /// <summary>
@@ -568,7 +568,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetCompareWith<T>(this PropsBuilder<T> b, string compareWith) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("compareWith"), b.Const(compareWith));
+        b.SetProperty(b.Props, b.Const("compareWith"), b.Const(compareWith));
     }
 
 
@@ -577,7 +577,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -586,7 +586,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -594,7 +594,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -603,7 +603,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, Var<string> errorText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), errorText);
+        b.SetProperty(b.Props, b.Const("errorText"), errorText);
     }
 
     /// <summary>
@@ -611,7 +611,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetErrorText<T>(this PropsBuilder<T> b, string errorText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorText"), b.Const(errorText));
+        b.SetProperty(b.Props, b.Const("errorText"), b.Const(errorText));
     }
 
 
@@ -620,7 +620,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetExpandedIcon<T>(this PropsBuilder<T> b, Var<string> expandedIcon) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("expandedIcon"), expandedIcon);
+        b.SetProperty(b.Props, b.Const("expandedIcon"), expandedIcon);
     }
 
     /// <summary>
@@ -628,7 +628,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetExpandedIcon<T>(this PropsBuilder<T> b, string expandedIcon) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("expandedIcon"), b.Const(expandedIcon));
+        b.SetProperty(b.Props, b.Const("expandedIcon"), b.Const(expandedIcon));
     }
 
 
@@ -637,7 +637,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetFillOutline<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("outline"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("outline"));
     }
 
 
@@ -646,7 +646,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetFillSolid<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const("solid"));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const("solid"));
     }
 
 
@@ -655,7 +655,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, Var<string> helperText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), helperText);
+        b.SetProperty(b.Props, b.Const("helperText"), helperText);
     }
 
     /// <summary>
@@ -663,7 +663,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetHelperText<T>(this PropsBuilder<T> b, string helperText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helperText"), b.Const(helperText));
+        b.SetProperty(b.Props, b.Const("helperText"), b.Const(helperText));
     }
 
 
@@ -672,7 +672,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfaceActionSheet<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("interface"), b.Const("action-sheet"));
+        b.SetProperty(b.Props, b.Const("interface"), b.Const("action-sheet"));
     }
 
 
@@ -681,7 +681,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfaceAlert<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("interface"), b.Const("alert"));
+        b.SetProperty(b.Props, b.Const("interface"), b.Const("alert"));
     }
 
 
@@ -690,7 +690,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfaceModal<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("interface"), b.Const("modal"));
+        b.SetProperty(b.Props, b.Const("interface"), b.Const("modal"));
     }
 
 
@@ -699,7 +699,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfacePopover<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("interface"), b.Const("popover"));
+        b.SetProperty(b.Props, b.Const("interface"), b.Const("popover"));
     }
 
 
@@ -708,7 +708,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, Var<DynamicObject> interfaceOptions) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("interfaceOptions"), interfaceOptions);
+        b.SetProperty(b.Props, b.Const("interfaceOptions"), interfaceOptions);
     }
 
     /// <summary>
@@ -716,7 +716,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetInterfaceOptions<T>(this PropsBuilder<T> b, DynamicObject interfaceOptions) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("interfaceOptions"), b.Const(interfaceOptions));
+        b.SetProperty(b.Props, b.Const("interfaceOptions"), b.Const(interfaceOptions));
     }
 
 
@@ -725,7 +725,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetJustifyEnd<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("end"));
     }
 
 
@@ -734,7 +734,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetJustifySpaceBetween<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("space-between"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("space-between"));
     }
 
 
@@ -743,7 +743,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetJustifyStart<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("justify"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("justify"), b.Const("start"));
     }
 
 
@@ -752,7 +752,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -760,7 +760,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -769,7 +769,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabelPlacementEnd<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("end"));
     }
 
 
@@ -778,7 +778,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabelPlacementFixed<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("fixed"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("fixed"));
     }
 
 
@@ -787,7 +787,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabelPlacementFloating<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("floating"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("floating"));
     }
 
 
@@ -796,7 +796,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabelPlacementStacked<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("stacked"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("stacked"));
     }
 
 
@@ -805,7 +805,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetLabelPlacementStart<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("labelPlacement"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("labelPlacement"), b.Const("start"));
     }
 
 
@@ -814,7 +814,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -823,7 +823,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -832,7 +832,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -841,7 +841,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -849,7 +849,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -858,7 +858,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -866,7 +866,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -875,7 +875,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetOkText<T>(this PropsBuilder<T> b, Var<string> okText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("okText"), okText);
+        b.SetProperty(b.Props, b.Const("okText"), okText);
     }
 
     /// <summary>
@@ -883,7 +883,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetOkText<T>(this PropsBuilder<T> b, string okText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("okText"), b.Const(okText));
+        b.SetProperty(b.Props, b.Const("okText"), b.Const(okText));
     }
 
 
@@ -892,7 +892,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -900,7 +900,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -909,7 +909,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -918,7 +918,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -926,7 +926,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -935,7 +935,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetSelectedText<T>(this PropsBuilder<T> b, Var<string> selectedText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selectedText"), selectedText);
+        b.SetProperty(b.Props, b.Const("selectedText"), selectedText);
     }
 
     /// <summary>
@@ -943,7 +943,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetSelectedText<T>(this PropsBuilder<T> b, string selectedText) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selectedText"), b.Const(selectedText));
+        b.SetProperty(b.Props, b.Const("selectedText"), b.Const(selectedText));
     }
 
 
@@ -952,7 +952,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetShapeRound<T>(this PropsBuilder<T> b) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("round"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("round"));
     }
 
 
@@ -961,7 +961,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetToggleIcon<T>(this PropsBuilder<T> b, Var<string> toggleIcon) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), toggleIcon);
+        b.SetProperty(b.Props, b.Const("toggleIcon"), toggleIcon);
     }
 
     /// <summary>
@@ -969,7 +969,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetToggleIcon<T>(this PropsBuilder<T> b, string toggleIcon) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("toggleIcon"), b.Const(toggleIcon));
+        b.SetProperty(b.Props, b.Const("toggleIcon"), b.Const(toggleIcon));
     }
 
 
@@ -978,7 +978,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -986,7 +986,7 @@ public static partial class IonSelectControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonSelect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

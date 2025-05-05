@@ -171,7 +171,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -188,7 +188,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -197,7 +197,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -232,7 +232,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -258,7 +258,7 @@ public static partial class SlRadioButtonControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlRadioButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 

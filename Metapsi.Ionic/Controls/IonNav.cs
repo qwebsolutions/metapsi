@@ -221,7 +221,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -230,7 +230,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -238,7 +238,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -247,7 +247,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> animation) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), animation);
+        b.SetProperty(b.Props, b.Const("animation"), animation);
     }
 
     /// <summary>
@@ -255,7 +255,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> animation) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), b.Const(animation));
+        b.SetProperty(b.Props, b.Const("animation"), b.Const(animation));
     }
 
 
@@ -264,7 +264,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("root"), root);
+        b.SetProperty(b.Props, b.Const("root"), root);
     }
 
     /// <summary>
@@ -272,7 +272,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("root"), b.Const(root));
+        b.SetProperty(b.Props, b.Const("root"), b.Const(root));
     }
 
 
@@ -281,7 +281,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Var<HTMLElement> root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("root"), root);
+        b.SetProperty(b.Props, b.Const("root"), root);
     }
 
     /// <summary>
@@ -289,7 +289,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, HTMLElement root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("root"), b.Const(root));
+        b.SetProperty(b.Props, b.Const("root"), b.Const(root));
     }
 
 
@@ -298,7 +298,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Var<ViewController> root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<ViewController>("root"), root);
+        b.SetProperty(b.Props, b.Const("root"), root);
     }
 
     /// <summary>
@@ -306,7 +306,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, ViewController root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<ViewController>("root"), b.Const(root));
+        b.SetProperty(b.Props, b.Const("root"), b.Const(root));
     }
 
 
@@ -315,7 +315,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, Var<string> root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("root"), root);
+        b.SetProperty(b.Props, b.Const("root"), root);
     }
 
     /// <summary>
@@ -323,7 +323,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRoot<T>(this PropsBuilder<T> b, string root) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("root"), b.Const(root));
+        b.SetProperty(b.Props, b.Const("root"), b.Const(root));
     }
 
 
@@ -332,7 +332,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRootParams<T>(this PropsBuilder<T> b, Var<DynamicObject> rootParams) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("rootParams"), rootParams);
+        b.SetProperty(b.Props, b.Const("rootParams"), rootParams);
     }
 
     /// <summary>
@@ -340,7 +340,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetRootParams<T>(this PropsBuilder<T> b, DynamicObject rootParams) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("rootParams"), b.Const(rootParams));
+        b.SetProperty(b.Props, b.Const("rootParams"), b.Const(rootParams));
     }
 
 
@@ -349,7 +349,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(true));
     }
 
 
@@ -358,7 +358,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, Var<bool> swipeGesture) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), swipeGesture);
+        b.SetProperty(b.Props, b.Const("swipeGesture"), swipeGesture);
     }
 
     /// <summary>
@@ -366,7 +366,7 @@ public static partial class IonNavControl
     /// </summary>
     public static void SetSwipeGesture<T>(this PropsBuilder<T> b, bool swipeGesture) where T: IonNav
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("swipeGesture"), b.Const(swipeGesture));
+        b.SetProperty(b.Props, b.Const("swipeGesture"), b.Const(swipeGesture));
     }
 
 

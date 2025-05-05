@@ -130,7 +130,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -148,7 +148,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -157,7 +157,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -166,7 +166,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -175,7 +175,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -184,7 +184,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -193,7 +193,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -202,7 +202,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -211,7 +211,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, Var<int> itemsAfterCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), itemsAfterCollapse);
+        b.SetProperty(b.Props, b.Const("itemsAfterCollapse"), itemsAfterCollapse);
     }
 
     /// <summary>
@@ -219,7 +219,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetItemsAfterCollapse<T>(this PropsBuilder<T> b, int itemsAfterCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsAfterCollapse"), b.Const(itemsAfterCollapse));
+        b.SetProperty(b.Props, b.Const("itemsAfterCollapse"), b.Const(itemsAfterCollapse));
     }
 
 
@@ -228,7 +228,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, Var<int> itemsBeforeCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), itemsBeforeCollapse);
+        b.SetProperty(b.Props, b.Const("itemsBeforeCollapse"), itemsBeforeCollapse);
     }
 
     /// <summary>
@@ -236,7 +236,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetItemsBeforeCollapse<T>(this PropsBuilder<T> b, int itemsBeforeCollapse) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("itemsBeforeCollapse"), b.Const(itemsBeforeCollapse));
+        b.SetProperty(b.Props, b.Const("itemsBeforeCollapse"), b.Const(itemsBeforeCollapse));
     }
 
 
@@ -245,7 +245,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetMaxItems<T>(this PropsBuilder<T> b, Var<int> maxItems) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), maxItems);
+        b.SetProperty(b.Props, b.Const("maxItems"), maxItems);
     }
 
     /// <summary>
@@ -253,7 +253,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetMaxItems<T>(this PropsBuilder<T> b, int maxItems) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxItems"), b.Const(maxItems));
+        b.SetProperty(b.Props, b.Const("maxItems"), b.Const(maxItems));
     }
 
 
@@ -262,7 +262,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -271,7 +271,7 @@ public static partial class IonBreadcrumbsControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonBreadcrumbs
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 

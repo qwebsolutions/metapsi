@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>8.0</LangVersion>
 		<OutputType>Library</OutputType>
 		<Description>The base package for building client-side web pages in C# with Metapsi. Allows defining abstract logic that can be converted to other programming languages on demand (JavaScript, for now).</Description>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="embedded\uuid.js" LogicalName="uuid.js" />
+		<EmbeddedResource Include="embedded\linq.js" LogicalName="linq.js" />
+		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />

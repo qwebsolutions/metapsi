@@ -164,7 +164,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetImage<T>(this PropsBuilder<T> b, Var<string> image) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), image);
+        b.SetProperty(b.Props, b.Const("image"), image);
     }
 
     /// <summary>
@@ -172,7 +172,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetImage<T>(this PropsBuilder<T> b, string image) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("image"), b.Const(image));
+        b.SetProperty(b.Props, b.Const("image"), b.Const(image));
     }
 
 
@@ -181,7 +181,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -198,7 +198,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetInitials<T>(this PropsBuilder<T> b, Var<string> initials) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), initials);
+        b.SetProperty(b.Props, b.Const("initials"), initials);
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetInitials<T>(this PropsBuilder<T> b, string initials) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("initials"), b.Const(initials));
+        b.SetProperty(b.Props, b.Const("initials"), b.Const(initials));
     }
 
 
@@ -215,7 +215,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetLoadingEager<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loading"), b.Const("eager"));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const("eager"));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetLoadingLazy<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("loading"), b.Const("lazy"));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const("lazy"));
     }
 
 
@@ -233,7 +233,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetShapeCircle<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("circle"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("circle"));
     }
 
 
@@ -242,7 +242,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetShapeSquare<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("square"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("square"));
     }
 
 
@@ -251,7 +251,7 @@ public static partial class SlAvatarControl
     /// </summary>
     public static void SetShapeRounded<T>(this PropsBuilder<T> b) where T: SlAvatar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("shape"), b.Const("rounded"));
+        b.SetProperty(b.Props, b.Const("shape"), b.Const("rounded"));
     }
 
 

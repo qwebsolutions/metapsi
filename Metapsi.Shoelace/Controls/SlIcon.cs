@@ -113,7 +113,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -130,7 +130,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), src);
+        b.SetProperty(b.Props, b.Const("src"), src);
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(src));
+        b.SetProperty(b.Props, b.Const("src"), b.Const(src));
     }
 
 
@@ -147,7 +147,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -164,7 +164,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetLibrary<T>(this PropsBuilder<T> b, Var<string> library) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("library"), library);
+        b.SetProperty(b.Props, b.Const("library"), library);
     }
 
     /// <summary>
@@ -172,7 +172,7 @@ public static partial class SlIconControl
     /// </summary>
     public static void SetLibrary<T>(this PropsBuilder<T> b, string library) where T: SlIcon
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("library"), b.Const(library));
+        b.SetProperty(b.Props, b.Const("library"), b.Const(library));
     }
 
 

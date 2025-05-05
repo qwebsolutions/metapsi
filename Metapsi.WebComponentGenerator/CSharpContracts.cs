@@ -1092,7 +1092,7 @@ public static class CSharpGeneratorExtensions
 
         codeBuilder.AppendLine($"    public static void {setter.SetterName}<T>(this PropsBuilder<T> b, {setter.CSharpType} {setter.ClientSidePropertyName.ToParameterName()}) where T: {component.ClassName}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{setter.CSharpType}>(\"{setter.ClientSidePropertyName}\"), b.Const({setter.ClientSidePropertyName.ToParameterName()}));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{setter.ClientSidePropertyName}\"), b.Const({setter.ClientSidePropertyName.ToParameterName()}));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -1106,7 +1106,7 @@ public static class CSharpGeneratorExtensions
 
         codeBuilder.AppendLine($"    public static void {setter.SetterName}<T>(this PropsBuilder<T> b, Var<{setter.CSharpType}> {setter.ClientSidePropertyName.ToParameterName()}) where T: {component.ClassName}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{setter.CSharpType}>(\"{setter.ClientSidePropertyName}\"), {setter.ClientSidePropertyName.ToParameterName()});");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{setter.ClientSidePropertyName}\"), {setter.ClientSidePropertyName.ToParameterName()});");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -1126,7 +1126,7 @@ public static class CSharpGeneratorExtensions
 
         codeBuilder.AppendLine($"    public static void {setter.SetterName}<T>(this PropsBuilder<T> b) where T: {component.ClassName}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{setter.CSharpType}>(\"{setter.ClientSidePropertyName}\"), b.Const({setterValue}));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{setter.ClientSidePropertyName}\"), b.Const({setterValue}));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();

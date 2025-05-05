@@ -571,7 +571,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -579,7 +579,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -588,7 +588,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -596,7 +596,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -605,7 +605,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -614,7 +614,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSizeMedium<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("medium"));
     }
 
 
@@ -623,7 +623,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSizeLarge<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("large"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("large"));
     }
 
 
@@ -632,7 +632,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(true));
     }
 
 
@@ -641,7 +641,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, Var<bool> filled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), filled);
+        b.SetProperty(b.Props, b.Const("filled"), filled);
     }
 
     /// <summary>
@@ -649,7 +649,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetFilled<T>(this PropsBuilder<T> b, bool filled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("filled"), b.Const(filled));
+        b.SetProperty(b.Props, b.Const("filled"), b.Const(filled));
     }
 
 
@@ -658,7 +658,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -666,7 +666,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -675,7 +675,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
+        b.SetProperty(b.Props, b.Const("helpText"), helpText);
     }
 
     /// <summary>
@@ -683,7 +683,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+        b.SetProperty(b.Props, b.Const("helpText"), b.Const(helpText));
     }
 
 
@@ -692,7 +692,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, Var<string> placeholder) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), placeholder);
+        b.SetProperty(b.Props, b.Const("placeholder"), placeholder);
     }
 
     /// <summary>
@@ -700,7 +700,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetPlaceholder<T>(this PropsBuilder<T> b, string placeholder) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("placeholder"), b.Const(placeholder));
+        b.SetProperty(b.Props, b.Const("placeholder"), b.Const(placeholder));
     }
 
 
@@ -709,7 +709,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRows<T>(this PropsBuilder<T> b, Var<int> rows) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), rows);
+        b.SetProperty(b.Props, b.Const("rows"), rows);
     }
 
     /// <summary>
@@ -717,7 +717,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRows<T>(this PropsBuilder<T> b, int rows) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("rows"), b.Const(rows));
+        b.SetProperty(b.Props, b.Const("rows"), b.Const(rows));
     }
 
 
@@ -726,7 +726,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetResizeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("resize"), b.Const("none"));
     }
 
 
@@ -735,7 +735,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetResizeVertical<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("vertical"));
+        b.SetProperty(b.Props, b.Const("resize"), b.Const("vertical"));
     }
 
 
@@ -744,7 +744,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetResizeAuto<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("resize"), b.Const("auto"));
+        b.SetProperty(b.Props, b.Const("resize"), b.Const("auto"));
     }
 
 
@@ -753,7 +753,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -762,7 +762,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -770,7 +770,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -779,7 +779,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(true));
     }
 
 
@@ -788,7 +788,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, Var<bool> @readonly) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), @readonly);
+        b.SetProperty(b.Props, b.Const("readonly"), @readonly);
     }
 
     /// <summary>
@@ -796,7 +796,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetReadonly<T>(this PropsBuilder<T> b, bool @readonly) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("readonly"), b.Const(@readonly));
+        b.SetProperty(b.Props, b.Const("readonly"), b.Const(@readonly));
     }
 
 
@@ -805,7 +805,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -813,7 +813,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -822,7 +822,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(true));
     }
 
 
@@ -831,7 +831,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, Var<bool> required) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), required);
+        b.SetProperty(b.Props, b.Const("required"), required);
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetRequired<T>(this PropsBuilder<T> b, bool required) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("required"), b.Const(required));
+        b.SetProperty(b.Props, b.Const("required"), b.Const(required));
     }
 
 
@@ -848,7 +848,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, Var<int> minlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), minlength);
+        b.SetProperty(b.Props, b.Const("minlength"), minlength);
     }
 
     /// <summary>
@@ -856,7 +856,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetMinlength<T>(this PropsBuilder<T> b, int minlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minlength"), b.Const(minlength));
+        b.SetProperty(b.Props, b.Const("minlength"), b.Const(minlength));
     }
 
 
@@ -865,7 +865,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, Var<int> maxlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), maxlength);
+        b.SetProperty(b.Props, b.Const("maxlength"), maxlength);
     }
 
     /// <summary>
@@ -873,7 +873,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetMaxlength<T>(this PropsBuilder<T> b, int maxlength) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maxlength"), b.Const(maxlength));
+        b.SetProperty(b.Props, b.Const("maxlength"), b.Const(maxlength));
     }
 
 
@@ -882,7 +882,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeOff<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("off"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("off"));
     }
 
 
@@ -891,7 +891,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("none"));
     }
 
 
@@ -900,7 +900,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeOn<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("on"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("on"));
     }
 
 
@@ -909,7 +909,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeSentences<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("sentences"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("sentences"));
     }
 
 
@@ -918,7 +918,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeWords<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("words"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("words"));
     }
 
 
@@ -927,7 +927,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocapitalizeCharacters<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocapitalize"), b.Const("characters"));
+        b.SetProperty(b.Props, b.Const("autocapitalize"), b.Const("characters"));
     }
 
 
@@ -936,7 +936,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocorrect<T>(this PropsBuilder<T> b, Var<string> autocorrect) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), autocorrect);
+        b.SetProperty(b.Props, b.Const("autocorrect"), autocorrect);
     }
 
     /// <summary>
@@ -944,7 +944,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocorrect<T>(this PropsBuilder<T> b, string autocorrect) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocorrect"), b.Const(autocorrect));
+        b.SetProperty(b.Props, b.Const("autocorrect"), b.Const(autocorrect));
     }
 
 
@@ -953,7 +953,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocomplete<T>(this PropsBuilder<T> b, Var<string> autocomplete) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), autocomplete);
+        b.SetProperty(b.Props, b.Const("autocomplete"), autocomplete);
     }
 
     /// <summary>
@@ -961,7 +961,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutocomplete<T>(this PropsBuilder<T> b, string autocomplete) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("autocomplete"), b.Const(autocomplete));
+        b.SetProperty(b.Props, b.Const("autocomplete"), b.Const(autocomplete));
     }
 
 
@@ -970,7 +970,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(true));
     }
 
 
@@ -979,7 +979,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, Var<bool> autofocus) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), autofocus);
+        b.SetProperty(b.Props, b.Const("autofocus"), autofocus);
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetAutofocus<T>(this PropsBuilder<T> b, bool autofocus) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("autofocus"), b.Const(autofocus));
+        b.SetProperty(b.Props, b.Const("autofocus"), b.Const(autofocus));
     }
 
 
@@ -996,7 +996,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintEnter<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("enter"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("enter"));
     }
 
 
@@ -1005,7 +1005,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintDone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("done"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("done"));
     }
 
 
@@ -1014,7 +1014,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintGo<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("go"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("go"));
     }
 
 
@@ -1023,7 +1023,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintNext<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("next"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("next"));
     }
 
 
@@ -1032,7 +1032,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintPrevious<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("previous"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("previous"));
     }
 
 
@@ -1041,7 +1041,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintSearch<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("search"));
     }
 
 
@@ -1050,7 +1050,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetEnterkeyhintSend<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("enterkeyhint"), b.Const("send"));
+        b.SetProperty(b.Props, b.Const("enterkeyhint"), b.Const("send"));
     }
 
 
@@ -1059,7 +1059,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(true));
     }
 
 
@@ -1068,7 +1068,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, Var<bool> spellcheck) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), spellcheck);
+        b.SetProperty(b.Props, b.Const("spellcheck"), spellcheck);
     }
 
     /// <summary>
@@ -1076,7 +1076,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetSpellcheck<T>(this PropsBuilder<T> b, bool spellcheck) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("spellcheck"), b.Const(spellcheck));
+        b.SetProperty(b.Props, b.Const("spellcheck"), b.Const(spellcheck));
     }
 
 
@@ -1085,7 +1085,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeNone<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("none"));
     }
 
 
@@ -1094,7 +1094,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeText<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("text"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("text"));
     }
 
 
@@ -1103,7 +1103,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeDecimal<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("decimal"));
     }
 
 
@@ -1112,7 +1112,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeNumeric<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("numeric"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("numeric"));
     }
 
 
@@ -1121,7 +1121,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeTel<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("tel"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("tel"));
     }
 
 
@@ -1130,7 +1130,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeSearch<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("search"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("search"));
     }
 
 
@@ -1139,7 +1139,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeEmail<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("email"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("email"));
     }
 
 
@@ -1148,7 +1148,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetInputmodeUrl<T>(this PropsBuilder<T> b) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("inputmode"), b.Const("url"));
+        b.SetProperty(b.Props, b.Const("inputmode"), b.Const("url"));
     }
 
 
@@ -1157,7 +1157,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<string> defaultValue) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -1165,7 +1165,7 @@ public static partial class SlTextareaControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, string defaultValue) where T: SlTextarea
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 

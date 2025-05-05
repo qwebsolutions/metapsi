@@ -108,7 +108,7 @@ public static partial class IonRippleEffectControl
     /// </summary>
     public static void SetTypeBounded<T>(this PropsBuilder<T> b) where T: IonRippleEffect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("bounded"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("bounded"));
     }
 
 
@@ -117,7 +117,7 @@ public static partial class IonRippleEffectControl
     /// </summary>
     public static void SetTypeUnbounded<T>(this PropsBuilder<T> b) where T: IonRippleEffect
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("unbounded"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("unbounded"));
     }
 
 

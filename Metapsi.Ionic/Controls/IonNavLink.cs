@@ -114,7 +114,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<Metapsi.Ionic.Function> component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Metapsi.Ionic.Function component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<Metapsi.Ionic.Function>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -131,7 +131,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<HTMLElement> component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, HTMLElement component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<HTMLElement>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -148,7 +148,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<ViewController> component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<ViewController>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, ViewController component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<ViewController>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -165,7 +165,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, string component) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -182,7 +182,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), componentProps);
+        b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(componentProps));
+        b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
 
 
@@ -199,7 +199,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), routerAnimation);
+        b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
@@ -207,7 +207,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), b.Const(routerAnimation));
+        b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }
 
 
@@ -216,7 +216,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("back"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("back"));
     }
 
 
@@ -225,7 +225,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("forward"));
     }
 
 
@@ -234,7 +234,7 @@ public static partial class IonNavLinkControl
     /// </summary>
     public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonNavLink
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("root"));
     }
 
 

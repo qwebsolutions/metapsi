@@ -178,7 +178,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -187,7 +187,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -196,7 +196,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -205,7 +205,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -214,7 +214,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -232,7 +232,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -250,7 +250,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -259,7 +259,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetDefaultHref<T>(this PropsBuilder<T> b, Var<string> defaultHref) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultHref"), defaultHref);
+        b.SetProperty(b.Props, b.Const("defaultHref"), defaultHref);
     }
 
     /// <summary>
@@ -267,7 +267,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetDefaultHref<T>(this PropsBuilder<T> b, string defaultHref) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("defaultHref"), b.Const(defaultHref));
+        b.SetProperty(b.Props, b.Const("defaultHref"), b.Const(defaultHref));
     }
 
 
@@ -276,7 +276,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -285,7 +285,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -302,7 +302,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetIcon<T>(this PropsBuilder<T> b, Var<string> icon) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("icon"), icon);
+        b.SetProperty(b.Props, b.Const("icon"), icon);
     }
 
     /// <summary>
@@ -310,7 +310,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetIcon<T>(this PropsBuilder<T> b, string icon) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("icon"), b.Const(icon));
+        b.SetProperty(b.Props, b.Const("icon"), b.Const(icon));
     }
 
 
@@ -319,7 +319,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -328,7 +328,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -337,7 +337,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), routerAnimation);
+        b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
@@ -345,7 +345,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), b.Const(routerAnimation));
+        b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }
 
 
@@ -354,7 +354,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetText<T>(this PropsBuilder<T> b, Var<string> text) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("text"), text);
+        b.SetProperty(b.Props, b.Const("text"), text);
     }
 
     /// <summary>
@@ -362,7 +362,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetText<T>(this PropsBuilder<T> b, string text) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("text"), b.Const(text));
+        b.SetProperty(b.Props, b.Const("text"), b.Const(text));
     }
 
 
@@ -371,7 +371,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("button"));
     }
 
 
@@ -380,7 +380,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("reset"));
     }
 
 
@@ -389,7 +389,7 @@ public static partial class IonBackButtonControl
     /// </summary>
     public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonBackButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("submit"));
     }
 
 

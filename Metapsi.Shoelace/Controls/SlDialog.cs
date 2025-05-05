@@ -143,7 +143,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -152,7 +152,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -169,7 +169,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -186,7 +186,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetNoHeader<T>(this PropsBuilder<T> b) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noHeader"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("noHeader"), b.Const(true));
     }
 
 
@@ -195,7 +195,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetNoHeader<T>(this PropsBuilder<T> b, Var<bool> noHeader) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noHeader"), noHeader);
+        b.SetProperty(b.Props, b.Const("noHeader"), noHeader);
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public static partial class SlDialogControl
     /// </summary>
     public static void SetNoHeader<T>(this PropsBuilder<T> b, bool noHeader) where T: SlDialog
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noHeader"), b.Const(noHeader));
+        b.SetProperty(b.Props, b.Const("noHeader"), b.Const(noHeader));
     }
 
 

@@ -90,7 +90,7 @@ public static partial class SlDividerControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b) where T: SlDivider
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const(true));
     }
 
 
@@ -99,7 +99,7 @@ public static partial class SlDividerControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b, Var<bool> vertical) where T: SlDivider
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), vertical);
+        b.SetProperty(b.Props, b.Const("vertical"), vertical);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public static partial class SlDividerControl
     /// </summary>
     public static void SetVertical<T>(this PropsBuilder<T> b, bool vertical) where T: SlDivider
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("vertical"), b.Const(vertical));
+        b.SetProperty(b.Props, b.Const("vertical"), b.Const(vertical));
     }
 
 

@@ -181,7 +181,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -198,7 +198,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlay<T>(this PropsBuilder<T> b) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("play"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("play"), b.Const(true));
     }
 
 
@@ -207,7 +207,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlay<T>(this PropsBuilder<T> b, Var<bool> play) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("play"), play);
+        b.SetProperty(b.Props, b.Const("play"), play);
     }
 
     /// <summary>
@@ -215,7 +215,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlay<T>(this PropsBuilder<T> b, bool play) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("play"), b.Const(play));
+        b.SetProperty(b.Props, b.Const("play"), b.Const(play));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDelay<T>(this PropsBuilder<T> b, Var<int> delay) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("delay"), delay);
+        b.SetProperty(b.Props, b.Const("delay"), delay);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDelay<T>(this PropsBuilder<T> b, int delay) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("delay"), b.Const(delay));
+        b.SetProperty(b.Props, b.Const("delay"), b.Const(delay));
     }
 
 
@@ -241,7 +241,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDirection<T>(this PropsBuilder<T> b, Var<string> direction) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("direction"), direction);
+        b.SetProperty(b.Props, b.Const("direction"), direction);
     }
 
     /// <summary>
@@ -249,7 +249,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDirection<T>(this PropsBuilder<T> b, string direction) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("direction"), b.Const(direction));
+        b.SetProperty(b.Props, b.Const("direction"), b.Const(direction));
     }
 
 
@@ -258,7 +258,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
+        b.SetProperty(b.Props, b.Const("duration"), duration);
     }
 
     /// <summary>
@@ -266,7 +266,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+        b.SetProperty(b.Props, b.Const("duration"), b.Const(duration));
     }
 
 
@@ -275,7 +275,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetEasing<T>(this PropsBuilder<T> b, Var<string> easing) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("easing"), easing);
+        b.SetProperty(b.Props, b.Const("easing"), easing);
     }
 
     /// <summary>
@@ -283,7 +283,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetEasing<T>(this PropsBuilder<T> b, string easing) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("easing"), b.Const(easing));
+        b.SetProperty(b.Props, b.Const("easing"), b.Const(easing));
     }
 
 
@@ -292,7 +292,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetEndDelay<T>(this PropsBuilder<T> b, Var<int> endDelay) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("endDelay"), endDelay);
+        b.SetProperty(b.Props, b.Const("endDelay"), endDelay);
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetEndDelay<T>(this PropsBuilder<T> b, int endDelay) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("endDelay"), b.Const(endDelay));
+        b.SetProperty(b.Props, b.Const("endDelay"), b.Const(endDelay));
     }
 
 
@@ -309,7 +309,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetFill<T>(this PropsBuilder<T> b, Var<string> fill) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), fill);
+        b.SetProperty(b.Props, b.Const("fill"), fill);
     }
 
     /// <summary>
@@ -317,7 +317,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetFill<T>(this PropsBuilder<T> b, string fill) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const(fill));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const(fill));
     }
 
 
@@ -326,7 +326,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetIterations<T>(this PropsBuilder<T> b, Var<int> iterations) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterations"), iterations);
+        b.SetProperty(b.Props, b.Const("iterations"), iterations);
     }
 
     /// <summary>
@@ -334,7 +334,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetIterations<T>(this PropsBuilder<T> b, int iterations) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterations"), b.Const(iterations));
+        b.SetProperty(b.Props, b.Const("iterations"), b.Const(iterations));
     }
 
 
@@ -343,7 +343,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetIterationStart<T>(this PropsBuilder<T> b, Var<int> iterationStart) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterationStart"), iterationStart);
+        b.SetProperty(b.Props, b.Const("iterationStart"), iterationStart);
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetIterationStart<T>(this PropsBuilder<T> b, int iterationStart) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("iterationStart"), b.Const(iterationStart));
+        b.SetProperty(b.Props, b.Const("iterationStart"), b.Const(iterationStart));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetKeyframes<T>(this PropsBuilder<T> b, Var<List<Keyframe>> keyframes) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<Keyframe>>("keyframes"), keyframes);
+        b.SetProperty(b.Props, b.Const("keyframes"), keyframes);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetKeyframes<T>(this PropsBuilder<T> b, List<Keyframe> keyframes) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<Keyframe>>("keyframes"), b.Const(keyframes));
+        b.SetProperty(b.Props, b.Const("keyframes"), b.Const(keyframes));
     }
 
 
@@ -377,7 +377,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlaybackRate<T>(this PropsBuilder<T> b, Var<int> playbackRate) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("playbackRate"), playbackRate);
+        b.SetProperty(b.Props, b.Const("playbackRate"), playbackRate);
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetPlaybackRate<T>(this PropsBuilder<T> b, int playbackRate) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("playbackRate"), b.Const(playbackRate));
+        b.SetProperty(b.Props, b.Const("playbackRate"), b.Const(playbackRate));
     }
 
 
@@ -394,7 +394,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetCurrentTime<T>(this PropsBuilder<T> b, Var<int> currentTime) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("currentTime"), currentTime);
+        b.SetProperty(b.Props, b.Const("currentTime"), currentTime);
     }
 
     /// <summary>
@@ -402,7 +402,7 @@ public static partial class SlAnimationControl
     /// </summary>
     public static void SetCurrentTime<T>(this PropsBuilder<T> b, int currentTime) where T: SlAnimation
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("currentTime"), b.Const(currentTime));
+        b.SetProperty(b.Props, b.Const("currentTime"), b.Const(currentTime));
     }
 
 

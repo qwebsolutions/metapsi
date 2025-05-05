@@ -128,7 +128,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -137,7 +137,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -146,7 +146,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -155,7 +155,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -164,7 +164,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -173,7 +173,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -182,7 +182,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -191,7 +191,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -200,7 +200,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -209,7 +209,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -218,7 +218,7 @@ public static partial class IonToolbarControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonToolbar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 

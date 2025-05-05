@@ -179,7 +179,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetTypeNormal<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("normal"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("normal"));
     }
 
 
@@ -188,7 +188,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetTypeCheckbox<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("checkbox"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("checkbox"));
     }
 
 
@@ -197,7 +197,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("checked"), b.Const(true));
     }
 
 
@@ -206,7 +206,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b, Var<bool> @checked) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), @checked);
+        b.SetProperty(b.Props, b.Const("checked"), @checked);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetChecked<T>(this PropsBuilder<T> b, bool @checked) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("checked"), b.Const(@checked));
+        b.SetProperty(b.Props, b.Const("checked"), b.Const(@checked));
     }
 
 
@@ -223,7 +223,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const(true));
     }
 
 
@@ -249,7 +249,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b, Var<bool> loading) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), loading);
+        b.SetProperty(b.Props, b.Const("loading"), loading);
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetLoading<T>(this PropsBuilder<T> b, bool loading) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("loading"), b.Const(loading));
+        b.SetProperty(b.Props, b.Const("loading"), b.Const(loading));
     }
 
 
@@ -266,7 +266,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -275,7 +275,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -283,7 +283,7 @@ public static partial class SlMenuItemControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlMenuItem
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 

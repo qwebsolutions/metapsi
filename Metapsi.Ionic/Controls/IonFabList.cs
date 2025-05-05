@@ -130,7 +130,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(true));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> activated) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), activated);
+        b.SetProperty(b.Props, b.Const("activated"), activated);
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, bool activated) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(activated));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(activated));
     }
 
 
@@ -156,7 +156,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetSideBottom<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("bottom"));
     }
 
 
@@ -165,7 +165,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetSideEnd<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("end"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("end"));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetSideStart<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("start"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("start"));
     }
 
 
@@ -183,7 +183,7 @@ public static partial class IonFabListControl
     /// </summary>
     public static void SetSideTop<T>(this PropsBuilder<T> b) where T: IonFabList
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("side"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("side"), b.Const("top"));
     }
 
 

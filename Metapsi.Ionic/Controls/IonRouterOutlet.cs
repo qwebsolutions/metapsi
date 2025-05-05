@@ -114,7 +114,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(true));
     }
 
 
@@ -123,7 +123,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, Var<bool> animated) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), animated);
+        b.SetProperty(b.Props, b.Const("animated"), animated);
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetAnimated<T>(this PropsBuilder<T> b, bool animated) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("animated"), b.Const(animated));
+        b.SetProperty(b.Props, b.Const("animated"), b.Const(animated));
     }
 
 
@@ -140,7 +140,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> animation) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), animation);
+        b.SetProperty(b.Props, b.Const("animation"), animation);
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> animation) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("animation"), b.Const(animation));
+        b.SetProperty(b.Props, b.Const("animation"), b.Const(animation));
     }
 
 
@@ -157,7 +157,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -166,7 +166,7 @@ public static partial class IonRouterOutletControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonRouterOutlet
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 

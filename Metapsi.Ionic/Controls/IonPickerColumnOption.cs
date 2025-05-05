@@ -106,7 +106,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -115,7 +115,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -133,7 +133,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -142,7 +142,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -151,7 +151,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -160,7 +160,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -169,7 +169,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -178,7 +178,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -187,7 +187,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -196,7 +196,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -213,7 +213,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static partial class IonPickerColumnOptionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonPickerColumnOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

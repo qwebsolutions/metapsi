@@ -15,11 +15,8 @@ public static class HExtensions
         Action<PropsBuilder<TControl>> buildProps,
         Var<List<IVNode>> children)
     {
-        var propsBuilder = new PropsBuilder<TControl>();
-        propsBuilder.InitializeFrom(b);
-        propsBuilder.Props = b.NewObj<DynamicObject>().As<TControl>();
-        buildProps(propsBuilder);
-        return b.H(tag, propsBuilder.Props.As<DynamicObject>(), children);
+        var props = b.SetProps(b.NewObj(), buildProps);
+        return b.H(tag, props.As<DynamicObject>(), children);
     }
 
     public static Var<IVNode> H<TControl>(

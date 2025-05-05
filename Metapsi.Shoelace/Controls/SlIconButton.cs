@@ -193,7 +193,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -201,7 +201,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -210,7 +210,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetLibrary<T>(this PropsBuilder<T> b, Var<string> library) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("library"), library);
+        b.SetProperty(b.Props, b.Const("library"), library);
     }
 
     /// <summary>
@@ -218,7 +218,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetLibrary<T>(this PropsBuilder<T> b, string library) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("library"), b.Const(library));
+        b.SetProperty(b.Props, b.Const("library"), b.Const(library));
     }
 
 
@@ -227,7 +227,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), src);
+        b.SetProperty(b.Props, b.Const("src"), src);
     }
 
     /// <summary>
@@ -235,7 +235,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("src"), b.Const(src));
+        b.SetProperty(b.Props, b.Const("src"), b.Const(src));
     }
 
 
@@ -244,7 +244,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -252,7 +252,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -261,7 +261,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetTarget_blank<T>(this PropsBuilder<T> b) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_blank"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_blank"));
     }
 
 
@@ -270,7 +270,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetTarget_parent<T>(this PropsBuilder<T> b) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_parent"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_parent"));
     }
 
 
@@ -279,7 +279,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetTarget_self<T>(this PropsBuilder<T> b) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_self"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_self"));
     }
 
 
@@ -288,7 +288,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetTarget_top<T>(this PropsBuilder<T> b) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const("_top"));
+        b.SetProperty(b.Props, b.Const("target"), b.Const("_top"));
     }
 
 
@@ -297,7 +297,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
+        b.SetProperty(b.Props, b.Const("download"), download);
     }
 
     /// <summary>
@@ -305,7 +305,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
+        b.SetProperty(b.Props, b.Const("download"), b.Const(download));
     }
 
 
@@ -314,7 +314,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -322,7 +322,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -331,7 +331,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -340,7 +340,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -348,7 +348,7 @@ public static partial class SlIconButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlIconButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 

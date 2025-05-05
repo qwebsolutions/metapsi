@@ -98,7 +98,7 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSelectOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSelectOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSelectOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonSelectOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class IonSelectOptionControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonSelectOption
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

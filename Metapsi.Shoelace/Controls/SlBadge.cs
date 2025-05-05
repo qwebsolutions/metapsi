@@ -154,7 +154,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetVariantPrimary<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("primary"));
     }
 
 
@@ -163,7 +163,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetVariantSuccess<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("success"));
     }
 
 
@@ -172,7 +172,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetVariantNeutral<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("neutral"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("neutral"));
     }
 
 
@@ -181,7 +181,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetVariantWarning<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("warning"));
     }
 
 
@@ -190,7 +190,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetVariantDanger<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("variant"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("variant"), b.Const("danger"));
     }
 
 
@@ -199,7 +199,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(true));
     }
 
 
@@ -208,7 +208,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, Var<bool> pill) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), pill);
+        b.SetProperty(b.Props, b.Const("pill"), pill);
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPill<T>(this PropsBuilder<T> b, bool pill) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pill"), b.Const(pill));
+        b.SetProperty(b.Props, b.Const("pill"), b.Const(pill));
     }
 
 
@@ -225,7 +225,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPulse<T>(this PropsBuilder<T> b) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pulse"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("pulse"), b.Const(true));
     }
 
 
@@ -234,7 +234,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPulse<T>(this PropsBuilder<T> b, Var<bool> pulse) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pulse"), pulse);
+        b.SetProperty(b.Props, b.Const("pulse"), pulse);
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public static partial class SlBadgeControl
     /// </summary>
     public static void SetPulse<T>(this PropsBuilder<T> b, bool pulse) where T: SlBadge
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("pulse"), b.Const(pulse));
+        b.SetProperty(b.Props, b.Const("pulse"), b.Const(pulse));
     }
 
 

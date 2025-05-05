@@ -186,7 +186,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -195,7 +195,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -204,7 +204,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -213,7 +213,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -222,7 +222,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -231,7 +231,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -240,7 +240,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -249,7 +249,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -258,7 +258,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -267,7 +267,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, Var<int> duration) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), duration);
+        b.SetProperty(b.Props, b.Const("duration"), duration);
     }
 
     /// <summary>
@@ -275,7 +275,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetDuration<T>(this PropsBuilder<T> b, int duration) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("duration"), b.Const(duration));
+        b.SetProperty(b.Props, b.Const("duration"), b.Const(duration));
     }
 
 
@@ -284,7 +284,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameBubbles<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("bubbles"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("bubbles"));
     }
 
 
@@ -293,7 +293,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameCircles<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("circles"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("circles"));
     }
 
 
@@ -302,7 +302,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameCircular<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("circular"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("circular"));
     }
 
 
@@ -311,7 +311,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameCrescent<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("crescent"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("crescent"));
     }
 
 
@@ -320,7 +320,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameDots<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("dots"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("dots"));
     }
 
 
@@ -329,7 +329,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameLines<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("lines"));
     }
 
 
@@ -338,7 +338,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameLinesSharp<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-sharp"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("lines-sharp"));
     }
 
 
@@ -347,7 +347,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameLinesSharpSmall<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-sharp-small"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("lines-sharp-small"));
     }
 
 
@@ -356,7 +356,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetNameLinesSmall<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const("lines-small"));
+        b.SetProperty(b.Props, b.Const("name"), b.Const("lines-small"));
     }
 
 
@@ -365,7 +365,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetPaused<T>(this PropsBuilder<T> b) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("paused"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("paused"), b.Const(true));
     }
 
 
@@ -374,7 +374,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetPaused<T>(this PropsBuilder<T> b, Var<bool> paused) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("paused"), paused);
+        b.SetProperty(b.Props, b.Const("paused"), paused);
     }
 
     /// <summary>
@@ -382,7 +382,7 @@ public static partial class IonSpinnerControl
     /// </summary>
     public static void SetPaused<T>(this PropsBuilder<T> b, bool paused) where T: IonSpinner
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("paused"), b.Const(paused));
+        b.SetProperty(b.Props, b.Const("paused"), b.Const(paused));
     }
 
 

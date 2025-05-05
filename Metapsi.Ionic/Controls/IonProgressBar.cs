@@ -162,7 +162,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetBuffer<T>(this PropsBuilder<T> b, Var<int> buffer) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("buffer"), buffer);
+        b.SetProperty(b.Props, b.Const("buffer"), buffer);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetBuffer<T>(this PropsBuilder<T> b, int buffer) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("buffer"), b.Const(buffer));
+        b.SetProperty(b.Props, b.Const("buffer"), b.Const(buffer));
     }
 
 
@@ -179,7 +179,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -188,7 +188,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -197,7 +197,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -206,7 +206,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -215,7 +215,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -224,7 +224,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -233,7 +233,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -242,7 +242,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -251,7 +251,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -260,7 +260,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -269,7 +269,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -278,7 +278,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetReversed<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("reversed"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("reversed"), b.Const(true));
     }
 
 
@@ -287,7 +287,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetReversed<T>(this PropsBuilder<T> b, Var<bool> reversed) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("reversed"), reversed);
+        b.SetProperty(b.Props, b.Const("reversed"), reversed);
     }
 
     /// <summary>
@@ -295,7 +295,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetReversed<T>(this PropsBuilder<T> b, bool reversed) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("reversed"), b.Const(reversed));
+        b.SetProperty(b.Props, b.Const("reversed"), b.Const(reversed));
     }
 
 
@@ -304,7 +304,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetTypeDeterminate<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("determinate"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("determinate"));
     }
 
 
@@ -313,7 +313,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetTypeIndeterminate<T>(this PropsBuilder<T> b) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("indeterminate"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("indeterminate"));
     }
 
 
@@ -322,7 +322,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ public static partial class IonProgressBarControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: IonProgressBar
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 

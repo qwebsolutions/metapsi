@@ -290,7 +290,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(true));
     }
 
 
@@ -299,7 +299,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, Var<bool> activated) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), activated);
+        b.SetProperty(b.Props, b.Const("activated"), activated);
     }
 
     /// <summary>
@@ -307,7 +307,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetActivated<T>(this PropsBuilder<T> b, bool activated) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("activated"), b.Const(activated));
+        b.SetProperty(b.Props, b.Const("activated"), b.Const(activated));
     }
 
 
@@ -316,7 +316,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetCloseIcon<T>(this PropsBuilder<T> b, Var<string> closeIcon) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("closeIcon"), closeIcon);
+        b.SetProperty(b.Props, b.Const("closeIcon"), closeIcon);
     }
 
     /// <summary>
@@ -324,7 +324,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetCloseIcon<T>(this PropsBuilder<T> b, string closeIcon) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("closeIcon"), b.Const(closeIcon));
+        b.SetProperty(b.Props, b.Const("closeIcon"), b.Const(closeIcon));
     }
 
 
@@ -333,7 +333,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorDanger<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("danger"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("danger"));
     }
 
 
@@ -342,7 +342,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorDark<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("dark"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("dark"));
     }
 
 
@@ -351,7 +351,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorLight<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("light"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("light"));
     }
 
 
@@ -360,7 +360,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorMedium<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("medium"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("medium"));
     }
 
 
@@ -369,7 +369,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorPrimary<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("primary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("primary"));
     }
 
 
@@ -378,7 +378,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorSecondary<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("secondary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("secondary"));
     }
 
 
@@ -387,7 +387,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorSuccess<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("success"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("success"));
     }
 
 
@@ -396,7 +396,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorTertiary<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("tertiary"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("tertiary"));
     }
 
 
@@ -405,7 +405,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetColorWarning<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("color"), b.Const("warning"));
+        b.SetProperty(b.Props, b.Const("color"), b.Const("warning"));
     }
 
 
@@ -414,7 +414,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -423,7 +423,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -431,7 +431,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -440,7 +440,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, Var<string> download) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), download);
+        b.SetProperty(b.Props, b.Const("download"), download);
     }
 
     /// <summary>
@@ -448,7 +448,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetDownload<T>(this PropsBuilder<T> b, string download) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("download"), b.Const(download));
+        b.SetProperty(b.Props, b.Const("download"), b.Const(download));
     }
 
 
@@ -457,7 +457,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), href);
+        b.SetProperty(b.Props, b.Const("href"), href);
     }
 
     /// <summary>
@@ -465,7 +465,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("href"), b.Const(href));
+        b.SetProperty(b.Props, b.Const("href"), b.Const(href));
     }
 
 
@@ -474,7 +474,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetModeIos<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("ios"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("ios"));
     }
 
 
@@ -483,7 +483,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetModeMd<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("mode"), b.Const("md"));
+        b.SetProperty(b.Props, b.Const("mode"), b.Const("md"));
     }
 
 
@@ -492,7 +492,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, Var<string> rel) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), rel);
+        b.SetProperty(b.Props, b.Const("rel"), rel);
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRel<T>(this PropsBuilder<T> b, string rel) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("rel"), b.Const(rel));
+        b.SetProperty(b.Props, b.Const("rel"), b.Const(rel));
     }
 
 
@@ -509,7 +509,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), routerAnimation);
+        b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
 
     /// <summary>
@@ -517,7 +517,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject,DynamicObject,Animation>>("routerAnimation"), b.Const(routerAnimation));
+        b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }
 
 
@@ -526,7 +526,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRouterDirectionBack<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("back"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("back"));
     }
 
 
@@ -535,7 +535,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRouterDirectionForward<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("forward"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("forward"));
     }
 
 
@@ -544,7 +544,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetRouterDirectionRoot<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("routerDirection"), b.Const("root"));
+        b.SetProperty(b.Props, b.Const("routerDirection"), b.Const("root"));
     }
 
 
@@ -553,7 +553,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetShow<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("show"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("show"), b.Const(true));
     }
 
 
@@ -562,7 +562,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetShow<T>(this PropsBuilder<T> b, Var<bool> show) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("show"), show);
+        b.SetProperty(b.Props, b.Const("show"), show);
     }
 
     /// <summary>
@@ -570,7 +570,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetShow<T>(this PropsBuilder<T> b, bool show) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("show"), b.Const(show));
+        b.SetProperty(b.Props, b.Const("show"), b.Const(show));
     }
 
 
@@ -579,7 +579,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetSizeSmall<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("size"), b.Const("small"));
+        b.SetProperty(b.Props, b.Const("size"), b.Const("small"));
     }
 
 
@@ -588,7 +588,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, Var<string> target) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), target);
+        b.SetProperty(b.Props, b.Const("target"), target);
     }
 
     /// <summary>
@@ -596,7 +596,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTarget<T>(this PropsBuilder<T> b, string target) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("target"), b.Const(target));
+        b.SetProperty(b.Props, b.Const("target"), b.Const(target));
     }
 
 
@@ -605,7 +605,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(true));
     }
 
 
@@ -614,7 +614,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, Var<bool> translucent) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), translucent);
+        b.SetProperty(b.Props, b.Const("translucent"), translucent);
     }
 
     /// <summary>
@@ -622,7 +622,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTranslucent<T>(this PropsBuilder<T> b, bool translucent) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("translucent"), b.Const(translucent));
+        b.SetProperty(b.Props, b.Const("translucent"), b.Const(translucent));
     }
 
 
@@ -631,7 +631,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("button"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("button"));
     }
 
 
@@ -640,7 +640,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("reset"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("reset"));
     }
 
 
@@ -649,7 +649,7 @@ public static partial class IonFabButtonControl
     /// </summary>
     public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: IonFabButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("submit"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("submit"));
     }
 
 

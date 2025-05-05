@@ -143,7 +143,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(true));
     }
 
 
@@ -152,7 +152,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, Var<bool> open) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), open);
+        b.SetProperty(b.Props, b.Const("open"), open);
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetOpen<T>(this PropsBuilder<T> b, bool open) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("open"), b.Const(open));
+        b.SetProperty(b.Props, b.Const("open"), b.Const(open));
     }
 
 
@@ -169,7 +169,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetSummary<T>(this PropsBuilder<T> b, Var<string> summary) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("summary"), summary);
+        b.SetProperty(b.Props, b.Const("summary"), summary);
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetSummary<T>(this PropsBuilder<T> b, string summary) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("summary"), b.Const(summary));
+        b.SetProperty(b.Props, b.Const("summary"), b.Const(summary));
     }
 
 
@@ -186,7 +186,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -195,7 +195,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public static partial class SlDetailsControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlDetails
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 

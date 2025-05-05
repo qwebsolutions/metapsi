@@ -682,7 +682,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(true));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(true));");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
@@ -690,7 +690,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<bool> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), value);");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
@@ -698,7 +698,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, bool value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.Bool(\"{property.PropertyName}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
 
@@ -722,7 +722,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<{propertyType.ToCSharpType(converter)}> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.PropertyName}\"), value);");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
@@ -730,7 +730,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {propertyType.ToCSharpType(converter)} value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{propertyType.ToCSharpType(converter)}>(\"{property.PropertyName}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -771,9 +771,9 @@ public static class Generator
         codeBuilder.AppendLine($"        var _dynamicParameter = b.NewObj<DynamicObject>();");
         foreach (var anonProperty in propertyType.properties)
         {
-            codeBuilder.AppendLine($"        b.SetDynamic(_dynamicParameter, new DynamicProperty<{anonProperty.type.ToCSharpType(converter)}>(\"{anonProperty.name}\"), {anonProperty.name});");
+            codeBuilder.AppendLine($"        b.SetProperty(_dynamicParameter, b.Const(\"{anonProperty.name}\"), {anonProperty.name});");
         }
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>(\"{property.PropertyName}\"), _dynamicParameter);");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), _dynamicParameter);");
         codeBuilder.AppendLine("    }");
         return codeBuilder.ToString();
     }
@@ -807,7 +807,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, Var<List<{propertyType.ItemType.ToCSharpType(converter)}>> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.PropertyName}\"), value);");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
@@ -815,7 +815,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, List<{propertyType.ItemType.ToCSharpType(converter)}> value) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<List<{propertyType.ItemType.ToCSharpType(converter)}>>(\"{property.PropertyName}\"), b.Const(value));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(value));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -842,7 +842,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {clientSideFunc} f) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.PropertyName}\"), f);");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), f);");
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
@@ -850,7 +850,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {serverSideFunc} f) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, new DynamicProperty<{genericType}>(\"{property.PropertyName}\"), b.Def(f));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Def(f));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();
@@ -865,7 +865,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}{Utils.ToCSharpValidName(typeScriptLiteral.Value)}<T>(this PropsBuilder<T> b) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetDynamic(b.Props, DynamicProperty.String(\"{property.PropertyName}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
+        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(\"{typeScriptLiteral.StringValue()}\"));");
         codeBuilder.AppendLine("    }");
 
         return codeBuilder.ToString();

@@ -90,7 +90,7 @@ public static partial class IonGridControl
     /// </summary>
     public static void SetFixed<T>(this PropsBuilder<T> b) where T: IonGrid
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixed"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("fixed"), b.Const(true));
     }
 
 
@@ -99,7 +99,7 @@ public static partial class IonGridControl
     /// </summary>
     public static void SetFixed<T>(this PropsBuilder<T> b, Var<bool> @fixed) where T: IonGrid
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixed"), @fixed);
+        b.SetProperty(b.Props, b.Const("fixed"), @fixed);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public static partial class IonGridControl
     /// </summary>
     public static void SetFixed<T>(this PropsBuilder<T> b, bool @fixed) where T: IonGrid
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("fixed"), b.Const(@fixed));
+        b.SetProperty(b.Props, b.Const("fixed"), b.Const(@fixed));
     }
 
 

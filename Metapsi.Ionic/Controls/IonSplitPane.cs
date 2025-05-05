@@ -106,7 +106,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, Var<string> contentId) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), contentId);
+        b.SetProperty(b.Props, b.Const("contentId"), contentId);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetContentId<T>(this PropsBuilder<T> b, string contentId) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("contentId"), b.Const(contentId));
+        b.SetProperty(b.Props, b.Const("contentId"), b.Const(contentId));
     }
 
 
@@ -123,7 +123,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -132,7 +132,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -149,7 +149,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetWhen<T>(this PropsBuilder<T> b) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("when"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("when"), b.Const(true));
     }
 
 
@@ -158,7 +158,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetWhen<T>(this PropsBuilder<T> b, Var<bool> when) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("when"), when);
+        b.SetProperty(b.Props, b.Const("when"), when);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetWhen<T>(this PropsBuilder<T> b, bool when) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("when"), b.Const(when));
+        b.SetProperty(b.Props, b.Const("when"), b.Const(when));
     }
 
 
@@ -175,7 +175,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetWhen<T>(this PropsBuilder<T> b, Var<string> when) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("when"), when);
+        b.SetProperty(b.Props, b.Const("when"), when);
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public static partial class IonSplitPaneControl
     /// </summary>
     public static void SetWhen<T>(this PropsBuilder<T> b, string when) where T: IonSplitPane
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("when"), b.Const(when));
+        b.SetProperty(b.Props, b.Const("when"), b.Const(when));
     }
 
 

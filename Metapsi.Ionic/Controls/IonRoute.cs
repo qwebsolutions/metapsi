@@ -90,7 +90,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject>> beforeEnter) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject>>("beforeEnter"), beforeEnter);
+        b.SetProperty(b.Props, b.Const("beforeEnter"), beforeEnter);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetBeforeEnter<T>(this PropsBuilder<T> b, System.Func<DynamicObject> beforeEnter) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject>>("beforeEnter"), b.Const(beforeEnter));
+        b.SetProperty(b.Props, b.Const("beforeEnter"), b.Const(beforeEnter));
     }
 
 
@@ -107,7 +107,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject>> beforeLeave) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject>>("beforeLeave"), beforeLeave);
+        b.SetProperty(b.Props, b.Const("beforeLeave"), beforeLeave);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetBeforeLeave<T>(this PropsBuilder<T> b, System.Func<DynamicObject> beforeLeave) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<DynamicObject>>("beforeLeave"), b.Const(beforeLeave));
+        b.SetProperty(b.Props, b.Const("beforeLeave"), b.Const(beforeLeave));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, Var<string> component) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), component);
+        b.SetProperty(b.Props, b.Const("component"), component);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetComponent<T>(this PropsBuilder<T> b, string component) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("component"), b.Const(component));
+        b.SetProperty(b.Props, b.Const("component"), b.Const(component));
     }
 
 
@@ -141,7 +141,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), componentProps);
+        b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<DynamicObject>("componentProps"), b.Const(componentProps));
+        b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
 
 
@@ -158,7 +158,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetUrl<T>(this PropsBuilder<T> b, Var<string> url) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), url);
+        b.SetProperty(b.Props, b.Const("url"), url);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public static partial class IonRouteControl
     /// </summary>
     public static void SetUrl<T>(this PropsBuilder<T> b, string url) where T: IonRoute
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("url"), b.Const(url));
+        b.SetProperty(b.Props, b.Const("url"), b.Const(url));
     }
 
 

@@ -162,7 +162,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -179,7 +179,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -187,7 +187,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -196,7 +196,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetSize<T>(this PropsBuilder<T> b, Var<int> size) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("size"), size);
+        b.SetProperty(b.Props, b.Const("size"), size);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetSize<T>(this PropsBuilder<T> b, int size) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("size"), b.Const(size));
+        b.SetProperty(b.Props, b.Const("size"), b.Const(size));
     }
 
 
@@ -213,7 +213,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetFill<T>(this PropsBuilder<T> b, Var<string> fill) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), fill);
+        b.SetProperty(b.Props, b.Const("fill"), fill);
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetFill<T>(this PropsBuilder<T> b, string fill) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("fill"), b.Const(fill));
+        b.SetProperty(b.Props, b.Const("fill"), b.Const(fill));
     }
 
 
@@ -230,7 +230,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetBackground<T>(this PropsBuilder<T> b, Var<string> background) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("background"), background);
+        b.SetProperty(b.Props, b.Const("background"), background);
     }
 
     /// <summary>
@@ -238,7 +238,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetBackground<T>(this PropsBuilder<T> b, string background) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("background"), b.Const(background));
+        b.SetProperty(b.Props, b.Const("background"), b.Const(background));
     }
 
 
@@ -247,7 +247,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetRadius<T>(this PropsBuilder<T> b, Var<int> radius) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("radius"), radius);
+        b.SetProperty(b.Props, b.Const("radius"), radius);
     }
 
     /// <summary>
@@ -255,7 +255,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetRadius<T>(this PropsBuilder<T> b, int radius) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("radius"), b.Const(radius));
+        b.SetProperty(b.Props, b.Const("radius"), b.Const(radius));
     }
 
 
@@ -264,7 +264,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetErrorCorrectionL<T>(this PropsBuilder<T> b) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorCorrection"), b.Const("L"));
+        b.SetProperty(b.Props, b.Const("errorCorrection"), b.Const("L"));
     }
 
 
@@ -273,7 +273,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetErrorCorrectionM<T>(this PropsBuilder<T> b) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorCorrection"), b.Const("M"));
+        b.SetProperty(b.Props, b.Const("errorCorrection"), b.Const("M"));
     }
 
 
@@ -282,7 +282,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetErrorCorrectionQ<T>(this PropsBuilder<T> b) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorCorrection"), b.Const("Q"));
+        b.SetProperty(b.Props, b.Const("errorCorrection"), b.Const("Q"));
     }
 
 
@@ -291,7 +291,7 @@ public static partial class SlQrCodeControl
     /// </summary>
     public static void SetErrorCorrectionH<T>(this PropsBuilder<T> b) where T: SlQrCode
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorCorrection"), b.Const("H"));
+        b.SetProperty(b.Props, b.Const("errorCorrection"), b.Const("H"));
     }
 
 

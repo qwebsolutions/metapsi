@@ -18,7 +18,7 @@ public static class GlobalAttributeExtensions
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>(name), value);
+        b.SetProperty(b.Props, b.Const(name), value);
     }
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, string value)
@@ -28,7 +28,7 @@ public static class GlobalAttributeExtensions
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>(name), value);
+        b.SetProperty(b.Props, b.Const(name), value);
     }
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, int value)
@@ -45,7 +45,7 @@ public static class GlobalAttributeExtensions
     /// <param name="name"></param>
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>(name), b.Const(true));
+        b.SetProperty(b.Props, b.Const(name), b.Const(true));
     }
 
     /// <summary>
@@ -123,18 +123,16 @@ public static class GlobalAttributeExtensions
 
     public static void AddStyle<T>(this PropsBuilder<T> b, string property, Var<string> value)
     {
-        var styleProperty = new DynamicProperty<object>("style");
-
-        var currentStyle = b.GetDynamic(b.Props, styleProperty);
+        var currentStyle = b.GetProperty<object>(b.Props, "style");
         b.If(
             b.Not(b.HasObject(currentStyle)),
             b =>
             {
-                b.SetDynamic(b.Props, styleProperty, b.NewObj<object>());
+                b.SetProperty(b.Props, b.Const("style"), b.NewObj<object>());
             });
 
-        currentStyle = b.GetDynamic(b.Props, styleProperty);
-        b.SetDynamic(currentStyle, new DynamicProperty<string>(property), value);
+        currentStyle = b.GetProperty<object>(b.Props, "style");
+        b.SetProperty(currentStyle, b.Const(property), value);
     }
 
     public static void AddStyle<T>(this PropsBuilder<T> b, string property, string value)

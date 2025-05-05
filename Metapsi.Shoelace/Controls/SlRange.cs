@@ -235,7 +235,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, Var<string> name) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), name);
+        b.SetProperty(b.Props, b.Const("name"), name);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetName<T>(this PropsBuilder<T> b, string name) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("name"), b.Const(name));
+        b.SetProperty(b.Props, b.Const("name"), b.Const(name));
     }
 
 
@@ -252,7 +252,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -269,7 +269,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, Var<string> label) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), label);
+        b.SetProperty(b.Props, b.Const("label"), label);
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetLabel<T>(this PropsBuilder<T> b, string label) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("label"), b.Const(label));
+        b.SetProperty(b.Props, b.Const("label"), b.Const(label));
     }
 
 
@@ -286,7 +286,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, Var<string> helpText) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), helpText);
+        b.SetProperty(b.Props, b.Const("helpText"), helpText);
     }
 
     /// <summary>
@@ -294,7 +294,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetHelpText<T>(this PropsBuilder<T> b, string helpText) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("helpText"), b.Const(helpText));
+        b.SetProperty(b.Props, b.Const("helpText"), b.Const(helpText));
     }
 
 
@@ -303,7 +303,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -312,7 +312,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -329,7 +329,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, Var<int> min) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), min);
+        b.SetProperty(b.Props, b.Const("min"), min);
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetMin<T>(this PropsBuilder<T> b, int min) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("min"), b.Const(min));
+        b.SetProperty(b.Props, b.Const("min"), b.Const(min));
     }
 
 
@@ -346,7 +346,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, Var<int> max) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), max);
+        b.SetProperty(b.Props, b.Const("max"), max);
     }
 
     /// <summary>
@@ -354,7 +354,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetMax<T>(this PropsBuilder<T> b, int max) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("max"), b.Const(max));
+        b.SetProperty(b.Props, b.Const("max"), b.Const(max));
     }
 
 
@@ -363,7 +363,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, Var<int> step) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), step);
+        b.SetProperty(b.Props, b.Const("step"), step);
     }
 
     /// <summary>
@@ -371,7 +371,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetStep<T>(this PropsBuilder<T> b, int step) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("step"), b.Const(step));
+        b.SetProperty(b.Props, b.Const("step"), b.Const(step));
     }
 
 
@@ -380,7 +380,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetTooltipTop<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("tooltip"), b.Const("top"));
     }
 
 
@@ -389,7 +389,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetTooltipBottom<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("tooltip"), b.Const("bottom"));
     }
 
 
@@ -398,7 +398,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetTooltipNone<T>(this PropsBuilder<T> b) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltip"), b.Const("none"));
+        b.SetProperty(b.Props, b.Const("tooltip"), b.Const("none"));
     }
 
 
@@ -407,7 +407,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetTooltipFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,string>> tooltipFormatter) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("tooltipFormatter"), tooltipFormatter);
+        b.SetProperty(b.Props, b.Const("tooltipFormatter"), tooltipFormatter);
     }
 
     /// <summary>
@@ -415,7 +415,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetTooltipFormatter<T>(this PropsBuilder<T> b, System.Func<int,string> tooltipFormatter) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<System.Func<int,string>>("tooltipFormatter"), b.Const(tooltipFormatter));
+        b.SetProperty(b.Props, b.Const("tooltipFormatter"), b.Const(tooltipFormatter));
     }
 
 
@@ -424,7 +424,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), form);
+        b.SetProperty(b.Props, b.Const("form"), form);
     }
 
     /// <summary>
@@ -432,7 +432,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("form"), b.Const(form));
+        b.SetProperty(b.Props, b.Const("form"), b.Const(form));
     }
 
 
@@ -441,7 +441,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, Var<int> defaultValue) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("defaultValue"), defaultValue);
+        b.SetProperty(b.Props, b.Const("defaultValue"), defaultValue);
     }
 
     /// <summary>
@@ -449,7 +449,7 @@ public static partial class SlRangeControl
     /// </summary>
     public static void SetDefaultValue<T>(this PropsBuilder<T> b, int defaultValue) where T: SlRange
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("defaultValue"), b.Const(defaultValue));
+        b.SetProperty(b.Props, b.Const("defaultValue"), b.Const(defaultValue));
     }
 
 

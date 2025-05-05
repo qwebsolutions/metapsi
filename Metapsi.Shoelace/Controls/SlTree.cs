@@ -120,7 +120,7 @@ public static partial class SlTreeControl
     /// </summary>
     public static void SetSelectionSingle<T>(this PropsBuilder<T> b) where T: SlTree
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("single"));
+        b.SetProperty(b.Props, b.Const("selection"), b.Const("single"));
     }
 
 
@@ -129,7 +129,7 @@ public static partial class SlTreeControl
     /// </summary>
     public static void SetSelectionMultiple<T>(this PropsBuilder<T> b) where T: SlTree
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("multiple"));
+        b.SetProperty(b.Props, b.Const("selection"), b.Const("multiple"));
     }
 
 
@@ -138,7 +138,7 @@ public static partial class SlTreeControl
     /// </summary>
     public static void SetSelectionLeaf<T>(this PropsBuilder<T> b) where T: SlTree
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("selection"), b.Const("leaf"));
+        b.SetProperty(b.Props, b.Const("selection"), b.Const("leaf"));
     }
 
 

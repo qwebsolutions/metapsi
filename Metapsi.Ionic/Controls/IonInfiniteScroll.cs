@@ -130,7 +130,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -139,7 +139,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -156,7 +156,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetPositionBottom<T>(this PropsBuilder<T> b) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("position"), b.Const("bottom"));
     }
 
 
@@ -165,7 +165,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetPositionTop<T>(this PropsBuilder<T> b) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("position"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("position"), b.Const("top"));
     }
 
 
@@ -174,7 +174,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetThreshold<T>(this PropsBuilder<T> b, Var<string> threshold) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("threshold"), threshold);
+        b.SetProperty(b.Props, b.Const("threshold"), threshold);
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ public static partial class IonInfiniteScrollControl
     /// </summary>
     public static void SetThreshold<T>(this PropsBuilder<T> b, string threshold) where T: IonInfiniteScroll
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("threshold"), b.Const(threshold));
+        b.SetProperty(b.Props, b.Const("threshold"), b.Const(threshold));
     }
 
 

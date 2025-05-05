@@ -218,7 +218,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<int> value) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, int value) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -235,7 +235,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetTypeCurrency<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("currency"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("currency"));
     }
 
 
@@ -244,7 +244,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetTypeDecimal<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("decimal"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("decimal"));
     }
 
 
@@ -253,7 +253,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetTypePercent<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("type"), b.Const("percent"));
+        b.SetProperty(b.Props, b.Const("type"), b.Const("percent"));
     }
 
 
@@ -262,7 +262,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetNoGrouping<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("noGrouping"), b.Const(true));
     }
 
 
@@ -271,7 +271,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetNoGrouping<T>(this PropsBuilder<T> b, Var<bool> noGrouping) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), noGrouping);
+        b.SetProperty(b.Props, b.Const("noGrouping"), noGrouping);
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetNoGrouping<T>(this PropsBuilder<T> b, bool noGrouping) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("noGrouping"), b.Const(noGrouping));
+        b.SetProperty(b.Props, b.Const("noGrouping"), b.Const(noGrouping));
     }
 
 
@@ -288,7 +288,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrency<T>(this PropsBuilder<T> b, Var<string> currency) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), currency);
+        b.SetProperty(b.Props, b.Const("currency"), currency);
     }
 
     /// <summary>
@@ -296,7 +296,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrency<T>(this PropsBuilder<T> b, string currency) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currency"), b.Const(currency));
+        b.SetProperty(b.Props, b.Const("currency"), b.Const(currency));
     }
 
 
@@ -305,7 +305,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrencyDisplaySymbol<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("symbol"));
+        b.SetProperty(b.Props, b.Const("currencyDisplay"), b.Const("symbol"));
     }
 
 
@@ -314,7 +314,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrencyDisplayNarrowSymbol<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("narrowSymbol"));
+        b.SetProperty(b.Props, b.Const("currencyDisplay"), b.Const("narrowSymbol"));
     }
 
 
@@ -323,7 +323,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrencyDisplayCode<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("code"));
+        b.SetProperty(b.Props, b.Const("currencyDisplay"), b.Const("code"));
     }
 
 
@@ -332,7 +332,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetCurrencyDisplayName<T>(this PropsBuilder<T> b) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("currencyDisplay"), b.Const("name"));
+        b.SetProperty(b.Props, b.Const("currencyDisplay"), b.Const("name"));
     }
 
 
@@ -341,7 +341,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumIntegerDigits<T>(this PropsBuilder<T> b, Var<int> minimumIntegerDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), minimumIntegerDigits);
+        b.SetProperty(b.Props, b.Const("minimumIntegerDigits"), minimumIntegerDigits);
     }
 
     /// <summary>
@@ -349,7 +349,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumIntegerDigits<T>(this PropsBuilder<T> b, int minimumIntegerDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumIntegerDigits"), b.Const(minimumIntegerDigits));
+        b.SetProperty(b.Props, b.Const("minimumIntegerDigits"), b.Const(minimumIntegerDigits));
     }
 
 
@@ -358,7 +358,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumFractionDigits<T>(this PropsBuilder<T> b, Var<int> minimumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), minimumFractionDigits);
+        b.SetProperty(b.Props, b.Const("minimumFractionDigits"), minimumFractionDigits);
     }
 
     /// <summary>
@@ -366,7 +366,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumFractionDigits<T>(this PropsBuilder<T> b, int minimumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumFractionDigits"), b.Const(minimumFractionDigits));
+        b.SetProperty(b.Props, b.Const("minimumFractionDigits"), b.Const(minimumFractionDigits));
     }
 
 
@@ -375,7 +375,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumFractionDigits<T>(this PropsBuilder<T> b, Var<int> maximumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), maximumFractionDigits);
+        b.SetProperty(b.Props, b.Const("maximumFractionDigits"), maximumFractionDigits);
     }
 
     /// <summary>
@@ -383,7 +383,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumFractionDigits<T>(this PropsBuilder<T> b, int maximumFractionDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumFractionDigits"), b.Const(maximumFractionDigits));
+        b.SetProperty(b.Props, b.Const("maximumFractionDigits"), b.Const(maximumFractionDigits));
     }
 
 
@@ -392,7 +392,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumSignificantDigits<T>(this PropsBuilder<T> b, Var<int> minimumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), minimumSignificantDigits);
+        b.SetProperty(b.Props, b.Const("minimumSignificantDigits"), minimumSignificantDigits);
     }
 
     /// <summary>
@@ -400,7 +400,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMinimumSignificantDigits<T>(this PropsBuilder<T> b, int minimumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("minimumSignificantDigits"), b.Const(minimumSignificantDigits));
+        b.SetProperty(b.Props, b.Const("minimumSignificantDigits"), b.Const(minimumSignificantDigits));
     }
 
 
@@ -409,7 +409,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumSignificantDigits<T>(this PropsBuilder<T> b, Var<int> maximumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), maximumSignificantDigits);
+        b.SetProperty(b.Props, b.Const("maximumSignificantDigits"), maximumSignificantDigits);
     }
 
     /// <summary>
@@ -417,7 +417,7 @@ public static partial class SlFormatNumberControl
     /// </summary>
     public static void SetMaximumSignificantDigits<T>(this PropsBuilder<T> b, int maximumSignificantDigits) where T: SlFormatNumber
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("maximumSignificantDigits"), b.Const(maximumSignificantDigits));
+        b.SetProperty(b.Props, b.Const("maximumSignificantDigits"), b.Const(maximumSignificantDigits));
     }
 
 

@@ -1,12 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Metapsi.JavaScript
+namespace Metapsi.Syntax
 {
+    public class LinqNodeExtensions
+    {
+        public static LinqNode FromLambda(LambdaExpression lambda)
+        {
+            return new LinqNode()
+            {
+                Expr = LinqConverter.ToJavaScript(lambda)
+            };
+        }
+    }
+
     public class LinqConverter : ExpressionVisitor
     {
         public static string ToJavaScript(Expression expression)
@@ -142,7 +151,7 @@ namespace Metapsi.JavaScript
             throw new NotSupportedException();
         }
 
-        [return: NotNullIfNotNull("node")]
+        //[return: NotNullIfNotNull("node")]
         protected override LabelTarget VisitLabelTarget(LabelTarget node)
         {
             throw new NotSupportedException();

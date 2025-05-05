@@ -98,7 +98,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetHeader<T>(this PropsBuilder<T> b, Var<string> header) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), header);
+        b.SetProperty(b.Props, b.Const("header"), header);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetHeader<T>(this PropsBuilder<T> b, string header) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("header"), b.Const(header));
+        b.SetProperty(b.Props, b.Const("header"), b.Const(header));
     }
 
 
@@ -115,7 +115,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(true));
     }
 
 
@@ -124,7 +124,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, Var<bool> multiple) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), multiple);
+        b.SetProperty(b.Props, b.Const("multiple"), multiple);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetMultiple<T>(this PropsBuilder<T> b, bool multiple) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("multiple"), b.Const(multiple));
+        b.SetProperty(b.Props, b.Const("multiple"), b.Const(multiple));
     }
 
 
@@ -141,7 +141,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetOptions<T>(this PropsBuilder<T> b, Var<List<SelectModalOption>> options) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<SelectModalOption>>("options"), options);
+        b.SetProperty(b.Props, b.Const("options"), options);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public static partial class IonSelectModalControl
     /// </summary>
     public static void SetOptions<T>(this PropsBuilder<T> b, List<SelectModalOption> options) where T: IonSelectModal
     {
-        b.SetDynamic(b.Props, new DynamicProperty<List<SelectModalOption>>("options"), b.Const(options));
+        b.SetProperty(b.Props, b.Const("options"), b.Const(options));
     }
 
 

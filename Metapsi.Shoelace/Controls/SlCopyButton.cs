@@ -212,7 +212,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), value);
+        b.SetProperty(b.Props, b.Const("value"), value);
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("value"), b.Const(value));
+        b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }
 
 
@@ -229,7 +229,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetFrom<T>(this PropsBuilder<T> b, Var<string> from) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), from);
+        b.SetProperty(b.Props, b.Const("from"), from);
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetFrom<T>(this PropsBuilder<T> b, string from) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("from"), b.Const(from));
+        b.SetProperty(b.Props, b.Const("from"), b.Const(from));
     }
 
 
@@ -246,7 +246,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(true));
     }
 
 
@@ -255,7 +255,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, Var<bool> disabled) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), disabled);
+        b.SetProperty(b.Props, b.Const("disabled"), disabled);
     }
 
     /// <summary>
@@ -263,7 +263,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetDisabled<T>(this PropsBuilder<T> b, bool disabled) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("disabled"), b.Const(disabled));
+        b.SetProperty(b.Props, b.Const("disabled"), b.Const(disabled));
     }
 
 
@@ -272,7 +272,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetCopyLabel<T>(this PropsBuilder<T> b, Var<string> copyLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), copyLabel);
+        b.SetProperty(b.Props, b.Const("copyLabel"), copyLabel);
     }
 
     /// <summary>
@@ -280,7 +280,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetCopyLabel<T>(this PropsBuilder<T> b, string copyLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("copyLabel"), b.Const(copyLabel));
+        b.SetProperty(b.Props, b.Const("copyLabel"), b.Const(copyLabel));
     }
 
 
@@ -289,7 +289,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetSuccessLabel<T>(this PropsBuilder<T> b, Var<string> successLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), successLabel);
+        b.SetProperty(b.Props, b.Const("successLabel"), successLabel);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetSuccessLabel<T>(this PropsBuilder<T> b, string successLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("successLabel"), b.Const(successLabel));
+        b.SetProperty(b.Props, b.Const("successLabel"), b.Const(successLabel));
     }
 
 
@@ -306,7 +306,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetErrorLabel<T>(this PropsBuilder<T> b, Var<string> errorLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), errorLabel);
+        b.SetProperty(b.Props, b.Const("errorLabel"), errorLabel);
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetErrorLabel<T>(this PropsBuilder<T> b, string errorLabel) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("errorLabel"), b.Const(errorLabel));
+        b.SetProperty(b.Props, b.Const("errorLabel"), b.Const(errorLabel));
     }
 
 
@@ -323,7 +323,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetFeedbackDuration<T>(this PropsBuilder<T> b, Var<int> feedbackDuration) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), feedbackDuration);
+        b.SetProperty(b.Props, b.Const("feedbackDuration"), feedbackDuration);
     }
 
     /// <summary>
@@ -331,7 +331,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetFeedbackDuration<T>(this PropsBuilder<T> b, int feedbackDuration) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>("feedbackDuration"), b.Const(feedbackDuration));
+        b.SetProperty(b.Props, b.Const("feedbackDuration"), b.Const(feedbackDuration));
     }
 
 
@@ -340,7 +340,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetTooltipPlacementTop<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("top"));
+        b.SetProperty(b.Props, b.Const("tooltipPlacement"), b.Const("top"));
     }
 
 
@@ -349,7 +349,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetTooltipPlacementRight<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("right"));
+        b.SetProperty(b.Props, b.Const("tooltipPlacement"), b.Const("right"));
     }
 
 
@@ -358,7 +358,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetTooltipPlacementBottom<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("bottom"));
+        b.SetProperty(b.Props, b.Const("tooltipPlacement"), b.Const("bottom"));
     }
 
 
@@ -367,7 +367,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetTooltipPlacementLeft<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>("tooltipPlacement"), b.Const("left"));
+        b.SetProperty(b.Props, b.Const("tooltipPlacement"), b.Const("left"));
     }
 
 
@@ -376,7 +376,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(true));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(true));
     }
 
 
@@ -385,7 +385,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, Var<bool> hoist) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), hoist);
+        b.SetProperty(b.Props, b.Const("hoist"), hoist);
     }
 
     /// <summary>
@@ -393,7 +393,7 @@ public static partial class SlCopyButtonControl
     /// </summary>
     public static void SetHoist<T>(this PropsBuilder<T> b, bool hoist) where T: SlCopyButton
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>("hoist"), b.Const(hoist));
+        b.SetProperty(b.Props, b.Const("hoist"), b.Const(hoist));
     }
 
 
