@@ -11,13 +11,13 @@ namespace Metapsi.Syntax
     /// <summary>
     /// The abstract syntax tree of the module
     /// </summary>
-    public class ModuleDefinition
+    public class Module
     {
         public List<string> Comments { get; set; } = new List<string>();
         /// <summary>
         /// Key = source
         /// </summary>
-        public Dictionary<string, ImportDefinition> Imports { get; set; } = new Dictionary<string, ImportDefinition>();
+        public Dictionary<string, Import> Imports { get; set; } = new Dictionary<string, Import>();
         public List<ISyntaxNode> Nodes { get; set; } = new List<ISyntaxNode>(); // AssignmentNode or CallNode
     }
 
@@ -63,7 +63,7 @@ namespace Metapsi.Syntax
         }
     }
 
-    public class ImportDefinition
+    public class Import
     {
         /// <summary>
         /// Local name for default export
@@ -342,12 +342,12 @@ namespace Metapsi.Syntax
         /// <param name="moduleDefinition"></param>
         /// <param name="source"></param>
         /// <param name="importName"></param>
-        public static void ImportName(this ModuleDefinition moduleDefinition, string source, string importName)
+        public static void ImportName(this Module moduleDefinition, string source, string importName)
         {
-            moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
+            moduleDefinition.Imports.TryGetValue(source, out Import import);
             if (import == null)
             {
-                import = new ImportDefinition();
+                import = new Import();
             }
 
             import.Imports.Add(importName);
@@ -360,12 +360,12 @@ namespace Metapsi.Syntax
         /// <param name="moduleDefinition"></param>
         /// <param name="source"></param>
         /// <param name="asName"></param>
-        public static void ImportDefault(this ModuleDefinition moduleDefinition, string source, string asName)
+        public static void ImportDefault(this Module moduleDefinition, string source, string asName)
         {
-            moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
+            moduleDefinition.Imports.TryGetValue(source, out Import import);
             if (import == null)
             {
-                import = new ImportDefinition();
+                import = new Import();
             }
 
             import.Default = asName;
@@ -377,225 +377,19 @@ namespace Metapsi.Syntax
         /// </summary>
         /// <param name="moduleDefinition"></param>
         /// <param name="source"></param>
-        public static void ImportSideEffect(this ModuleDefinition moduleDefinition, string source)
+        public static void ImportSideEffect(this Module moduleDefinition, string source)
         {
-            moduleDefinition.Imports.TryGetValue(source, out ImportDefinition import);
+            moduleDefinition.Imports.TryGetValue(source, out Import import);
             if (import == null)
             {
-                import = new ImportDefinition();
+                import = new Import();
             }
 
             import.SideEffect = true;
             moduleDefinition.Imports[source] = import;
         }
 
-        //public static ModuleDefinition GetDefinition(this Syntax.Module module)
-        //{
-        //    ModuleDefinition outModule = new();
-        //    foreach (var import in module.Imports)
-        //    {
-        //        if (import.Symbol != "Enumerable")
-        //        {
-        //            var importModule = import.Module;
-        //            if (!importModule.StartsWith("/"))
-        //            {
-        //                importModule = "/" + importModule;
-        //            }
-        //            if (!importModule.EndsWith("js"))
-        //            {
-        //                importModule += ".js";
-        //            }
-        //            outModule.ImportName(importModule, import.Symbol);
-        //        }
-        //    }
-        //    foreach (var constant in module.Consts)
-        //    {
-        //        if (constant.Value is System.Linq.Expressions.Expression)
-        //        {
-        //            outModule.ImportDefault("/linq.js", "Enumerable");
-
-        //            System.Linq.Expressions.Expression lambda = constant.Value as System.Linq.Expressions.Expression;
-
-        //            var jsBody = LinqConverter.ToJavaScript(lambda);
-        //            outModule.Nodes.Add(new AssignmentNode()
-        //            {
-        //                Name = constant.Name,
-        //                Node = new LinqNode() { Expr = jsBody },
-        //            });
-        //        }
-        //        else
-        //        {
-        //            outModule.Nodes.Add(new AssignmentNode()
-        //            {
-        //                Name = constant.Name,
-        //                Node = new LiteralNode()
-        //                {
-        //                    Value = Metapsi.Serialize.ToJson(constant.Value)
-        //                }
-        //            });
-        //        }
-        //    }
-        //    foreach (var function in module.Functions)
-        //    {
-        //        outModule.Nodes.Add(new AssignmentNode()
-        //        {
-        //            Name = function.Name,
-        //            Node = ToFnNode(function, outModule)
-        //        });
-        //    }
-
-        //    return outModule;
-        //}
-
-        //private static FnNode ToFnNode(IFunction function, ModuleDefinition outModule)
-        //{
-        //    return new FnNode()
-        //    {
-        //        Parameters = function.Parameters.Select(x => x.Name).ToList(),
-        //        Return = function.ReturnVariable?.Name,
-        //        Body = GetSyntaxBody(function.ChildBlock, outModule)
-        //    };
-        //}
-
-        //public static List<ISyntaxNode> GetSyntaxBody(this Syntax.Block block, ModuleDefinition moduleDefinition)
-        //{
-        //    List<ISyntaxNode> body = new();
-
-        //    foreach (var line in block.Lines)
-        //    {
-        //        switch (line)
-        //        {
-        //            case LineComment lineComment:
-        //                {
-        //                    body.Add(new CommentNode() { Comment = $"{lineComment.Comment} {lineComment.FileName} {lineComment.LineNumber}" });
-        //                }
-        //                break;
-        //            case Metapsi.Syntax.FunctionCall call:
-        //                {
-        //                    var arguments = call.Arguments.Select(x => new IdentifierNode() { Name = x.Name });
-        //                    var callNode = new CallNode()
-        //                    {
-        //                        Fn = new IdentifierNode() { Name = call.Function.Name },
-        //                        Arguments = arguments.Cast<ISyntaxNode>().ToList(),
-        //                    };
-
-        //                    if (call.IntoVariable != null)
-        //                    {
-        //                        body.Add(new AssignmentNode()
-        //                        {
-        //                            Name = call.IntoVariable.Name,
-        //                            Node = callNode
-        //                        });
-        //                    }
-        //                    else
-        //                    {
-        //                        body.Add(callNode);
-        //                    }
-        //                }
-        //                break;
-        //            case IfBlock ifBlock:
-        //                {
-        //                    moduleDefinition.ImportName("/metapsi.core.js", "mIf");
-        //                    var ifCall = new CallNode()
-        //                    {
-        //                        Fn = new IdentifierNode() { Name = "mIf" }
-        //                    };
-        //                    ifCall.Arguments.Add(new IdentifierNode() { Name = ifBlock.Var.Name });
-        //                    ifCall.Arguments.Add(new FnNode() { Body = GetSyntaxBody(ifBlock.TrueBlock, moduleDefinition) });
-        //                    if (ifBlock.FalseBlock != null)
-        //                    {
-        //                        ifCall.Arguments.Add(new FnNode() { Body = GetSyntaxBody(ifBlock.FalseBlock, moduleDefinition) });
-        //                    }
-        //                    body.Add(ifCall);
-        //                }
-        //                break;
-        //            case IForeachBlock foreachBlock:
-        //                {
-        //                    moduleDefinition.ImportName("/metapsi.core.js", "mForEach");
-        //                    body.Add(new CallNode()
-        //                    {
-        //                        Fn = new IdentifierNode() { Name = "mForEach" },
-        //                        Arguments = new List<ISyntaxNode>()
-        //                    {
-        //                        new IdentifierNode()
-        //                        {
-        //                            Name = foreachBlock.CollectionVarName
-        //                        },
-        //                        new FnNode()
-        //                        {
-        //                            Parameters = new List<string>(){ foreachBlock.OverVarName, "index"},
-        //                            Body = GetSyntaxBody(foreachBlock.ChildBlock, moduleDefinition)
-        //                        }
-        //                    }
-        //                    });
-        //                }
-        //                break;
-        //            case IFunction function:
-        //                {
-        //                    body.Add(
-        //                        new AssignmentNode()
-        //                        {
-        //                            Name = function.Name,
-        //                            Node = ToFnNode(function, moduleDefinition)
-        //                        });
-        //                }
-        //                break;
-        //            case IObjectConstructor obj:
-        //                {
-        //                    body.Add(new AssignmentNode()
-        //                    {
-        //                        Name = obj.IntoVar.Name,
-        //                        Node = new LiteralNode()
-        //                        {
-        //                            Value = Metapsi.Serialize.ToJson(obj.From)
-        //                        }
-        //                    });
-        //                }
-        //                break;
-        //            case ICollectionConstructor col:
-        //                {
-        //                    body.Add(new AssignmentNode()
-        //                    {
-        //                        Name = col.IntoVar.Name,
-        //                        Node = new LiteralNode()
-        //                        {
-        //                            Value = Metapsi.Serialize.ToJson(new List<object>())
-        //                        }
-        //                    });
-        //                }
-        //                break;
-        //            case IPropertyAssignment setter:
-        //                {
-        //                    moduleDefinition.ImportName("/metapsi.core.js", "mSet");
-        //                    body.Add(new CallNode()
-        //                    {
-        //                        Fn = new IdentifierNode() { Name = "mSet" },
-        //                        Arguments = new List<ISyntaxNode>()
-        //                    {
-        //                        new IdentifierNode()
-        //                        {
-        //                            Name = setter.ObjectVar.Name,
-        //                        },
-        //                        new LiteralNode()
-        //                        {
-        //                            Value = Metapsi.Serialize.ToJson(setter.Property.PropertyName),
-        //                        },
-        //                        new IdentifierNode()
-        //                        {
-        //                            Name= setter.FromVar.Name,
-        //                        }
-        //                    }
-        //                    });
-        //                }
-        //                break;
-        //            default:
-        //                throw new NotImplementedException();
-        //        }
-        //    }
-        //    return body;
-        //}
-
-        public static string ToJs(this ModuleDefinition moduleDefinition)
+        public static string ToJs(this Module moduleDefinition)
         {
             //EmbeddedFiles.Add(typeof(Metapsi.JavaScript.PrettyBuilder).Assembly, "metapsi.core.js");
             //EmbeddedFiles.Add(typeof(LinqConverter).Assembly, "uuid.js");

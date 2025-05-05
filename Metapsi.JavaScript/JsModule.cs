@@ -40,7 +40,7 @@ public static class JsModule
     /// <param name="module"></param>
     /// <param name="style"></param>
     /// <returns></returns>
-    public static string ToJs(this ModuleDefinition module, GenerateStyle style = GenerateStyle.Default, bool callMain = true)
+    public static string ToJs(this Module module, GenerateStyle style = GenerateStyle.Default, bool callMain = true)
     {
         StringBuilder stringBuilder = new StringBuilder();
 

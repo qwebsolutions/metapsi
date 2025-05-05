@@ -26,15 +26,15 @@ namespace Metapsi.Syntax
 
         public ModuleBuilder()
         {
-            this.Module = new ModuleDefinition();
+            this.Module = new Module();
         }
 
-        public ModuleBuilder(ModuleDefinition module)
+        public ModuleBuilder(Module module)
         {
             this.Module = module;
         }
 
-        public Metapsi.Syntax.ModuleDefinition Module { get; private set; }
+        public Metapsi.Syntax.Module Module { get; private set; }
 
         public int CurrentVarIndex { get; set; } = 0;
 
