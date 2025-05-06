@@ -236,7 +236,7 @@ namespace Metapsi.Html
                     b.Const("Object")),
                 "assign",
                 domElement,
-                b.SetProps(b.NewObj<DynamicObject>(), buildProps));
+                b.SetProps(b.NewObj<object>(), buildProps));
             b.Foreach(
                 children,
                 (b, c) =>

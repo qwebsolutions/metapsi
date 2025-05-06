@@ -65,6 +65,6 @@ public static class HTMLElementExtensions
     /// <param name="setOptions"></param>
     public static void HtmlElementFocus(this SyntaxBuilder b, Var<HTMLElement> element, System.Action<PropsBuilder<FocusOptions>> setOptions)
     {
-        b.CallOnObject(element, "focus", b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        b.CallOnObject(element, "focus", b.SetProps(b.NewObj<object>(), setOptions));
     }
 }

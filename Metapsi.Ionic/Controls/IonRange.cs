@@ -621,7 +621,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetPinFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,DynamicObject>> pinFormatter) where T: IonRange
+    public static void SetPinFormatter<T>(this PropsBuilder<T> b, Var<System.Func<int,object>> pinFormatter) where T: IonRange
     {
         b.SetProperty(b.Props, b.Const("pinFormatter"), pinFormatter);
     }
@@ -629,7 +629,7 @@ public static partial class IonRangeControl
     /// <summary>
     /// <para> A callback used to format the pin text. By default the pin text is set to `Math.round(value)`.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetPinFormatter<T>(this PropsBuilder<T> b, System.Func<int,DynamicObject> pinFormatter) where T: IonRange
+    public static void SetPinFormatter<T>(this PropsBuilder<T> b, System.Func<int,object> pinFormatter) where T: IonRange
     {
         b.SetProperty(b.Props, b.Const("pinFormatter"), b.Const(pinFormatter));
     }

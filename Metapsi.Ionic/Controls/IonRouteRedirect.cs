@@ -122,14 +122,14 @@ public static partial class IonRouteRedirectControl
     /// <summary>
     /// <para> Internal event that fires when any value of this rule is added/removed from the DOM, or any of his public properties changes.  `ion-router` captures this event in order to update his internal registry of router rules. </para>
     /// </summary>
-    public static void OnIonRouteRedirectChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DynamicObject>> action) where TComponent: IonRouteRedirect
+    public static void OnIonRouteRedirectChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonRouteRedirect
     {
         b.OnEventAction("onionRouteRedirectChanged", action, "detail");
     }
     /// <summary>
     /// <para> Internal event that fires when any value of this rule is added/removed from the DOM, or any of his public properties changes.  `ion-router` captures this event in order to update his internal registry of router rules. </para>
     /// </summary>
-    public static void OnIonRouteRedirectChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DynamicObject>, Var<TModel>> action) where TComponent: IonRouteRedirect
+    public static void OnIonRouteRedirectChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonRouteRedirect
     {
         b.OnEventAction("onionRouteRedirectChanged", b.MakeAction(action), "detail");
     }

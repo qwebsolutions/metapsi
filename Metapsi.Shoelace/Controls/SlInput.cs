@@ -1664,7 +1664,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
     /// </summary>
-    public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<DynamicObject> valueAsDate) where T: SlInput
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<object> valueAsDate) where T: SlInput
     {
         b.SetProperty(b.Props, b.Const("valueAsDate"), valueAsDate);
     }
@@ -1672,7 +1672,7 @@ public static partial class SlInputControl
     /// <summary>
     /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
     /// </summary>
-    public static void SetValueAsDate<T>(this PropsBuilder<T> b, DynamicObject valueAsDate) where T: SlInput
+    public static void SetValueAsDate<T>(this PropsBuilder<T> b, object valueAsDate) where T: SlInput
     {
         b.SetProperty(b.Props, b.Const("valueAsDate"), b.Const(valueAsDate));
     }

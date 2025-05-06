@@ -13,5 +13,5 @@ public interface PopStateEvent : Event
     /// <summary>
     /// The state read-only property of the PopStateEvent interface represents the state stored when the event was created. Practically it is a value provided by the call to history.pushState() or history.replaceState()
     /// </summary>
-    DynamicObject state { get; }
+    object state { get; }
 }

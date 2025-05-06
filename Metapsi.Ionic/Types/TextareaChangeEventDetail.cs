@@ -7,7 +7,7 @@ public class TextareaChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public DynamicObject value { get; set; }
+    public object value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

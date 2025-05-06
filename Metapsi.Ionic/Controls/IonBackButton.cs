@@ -335,7 +335,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> When using a router, it specifies the transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonBackButton
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> routerAnimation) where T: IonBackButton
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
@@ -343,7 +343,7 @@ public static partial class IonBackButtonControl
     /// <summary>
     /// <para> When using a router, it specifies the transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonBackButton
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> routerAnimation) where T: IonBackButton
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }

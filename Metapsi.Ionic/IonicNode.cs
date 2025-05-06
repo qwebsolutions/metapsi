@@ -9,7 +9,6 @@ namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
-
     public static IHtmlNode IonicTag<T>(
         this HtmlBuilder b,
         string tag,
@@ -76,9 +75,7 @@ public static class IonicNodeImport
 
     public static void ImportIonic(HtmlBuilder b)
     {
-        EmbedAll();
         b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
     }
 
@@ -88,7 +85,6 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
     {
-        EmbedAll();
         b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
         //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
@@ -129,9 +125,7 @@ public static class IonicNodeImport
         Var<string> tag,
         Var<List<IVNode>> children)
     {
-        EmbedAll();
         b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
         b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, children);
@@ -151,16 +145,5 @@ public static class IonicNodeImport
         params Var<IVNode>[] children)
     {
         return b.IonicNode(b.Const(tag), b.List(children));
-    }
-
-    private static bool embedded = false;
-
-    private static void EmbedAll()
-    {
-        if (!embedded)
-        {
-            embedded = true;
-            EmbeddedFiles.AddAll(typeof(IonicNodeImport).Assembly);
-        }
     }
 }

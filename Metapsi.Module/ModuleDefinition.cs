@@ -19,37 +19,6 @@ namespace Metapsi.Syntax
         public List<ISyntaxNode> Nodes { get; set; } = new List<ISyntaxNode>(); // AssignmentNode or CallNode
     }
 
-    public class Metadata
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public HashSet<Metadata> Data { get; set; } = new HashSet<Metadata>();
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            if (!(obj is Metadata)) return false;
-
-            var other = obj as Metadata;
-
-            if(other.Key != Key) return false;
-            if(other.Value !=  Value) return false;
-
-            if(!Data.SetEquals(other.Data)) return false;
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            var keyHashCode = Key != null ? Key.GetHashCode() : 0;
-            var valueHashCode = Value != null ? Value.GetHashCode() : 0;
-            return keyHashCode ^ valueHashCode;
-        }
-    }
-
     public enum NodeType
     {
         Literal, // 42, "John", { Name: "" }

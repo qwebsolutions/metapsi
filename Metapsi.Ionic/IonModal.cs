@@ -99,11 +99,11 @@ public static partial class IonModalControl
 
     public static Var<HyperType.Effect> DismissIonModalEffect(this SyntaxBuilder b, Var<string> modalId, IVariable data = null, Var<string> role = null)
     {
-        return b.DismissIonModalEffect<DynamicObject>(modalId, data, role);
+        return b.DismissIonModalEffect<object>(modalId, data, role);
     }
 
     public static Var<HyperType.Effect> DismissIonModalEffect(this SyntaxBuilder b, string modalId, IVariable data = null, Var<string> role = null)
     {
-        return b.DismissIonModalEffect<DynamicObject>(b.Const(modalId), data, role);
+        return b.DismissIonModalEffect<object>(b.Const(modalId), data, role);
     }
 }

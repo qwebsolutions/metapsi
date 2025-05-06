@@ -98,7 +98,7 @@ public static partial class EventExtensions
     /// <returns></returns>
     public static Var<Event> NewEvent(this SyntaxBuilder b, Var<string> type, Action<PropsBuilder<EventOptions>> setOptions)
     {
-        return b.New<Event>(type, b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        return b.New<Event>(type, b.SetProps(b.NewObj<object>(), setOptions));
     }
 
     /// <summary>

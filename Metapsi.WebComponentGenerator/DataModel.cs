@@ -105,7 +105,7 @@ public class CSharpConverter
                         csharpTypeName = "int";
 
                     if (objectType.TypeName == "any")
-                        csharpTypeName = "DynamicObject";
+                        csharpTypeName = "object";
 
                     if (objectType.TypeName.Trim().EndsWith("<any>"))
                     {
@@ -124,7 +124,7 @@ public class CSharpConverter
                         return unionType.Options.Except(uselessUnions).Single().ToCSharpType(converter);
                     }
 
-                    return "DynamicObject";
+                    return "object";
                 }
 
             case TypeScriptCollection collectionType:
@@ -132,7 +132,7 @@ public class CSharpConverter
                     return $"List<{collectionType.ItemType.ToCSharpType(converter)}>";
                 }
             case TypeScriptDictionary dictionaryType:
-                return "DynamicObject";
+                return "object";
             case TypeScriptFunction functionType:
                 {
                     var funcTypes = functionType.Parameters.Select(x=>x.ToCSharpType(converter)).ToList();

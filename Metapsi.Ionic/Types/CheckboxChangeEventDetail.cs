@@ -5,7 +5,7 @@ public class CheckboxChangeEventDetail
     /// <summary>
     /// T
     /// </summary>
-    public DynamicObject value { get; set; }
+    public object value { get; set; }
     /// <summary>
     /// boolean
     /// </summary>

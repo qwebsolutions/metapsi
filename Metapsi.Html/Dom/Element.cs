@@ -196,7 +196,7 @@ public static class ElementExtensions
     public static void Scroll<T>(this SyntaxBuilder b, Var<T> element, System.Action<PropsBuilder<ScrollOptions>> setOptions)
         where T : Element
     {
-        b.CallOnObject(element, "scroll", b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        b.CallOnObject(element, "scroll", b.SetProps(b.NewObj<object>(), setOptions));
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public static class ElementExtensions
     public static void ScrollBy<T>(this SyntaxBuilder b, Var<T> element, System.Action<PropsBuilder<ScrollOptions>> setOptions)
         where T : Element
     {
-        b.CallOnObject(element, "scrollBy", b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        b.CallOnObject(element, "scrollBy", b.SetProps(b.NewObj<object>(), setOptions));
     }
 
     /// <summary>
@@ -264,6 +264,6 @@ public static class ElementExtensions
     public static void ScrollIntoView<T>(this SyntaxBuilder b, Var<T> element, System.Action<PropsBuilder<ScrollIntoViewOptions>> setOptions)
         where T : Element
     {
-        b.CallOnObject(element, "scrollIntoView", b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        b.CallOnObject(element, "scrollIntoView", b.SetProps(b.NewObj<object>(), setOptions));
     }
 }

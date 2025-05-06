@@ -93,7 +93,7 @@ public static class ResponseExtensions
     public static Var<Response> ResponseError(this SyntaxBuilder b)
     {
         return b.CallOnObject<Response>(
-            b.GetProperty<DynamicObject>(b.Self(), "Response"),
+            b.GetProperty<object>(b.Self(), "Response"),
             "error");
     }
 
@@ -107,7 +107,7 @@ public static class ResponseExtensions
     public static Var<Response> ResponseJson(this SyntaxBuilder b, IVariable data)
     {
         return b.CallOnObject<Response>(
-            b.GetProperty<DynamicObject>(b.Self(), "Response"),
+            b.GetProperty<object>(b.Self(), "Response"),
             "json",
             data);
     }
@@ -123,7 +123,7 @@ public static class ResponseExtensions
     {
         var options = b.SetProps(b.NewObj(), setOptions);
         return b.CallOnObject<Response>(
-            b.GetProperty<DynamicObject>(b.Self(), "Response"),
+            b.GetProperty<object>(b.Self(), "Response"),
             "json",
             data,
             options);
@@ -138,7 +138,7 @@ public static class ResponseExtensions
     public static Var<Response> ResponseRedirect(this SyntaxBuilder b, Var<string> url)
     {
         return b.CallOnObject<Response>(
-            b.GetProperty<DynamicObject>(b.Self(), "Response"),
+            b.GetProperty<object>(b.Self(), "Response"),
             "redirect",
             url);
     }
@@ -153,7 +153,7 @@ public static class ResponseExtensions
     public static Var<Response> ResponseRedirect(this SyntaxBuilder b, Var<string> url, Var<int> status)
     {
         return b.CallOnObject<Response>(
-            b.GetProperty<DynamicObject>(b.Self(), "Response"),
+            b.GetProperty<object>(b.Self(), "Response"),
             "redirect",
             url,
             status);

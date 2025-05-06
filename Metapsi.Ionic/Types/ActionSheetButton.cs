@@ -25,15 +25,15 @@ public class ActionSheetButton
     /// <summary>
     /// { [key: string]: any }
     /// </summary>
-    public DynamicObject htmlAttributes { get; set; }
+    public object htmlAttributes { get; set; }
     /// <summary>
     /// () =&gt; boolean | void | Promise&lt;boolean | void&gt;
     /// </summary>
-    public DynamicObject handler { get; set; }
+    public object handler { get; set; }
     /// <summary>
     /// T
     /// </summary>
-    public DynamicObject data { get; set; }
+    public object data { get; set; }
     /// <summary>
     /// / When `disabled` is `true` the action sheet button will not be interactive. Note that buttons with a 'cancel' role cannot be disabled as that would make it difficult for users to dismiss the action sheet./
     /// boolean

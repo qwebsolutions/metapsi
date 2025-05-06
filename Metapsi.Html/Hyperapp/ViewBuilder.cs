@@ -19,7 +19,7 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> VoidNode(this LayoutBuilder b)
         {
-            return b.H(b.Const(VoidNodeTag), b.NewObj<DynamicObject>());
+            return b.H(b.Const(VoidNodeTag), b.NewObj<object>());
         }
 
         public static Var<string> Url(this SyntaxBuilder b, Delegate handler)
@@ -69,7 +69,7 @@ namespace Metapsi.Hyperapp
             return methodPath.Replace("//", "/");
         }
 
-        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, Var<string> locale, Var<object> options)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -77,19 +77,19 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale, Var<object> options)
         {
             return b.FormatDate(date, b.Const(locale), options);
         }
 
         public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale)
         {
-            return b.FormatDate(date, locale, b.NewObj<DynamicObject>());
+            return b.FormatDate(date, locale, b.NewObj<object>());
         }
 
         public static Var<string> EnglishDayName(this SyntaxBuilder b, Var<DateTime> date)
         {
-            var formatParams = b.NewObj<DynamicObject>();
+            var formatParams = b.NewObj<object>();
             b.SetProperty(formatParams, b.Const("weekday"), b.Const("long"));
 
             return FormatDate(b, date, "en-gb", formatParams);
@@ -97,7 +97,7 @@ namespace Metapsi.Hyperapp
 
         public static Var<string> EnglishDayAndShortMonth(this SyntaxBuilder b, Var<DateTime> date)
         {
-            var formatParams = b.NewObj<DynamicObject>();
+            var formatParams = b.NewObj<object>();
             b.SetProperty(formatParams, b.Const("day"), b.Const("numeric"));
             b.SetProperty(formatParams, b.Const("month"), b.Const("short"));
 
@@ -139,7 +139,7 @@ namespace Metapsi.Hyperapp
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
-            var formatParams = b.NewObj<DynamicObject>();
+            var formatParams = b.NewObj<object>();
             b.SetProperty(formatParams, b.Const("timeStyle"), b.Const("short"));
             b.SetProperty(formatParams, b.Const("dateStyle"), b.Const("short"));
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
@@ -179,15 +179,8 @@ namespace Metapsi.Hyperapp
         public static void AddModuleStylesheet(this SyntaxBuilder b, Assembly assembly)
         {
             var cssName = b.GetModuleStylesheetName(assembly);
-            var staticFile = EmbeddedFiles.Add(assembly, cssName);
-            if (staticFile != null)
-            {
-                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
-                {
-                    cssName = cssName + "?h=" + staticFile.Hash;
-                }
-            }
             b.AddRequiredStylesheetMetadata(cssName);
+            b.AddEmbeddedResourceMetadata(assembly, cssName);
         }
 
         /// <summary>
@@ -199,8 +192,8 @@ namespace Metapsi.Hyperapp
         /// <param name="type"></param>
         public static void AddRequiredScriptMetadata(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
-            var staticFile = EmbeddedFiles.Add(assembly, src);
             b.AddRequiredScriptMetadata(src, type);
+            b.AddEmbeddedResourceMetadata(assembly, src);
         }
 
         public static void AddRequiredScriptMetadata(this SyntaxBuilder b, string src, string type = "")

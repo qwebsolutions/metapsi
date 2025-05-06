@@ -16,7 +16,7 @@ public class PromiseChain
     /// <summary>
     /// Catch handler
     /// </summary>
-    public Func<Error, DynamicObject> Catch { get; set; }
+    public Func<Error, object> Catch { get; set; }
     /// <summary>
     /// Finally handler
     /// </summary>
@@ -30,11 +30,11 @@ public class PromiseChain
         /// <summary>
         /// On fullfilled then handler
         /// </summary>
-        public Func<DynamicObject, DynamicObject> OnFullfilled { get; set; }
+        public Func<object, object> OnFullfilled { get; set; }
         /// <summary>
         /// On rejected then handler
         /// </summary>
-        public Func<DynamicObject, DynamicObject> OnRejected { get; set; }
+        public Func<object, object> OnRejected { get; set; }
     }
 }
 
@@ -93,7 +93,7 @@ public static class PromiseChainExtensions
             b.NewObj<PromiseChain.ThenHandler>(
                 b =>
                 {
-                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<DynamicObject, DynamicObject>>());
+                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<object, object>>());
                 }));
     }
 
@@ -110,7 +110,7 @@ public static class PromiseChainExtensions
             b.NewObj<PromiseChain.ThenHandler>(
                 b =>
                 {
-                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<DynamicObject, DynamicObject>>());
+                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<object, object>>());
                 }));
     }
 
@@ -128,7 +128,7 @@ public static class PromiseChainExtensions
             b.NewObj<PromiseChain.ThenHandler>(
                 b =>
                 {
-                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<DynamicObject, DynamicObject>>());
+                    b.Set(x => x.OnFullfilled, b.Def(onFullfilled).As<Func<object, object>>());
                 }));
     }
 
@@ -140,6 +140,6 @@ public static class PromiseChainExtensions
     /// <param name="onRejected"></param>
     public static void Catch<TReason>(this PropsBuilder<PromiseChain> b, Action<SyntaxBuilder, Var<TReason>> onRejected)
     {
-        b.Set(x => x.Catch, b.Def(onRejected).As<Func<Error, DynamicObject>>());
+        b.Set(x => x.Catch, b.Def(onRejected).As<Func<Error, object>>());
     }
 }

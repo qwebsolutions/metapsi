@@ -418,7 +418,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Determines whether or not a modal can dismiss when calling the `dismiss` method.  If the value is `true` or the value's function returns `true`, the modal will close when trying to dismiss. If the value is `false` or the value's function returns `false`, the modal will not close when trying to dismiss.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetCanDismiss<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,string,DynamicObject>> canDismiss) where T: IonModal
+    public static void SetCanDismiss<T>(this PropsBuilder<T> b, Var<System.Func<object,string,object>> canDismiss) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("canDismiss"), canDismiss);
     }
@@ -426,7 +426,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Determines whether or not a modal can dismiss when calling the `dismiss` method.  If the value is `true` or the value's function returns `true`, the modal will close when trying to dismiss. If the value is `false` or the value's function returns `false`, the modal will not close when trying to dismiss.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access `this` from within the callback. </para>
     /// </summary>
-    public static void SetCanDismiss<T>(this PropsBuilder<T> b, System.Func<DynamicObject,string,DynamicObject> canDismiss) where T: IonModal
+    public static void SetCanDismiss<T>(this PropsBuilder<T> b, System.Func<object,string,object> canDismiss) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("canDismiss"), b.Const(canDismiss));
     }
@@ -461,7 +461,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Animation to use when the modal is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonModal
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
@@ -469,7 +469,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Animation to use when the modal is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonModal
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
@@ -574,7 +574,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Additional attributes to pass to the modal. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonModal
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<object> htmlAttributes) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
@@ -582,7 +582,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Additional attributes to pass to the modal. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonModal
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, object htmlAttributes) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
@@ -686,7 +686,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Animation to use when the modal is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonModal
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
@@ -694,7 +694,7 @@ public static partial class IonModalControl
     /// <summary>
     /// <para> Animation to use when the modal is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonModal
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }

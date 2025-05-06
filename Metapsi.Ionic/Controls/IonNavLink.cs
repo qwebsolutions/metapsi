@@ -180,7 +180,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonNavLink
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<object> componentProps) where T: IonNavLink
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
@@ -188,7 +188,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonNavLink
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, object componentProps) where T: IonNavLink
     {
         b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
@@ -197,7 +197,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> The transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonNavLink
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> routerAnimation) where T: IonNavLink
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
@@ -205,7 +205,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// <para> The transition animation when navigating to another page. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonNavLink
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> routerAnimation) where T: IonNavLink
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }

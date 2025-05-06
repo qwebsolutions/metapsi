@@ -768,7 +768,7 @@ public static class Generator
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {parameters}) where T: {component.Name}");
         codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        var _dynamicParameter = b.NewObj<DynamicObject>();");
+        codeBuilder.AppendLine($"        var _dynamicParameter = b.NewObj<object>();");
         foreach (var anonProperty in propertyType.properties)
         {
             codeBuilder.AppendLine($"        b.SetProperty(_dynamicParameter, b.Const(\"{anonProperty.name}\"), {anonProperty.name});");

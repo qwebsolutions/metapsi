@@ -10,7 +10,7 @@ public interface MessageEvent : Event
     /// <summary>
     /// The data read-only property of the MessageEvent interface represents the data sent by the message emitter.
     /// </summary>
-    public DynamicObject data { get; }
+    public object data { get; }
 
     /// <summary>
     /// The lastEventId read-only property of the MessageEvent interface is a string representing a unique ID for the event.

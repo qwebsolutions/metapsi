@@ -180,14 +180,6 @@ public static class HtmlBuilderExtensions
 
     public static void AddScript(this HtmlBuilder b, Assembly assembly, string jsFile, string type = null)
     {
-        var embeddedFile = EmbeddedFiles.Add(assembly, jsFile);
-        if (embeddedFile != null)
-        {
-            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-            {
-                jsFile = jsFile + "?h=" + embeddedFile.Hash;
-            }
-        }
         b.AddScript(jsFile, type);
     }
 
@@ -205,14 +197,14 @@ public static class HtmlBuilderExtensions
 
     public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
     {
-        var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
-        if (embeddedFile != null)
-        {
-            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-            {
-                cssFile = cssFile + "?h=" + embeddedFile.Hash;
-            }
-        }
+        //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
+        //if (embeddedFile != null)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
+        //    {
+        //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
+        //    }
+        //}
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");

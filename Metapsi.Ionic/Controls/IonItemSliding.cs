@@ -143,14 +143,14 @@ public static partial class IonItemSlidingControl
     /// <summary>
     /// <para> Emitted when the sliding position changes. </para>
     /// </summary>
-    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DynamicObject>> action) where TComponent: IonItemSliding
+    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonItemSliding
     {
         b.OnEventAction("onionDrag", action, "detail");
     }
     /// <summary>
     /// <para> Emitted when the sliding position changes. </para>
     /// </summary>
-    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DynamicObject>, Var<TModel>> action) where TComponent: IonItemSliding
+    public static void OnIonDrag<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonItemSliding
     {
         b.OnEventAction("onionDrag", b.MakeAction(action), "detail");
     }

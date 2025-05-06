@@ -68,7 +68,6 @@ public static partial class SlNodeExtensions
 
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
-        EmbedAll();
         b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
         b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         b.HeadAppend(
@@ -96,11 +95,13 @@ public static partial class SlNodeExtensions
 
     public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
-        EmbedAll();
-        b.AddRequiredStylesheetMetadata($"/shoelace@{Cdn.Version}/themes/light.css");
-        //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
+        string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
+        string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
+
+        b.AddRequiredStylesheetMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
         SetBasePath(b);
-        b.ImportSideEffect($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}");
+        b.ImportSideEffect(scriptPath);
     }
 
     public static Var<IVNode> SlNode<TProps>(
@@ -141,16 +142,5 @@ public static partial class SlNodeExtensions
     {
         ImportShoelaceTag(b, tag);
         return b.H(tag, children);
-    }
-
-    private static bool embedded = false;
-
-    private static void EmbedAll()
-    {
-        if (!embedded)
-        {
-            embedded = true;
-            EmbeddedFiles.AddAll(typeof(SlNodeExtensions).Assembly);
-        }
     }
 }

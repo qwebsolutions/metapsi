@@ -10,11 +10,11 @@ namespace Metapsi.Hyperapp
             Var<int> delayMs,
             Var<HyperType.Action<TState>> action)
         {
-            var debounceProps = b.NewObj<DynamicObject>();
+            var debounceProps = b.NewObj<object>();
             b.SetProperty(debounceProps, b.Const("wait"), delayMs);
             b.SetProperty(debounceProps, b.Const("action"), action);
 
-            var debounce = b.ImportName<Func<DynamicObject, HyperType.Effect>>("Debounce.js", "Debounce");
+            var debounce = b.ImportName<Func<object, HyperType.Effect>>("Debounce.js", "Debounce");
             return b.Call(debounce, debounceProps);
         }
     }

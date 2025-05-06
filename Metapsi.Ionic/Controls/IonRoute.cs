@@ -88,7 +88,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject>> beforeEnter) where T: IonRoute
+    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, Var<System.Func<object>> beforeEnter) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("beforeEnter"), beforeEnter);
     }
@@ -96,7 +96,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A navigation hook that is fired when the route tries to enter. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, System.Func<DynamicObject> beforeEnter) where T: IonRoute
+    public static void SetBeforeEnter<T>(this PropsBuilder<T> b, System.Func<object> beforeEnter) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("beforeEnter"), b.Const(beforeEnter));
     }
@@ -105,7 +105,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject>> beforeLeave) where T: IonRoute
+    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, Var<System.Func<object>> beforeLeave) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("beforeLeave"), beforeLeave);
     }
@@ -113,7 +113,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A navigation hook that is fired when the route tries to leave. Returning `true` allows the navigation to proceed, while returning `false` causes it to be cancelled. Returning a `NavigationHookOptions` object causes the router to redirect to the path specified. </para>
     /// </summary>
-    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, System.Func<DynamicObject> beforeLeave) where T: IonRoute
+    public static void SetBeforeLeave<T>(this PropsBuilder<T> b, System.Func<object> beforeLeave) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("beforeLeave"), b.Const(beforeLeave));
     }
@@ -139,7 +139,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonRoute
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<object> componentProps) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
@@ -147,7 +147,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonRoute
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, object componentProps) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
@@ -173,14 +173,14 @@ public static partial class IonRouteControl
     /// <summary>
     /// <para> Used internally by `ion-router` to know when this route did change. </para>
     /// </summary>
-    public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DynamicObject>> action) where TComponent: IonRoute
+    public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonRoute
     {
         b.OnEventAction("onionRouteDataChanged", action, "detail");
     }
     /// <summary>
     /// <para> Used internally by `ion-router` to know when this route did change. </para>
     /// </summary>
-    public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DynamicObject>, Var<TModel>> action) where TComponent: IonRoute
+    public static void OnIonRouteDataChanged<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonRoute
     {
         b.OnEventAction("onionRouteDataChanged", b.MakeAction(action), "detail");
     }

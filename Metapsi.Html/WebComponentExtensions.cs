@@ -36,7 +36,7 @@ public static class WebComponentExtensions
 
     public static Var<Promise> WhenDefined(this SyntaxBuilder b, Var<string> tag)
     {
-        var customElements = b.GetProperty<DynamicObject>(b.Self(), "customElements");
+        var customElements = b.GetProperty<object>(b.Self(), "customElements");
         var whenDefinedPromise = b.CallOnObject<Promise>(customElements, "whenDefined", tag);
         return whenDefinedPromise;
     }

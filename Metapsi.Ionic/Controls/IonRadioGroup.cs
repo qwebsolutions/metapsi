@@ -154,7 +154,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,bool>> compareWith) where T: IonRadioGroup
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, Var<System.Func<object,object,bool>> compareWith) where T: IonRadioGroup
     {
         b.SetProperty(b.Props, b.Const("compareWith"), compareWith);
     }
@@ -162,7 +162,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> This property allows developers to specify a custom function or property name for comparing objects when determining the selected option in the ion-radio-group. When not specified, the default behavior will use strict equality (===) for comparison. </para>
     /// </summary>
-    public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,bool> compareWith) where T: IonRadioGroup
+    public static void SetCompareWith<T>(this PropsBuilder<T> b, System.Func<object,object,bool> compareWith) where T: IonRadioGroup
     {
         b.SetProperty(b.Props, b.Const("compareWith"), b.Const(compareWith));
     }
@@ -239,7 +239,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> the value of the radio group. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonRadioGroup
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonRadioGroup
     {
         b.SetProperty(b.Props, b.Const("value"), value);
     }
@@ -247,7 +247,7 @@ public static partial class IonRadioGroupControl
     /// <summary>
     /// <para> the value of the radio group. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonRadioGroup
+    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonRadioGroup
     {
         b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }

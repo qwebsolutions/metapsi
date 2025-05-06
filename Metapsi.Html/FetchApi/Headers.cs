@@ -32,7 +32,7 @@ public static class HeadersExtensions
     /// <returns></returns>
     public static Var<Headers> NewHeaders(this SyntaxBuilder b, Action<PropsBuilder<HeadersInit>> setHeaders)
     {
-        return b.New<Headers>(b.SetProps(b.NewObj<DynamicObject>(), setHeaders));
+        return b.New<Headers>(b.SetProps(b.NewObj<object>(), setHeaders));
     }
 
     /// <summary>
@@ -94,9 +94,9 @@ public static class HeadersExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <param name="headers"></param>
-    public static Var<DynamicObject> HeadersEntries(this SyntaxBuilder b, Var<Headers> headers)
+    public static Var<object> HeadersEntries(this SyntaxBuilder b, Var<Headers> headers)
     {
-        return b.CallOnObject<DynamicObject>(headers, "entries");
+        return b.CallOnObject<object>(headers, "entries");
     }
 
     /// <summary>
@@ -143,9 +143,9 @@ public static class HeadersExtensions
     /// <param name="b"></param>
     /// <param name="headers"></param>
     /// <returns>Returns an iterator.</returns>
-    public static Var<DynamicObject> HeadersKeys(this SyntaxBuilder b, Var<Headers> headers)
+    public static Var<object> HeadersKeys(this SyntaxBuilder b, Var<Headers> headers)
     {
-        return b.CallOnObject<DynamicObject>(headers, "keys");
+        return b.CallOnObject<object>(headers, "keys");
     }
 
     /// <summary>
@@ -166,8 +166,8 @@ public static class HeadersExtensions
     /// <param name="b"></param>
     /// <param name="headers"></param>
     /// <returns>Returns an iterator.</returns>
-    public static Var<DynamicObject> HeadersValues(this SyntaxBuilder b, Var<Headers> headers)
+    public static Var<object> HeadersValues(this SyntaxBuilder b, Var<Headers> headers)
     {
-        return b.CallOnObject<DynamicObject>(headers, "values");
+        return b.CallOnObject<object>(headers, "values");
     }
 }

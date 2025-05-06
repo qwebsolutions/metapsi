@@ -114,14 +114,14 @@ public static partial class IonItemOptionsControl
     /// <summary>
     /// <para> Emitted when the item has been fully swiped. </para>
     /// </summary>
-    public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, DynamicObject>> action) where TComponent: IonItemOptions
+    public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, object>> action) where TComponent: IonItemOptions
     {
         b.OnEventAction("onionSwipe", action, "detail");
     }
     /// <summary>
     /// <para> Emitted when the item has been fully swiped. </para>
     /// </summary>
-    public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<DynamicObject>, Var<TModel>> action) where TComponent: IonItemOptions
+    public static void OnIonSwipe<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<object>, Var<TModel>> action) where TComponent: IonItemOptions
     {
         b.OnEventAction("onionSwipe", b.MakeAction(action), "detail");
     }

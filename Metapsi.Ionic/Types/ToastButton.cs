@@ -13,17 +13,17 @@ public class ToastButton
     /// <summary>
     /// 'start' | 'end'
     /// </summary>
-    public DynamicObject side { get; set; }
+    public object side { get; set; }
     /// <summary>
     /// LiteralUnion&lt;'cancel', string&gt;
     /// </summary>
-    public DynamicObject role { get; set; }
+    public object role { get; set; }
     /// <summary>
     /// { [key: string]: any }
     /// </summary>
-    public DynamicObject htmlAttributes { get; set; }
+    public object htmlAttributes { get; set; }
     /// <summary>
     /// () =&gt; boolean | void | Promise&lt;boolean | void&gt;
     /// </summary>
-    public DynamicObject handler { get; set; }
+    public object handler { get; set; }
 }

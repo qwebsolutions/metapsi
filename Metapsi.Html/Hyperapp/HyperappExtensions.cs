@@ -24,7 +24,7 @@ public static partial class HyperappExtensions
 
     public static Var<Func<HyperType.App<TModel>, HyperType.Dispatcher>> ImportHyperapp<TModel>(this SyntaxBuilder b)
     {
-        EmbeddedFiles.Add(typeof(HyperAppNode).Assembly, "hyperapp.js");
+        b.AddEmbeddedResourceMetadata(typeof(HyperAppNode).Assembly, "hyperapp.js");
         var app = b.ImportName<Func<HyperType.App<TModel>, HyperType.Dispatcher>>("hyperapp.js", "app");
         return app;
     }
@@ -63,6 +63,7 @@ public static partial class HyperappExtensions
         });
 
         HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder.Module);
+        b.Document.Metadata.AddRange(moduleBuilder.Module.Metadata);
 
         //var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
         var moduleScript = moduleBuilder.Module.ToJs();
@@ -266,7 +267,7 @@ public static partial class HyperappExtensions
     //    var app = ImportHyperapp<TModel>(b);
 
     //    var props = b.SetProps<HyperType.App<TModel>>(
-    //        b.NewObj<DynamicObject>(),
+    //        b.NewObj<object>(),
     //        b =>
     //        {
     //            b.Comment("Set if exists");

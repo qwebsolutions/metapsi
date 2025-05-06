@@ -808,7 +808,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag<T>(this PropsBuilder<T> b, Var<System.Func<SlOption,int,DynamicObject>> getTag) where T: SlSelect
+    public static void SetGetTag<T>(this PropsBuilder<T> b, Var<System.Func<SlOption,int,object>> getTag) where T: SlSelect
     {
         b.SetProperty(b.Props, b.Const("getTag"), getTag);
     }
@@ -816,7 +816,7 @@ public static partial class SlSelectControl
     /// <summary>
     /// <para> A function that customizes the tags to be rendered when multiple=true. The first argument is the option, the second is the current tag's index.  The function should return either a Lit TemplateResult or a string containing trusted HTML of the symbol to render at the specified value. </para>
     /// </summary>
-    public static void SetGetTag<T>(this PropsBuilder<T> b, System.Func<SlOption,int,DynamicObject> getTag) where T: SlSelect
+    public static void SetGetTag<T>(this PropsBuilder<T> b, System.Func<SlOption,int,object> getTag) where T: SlSelect
     {
         b.SetProperty(b.Props, b.Const("getTag"), b.Const(getTag));
     }

@@ -24,7 +24,7 @@ public interface History
     /// <summary>
     /// The state read-only property of the History interface returns a value representing the state at the top of the history stack. This is a way to look at the state without having to wait for a popstate event.
     /// </summary>
-    DynamicObject state { get; }
+    object state { get; }
 }
 
 /// <summary>

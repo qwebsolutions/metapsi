@@ -15,7 +15,7 @@ public class SignalRConnection
 public class RaiseEventArgs
 {
     public string EventName { get; set; }
-    public DynamicObject EventArgs { get; set; }
+    public object EventArgs { get; set; }
 }
 
 public class RaiseEventArgs<T>
@@ -102,8 +102,8 @@ public static class SignalRExtensions
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
-        EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "signalr.js");
-        EmbeddedFiles.Add(typeof(SignalRExtensions).Assembly, "metapsi-signalr.js");
+        b.AddEmbeddedResourceMetadata(typeof(SignalRExtensions).Assembly, "signalr.js");
+        b.AddEmbeddedResourceMetadata(typeof(SignalRExtensions).Assembly, "metapsi-signalr.js");
         var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>("metapsi-signalr", "Connect");
         b.Call(connect, b.Const(hubPath), register, onConnect);
     }

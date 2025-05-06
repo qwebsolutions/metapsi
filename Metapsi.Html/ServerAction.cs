@@ -14,7 +14,7 @@ public static class ServerAction
         public List<string> Parameters { get; set; }
     }
 
-
+    private static Reference<string> ServerActionUrl = new Reference<string>();
 
     public static Var<HyperType.Action<TModel, TInput>> CallServer<TModel, TInput, TOutput>(
         this SyntaxBuilder b,
@@ -129,7 +129,6 @@ public static class ServerAction
         });
     }
 
-
     public static Var<HyperType.Effect> CallDelegateServerActionEffect<TModel, TOutput>(
         this SyntaxBuilder b,
         Var<List<object>> parameters,
@@ -137,9 +136,9 @@ public static class ServerAction
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
         Var<HyperType.Action<TModel, Html.Error>> onError)
     {
-        ServerAction.Store(serverAction);
+        b.AddMetadata(new Metadata() { Key = "server-action", Value = serverAction.Method.Name });
         return b.PostJsonEffect<TModel, ServerAction.Call, TOutput>(
-            b.Const(ServerAction.PostPath),
+            b.GetRef(b.Const(ServerActionUrl)),
             b.NewObj<ServerAction.Call>(
                 b =>
                 {

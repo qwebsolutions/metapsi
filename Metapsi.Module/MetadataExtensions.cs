@@ -1,46 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Metapsi.Syntax
 {
-    public static class MetadataExtensions
+    public static partial class MetadataExtensions
     {
         public static void AddMetadata(this ModuleBuilder b, Metadata metadata)
         {
             b.Module.Metadata.Add(metadata);
         }
-
-        //public static void SetKey(this Metadata metadata, string key)
-        //{
-        //    metadata.SetKey(key);
-        //}
-
-        //public static void SetValue(this Metadata metadata, string value)
-        //{
-        //    metadata.SetValue(value);
-        //}
-
-        //public static void AddData(this Metadata metadata, Action<Metadata> data)
-        //{
-        //    var childData = new Metadata();
-        //    data(childData);
-        //    metadata.Data.Add(childData);
-        //}
-
-        //public static void AddData(this Metadata metadata, string key, Action<Metadata> setData)
-        //{
-        //    Metadata child = new Metadata() { Key= key };
-        //    setData(child);
-        //    metadata.Data.Add(child);
-        //}
-
-        //public static void AddComment(this ModuleBuilder b, string comment)
-        //{
-        //    b.AddMetadata(b =>
-        //    {
-        //        b.SetKey("comment");
-        //        b.SetValue(comment);
-        //    });
-        //}
 
         /// <summary>
         /// 
@@ -50,6 +21,67 @@ namespace Metapsi.Syntax
         public static void AddMetadata(this SyntaxBuilder b, Metadata metadata)
         {
             b.moduleBuilder.AddMetadata(metadata);
+        }
+
+        public static void AddEmbeddedResourceMetadata(
+            Module module,
+            string sourceAssembly,
+            string filePath,
+            string hash)
+        {
+            module.Metadata.Add(new Metadata()
+            {
+                Key = "embedded-file",
+                Value = filePath,
+                Data = new HashSet<Metadata>()
+                    {
+                        new Metadata()
+                        {
+                            Key = "source-assembly",
+                            Value = sourceAssembly,
+                        },
+                        new Metadata()
+                        {
+                            Key = "hash",
+                            Value= hash
+                        }
+                    }
+            });
+        }
+
+        public static List<Metadata> GetEmbeddedResourcesMetadata(this Module module)
+        {
+            return module.Metadata.Where(x => x.Key == "embedded-file").ToList();
+        }
+
+        public static void AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string filePath)
+        {
+            var alreadyExists = b.moduleBuilder.Module.Metadata.Any(x => x.Key == "embedded-file" && x.Value == filePath);
+
+            if (!alreadyExists)
+            {
+                var added = false;
+                foreach (var resourceName in assembly.GetManifestResourceNames())
+                {
+                    if (resourceName == filePath)
+                    {
+                        using var stream = assembly.GetManifestResourceStream(resourceName);
+                        using (var ms = new MemoryStream())
+                        {
+                            stream.CopyTo(ms);
+                            var content = ms.ToArray();
+                            var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
+                            AddEmbeddedResourceMetadata(b.moduleBuilder.Module, assembly.FullName, filePath, hash);
+                        }
+                        added = true;
+                    }
+                }
+
+                if(!added)
+                {
+                    throw new ArgumentException($"{filePath} is not an embedded resource");
+                }
+            }
         }
     }
 }

@@ -631,7 +631,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The data to pass to the popover component. You only need to use this if you are not using a JavaScript framework. Otherwise, you can just set the props directly on your component. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<DynamicObject> componentProps) where T: IonPopover
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, Var<object> componentProps) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
@@ -639,7 +639,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The data to pass to the popover component. You only need to use this if you are not using a JavaScript framework. Otherwise, you can just set the props directly on your component. </para>
     /// </summary>
-    public static void SetComponentProps<T>(this PropsBuilder<T> b, DynamicObject componentProps) where T: IonPopover
+    public static void SetComponentProps<T>(this PropsBuilder<T> b, object componentProps) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("componentProps"), b.Const(componentProps));
     }
@@ -674,7 +674,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonPopover
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
@@ -682,7 +682,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonPopover
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
@@ -691,7 +691,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The event to pass to the popover animation. </para>
     /// </summary>
-    public static void SetEvent<T>(this PropsBuilder<T> b, Var<DynamicObject> @event) where T: IonPopover
+    public static void SetEvent<T>(this PropsBuilder<T> b, Var<object> @event) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("event"), @event);
     }
@@ -699,7 +699,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> The event to pass to the popover animation. </para>
     /// </summary>
-    public static void SetEvent<T>(this PropsBuilder<T> b, DynamicObject @event) where T: IonPopover
+    public static void SetEvent<T>(this PropsBuilder<T> b, object @event) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("event"), b.Const(@event));
     }
@@ -734,7 +734,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Additional attributes to pass to the popover. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonPopover
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<object> htmlAttributes) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
@@ -742,7 +742,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Additional attributes to pass to the popover. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonPopover
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, object htmlAttributes) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
@@ -829,7 +829,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonPopover
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
@@ -837,7 +837,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// <para> Animation to use when the popover is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonPopover
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }

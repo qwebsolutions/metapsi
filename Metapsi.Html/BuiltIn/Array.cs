@@ -18,7 +18,7 @@ public static class ArrayExtensions
     /// <returns></returns>
     public static Var<List<T>> ArrayFrom<T>(this SyntaxBuilder b, IVariable arrayLike)
     {
-        return b.CallOnObject<List<T>>(b.GetProperty<DynamicObject>(b.Self(), "Array"), "from", arrayLike);
+        return b.CallOnObject<List<T>>(b.GetProperty<object>(b.Self(), "Array"), "from", arrayLike);
     }
 
     public static Var<List<T>> ArrayFilter<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<Func<T, int, List<T>, bool>> filter)

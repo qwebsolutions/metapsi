@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -81,8 +82,16 @@ namespace Metapsi
             });
         }
 
+
+
         public static void UseEmbeddedFiles(this WebApplication app)
         {
+            var fileProviders = Metapsi.EmbeddedFiles.GetAll();
+            foreach (var fileProvider in fileProviders)
+            {
+
+            }
+
             // Embedded static files
             app.Use(async (context, next) =>
             {

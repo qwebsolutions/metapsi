@@ -284,7 +284,7 @@ public static class TypeParser
         {
             return new TypeScriptObjectType()
             {
-                TypeName = "DynamicObject"
+                TypeName = "object"
             };
         }
 
@@ -302,7 +302,7 @@ public static class TypeParser
         {
             return new TypeScriptObjectType()
             {
-                TypeName = "DynamicObject"
+                TypeName = "object"
             };
         }
 
@@ -313,7 +313,7 @@ public static class TypeParser
             {
                 return new TypeScriptObjectType()
                 {
-                    TypeName = "DynamicObject"
+                    TypeName = "object"
                 };
             }
         }

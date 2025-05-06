@@ -10,7 +10,7 @@ public interface CustomEvent : Event
     /// <summary>
     /// The read-only detail property of the CustomEvent interface returns any data passed when initializing the event.
     /// </summary>
-    public DynamicObject detail { get; set; }
+    public object detail { get; set; }
 }
 
 /// <summary>
@@ -21,7 +21,7 @@ public interface CustomEventOptions : EventOptions
     /// <summary>
     /// An event-dependent value associated with the event. This value is then available to the handler using the CustomEvent.detail property. It defaults to null.
     /// </summary>
-    public DynamicObject detail { get; set; }
+    public object detail { get; set; }
 }
 
 /// <summary>
@@ -53,7 +53,7 @@ public static class CustomEventExtensions
         Var<string> type,
         System.Action<PropsBuilder<CustomEventOptions>> setOptions)
     {
-        return b.New<CustomEvent>(type, b.SetProps(b.NewObj<DynamicObject>(), setOptions));
+        return b.New<CustomEvent>(type, b.SetProps(b.NewObj<object>(), setOptions));
     }
 
     /// <summary>
@@ -72,10 +72,10 @@ public static class CustomEventExtensions
         return b.New<CustomEvent>(
             type,
             b.SetProps(
-                b.NewObj<DynamicObject>(),
+                b.NewObj<object>(),
                 (PropsBuilder<CustomEventOptions> b) =>
                 {
-                    b.Set(x => x.detail, detail.As<DynamicObject>());
+                    b.Set(x => x.detail, detail.As<object>());
                 })).As<CustomEvent<TDetail>>();
     }
 
@@ -93,10 +93,10 @@ public static class CustomEventExtensions
         return b.New<CustomEvent>(
             b.Const(typeof(TDetail).Name),
             b.SetProps(
-                b.NewObj<DynamicObject>(),
+                b.NewObj<object>(),
                 (PropsBuilder<CustomEventOptions> b) =>
                 {
-                    b.Set(x => x.detail, detail.As<DynamicObject>());
+                    b.Set(x => x.detail, detail.As<object>());
                 })).As<CustomEvent<TDetail>>();
     }
 }

@@ -122,7 +122,7 @@ public static partial class IonSelectOptionControl
     /// <summary>
     /// <para> The text value of the option. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, Var<DynamicObject> value) where T: IonSelectOption
+    public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonSelectOption
     {
         b.SetProperty(b.Props, b.Const("value"), value);
     }
@@ -130,7 +130,7 @@ public static partial class IonSelectOptionControl
     /// <summary>
     /// <para> The text value of the option. </para>
     /// </summary>
-    public static void SetValue<T>(this PropsBuilder<T> b, DynamicObject value) where T: IonSelectOption
+    public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonSelectOption
     {
         b.SetProperty(b.Props, b.Const("value"), b.Const(value));
     }

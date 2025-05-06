@@ -9,9 +9,9 @@ public class RouteWrite
     /// <summary>
     /// HTMLElement | undefined
     /// </summary>
-    public DynamicObject element { get; set; }
+    public object element { get; set; }
     /// <summary>
     /// () =&gt; void | Promise&lt;void&gt;
     /// </summary>
-    public DynamicObject markVisible { get; set; }
+    public object markVisible { get; set; }
 }

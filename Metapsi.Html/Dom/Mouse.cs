@@ -62,7 +62,7 @@ public static partial class EventExtensionsClick
 
     //public static void OnClickAction<TState, TPayload>(
     //    this PropsBuilder b,
-    //    Var<DynamicObject> props,
+    //    Var<object> props,
     //    Var<HyperType.Action<TState, TPayload>> onClick)
     //{
     //    var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
@@ -78,7 +78,7 @@ public static partial class EventExtensionsClick
 
     //public static void OnClickAction<TState>(
     //    this PropsBuilder b,
-    //    Var<DynamicObject> props,
+    //    Var<object> props,
     //    Var<HyperType.Action<TState>> onClick)
     //{
     //    var clickEvent = b.MakeAction<TState, DomEvent<ClickTarget>>((SyntaxBuilder b, Var<TState> state, Var<DomEvent<ClickTarget>> @event) =>
@@ -92,7 +92,7 @@ public static partial class EventExtensionsClick
 
     //public static void OnClickAction<TState>(
     //    this PropsBuilder b,
-    //    Var<DynamicObject> props,
+    //    Var<object> props,
     //    System.Func<SyntaxBuilder, Var<TState>, Var<TState>> onClick)
     //{
     //    b.OnClickAction(props, b.MakeAction(onClick));

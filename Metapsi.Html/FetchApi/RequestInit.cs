@@ -10,7 +10,7 @@ public interface RequestInit
     /// <summary>
     /// The request body contains content to send to the server, for example in a POST or PUT request.
     /// </summary>
-    DynamicObject body { get; set; }
+    object body { get; set; }
 
     /// <summary>
     /// The cache mode you want to use for the request
@@ -25,7 +25,7 @@ public interface RequestInit
     /// <summary>
     /// Any headers you want to add to your request, contained within a Headers object or an object literal whose keys are the names of headers and whose values are the header values.
     /// </summary>
-    DynamicObject headers { get; set; }
+    object headers { get; set; }
 
     /// <summary>
     /// Contains the subresource integrity value of the request.
@@ -85,7 +85,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<string> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<ArrayBuffer> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<Blob> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<DataView> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<File> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<FormData> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<TypedArray> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<URLSearchParams> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public static class RequestInitExtensions
     /// <param name="body"></param>
     public static void SetBody(this PropsBuilder<RequestInit> b, Var<ReadableStream> body)
     {
-        b.Set(x => x.body, body.As<DynamicObject>());
+        b.Set(x => x.body, body.As<object>());
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public static class RequestInitExtensions
     /// <param name="headers"></param>
     public static void SetHeaders(this PropsBuilder<RequestInit> b, Var<Headers> headers)
     {
-        b.Set(x => x.headers, headers.As<DynamicObject>());
+        b.Set(x => x.headers, headers.As<object>());
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public static class RequestInitExtensions
     /// <param name="setHeaders"></param>
     public static void SetHeaders(this PropsBuilder<RequestInit> b, System.Action<PropsBuilder<HeadersInit>> setHeaders)
     {
-        b.Set(x => x.headers, b.SetProps(b.NewObj<DynamicObject>(), setHeaders).As<DynamicObject>());
+        b.Set(x => x.headers, b.SetProps(b.NewObj<object>(), setHeaders).As<object>());
     }
 
     /// <summary>

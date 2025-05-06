@@ -186,13 +186,13 @@ namespace Metapsi.Syntax
             return b.NewObj(new T());
         }
 
-        public static Var<T> NewObj<T>(
-            this SyntaxBuilder b,
-            Action<PropsBuilder<T>> setProps)
-            where T : new()
-        {
-            return b.SetProps(b.NewObj<T>(), setProps);
-        }
+        //public static Var<T> NewObj<T>(
+        //    this SyntaxBuilder b,
+        //    Action<PropsBuilder<T>> setProps)
+        //    where T : new()
+        //{
+        //    return b.SetProps(b.NewObj<T>(), setProps);
+        //}
 
         /// <summary>
         /// Creates an empty collection

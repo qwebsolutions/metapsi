@@ -4,115 +4,79 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Metapsi;
 
 public static class EmbeddedFiles
 {
+    static int updating = 0;
+
     private static ConcurrentDictionary<string, EmbeddedFile> embeddedResources = new();
 
-    public class EmbeddedFile
-    {
-        public string OriginalCaseResourceName { get; set; }
-        public string LowerCaseFileName { get; set; }
-        public Assembly Assembly { get; set; }
-        public byte[] Content { get; set; }
-        public string Hash { get; set; }
-    }
+    private static HashSet<Assembly> assemblies = new HashSet<Assembly>();
 
-    private static TaskQueue<ConcurrentDictionary<string, EmbeddedFile>> taskQueue = new(embeddedResources);
+    private static TaskQueue assembliesQueue { get; set; } = new TaskQueue();
 
-    public static async Task AddAllAsync(Assembly assembly, string pattern = null)
+    public static Task AddAssembly(Assembly assembly)
     {
-        foreach (var resourceName in assembly.GetManifestResourceNames())
+        Interlocked.Exchange(ref updating, 1);
+        return assembliesQueue.Enqueue(async () =>
         {
-            bool include = true;
-            if (pattern != null)
+            var added = assemblies.Add(assembly);
+            if (added)
             {
-                if (!resourceName.Contains(pattern))
+                foreach (var resourceName in assembly.GetManifestResourceNames())
                 {
-                    include = false;
+                    var stream = assembly.GetManifestResourceStream(resourceName);
+                    if (stream == null)
+                    {
+                        throw new Exception($"Embedded resource {resourceName} not found");
+                    }
+                    var embeddedReference = CreateEmbeddedReference(assembly, stream, resourceName);
+                    embeddedResources[resourceName] = embeddedReference;
                 }
             }
-            if (include)
-            {
-                await AddAsync(assembly, resourceName);
-            }
-        }
+
+            Interlocked.Exchange(ref updating, 0);
+        });
     }
 
-    public static void AddAll(Assembly assembly, string pattern = null)
+    public static async Task<EmbeddedFile> GetAsync(string fileName)
     {
-        foreach (var resourceName in assembly.GetManifestResourceNames())
-        {
-            bool include = true;
-            if (pattern != null)
-            {
-                if (!resourceName.Contains(pattern))
-                {
-                    include = false;
-                }
-            }
-            if (include)
-            {
-                Add(assembly, resourceName);
-            }
-        }
-    }
+        // The file name is probably already lowercase, as it's generally requested by the web server
+        fileName = fileName.ToLower();
 
-    public static async Task AutoAdd(string byPrefix = "Metapsi")
-    {
-        foreach (Assembly assembly in System.AppDomain.CurrentDomain.GetAssemblies())
-        {
-            if (assembly.GetName().Name.StartsWith(byPrefix))
-            {
-                await AddAllAsync(assembly);
-            }
-        }
-    }
+        // GetAsync should use the queue only as a last resort, otherwise all HTTP requests become sequential
+        embeddedResources.TryGetValue(fileName, out var embeddedFile);
 
-    public static async Task<EmbeddedFile> AddAsync(Assembly assembly, string resourceName)
-    {
-        return await taskQueue.Enqueue(async (embeddedResources) =>
-        {
-            var embeddedFile = GetEmbeddedFileReference(assembly, resourceName);
-            embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
+        if (embeddedFile != null)
             return embeddedFile;
-        });
-    }
 
-    public static async Task AddAsync(EmbeddedFile embeddedFile)
-    {
-        await taskQueue.Enqueue(async (embeddedResources) =>
+        if (updating == 1)
         {
-            embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
-        });
+            return await assembliesQueue.Enqueue(async () =>
+            {
+                embeddedResources.TryGetValue(fileName, out EmbeddedFile existingStaticResource);
+
+                if (existingStaticResource == null)
+                {
+                    return null;
+                }
+
+                return existingStaticResource;
+            });
+        }
+
+        else return null;
     }
 
-    public static EmbeddedFile GetEmbeddedFileReference(Assembly assembly, string resourceName)
+    private static EmbeddedFile CreateEmbeddedReference(Assembly assembly, Stream stream, string resourceName)
     {
         var lowercaseFileName = resourceName.ToLowerInvariant();
 
-        embeddedResources.TryGetValue(lowercaseFileName, out EmbeddedFile embeddedFile);
-
-        if (embeddedFile != null)
-        {
-            if (embeddedFile.Assembly != assembly)
-            {
-                Console.Error.WriteLine($"Embedded resource conflict! {lowercaseFileName} is included in multiple assemblies!");
-                throw new Exception($"Embedded resource conflict! {lowercaseFileName} is included in multiple assemblies!");
-            }
-            return embeddedFile;
-        }
-
-        var stream = assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            throw new Exception($"Embedded resource {resourceName} not found");
-        }
-
-        embeddedFile = new EmbeddedFile()
+        var embeddedFile = new EmbeddedFile()
         {
             Assembly = assembly,
             LowerCaseFileName = lowercaseFileName,
@@ -129,6 +93,124 @@ public static class EmbeddedFiles
         return embeddedFile;
     }
 
+
+    public class EmbeddedFile
+    {
+        public string OriginalCaseResourceName { get; set; }
+        public string LowerCaseFileName { get; set; }
+        public Assembly Assembly { get; set; }
+        public byte[] Content { get; set; }
+        public string Hash { get; set; }
+    }
+
+    //private static TaskQueue<ConcurrentDictionary<string, EmbeddedFile>> taskQueue = new(embeddedResources);
+
+    //public static async Task AddAllAsync(Assembly assembly, string pattern = null)
+    //{
+    //    foreach (var resourceName in assembly.GetManifestResourceNames())
+    //    {
+    //        bool include = true;
+    //        if (pattern != null)
+    //        {
+    //            if (!resourceName.Contains(pattern))
+    //            {
+    //                include = false;
+    //            }
+    //        }
+    //        if (include)
+    //        {
+    //            await AddAsync(assembly, resourceName);
+    //        }
+    //    }
+    //}
+
+    //public static void AddAll(Assembly assembly, string pattern = null)
+    //{
+    //    foreach (var resourceName in assembly.GetManifestResourceNames())
+    //    {
+    //        bool include = true;
+    //        if (pattern != null)
+    //        {
+    //            if (!resourceName.Contains(pattern))
+    //            {
+    //                include = false;
+    //            }
+    //        }
+    //        if (include)
+    //        {
+    //            Add(assembly, resourceName);
+    //        }
+    //    }
+    //}
+
+    //public static async Task AutoAdd(string byPrefix = "Metapsi")
+    //{
+    //    foreach (Assembly assembly in System.AppDomain.CurrentDomain.GetAssemblies())
+    //    {
+    //        if (assembly.GetName().Name.StartsWith(byPrefix))
+    //        {
+    //            await AddAllAsync(assembly);
+    //        }
+    //    }
+    //}
+
+    //public static async Task<EmbeddedFile> AddAsync(Assembly assembly, string resourceName)
+    //{
+    //    return await taskQueue.Enqueue(async (embeddedResources) =>
+    //    {
+    //        var embeddedFile = GetEmbeddedFileReference(assembly, resourceName);
+    //        embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
+    //        return embeddedFile;
+    //    });
+    //}
+
+    //public static async Task AddAsync(EmbeddedFile embeddedFile)
+    //{
+    //    await taskQueue.Enqueue(async (embeddedResources) =>
+    //    {
+    //        embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
+    //    });
+    //}
+
+    //public static EmbeddedFile GetEmbeddedFileReference(Assembly assembly, string resourceName)
+    //{
+    //    var lowercaseFileName = resourceName.ToLowerInvariant();
+
+    //    embeddedResources.TryGetValue(lowercaseFileName, out EmbeddedFile embeddedFile);
+
+    //    if (embeddedFile != null)
+    //    {
+    //        if (embeddedFile.Assembly != assembly)
+    //        {
+    //            Console.Error.WriteLine($"Embedded resource conflict! {lowercaseFileName} is included in multiple assemblies!");
+    //            throw new Exception($"Embedded resource conflict! {lowercaseFileName} is included in multiple assemblies!");
+    //        }
+    //        return embeddedFile;
+    //    }
+
+    //    var stream = assembly.GetManifestResourceStream(resourceName);
+    //    if (stream == null)
+    //    {
+    //        throw new Exception($"Embedded resource {resourceName} not found");
+    //    }
+
+    //    embeddedFile = new EmbeddedFile()
+    //    {
+    //        Assembly = assembly,
+    //        LowerCaseFileName = lowercaseFileName,
+    //        OriginalCaseResourceName = resourceName
+    //    };
+
+    //    using (var ms = new MemoryStream())
+    //    {
+    //        stream.CopyTo(ms);
+    //        embeddedFile.Content = ms.ToArray();
+    //    }
+    //    embeddedFile.Hash = Hash(embeddedFile.Content);
+
+    //    return embeddedFile;
+    //}
+
     public static string Hash(byte[] bytes)
     {
         return System.IO.Hashing.XxHash32.HashToUInt32(bytes).ToString();
@@ -139,33 +221,33 @@ public static class EmbeddedFiles
         return Hash(System.Text.Encoding.UTF8.GetBytes(content));
     }
 
-    public static async Task<EmbeddedFile> GetAsync(string fileName)
-    {
-        // The file name is probably already lowercase, as it's generally requested by the web server
-        fileName = fileName.ToLower();
+    //public static async Task<EmbeddedFile> GetAsync(string fileName)
+    //{
+    //    // The file name is probably already lowercase, as it's generally requested by the web server
+    //    fileName = fileName.ToLower();
 
-        return await taskQueue.Enqueue(async embeddedResources =>
-        {
-            embeddedResources.TryGetValue(fileName, out EmbeddedFile existingStaticResource);
+    //    return await taskQueue.Enqueue(async embeddedResources =>
+    //    {
+    //        embeddedResources.TryGetValue(fileName, out EmbeddedFile existingStaticResource);
 
-            if (existingStaticResource == null)
-            {
-                return null;
-            }
+    //        if (existingStaticResource == null)
+    //        {
+    //            return null;
+    //        }
 
-            return existingStaticResource;
-        });
-    }
+    //        return existingStaticResource;
+    //    });
+    //}
 
-    // This might get executed multiple times after application start, when first requesting a page referencing this resource
-    // It's a byproduct of needing the view to be sync
+    //// This might get executed multiple times after application start, when first requesting a page referencing this resource
+    //// It's a byproduct of needing the view to be sync
 
-    public static EmbeddedFile Add(Assembly assembly, string resourceName)
-    {
-        var embeddedFile = GetEmbeddedFileReference(assembly, resourceName);
-        embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
-        return embeddedFile;
-    }
+    //public static EmbeddedFile Add(Assembly assembly, string resourceName)
+    //{
+    //    var embeddedFile = GetEmbeddedFileReference(assembly, resourceName);
+    //    embeddedResources[embeddedFile.LowerCaseFileName] = embeddedFile;
+    //    return embeddedFile;
+    //}
 
     public static List<EmbeddedFile> GetAll()
     {

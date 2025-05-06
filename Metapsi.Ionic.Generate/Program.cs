@@ -78,7 +78,7 @@ public static class Program
                 }
 
                 if (defaultConversion.Trim().StartsWith("Promise<"))
-                    return "DynamicObject";
+                    return "object";
 
                 return defaultConversion;
             }
@@ -255,7 +255,7 @@ public static class Program
                     var csType = tsType;
 
                     if (tsType == "any")
-                        csType = "DynamicObject";
+                        csType = "object";
 
                     if (tsType == "number")
                         csType = "int";
@@ -264,11 +264,11 @@ public static class Program
                         csType = "bool";
 
                     if (tsType == "T")
-                        csType = "DynamicObject";
+                        csType = "object";
 
                     if (tsType.Contains("|"))
                     {
-                        csType = "DynamicObject";
+                        csType = "object";
                         if (tsType == "LiteralUnion<'cancel' | 'destructive' | 'selected', string>")
                         {
                             csType = "string";
@@ -283,17 +283,17 @@ public static class Program
                         }
                     }
                     else if (tsType.Contains("{"))
-                        csType = "DynamicObject";
+                        csType = "object";
                     else if (tsType.Contains("<"))
-                        csType = "DynamicObject";
+                        csType = "object";
                     else if (tsType.Contains("=>"))
-                        csType = "DynamicObject";
+                        csType = "object";
                     else if (csType.Contains("[]"))
                     {
                         var itemType = tsType.Replace("[]", string.Empty);
                         if (itemType == "any")
                         {
-                            itemType = "DynamicObject";
+                            itemType = "object";
                         }
                         csType = $"System.Collections.Generic.List<{itemType}>";
                     }

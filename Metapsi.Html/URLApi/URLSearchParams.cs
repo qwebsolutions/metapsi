@@ -63,9 +63,9 @@ public static class URLSearchParamsExtensions
     /// <param name="b"></param>
     /// <param name="p"></param>
     /// <returns>Returns an iterator.</returns>
-    public static Var<DynamicObject> URLSearchParamsEntries(this SyntaxBuilder b, Var<URLSearchParams> p)
+    public static Var<object> URLSearchParamsEntries(this SyntaxBuilder b, Var<URLSearchParams> p)
     {
-        return b.CallOnObject<DynamicObject>(p, "entries");
+        return b.CallOnObject<object>(p, "entries");
     }
 
     /// <summary>
@@ -168,9 +168,9 @@ public static class URLSearchParamsExtensions
     /// <param name="b"></param>
     /// <param name="p"></param>
     /// <returns>Returns an iterator.</returns>
-    public static Var<DynamicObject> URLSearchParamsKeys(this SyntaxBuilder b, Var<URLSearchParams> p)
+    public static Var<object> URLSearchParamsKeys(this SyntaxBuilder b, Var<URLSearchParams> p)
     {
-        return b.CallOnObject<DynamicObject>(p, "keys");
+        return b.CallOnObject<object>(p, "keys");
     }
 
     /// <summary>
@@ -212,8 +212,8 @@ public static class URLSearchParamsExtensions
     /// <param name="b"></param>
     /// <param name="p"></param>
     /// <returns>Returns an iterator.</returns>
-    public static Var<DynamicObject> URLSearchParamsValues(this SyntaxBuilder b, Var<URLSearchParams> p)
+    public static Var<object> URLSearchParamsValues(this SyntaxBuilder b, Var<URLSearchParams> p)
     {
-        return b.CallOnObject<DynamicObject>(p, "values");
+        return b.CallOnObject<object>(p, "values");
     }
 }

@@ -574,7 +574,7 @@ public static partial class IonItemControl
     /// <summary>
     /// <para> When using a router, it specifies the transition animation when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> routerAnimation) where T: IonItem
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> routerAnimation) where T: IonItem
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), routerAnimation);
     }
@@ -582,7 +582,7 @@ public static partial class IonItemControl
     /// <summary>
     /// <para> When using a router, it specifies the transition animation when navigating to another page using `href`. </para>
     /// </summary>
-    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> routerAnimation) where T: IonItem
+    public static void SetRouterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> routerAnimation) where T: IonItem
     {
         b.SetProperty(b.Props, b.Const("routerAnimation"), b.Const(routerAnimation));
     }

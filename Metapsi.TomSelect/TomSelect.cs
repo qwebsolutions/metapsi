@@ -37,7 +37,7 @@ public class TomSelectSettings
 
     public List<TomSelectOption> options { get; set; } = new();
     public List<string> items { get; set; }= new();
-    public DynamicObject plugins { get; set; } = new();
+    public object plugins { get; set; } = new();
 
     public Action<object> onInitialize { get; set; }
     public Action<object> onDropdownOpen { get; set; }
@@ -82,14 +82,14 @@ public static class Control
 {
     public static Var<IVNode> TomSelect(this LayoutBuilder b, Action<PropsBuilder<TomSelect>> buildProps)
     {
-        b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
-        b.AddRequiredScriptMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js", "module");
+        //b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
+        b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
 
         // Use own props builder to serialize the default values of the TomSelect class
         var tomSelectPropsBuilder = new PropsBuilder<TomSelect>(b) { Props = b.NewObj<TomSelect>() };
         buildProps(tomSelectPropsBuilder);
 
-        return b.H("metapsi-tom-select", tomSelectPropsBuilder.Props.As<DynamicObject>());
+        return b.H("metapsi-tom-select", tomSelectPropsBuilder.Props.As<object>());
     }
 
     public static void Configure<TProp>(

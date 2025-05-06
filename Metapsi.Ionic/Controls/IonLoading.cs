@@ -432,7 +432,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Animation to use when the loading indicator is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> enterAnimation) where T: IonLoading
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> enterAnimation) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), enterAnimation);
     }
@@ -440,7 +440,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Animation to use when the loading indicator is presented. </para>
     /// </summary>
-    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> enterAnimation) where T: IonLoading
+    public static void SetEnterAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> enterAnimation) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("enterAnimation"), b.Const(enterAnimation));
     }
@@ -449,7 +449,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Additional attributes to pass to the loader. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<DynamicObject> htmlAttributes) where T: IonLoading
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, Var<object> htmlAttributes) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
@@ -457,7 +457,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Additional attributes to pass to the loader. </para>
     /// </summary>
-    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, DynamicObject htmlAttributes) where T: IonLoading
+    public static void SetHtmlAttributes<T>(this PropsBuilder<T> b, object htmlAttributes) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), b.Const(htmlAttributes));
     }
@@ -518,7 +518,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Animation to use when the loading indicator is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<DynamicObject,DynamicObject,Animation>> leaveAnimation) where T: IonLoading
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, Var<System.Func<object,object,Animation>> leaveAnimation) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), leaveAnimation);
     }
@@ -526,7 +526,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// <para> Animation to use when the loading indicator is dismissed. </para>
     /// </summary>
-    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<DynamicObject,DynamicObject,Animation> leaveAnimation) where T: IonLoading
+    public static void SetLeaveAnimation<T>(this PropsBuilder<T> b, System.Func<object,object,Animation> leaveAnimation) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("leaveAnimation"), b.Const(leaveAnimation));
     }

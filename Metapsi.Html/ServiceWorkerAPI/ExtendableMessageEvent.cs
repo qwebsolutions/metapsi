@@ -10,7 +10,7 @@ public interface ExtendableMessageEvent : ExtendableEvent
     /// <summary>
     /// The data read-only property of the ExtendableMessageEvent interface returns the event's data. It can be any data type.
     /// </summary>
-    public DynamicObject data { get; set; }
+    public object data { get; set; }
 
     /// <summary>
     /// The lastEventID read-only property of the ExtendableMessageEvent interface represents, in server-sent events, the last event ID of the event source.

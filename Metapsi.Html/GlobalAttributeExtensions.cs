@@ -1,6 +1,7 @@
 ﻿using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Metapsi.Html;
 
@@ -85,15 +86,15 @@ public static class GlobalAttributeExtensions
         b.SetClass(b.Const(@class));
     }
 
-    private static Var<List<DynamicObject>> GetClassList<T>(this PropsBuilder<T> b)
+    private static Var<List<object>> GetClassList<T>(this PropsBuilder<T> b)
     {
-        var classList = b.GetProperty<List<DynamicObject>>(b.Props, b.Const("class"));
+        var classList = b.GetProperty<List<object>>(b.Props, b.Const("class"));
         return b.If(
             b.HasObject(classList),
             b => classList,
             b =>
             {
-                var newList = b.NewCollection<DynamicObject>();
+                var newList = b.NewCollection<object>();
                 b.SetProperty(b.Props, b.Const("class"), newList);
                 return newList;
             });
@@ -101,13 +102,13 @@ public static class GlobalAttributeExtensions
 
     public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class)
     {
-        b.Push(b.GetClassList(), @class.As<DynamicObject>());
+        b.Push(b.GetClassList(), @class.As<object>());
         return b;
     }
 
     public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class, Var<bool> enabled)
     {
-        b.Push(b.GetClassList(), b.NewObj<DynamicObject>(
+        b.Push(b.GetClassList(), b.NewObj<object>(
             b =>
             {
                 b.SetProperty(b.Props, @class, enabled);
@@ -157,16 +158,12 @@ public static class GlobalAttributeExtensions
         stylesheet.Attributes.Add("href", href);
 
         b.AddRequiredTagMetadata(stylesheet);
+    }
 
-        //if (!href.StartsWith("http"))
-        //{
-        //    // If it is not absolute path, make it absolute
-        //    href = $"/{href}".Replace("//", "/");
-        //}
-
-        //var stylesheet = new DistinctTag("link");
-
-        //b.Const(stylesheet);
+    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)
+    {
+        b.AddRequiredStylesheetMetadata(href);
+        b.AddEmbeddedResourceMetadata(assembly, href);
     }
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)
