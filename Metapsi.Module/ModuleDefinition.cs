@@ -19,7 +19,7 @@ namespace Metapsi.Syntax
         public List<ISyntaxNode> Nodes { get; set; } = new List<ISyntaxNode>(); // AssignmentNode or CallNode
     }
 
-    public class Metadata : IEquatable<Metadata>
+    public class Metadata
     {
         public string Key { get; set; }
         public string Value { get; set; }
@@ -42,25 +42,13 @@ namespace Metapsi.Syntax
             return true;
         }
 
-        public bool Equals(Metadata other)
-        {
-            return this.Equals(other as Metadata);
-        }
-
         public override int GetHashCode()
         {
             var keyHashCode = Key != null ? Key.GetHashCode() : 0;
             var valueHashCode = Value != null ? Value.GetHashCode() : 0;
-            return keyHashCode ^ valueHashCode ^ Data.GetHashCode();
+            return keyHashCode ^ valueHashCode;
         }
     }
-
-    // <meta name="viewport" content="width=device-width, initial-scale=1">
-    // { key = "meta", value = ["viewport"]
-
-    // <meta charset="UTF-8">
-    // <link rel="stylesheet" href="/Metapsi.ServiceDoc.css">
-    // <style>.sl-toast-stack { left: 50%; transform: translateX(-50%); }</style>
 
     public enum NodeType
     {
