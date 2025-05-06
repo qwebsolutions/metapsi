@@ -1,8 +1,4 @@
-﻿using Metapsi.Hyperapp;
-using Metapsi.Syntax;
-using Microsoft.AspNetCore.Hosting.Server;
-using System;
-using System.Reflection.PortableExecutable;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Html;
 
@@ -266,7 +262,7 @@ public static class RequestInitExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <param name="setHeaders"></param>
-    public static void SetHeaders(this PropsBuilder<RequestInit> b, Action<PropsBuilder<HeadersInit>> setHeaders)
+    public static void SetHeaders(this PropsBuilder<RequestInit> b, System.Action<PropsBuilder<HeadersInit>> setHeaders)
     {
         b.Set(x => x.headers, b.SetProps(b.NewObj<DynamicObject>(), setHeaders).As<DynamicObject>());
     }

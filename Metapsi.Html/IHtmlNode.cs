@@ -169,7 +169,7 @@ public class HtmlNodeComparer : IEqualityComparer<IHtmlNode>
         return x.Equals(y);
     }
 
-    public int GetHashCode([DisallowNull] IHtmlNode obj)
+    public int GetHashCode(/*[DisallowNull]*/ IHtmlNode obj)
     {
         return obj.GetHashCode();
     }
@@ -232,7 +232,8 @@ public static class HtmlNodeExtensions
 
     public static string GetAttribute(this HtmlTag element, string name)
     {
-        return element.Attributes.GetValueOrDefault(name);
+        element.Attributes.TryGetValue(name, out var value);
+        return value;
     }
 
     public static void SetAttribute(this HtmlTag element, string name, string value)

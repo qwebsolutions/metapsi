@@ -1,8 +1,6 @@
 ﻿using Metapsi.Syntax;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Html;
 
@@ -38,7 +36,7 @@ public static class JsonExtensions
     {
         var options = b.SetProps(b.NewObj(), setOptions);
         return b.CallOnObject<string>(
-            b.GetProperty<DynamicObject>(b.Self(), "JSON"),
+            b.GetProperty<object>(b.Self(), "JSON"),
             "stringify",
             value,
             b.Get(options, x => x.Replacer),
@@ -90,44 +88,16 @@ public static class JsonExtensions
         b.Set(x => x.Space, space);
     }
 
-    private static Var<string> JsonStringify(SyntaxBuilder b, IVariable value, IVariable replacer = null, IVariable space = null)
-    {
-        if (replacer != null && space != null)
-        {
-            return b.CallOnObject<string>(
-                b.GetProperty<DynamicObject>(b.Self(), "JSON"),
-                "stringify",
-                value,
-                replacer,
-                space);
-        }
-        else if (replacer != null && space == null)
-        {
-            return b.CallOnObject<string>(
-                b.GetProperty<DynamicObject>(b.Self(), "JSON"),
-                "stringify",
-                value,
-                replacer);
-        }
-        else
-        {
-            return b.CallOnObject<string>(
-            b.GetProperty<DynamicObject>(b.Self(), "JSON"),
-            "stringify",
-            value);
-        }
-    }
-
     /// <summary>
     /// The JSON.parse() static method parses a JSON string, constructing the JavaScript value or object described by the string.
     /// </summary>
     /// <param name="b"></param>
     /// <param name="text">The string to parse as JSON.</param>
     /// <returns>The Object, Array, string, number, boolean, or null value corresponding to the given JSON text.</returns>
-    public static Var<DynamicObject> JsonParse(this SyntaxBuilder b, Var<string> text)
+    public static Var<object> JsonParse(this SyntaxBuilder b, Var<string> text)
     {
-        return b.CallOnObject<DynamicObject>(
-            b.GetProperty<DynamicObject>(b.Self(), "JSON"),
+        return b.CallOnObject<object>(
+            b.GetProperty<object>(b.Self(), "JSON"),
             "parse",
             text);
     }

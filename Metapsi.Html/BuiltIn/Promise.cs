@@ -1,10 +1,6 @@
 ﻿using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using static Metapsi.Html.ServerAction;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Html;
 
@@ -29,12 +25,12 @@ public interface PromiseResolvers
     /// <summary>
     /// A function that resolves the promise.
     /// </summary>
-    DynamicObject resolve { get; }
+    object resolve { get; }
 
     /// <summary>
     /// A function that rejects the promise. 
     /// </summary>
-    DynamicObject reject { get; }
+    object reject { get; }
 }
 
 /// <summary>

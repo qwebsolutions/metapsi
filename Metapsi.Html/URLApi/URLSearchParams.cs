@@ -1,12 +1,6 @@
 ﻿using Metapsi.Syntax;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Html;
 

@@ -9,6 +9,16 @@ namespace Metapsi.Sqlite
 {
     public static class TransactionExtensions
     {
+        private static string PropertyName<TObject, TProperty>(this System.Linq.Expressions.Expression<Func<TObject, TProperty>> expression)
+        {
+            return (expression.Body as System.Linq.Expressions.MemberExpression).Member.Name;
+        }
+
+        private static string PropertyName(this System.Linq.Expressions.LambdaExpression expression)
+        {
+            return (expression.Body as System.Linq.Expressions.MemberExpression).Member.Name;
+        }
+
         public static async Task InsertRecord(
             this System.Data.Common.DbTransaction transaction,
             IRecord record)

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>11.0</LangVersion>
 		<IsPackable>true</IsPackable>
 		<Description>Use Shoelace 2.19.1 with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>

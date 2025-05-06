@@ -1,7 +1,6 @@
 ﻿using Metapsi.Html;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Metapsi.Ionic;
 

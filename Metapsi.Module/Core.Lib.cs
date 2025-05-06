@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Metapsi;
 
 namespace Metapsi.Syntax
 {
@@ -10,7 +11,7 @@ namespace Metapsi.Syntax
 
         private static Var<T> ImportCore<T>(SyntaxBuilder b, string symbol)
         {
-            EmbeddedFiles.AddAll(typeof(Core).Assembly);
+            //Metapsi.EmbeddedFiles.AddAll(typeof(Core).Assembly);
             return b.ImportName<T>(ModuleName, symbol);
         }
 
@@ -398,7 +399,7 @@ namespace Metapsi.Syntax
             return b.CallExternal<string>(ModuleName, nameof(ToFixed), number, digits);
         }
 
-        public static Var<TResult> TryCatchReturn<TResult>(this SyntaxBuilder b, Var<Func<TResult>> onTry, Var<Func<DynamicObject, TResult>> onCatch)
+        public static Var<TResult> TryCatchReturn<TResult>(this SyntaxBuilder b, Var<Func<TResult>> onTry, Var<Func<object, TResult>> onCatch)
         {
             return b.CallExternal<TResult>(ModuleName, nameof(TryCatchReturn), onTry, onCatch);
         }
@@ -534,12 +535,12 @@ namespace Metapsi.Syntax
             return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDateTime), dateTime, localeCode);
         }
 
-        public static Var<string> FormatLocaleDateTime(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<DynamicObject> options)
+        public static Var<string> FormatLocaleDateTime(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<object> options)
         {
             return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDateTime), dateTime, localeCode, options);
         }
 
-        public static Var<string> FormatLocaleDate(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<DynamicObject> options)
+        public static Var<string> FormatLocaleDate(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<object> options)
         {
             return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDate), dateTime, localeCode, options);
         }
@@ -573,9 +574,9 @@ namespace Metapsi.Syntax
 
         public static void FileToBase64(
             this SyntaxBuilder b,
-            Var<DynamicObject> file,
-            Var<Action<DynamicObject, string>> onResult,
-            Var<Action<DynamicObject>> onError)
+            Var<object> file,
+            Var<Action<object, string>> onResult,
+            Var<Action<object>> onError)
         {
             b.CallExternal(ModuleName, nameof(FileToBase64), file, onResult, onError);
         }

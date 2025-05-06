@@ -1,7 +1,5 @@
 ﻿using Metapsi.Syntax;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
 
 namespace Metapsi.Html
 {

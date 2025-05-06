@@ -1,12 +1,10 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using Metapsi.Html;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Builder;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using System;
+using Microsoft.AspNetCore.SignalR;
+
 namespace Metapsi.SignalR;
 
 public class SignalRConnection
@@ -26,42 +24,36 @@ public class RaiseEventArgs<T>
     public T EventArgs { get; set; }
 }
 
-public class DefaultMetapsiSignalRHub : Hub
-{
-    public static IHubContext<DefaultMetapsiSignalRHub> HubContext { get; set; }
-    public static string Path { get; set; } = $"/{nameof(DefaultMetapsiSignalRHub)}";
-}
-
 public static class SignalRExtensions
 {
     public const string RaiseEventCode = "raiseEvent";
 
-    /// <summary>
-    /// Configures the SignalR serializer to work with json payloads
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <returns></returns>
-    public static WebApplicationBuilder AddMetapsiSignalR(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSignalR()
-            .AddJsonProtocol(options =>
-            {
-                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
-            });
-        return builder;
-    }
+    ///// <summary>
+    ///// Configures the SignalR serializer to work with json payloads
+    ///// </summary>
+    ///// <param name="builder"></param>
+    ///// <returns></returns>
+    //public static WebApplicationBuilder AddMetapsiSignalR(this WebApplicationBuilder builder)
+    //{
+    //    builder.Services.AddSignalR()
+    //        .AddJsonProtocol(options =>
+    //        {
+    //            options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+    //        });
+    //    return builder;
+    //}
 
-    /// <summary>
-    /// Adds a SignalR hub on DefaultMetapsiSignalRHub.Path
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <returns></returns>
-    public static HubEndpointConventionBuilder MapDefaultSignalRHub(this IEndpointRouteBuilder builder)
-    {
-        var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(DefaultMetapsiSignalRHub.Path);
-        DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
-        return hubBuilder;
-    }
+    ///// <summary>
+    ///// Adds a SignalR hub on DefaultMetapsiSignalRHub.Path
+    ///// </summary>
+    ///// <param name="builder"></param>
+    ///// <returns></returns>
+    //public static HubEndpointConventionBuilder MapDefaultSignalRHub(this IEndpointRouteBuilder builder)
+    //{
+    //    var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(DefaultMetapsiSignalRHub.Path);
+    //    DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
+    //    return hubBuilder;
+    //}
 
     public static async Task RaiseEvent(this IClientProxy clientProxy, string eventName)
     {
@@ -78,12 +70,6 @@ public static class SignalRExtensions
             EventName = eventName,
             EventArgs = eventArgs
         });
-    }
-
-    public static Var<HyperType.Effect> SignalRConnect(
-        this SyntaxBuilder b)
-    {
-        return b.SignalRConnect(DefaultMetapsiSignalRHub.Path);
     }
 
     public static Var<HyperType.Effect> SignalRConnect(

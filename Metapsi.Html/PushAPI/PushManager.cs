@@ -1,10 +1,4 @@
 ﻿using Metapsi.Syntax;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Hosting.Server;
-using static Metapsi.Html.ServerAction;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Runtime.Intrinsics.X86;
 
 namespace Metapsi.Html;
 

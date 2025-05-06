@@ -8,9 +8,9 @@ namespace Metapsi.Html;
 
 public static class ObjectExtensions
 {
-    private static Var<DynamicObject> StaticObject(this SyntaxBuilder b)
+    private static Var<object> StaticObject(this SyntaxBuilder b)
     {
-        return b.GetProperty<DynamicObject>(b.Self(), "Object");
+        return b.GetProperty<object>(b.Self(), "Object");
     }
 
     /// <summary>
@@ -43,8 +43,8 @@ public static class ObjectExtensions
     /// <param name="b"></param>
     /// <param name="obj">An object.</param>
     /// <returns>An array containing the given object's own enumerable string-keyed property values.</returns>
-    public static Var<List<DynamicObject>> ObjectValues(this SyntaxBuilder b, IVariable obj)
+    public static Var<List<object>> ObjectValues(this SyntaxBuilder b, IVariable obj)
     {
-        return b.CallOnObject<List<DynamicObject>>(b.StaticObject(), "values", obj);
+        return b.CallOnObject<List<object>>(b.StaticObject(), "values", obj);
     }
 }

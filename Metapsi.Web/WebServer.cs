@@ -300,19 +300,19 @@ namespace Metapsi
             return Path(handler.Method);
         }
 
-        public static string Url<TRoute>() where TRoute : Route.IGet
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return $"/{path}";
-        }
+        //public static string Url<TRoute>() where TRoute : Route.IGet
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return $"/{path}";
+        //}
 
-        public static string Url<TRoute, TParam>(TParam param) where TRoute : Route.IGet<TParam>
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return $"/{path}/{param}";
-        }
+        //public static string Url<TRoute, TParam>(TParam param) where TRoute : Route.IGet<TParam>
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return $"/{path}/{param}";
+        //}
 
         public static string Url<TResult, TArg>(Func<CommandContext, HttpContext, TArg, TResult> handler, TArg arg)
         {
@@ -338,134 +338,134 @@ namespace Metapsi
 
 
 
-        public static void RegisterGetHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
-            where THandler : Http.Get<TRoute>, new()
-            where TRoute : Route.IGet
-        {
-            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
-            if (type != null)
-            {
-                var nestedTypeNames = type.NestedTypeNames();
-                string path = string.Join("/", nestedTypeNames);
+        //public static void RegisterGetHandler<THandler, TRoute>(this IEndpointRouteBuilder routeBuilder)
+        //    where THandler : Http.Get<TRoute>, new()
+        //    where TRoute : Route.IGet
+        //{
+        //    var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+        //    if (type != null)
+        //    {
+        //        var nestedTypeNames = type.NestedTypeNames();
+        //        string path = string.Join("/", nestedTypeNames);
 
-                var get = async (CommandContext commandContext, HttpContext httpContext) =>
-                {
-                    try
-                    {
-                        return await new THandler().OnGet(commandContext, httpContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        return Page.Result(ex);
-                    }
-                };
+        //        var get = async (CommandContext commandContext, HttpContext httpContext) =>
+        //        {
+        //            try
+        //            {
+        //                return await new THandler().OnGet(commandContext, httpContext);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Console.WriteLine(ex);
+        //                return Page.Result(ex);
+        //            }
+        //        };
 
-                routeBuilder.MapGet(path, get);
-            }
-        }
+        //        routeBuilder.MapGet(path, get);
+        //    }
+        //}
 
-        public static void RegisterGetHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
-            where THandler : Http.Get<TRoute, T1>, new()
-            where TRoute : Route.IGet<T1>
-        {
-            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
-            if (type != null)
-            {
-                var nestedTypeNames = type.NestedTypeNames();
-                string nestedPath = string.Join("/", nestedTypeNames);
+        //public static void RegisterGetHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
+        //    where THandler : Http.Get<TRoute, T1>, new()
+        //    where TRoute : Route.IGet<T1>
+        //{
+        //    var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+        //    if (type != null)
+        //    {
+        //        var nestedTypeNames = type.NestedTypeNames();
+        //        string nestedPath = string.Join("/", nestedTypeNames);
 
-                var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1) =>
-                {
-                    try
-                    {
-                        return await new THandler().OnGet(commandContext, httpContext, p1);
-                    }
-                    catch (Exception ex)
-                    {
-                        return Page.Result(ex);
-                    }
-                };
+        //        var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1) =>
+        //        {
+        //            try
+        //            {
+        //                return await new THandler().OnGet(commandContext, httpContext, p1);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return Page.Result(ex);
+        //            }
+        //        };
 
-                var requestPath = $"{nestedPath}/{{{DataParametersPath(get)}}}";
+        //        var requestPath = $"{nestedPath}/{{{DataParametersPath(get)}}}";
 
-                routeBuilder.MapGet(requestPath, get);
-            }
-        }
+        //        routeBuilder.MapGet(requestPath, get);
+        //    }
+        //}
 
-        public static void RegisterGetHandler<THandler, TRoute, T1, T2>(this IEndpointRouteBuilder routeBuilder)
-            where THandler : Http.Get<TRoute, T1, T2>, new()
-            where TRoute : Route.IGet<T1, T2>
-        {
-            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
-            if (type != null)
-            {
-                var nestedTypeNames = type.NestedTypeNames();
-                string nestedPath = string.Join("/", nestedTypeNames);
+        //public static void RegisterGetHandler<THandler, TRoute, T1, T2>(this IEndpointRouteBuilder routeBuilder)
+        //    where THandler : Http.Get<TRoute, T1, T2>, new()
+        //    where TRoute : Route.IGet<T1, T2>
+        //{
+        //    var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+        //    if (type != null)
+        //    {
+        //        var nestedTypeNames = type.NestedTypeNames();
+        //        string nestedPath = string.Join("/", nestedTypeNames);
 
-                var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1, T2 p2) =>
-                {
-                    try
-                    {
-                        return await new THandler().OnGet(commandContext, httpContext, p1, p2);
-                    }
-                    catch (Exception ex)
-                    {
-                        return Page.Result(ex);
-                    }
-                };
+        //        var get = async (CommandContext commandContext, HttpContext httpContext, T1 p1, T2 p2) =>
+        //        {
+        //            try
+        //            {
+        //                return await new THandler().OnGet(commandContext, httpContext, p1, p2);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return Page.Result(ex);
+        //            }
+        //        };
 
-                var paramNames = DataParameterNames(get);
-                var paramsPath = string.Join("/", paramNames.Select(x => $"{{{x}}}"));
+        //        var paramNames = DataParameterNames(get);
+        //        var paramsPath = string.Join("/", paramNames.Select(x => $"{{{x}}}"));
 
-                var requestPath = $"{nestedPath}/{paramsPath}";
+        //        var requestPath = $"{nestedPath}/{paramsPath}";
 
-                routeBuilder.MapGet(requestPath, get);
-            }
-        }
+        //        routeBuilder.MapGet(requestPath, get);
+        //    }
+        //}
 
-        public static void RegisterPostHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
-            where THandler : Http.Post<TRoute, T1>, new()
-            where TRoute : Route.IPost<T1>
-        {
-            var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
-            if (type != null)
-            {
-                var nestedTypeNames = type.NestedTypeNames();
-                string nestedPath = string.Join("/", nestedTypeNames);
+        //public static void RegisterPostHandler<THandler, TRoute, T1>(this IEndpointRouteBuilder routeBuilder)
+        //    where THandler : Http.Post<TRoute, T1>, new()
+        //    where TRoute : Route.IPost<T1>
+        //{
+        //    var type = typeof(THandler).BaseType.GenericTypeArguments.FirstOrDefault();
+        //    if (type != null)
+        //    {
+        //        var nestedTypeNames = type.NestedTypeNames();
+        //        string nestedPath = string.Join("/", nestedTypeNames);
 
-                routeBuilder.MapPost(nestedPath, async (CommandContext commandContext, HttpContext httpContext) =>
-                {
-                    try
-                    {
-                        T1 payload = await httpContext.Payload<T1>();
+        //        routeBuilder.MapPost(nestedPath, async (CommandContext commandContext, HttpContext httpContext) =>
+        //        {
+        //            try
+        //            {
+        //                T1 payload = await httpContext.Payload<T1>();
 
-                        var post = await new THandler().OnPost(commandContext, httpContext, payload);
-                        return post;
-                    }
-                    catch (Exception ex)
-                    {
-                        return Page.Result(ex);
-                    }
-                });
-            }
-        }
+        //                var post = await new THandler().OnPost(commandContext, httpContext, payload);
+        //                return post;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return Page.Result(ex);
+        //            }
+        //        });
+        //    }
+        //}
 
-        private static List<ParameterInfo> DataParameters(Delegate d)
-        {
-            var dataParameters = d.Method.GetParameters().Where(x => x.ParameterType != typeof(CommandContext) && x.ParameterType != typeof(HttpContext));
-            return dataParameters.ToList();
-        }
+        //private static List<ParameterInfo> DataParameters(Delegate d)
+        //{
+        //    var dataParameters = d.Method.GetParameters().Where(x => x.ParameterType != typeof(CommandContext) && x.ParameterType != typeof(HttpContext));
+        //    return dataParameters.ToList();
+        //}
 
-        private static List<string> DataParameterNames(Delegate d)
-        {
-            return DataParameters(d).Select(x => x.Name).ToList();
-        }
+        //private static List<string> DataParameterNames(Delegate d)
+        //{
+        //    return DataParameters(d).Select(x => x.Name).ToList();
+        //}
 
-        private static string DataParametersPath(Delegate d)
-        {
-            return string.Join("/", DataParameterNames(d));
-        }
+        //private static string DataParametersPath(Delegate d)
+        //{
+        //    return string.Join("/", DataParameterNames(d));
+        //}
 
         public static void UseRenderer<TModel>(this IEndpointRouteBuilder uiEndpoint, Func<TModel, string> renderer)
         {

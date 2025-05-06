@@ -28,29 +28,29 @@ namespace Metapsi.Hyperapp
             return path;
         }
 
-        public static Var<string> Url<TRoute>(this SyntaxBuilder b)
-            where TRoute : Route.IGet
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Const($"/{path}");
-        }
+        //public static Var<string> Url<TRoute>(this SyntaxBuilder b)
+        //    where TRoute : Route.IGet
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Const($"/{path}");
+        //}
 
-        public static Var<string> Url<TRoute, TPayload>(this SyntaxBuilder b)
-            where TRoute : Route.IPost<TPayload>
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Const($"/{path}");
-        }
+        //public static Var<string> Url<TRoute, TPayload>(this SyntaxBuilder b)
+        //    where TRoute : Route.IPost<TPayload>
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Const($"/{path}");
+        //}
 
-        public static Var<string> Url<TRoute, TParam>(this SyntaxBuilder b, Var<TParam> param)
-            where TRoute : Route.IGet<TParam>
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
-        }
+        //public static Var<string> Url<TRoute, TParam>(this SyntaxBuilder b, Var<TParam> param)
+        //    where TRoute : Route.IGet<TParam>
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
+        //}
 
         public static Var<string> RootPath(this SyntaxBuilder b)
         {
@@ -201,27 +201,6 @@ namespace Metapsi.Hyperapp
         {
             var staticFile = EmbeddedFiles.Add(assembly, src);
             b.AddRequiredScriptMetadata(src, type);
-            //if (staticFile != null)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(staticFile.Hash))
-            //    {
-            //        src = src + "?h=" + staticFile.Hash;
-            //    }
-            //}
-
-            //// Use URL for script path
-            //if (!src.StartsWith('/'))
-            //{
-            //    src = "/" + src.ToLowerInvariant();
-            //}
-
-            //DistinctTag scriptTag = new DistinctTag("script");
-            //scriptTag.SetAttribute("src", src);
-            //if (!string.IsNullOrEmpty(type))
-            //{
-            //    scriptTag.SetAttribute("type", type);
-            //}
-            //b.Const(scriptTag);
         }
 
         public static void AddRequiredScriptMetadata(this SyntaxBuilder b, string src, string type = "")
@@ -233,18 +212,6 @@ namespace Metapsi.Hyperapp
                 scriptTag.SetAttribute("type", type);
             }
             b.AddRequiredTagMetadata(scriptTag);
-            //if (!src.StartsWith("http"))
-            //{
-            //    // If it is not absolute path, make it absolute
-            //    src = $"/{src}".Replace("//", "/");
-            //}
-            //DistinctTag scriptTag = new DistinctTag("script");
-            //scriptTag.SetAttribute("src", src);
-            //if (!string.IsNullOrEmpty(type))
-            //{
-            //    scriptTag.SetAttribute("type", type);
-            //}
-            //b.Const(scriptTag);
         }
 
         public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
@@ -255,7 +222,6 @@ namespace Metapsi.Hyperapp
                 scriptTag.SetAttribute("type", type);
             }
             scriptTag.AddChild(new HtmlText(scriptContent));
-            //b.Const(scriptTag);
             b.AddRequiredTagMetadata(scriptTag);
         }
     }

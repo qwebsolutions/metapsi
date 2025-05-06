@@ -1,5 +1,4 @@
-﻿using Metapsi.SignalR;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Hyperapp
 {

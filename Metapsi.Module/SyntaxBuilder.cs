@@ -171,9 +171,9 @@ namespace Metapsi.Syntax
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Var<DynamicObject> NewObj(this SyntaxBuilder b)
+        public static Var<object> NewObj(this SyntaxBuilder b)
         {
-            return b.NewObj<DynamicObject>();
+            return b.NewObj<object>();
         }
 
         /// <summary>
@@ -184,6 +184,14 @@ namespace Metapsi.Syntax
         public static Var<T> NewObj<T>(this SyntaxBuilder b) where T : new()
         {
             return b.NewObj(new T());
+        }
+
+        public static Var<T> NewObj<T>(
+            this SyntaxBuilder b,
+            Action<PropsBuilder<T>> setProps)
+            where T : new()
+        {
+            return b.SetProps(b.NewObj<T>(), setProps);
         }
 
         /// <summary>

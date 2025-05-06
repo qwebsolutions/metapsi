@@ -5,6 +5,16 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
+        public static string PropertyName<TObject, TProperty>(this System.Linq.Expressions.Expression<Func<TObject, TProperty>> expression)
+        {
+            return (expression.Body as System.Linq.Expressions.MemberExpression).Member.Name;
+        }
+
+        public static string PropertyName(this System.Linq.Expressions.LambdaExpression expression)
+        {
+            return (expression.Body as System.Linq.Expressions.MemberExpression).Member.Name;
+        }
+
         public static void SetProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
         {
             var import = ImportCore<Delegate>(b, "SetProperty");

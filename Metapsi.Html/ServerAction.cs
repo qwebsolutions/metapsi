@@ -1,104 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
-using Microsoft.AspNetCore.Routing;
-using static Metapsi.Hyperapp.HyperType;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Metapsi.Html;
 
 public static class ServerAction
 {
-    internal class ServerActionDelegate
-    {
-        internal Delegate Delegate { get; set; }
-
-        // Store types once so we avoid reflection on every call
-        internal List<Type> ParameterTypes { get; set; } = new List<Type>();
-        internal Type ReturnType { get; set; }
-    }
-
-    private static TaskQueue<Dictionary<string, ServerActionDelegate>> actionsQueue = new(new Dictionary<string, ServerActionDelegate>());
-
-    public static string PostPath = "/_Server_Action_";
-
     public class Call
     {
         public string MethodName { get; set; }
         public List<string> Parameters { get; set; }
     }
 
-    public static void Store(Delegate action)
-    {
-        var _ = actionsQueue.Enqueue(async (actions) =>
-        {
-            if (!actions.ContainsKey(action.Method.Name))
-            {
-                ServerActionDelegate serverActionDelegate = new ServerActionDelegate()
-                {
-                    Delegate = action
-                };
-
-                foreach (var parameter in action.Method.GetParameters())
-                {
-                    serverActionDelegate.ParameterTypes.Add(parameter.ParameterType);
-                }
-
-                actions[action.Method.Name] = serverActionDelegate;
-            }
-        });
-    }
-
-    internal static async Task<ServerActionDelegate> Get(string name)
-    {
-        return await actionsQueue.Enqueue(async (actions) =>
-        {
-            var found = actions.TryGetValue(name, out ServerActionDelegate action);
-            if (!found)
-            {
-                throw new Exception($"Action {name} not registered!");
-            }
-            return action;
-        });
-    }
-
-    public static RouteHandlerBuilder MapServerActions(this WebApplication webApplication, string path = null)
-    {
-        if (path != null)
-        {
-            ServerAction.PostPath = path;
-        }
-
-        return webApplication.MapPost(ServerAction.PostPath, async (ServerAction.Call serverCall) =>
-        {
-            try
-            {
-                var serverActionDelegate = await ServerAction.Get(serverCall.MethodName);
-                object[] parameters = new object[serverActionDelegate.ParameterTypes.Count];
-                for (int i = 0; i < serverActionDelegate.ParameterTypes.Count; i++)
-                {
-                    parameters[i] = Metapsi.Serialize.FromJson(serverActionDelegate.ParameterTypes[i], serverCall.Parameters[i]);
-                }
-
-                var result = serverActionDelegate.Delegate.DynamicInvoke(parameters);
-                if (result is Task)
-                {
-                    await (Task)result;
-                    result = ((dynamic)result).Result;
-                }
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
-        });
-    }
 
 
     public static Var<HyperType.Action<TModel, TInput>> CallServer<TModel, TInput, TOutput>(
@@ -233,36 +148,5 @@ public static class ServerAction
                 }),
             onSuccess,
             onError);
-    }
-
-    /// <summary>
-    /// Return the URL of an API based on route name.
-    /// </summary>
-    /// <param name="httpContext"></param>
-    /// <param name="endpointName"></param>
-    /// <param name="getParameters"></param>
-    /// <remarks>If the URL has multiple segments you need to provide their mapped names.
-    /// <para>Ex. MapGet("/user/{id}" ... ).WithName("get-user") -> FindApiUrl("get-user", "id")</para>
-    /// </remarks>
-    /// <returns></returns>
-    public static string FindApiUrl(this HttpContext httpContext, string endpointName, params string[] getParameters)
-    {
-        var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
-
-        RouteValueDictionary values = new RouteValueDictionary();
-        foreach (var p in getParameters)
-        {
-            values.Add(p, "-");
-        }
-
-        var path = linkGenerator.GetPathByName(endpointName, values);
-
-        if (string.IsNullOrEmpty(path))
-        {
-            return string.Empty;
-        }
-
-        var stripped = path.Replace("/-", string.Empty);
-        return stripped;
     }
 }

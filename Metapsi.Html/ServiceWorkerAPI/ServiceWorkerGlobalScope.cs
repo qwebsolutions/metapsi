@@ -1,5 +1,4 @@
 ﻿using Metapsi.Syntax;
-using System.Runtime.Intrinsics.X86;
 
 namespace Metapsi.Html
 {
