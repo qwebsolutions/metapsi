@@ -75,7 +75,7 @@ namespace Metapsi.Syntax
                             stream.CopyTo(ms);
                             var content = ms.ToArray();
                             var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
-                            AddEmbeddedResourceMetadata(b.moduleBuilder.Module, assembly.FullName, filePath, hash);
+                            AddEmbeddedResourceMetadata(b.moduleBuilder.Module, assembly.GetName().Name, filePath, hash);
                         }
                         added = true;
                     }
