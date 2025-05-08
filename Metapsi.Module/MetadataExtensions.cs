@@ -56,13 +56,17 @@ namespace Metapsi.Syntax
 
         public static void AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string filePath)
         {
+            filePath = filePath.ToLowerInvariant();
+            filePath = filePath.Trim('/');
+
             var alreadyExists = b.moduleBuilder.Module.Metadata.Any(x => x.Key == "embedded-file" && x.Value == filePath);
 
             if (!alreadyExists)
             {
                 var added = false;
-                foreach (var resourceName in assembly.GetManifestResourceNames())
+                foreach (var rn in assembly.GetManifestResourceNames())
                 {
+                    var resourceName = rn.ToLowerInvariant().Trim('/');
                     if (resourceName == filePath)
                     {
                         using var stream = assembly.GetManifestResourceStream(resourceName);

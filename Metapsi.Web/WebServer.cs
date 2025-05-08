@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Metapsi.Html;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -468,6 +469,11 @@ namespace Metapsi
         //}
 
         public static void UseRenderer<TModel>(this IEndpointRouteBuilder uiEndpoint, Func<TModel, string> renderer)
+        {
+            uiEndpoint.ServiceProvider.GetService<RenderersService>().Renderers[typeof(TModel)] = renderer;
+        }
+
+        public static void UseRenderer<TModel>(this IEndpointRouteBuilder uiEndpoint, Func<TModel, HtmlDocument> renderer)
         {
             uiEndpoint.ServiceProvider.GetService<RenderersService>().Renderers[typeof(TModel)] = renderer;
         }

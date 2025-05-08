@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Metapsi.Module\Metapsi.Module.csproj" />
+		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

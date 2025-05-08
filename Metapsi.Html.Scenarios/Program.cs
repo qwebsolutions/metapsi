@@ -7,7 +7,13 @@ using Metapsi.Syntax;
 using Metapsi.Hyperapp;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Routing;
 using Metapsi.SignalR;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using Metapsi.Shoelace;
 
 public class DataModel
 {
@@ -81,6 +87,13 @@ public static class ServerActionExtensions
     
 }
 
+public class DefaultMetapsiSignalRHub : Hub
+{
+    public static IHubContext<DefaultMetapsiSignalRHub> HubContext { get; set; }
+    public static string Path { get; set; } = $"/{nameof(DefaultMetapsiSignalRHub)}";
+}
+
+
 public static class Program
 {
     public class Nested
@@ -98,6 +111,18 @@ public static class Program
 
     static Dictionary<string, Delegate> ServerCalls { get; set; } = new();
 
+
+    /// <summary>
+    /// Adds a SignalR hub on DefaultMetapsiSignalRHub.Path
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
+    public static HubEndpointConventionBuilder MapDefaultSignalRHub(this IEndpointRouteBuilder builder)
+    {
+        var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(DefaultMetapsiSignalRHub.Path);
+        DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
+        return hubBuilder;
+    }
 
     public static async Task Main()
     {
@@ -172,7 +197,14 @@ public static class Program
 
 
         // AddMetapsiSignalR preserves JSON capitalization
-        var app = WebApplication.CreateBuilder().AddMetapsi().AddMetapsiSignalR().Build();
+        //var app = WebApplication.CreateBuilder().AddMetapsi().AddMetapsiSignalR().Build();
+        var builder = WebApplication.CreateBuilder().AddMetapsi();
+        builder.Services.AddSignalR()
+            .AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
+        var app = builder.Build();
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub();
@@ -182,6 +214,21 @@ public static class Program
 
 
         app.MapGet("/market", () => Page.Result(new MarketData()));
+
+        app.UseRenderer<MarketData>(model =>
+        {
+            return HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.UseWebComponentsFadeIn();
+                    b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
+                    b.BodyAppend(
+                        b.Hyperapp<MarketData>(
+                            InitializeClientSideApp,
+                            RenderClientSideApp,
+                            ListenToUpdates));
+                });
+        });
         //app.UseRenderer<DataModel>(model => $"<html><head><title>{model.Title}</title></head><body>{model.Message}</body></html>");
 
         //app.UseRenderer<DataModel>(
@@ -437,18 +484,8 @@ public static class Program
         //                }));
         //    }).ToHtml());
 
-        app.UseRenderer<MarketData>(
-            model => HtmlBuilder.FromDefault(
-            b =>
-            {
-                b.UseWebComponentsFadeIn();
-                b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
-                b.BodyAppend(
-                    b.Hyperapp<MarketData>(
-                        InitializeClientSideApp,
-                        RenderClientSideApp,
-                        ListenToUpdates));
-            }).ToHtml());
+        //app.UseRenderer<MarketData>(
+        //    model =>);
 
         var _notAwaited = Task.Run(GenerateRandomData);
 
@@ -461,7 +498,7 @@ public static class Program
             b.MakeStateWithEffects(
                 b.Const(new MarketData()),
                 // Connect to default SignalR hub
-                b.SignalRConnect()));
+                b.SignalRConnect(DefaultMetapsiSignalRHub.Path)));
     }
 
     //public static void CallServer(this PropsBuilder<SlButton> propsBuilder, Action<DataModel> action)
@@ -561,6 +598,9 @@ public static class Program
 
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
     {
+        b.AddRequiredStylesheetMetadata("wrong.css");
+        b.AddRequiredStylesheetMetadata("wrong.css");
+        b.AddRequiredScriptMetadata("wrong.js");
         return b.HtmlDiv(
             b.Map(
                 b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
@@ -578,7 +618,7 @@ public static class Program
                                     b => b.Const("green"),
                                     b => b.Const("red")));
                         },
-                        b.HtmlDiv(
+                        b.SlBadge(
                             b =>
                             {
                                 b.AddStyle("width", "100px");

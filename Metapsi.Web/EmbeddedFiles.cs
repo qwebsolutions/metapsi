@@ -15,18 +15,20 @@ public static class EmbeddedFiles
 
     private static ConcurrentDictionary<string, EmbeddedFile> embeddedResources = new();
 
-    private static HashSet<Assembly> assemblies = new HashSet<Assembly>();
+    private static HashSet<string> assemblyName = new HashSet<string>();
 
     private static TaskQueue assembliesQueue { get; set; } = new TaskQueue();
 
-    public static Task AddAssembly(Assembly assembly)
+    public static Task AddAssembly(string assemblyName)
     {
         Interlocked.Exchange(ref updating, 1);
         return assembliesQueue.Enqueue(async () =>
         {
-            var added = assemblies.Add(assembly);
+            var added = EmbeddedFiles.assemblyName.Add(assemblyName);
             if (added)
             {
+                var assembly = System.Reflection.Assembly.Load(assemblyName);
+
                 foreach (var resourceName in assembly.GetManifestResourceNames())
                 {
                     var stream = assembly.GetManifestResourceStream(resourceName);
@@ -35,7 +37,8 @@ public static class EmbeddedFiles
                         throw new Exception($"Embedded resource {resourceName} not found");
                     }
                     var embeddedReference = CreateEmbeddedReference(assembly, stream, resourceName);
-                    embeddedResources[resourceName] = embeddedReference;
+                    var lowerTrimmed = resourceName.ToLowerInvariant().Trim('/');
+                    embeddedResources[lowerTrimmed] = embeddedReference;
                 }
             }
 
@@ -43,10 +46,16 @@ public static class EmbeddedFiles
         });
     }
 
+
+    public static async Task AddAssembly(Assembly assembly)
+    {
+        await AddAssembly(assembly.FullName);
+    }
+
     public static async Task<EmbeddedFile> GetAsync(string fileName)
     {
         // The file name is probably already lowercase, as it's generally requested by the web server
-        fileName = fileName.ToLower();
+        fileName = fileName.ToLowerInvariant().Trim('/');
 
         // GetAsync should use the queue only as a last resort, otherwise all HTTP requests become sequential
         embeddedResources.TryGetValue(fileName, out var embeddedFile);

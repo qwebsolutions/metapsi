@@ -18,6 +18,10 @@
 		<PackageReference Include="System.IO.Hashing" Version="9.0.4" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
+	</ItemGroup>
+
 	<!--<ItemGroup>
 	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
 	</ItemGroup>-->
