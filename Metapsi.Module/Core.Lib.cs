@@ -12,8 +12,8 @@ namespace Metapsi.Syntax
         private static Var<T> ImportCore<T>(SyntaxBuilder b, string symbol)
         {
             //Metapsi.EmbeddedFiles.AddAll(typeof(Core).Assembly);
-            b.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
-            b.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
+            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
+            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
             return b.ImportName<T>(ModuleName, symbol);
         }
 
@@ -89,6 +89,11 @@ namespace Metapsi.Syntax
         {
             // would return undefined, just ignore the result
             CallOnObject<object>(b, @object, function, parameters);
+        }
+
+        public static Var<string> TypeOf(this SyntaxBuilder b, IVariable @object)
+        {
+            return b.CallDynamic<string>(ImportCore<Delegate>(b, "TypeOf"), @object);
         }
 
         public static Var<bool> AreEqual<T>(this SyntaxBuilder b, Var<T> v1, Var<T> v2)

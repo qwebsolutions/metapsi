@@ -157,7 +157,7 @@ public static class GlobalAttributeExtensions
         stylesheet.Attributes.Add("rel", "stylesheet");
         stylesheet.Attributes.Add("href", href);
 
-        b.AddRequiredTagMetadata(stylesheet);
+        b.Metadata().AddRequiredTagMetadata(stylesheet);
     }
 
     public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)

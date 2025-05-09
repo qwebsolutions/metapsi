@@ -25,6 +25,11 @@ namespace Metapsi.Syntax
             return this.moduleBuilder.NewName();
         }
 
+        public HashSet<Metadata> Metadata()
+        {
+            return this.moduleBuilder.Module.Metadata;
+        }
+
         private string FixSource(string source)
         {
             if (!source.EndsWith(".js") && !source.EndsWith(".mjs"))

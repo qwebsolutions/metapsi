@@ -122,3 +122,5 @@ export const mIf = (check, ifTrue, ifFalse) => {
 export const mSet = (on, prop, val) => {
     on[prop] = val
 }
+
+export const TypeOf = (value) => typeof value;

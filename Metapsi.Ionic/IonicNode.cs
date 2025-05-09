@@ -4,11 +4,21 @@ using System;
 using System.Collections.Generic;
 using Metapsi.Html;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
+    /// <summary>
+    /// Load embedded files of Metapsi.Html in memory
+    /// </summary>
+    /// <param name="loader"></param>
+    public static async Task IonicEmbeddedFiles(this EmbeddedFiles.ILoader loader)
+    {
+        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Ionic.IonicNodeImport).Assembly);
+    }
+
     public static IHtmlNode IonicTag<T>(
         this HtmlBuilder b,
         string tag,
@@ -75,8 +85,12 @@ public static class IonicNodeImport
 
     public static void ImportIonic(HtmlBuilder b)
     {
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
+        string jsPath = $"/ionic@{Cdn.Version}/ionic.esm.js";
+        string cssPath = $"/ionic@{Cdn.Version}/ionic.bundle.css";
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, jsPath);
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, cssPath);
+        b.AddScript(jsPath, "module");
+        b.AddStylesheet(cssPath);
     }
 
     public static Var<IVNode> IonicNode<TProps>(

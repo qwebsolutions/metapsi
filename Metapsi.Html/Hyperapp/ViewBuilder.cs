@@ -204,7 +204,7 @@ namespace Metapsi.Hyperapp
             {
                 scriptTag.SetAttribute("type", type);
             }
-            b.AddRequiredTagMetadata(scriptTag);
+            b.Metadata().AddRequiredTagMetadata(scriptTag);
         }
 
         public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
@@ -215,7 +215,7 @@ namespace Metapsi.Hyperapp
                 scriptTag.SetAttribute("type", type);
             }
             scriptTag.AddChild(new HtmlText(scriptContent));
-            b.AddRequiredTagMetadata(scriptTag);
+            b.Metadata().AddRequiredTagMetadata(scriptTag);
         }
     }
 }

@@ -293,14 +293,41 @@ namespace Metapsi.Syntax
             return Const(value, NewName());
         }
 
-        public void AddFunction(string functionName, Action<SyntaxBuilder> b)
+        public Var<Action> AddFunction(string functionName, Action<SyntaxBuilder> b)
         {
-            this.AddFunction<Action>(b, functionName);
+            return this.AddFunction<Action>(b, functionName);
         }
 
         public Var<Func<TResult>> AddFunction<TResult>(string functionName, Func<SyntaxBuilder, Var<TResult>> b)
         {
             return this.AddFunction<Func<TResult>>(b, functionName);
+        }
+
+        /// <summary>
+        /// Calls a defined action
+        /// </summary>
+        /// <param name="action"></param>
+        public void Call(Var<Action> action)
+        {
+            this.Module.Nodes.Add(new CallNode() { Fn = new IdentifierNode() { Name = action.Name } });
+        }
+
+        /// <summary>
+        /// Calls an anonymous action directly in the module root scope
+        /// </summary>
+        /// <param name="action"></param>
+        public void Call(Action<SyntaxBuilder> action)
+        {
+            SyntaxBuilder b = new SyntaxBuilder(this);
+            action(b);
+            this.Module.Nodes.AddRange(b.nodes);
+        }
+
+        public static Module New(Action<ModuleBuilder> build)
+        {
+            var builder = new ModuleBuilder();
+            build(builder);
+            return builder.Module;
         }
     }
 }

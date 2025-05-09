@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Text;
 
 namespace Metapsi.Html;
 
@@ -57,13 +56,14 @@ public static partial class HyperappExtensions
                 b.Set(appConfig, x => x.subscriptions, b.Call(subscriptions));
             }
 
-            var app = ImportHyperapp<TModel>(b);
-
-            return b.Call(app, appConfig);
+            return b.Hyperapp(appConfig);;
         });
 
         HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder.Module);
-        b.Document.Metadata.AddRange(moduleBuilder.Module.Metadata);
+        foreach(var moduleMetadata in moduleBuilder.Module.Metadata)
+        {
+            b.Document.Metadata.Add(moduleMetadata);
+        }
 
         //var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
         var moduleScript = moduleBuilder.Module.ToJs();
@@ -84,13 +84,20 @@ public static partial class HyperappExtensions
         };
     }
 
-    //public static IHtmlNode Hyperapp<TModel>(
-    //    this HtmlBuilder b,
-    //    Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
-    //    params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
-    //{
-    //    return Hyperapp(b, view: view, subscriptions: b => b.MakeSubscriptions(subscriptions));
-    //}
+    /// <summary>
+    /// Initializes and mounts a Hyperapp application.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="appConfig"></param>
+    /// <returns>The dispatch function your app uses.</returns>
+    public static Var<HyperType.Dispatcher> Hyperapp<TModel>(
+        this SyntaxBuilder b,
+        Var<HyperType.App<TModel>> appConfig)
+    {
+        var app = ImportHyperapp<TModel>(b);
+        return b.Call(app, appConfig);
+    }
 
     public static IHtmlNode Hyperapp<TModel>(
         this HtmlBuilder b,
@@ -112,126 +119,6 @@ public static partial class HyperappExtensions
             view: view,
             subscriptions: subscriptions);
     }
-
-    //[Obsolete("", true)]
-    //private static bool GenerateAddExternalResourcesDynamic(ModuleBuilder b)
-    //{
-    //    var distinctTagConstants = b.Module.Consts.Where(x => x.Value is DistinctTag).Distinct().ToList();// are already distinct anyway
-
-    //    if (!distinctTagConstants.Any())
-    //        return false;
-
-    //    var addExternalResourcesFn = b.AddFunction("addExternalResources", (SyntaxBuilder b, Var<Action> callback) =>
-    //    {
-    //        var scriptLoadPromises = b.NewCollection<Promise>();
-
-    //        var head = b.QuerySelector("head");
-    //        foreach (var tag in distinctTagConstants)
-    //        {
-    //            DistinctTag distinctTag = tag.Value as DistinctTag;
-    //            switch (distinctTag.Tag)
-    //            {
-    //                case "link":
-    //                    {
-    //                        if (distinctTag.GetAttribute("rel") == "stylesheet")
-    //                        {
-    //                            var href = distinctTag.GetAttribute("href");
-    //                            var alreadyPresent = b.QuerySelector(head, $"link[href='{href}']");
-    //                            b.If(
-    //                                b.Not(b.HasObject(alreadyPresent)),
-    //                                b =>
-    //                                {
-
-    //                                    var element = b.CreateElement(b.Const("link"));
-    //                                    b.SetAttribute(element, b.Const("rel"), b.Const("stylesheet"));
-    //                                    b.SetAttribute(element, b.Const("href"), b.Const(href));
-    //                                    b.AppendChild(head, element);
-    //                                });
-    //                        }
-    //                    }
-    //                    break;
-    //                case "script":
-    //                    {
-    //                        // Inline script
-    //                        if (distinctTag.Children.Any())
-    //                        {
-    //                            // TODO: Check if it already exists as well?
-    //                            var element = b.CreateElement(b.Const("script"));
-    //                            var type = distinctTag.GetAttribute("type");
-    //                            if (!string.IsNullOrEmpty(type))
-    //                            {
-    //                                b.SetAttribute(element, b.Const("type"), b.Const(type));
-    //                            }
-
-    //                            StringBuilder scriptContent = new StringBuilder();
-
-    //                            foreach (var child in distinctTag.Children)
-    //                            {
-    //                                HtmlText scriptText = child as HtmlText;
-
-    //                                if (scriptText != null)
-    //                                {
-    //                                    scriptContent.AppendLine(scriptText.Text);
-    //                                }
-    //                            }
-    //                            var content = b.CreateTextNode(scriptContent.ToString());
-    //                            b.AppendChild(element, content);
-    //                            b.AppendChild(head, element);
-    //                        }
-    //                        // external script
-    //                        else if (!string.IsNullOrEmpty(distinctTag.GetAttribute("src")))
-    //                        {
-    //                            var src = distinctTag.GetAttribute("src");
-    //                            var type = distinctTag.GetAttribute("type");
-
-    //                            var callbacks = b.Def((SyntaxBuilder b, Var<Action<object>> resolve, Var<Action<object>> reject) =>
-    //                            {
-    //                                var alreadyPresent = b.QuerySelector(head, $"script[src='{src}']");
-    //                                b.If(
-    //                                    b.Not(b.HasObject(alreadyPresent)),
-    //                                    b =>
-    //                                    {
-    //                                        var element = b.CreateElement(b.Const("script"));
-    //                                        b.SetAttribute(element, b.Const("src"), b.Const(src));
-    //                                        if (!string.IsNullOrEmpty(type))
-    //                                        {
-    //                                            b.SetAttribute(element, b.Const("type"), b.Const(type));
-    //                                        }
-    //                                        b.AppendChild(head, element);
-    //                                        b.AddEventListener(element, b.Const("load"), b.Def((SyntaxBuilder b) =>
-    //                                        {
-    //                                            b.Call(resolve, b.NewObj<object>());
-    //                                        }));
-    //                                    },
-    //                                    b =>
-    //                                    {
-    //                                        b.Call(resolve, b.NewObj<object>());
-    //                                    });
-    //                            });
-
-    //                            var promise = b.NewPromise(callbacks);
-    //                            b.Push(scriptLoadPromises, promise);
-    //                        }
-    //                        else throw new NotSupportedException();
-    //                    }
-    //                    break;
-    //            }
-    //        }
-
-    //        b.PromiseThen(
-    //            b.PromiseAll(scriptLoadPromises),
-    //            b.Def((SyntaxBuilder b, Var<object> success) =>
-    //            {
-    //                b.Call(callback);
-    //            }),
-    //            b.Def((SyntaxBuilder b, Var<object> failure) =>
-    //            {
-    //                b.Log(failure);
-    //            }));
-    //    });
-
-    //    return true;
-    //}
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
         this SyntaxBuilder b,
@@ -262,22 +149,114 @@ public static partial class HyperappExtensions
         return b.MakeSubscriptions(subscriptions.ToList());
     }
 
-    //public static Var<HyperType.Dispatcher> App<TModel>(this SyntaxBuilder b, Var<HyperType.App<TModel>> appConfig)
-    //{
-    //    var app = ImportHyperapp<TModel>(b);
+    /// <summary>
+    /// Sets the initial state directly.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="model"></param>
+    public static void SetInitModel<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<TModel> model)
+    {
+        b.Set(x => x.init, b.MakeInit(model));
+    }
 
-    //    var props = b.SetProps<HyperType.App<TModel>>(
-    //        b.NewObj<object>(),
-    //        b =>
-    //        {
-    //            b.Comment("Set if exists");
-    //            b.SetIfExists(x => x.init, b.Get(appConfig, x => x.init));
-    //            b.SetIfExists(x => x.view, b.Get(appConfig, x => x.view));
-    //            b.SetIfExists(x => x.node, b.Get(appConfig, x => x.node));
-    //            b.SetIfExists(x => x.subscriptions, b.Get(appConfig, x => x.subscriptions));
-    //            b.SetIfExists(x => x.dispatch, b.Get(appConfig, x => x.dispatch));
-    //        });
+    /// <summary>
+    /// Sets the initial state directly
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="model"></param>
+    public static void SetInitModel<TModel>(this PropsBuilder<HyperType.App<TModel>> b, TModel model)
+    {
+        b.Set(x => x.init, b.MakeInit(b.Const(model)));
+    }
 
-    //    return b.Call(app, props);
-    //}
+    /// <summary>
+    /// Runs the given Action. This form is useful when the action can be reused later. The state passed to the action in this case is undefined.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="action"></param>
+    public static void SetInitAction<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<HyperType.Action<TModel>> action)
+    {
+        b.Set(x => x.init, b.MakeInit(action));
+    }
+
+    /// <summary>
+    /// Sets the initial state and then runs the given list of effects.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="stateWithEffects"></param>
+    public static void SetInitEffects<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<HyperType.StateWithEffects> stateWithEffects)
+    {
+        b.Set(x => x.init, b.MakeInit(stateWithEffects));
+    }
+
+    /// <summary>
+    /// The top-level view that represents the app as a whole. 
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="render"></param>
+    public static void SetView<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<Func<TModel, IVNode>> render)
+    {
+        b.Set(x => x.view, render);
+    }
+
+    /// <summary>
+    /// The DOM element to render the virtual DOM over (the mount node). The given element is replaced by a Hyperapp application. 
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="node"></param>
+    public static void SetNode<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<Element> node)
+    {
+        b.Set(x => x.node, node);
+    }
+
+    /// <summary>
+    /// A function that returns an array of subscriptions for a given state.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="subscriptions"></param>
+    public static void SetSubscriptions<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Var<Func<TModel, List<HyperType.Subscription>>> subscriptions)
+    {
+        b.Set(x=>x.subscriptions, subscriptions);
+    }
+
+    /// <summary>
+    /// Sets subscriptions
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="buildSubscriptions"></param>
+    public static void SetSubscriptions<TModel>(this PropsBuilder<HyperType.App<TModel>> b, Action<PropsBuilder<List<Func<TModel, HyperType.Subscription>>>> buildSubscriptions)
+    {
+        var subscriptions = b.SetProps(b.NewCollection<Func<TModel, HyperType.Subscription>>(), buildSubscriptions);
+        b.Set(x => x.subscriptions, b.MakeSubscriptions(subscriptions));
+    }
+
+    /// <summary>
+    /// Adds subscription
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="subscription"></param>
+    public static void AddSubscription<TModel>(this PropsBuilder<List<Func<TModel, HyperType.Subscription>>> b, Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>> subscription)
+    {
+        b.Push(b.Props, b.Def(subscription));
+    }
+
+    /// <summary>
+    /// Adds subscription
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="subscription"></param>
+    public static void AddSubscription<TModel>(this PropsBuilder<List<Func<TModel, HyperType.Subscription>>> b, Func<SyntaxBuilder, Var<HyperType.Subscription>> subscription)
+    {
+        b.Push(b.Props, b.Def((SyntaxBuilder b, Var<TModel> model) => b.Call(subscription)));
+    }
 }

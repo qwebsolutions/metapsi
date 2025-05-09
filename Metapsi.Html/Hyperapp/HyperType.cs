@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Metapsi.Html;
-using static Metapsi.Hyperapp.HyperType;
 
 namespace Metapsi.Hyperapp
 {
@@ -27,8 +26,15 @@ namespace Metapsi.Hyperapp
 
         public class Dispatcher { }
 
+        /// <summary>
+        /// Hyperapp app setup
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
         public class App<TState>
         {
+            /// <summary>
+            /// Initializes the app by either setting the initial value of the state or taking an action. It takes place before the first view render and subscriptions registration.
+            /// </summary>
             public Init init { get; set; }
             public Func<TState, IVNode> view { get; set; }
             public Element node { get; set; }

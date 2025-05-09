@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Metapsi.Syntax
 {
     public static partial class MetadataExtensions
     {
+        public static async Task SyntaxCoreEmbeddedFiles(this EmbeddedFiles.ILoader loader)
+        {
+            await EmbeddedFiles.AddAssembly(typeof(MetadataExtensions).Assembly);
+        }
+
         public static void AddMetadata(this ModuleBuilder b, Metadata metadata)
         {
             b.Module.Metadata.Add(metadata);
@@ -24,12 +30,12 @@ namespace Metapsi.Syntax
         }
 
         public static void AddEmbeddedResourceMetadata(
-            Module module,
+            HashSet<Metadata> metadata,
             string sourceAssembly,
             string filePath,
             string hash)
         {
-            module.Metadata.Add(new Metadata()
+            metadata.Add(new Metadata()
             {
                 Key = "embedded-file",
                 Value = filePath,
@@ -49,17 +55,22 @@ namespace Metapsi.Syntax
             });
         }
 
-        public static List<Metadata> GetEmbeddedResourcesMetadata(this Module module)
+        public static List<Metadata> GetEmbeddedResourcesMetadata(this HashSet<Metadata> metadata)
         {
-            return module.Metadata.Where(x => x.Key == "embedded-file").ToList();
+            return metadata.Where(x => x.Key == "embedded-file").ToList();
         }
 
         public static void AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string filePath)
         {
+            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
+        }
+
+        public static void AddEmbeddedResourceMetadata(this HashSet<Metadata> metadata, Assembly assembly, string filePath)
+        {
             filePath = filePath.ToLowerInvariant();
             filePath = filePath.Trim('/');
 
-            var alreadyExists = b.moduleBuilder.Module.Metadata.Any(x => x.Key == "embedded-file" && x.Value == filePath);
+            var alreadyExists = metadata.Any(x => x.Key == "embedded-file" && x.Value == filePath);
 
             if (!alreadyExists)
             {
@@ -75,7 +86,7 @@ namespace Metapsi.Syntax
                             stream.CopyTo(ms);
                             var content = ms.ToArray();
                             var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
-                            AddEmbeddedResourceMetadata(b.moduleBuilder.Module, assembly.GetName().Name, filePath, hash);
+                            AddEmbeddedResourceMetadata(metadata, assembly.GetName().Name, filePath, hash);
                         }
                         added = true;
                     }

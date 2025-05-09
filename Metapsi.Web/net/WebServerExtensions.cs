@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -159,23 +160,12 @@ namespace Metapsi
 
         public static async Task WriteHtmlDocumentResponse(this HttpContext httpContext, HtmlDocument document)
         {
-            await LoadDocumentMetadataResources(document);
+            await MetadataExtensions.LoadMetadataResources(document.Metadata);
 
             string html = document.ToHtml();
             httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
             httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
             await httpContext.Response.WriteAsync(html);
-        }
-
-        public static async Task LoadDocumentMetadataResources(HtmlDocument document)
-        {
-            var embeddedFilesMetadata = document.Metadata.Where(x => x.Key == "embedded-file");
-            var assemblies = embeddedFilesMetadata.Select(x => x.Data.Single(x => x.Key == "source-assembly")).Select(x => x.Value).Distinct();
-
-            foreach (var assemblyName in assemblies)
-            {
-                await EmbeddedFiles.AddAssembly(assemblyName);
-            }
         }
     }
 }

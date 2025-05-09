@@ -52,8 +52,8 @@ namespace Metapsi
 
     }
 
-    public class DynamicObject : IDynamicObject
-    {
+    //public class DynamicObject : IDynamicObject
+    //{
         //public Dictionary<string, DynamicValue> Values { get; set; } = new Dictionary<string, DynamicValue>();
 
         //public T Get<T>(DynamicProperty<T> dynamicProperty)
@@ -108,5 +108,5 @@ namespace Metapsi
 
         //    return null;
         //}
-    }
+    //}
 }

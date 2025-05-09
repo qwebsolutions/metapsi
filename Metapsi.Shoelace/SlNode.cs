@@ -3,11 +3,21 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
+using System.Threading.Tasks;
 
 namespace Metapsi.Shoelace;
 
 public static partial class SlNodeExtensions
 {
+    /// <summary>
+    /// Load embedded files of Metapsi.Html in memory
+    /// </summary>
+    /// <param name="loader"></param>
+    public static async Task ShoelaceEmbeddedFiles(this EmbeddedFiles.ILoader loader)
+    {
+        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly);
+    }
+
     public static IHtmlNode SlTag<T>(
         this HtmlBuilder b,
         string tag,
@@ -66,9 +76,19 @@ public static partial class SlNodeExtensions
         return b.Tag(tag, children);
     }
 
+    public static void AddShoelaceStylesheet(this HtmlBuilder b)
+    {
+        string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        b.AddStylesheet(stylesheetPath);
+    }
+
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
-        b.AddStylesheet($"/shoelace@{Cdn.Version}/themes/light.css");
+        b.AddShoelaceStylesheet();
+        string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+
         b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         b.HeadAppend(
             b.HtmlScript(

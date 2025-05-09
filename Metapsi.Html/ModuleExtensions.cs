@@ -1,25 +1,44 @@
 ﻿using Metapsi.Syntax;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Metapsi.Html;
 
 public static class ModuleExtensions
 {
     /// <summary>
+    /// Load embedded files of Metapsi.Html in memory
+    /// </summary>
+    /// <param name="loader"></param>
+    public static async Task HtmlEmbeddedFiles(this EmbeddedFiles.ILoader loader)
+    {
+        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Html.IHtmlNode).Assembly);
+    }
+
+    /// <summary>
     /// 
     /// </summary>
-    /// <param name="b"></param>
+    /// <param name="metadata"></param>
     /// <param name="tag"></param>
-    public static void AddRequiredTagMetadata(this SyntaxBuilder b, HtmlTag tag)
+    public static void AddRequiredTagMetadata(this HashSet<Metadata> metadata, HtmlTag tag)
     {
-        var metadata = new Metadata()
+        var newMetadata = new Metadata()
         {
             Key = "required-tag"
         };
 
-        metadata.Data.Add(ToMetadata(tag));
-        b.AddMetadata(metadata);
+        newMetadata.Data.Add(ToMetadata(tag));
+        metadata.Add(newMetadata);
+    }
+
+    public static void AddMetadata(this HtmlBuilder b, Metapsi.Syntax.Metadata metadata)
+    {
+        b.Document.Metadata.Add(metadata);
     }
 
     private static Metadata ToMetadata(IHtmlNode node)
@@ -57,6 +76,11 @@ public static class ModuleExtensions
                 }
             };
         }
+    }
+
+    public static void AddEmbeddedResourceMetadata(this HtmlDocument document, Assembly assembly, string filePath)
+    {
+        document.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
     }
 
     public static List<IHtmlNode> GetRequiredTagsMetadata(this Metapsi.Syntax.Module module)
