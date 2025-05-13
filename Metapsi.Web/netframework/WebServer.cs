@@ -54,35 +54,35 @@ public class EmbeddedResourceVirtualFile : VirtualFile
 }
 
 
-public class HtmlDocumentResult : System.Web.Mvc.ActionResult
-{
-    private HtmlDocument htmlDocument;
+//public class HtmlDocumentResult : System.Web.Mvc.ActionResult
+//{
+//    private HtmlDocument htmlDocument;
 
-    public HtmlDocumentResult(HtmlDocument htmlDocument)
-    {
-        this.htmlDocument = htmlDocument;
-    }
+//    public HtmlDocumentResult(HtmlDocument htmlDocument)
+//    {
+//        this.htmlDocument = htmlDocument;
+//    }
 
-    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
-    {
-        context.HttpContext.Response.WriteHtmlDocument(this.htmlDocument);
-    }
-}
+//    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
+//    {
+//        context.HttpContext.Response.WriteHtmlDocument(this.htmlDocument);
+//    }
+//}
 
-public class JsModuleResult : System.Web.Mvc.ActionResult
-{
-    private Metapsi.Syntax.Module module;
+//public class JsModuleResult : System.Web.Mvc.ActionResult
+//{
+//    private Metapsi.Syntax.Module module;
 
-    public JsModuleResult(Module module)
-    {
-        this.module = module;
-    }
+//    public JsModuleResult(Module module)
+//    {
+//        this.module = module;
+//    }
 
-    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
-    {
-        context.HttpContext.Response.WriteJsModule(this.module);
-    }
-}
+//    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
+//    {
+//        context.HttpContext.Response.WriteJsModule(this.module);
+//    }
+//}
 
 public static class HttpContextExtensions
 {
