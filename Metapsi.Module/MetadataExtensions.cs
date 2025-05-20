@@ -80,7 +80,7 @@ namespace Metapsi.Syntax
                     var resourceName = rn.ToLowerInvariant().Trim('/');
                     if (resourceName == filePath)
                     {
-                        using var stream = assembly.GetManifestResourceStream(resourceName);
+                        using var stream = assembly.GetManifestResourceStream(rn);
                         using (var ms = new MemoryStream())
                         {
                             stream.CopyTo(ms);

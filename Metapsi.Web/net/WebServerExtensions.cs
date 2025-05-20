@@ -1,4 +1,5 @@
 ﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
@@ -160,12 +161,18 @@ namespace Metapsi
 
         public static async Task WriteHtmlDocumentResponse(this HttpContext httpContext, HtmlDocument document)
         {
-            await MetadataExtensions.LoadMetadataResources(document.Metadata);
+            //await MetadataExtensions.LoadMetadataResources(document.Metadata);
 
             string html = document.ToHtml();
             httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
             httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
             await httpContext.Response.WriteAsync(html);
+        }
+
+        public static async Task WriteJsModule(this HttpContext httpContext, Metapsi.Syntax.Module module)
+        {
+            httpContext.Response.ContentType = "text/javascript";
+            await httpContext.Response.WriteAsync(module.ToJs());
         }
     }
 }

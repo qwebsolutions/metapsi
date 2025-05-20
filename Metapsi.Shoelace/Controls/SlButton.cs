@@ -263,7 +263,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `&lt;sl-icon&gt;` in the default slot. </para>
     /// </summary>
     public static void SetCircle(this AttributesBuilder<SlButton> b)
     {
@@ -271,7 +271,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `&lt;sl-icon&gt;` in the default slot. </para>
     /// </summary>
     public static void SetCircle(this AttributesBuilder<SlButton> b, bool circle)
     {
@@ -279,7 +279,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetType(this AttributesBuilder<SlButton> b, string type)
     {
@@ -287,7 +287,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeButton(this AttributesBuilder<SlButton> b)
     {
@@ -295,7 +295,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeSubmit(this AttributesBuilder<SlButton> b)
     {
@@ -303,7 +303,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeReset(this AttributesBuilder<SlButton> b)
     {
@@ -327,7 +327,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref(this AttributesBuilder<SlButton> b, string href)
     {
@@ -735,7 +735,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `&lt;sl-icon&gt;` in the default slot. </para>
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b) where T: SlButton
     {
@@ -744,7 +744,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `&lt;sl-icon&gt;` in the default slot. </para>
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b, Var<bool> circle) where T: SlButton
     {
@@ -752,7 +752,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `<sl-icon>` in the default slot. </para>
+    /// <para> Draws a circular icon button. When this attribute is present, the button expects a single `&lt;sl-icon&gt;` in the default slot. </para>
     /// </summary>
     public static void SetCircle<T>(this PropsBuilder<T> b, bool circle) where T: SlButton
     {
@@ -761,7 +761,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeButton<T>(this PropsBuilder<T> b) where T: SlButton
     {
@@ -770,7 +770,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeSubmit<T>(this PropsBuilder<T> b) where T: SlButton
     {
@@ -779,7 +779,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
+    /// <para> The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `&lt;button&gt;` elements behave. When the type is `submit`, the button will submit the surrounding form. </para>
     /// </summary>
     public static void SetTypeReset<T>(this PropsBuilder<T> b) where T: SlButton
     {
@@ -822,7 +822,7 @@ public static partial class SlButtonControl
 
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlButton
     {
@@ -830,7 +830,7 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlButton
     {

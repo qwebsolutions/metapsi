@@ -8,28 +8,27 @@
 		<Description>Instantiates Metapsi.Runtime-aware web servers. Allows using CommandContext and embedded resources</Description>
 	</PropertyGroup>
 
-	<!--<ItemGroup>
-		<Compile Include="net\*.cs" />
-		<Compile Include="netframework\*.cs" />
-	</ItemGroup>-->
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
 		<Compile Remove="netframework\*.cs" />
 		<None Include="netframework\**\*.cs" />
+		<EmbeddedResource Include="net\embedded\signalr.js" LogicalName="signalr.js" />
+		<EmbeddedResource Include="net\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />		
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
 		<Reference Include="System.Web" />
-		<!--<PackageReference Include="Microsoft.AspNet.WebApi" Version="*" />-->
-		<!--<PackageReference Include="Microsoft.AspNet.Mvc" Version="*" />-->
 		<Compile Remove="net\*.cs" />
 		<None Include="net\**\*.cs" />
-		<!--<Reference Include="System.Web.Mvc" />-->
+		<EmbeddedResource Include="netframework\embedded\jQueryShim.js" LogicalName="jQueryShim.js" />
+		<EmbeddedResource Include="netframework\embedded\signalr.js" LogicalName="signalr.js" />
+		<EmbeddedResource Include="netframework\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
 	</ItemGroup>
 
 	<ItemGroup>

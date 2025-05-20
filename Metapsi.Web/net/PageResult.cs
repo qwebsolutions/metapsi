@@ -61,7 +61,7 @@ public static class Page
             switch (document)
             {
                 case HtmlDocument htmlDocument:
-                    await MetadataExtensions.LoadMetadataResources(htmlDocument.Metadata);
+                    //await MetadataExtensions.LoadMetadataResources(htmlDocument.Metadata);
                     html = htmlDocument.ToHtml();
                     break;
                 case string htmlString:

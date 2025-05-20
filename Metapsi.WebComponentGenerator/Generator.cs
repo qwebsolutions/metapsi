@@ -54,7 +54,7 @@ public static class Generator
             if (defaultSlot != null)
             {
                 codeBuilder.AppendLine("    /// <summary> ");
-                codeBuilder.AppendLine($"    /// {defaultSlot.Comment}");
+                codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(defaultSlot.Comment)}");
                 codeBuilder.AppendLine("    /// </summary>");
             }
             codeBuilder.AppendLine("    public static class Slot");
@@ -62,7 +62,7 @@ public static class Generator
             foreach (var slot in webComponent.Slots.Where(x => x != defaultSlot))
             {
                 codeBuilder.AppendLine("        /// <summary> ");
-                codeBuilder.AppendLine($"        /// {slot.Comment}");
+                codeBuilder.AppendLine($"        /// {Utils.ReplaceAngleBrackets(slot.Comment)}");
                 codeBuilder.AppendLine("        /// </summary>");
                 codeBuilder.AppendLine($"        public const string {Utils.ToCSharpValidName(slot.Name)} = \"{slot.Name}\";");
             }
@@ -83,7 +83,7 @@ public static class Generator
                 }
                 foreach (var parameter in method.Parameters)
                 {
-                    codeBuilder.AppendLine($"        /// <para>{parameter.Name} {parameter.Comment}</para>");
+                    codeBuilder.AppendLine($"        /// <para>{parameter.Name} {Utils.ReplaceAngleBrackets(parameter.Comment)}</para>");
                 }
                 codeBuilder.AppendLine("        /// </summary>");
                 codeBuilder.AppendLine($"        public const string {Utils.ToCSharpValidName(method.Name)} = \"{method.Name}\";");
@@ -100,7 +100,7 @@ public static class Generator
         // Server-side rendering
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static IHtmlNode {webComponent.Name}(this HtmlBuilder b, Action<AttributesBuilder<{webComponent.Name}>> buildAttributes, params IHtmlNode[] children)");
         codeBuilder.AppendLine("    {");
@@ -108,7 +108,7 @@ public static class Generator
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static IHtmlNode {webComponent.Name}(this HtmlBuilder b, params IHtmlNode[] children)");
         codeBuilder.AppendLine("    {");
@@ -132,7 +132,7 @@ public static class Generator
         // Client side rendering
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, Action<PropsBuilder<{webComponent.Name}>> buildProps, Var<List<IVNode>> children)");
         codeBuilder.AppendLine("    {");
@@ -140,7 +140,7 @@ public static class Generator
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, Action<PropsBuilder<{webComponent.Name}>> buildProps, params Var<IVNode>[] children)");
         codeBuilder.AppendLine("    {");
@@ -148,7 +148,7 @@ public static class Generator
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, Var<List<IVNode>> children)");
         codeBuilder.AppendLine("    {");
@@ -156,7 +156,7 @@ public static class Generator
         codeBuilder.AppendLine("    }");
 
         codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {webComponent.Description}");
+        codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(webComponent.Description)}");
         codeBuilder.AppendLine("    /// </summary>");
         codeBuilder.AppendLine($"    public static Var<IVNode> {webComponent.Name}(this LayoutBuilder b, params Var<IVNode>[] children)");
         codeBuilder.AppendLine("    {");
@@ -179,7 +179,7 @@ public static class Generator
         foreach (var anonEventDetail in anonEventDetails)
         {
             codeBuilder.AppendLine("    /// <summary>");
-            codeBuilder.AppendLine($"    /// {anonEventDetail.Comment}");
+            codeBuilder.AppendLine($"    /// {Utils.ReplaceAngleBrackets(anonEventDetail.Comment)}");
             codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public class {anonEventDetail.EventNameFromAnonymous(webComponent)}");
             codeBuilder.AppendLine("    {");

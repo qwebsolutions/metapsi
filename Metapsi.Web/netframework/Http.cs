@@ -54,10 +54,23 @@ public static class HttpExtensions
         return request.Request.InputStream;
     }
 
+    public static Stream Body(this HttpResponse response)
+    {
+        return response.Response.OutputStream;
+    }
+
+    public static string GetHeader(this HttpRequest httpRequest, string key)
+    {
+        return httpRequest.Request.Headers[key];
+    }
+
+    public static async Task WriteAsync(this HttpResponse response, string content)
+    {
+        response.Response.Write(content);
+    }
+
     public static async Task WriteHtmlDocument(this HttpResponse response, Metapsi.Html.HtmlDocument document)
     {
-        await Metapsi.MetadataExtensions.LoadMetadataResources(document.Metadata);
-
         response.Response.ContentType = "text/html";
         response.Response.Write(document.ToHtml());
     }
@@ -66,6 +79,11 @@ public static class HttpExtensions
     {
         response.Response.ContentType = "application/json";
         response.Response.Write(Metapsi.Serialize.ToJson(value));
+    }
+
+    public static async Task SetStatusCode(this HttpResponse httpResponse, int statusCode)
+    {
+        httpResponse.Response.StatusCode = statusCode;
     }
 
     public static async Task<T> ReadJsonBody<T>(this HttpRequest request)

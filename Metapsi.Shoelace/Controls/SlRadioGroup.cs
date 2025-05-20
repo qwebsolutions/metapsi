@@ -143,7 +143,7 @@ public static partial class SlRadioGroupControl
     }
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm(this AttributesBuilder<SlRadioGroup> b, string form)
     {
@@ -290,7 +290,7 @@ public static partial class SlRadioGroupControl
 
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlRadioGroup
     {
@@ -298,7 +298,7 @@ public static partial class SlRadioGroupControl
     }
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlRadioGroup
     {

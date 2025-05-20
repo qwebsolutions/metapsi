@@ -258,7 +258,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
+    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `&lt;input type="checkbox"&gt;`, it's only used when the checkbox participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<IonCheckbox> b, string value)
     {
@@ -629,7 +629,7 @@ public static partial class IonCheckboxControl
 
 
     /// <summary>
-    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
+    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `&lt;input type="checkbox"&gt;`, it's only used when the checkbox participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<object> value) where T: IonCheckbox
     {
@@ -637,7 +637,7 @@ public static partial class IonCheckboxControl
     }
 
     /// <summary>
-    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `<input type="checkbox">`, it's only used when the checkbox participates in a native `<form>`. </para>
+    /// <para> The value of the checkbox does not mean if it's checked or not, use the `checked` property for that.  The value of a checkbox is analogous to the value of an `&lt;input type="checkbox"&gt;`, it's only used when the checkbox participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, object value) where T: IonCheckbox
     {

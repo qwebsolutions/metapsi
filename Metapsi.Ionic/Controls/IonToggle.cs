@@ -258,7 +258,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`. </para>
+    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `&lt;input type="checkbox"&gt;`, it's only used when the toggle participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue(this AttributesBuilder<IonToggle> b, string value)
     {
@@ -629,7 +629,7 @@ public static partial class IonToggleControl
 
 
     /// <summary>
-    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`. </para>
+    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `&lt;input type="checkbox"&gt;`, it's only used when the toggle participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, Var<string> value) where T: IonToggle
     {
@@ -637,7 +637,7 @@ public static partial class IonToggleControl
     }
 
     /// <summary>
-    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`. </para>
+    /// <para> The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `&lt;input type="checkbox"&gt;`, it's only used when the toggle participates in a native `&lt;form&gt;`. </para>
     /// </summary>
     public static void SetValue<T>(this PropsBuilder<T> b, string value) where T: IonToggle
     {

@@ -50,7 +50,7 @@ public static partial class IonImgControl
     }
 
     /// <summary>
-    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
+    /// <para> The image URL. This attribute is mandatory for the `&lt;img&gt;` element. </para>
     /// </summary>
     public static void SetSrc(this AttributesBuilder<IonImg> b, string src)
     {
@@ -103,7 +103,7 @@ public static partial class IonImgControl
 
 
     /// <summary>
-    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
+    /// <para> The image URL. This attribute is mandatory for the `&lt;img&gt;` element. </para>
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, Var<string> src) where T: IonImg
     {
@@ -111,7 +111,7 @@ public static partial class IonImgControl
     }
 
     /// <summary>
-    /// <para> The image URL. This attribute is mandatory for the `<img>` element. </para>
+    /// <para> The image URL. This attribute is mandatory for the `&lt;img&gt;` element. </para>
     /// </summary>
     public static void SetSrc<T>(this PropsBuilder<T> b, string src) where T: IonImg
     {

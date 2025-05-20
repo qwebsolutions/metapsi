@@ -7,6 +7,11 @@ namespace Metapsi;
 
 public static partial class MetadataExtensions
 {
+    public static async Task WebEmbeddedFiles(this EmbeddedFiles.ILoader loader)
+    {
+        await EmbeddedFiles.AddAssembly(typeof(MetadataExtensions).Assembly);
+    }
+
     public static async Task LoadMetadataResources(HashSet<Metapsi.Syntax.Metadata> metadata)
     {
         var embeddedFilesMetadata = metadata.Where(x => x.Key == "embedded-file");

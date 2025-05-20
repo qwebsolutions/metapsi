@@ -19,15 +19,9 @@
 		<EmbeddedResource Include="embedded\LocalStorage.js" LogicalName="LocalStorage.js" />
 		<EmbeddedResource Include="embedded\hyperapp.js" LogicalName="hyperapp.js" />
 		<EmbeddedResource Include="embedded\fetch.js" LogicalName="fetch.js" />
-		<EmbeddedResource Include="embedded\signalr.js" LogicalName="signalr.js" />
-		<EmbeddedResource Include="embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
 		<EmbeddedResource Include="embedded\Debounce.js" LogicalName="Debounce.js" />
 		<EmbeddedResource Include="embedded\metapsi-custom-elements.js" LogicalName="metapsi-custom-elements.js" />
 
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
 	</ItemGroup>
 
 </Project>

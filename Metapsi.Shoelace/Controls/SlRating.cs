@@ -117,7 +117,7 @@ public static partial class SlRatingControl
     }
 
     /// <summary>
-    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `&lt;sl-icon&gt;` elements. </para>
     /// </summary>
     public static void SetGetSymbol(this AttributesBuilder<SlRating> b, string getSymbol)
     {
@@ -273,7 +273,7 @@ public static partial class SlRatingControl
 
 
     /// <summary>
-    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `&lt;sl-icon&gt;` elements. </para>
     /// </summary>
     public static void SetGetSymbol<T>(this PropsBuilder<T> b, Var<System.Func<int,string>> getSymbol) where T: SlRating
     {
@@ -281,7 +281,7 @@ public static partial class SlRatingControl
     }
 
     /// <summary>
-    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `<sl-icon>` elements. </para>
+    /// <para> A function that customizes the symbol to be rendered. The first and only argument is the rating's current value. The function should return a string containing trusted HTML of the symbol to render at the specified value. Works well with `&lt;sl-icon&gt;` elements. </para>
     /// </summary>
     public static void SetGetSymbol<T>(this PropsBuilder<T> b, System.Func<int,string> getSymbol) where T: SlRating
     {

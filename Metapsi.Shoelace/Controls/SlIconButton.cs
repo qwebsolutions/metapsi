@@ -81,7 +81,7 @@ public static partial class SlIconButtonControl
     }
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref(this AttributesBuilder<SlIconButton> b, string href)
     {
@@ -240,7 +240,7 @@ public static partial class SlIconButtonControl
 
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, Var<string> href) where T: SlIconButton
     {
@@ -248,7 +248,7 @@ public static partial class SlIconButtonControl
     }
 
     /// <summary>
-    /// <para> When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. </para>
+    /// <para> When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`. </para>
     /// </summary>
     public static void SetHref<T>(this PropsBuilder<T> b, string href) where T: SlIconButton
     {

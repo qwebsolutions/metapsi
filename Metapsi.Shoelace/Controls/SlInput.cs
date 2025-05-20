@@ -127,7 +127,7 @@ public static partial class SlInputControl
         return b.SlTag("sl-input", new Dictionary<string, string>(), children);
     }
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetType(this AttributesBuilder<SlInput> b, string type)
     {
@@ -135,7 +135,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeDate(this AttributesBuilder<SlInput> b)
     {
@@ -143,7 +143,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeDatetimeLocal(this AttributesBuilder<SlInput> b)
     {
@@ -151,7 +151,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeEmail(this AttributesBuilder<SlInput> b)
     {
@@ -159,7 +159,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeNumber(this AttributesBuilder<SlInput> b)
     {
@@ -167,7 +167,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypePassword(this AttributesBuilder<SlInput> b)
     {
@@ -175,7 +175,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeSearch(this AttributesBuilder<SlInput> b)
     {
@@ -183,7 +183,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeTel(this AttributesBuilder<SlInput> b)
     {
@@ -191,7 +191,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeText(this AttributesBuilder<SlInput> b)
     {
@@ -199,7 +199,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeTime(this AttributesBuilder<SlInput> b)
     {
@@ -207,7 +207,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeUrl(this AttributesBuilder<SlInput> b)
     {
@@ -415,7 +415,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm(this AttributesBuilder<SlInput> b, string form)
     {
@@ -771,7 +771,7 @@ public static partial class SlInputControl
         return b.SlNode("sl-input", children);
     }
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeDate<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -780,7 +780,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeDatetimeLocal<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -789,7 +789,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeEmail<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -798,7 +798,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeNumber<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -807,7 +807,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypePassword<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -816,7 +816,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeSearch<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -825,7 +825,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeTel<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -834,7 +834,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeText<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -843,7 +843,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeTime<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -852,7 +852,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`. </para>
+    /// <para> The type of input. Works the same as a native `&lt;input&gt;` element, but only a subset of types are supported. Defaults to `text`. </para>
     /// </summary>
     public static void SetTypeUrl<T>(this PropsBuilder<T> b) where T: SlInput
     {
@@ -1198,7 +1198,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, Var<string> form) where T: SlInput
     {
@@ -1206,7 +1206,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
+    /// <para> By default, form controls are associated with the nearest containing `&lt;form&gt;` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work. </para>
     /// </summary>
     public static void SetForm<T>(this PropsBuilder<T> b, string form) where T: SlInput
     {
@@ -1662,7 +1662,7 @@ public static partial class SlInputControl
 
 
     /// <summary>
-    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
+    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `&lt;input type="{{type}}"&gt;` implementation and may result in an error. </para>
     /// </summary>
     public static void SetValueAsDate<T>(this PropsBuilder<T> b, Var<object> valueAsDate) where T: SlInput
     {
@@ -1670,7 +1670,7 @@ public static partial class SlInputControl
     }
 
     /// <summary>
-    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error. </para>
+    /// <para> Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `&lt;input type="{{type}}"&gt;` implementation and may result in an error. </para>
     /// </summary>
     public static void SetValueAsDate<T>(this PropsBuilder<T> b, object valueAsDate) where T: SlInput
     {

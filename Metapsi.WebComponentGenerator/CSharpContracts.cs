@@ -824,7 +824,7 @@ public static class CSharpGeneratorExtensions
             }
             else
             {
-                stringBuilder.AppendLine($"{Indent(indent)}/// <para> {comment} </para>");
+                stringBuilder.AppendLine($"{Indent(indent)}/// <para> {Utils.ReplaceAngleBrackets(comment)} </para>");
             }
         }
         stringBuilder.AppendLine($"{Indent(indent)}/// </summary>");

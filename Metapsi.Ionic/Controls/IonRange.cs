@@ -754,14 +754,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// <para> The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  This event will not emit when programmatically setting the `value` property. </para>
+    /// <para> The `ionChange` event is fired for `&lt;ion-range&gt;` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionChange", action, "detail");
     }
     /// <summary>
-    /// <para> The `ionChange` event is fired for `<ion-range>` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  This event will not emit when programmatically setting the `value` property. </para>
+    /// <para> The `ionChange` event is fired for `&lt;ion-range&gt;` elements when the user modifies the element's value: - When the user releases the knob after dragging; - When the user moves the knob with keyboard arrows  This event will not emit when programmatically setting the `value` property. </para>
     /// </summary>
     public static void OnIonChange<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
@@ -784,14 +784,14 @@ public static partial class IonRangeControl
     }
 
     /// <summary>
-    /// <para> The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
+    /// <para> The `ionInput` event is fired for `&lt;ion-range&gt;` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, RangeChangeEventDetail>> action) where TComponent: IonRange
     {
         b.OnEventAction("onionInput", action, "detail");
     }
     /// <summary>
-    /// <para> The `ionInput` event is fired for `<ion-range>` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
+    /// <para> The `ionInput` event is fired for `&lt;ion-range&gt;` elements when the value is modified. Unlike `ionChange`, `ionInput` is fired continuously while the user is dragging the knob. </para>
     /// </summary>
     public static void OnIonInput<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<RangeChangeEventDetail>, Var<TModel>> action) where TComponent: IonRange
     {
