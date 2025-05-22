@@ -18,6 +18,8 @@ Documentation and sandbox at https://metapsi.dev
 
 Ready to run samples at https://github.com/qwebsolutions/metapsi.samples
 
+Join us on Discord https://discord.gg/ZZ5TVHPta2
+
 ## How to create a Metapsi project
 
 Initialize a new console project
