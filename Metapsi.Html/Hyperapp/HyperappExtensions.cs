@@ -21,6 +21,12 @@ public static partial class HyperappExtensions
         }
     }
 
+    /// <summary>
+    /// Imports 'app' from hyperapp
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <returns></returns>
     public static Var<Func<HyperType.App<TModel>, HyperType.Dispatcher>> ImportHyperapp<TModel>(this SyntaxBuilder b)
     {
         b.AddEmbeddedResourceMetadata(typeof(HyperAppNode).Assembly, "hyperapp.js");
@@ -28,16 +34,24 @@ public static partial class HyperappExtensions
         return app;
     }
 
-    // This is the base hyperapp app call, but it's going to be called less often than the other overrides
-    // so, no 'this' on this
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="mountNodeId"></param>
+    /// <param name="init"></param>
+    /// <param name="view"></param>
+    /// <param name="subscriptions"></param>
+    /// <returns></returns>
     public static IHtmlNode Hyperapp<TModel>(
         HtmlBuilder b,
+        string mountNodeId,
         Func<SyntaxBuilder, Var<HyperType.Init>> init = null,
         Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
         Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
-        string mountDivId = "id-" + Guid.NewGuid().ToString();
-
         ModuleBuilder moduleBuilder = new ModuleBuilder();
         var main = moduleBuilder.AddFunction<HyperType.Dispatcher>("main", b =>
         {
@@ -50,7 +64,7 @@ public static partial class HyperappExtensions
             {
                 b.Set(appConfig, x => x.view, b.Def(view));
             }
-            b.Set(appConfig, x => x.node, b.GetElementById(b.Const(mountDivId)));
+            b.Set(appConfig, x => x.node, b.GetElementById(b.Const(mountNodeId)));
             if (subscriptions != null)
             {
                 b.Set(appConfig, x => x.subscriptions, b.Call(subscriptions));
@@ -65,14 +79,13 @@ public static partial class HyperappExtensions
             b.Document.Metadata.Add(moduleMetadata);
         }
 
-        //var moduleScript = Metapsi.JavaScript.PrettyBuilder.Generate(moduleBuilder.Module);
         var moduleScript = moduleBuilder.Module.ToJs();
 
         return new HyperAppNode()
         {
             MountDiv = b.HtmlDiv(b =>
             {
-                b.SetAttribute("id", mountDivId);
+                b.SetAttribute("id", mountNodeId);
             }),
             ScriptTag = b.HtmlScript(
                 b =>
@@ -82,6 +95,25 @@ public static partial class HyperappExtensions
                 b.Text(moduleScript),
                 b.Text("var dispatch = main()"))
         };
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="init"></param>
+    /// <param name="view"></param>
+    /// <param name="subscriptions"></param>
+    /// <returns></returns>
+    public static IHtmlNode Hyperapp<TModel>(
+        HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init = null,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
+        Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
+    {
+        string mountNodeId = "id-" + Guid.NewGuid().ToString();
+        return Hyperapp(b, mountNodeId, init, view, subscriptions);
     }
 
     /// <summary>

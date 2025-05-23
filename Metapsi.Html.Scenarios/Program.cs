@@ -87,12 +87,6 @@ public static class ServerActionExtensions
     
 }
 
-public class DefaultMetapsiSignalRHub : Hub
-{
-    public static IHubContext<DefaultMetapsiSignalRHub> HubContext { get; set; }
-    public static string Path { get; set; } = $"/{nameof(DefaultMetapsiSignalRHub)}";
-}
-
 
 public static class Program
 {
@@ -117,10 +111,18 @@ public static class Program
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static HubEndpointConventionBuilder MapDefaultSignalRHub(this IEndpointRouteBuilder builder)
+    public static HubEndpointConventionBuilder MapDefaultSignalRHub(
+        this IEndpointRouteBuilder builder, 
+        string path = nameof(DefaultMetapsiSignalRHub),
+        Action<IHubContext> storeHubContext = null)
     {
-        var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(DefaultMetapsiSignalRHub.Path);
-        DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
+        var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(path);
+        if(storeHubContext!=null)
+        {
+            var hubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext;
+            storeHubContext(hubContext);
+        }
+        //DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
         return hubBuilder;
     }
 
@@ -207,11 +209,14 @@ public static class Program
         var app = builder.Build();
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
-        app.MapDefaultSignalRHub();
+        app.MapDefaultSignalRHub(storeHubContext: hc => StaticHubContext = hc);
 
         //app.MapGet("/", () => Page.Result(new DataModel()));
         //app.MapServerActions("someOtherPath");
 
+        await EmbeddedFiles.Load.WebEmbeddedFiles();
+        await EmbeddedFiles.Load.SyntaxCoreEmbeddedFiles();
+        await EmbeddedFiles.Load.ShoelaceEmbeddedFiles();
 
         app.MapGet("/market", () => Page.Result(new MarketData()));
 
@@ -498,7 +503,7 @@ public static class Program
             b.MakeStateWithEffects(
                 b.Const(new MarketData()),
                 // Connect to default SignalR hub
-                b.SignalRConnect(DefaultMetapsiSignalRHub.Path)));
+                b.SignalRConnect(nameof(DefaultMetapsiSignalRHub))));
     }
 
     //public static void CallServer(this PropsBuilder<SlButton> propsBuilder, Action<DataModel> action)
@@ -639,6 +644,8 @@ public static class Program
                 }));
     }
 
+    public static IHubContext StaticHubContext;
+
     public static async Task GenerateRandomData()
     {
         MarketData marketData = new();
@@ -656,7 +663,7 @@ public static class Program
             }
 
             // Raise SignalR event with new data
-            await DefaultMetapsiSignalRHub.HubContext.Clients.All.RaiseCustomEvent(
+            await StaticHubContext.Clients.All.RaiseCustomEvent(
                 typeof(Refresh).Name,
                 new Refresh()
                 {

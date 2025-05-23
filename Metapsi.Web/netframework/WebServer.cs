@@ -11,7 +11,20 @@ public class EmbeddedResourceVirtualPathProvider : VirtualPathProvider
 {
     private EmbeddedFiles.EmbeddedFile GetEmbeddedFile(string virtualPath)
     {
-        var file = EmbeddedFiles.GetAll().SingleOrDefault(x => virtualPath.ToLowerInvariant().EndsWith(x.LowerCaseFileName, StringComparison.OrdinalIgnoreCase));
+        virtualPath = virtualPath.TrimStart('~').ToLowerInvariant();
+        //var fileName = System.IO.Path.GetFileName(virtualPath).ToLowerInvariant();
+        //TODO: Fix SingleOrDefault
+        var all = EmbeddedFiles.GetAll().Where(x => x.LowerCaseFileName == virtualPath);
+        var file = EmbeddedFiles.GetAll().SingleOrDefault(x => x.LowerCaseFileName == virtualPath);
+        if (file != null)
+            return file;
+
+        if (virtualPath.StartsWith("/"))
+        {
+            virtualPath = virtualPath.TrimStart('/');
+            file = EmbeddedFiles.GetAll().SingleOrDefault(x => x.LowerCaseFileName == virtualPath);
+        }
+
         return file;
     }
 
@@ -53,37 +66,6 @@ public class EmbeddedResourceVirtualFile : VirtualFile
     }
 }
 
-
-//public class HtmlDocumentResult : System.Web.Mvc.ActionResult
-//{
-//    private HtmlDocument htmlDocument;
-
-//    public HtmlDocumentResult(HtmlDocument htmlDocument)
-//    {
-//        this.htmlDocument = htmlDocument;
-//    }
-
-//    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
-//    {
-//        context.HttpContext.Response.WriteHtmlDocument(this.htmlDocument);
-//    }
-//}
-
-//public class JsModuleResult : System.Web.Mvc.ActionResult
-//{
-//    private Metapsi.Syntax.Module module;
-
-//    public JsModuleResult(Module module)
-//    {
-//        this.module = module;
-//    }
-
-//    public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
-//    {
-//        context.HttpContext.Response.WriteJsModule(this.module);
-//    }
-//}
-
 public static class HttpContextExtensions
 {
     public static void WriteHtmlDocument(this System.Web.HttpResponseBase httpResponse, HtmlDocument htmlDocument)
@@ -98,29 +80,3 @@ public static class HttpContextExtensions
         httpResponse.Write(module.ToJs());
     }
 }
-
-//public static class WebServer
-//{
-
-//    public static void Test()
-//    {
-//        System.Web.Hosting.HostingEnvironment.RegisterVirtualPathProvider(new EmbeddedResourceVirtualPathProvider());
-//    }
-
-//    public static string GetMimeType(string path)
-//    {
-//        if (path.EndsWith(".js"))
-//            return "text/javascript";
-
-//        if (path.EndsWith(".mjs"))
-//            return "text/javascript";
-
-//        if (path.EndsWith(".css"))
-//            return "text/css";
-
-//        if (path.EndsWith(".svg"))
-//            return "image/svg+xml";
-
-//        throw new System.Exception("Mime type not supported");
-//    }
-//}
