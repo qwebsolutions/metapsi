@@ -4,11 +4,7 @@ import { getDictionaryType, getActionType, getListType } from './CSharpContracts
 import * as typeParser from './TypeParser';
 
 export function getHtmlBuilderType() {
-    var htmlBuilderType = new csharp.TypeDefinition();
-    htmlBuilderType.name = "HtmlBuilder";
-    htmlBuilderType.namespace = metapsiHtmlNamespace;
-
-    return htmlBuilderType;
+    return new csharp.TypeReference({name:"HtmlBuilder", namespace: metapsiHtmlNamespace});
 }
 
 export function getHtmlBuilderParameter() {
@@ -17,27 +13,22 @@ export function getHtmlBuilderParameter() {
     return thisHtmlBuilder;
 }
 
-export function getAttributesBuilderType(controlType: csharp.TypeDefinition) {
-    var attributesBuilderType = new csharp.TypeDefinition();
-    attributesBuilderType.name = "AttributesBuilder";
-    attributesBuilderType.namespace = metapsiHtmlNamespace;
-    attributesBuilderType.typeArguments.push({argType: "TypeDefinition", typeDefinition : controlType});
-
+export function getAttributesBuilderType(controlType: csharp.TypeReference) {
+    var attributesBuilderType = new csharp.TypeReference({name: "AttributesBuilder", namespace : metapsiHtmlNamespace});
+    attributesBuilderType.typeArguments.push(controlType);
     return attributesBuilderType;
 }
 
-export function getAttributesBuilderParameter(controlType: csharp.TypeDefinition) {
+export function getAttributesBuilderParameter(controlType: csharp.TypeReference) {
     var parameter = new csharp.Parameter("b",  getAttributesBuilderType(controlType));
     parameter.isThis = true;
     return parameter;
 }
 
-
 export function createServerSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string) : csharp.SyntaxNode[] {
     var methods : csharp.SyntaxNode[] = [];
 
-    var currentControlType = new csharp.TypeDefinition();
-    currentControlType.name = controlType;
+    var currentControlType = new csharp.TypeReference({name: controlType});
 
     var actionOnTypeBuilderParameter = new csharp.Parameter("buildAttributes",getActionType(getAttributesBuilderType(currentControlType)));
 
@@ -82,8 +73,8 @@ export function createServerSideConstructors(controlType: string, tagName: strin
                         csharp.stringLiteralNode(tagName),
                         csharp.NewKeywordNode(
                             getDictionaryType(
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()),
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()))),
+                                csharp.getSystemStringType(),
+                                csharp.getSystemStringType())),
                         csharp.identifierNode(nodeParams.name))));
         });
 
@@ -97,7 +88,7 @@ export function createServerSideConstructors(controlType: string, tagName: strin
             b.isStatic = true;
             b.parameters.push(getHtmlBuilderParameter());                  
             b.parameters.push(actionOnTypeBuilderParameter);
-            var nodeParams = new csharp.Parameter("children",getListType(csharp.ClosedTypeArgument(getIHtmlNodeType())));
+            var nodeParams = new csharp.Parameter("children",getListType(getIHtmlNodeType()));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -118,7 +109,7 @@ export function createServerSideConstructors(controlType: string, tagName: strin
         {
             b.isStatic = true;
             b.parameters.push(getHtmlBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children",getListType(csharp.ClosedTypeArgument(getIHtmlNodeType())));
+            var nodeParams = new csharp.Parameter("children",getListType(getIHtmlNodeType()));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -127,9 +118,7 @@ export function createServerSideConstructors(controlType: string, tagName: strin
                         nodeBuilderName,
                         csharp.stringLiteralNode(tagName),
                         csharp.NewKeywordNode(
-                            getDictionaryType(
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()),
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()))),
+                            getDictionaryType(csharp.getSystemStringType(), csharp.getSystemStringType())),
                         csharp.identifierNode(nodeParams.name))));
         });
 
@@ -138,7 +127,7 @@ export function createServerSideConstructors(controlType: string, tagName: strin
     return methods;
 }
 
-export function createStringLiteralAttribute(controlType: csharp.TypeDefinition, propertyName: string, value: string): csharp.SyntaxNode {
+export function createStringLiteralAttribute(controlType: csharp.TypeReference, propertyName: string, value: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
         "Set"+ toCSharpValidName(propertyName) + toCSharpValidName(value),
         csharp.getVoidType(),
@@ -161,7 +150,7 @@ export function createStringLiteralAttribute(controlType: csharp.TypeDefinition,
  * @param propertyName 
  * @returns 
  */
-export function createBoolValueAttribute(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+export function createBoolValueAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
         "Set"+ toCSharpValidName(propertyName),
         csharp.getVoidType(),
@@ -190,7 +179,7 @@ export function createBoolValueAttribute(controlType: csharp.TypeDefinition, pro
  * @param propertyName 
  * @returns 
  */
-export function createBoolSetAttribute(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+export function createBoolSetAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
         "Set"+ toCSharpValidName(propertyName),
         csharp.getVoidType(),
@@ -213,7 +202,7 @@ export function createBoolSetAttribute(controlType: csharp.TypeDefinition, prope
  * @param propertyName 
  * @returns 
  */
-export function createStringAttribute(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+export function createStringAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
         "Set"+ toCSharpValidName(propertyName),
         csharp.getVoidType(),
@@ -232,14 +221,10 @@ export function createStringAttribute(controlType: csharp.TypeDefinition, proper
     }
 
 export function getIHtmlNodeType(){
-    var iHtmlNodeType = new csharp.TypeDefinition();
-    iHtmlNodeType.name = "IHtmlNode";
-    iHtmlNodeType.namespace = metapsiHtmlNamespace;
-
-    return iHtmlNodeType;
+    return new csharp.TypeReference({name: "IHtmlNode", namespace: metapsiHtmlNamespace});
 }
 
-export function CreateServerSideAttributes(componentClass: csharp.TypeDefinition, attribute: string, typeDefinition: string) : csharp.SyntaxNode[] {
+export function CreateServerSideAttributes(componentClass: csharp.TypeReference, attribute: string, typeDefinition: string) : csharp.SyntaxNode[] {
     var outList : csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
     attrTypeHandler.onStringLiteral = (value) => {

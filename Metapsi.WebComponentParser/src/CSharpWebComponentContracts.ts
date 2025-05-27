@@ -27,6 +27,7 @@ export function fromManifest(
 
     outFile.usings.push("Metapsi.Html");
     outFile.usings.push("Metapsi.Syntax");
+    outFile.usings.push("Metapsi.Hyperapp");
     outFile.namespace = namespace;
 
     var slotsClass = csharp.CreateType("Slots",
@@ -37,7 +38,7 @@ export function fromManifest(
                 if (s.name) {
                     var slotConstant = new csharp.ConstantDefinition();
                     slotConstant.name = toCSharpValidName(s.name);
-                    slotConstant.type = csharp.CreateType("string", b => { });
+                    slotConstant.type = csharp.getSystemStringType();
                     slotConstant.value = new csharp.Literal("\"" + s.name + "\"");
                     var comment = new csharp.Comment();
                     comment.lines.push("<summary>");
@@ -58,7 +59,7 @@ export function fromManifest(
                     if (m.description) {
                         var methodNameConstant = new csharp.ConstantDefinition();
                         methodNameConstant.name = toCSharpValidName(m.name);
-                        methodNameConstant.type = csharp.CreateType("string", b => { });
+                        methodNameConstant.type = csharp.getSystemStringType();
                         methodNameConstant.value = new csharp.Literal("\"" + m.name + "\"");
                         var comment = new csharp.Comment();
                         comment.lines.push("<summary>");
@@ -100,7 +101,7 @@ export function fromManifest(
                             var attribute = (m as any)["attribute"];
                             if (attribute) {
                                 var commentNode = csharp.commentNode(`<para> ${escapeComment(m.description)} </para>`);
-                                var setters = ssr.CreateServerSideAttributes(componentClass, attribute, m.type?.text!);
+                                var setters = ssr.CreateServerSideAttributes(new csharp.TypeReference(componentClass), attribute, m.type?.text!);
                                 setters.forEach(setter => {
                                     b.typeDef.body.push(commentNode);
                                     b.typeDef.body.push(setter);
@@ -158,10 +159,8 @@ export function fromManifest(
 
 export const metapsiHtmlNamespace: string = "Metapsi.Html";
 
-export function getVarType(typeArg: csharp.TypeArgument): csharp.TypeDefinition {
-    var varType = new csharp.TypeDefinition();
-    varType.name = "Var";
-    varType.namespace = "Metapsi.Syntax";
+export function getVarType(typeArg: csharp.TypeReference): csharp.TypeReference {
+    var varType = new csharp.TypeReference({name: "Var", namespace : "Metapsi.Syntax"});
     varType.typeArguments.push(typeArg);
     return varType;
 }

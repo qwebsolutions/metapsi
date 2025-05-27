@@ -5,6 +5,7 @@ export enum NodeType {
     Comment,
     Literal,
     TypeDefinition,
+    TypeReference,
     ConstantDefinition,
     Identifier,
     PropertyDefinition,
@@ -59,53 +60,91 @@ export class NewKeyword {
     expression?: SyntaxNode
 }
 
-export class TypeDefinition {
+/**
+ * This represents a standalone type with name + namespace. 
+ */
+export interface IType {
+    name: string;
+    namespace?: string;
+}
+
+/**
+ * The actual definition we output, with declaration & body
+ */
+export class TypeDefinition implements IType {
     keyword: "class" | "interface" = "class";
     name: string = "";
     namespace?: string;
-    typeArguments: TypeArgument[] = [];
+    typeParameters: TypeParameter[] = [];
     isPartial: boolean = false;
     isStatic: boolean = false;
     visibility: string = "public";
     body: SyntaxNode[] = []
 }
 
-export type TypeArgument =
-    { argType: "TypeDefinition", typeDefinition: TypeDefinition } |
-    { argType: "GenericType", genericType: GenericType };
-
-export class GenericType {
+/**
+ * A namespaceless type placeholder with type constraints
+ */
+export class TypeParameter implements IType {
+    constructor(name:string) {
+        this.name = name;
+    }
     name: string = "";
-    genericTypeConstraints: string[] = [];
+    typeConstraints: string[] = [];
 }
 
-export function OpenTypeArgument(genericType: GenericType): TypeArgument {
-    return { argType: "GenericType", genericType: genericType }
+/**
+ * The type reference can point to a type that has type parameters that can be concrete type or other type parameters, hence IType
+ */
+export class TypeReference {
+    /**
+     *
+     */
+    constructor(baseTypeDefinition: IType) {
+        this.baseType = baseTypeDefinition;
+    }
+
+    baseType: IType;
+
+    typeArguments: TypeReference[] = [];
 }
 
-export function ClosedTypeArgument(typeDefinition: TypeDefinition): TypeArgument {
-    return { argType: "TypeDefinition", typeDefinition: typeDefinition }
-}
+// export type TypeArgument =
+//     { argType: "TypeDefinition", typeDefinition: TypeDefinition } |
+//     { argType: "GenericType", genericType: GenericType };
+
+// export class GenericType {
+//     name: string = "";
+    
+// }
+
+// export function OpenTypeArgument(genericType: GenericType): TypeArgument {
+//     return { argType: "GenericType", genericType: genericType }
+// }
+
+// export function ClosedTypeArgument(typeDefinition: TypeDefinition): TypeArgument {
+//     return { argType: "TypeDefinition", typeDefinition: typeDefinition }
+// }
 
 export class ConstantDefinition {
     name: string = "";
-    type?: TypeDefinition;
+    type?: TypeReference;
     value?: Literal;
     visibility: string = "public";
 }
 
 export class PropertyDefinition {
     name: string = "";
-    type?: TypeDefinition;
+    type?: TypeReference;
     visibility: string = "public";
     isStatic: boolean = false;
 }
 
 export class MethodDefinition {
     name: string = "";
-    returnType?: TypeDefinition;
+    returnType?: TypeReference;
     parameters: Parameter[] = [];
-    genericTypes: GenericType[] = [];
+    typeParameters: TypeParameter[] = [];
     visibility: string = "public";
     isStatic: boolean = false;
     body: SyntaxNode[] = [];
@@ -115,12 +154,12 @@ export class Parameter {
     /**
      *
      */
-    constructor(name: string, type: TypeDefinition) {
+    constructor(name: string, type: TypeReference) {
         this.name = name;
         this.type = type;
     }
     name: string = "";
-    type?: TypeDefinition;
+    type?: TypeReference;
     isParams: boolean = false;
     isThis: boolean = false;
 }
@@ -165,6 +204,7 @@ export type SyntaxNode =
     { nodeType: NodeType.Literal, literal: Literal } |
     { nodeType: NodeType.Identifier, identifier: Identifier } |
     { nodeType: NodeType.TypeDefinition, definition: TypeDefinition } |
+    { nodeType: NodeType.TypeReference, typeRef: TypeReference } |
     { nodeType: NodeType.ConstantDefinition, constant: ConstantDefinition } |
     { nodeType: NodeType.PropertyDefinition, prop: PropertyDefinition } |
     { nodeType: NodeType.MethodDefinition, method: MethodDefinition } |
@@ -218,8 +258,8 @@ function returnKeywordToCSharp(node: ReturnKeyword, indentLevel: number): string
 }
 
 function newKeywordToCSharp(node: NewKeyword, indentLevel: number): string {
-    if (node.expression!.nodeType == NodeType.TypeDefinition) {
-        return `${spaces(indentLevel)}new ${typeUsageToCSharp(node.expression?.definition!)}()`
+    if (node.expression!.nodeType == NodeType.TypeReference) {
+        return `${spaces(indentLevel)}new ${typeUsageToCSharp(node.expression?.typeRef!)}()`
     }
     throw "new keyword only works with type expresion";
 }
@@ -251,24 +291,17 @@ function typeDefinitionToCSharp(node: TypeDefinition, indentLevel: number) {
     return typeLines.join("\n");
 }
 
-function typeUsageToCSharp(type: TypeDefinition) {
+function typeUsageToCSharp(type: TypeReference) : string {
     var usage = [];
-    if (type.namespace) usage.push(type.namespace);
-    usage.push(type.name)
-    var baseType = usage.join(".");
+    var baseType = type.baseType;
+    if (baseType.namespace) usage.push(baseType.namespace);
+    usage.push(baseType.name)
+    var qualifiedBaseType = usage.join(".");
 
     if (!type.typeArguments.length)
-        return baseType;
+        return qualifiedBaseType;
 
-    var genericTypes: string[] = [];
-    type.typeArguments?.forEach(t => {
-        switch (t.argType) {
-            case "TypeDefinition": genericTypes.push(typeUsageToCSharp(t.typeDefinition)); break;
-            case "GenericType": genericTypes.push(t.genericType.name); break;
-        }
-    });
-
-    return baseType + "<" + genericTypes.join(",") + ">";
+    return qualifiedBaseType + "<" + type.typeArguments.map(ta => typeUsageToCSharp(ta)).join(", ") + ">";
 }
 
 function constantToCSharp(node: ConstantDefinition, indentLevel: number) {
@@ -306,7 +339,7 @@ function methodToCSharp(node: MethodDefinition, indentLevel: number) {
 
     var crammedName = [];
     crammedName.push(node.name);
-    var genericTypes = node.genericTypes.map(x => x.name).join(",")
+    var genericTypes = node.typeParameters.map(x => x.name).join(",")
     if (genericTypes) crammedName.push(`<${genericTypes}>`);
     crammedName.push("(");
     var methodParameter: string[] = [];
@@ -326,9 +359,9 @@ function methodToCSharp(node: MethodDefinition, indentLevel: number) {
 
     var genericConstraints: string[] = [];
 
-    node.genericTypes.forEach((gt) => {
-        if (gt.genericTypeConstraints.length) {
-            genericConstraints.push(`where ${gt.name}: ${gt.genericTypeConstraints.join(", ")}`);
+    node.typeParameters.forEach((tp) => {
+        if (tp.typeConstraints.length) {
+            genericConstraints.push(`where ${tp.name}: ${tp.typeConstraints.join(", ")}`);
         }
     });
 
@@ -442,13 +475,13 @@ export function ReturnNode(returnExpression?: SyntaxNode): SyntaxNode {
     return { nodeType: NodeType.ReturnKeyword, keyword: returnKeyword };
 }
 
-export function NewKeywordNode(type: TypeDefinition): SyntaxNode {
+export function NewKeywordNode(type: TypeReference): SyntaxNode {
     var newKeyword = new NewKeyword();
-    newKeyword.expression = { nodeType: NodeType.TypeDefinition, definition: type };
+    newKeyword.expression = { nodeType: NodeType.TypeReference, typeRef: type };
     return { nodeType: NodeType.NewKeyword, keyword: newKeyword };
 }
 
-export function MethodDefinitionNode(name: string, returnType: TypeDefinition, buildMethod?: (m: MethodDefinition) => void): SyntaxNode {
+export function MethodDefinitionNode(name: string, returnType: TypeReference, buildMethod?: (m: MethodDefinition) => void): SyntaxNode {
     var outMethod = new MethodDefinition();
     outMethod.returnType = returnType;
     outMethod.name = name;
@@ -484,46 +517,43 @@ export function newLineNode(): SyntaxNode {
     return { nodeType: NodeType.NewLine };
 }
 
-export function getSystemStringType(): TypeDefinition {
-    var outType = new TypeDefinition();
-    outType.name = "string";
-    return outType;
+export function getSystemStringType(): TypeReference {
+    return new TypeReference({name : "string"});
 }
 
-export function getSystemBoolType(): TypeDefinition {
-    var outType = new TypeDefinition();
-    outType.name = "bool";
-    return outType;
+export function getSystemBoolType(): TypeReference {
+    return new TypeReference({name : "bool"});
 }
 
-export function getVoidType(): TypeDefinition {
-    var outType = new TypeDefinition();
-    outType.name = "void";
-    return outType;
+export function getVoidType(): TypeReference {
+    return new TypeReference({name: "void"});
 }
 
 
-export function getDictionaryType(keyType: TypeArgument, value: TypeArgument): TypeDefinition {
-    var outType = new TypeDefinition();
-    outType.name = "Dictionary";
-    outType.namespace = "System.Collections.Generic";
+export function getDictionaryType(keyType: TypeReference, value: TypeReference): TypeReference {
+    var outType = new TypeReference({name: "Dictionary", namespace: "System.Collections.Generic"});
     outType.typeArguments.push(keyType);
     outType.typeArguments.push(value);
     return outType;
 }
 
-export function getListType(itemType: TypeArgument): TypeDefinition {
-    var outType = new TypeDefinition();
-    outType.name = "List";
-    outType.namespace = "System.Collections.Generic";
+export function getListType(itemType: TypeReference): TypeReference {
+    var outType = new TypeReference({name: "List", namespace : "System.Collections.Generic"});
     outType.typeArguments.push(itemType);
     return outType;
 }
 
-export function getActionType(onType: TypeDefinition) {
-    var action = new TypeDefinition();
-    action.name = "Action";
-    action.namespace = "System";
-    action.typeArguments.push({ argType: "TypeDefinition", typeDefinition: onType });
+export function getActionType(onType: TypeReference) {
+    var action = new TypeReference({name : "Action", namespace : "System"});
+    action.typeArguments.push(onType);
     return action;
+}
+
+export function getTypeReference(name:string, namespace?: string) : TypeReference {
+    return new TypeReference({name, namespace});
+}
+export function getGenericType(baseType:TypeReference, typeArguments: TypeReference[]) : TypeReference {
+    var clone = {...baseType};
+    clone.typeArguments.push(...typeArguments);
+    return clone;
 }
