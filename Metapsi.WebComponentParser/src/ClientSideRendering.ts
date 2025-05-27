@@ -1,5 +1,5 @@
 import * as csharp from './CSharpContracts';
-import {getVarType}  from './CSharpWebComponentContracts';
+import { getVarType } from './CSharpWebComponentContracts';
 import { getActionType, getListType } from './CSharpContracts';
 import { toCSharpValidName, metapsiHtmlNamespace } from './CSharpWebComponentContracts';
 import * as typeParser from './TypeParser';
@@ -11,7 +11,7 @@ export function getIVNodeType() {
     return ivNodeType;
 }
 
-export function getVarIVNodeType(){
+export function getVarIVNodeType() {
     return getVarType(csharp.ClosedTypeArgument(getIVNodeType()));
 }
 
@@ -26,13 +26,13 @@ export function getPropsBuilderType(controlType: csharp.TypeDefinition) {
     var attributesBuilderType = new csharp.TypeDefinition();
     attributesBuilderType.name = "PropsBuilder";
     attributesBuilderType.namespace = "Metapsi.Syntax";
-    attributesBuilderType.typeArguments.push({argType: "TypeDefinition", typeDefinition : controlType});
+    attributesBuilderType.typeArguments.push({ argType: "TypeDefinition", typeDefinition: controlType });
 
     return attributesBuilderType;
 }
 
 function getPropsBuilderParameter(controlType: csharp.TypeDefinition) {
-    var parameter = new csharp.Parameter("b",  getPropsBuilderType(controlType));
+    var parameter = new csharp.Parameter("b", getPropsBuilderType(controlType));
     parameter.isThis = true;
     return parameter;
 }
@@ -43,24 +43,23 @@ export function getLayoutBuilderParameter() {
     return thisHtmlBuilder;
 }
 
-export function createClientSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string){
-    var methods : csharp.SyntaxNode[] = [];
+export function createClientSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string) {
+    var methods: csharp.SyntaxNode[] = [];
 
     var currentControlType = new csharp.TypeDefinition();
     currentControlType.name = controlType;
 
-    var actionOnTypeBuilderParameter = new csharp.Parameter("buildProps",getActionType(getPropsBuilderType(currentControlType)));
+    var actionOnTypeBuilderParameter = new csharp.Parameter("buildProps", getActionType(getPropsBuilderType(currentControlType)));
 
     var withPropsAndParams = csharp.MethodDefinitionNode(
         controlType,
         getVarIVNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
             b.parameters.push(getLayoutBuilderParameter());
             b.parameters.push(actionOnTypeBuilderParameter);
-                   
-            var nodeParams = new csharp.Parameter("children",getVarIVNodeType());
+
+            var nodeParams = new csharp.Parameter("children", getVarIVNodeType());
             nodeParams.isParams = true;
             b.parameters.push(nodeParams);
             b.body.push(
@@ -74,13 +73,12 @@ export function createClientSideConstructors(controlType: string, tagName: strin
         });
     methods.push(withPropsAndParams);
 
-    var withoutPropsWithParams  = csharp.MethodDefinitionNode(
+    var withoutPropsWithParams = csharp.MethodDefinitionNode(
         controlType,
         getVarIVNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getLayoutBuilderParameter());                  
+            b.parameters.push(getLayoutBuilderParameter());
             var nodeParams = new csharp.Parameter("children", getVarIVNodeType());
             nodeParams.isParams = true;
             b.parameters.push(nodeParams);
@@ -98,12 +96,11 @@ export function createClientSideConstructors(controlType: string, tagName: strin
     var withPropsWithList = csharp.MethodDefinitionNode(
         controlType,
         getVarIVNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getLayoutBuilderParameter());                  
+            b.parameters.push(getLayoutBuilderParameter());
             b.parameters.push(actionOnTypeBuilderParameter);
-            var nodeParams = new csharp.Parameter("children",getVarType(csharp.ClosedTypeArgument(getListType(csharp.ClosedTypeArgument(getIVNodeType())))));
+            var nodeParams = new csharp.Parameter("children", getVarType(csharp.ClosedTypeArgument(getListType(csharp.ClosedTypeArgument(getIVNodeType())))));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -117,14 +114,13 @@ export function createClientSideConstructors(controlType: string, tagName: strin
 
     methods.push(withPropsWithList);
 
-    var withoutPropsWithList  = csharp.MethodDefinitionNode(
+    var withoutPropsWithList = csharp.MethodDefinitionNode(
         controlType,
         getVarIVNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getLayoutBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children",getVarType(csharp.ClosedTypeArgument(getListType(csharp.ClosedTypeArgument(getIVNodeType())))));
+            b.parameters.push(getLayoutBuilderParameter());
+            var nodeParams = new csharp.Parameter("children", getVarType(csharp.ClosedTypeArgument(getListType(csharp.ClosedTypeArgument(getIVNodeType())))));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -140,14 +136,14 @@ export function createClientSideConstructors(controlType: string, tagName: strin
     return methods;
 }
 
-export function CreateClientSidePropSetters(componentClass: csharp.TypeDefinition, propertyName: string, typeDefinition: string) : csharp.SyntaxNode[] {
-    var outList : csharp.SyntaxNode[] = [];
+export function createClientSidePropSetters(componentClass: csharp.TypeDefinition, propertyName: string, typeDefinition: string): csharp.SyntaxNode[] {
+    var outList: csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
     attrTypeHandler.onStringLiteral = (value) => {
         outList.push(createStringLiteralProperty(componentClass, propertyName, value));
     }
     attrTypeHandler.onBoolean = () => {
-        outList.push(createBoolSetValueProperty(componentClass, propertyName));    
+        outList.push(createBoolSetValueProperty(componentClass, propertyName));
         outList.push(createBoolSetTrueProperty(componentClass, propertyName));
         outList.push(createBoolSetConstProperty(componentClass, propertyName));
     }
@@ -169,11 +165,10 @@ export function createStringLiteralProperty(controlType: csharp.TypeDefinition, 
     localControlType.name = "T";
 
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName) + toCSharpValidName(value),
+        "Set" + toCSharpValidName(propertyName) + toCSharpValidName(value),
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
             b.body.push(
@@ -195,11 +190,10 @@ export function createBoolSetValueProperty(controlType: csharp.TypeDefinition, p
     localControlType.name = "T";
 
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(propertyName),
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
@@ -212,7 +206,7 @@ export function createBoolSetValueProperty(controlType: csharp.TypeDefinition, p
                     csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
                     csharp.identifierNode(propertyName)));
         });
-    }
+}
 
 export function createBoolSetTrueProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
     var genericControlType = new csharp.GenericType();
@@ -223,13 +217,12 @@ export function createBoolSetTrueProperty(controlType: csharp.TypeDefinition, pr
     localControlType.name = "T";
 
 
-    var methodName = "Set"+ toCSharpValidName(propertyName);
+    var methodName = "Set" + toCSharpValidName(propertyName);
     return csharp.MethodDefinitionNode(
         methodName,
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
@@ -240,7 +233,7 @@ export function createBoolSetTrueProperty(controlType: csharp.TypeDefinition, pr
                     methodName,
                     csharp.FunctionCallNode("b", "Const", csharp.trueLiteralNode())));
         });
-    }
+}
 
 export function createBoolSetConstProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
     var genericControlType = new csharp.GenericType();
@@ -251,13 +244,12 @@ export function createBoolSetConstProperty(controlType: csharp.TypeDefinition, p
     localControlType.name = "T";
 
 
-    var methodName = "Set"+ toCSharpValidName(propertyName);
+    var methodName = "Set" + toCSharpValidName(propertyName);
     return csharp.MethodDefinitionNode(
         methodName,
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
@@ -268,7 +260,7 @@ export function createBoolSetConstProperty(controlType: csharp.TypeDefinition, p
                     methodName,
                     csharp.FunctionCallNode("b", "Const", csharp.identifierNode(propertyName))));
         });
-    }
+}
 
 export function createStringProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
     var genericControlType = new csharp.GenericType();
@@ -278,18 +270,17 @@ export function createStringProperty(controlType: csharp.TypeDefinition, propert
     var localControlType = new csharp.TypeDefinition();
     localControlType.name = "T";
 
-    var methodName = "Set"+ toCSharpValidName(propertyName);
+    var methodName = "Set" + toCSharpValidName(propertyName);
     return csharp.MethodDefinitionNode(
         methodName,
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
             b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.ClosedTypeArgument(csharp.getSystemStringType()))));
-            
+
             b.body.push(
                 csharp.FunctionCallNode(
                     "b",
@@ -298,7 +289,7 @@ export function createStringProperty(controlType: csharp.TypeDefinition, propert
                     csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
                     csharp.identifierNode(propertyName)));
         });
-    }
+}
 
 export function createStringConstProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
     var genericControlType = new csharp.GenericType();
@@ -308,13 +299,12 @@ export function createStringConstProperty(controlType: csharp.TypeDefinition, pr
     var localControlType = new csharp.TypeDefinition();
     localControlType.name = "T";
 
-    var methodName = "Set"+ toCSharpValidName(propertyName);
+    var methodName = "Set" + toCSharpValidName(propertyName);
     return csharp.MethodDefinitionNode(
         methodName,
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
@@ -325,21 +315,106 @@ export function createStringConstProperty(controlType: csharp.TypeDefinition, pr
                     methodName,
                     csharp.FunctionCallNode("b", "Const", csharp.identifierNode(propertyName))));
         });
-    }
+}
 
-// function createStringAttribute(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
-//     return csharp.MethodDefinitionNode(
-//         "Set"+ toCSharpValidName(propertyName),
-//         csharp.getVoidType(),
-//         b=>
-//         {
-//             b.parameters.push(getAttributesBuilderParameter(controlType));
-//             b.parameters.push(new csharp.Parameter(propertyName, csharp.getSystemStringType()));
-//             b.body.push(
-//                 csharp.FunctionCallNode(
-//                     "b",
-//                     "SetAttribute",
-//                     csharp.stringLiteralNode(propertyName),
-//                     csharp.identifierNode(propertyName)));
-//         });
-//     }
+function getTModelGenericType() {
+    var tModelGenericType = new csharp.GenericType();
+    tModelGenericType.name = "TModel";
+    return tModelGenericType;
+}
+
+function getTModelConcreteType() {
+    var tModelType = new csharp.TypeDefinition();
+    tModelType.name = "TModel";
+    return tModelType;
+}
+
+function getTComponentGenericType(componentClassName: string) {
+    var tComponentGenericType = new csharp.GenericType();
+    tComponentGenericType.name = "TComponent";
+    tComponentGenericType.genericTypeConstraints.push(componentClassName);
+    return tComponentGenericType;
+}
+
+function getTComponentConcreteType() {
+    var tComponentType = new csharp.TypeDefinition();
+    tComponentType.name = "TComponent";
+    return tComponentType;
+}
+
+function createBaseHyperappActionHandler(componentClass: string, eventName: string, fill: (md: csharp.MethodDefinition) => void) {
+
+    return csharp.MethodDefinitionNode(
+        "On" + toCSharpValidName(eventName),
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.genericTypes.push(getTComponentGenericType(componentClass));
+            b.genericTypes.push(getTModelGenericType());
+            b.parameters.push(getPropsBuilderParameter(getTComponentConcreteType()));
+            fill(b);
+        });
+}
+
+function getHtmlEventType() {
+    var htmlEventType = new csharp.TypeDefinition();
+    htmlEventType.name = "Event";
+    htmlEventType.namespace = "Metapsi.Html";
+    return htmlEventType;
+}
+
+export function createEventHandlers(componentClass: string, eventName: string): csharp.SyntaxNode[] {
+    var hyperappActionType = new csharp.TypeDefinition();
+    hyperappActionType.name = "HyperType.Action";
+    hyperappActionType.namespace = "Metapsi.Hyperapp";
+
+    var tModelHyperActionType = { ...hyperappActionType };
+    tModelHyperActionType.typeArguments.push(csharp.OpenTypeArgument(getTModelGenericType()));
+
+    var tModelEventHyperActionType = { ...tModelHyperActionType };
+    tModelHyperActionType.typeArguments.push(csharp.OpenTypeArgument(getTModelGenericType()));
+
+    var outList: csharp.SyntaxNode[] = [];
+    // HyperType.Action<TModel,Event>
+    outList.push(createBaseHyperappActionHandler(componentClass, eventName,
+        b => {
+            b.parameters.push(new csharp.Parameter("action", getVarType(csharp.ClosedTypeArgument(tModelEventHyperActionType))))
+            b.body.push(csharp.FunctionCallNode(
+                "b",
+                "OnEventAction",
+                csharp.stringLiteralNode(eventName),
+                csharp.identifierNode("action")
+            ))
+        }
+    ));
+
+    var funcType = new csharp.TypeDefinition();
+    funcType.name = "Func";
+    funcType.namespace = "System";
+
+    var syntaxBuilderType = new csharp.TypeDefinition();
+    syntaxBuilderType.name = "SyntaxBuilder";
+    syntaxBuilderType.namespace = "Metapsi.Syntax";
+
+    var funcTypeSyntaxBuilder = {...funcType};
+    funcTypeSyntaxBuilder.typeArguments.push(csharp.ClosedTypeArgument(syntaxBuilderType));
+
+    var funcTypeSyntaxBuilderModel = {...funcTypeSyntaxBuilder};
+
+    // Func<SyntaxBuilder, Var<TModel>, Var<TEvent>, Var<TModel>>
+    outList.push(createBaseHyperappActionHandler(componentClass, eventName,
+        b => {
+
+
+            // b.parameters.push(new csharp.Parameter("action", csharp getVarType(csharp.ClosedTypeArgument(tModelEventHyperActionType))))
+            // b.body.push(csharp.FunctionCallNode(
+            //     "b",
+            //     "OnEventAction",
+            //     csharp.stringLiteralNode(eventName),
+            //     csharp.identifierNode("action")
+            // ))
+        }
+    ));
+
+    return outList;
+}
