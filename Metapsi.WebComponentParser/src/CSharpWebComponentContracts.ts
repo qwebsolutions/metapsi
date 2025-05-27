@@ -1,7 +1,9 @@
 import * as csharp from './CSharpContracts';
-
-import * as ts from "typescript";
 import * as schema from 'custom-elements-manifest/schema';
+import * as ssr from './ServerSideRendering';
+import * as csr from './ClientSideRendering'
+
+//import * as typeParser from "./TypeParser";
 
 export function toCSharpValidName(name: string):string{
     if(!name)
@@ -79,189 +81,75 @@ export function fromManifest(
 
     outFile.types.push(componentClass);
 
-
     var extensionsClass = csharp.CreateType(
         manifestWebComponent.name+"Control",
         b=>
         {
             b.typeDef.isStatic = true;
             b.typeDef.isPartial = true;
-            var ssConstructors = createServerSideConstructors(manifestWebComponent.name, manifestWebComponent.tagName!, "SlNode", "");
-            b.typeDef.body.push(...ssConstructors);
-        });
 
+            var ssConstructors = ssr.createServerSideConstructors(manifestWebComponent.name, manifestWebComponent.tagName!, "SlNode", "");
+            b.typeDef.body.push(...ssConstructors);
+
+            // Set attributes for server-side rendering
+            manifestWebComponent.members?.forEach(
+                m=>{
+                    if(m.kind == "field"){
+                        if(m.description){                           
+                            // Only add if there is an equivalent attribute for the property
+                            var attribute = (m as any)["attribute"];
+                            if(attribute){
+                                var setters = ssr.CreateServerSideAttributes(componentClass, attribute, m.type?.text!);
+                                b.typeDef.body.push(...setters);
+                            }
+                        }
+                    }
+                })
+
+            var csConstructors = csr.createClientSideConstructors(manifestWebComponent.name, manifestWebComponent.tagName!, "SlNode", "");
+            b.typeDef.body.push(...csConstructors);
+
+            // Set properties for client-side rendering
+            manifestWebComponent.members?.forEach(
+                m=>{
+                    if(m.kind == "field"){
+                        if(m.description){
+                            var propName = m.name;
+                            if(m.type)
+                            {
+                                if(m.type.text){
+                                    b.typeDef.body.push(...csr.CreatClientSidePropSetters(componentClass, propName, m.type!.text!));
+                                }
+                            }
+                            
+                            // var propTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
+                            // propTypeHandler.onStringLiteral = (value) => {
+                            //     b.typeDef.body.push(createStringLiteralAttribute(componentClass, attribute, value));
+                            // }
+                            // propTypeHandler.onBoolean = () => {
+                            //     b.typeDef.body.push(createBoolSetAttribute(componentClass, attribute));
+                            //     b.typeDef.body.push(createBoolValueAttribute(componentClass, attribute));
+                            // }
+                            // propTypeHandler.onString = () => {
+                            //     b.typeDef.body.push(createStringAttribute(componentClass, attribute));
+                            // }
+                            // typeParser.handleTypeDefinition(m.type?.text!, propTypeHandler);
+                        }
+                    }
+                })
+        });
 
     outFile.types.push(extensionsClass);
 
     return outFile;
 }
 
-const metapsiHtmlNamespace:string = "Metapsi.Html";
+export const metapsiHtmlNamespace:string = "Metapsi.Html";
 
-export function getIHtmlNodeType(){
-    var iHtmlNodeType = new csharp.TypeDefinition();
-    iHtmlNodeType.name = "IHtmlNode";
-    iHtmlNodeType.namespace = metapsiHtmlNamespace;
-
-    return iHtmlNodeType;
-}
-
-export function getHtmlBuilderType() {
-    var htmlBuilderType = new csharp.TypeDefinition();
-    htmlBuilderType.name = "HtmlBuilder";
-    htmlBuilderType.namespace = metapsiHtmlNamespace;
-
-    return htmlBuilderType;
-}
-
-export function getAttributesBuilderType(controlType: csharp.TypeDefinition) {
-    var attributesBuilderType = new csharp.TypeDefinition();
-    attributesBuilderType.name = "AttributesBuilder";
-    attributesBuilderType.namespace = metapsiHtmlNamespace;
-    attributesBuilderType.typeArguments.push({argType: "TypeDefinition", typeDefinition : controlType});
-
-    return attributesBuilderType;
-}
-
-export function getActionType(onType: csharp.TypeDefinition){
-    var action = new csharp.TypeDefinition();
-    action.name = "Action";
-    action.namespace = "System";
-    action.typeArguments.push({argType: "TypeDefinition", typeDefinition: onType});
-    return action;
-}
-
-export function getHtmlBuilderParameter() {
-    var thisHtmlBuilder = new csharp.Parameter("b");
-    thisHtmlBuilder.isThis = true;
-    thisHtmlBuilder.type = getHtmlBuilderType();
-    return thisHtmlBuilder;
-}
-
-export function getDictionaryType(keyType: csharp.TypeArgument , value: csharp.TypeArgument) : csharp.TypeDefinition {
-    var outType = new csharp.TypeDefinition();
-    outType.name = "Dictionary";
-    outType.namespace = "System.Collections.Generic";
-    outType.typeArguments.push(keyType);
-    outType.typeArguments.push(value);
-    return outType;
-}
-
-export function getListType(itemType: csharp.TypeArgument) : csharp.TypeDefinition {
-    var outType = new csharp.TypeDefinition();
-    outType.name = "List";
-    outType.namespace = "System.Collections.Generic";
-    outType.typeArguments.push(itemType);
-    return outType;
-}
-
-
-export function createServerSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string){
-    var methods : csharp.SyntaxNode[] = [];
-
-    var currentControlType = new csharp.TypeDefinition();
-    currentControlType.name = controlType;
-
-    var actionOnTypeBuilderParameter = new csharp.Parameter("buildAttributes");
-    actionOnTypeBuilderParameter.type = getActionType(getAttributesBuilderType(currentControlType));
-
-    var withAttrsAndParams = csharp.MethodDefinitionNode(
-        controlType,
-        getIHtmlNodeType(),
-        b=>
-        {
-            b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());
-            b.parameters.push(actionOnTypeBuilderParameter);
-                   
-            var nodeParams = new csharp.Parameter("children");
-            nodeParams.isParams = true;
-            nodeParams.type = getIHtmlNodeType();
-            b.parameters.push(nodeParams);
-            b.body.push(
-                csharp.ReturnNode(
-                    csharp.FunctionCallNode(
-                        "b",
-                        nodeBuilderName,
-                        csharp.stringLiteralNode(tagName),
-                        csharp.identifierNode(actionOnTypeBuilderParameter.name),
-                        csharp.identifierNode(nodeParams.name))));
-        });
-    methods.push(withAttrsAndParams);
-
-    var withoutAttrsWithParams  = csharp.MethodDefinitionNode(
-        controlType,
-        getIHtmlNodeType(),
-        b=>
-        {
-            b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children");
-            nodeParams.isParams = true;
-            nodeParams.type = getIHtmlNodeType();
-            b.parameters.push(nodeParams);
-            b.body.push(
-                csharp.ReturnNode(
-                    csharp.FunctionCallNode(
-                        "b",
-                        nodeBuilderName,
-                        csharp.stringLiteralNode(tagName),
-                        csharp.NewKeywordNode(
-                            getDictionaryType(
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()),
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()))),
-                        csharp.identifierNode(nodeParams.name))));
-        });
-
-    methods.push(withoutAttrsWithParams);
-
-    var withAttrsWithList = csharp.MethodDefinitionNode(
-        controlType,
-        getIHtmlNodeType(),
-        b=>
-        {
-            b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
-            b.parameters.push(actionOnTypeBuilderParameter);
-            var nodeParams = new csharp.Parameter("children");
-            nodeParams.type = getListType(csharp.ClosedTypeArgument(getIHtmlNodeType()));
-            b.parameters.push(nodeParams);
-            b.body.push(
-                csharp.ReturnNode(
-                    csharp.FunctionCallNode(
-                        "b",
-                        nodeBuilderName,
-                        csharp.stringLiteralNode(tagName),
-                        csharp.identifierNode(actionOnTypeBuilderParameter.name),
-                        csharp.identifierNode(nodeParams.name))));
-        });
-
-    methods.push(withAttrsWithList);
-
-    var withoutAttrsWithList  = csharp.MethodDefinitionNode(
-        controlType,
-        getIHtmlNodeType(),
-        b=>
-        {
-            b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children");
-            nodeParams.type = getListType(csharp.ClosedTypeArgument(getIHtmlNodeType()));
-            b.parameters.push(nodeParams);
-            b.body.push(
-                csharp.ReturnNode(
-                    csharp.FunctionCallNode(
-                        "b",
-                        nodeBuilderName,
-                        csharp.stringLiteralNode(tagName),
-                        csharp.NewKeywordNode(
-                            getDictionaryType(
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()),
-                                csharp.ClosedTypeArgument(csharp.getSystemStringType()))),
-                        csharp.identifierNode(nodeParams.name))));
-        });
-
-    methods.push(withoutAttrsWithList);
-
-    return methods;
+export function getVarType(typeArg: csharp.TypeArgument) : csharp.TypeDefinition {
+    var varType = new csharp.TypeDefinition();
+    varType.name = "Var";
+    varType.namespace = "Metapsi.Syntax";
+    varType.typeArguments.push(typeArg);
+    return varType;
 }

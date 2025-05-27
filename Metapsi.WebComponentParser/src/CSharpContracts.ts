@@ -103,8 +103,9 @@ export class Parameter {
     /**
      *
      */
-    constructor(name :string ) {
+    constructor(name :string, type: TypeDefinition) {
         this.name = name;
+        this.type = type;
     }
     name: string = "";
     type?: TypeDefinition;
@@ -133,9 +134,9 @@ export class Literal {
 }
 
 export class IfStatement {
-    identifier?: Identifier;
-    ifBlock?: SyntaxNode[] = [];
-    elseBlock?: SyntaxNode[] = [];
+    onExpression?: SyntaxNode;
+    ifBlock: SyntaxNode[] = [];
+    elseBlock: SyntaxNode[] = [];
 }
 
 export class Call {
@@ -357,11 +358,11 @@ function callToCSharp(node: Call, indentLevel: number) {
 
 function ifStatementToCSharp(node: IfStatement, indentLevel: number){
     if(node.ifBlock?.length == 1 && node.elseBlock?.length == 0) {
-        return `${spaces(indentLevel)} if(${identifierToCSharp(node.identifier!)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
+        return `${spaces(indentLevel)} if(${toCSharp(node.onExpression!,0)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
     }
     var lines : string[] = [];
 
-    lines.push(`${spaces(indentLevel)} if(${identifierToCSharp(node.identifier!)})`);
+    lines.push(`${spaces(indentLevel)} if(${toCSharp(node.onExpression!, 0)})`);
     lines.push(spaces(indentLevel)+"{");
     node.ifBlock!.forEach(statement =>
     {
@@ -414,6 +415,10 @@ export function stringLiteralNode(value: string) : SyntaxNode {
     return {nodeType: NodeType.Literal, literal: new Literal("\"" + value + "\"")};
 }
 
+export function trueLiteralNode() : SyntaxNode {
+    return {nodeType: NodeType.Literal, literal: new Literal("true")};
+}
+
 export function identifierNode(name: string) : SyntaxNode {
     return {nodeType: NodeType.Identifier, identifier: new Identifier(name)};
 }
@@ -452,8 +457,58 @@ export function MethodDefinitionNode(name: string, returnType: TypeDefinition, b
     return {nodeType: NodeType.MethodDefinition, method: outMethod};
 }
 
+export function ifNode(onExpression:SyntaxNode, ifTrue: (ifBlock: SyntaxNode[]) => void, ifFalse?: (ifBlock: SyntaxNode[]) => void ) : SyntaxNode {
+
+    var ifStatement = new IfStatement();
+    ifStatement.onExpression = onExpression;
+    ifTrue(ifStatement.ifBlock!);
+    if(ifFalse){
+        ifFalse(ifStatement.elseBlock);
+    }
+
+    return {nodeType: NodeType.IfStatement, ifStatement: ifStatement};
+}
+
 export function getSystemStringType() : TypeDefinition {
     var outType = new TypeDefinition();
     outType.name = "string";
     return outType;
+}
+
+export function getSystemBoolType() : TypeDefinition {
+    var outType = new TypeDefinition();
+    outType.name = "bool";
+    return outType;
+}
+
+export function getVoidType() : TypeDefinition {
+    var outType = new TypeDefinition();
+    outType.name = "void";
+    return outType;
+}
+
+
+export function getDictionaryType(keyType: TypeArgument , value: TypeArgument) : TypeDefinition {
+    var outType = new TypeDefinition();
+    outType.name = "Dictionary";
+    outType.namespace = "System.Collections.Generic";
+    outType.typeArguments.push(keyType);
+    outType.typeArguments.push(value);
+    return outType;
+}
+
+export function getListType(itemType: TypeArgument) : TypeDefinition {
+    var outType = new TypeDefinition();
+    outType.name = "List";
+    outType.namespace = "System.Collections.Generic";
+    outType.typeArguments.push(itemType);
+    return outType;
+}
+
+export function getActionType(onType: TypeDefinition){
+    var action = new TypeDefinition();
+    action.name = "Action";
+    action.namespace = "System";
+    action.typeArguments.push({argType: "TypeDefinition", typeDefinition: onType});
+    return action;
 }
