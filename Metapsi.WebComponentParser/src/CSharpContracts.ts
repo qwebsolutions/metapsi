@@ -20,14 +20,26 @@ function spaces(indentLevel:number) {
 }
 
 export class File {
+    usings: string[] = [];
     namespace: string = "";
     types: TypeDefinition[] = []
 }
 
 export function fileToCSharp(file: File) : string {
     var lines : string[] = [];
+    file.usings.forEach(u =>{
+        if(!u.startsWith("using")){
+            lines.push("using "+ u +";");
+        }
+        else{
+            lines.push(u);
+        }
+    });
+    lines.push("");
 
     lines.push(`namespace ${file.namespace};`);
+    lines.push("");
+
     file.types.forEach(t => {
         lines.push(toCSharp({nodeType: NodeType.TypeDefinition, definition: t} ,0));
     });
@@ -162,7 +174,7 @@ export type SyntaxNode =
 export function toCSharp(node: SyntaxNode, indentLevel: number) : string {
     switch(node.nodeType) {
         case NodeType.NewLine:
-            return "\n";
+            return ""; // new line does not actually need to insert a newline '\n', because the file is joined with '\n' in the first place
         case NodeType.Comment:
             return commentToCSharp(node.comment, indentLevel);
         case NodeType.ReturnKeyword:
@@ -228,14 +240,14 @@ function typeDefinitionToCSharp(node: TypeDefinition, indentLevel: number){
     var signatureLine = signature.join(' ');
 
     var typeLines = [];
-    typeLines.push(`${spaces(indentLevel)} ${signatureLine}`);
-    typeLines.push(`${spaces(indentLevel)} {`);
+    typeLines.push(`${spaces(indentLevel)}${signatureLine}`);
+    typeLines.push(`${spaces(indentLevel)}{`);
     node.body.forEach((innerNode) =>
     {
         typeLines.push(toCSharp(innerNode, indentLevel+1));
     })
 
-    typeLines.push(`${spaces(indentLevel)} }`);
+    typeLines.push(`${spaces(indentLevel)}}`);
 
     return typeLines.join("\n");
 }
@@ -358,11 +370,11 @@ function callToCSharp(node: Call, indentLevel: number) {
 
 function ifStatementToCSharp(node: IfStatement, indentLevel: number){
     if(node.ifBlock?.length == 1 && node.elseBlock?.length == 0) {
-        return `${spaces(indentLevel)} if(${toCSharp(node.onExpression!,0)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
+        return `${spaces(indentLevel)} if (${toCSharp(node.onExpression!,0)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
     }
     var lines : string[] = [];
 
-    lines.push(`${spaces(indentLevel)} if(${toCSharp(node.onExpression!, 0)})`);
+    lines.push(`${spaces(indentLevel)} if (${toCSharp(node.onExpression!, 0)})`);
     lines.push(spaces(indentLevel)+"{");
     node.ifBlock!.forEach(statement =>
     {
@@ -467,6 +479,19 @@ export function ifNode(onExpression:SyntaxNode, ifTrue: (ifBlock: SyntaxNode[]) 
     }
 
     return {nodeType: NodeType.IfStatement, ifStatement: ifStatement};
+}
+
+export function commentNode(summary: string, add?: (lines:string[]) => void) : SyntaxNode {
+    var comment = new Comment();
+    comment.lines.push("<summary>");
+    comment.lines.push(summary);
+    comment.lines.push("</summary>");
+    if(add) add(comment.lines);
+    return {nodeType: NodeType.Comment, comment: comment};
+}
+
+export function newLineNode() : SyntaxNode {
+    return {nodeType: NodeType.NewLine};
 }
 
 export function getSystemStringType() : TypeDefinition {

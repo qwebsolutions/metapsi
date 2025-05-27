@@ -25,7 +25,9 @@ function LoadShoelace(){
                     var dec = d as customElementManifestSchema.CustomElement;
                     //console.log(dec);
                     if(dec.name == "SlButton"){
-                        console.log(csharp.fileToCSharp(cswc.fromManifest(dec, "Metapsi.Shoelace")));
+
+                        var slButtonFilePath:string = "C:\\github\\qwebsolutions\\metapsi\\Metapsi.Shoelace\\Controls\\SlButton.cs";
+                        fs.writeFileSync(slButtonFilePath, csharp.fileToCSharp(cswc.fromManifest(dec, "Metapsi.Shoelace")), 'utf-8');
                 }
             }
         })

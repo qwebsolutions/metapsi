@@ -16,8 +16,8 @@ export function capitalize(s: string) : string {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function escapeAngleBrackets(str: string) {
-  return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function escapeComment(str: string) {
+  return str.replaceAll(/</g, '&lt;').replaceAll(/>/g, '&gt;').replaceAll('\r', "").replaceAll('\n', " ");
 }
 
 export function fromManifest(
@@ -25,11 +25,14 @@ export function fromManifest(
     namespace: string) : csharp.File {
     var outFile = new csharp.File();
 
+    outFile.usings.push("Metapsi.Html");
+    outFile.usings.push("Metapsi.Syntax");
     outFile.namespace = namespace;
 
     var slotsClass = csharp.CreateType("Slots",
         b=>
         {
+            b.typeDef.isStatic = true;
             manifestWebComponent.slots?.forEach(s=>{
                 // If not default slot
                 if(s.name){
@@ -39,7 +42,7 @@ export function fromManifest(
                     slotConstant.value = new csharp.Literal("\""+s.name+"\"");
                     var comment = new csharp.Comment();
                     comment.lines.push("<summary>");
-                    comment.lines.push(`<para> ${escapeAngleBrackets(s.description!)} </para>`);
+                    comment.lines.push(`<para> ${escapeComment(s.description!)} </para>`);
                     comment.lines.push("</summary>");
                     b.typeDef.body.push({nodeType:csharp.NodeType.Comment, comment:comment});
                     b.typeDef.body.push({nodeType: csharp.NodeType.ConstantDefinition, constant: slotConstant});
@@ -51,6 +54,7 @@ export function fromManifest(
     var methodsClass = csharp.CreateType("Method",
         b=>
         {
+            b.typeDef.isStatic = true;
             manifestWebComponent.members?.forEach(m=>
             {
                 if(m.kind == "method") {
@@ -61,7 +65,7 @@ export function fromManifest(
                         methodNameConstant.value = new csharp.Literal("\""+m.name+"\"");
                         var comment = new csharp.Comment();
                         comment.lines.push("<summary>");
-                        comment.lines.push(`<para> ${escapeAngleBrackets(m.description!)} </para>`);
+                        comment.lines.push(`<para> ${escapeComment(m.description!)} </para>`);
                         comment.lines.push("</summary>");
                         b.typeDef.body.push({nodeType:csharp.NodeType.Comment, comment:comment});
                         b.typeDef.body.push({nodeType: csharp.NodeType.ConstantDefinition, constant: methodNameConstant});
@@ -75,6 +79,7 @@ export function fromManifest(
         manifestWebComponent.name,
         b=>
         {
+            b.typeDef.isPartial = true;
             b.typeDef.body.push({nodeType: csharp.NodeType.TypeDefinition, definition: slotsClass});
             b.typeDef.body.push({nodeType: csharp.NodeType.TypeDefinition, definition: methodsClass});
         })
@@ -88,7 +93,7 @@ export function fromManifest(
             b.typeDef.isStatic = true;
             b.typeDef.isPartial = true;
 
-            var ssConstructors = ssr.createServerSideConstructors(manifestWebComponent.name, manifestWebComponent.tagName!, "SlNode", "");
+            var ssConstructors = ssr.createServerSideConstructors(manifestWebComponent.name, manifestWebComponent.tagName!, "SlTag", "");
             b.typeDef.body.push(...ssConstructors);
 
             // Set attributes for server-side rendering
@@ -98,9 +103,15 @@ export function fromManifest(
                         if(m.description){                           
                             // Only add if there is an equivalent attribute for the property
                             var attribute = (m as any)["attribute"];
-                            if(attribute){
+                            if(attribute) {
+                                var commentNode = csharp.commentNode(`<para> ${escapeComment(m.description)} </para>`);
                                 var setters = ssr.CreateServerSideAttributes(componentClass, attribute, m.type?.text!);
-                                b.typeDef.body.push(...setters);
+                                setters.forEach(setter =>{
+                                    b.typeDef.body.push(commentNode);
+                                    b.typeDef.body.push(setter);
+                                    b.typeDef.body.push(csharp.newLineNode());
+                                });
+                                //b.typeDef.body.push(...setters);
                             }
                         }
                     }
@@ -117,10 +128,16 @@ export function fromManifest(
                             var propName = m.name;
                             if(m.type)
                             {
-                                if(m.type.text){
-                                    b.typeDef.body.push(...csr.CreatClientSidePropSetters(componentClass, propName, m.type!.text!));
-                                }
+                                if(m.type.text) {
+                                    var commentNode = csharp.commentNode(`<para> ${escapeComment(m.description)} </para>`);
+                                    var setters = csr.CreateClientSidePropSetters(componentClass, propName, m.type!.text!);
+                                    setters.forEach(setter =>{
+                                        b.typeDef.body.push(commentNode);
+                                        b.typeDef.body.push(setter);
+                                        b.typeDef.body.push(csharp.newLineNode());
+                                });
                             }
+                        }
                             
                             // var propTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
                             // propTypeHandler.onStringLiteral = (value) => {

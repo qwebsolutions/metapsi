@@ -140,7 +140,7 @@ export function createClientSideConstructors(controlType: string, tagName: strin
     return methods;
 }
 
-export function CreatClientSidePropSetters(componentClass: csharp.TypeDefinition, propertyName: string, typeDefinition: string) : csharp.SyntaxNode[] {
+export function CreateClientSidePropSetters(componentClass: csharp.TypeDefinition, propertyName: string, typeDefinition: string) : csharp.SyntaxNode[] {
     var outList : csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
     attrTypeHandler.onStringLiteral = (value) => {
@@ -261,7 +261,7 @@ export function createBoolSetConstProperty(controlType: csharp.TypeDefinition, p
             b.genericTypes.push(genericControlType);
             b.parameters.push(getPropsBuilderParameter(localControlType));
 
-            b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.ClosedTypeArgument(csharp.getSystemBoolType()))));
+            b.parameters.push(new csharp.Parameter(propertyName, csharp.getSystemBoolType()));
             b.body.push(
                 csharp.FunctionCallNode(
                     "b",
@@ -295,7 +295,8 @@ export function createStringProperty(controlType: csharp.TypeDefinition, propert
                     "b",
                     "SetProperty",
                     csharp.identifierNode("b.Props"),
-                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName))));
+                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
+                    csharp.identifierNode(propertyName)));
         });
     }
 
