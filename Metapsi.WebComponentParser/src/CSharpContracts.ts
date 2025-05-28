@@ -23,7 +23,7 @@ function spaces(indentLevel: number) {
 export class File {
     usings: string[] = [];
     namespace: string = "";
-    types: TypeDefinition[] = []
+    content: SyntaxNode[] = []
 }
 
 export function fileToCSharp(file: File): string {
@@ -41,8 +41,8 @@ export function fileToCSharp(file: File): string {
     lines.push(`namespace ${file.namespace};`);
     lines.push("");
 
-    file.types.forEach(t => {
-        lines.push(toCSharp({ nodeType: NodeType.TypeDefinition, definition: t }, 0));
+    file.content.forEach(t => {
+        lines.push(toCSharp(t,  0));
     });
 
     return lines.join("\n");
@@ -108,23 +108,6 @@ export class TypeReference {
 
     typeArguments: TypeReference[] = [];
 }
-
-// export type TypeArgument =
-//     { argType: "TypeDefinition", typeDefinition: TypeDefinition } |
-//     { argType: "GenericType", genericType: GenericType };
-
-// export class GenericType {
-//     name: string = "";
-    
-// }
-
-// export function OpenTypeArgument(genericType: GenericType): TypeArgument {
-//     return { argType: "GenericType", genericType: genericType }
-// }
-
-// export function ClosedTypeArgument(typeDefinition: TypeDefinition): TypeArgument {
-//     return { argType: "TypeDefinition", typeDefinition: typeDefinition }
-// }
 
 export class ConstantDefinition {
     name: string = "";

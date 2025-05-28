@@ -2,8 +2,7 @@ import * as csharp from './CSharpContracts';
 import * as schema from 'custom-elements-manifest/schema';
 import * as ssr from './ServerSideRendering';
 import * as csr from './ClientSideRendering'
-
-//import * as typeParser from "./TypeParser";
+import * as typeParser from './TypeParser';
 
 export function toCSharpValidName(name: string): string {
     if (!name)
@@ -30,7 +29,7 @@ export function fromManifest(
     outFile.usings.push("Metapsi.Hyperapp");
     outFile.namespace = namespace;
 
-    var slotsClass = csharp.CreateType("Slots",
+    var slotsClass = csharp.CreateType("Slot",
         b => {
             b.typeDef.isStatic = true;
             manifestWebComponent.slots?.forEach(s => {
@@ -40,11 +39,8 @@ export function fromManifest(
                     slotConstant.name = toCSharpValidName(s.name);
                     slotConstant.type = csharp.getSystemStringType();
                     slotConstant.value = new csharp.Literal("\"" + s.name + "\"");
-                    var comment = new csharp.Comment();
-                    comment.lines.push("<summary>");
-                    comment.lines.push(`<para> ${escapeComment(s.description!)} </para>`);
-                    comment.lines.push("</summary>");
-                    b.typeDef.body.push({ nodeType: csharp.NodeType.Comment, comment: comment });
+                    var commentNode = csharp.commentNode(`<para> ${escapeComment(s.description!)} </para>`);
+                    b.typeDef.body.push(commentNode);
                     b.typeDef.body.push({ nodeType: csharp.NodeType.ConstantDefinition, constant: slotConstant });
                 }
             })
@@ -61,27 +57,26 @@ export function fromManifest(
                         methodNameConstant.name = toCSharpValidName(m.name);
                         methodNameConstant.type = csharp.getSystemStringType();
                         methodNameConstant.value = new csharp.Literal("\"" + m.name + "\"");
-                        var comment = new csharp.Comment();
-                        comment.lines.push("<summary>");
-                        comment.lines.push(`<para> ${escapeComment(m.description!)} </para>`);
-                        comment.lines.push("</summary>");
-                        b.typeDef.body.push({ nodeType: csharp.NodeType.Comment, comment: comment });
+                        var commentNode = csharp.commentNode(`<para> ${escapeComment(m.description)} </para>`);
+                        b.typeDef.body.push(commentNode);
                         b.typeDef.body.push({ nodeType: csharp.NodeType.ConstantDefinition, constant: methodNameConstant });
                     }
                 }
             });
         });
 
-
     var componentClass = csharp.CreateType(
         manifestWebComponent.name,
         b => {
             b.typeDef.isPartial = true;
+            b.typeDef.body.push(csharp.commentNode(``));
             b.typeDef.body.push({ nodeType: csharp.NodeType.TypeDefinition, definition: slotsClass });
+            b.typeDef.body.push(csharp.commentNode(``));
             b.typeDef.body.push({ nodeType: csharp.NodeType.TypeDefinition, definition: methodsClass });
         })
 
-    outFile.types.push(componentClass);
+    outFile.content.push(csharp.commentNode(`<para> ${escapeComment(manifestWebComponent.summary!)} </para>`));
+    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: componentClass });
 
     var extensionsClass = csharp.CreateType(
         manifestWebComponent.name + "Control",
@@ -141,7 +136,7 @@ export function fromManifest(
                     if (!e.deprecated) {
                         var commentNode = csharp.commentNode(`<para> ${escapeComment(e.description!)} </para>`);
                         var eventHandlers = csr.createEventHandlers(componentClass.name, e.name);
-                        eventHandlers.forEach(handler =>{
+                        eventHandlers.forEach(handler => {
                             b.typeDef.body.push(commentNode);
                             b.typeDef.body.push(handler);
                             b.typeDef.body.push(csharp.newLineNode());
@@ -152,7 +147,7 @@ export function fromManifest(
 
         });
 
-    outFile.types.push(extensionsClass);
+    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: extensionsClass });
 
     return outFile;
 }
@@ -160,7 +155,7 @@ export function fromManifest(
 export const metapsiHtmlNamespace: string = "Metapsi.Html";
 
 export function getVarType(typeArg: csharp.TypeReference): csharp.TypeReference {
-    var varType = new csharp.TypeReference({name: "Var", namespace : "Metapsi.Syntax"});
+    var varType = new csharp.TypeReference({ name: "Var", namespace: "Metapsi.Syntax" });
     varType.typeArguments.push(typeArg);
     return varType;
 }

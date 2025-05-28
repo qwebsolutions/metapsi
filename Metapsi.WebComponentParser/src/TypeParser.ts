@@ -110,5 +110,24 @@ export function parseTypeText(typeText: string) {
 //   }
 
   return typeNode;
-
 }
+
+// export function getJsDocSummary(jsDoc: string) : string {
+
+//   const sourceCode = `${jsDoc}\ntype TempType = undefined;`;
+
+//   // Create a SourceFile object from the string
+//   const sourceFile = ts.createSourceFile(
+//     "temp.ts",
+//     sourceCode,
+//     ts.ScriptTarget.Latest,
+//     /*setParentNodes*/ true,
+//     ts.ScriptKind.TS
+//   );
+
+//   ts.forEachChild(sourceFile, node => {
+//     console.log(node);
+//   });
+
+//   return "";
+// }
