@@ -1,8 +1,8 @@
-import * as csharp from './CSharpContracts';
-import * as schema from 'custom-elements-manifest/schema';
-import * as ssr from './ServerSideRendering';
-import * as csr from './ClientSideRendering'
-import * as typeParser from './TypeParser';
+import * as csharp from './CSharpContracts.js';
+import * as schema from 'custom-elements-manifest';
+import * as ssr from './ServerSideRendering.js';
+import * as csr from './ClientSideRendering.js'
+import * as typeParser from './TypeParser.js';
 
 export function toCSharpValidName(name: string): string {
     if (!name)

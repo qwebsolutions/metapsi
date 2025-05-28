@@ -1,47 +1,46 @@
-import * as csharp from './CSharpContracts';
-import { toCSharpValidName, metapsiHtmlNamespace } from './CSharpWebComponentContracts';
-import { getDictionaryType, getActionType, getListType } from './CSharpContracts';
-import * as typeParser from './TypeParser';
+import * as csharp from './CSharpContracts.js';
+import { toCSharpValidName, metapsiHtmlNamespace } from './CSharpWebComponentContracts.js';
+import { getDictionaryType, getActionType, getListType } from './CSharpContracts.js';
+import * as typeParser from './TypeParser.js';
 
 export function getHtmlBuilderType() {
-    return new csharp.TypeReference({name:"HtmlBuilder", namespace: metapsiHtmlNamespace});
+    return new csharp.TypeReference({ name: "HtmlBuilder", namespace: metapsiHtmlNamespace });
 }
 
 export function getHtmlBuilderParameter() {
-    var thisHtmlBuilder = new csharp.Parameter("b",getHtmlBuilderType());
+    var thisHtmlBuilder = new csharp.Parameter("b", getHtmlBuilderType());
     thisHtmlBuilder.isThis = true;
     return thisHtmlBuilder;
 }
 
 export function getAttributesBuilderType(controlType: csharp.TypeReference) {
-    var attributesBuilderType = new csharp.TypeReference({name: "AttributesBuilder", namespace : metapsiHtmlNamespace});
+    var attributesBuilderType = new csharp.TypeReference({ name: "AttributesBuilder", namespace: metapsiHtmlNamespace });
     attributesBuilderType.typeArguments.push(controlType);
     return attributesBuilderType;
 }
 
 export function getAttributesBuilderParameter(controlType: csharp.TypeReference) {
-    var parameter = new csharp.Parameter("b",  getAttributesBuilderType(controlType));
+    var parameter = new csharp.Parameter("b", getAttributesBuilderType(controlType));
     parameter.isThis = true;
     return parameter;
 }
 
-export function createServerSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string) : csharp.SyntaxNode[] {
-    var methods : csharp.SyntaxNode[] = [];
+export function createServerSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string): csharp.SyntaxNode[] {
+    var methods: csharp.SyntaxNode[] = [];
 
-    var currentControlType = new csharp.TypeReference({name: controlType});
+    var currentControlType = new csharp.TypeReference({ name: controlType });
 
-    var actionOnTypeBuilderParameter = new csharp.Parameter("buildAttributes",getActionType(getAttributesBuilderType(currentControlType)));
+    var actionOnTypeBuilderParameter = new csharp.Parameter("buildAttributes", getActionType(getAttributesBuilderType(currentControlType)));
 
     var withAttrsAndParams = csharp.MethodDefinitionNode(
         controlType,
         getIHtmlNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
             b.parameters.push(getHtmlBuilderParameter());
             b.parameters.push(actionOnTypeBuilderParameter);
-                   
-            var nodeParams = new csharp.Parameter("children",getIHtmlNodeType());
+
+            var nodeParams = new csharp.Parameter("children", getIHtmlNodeType());
             nodeParams.isParams = true;
             b.parameters.push(nodeParams);
             b.body.push(
@@ -55,14 +54,13 @@ export function createServerSideConstructors(controlType: string, tagName: strin
         });
     methods.push(withAttrsAndParams);
 
-    var withoutAttrsWithParams  = csharp.MethodDefinitionNode(
+    var withoutAttrsWithParams = csharp.MethodDefinitionNode(
         controlType,
         getIHtmlNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children",getIHtmlNodeType());
+            b.parameters.push(getHtmlBuilderParameter());
+            var nodeParams = new csharp.Parameter("children", getIHtmlNodeType());
             nodeParams.isParams = true;
             b.parameters.push(nodeParams);
             b.body.push(
@@ -83,12 +81,11 @@ export function createServerSideConstructors(controlType: string, tagName: strin
     var withAttrsWithList = csharp.MethodDefinitionNode(
         controlType,
         getIHtmlNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
+            b.parameters.push(getHtmlBuilderParameter());
             b.parameters.push(actionOnTypeBuilderParameter);
-            var nodeParams = new csharp.Parameter("children",getListType(getIHtmlNodeType()));
+            var nodeParams = new csharp.Parameter("children", getListType(getIHtmlNodeType()));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -102,14 +99,13 @@ export function createServerSideConstructors(controlType: string, tagName: strin
 
     methods.push(withAttrsWithList);
 
-    var withoutAttrsWithList  = csharp.MethodDefinitionNode(
+    var withoutAttrsWithList = csharp.MethodDefinitionNode(
         controlType,
         getIHtmlNodeType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
-            b.parameters.push(getHtmlBuilderParameter());                  
-            var nodeParams = new csharp.Parameter("children",getListType(getIHtmlNodeType()));
+            b.parameters.push(getHtmlBuilderParameter());
+            var nodeParams = new csharp.Parameter("children", getListType(getIHtmlNodeType()));
             b.parameters.push(nodeParams);
             b.body.push(
                 csharp.ReturnNode(
@@ -129,11 +125,10 @@ export function createServerSideConstructors(controlType: string, tagName: strin
 
 export function createStringLiteralAttribute(controlType: csharp.TypeReference, propertyName: string, value: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName) + toCSharpValidName(value),
+        "Set" + toCSharpValidName(propertyName) + toCSharpValidName(value),
         csharp.getVoidType(),
-        b=>
-        {
-            b.isStatic = true;            
+        b => {
+            b.isStatic = true;
             b.parameters.push(getAttributesBuilderParameter(controlType));
             b.body.push(
                 csharp.FunctionCallNode(
@@ -152,26 +147,24 @@ export function createStringLiteralAttribute(controlType: csharp.TypeReference, 
  */
 export function createBoolValueAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(propertyName),
         csharp.getVoidType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
             b.parameters.push(getAttributesBuilderParameter(controlType));
             b.parameters.push(new csharp.Parameter(propertyName, csharp.getSystemBoolType()));
             b.body.push(
                 csharp.ifNode(
                     csharp.identifierNode(propertyName),
-                    b=>
-                    {
+                    b => {
                         b.push(csharp.FunctionCallNode(
                             "b",
                             "SetAttribute",
                             csharp.stringLiteralNode(propertyName),
                             csharp.stringLiteralNode("")));
-                }));
+                    }));
         });
-    }
+}
 
 /**
  * b.SetAttribute("attributeName", "");
@@ -181,10 +174,9 @@ export function createBoolValueAttribute(controlType: csharp.TypeReference, prop
  */
 export function createBoolSetAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(propertyName),
         csharp.getVoidType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
             b.parameters.push(getAttributesBuilderParameter(controlType));
             b.body.push(
@@ -204,10 +196,9 @@ export function createBoolSetAttribute(controlType: csharp.TypeReference, proper
  */
 export function createStringAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
     return csharp.MethodDefinitionNode(
-        "Set"+ toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(propertyName),
         csharp.getVoidType(),
-        b=>
-        {
+        b => {
             b.isStatic = true;
             b.parameters.push(getAttributesBuilderParameter(controlType));
             b.parameters.push(new csharp.Parameter(propertyName, csharp.getSystemStringType()));
@@ -218,14 +209,14 @@ export function createStringAttribute(controlType: csharp.TypeReference, propert
                     csharp.stringLiteralNode(propertyName),
                     csharp.identifierNode(propertyName)));
         });
-    }
-
-export function getIHtmlNodeType(){
-    return new csharp.TypeReference({name: "IHtmlNode", namespace: metapsiHtmlNamespace});
 }
 
-export function CreateServerSideAttributes(componentClass: csharp.TypeReference, attribute: string, typeDefinition: string) : csharp.SyntaxNode[] {
-    var outList : csharp.SyntaxNode[] = [];
+export function getIHtmlNodeType() {
+    return new csharp.TypeReference({ name: "IHtmlNode", namespace: metapsiHtmlNamespace });
+}
+
+export function CreateServerSideAttributes(componentClass: csharp.TypeReference, attribute: string, typeDefinition: string): csharp.SyntaxNode[] {
+    var outList: csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
     attrTypeHandler.onStringLiteral = (value) => {
         outList.push(createStringLiteralAttribute(componentClass, attribute, value));
@@ -237,7 +228,11 @@ export function CreateServerSideAttributes(componentClass: csharp.TypeReference,
     attrTypeHandler.onString = () => {
         outList.push(createStringAttribute(componentClass, attribute));
     }
-    if(attribute) {
+    attrTypeHandler.onNumber = () => {
+        outList.push(createStringAttribute(componentClass, attribute));
+    }
+
+    if (attribute) {
         typeParser.handleTypeDefinition(typeDefinition, attrTypeHandler);
     }
 

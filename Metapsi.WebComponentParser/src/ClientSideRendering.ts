@@ -1,8 +1,9 @@
-import * as csharp from './CSharpContracts';
-import { getVarType } from './CSharpWebComponentContracts';
-import { getActionType, getListType } from './CSharpContracts';
-import { toCSharpValidName, metapsiHtmlNamespace } from './CSharpWebComponentContracts';
-import * as typeParser from './TypeParser';
+import * as csharp from './CSharpContracts.js';
+import { getVarType } from './CSharpWebComponentContracts.js';
+import { getActionType, getListType } from './CSharpContracts.js';
+import { toCSharpValidName } from './CSharpWebComponentContracts.js';
+import * as ts from "typescript";
+import * as typeParser from './TypeParser.js';
 
 export function getIVNodeType() {
     return new csharp.TypeReference({ name: "IVNode", namespace: "Metapsi.Hyperapp" });
@@ -141,6 +142,18 @@ export function createClientSidePropSetters(componentClass: csharp.TypeDefinitio
         outList.push(createStringProperty(componentClass, propertyName));
         outList.push(createStringConstProperty(componentClass, propertyName));
     }
+
+    attrTypeHandler.onNumber = () => {
+        outList.push(createIntProperty(componentClass, propertyName));
+        outList.push(createDecimalProperty(componentClass, propertyName));
+    }
+
+    attrTypeHandler.onArray = (itemType: ts.TypeNode) =>
+    {
+        
+        //outList.push(createListProperty(componentClass, propertyName, ))
+    }
+
     typeParser.handleTypeDefinition(typeDefinition, attrTypeHandler);
 
     return outList;
@@ -246,6 +259,78 @@ export function createStringProperty(controlType: csharp.TypeDefinition, propert
             b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
 
             b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.getSystemStringType())));
+
+            b.body.push(
+                csharp.FunctionCallNode(
+                    "b",
+                    "SetProperty",
+                    csharp.identifierNode("b.Props"),
+                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
+                    csharp.identifierNode(propertyName)));
+        });
+}
+
+export function createIntProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+    var genericControlType = new csharp.TypeParameter("T");
+    genericControlType.typeConstraints.push(controlType.name);
+    var methodName = "Set" + toCSharpValidName(propertyName);
+    return csharp.MethodDefinitionNode(
+        methodName,
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.typeParameters.push(genericControlType);
+            b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
+
+            b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.getSystemIntType())));
+
+            b.body.push(
+                csharp.FunctionCallNode(
+                    "b",
+                    "SetProperty",
+                    csharp.identifierNode("b.Props"),
+                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
+                    csharp.identifierNode(propertyName)));
+        });
+}
+
+export function createDecimalProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+    var genericControlType = new csharp.TypeParameter("T");
+    genericControlType.typeConstraints.push(controlType.name);
+    var methodName = "Set" + toCSharpValidName(propertyName);
+    return csharp.MethodDefinitionNode(
+        methodName,
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.typeParameters.push(genericControlType);
+            b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
+
+            b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.getSystemDecimalType())));
+
+            b.body.push(
+                csharp.FunctionCallNode(
+                    "b",
+                    "SetProperty",
+                    csharp.identifierNode("b.Props"),
+                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
+                    csharp.identifierNode(propertyName)));
+        });
+}
+
+export function createListProperty(controlType: csharp.TypeDefinition, propertyName: string, itemType: csharp.TypeReference): csharp.SyntaxNode {
+    var genericControlType = new csharp.TypeParameter("T");
+    genericControlType.typeConstraints.push(controlType.name);
+    var methodName = "Set" + toCSharpValidName(propertyName);
+    return csharp.MethodDefinitionNode(
+        methodName,
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.typeParameters.push(genericControlType);
+            b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
+
+            b.parameters.push(new csharp.Parameter(propertyName, getVarType(csharp.getListType(itemType))));
 
             b.body.push(
                 csharp.FunctionCallNode(

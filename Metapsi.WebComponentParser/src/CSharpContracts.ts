@@ -504,6 +504,14 @@ export function getSystemStringType(): TypeReference {
     return new TypeReference({name : "string"});
 }
 
+export function getSystemIntType(): TypeReference {
+    return new TypeReference({name : "int"});
+}
+
+export function getSystemDecimalType(): TypeReference {
+    return new TypeReference({name : "int"});
+}
+
 export function getSystemBoolType(): TypeReference {
     return new TypeReference({name : "bool"});
 }

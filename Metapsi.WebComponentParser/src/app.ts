@@ -1,47 +1,19 @@
 import * as fs from "fs";
 
-import * as customElementManifestSchema from 'custom-elements-manifest/schema';
-import type { CustomElementDeclaration  } from 'custom-elements-manifest/schema';
 
-import * as csharp from './CSharpContracts';
-import * as cswc from './CSharpWebComponentContracts';
+import type { CustomElementDeclaration } from 'custom-elements-manifest';
+
+
+
 import { exit } from "process";
+
+import * as genShoelace from "./GenerateShoelace.js"
+
+await genShoelace.GenerateShoelace("2.20.1", "C:\\github\\qwebsolutions\\metapsi\\Metapsi.Shoelace\\Controls");
 
 //import("@shoelace-style/shoelace");
 
 //import shoelaceManifest from 'shoelace/custom-elements.json' assert { type: 'json' };
-
-function LoadShoelace(){
-    //const manifestJson  = await import('@shoelace-style/shoelace/dist/custom-elements.json', { assert: { type: 'json' } });
-    var manifestJsonString = fs.readFileSync("C:\\github\\qwebsolutions\\metapsi\\Metapsi.Shoelace.Generate\\custom-elements2.19.0.json", "utf8");
-    var manifestJson = JSON.parse(manifestJsonString);
-    var shoelaceManifest: customElementManifestSchema.Package = manifestJson as customElementManifestSchema.Package;
-    //console.log(shoelaceManifest.modules);
-     shoelaceManifest.modules.forEach(m =>{
-        m.declarations?.forEach(d=>{
-            //console.log("e.kind:"+ e.kind);
-            switch(d.kind){
-                case "class":
-                    var dec = d as customElementManifestSchema.CustomElement;
-                    //console.log(dec);
-                    if(dec.name == "SlButton"){
-
-                        var slButtonFilePath:string = "C:\\github\\qwebsolutions\\metapsi\\Metapsi.Shoelace\\Controls\\SlButton.cs";
-                        fs.writeFileSync(slButtonFilePath, csharp.fileToCSharp(cswc.fromManifest(dec, "Metapsi.Shoelace")), 'utf-8');
-                }
-            }
-        })
-     })
-    }
-
-// async function LoadIonic() {
-//     const docs = await import('@ionic/core/dist/docs.json', { assert: { type: 'json' } });
-//     console.log(docs.default);
-// }
-
-
-
-LoadShoelace();
 
 
 
@@ -82,7 +54,7 @@ LoadShoelace();
 //             {
 //                 b.type = stringType();
 //             });
-//         b.addMethod("OnSlBlur", 
+//         b.addMethod("OnSlBlur",
 //             b=>
 //             {
 //                 b.isStatic = true;
@@ -106,8 +78,8 @@ LoadShoelace();
 //                 var p1 = new csharp.Parameter("b");
 //                 p1.isThis = true;
 //                 p1.type = csharp.CreateType(
-//                     "PropsBuilder", 
-//                     b=>{ 
+//                     "PropsBuilder",
+//                     b=>{
 //                         b.typeDef.typeArguments?.push({ argType : "GenericType", genericType : tComponent });
 //                     });
 //                 b.parameters.push(p1);
