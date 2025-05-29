@@ -1,3 +1,9 @@
+/*
+This handles the part of generating C#.
+It just defines contracts for C# output.
+It is not directly related to web components.
+*/
+
 const indentSize = 4;
 
 export enum NodeType {
@@ -69,7 +75,7 @@ export interface IType {
 }
 
 /**
- * The actual definition we output, with declaration & body
+ * The actual definition of a class/interface, with declaration & body
  */
 export class TypeDefinition implements IType {
     keyword: "class" | "interface" = "class";

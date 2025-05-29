@@ -15,7 +15,13 @@ export async function GenerateShoelace(version: string, outFolder: string): Prom
                         var dec = d as customElementManifestSchema.CustomElement;
                         var controlName = dec.name;
                         var slFilePath = path.join(outFolder, controlName + ".cs");
-                        var csharpDefinition = cswc.fromManifest(dec, "Metapsi.Shoelace");
+                        var csharpDefinition = cswc.fromManifest(
+                            dec,
+                            "Metapsi.Shoelace",
+                            cswc.GetDefaultWebComponentConverter({
+                                ssrConstructorName: "SlTag",
+                                csrConstructorName: "SlNode"
+                            }));
                         var csharpFileString = csharp.fileToCSharp(csharpDefinition);
                         await fs.writeFile(slFilePath, csharpFileString, 'utf-8');
                         console.log(slFilePath);

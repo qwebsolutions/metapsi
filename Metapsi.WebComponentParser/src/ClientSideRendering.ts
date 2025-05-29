@@ -35,7 +35,7 @@ export function getLayoutBuilderParameter() {
     return thisHtmlBuilder;
 }
 
-export function createClientSideConstructors(controlType: string, tagName: string, nodeBuilderName: string, comment: string) {
+export function createClientSideConstructors(controlType: string, tagName: string, nodeBuilderName: string) {
     var methods: csharp.SyntaxNode[] = [];
 
     var currentControlType = new csharp.TypeReference({ name: controlType });
@@ -168,7 +168,7 @@ export function createClientSidePropSetters(componentClass: csharp.TypeDefinitio
         }
 
         if(fnText == '(option: SlOption, index: number) => TemplateResult | string | HTMLElement'){
-            
+
         }
 
         throw `Function type ${fnText} not supported`;
