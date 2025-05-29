@@ -5,14 +5,11 @@ import * as path from "path";
 const mainTypeName = "TempType";
 
 export class TypeHandler {
-    onUnion: (union: ts.UnionTypeNode) => boolean = (union) => false;
-    onString?: () => void;
-    onStringLiteral?: (literal: string) => void;
-    onBoolean?: () => void;
-    onFunction?: (f: ts.FunctionOrConstructorTypeNode) => void;
-    onArray?: (item: ts.TypeNode) => void;
-    onTypeReference?: (type: ts.EntityName) => void;
-    onNumber?: () => void;
+    onType?: (jsType: string) => void;
+    onLiteral?: (literal: string, jsType: string) => void;
+    // parsing the function just not seems to be worth it
+    onFunction?: (fText: string) => void;
+    onArray?: (itemJsType: string) => void;
 }
 
 function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler: TypeHandler): void {
@@ -25,22 +22,19 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
             // Ignore 'undefined' type
             return;
         case ts.SyntaxKind.BooleanKeyword:
-            typeHandler.onBoolean!();
+            typeHandler.onType!("boolean");
             return;
         case ts.SyntaxKind.StringKeyword:
-            typeHandler.onString!();
+            typeHandler.onType!("string");
             return;
         case ts.SyntaxKind.NumberKeyword:
-            typeHandler.onNumber!();
+            typeHandler.onType!("number");
             return;
     }
 
     // recurse on union type
     if (ts.isUnionTypeNode(typeNode)) {
-        var stop = typeHandler.onUnion(typeNode);
-        if (!stop) {
-            typeNode.types.forEach(t => handleType(t, checker, typeHandler));
-        }
+        typeNode.types.forEach(t => handleType(t, checker, typeHandler));
         return;
     }
 
@@ -48,7 +42,10 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
     if (ts.isLiteralTypeNode(typeNode)) {
         switch (typeNode.literal.kind) {
             case ts.SyntaxKind.StringLiteral:
-                typeHandler.onStringLiteral!(typeNode.literal.text);
+                typeHandler.onLiteral!(typeNode.literal.text, "string");
+                return;
+            case ts.SyntaxKind.NumericLiteral:
+                typeHandler.onLiteral!(typeNode.literal.text, "number");
                 return;
             default:
                 throw `Literal SyntaxKind ${typeNode.literal.kind} not supported!`
@@ -56,12 +53,18 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
     }
 
     if (ts.isFunctionTypeNode(typeNode)) {
-        typeHandler.onFunction!(typeNode);
+        typeHandler.onFunction!(typeNode.getFullText());
         return;
     }
     if (ts.isArrayTypeNode(typeNode)) {
-        typeHandler.onArray!(typeNode.elementType);
+        typeHandler.onArray!(typeNode.elementType.getText());
         return;
+        // if (ts.isTypeReferenceNode(typeNode.elementType)) {
+        //     //if(ts.isTypeReferenceNode(typeNode.elementType.typeName))
+        //     typeHandler.onArray!(typeNode.elementType.typeName.getText());
+        //     return;
+        // }
+        // typeNode.elementType.getText();
     }
     if (ts.isTypeAliasDeclaration(typeNode)) {
         console.log("Direct type alias");
@@ -77,53 +80,42 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
                             handleType(declaration.type, checker, typeHandler);
                             return;
                         }
-                        if(ts.isInterfaceDeclaration(declaration)) {
-                            handleType(ts.factory.createTypeReferenceNode(declaration.name), checker, typeHandler);
+                        if (ts.isInterfaceDeclaration(declaration)) {
+                            typeHandler.onType!(declaration.name.text);
+                            //handleType(checker.getDeclaredTypeOfSymbol(declaration.symbol), checker, typeHandler);
                             return;
                         }
                     }
                 }
             }
         }
-        throw "Type reference not found!";
-        // if (ts.isTypeAliasDeclaration(typeNode)) {
-        //     console.log("Indirect type alias");
-        // }
-        // if (ts.isIdentifier(typeNode.typeName)) {
-        //     var symbolAtLocation = checker.getSymbolAtLocation(typeNode.typeName);
-        //     const resolvedSymbol = (symbolAtLocation!.flags & ts.SymbolFlags.Alias) ?
-        //         checker.getAliasedSymbol(symbolAtLocation!)
-        //         : symbolAtLocation;
-        // }
-        // var referencedSymbol = checker.getSymbolAtLocation(typeNode.typeName);
-        // if (referencedSymbol?.declarations) {
 
-        // }
-        // else {
-        //     var symbolType = checker.getTypeOfSymbolAtLocation(referencedSymbol!, typeNode);
-        // }
-        // if (referencedSymbol) {
-        //     if (referencedSymbol.flags & ts.SymbolFlags.Alias) {
-        //         referencedSymbol = checker.getAliasedSymbol(referencedSymbol);
-        //     }
-        // }
-
-        // // if (ts.isTypeAliasDeclaration(referencedSymbol!)) {
-        // //     console.log("Is type alias");
-        // // }
-        // if (!referencedSymbol?.declarations) {
-        //     referencedSymbol = checker.getAliasedSymbol(referencedSymbol!);
-        // }
-        // var referencedDeclaration = referencedSymbol?.declarations![0];
-        // if (ts.isTypeAliasDeclaration(referencedDeclaration!)) {
-        //     handleType(referencedDeclaration.type, checker, typeHandler);
-        // }
-        // typeHandler.onTypeReference!(typeNode.typeName);
+        // if no reference to the type was found, just use the type name as text and hope for the best
+        typeHandler.onType!(typeNode.typeName.getText());
         return;
     }
 
     throw `SyntaxKind ${typeNode.kind} not supported in ${typeNode}!`
 }
+
+// function getTypeReferenceName(typeReferenceNode: ts.TypeReferenceNode, checker: ts.TypeChecker):string {
+//     if (ts.isIdentifier(typeReferenceNode.typeName)) {
+//         var symbolAtLocation = checker.getSymbolAtLocation(typeReferenceNode.typeName);
+//         if (symbolAtLocation) {
+//             if (symbolAtLocation.declarations) {
+//                 for (var declaration of symbolAtLocation.declarations) {
+//                     if (ts.isTypeAliasDeclaration(declaration)) {
+//                         return declaration.type;
+//                     }
+//                     if (ts.isInterfaceDeclaration(declaration)) {
+//                         return declaration;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     throw "Type reference not found!";
+// }
 
 export function handleTypeDefinition(typeDefinition: string, typeHandler: TypeHandler): void {
     try {
@@ -146,9 +138,9 @@ export function parseTypeText(typeText: string): TypeAnalyzer {
     // Create a virtual source file with a type alias declaration
     const sourceCode = `type ${mainTypeName}=${typeText};`;
 
-    if (sourceCode.includes("Playback")) {
-        console.log(sourceCode);
-    }
+    // if (sourceCode.includes("Playback")) {
+    //     console.log(sourceCode);
+    // }
 
     // Create a SourceFile object from the string
     const sourceFile = ts.createSourceFile(

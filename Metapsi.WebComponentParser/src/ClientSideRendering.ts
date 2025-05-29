@@ -130,28 +130,48 @@ export function createClientSideConstructors(controlType: string, tagName: strin
 export function createClientSidePropSetters(componentClass: csharp.TypeDefinition, propertyName: string, typeDefinition: string): csharp.SyntaxNode[] {
     var outList: csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
-    attrTypeHandler.onStringLiteral = (value) => {
-        outList.push(createStringLiteralProperty(componentClass, propertyName, value));
+    attrTypeHandler.onLiteral = (value, jsType) => {
+        switch (jsType) {
+            case "string":
+                outList.push(createStringLiteralProperty(componentClass, propertyName, value));
+                break;
+        }
     }
-    attrTypeHandler.onBoolean = () => {
-        outList.push(createBoolSetValueProperty(componentClass, propertyName));
-        outList.push(createBoolSetTrueProperty(componentClass, propertyName));
-        outList.push(createBoolSetConstProperty(componentClass, propertyName));
-    }
-    attrTypeHandler.onString = () => {
-        outList.push(createStringProperty(componentClass, propertyName));
-        outList.push(createStringConstProperty(componentClass, propertyName));
+    attrTypeHandler.onType = (jsType: string) => {
+        switch (jsType) {
+            case "boolean":
+                outList.push(createBoolSetValueProperty(componentClass, propertyName));
+                outList.push(createBoolSetTrueProperty(componentClass, propertyName));
+                outList.push(createBoolSetConstProperty(componentClass, propertyName));
+                break;
+            case "string":
+                outList.push(createStringProperty(componentClass, propertyName));
+                outList.push(createStringConstProperty(componentClass, propertyName));
+                break;
+            case "number":
+                outList.push(createIntProperty(componentClass, propertyName));
+                outList.push(createDecimalProperty(componentClass, propertyName));
+                break;
+        }
     }
 
-    attrTypeHandler.onNumber = () => {
-        outList.push(createIntProperty(componentClass, propertyName));
-        outList.push(createDecimalProperty(componentClass, propertyName));
+    attrTypeHandler.onArray = (itemType: string) => {
+        outList.push(createListProperty(componentClass, propertyName, csharp.getTypeReference(itemType)))
     }
 
-    attrTypeHandler.onArray = (itemType: ts.TypeNode) =>
+    attrTypeHandler.onFunction = (fnText: string) =>
     {
-        
-        //outList.push(createListProperty(componentClass, propertyName, ))
+        if(fnText == "(value: number) => string"){
+            outList.push(createFormatterFunctionProperty(componentClass, propertyName));
+            outList.push(createSelfDefiningFormatterFunctionProperty(componentClass, propertyName));
+            return;
+        }
+
+        if(fnText == '(option: SlOption, index: number) => TemplateResult | string | HTMLElement'){
+            
+        }
+
+        throw `Function type ${fnText} not supported`;
     }
 
     typeParser.handleTypeDefinition(typeDefinition, attrTypeHandler);
@@ -361,6 +381,52 @@ export function createStringConstProperty(controlType: csharp.TypeDefinition, pr
                     "b",
                     methodName,
                     csharp.FunctionCallNode("b", "Const", csharp.identifierNode(propertyName))));
+        });
+}
+
+export function createFormatterFunctionProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+    var genericControlType = new csharp.TypeParameter("T");
+    genericControlType.typeConstraints.push(controlType.name);
+
+    var methodName = "Set" + toCSharpValidName(propertyName);
+    return csharp.MethodDefinitionNode(
+        methodName,
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.typeParameters.push(genericControlType);
+            b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
+
+            b.parameters.push(new csharp.Parameter(propertyName, getVarType(getSystemFunc(csharp.getSystemDecimalType(), csharp.getSystemStringType()))));
+            b.body.push(
+                csharp.FunctionCallNode(
+                    "b",
+                    "SetProperty",
+                    csharp.identifierNode("b.Props"),
+                    csharp.FunctionCallNode("b", "Const", csharp.stringLiteralNode(propertyName)),
+                    csharp.identifierNode(propertyName)));
+        });
+}
+
+export function createSelfDefiningFormatterFunctionProperty(controlType: csharp.TypeDefinition, propertyName: string): csharp.SyntaxNode {
+    var genericControlType = new csharp.TypeParameter("T");
+    genericControlType.typeConstraints.push(controlType.name);
+
+    var methodName = "Set" + toCSharpValidName(propertyName);
+    return csharp.MethodDefinitionNode(
+        methodName,
+        csharp.getVoidType(),
+        b => {
+            b.isStatic = true;
+            b.typeParameters.push(genericControlType);
+            b.parameters.push(getPropsBuilderParameter(new csharp.TypeReference(genericControlType)));
+
+            b.parameters.push(new csharp.Parameter(propertyName, getSystemFunc(getSyntaxBuilderType(), getVarType(csharp.getSystemDecimalType()), getVarType(csharp.getSystemStringType()))));
+            b.body.push(
+                csharp.FunctionCallNode(
+                    "b",
+                    methodName,
+                    csharp.FunctionCallNode("b", "Def", csharp.identifierNode(propertyName))));
         });
 }
 

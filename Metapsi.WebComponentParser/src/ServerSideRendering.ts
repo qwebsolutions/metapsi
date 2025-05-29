@@ -1,5 +1,5 @@
 import * as csharp from './CSharpContracts.js';
-import { toCSharpValidName, metapsiHtmlNamespace } from './CSharpWebComponentContracts.js';
+import { toCSharpValidName, metapsiHtmlNamespace, toCSharpValidAttribute } from './CSharpWebComponentContracts.js';
 import { getDictionaryType, getActionType, getListType } from './CSharpContracts.js';
 import * as typeParser from './TypeParser.js';
 
@@ -123,9 +123,10 @@ export function createServerSideConstructors(controlType: string, tagName: strin
     return methods;
 }
 
-export function createStringLiteralAttribute(controlType: csharp.TypeReference, propertyName: string, value: string): csharp.SyntaxNode {
+export function createStringLiteralAttribute(controlType: csharp.TypeReference, attribute: string, value: string): csharp.SyntaxNode {
+
     return csharp.MethodDefinitionNode(
-        "Set" + toCSharpValidName(propertyName) + toCSharpValidName(value),
+        "Set" + toCSharpValidName(attribute) + toCSharpValidName(value),
         csharp.getVoidType(),
         b => {
             b.isStatic = true;
@@ -134,7 +135,7 @@ export function createStringLiteralAttribute(controlType: csharp.TypeReference, 
                 csharp.FunctionCallNode(
                     "b",
                     "SetAttribute",
-                    csharp.stringLiteralNode(propertyName),
+                    csharp.stringLiteralNode(attribute),
                     csharp.stringLiteralNode(value)));
         });
 }
@@ -145,9 +146,12 @@ export function createStringLiteralAttribute(controlType: csharp.TypeReference, 
  * @param propertyName 
  * @returns 
  */
-export function createBoolValueAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
+export function createBoolValueAttribute(controlType: csharp.TypeReference, attribute: string): csharp.SyntaxNode {
+
+    var propertyName = toCSharpValidAttribute(attribute);
+
     return csharp.MethodDefinitionNode(
-        "Set" + toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(attribute),
         csharp.getVoidType(),
         b => {
             b.isStatic = true;
@@ -160,7 +164,7 @@ export function createBoolValueAttribute(controlType: csharp.TypeReference, prop
                         b.push(csharp.FunctionCallNode(
                             "b",
                             "SetAttribute",
-                            csharp.stringLiteralNode(propertyName),
+                            csharp.stringLiteralNode(attribute),
                             csharp.stringLiteralNode("")));
                     }));
         });
@@ -172,9 +176,12 @@ export function createBoolValueAttribute(controlType: csharp.TypeReference, prop
  * @param propertyName 
  * @returns 
  */
-export function createBoolSetAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
+export function createBoolSetAttribute(controlType: csharp.TypeReference, attribute: string): csharp.SyntaxNode {
+
+    var propertyName = toCSharpValidAttribute(attribute);
+
     return csharp.MethodDefinitionNode(
-        "Set" + toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(attribute),
         csharp.getVoidType(),
         b => {
             b.isStatic = true;
@@ -183,7 +190,7 @@ export function createBoolSetAttribute(controlType: csharp.TypeReference, proper
                 csharp.FunctionCallNode(
                     "b",
                     "SetAttribute",
-                    csharp.stringLiteralNode(propertyName),
+                    csharp.stringLiteralNode(attribute),
                     csharp.stringLiteralNode("")));
         });
 }
@@ -194,9 +201,12 @@ export function createBoolSetAttribute(controlType: csharp.TypeReference, proper
  * @param propertyName 
  * @returns 
  */
-export function createStringAttribute(controlType: csharp.TypeReference, propertyName: string): csharp.SyntaxNode {
+export function createStringAttribute(controlType: csharp.TypeReference, attribute: string): csharp.SyntaxNode {
+
+    var propertyName = toCSharpValidAttribute(attribute);
+
     return csharp.MethodDefinitionNode(
-        "Set" + toCSharpValidName(propertyName),
+        "Set" + toCSharpValidName(attribute),
         csharp.getVoidType(),
         b => {
             b.isStatic = true;
@@ -206,7 +216,7 @@ export function createStringAttribute(controlType: csharp.TypeReference, propert
                 csharp.FunctionCallNode(
                     "b",
                     "SetAttribute",
-                    csharp.stringLiteralNode(propertyName),
+                    csharp.stringLiteralNode(attribute),
                     csharp.identifierNode(propertyName)));
         });
 }
@@ -216,21 +226,41 @@ export function getIHtmlNodeType() {
 }
 
 export function CreateServerSideAttributes(componentClass: csharp.TypeReference, attribute: string, typeDefinition: string): csharp.SyntaxNode[] {
+
     var outList: csharp.SyntaxNode[] = [];
     var attrTypeHandler: typeParser.TypeHandler = new typeParser.TypeHandler();
-    attrTypeHandler.onStringLiteral = (value) => {
-        outList.push(createStringLiteralAttribute(componentClass, attribute, value));
+    attrTypeHandler.onLiteral = (value, jsType) => {
+        switch (jsType) {
+            case "string":
+                outList.push(createStringLiteralAttribute(componentClass, attribute, value));
+                break;
+        }
     }
-    attrTypeHandler.onBoolean = () => {
-        outList.push(createBoolSetAttribute(componentClass, attribute));
-        outList.push(createBoolValueAttribute(componentClass, attribute));
+
+    attrTypeHandler.onType = (jsType) => {
+        switch (jsType) {
+            case "boolean":
+                outList.push(createBoolSetAttribute(componentClass, attribute));
+                outList.push(createBoolValueAttribute(componentClass, attribute));
+                break;
+            case "string":
+                outList.push(createStringAttribute(componentClass, attribute));
+                break;
+            case "number":
+                outList.push(createStringAttribute(componentClass, attribute));
+                break;
+        }
     }
-    attrTypeHandler.onString = () => {
-        outList.push(createStringAttribute(componentClass, attribute));
-    }
-    attrTypeHandler.onNumber = () => {
-        outList.push(createStringAttribute(componentClass, attribute));
-    }
+
+    attrTypeHandler.onArray = () => {
+        // Arrays are not attributes
+        console.warn(`Attribute ${attribute} is array. Skipped`)
+    };
+
+    attrTypeHandler.onFunction = () => {
+        // Functions are not attributes
+        console.warn(`Attribute ${attribute} is function. Skipped`)
+    };
 
     if (attribute) {
         typeParser.handleTypeDefinition(typeDefinition, attrTypeHandler);

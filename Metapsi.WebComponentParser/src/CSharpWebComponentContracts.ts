@@ -10,6 +10,11 @@ export function toCSharpValidName(name: string): string {
     return name.split(/[\/-]/).map(x => capitalize(x)).join("");
 }
 
+export function toCSharpValidAttribute(name: string) : string{
+    var csharpValidName = toCSharpValidName(name);
+    return csharpValidName[0].toLowerCase()+csharpValidName.substring(1);
+}
+
 export function capitalize(s: string): string {
     if (!s) return "";
     return s.charAt(0).toUpperCase() + s.slice(1);

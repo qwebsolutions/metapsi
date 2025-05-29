@@ -509,7 +509,7 @@ export function getSystemIntType(): TypeReference {
 }
 
 export function getSystemDecimalType(): TypeReference {
-    return new TypeReference({name : "int"});
+    return new TypeReference({name : "decimal"});
 }
 
 export function getSystemBoolType(): TypeReference {
