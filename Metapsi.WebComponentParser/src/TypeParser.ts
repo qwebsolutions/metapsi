@@ -101,7 +101,7 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
 export type ConstituentType =
     { kind: "literal", type: string, value: string } |
     { kind: "type", type: string } |
-    { kind: "array", itemType: string} |
+    { kind: "array", itemType: string } |
     { kind: "function", text: string }
 
 export function getConstituentTypes(typeDefinition: string) {
@@ -111,14 +111,14 @@ export function getConstituentTypes(typeDefinition: string) {
         outList.push({ kind: "literal", type: jsType, value })
     }
     typeHandler.onType = (jsType: string) => {
-        outList.push({kind:"type", type: jsType});
+        outList.push({ kind: "type", type: jsType });
     }
     typeHandler.onArray = (itemType: string) => {
-        outList.push({kind: "array", itemType})
+        outList.push({ kind: "array", itemType })
     }
     typeHandler.onFunction = (fnText: string) => {
-     
-     outList.push({kind:"function", text: fnText});
+
+        outList.push({ kind: "function", text: fnText });
     }
     handleTypeDefinition(typeDefinition, typeHandler);
     return outList;

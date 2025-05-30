@@ -106,10 +106,19 @@ export function createListChildrenTagConstructor(controlTypeName: string, tagNam
                 "b",
                 constructorFnName,
                 csharp.stringLiteralNode(tagName),
-                csharp.newKeywordNode({ ...sysTypes.systemCollectionsGenericDictionary, typeArguments: [sysTypes.systemString, sysTypes.systemString] }),                
+                csharp.newKeywordNode({ ...sysTypes.systemCollectionsGenericDictionary, typeArguments: [sysTypes.systemString, sysTypes.systemString] }),
                 csharp.identifierNode("children")))
     ]);
 }
+
+/**
+ * AttributesBuilder<T> is created by default
+ * @param setterFnName 
+ * @param controlTypeName 
+ * @param attrParameters 
+ * @param body 
+ * @returns 
+ */
 export function createAttributeSetter(setterFnName: string, controlTypeName: string, attrParameters: csharp.Parameter[], body: csharp.SyntaxNode[]): csharp.MethodDefinition {
     return {
         visibility: "public",
@@ -148,7 +157,8 @@ export function createBoolAttributeSetter(attributeName: string, controlTypeName
                     csharp.functionCallNode(
                         "b",
                         "SetAttribute",
-                        csharp.stringLiteralNode('""')
+                        csharp.stringLiteralNode(attributeName),
+                        csharp.stringLiteralNode('')
                     )
                 ]
             )
@@ -164,8 +174,47 @@ export function createDefaultTrueBoolAttributeSetter(attributeName: string, cont
         [csharp.functionCallNode(
             "b",
             "SetAttribute",
-            csharp.stringLiteralNode('""')
+            csharp.stringLiteralNode(attributeName),
+            csharp.stringLiteralNode('')
         )]
+    )
+}
+
+
+export function createStringValueAttributeSetter(attributeName: string, controlTypeName: string): csharp.MethodDefinition {
+    var parameterName = toCSharpValidParameterName(attributeName);
+    return createAttributeSetter(
+        SetterFnName(attributeName),
+        controlTypeName,
+        [{
+            name: parameterName,
+            type: sysTypes.systemString
+        }],
+        [
+            csharp.functionCallNode(
+                "b",
+                "SetAttribute",
+                csharp.stringLiteralNode(attributeName),
+                csharp.identifierNode(parameterName)
+            )
+        ]
+    )
+}
+
+
+export function createStringLiteralAttributeSetter(attributeName: string, controlTypeName: string, value: string): csharp.MethodDefinition {
+    return createAttributeSetter(
+        SetterFnName(attributeName, value),
+        controlTypeName,
+        [],
+        [
+            csharp.functionCallNode(
+                "b",
+                "SetAttribute",
+                csharp.stringLiteralNode(attributeName),
+                csharp.stringLiteralNode(value)
+            )
+        ]
     )
 }
 

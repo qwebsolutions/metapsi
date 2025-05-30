@@ -16,8 +16,8 @@ import {
     Call
 } from "./CSharpContracts.js"
 
-export type FillSyntaxNodesFn<TFileStructure, TEntity extends { kind: string }> = (fileStructure: TFileStructure, entity: TEntity, syntaxNodes: csharp.SyntaxNode[]) => void;
-export type GetFileContentFn<TFileStructure> = (fileStructure: TFileStructure) => File;
+//export type FillSyntaxNodesFn<TFileStructure, TEntity extends { kind: string }> = (fileStructure: TFileStructure, entity: TEntity, syntaxNodes: csharp.SyntaxNode[]) => void;
+//export type GetFileContentFn<TFileStructure> = (fileStructure: TFileStructure) => File;
 
 const indentSize = 4;
 
@@ -81,8 +81,11 @@ export function toCSharp(node: SyntaxNode, indentLevel: number): string {
             return callToCSharp(node.call, indentLevel);
         case NodeType.IfStatement:
             return ifStatementToCSharp(node.ifStatement, indentLevel);
+            case NodeType.TypeReference: 
+            return "" // Type references are directly handled inside the other cases
         default:
-            throw `Not implemented ${node}`;
+            const check: never = node;
+            return ""
     }
 }
 
@@ -240,12 +243,12 @@ function callToCSharp(node: Call, indentLevel: number) {
 }
 
 function ifStatementToCSharp(node: IfStatement, indentLevel: number) {
-    if (node.ifBlock?.length == 1 && node.elseBlock?.length == 0) {
-        return `${spaces(indentLevel)} if (${toCSharp(node.onExpression!, 0)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
+    if (node.ifBlock?.length == 1 && !node.elseBlock?.length) {
+        return `${spaces(indentLevel)}if (${toCSharp(node.onExpression!, 0)}) ${toCSharp(node.ifBlock.at(0)!, 0)}`
     }
     var lines: string[] = [];
 
-    lines.push(`${spaces(indentLevel)} if (${toCSharp(node.onExpression!, 0)})`);
+    lines.push(`${spaces(indentLevel)}if (${toCSharp(node.onExpression!, 0)})`);
     lines.push(spaces(indentLevel) + "{");
     node.ifBlock!.forEach(statement => {
         lines.push(toCSharp(statement, indentLevel + 1));

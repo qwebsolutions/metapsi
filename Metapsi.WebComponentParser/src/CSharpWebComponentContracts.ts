@@ -11,6 +11,33 @@ import * as sysTypes from './CSharpSystemTypes.js'
 
 export const metapsiHtmlNamespace: string = "Metapsi.Html";
 
+export type WebComponentInputEntity =
+    | { kind: "customElement", name: string, tag: string, description: string }
+    | { kind: "slot", name: string, description: string }
+    | { kind: "method", name: string, description: string }
+    | { kind: "attribute", name: string, description: string, type: string }
+    | { kind: "property", name: string, description: string, type: string }
+    | { kind: "event", name: string, description: string, customDetailType: string }
+
+// type WebComponentDefinition = {
+//     element: schema.CustomElement;
+//     slots: schema.Slot[];
+//     methods: schema.ClassMethod[];
+//     attributes: schema.Attribute[];
+//     properties: schema.ClassField[];
+//     events: schema.Event[]
+// }
+export type WebComponentNode =
+    { kind: "ssrConstructor", node: csharp.SyntaxNode } |
+    { kind: "csrConstructor", node: csharp.SyntaxNode } |
+    { kind: "slotConstant", node: csharp.SyntaxNode } |
+    { kind: "methodConstant", node: csharp.SyntaxNode } |
+    { kind: "attributeSetter", node: csharp.SyntaxNode } |
+    { kind: "propertySetter", node: csharp.SyntaxNode } |
+    { kind: "event", node: csharp.SyntaxNode } |
+    { kind: "classMember", node: csharp.SyntaxNode }
+
+
 type WebComponentFileStructure = {
     namespace: string,
     componentClass: csharp.TypeDefinition,
@@ -19,17 +46,7 @@ type WebComponentFileStructure = {
     extensionsClass: csharp.TypeDefinition
 }
 
-type WebComponentNodeType =
-    { kind: "ssrConstructor" } |
-    { kind: "csrConstructor" } |
-    { kind: "slotConstant" } |
-    { kind: "methodConstant" } |
-    { kind: "attributeSetter" } |
-    { kind: "propertySetter" } |
-    { kind: "event" } |
-    { kind: "classMember" }
-
-function createWebComponentStructure(element: schema.CustomElement, namespace: string): WebComponentFileStructure {
+export function createWebComponentStructure(customElementName: string, namespace: string): WebComponentFileStructure {
     var slotsClass: csharp.TypeDefinition = {
         name: "Slot",
         isStatic: true,
@@ -43,7 +60,7 @@ function createWebComponentStructure(element: schema.CustomElement, namespace: s
         body: []
     }
     var componentClass: csharp.TypeDefinition = {
-        name: element.name,
+        name: customElementName,
         isPartial: true,
         body: [
             csharp.commentNode(``),
@@ -53,7 +70,7 @@ function createWebComponentStructure(element: schema.CustomElement, namespace: s
         ]
     }
     var extensionsClass: csharp.TypeDefinition = {
-        name: element.name + "Control",
+        name: customElementName + "Control",
         isStatic: true,
         isPartial: true,
         body: []
@@ -67,38 +84,39 @@ function createWebComponentStructure(element: schema.CustomElement, namespace: s
     }
 }
 
-const fillWebComponentFile: csharpFile.FillSyntaxNodesFn<WebComponentFileStructure, WebComponentNodeType> = (fs: WebComponentFileStructure, entity: WebComponentNodeType, syntaxNodes: csharp.SyntaxNode[]) => {
+export function addWebComponentNode(fs: WebComponentFileStructure, entity: WebComponentNode): void {
     switch (entity.kind) {
         case "ssrConstructor":
-            fs.extensionsClass.body.push(...syntaxNodes);
+            fs.extensionsClass.body.push(entity.node);
             break;
         case "csrConstructor":
-            fs.extensionsClass.body.push(...syntaxNodes);
+            fs.extensionsClass.body.push(entity.node);
             break;
         case "slotConstant":
-            fs.slotsClass.body.push(...syntaxNodes);
+            fs.slotsClass.body.push(entity.node);
             break;
         case "methodConstant":
-            fs.methodsClass.body.push(...syntaxNodes);
+            fs.methodsClass.body.push(entity.node);
             break;
         case "attributeSetter":
-            fs.extensionsClass.body.push(...syntaxNodes);
+            fs.extensionsClass.body.push(entity.node);
             break;
         case "propertySetter":
-            fs.extensionsClass.body.push(...syntaxNodes);
+            fs.extensionsClass.body.push(entity.node);
             break;
         case "event":
-            fs.extensionsClass.body.push(...syntaxNodes);
+            fs.extensionsClass.body.push(entity.node);
             break;
         case "classMember":
-            fs.componentClass.body.push(...syntaxNodes);
+            fs.componentClass.body.push(entity.node);
             break;
         default:
             const c: never = entity;
     }
 }
 
-const getWebComponentFile: csharpFile.GetFileContentFn<WebComponentFileStructure> = (fs) => {
+export function getWebComponentFile(fs: WebComponentFileStructure): csharpFile.File {
+
     var outFile = new csharpFile.File();
 
     outFile.usings.push("Metapsi.Html");
@@ -114,55 +132,47 @@ const getWebComponentFile: csharpFile.GetFileContentFn<WebComponentFileStructure
 /**
  * Converter functions return more than one syntax node as a single entity can have multiple C# representations + possibly comments
  */
-export type WebComponentConverter = {
-    createSsrConstructors: (component: schema.CustomElement) => csharp.SyntaxNode[];
-    createCsrConstructors: (component: schema.CustomElement) => csharp.SyntaxNode[];
-    createSlot: (slot: schema.Slot) => csharp.SyntaxNode[];
-    createMethod: (method: schema.ClassMethod) => csharp.SyntaxNode[];
-    createAttribute: (classType: csharp.TypeReference, attribute: schema.Attribute) => csharp.SyntaxNode[];
-    createProperty: (classType: csharp.TypeReference, property: schema.ClassField) => csharp.SyntaxNode[];
-    createEvent: (classType: csharp.TypeReference, e: schema.Event) => csharp.SyntaxNode[];
-}
+// export type WebComponentConverter = {
+//     onCustomElement: (component: schema.CustomElement) => WebComponentNode[]
+//     //createSsrConstructors: (component: schema.CustomElement) => csharp.SyntaxNode[];
+//     //createCsrConstructors: (component: schema.CustomElement) => csharp.SyntaxNode[];
+//     onSlot: (slot: schema.Slot) => WebComponentNode[]
+//     onMethod: (method: schema.ClassMethod) => WebComponentNode[]
+//     onAttribute: (classType: csharp.TypeReference, attribute: schema.Attribute) => WebComponentNode[]
+//     onProperty: (classType: csharp.TypeReference, property: schema.ClassField) => WebComponentNode[]
+//     onEvent: (classType: csharp.TypeReference, e: schema.Event) => WebComponentNode[]
+// }
 
 /**
  * Identifies the list of entities to process
  */
-type WebComponentDefinitionNavigator<T> = {
-    getElement: (def: T) => schema.CustomElement;
-    getSlots: (def: T) => schema.Slot[];
-    getMethods: (def: T) => schema.ClassMethod[];
-    getAttributes: (def: T) => schema.Attribute[];
-    getProperties: (def: T) => schema.ClassField[];
-    getEvents: (def: T) => schema.Event[]
-}
+// type WebComponentDefinitionNavigator<T> = {
+//     getElement: (def: T) => schema.CustomElement;
+//     getSlots: (def: T) => schema.Slot[];
+//     getMethods: (def: T) => schema.ClassMethod[];
+//     getAttributes: (def: T) => schema.Attribute[];
+//     getProperties: (def: T) => schema.ClassField[];
+//     getEvents: (def: T) => schema.Event[]
+// }
 
-type WebComponentDefinition = {
-    element: schema.CustomElement;
-    slots: schema.Slot[];
-    methods: schema.ClassMethod[];
-    attributes: schema.Attribute[];
-    properties: schema.ClassField[];
-    events: schema.Event[]
-}
+// type DefaultFileStructure = {
+//     componentComment: csharp.SyntaxNode;
+//     componentClass: csharp.TypeDefinition,
+//     slotsClass: csharp.TypeDefinition,
+//     methodsClass: csharp.TypeDefinition,
+//     extensionsClass: csharp.TypeDefinition
+// }
 
-type DefaultFileStructure = {
-    componentComment: csharp.SyntaxNode;
-    componentClass: csharp.TypeDefinition,
-    slotsClass: csharp.TypeDefinition,
-    methodsClass: csharp.TypeDefinition,
-    extensionsClass: csharp.TypeDefinition
-}
-
-export function GetDefinition<T>(element: T, navigator: WebComponentDefinitionNavigator<T>): WebComponentDefinition {
-    return {
-        element: navigator.getElement(element),
-        slots: navigator.getSlots(element),
-        methods: navigator.getMethods(element),
-        attributes: navigator.getAttributes(element),
-        properties: navigator.getProperties(element),
-        events: navigator.getEvents(element)
-    }
-}
+// export function GetDefinition<T>(element: T, navigator: WebComponentDefinitionNavigator<T>): WebComponentDefinition {
+//     return {
+//         element: navigator.getElement(element),
+//         slots: navigator.getSlots(element),
+//         methods: navigator.getMethods(element),
+//         attributes: navigator.getAttributes(element),
+//         properties: navigator.getProperties(element),
+//         events: navigator.getEvents(element)
+//     }
+// }
 
 // type MultiMapperFn<T> = (type: typeParser.ConstituentType) => (classType: csharp.TypeDefinition, entity: T) => csharp.SyntaxNode[];
 
@@ -185,52 +195,53 @@ export function GetDefinition<T>(element: T, navigator: WebComponentDefinitionNa
 //     }
 // }
 
-export function CreateWebComponentFile(
-    element: schema.CustomElement,
-    converter: WebComponentConverter,
-    namespace: string): csharpFile.File {
-    var defaultNavigator = GetDefaultDefinitionNavigator();
-    var webComponentDefinition = GetDefinition(element, defaultNavigator);
-    var fileStructure = createWebComponentStructure(element, namespace);
-    if (webComponentDefinition.slots) {
-        for (var slot of webComponentDefinition.slots) {
-            fillWebComponentFile(fileStructure, { kind: "slotConstant" }, converter.createSlot(slot));
-        }
-    }
-    if (webComponentDefinition.methods) {
-        for (var method of webComponentDefinition.methods) {
-            fillWebComponentFile(fileStructure, { kind: "methodConstant" }, converter.createMethod(method));
-        }
-    }
-    if (webComponentDefinition.attributes) {
-        for (var attribute of webComponentDefinition.attributes) {
-            fillWebComponentFile(fileStructure, { kind: "attributeSetter" }, converter.createAttribute(fileStructure.componentClass, attribute));
-        }
-    }
-    if (webComponentDefinition.properties) {
-        for (var property of webComponentDefinition.properties) {
-            fillWebComponentFile(fileStructure, { kind: "propertySetter" }, converter.createProperty(fileStructure.componentClass, property));
-        }
-    }
+// export function CreateWebComponentFile(
+//     element: schema.CustomElement,
+//     converter: WebComponentConverter,
+//     namespace: string): csharpFile.File {
+//     var defaultNavigator = GetDefaultDefinitionNavigator();
+//     var webComponentDefinition = GetDefinition(element, defaultNavigator);
+//     var fileStructure = createWebComponentStructure(element, namespace);
 
-    if (webComponentDefinition.events) {
-        for (var event of webComponentDefinition.events) {
-            fillWebComponentFile(fileStructure, { kind: "event" }, converter.createEvent(fileStructure.componentClass, event));
-        }
-    }
-    return getWebComponentFile(fileStructure);
-}
+//     if (webComponentDefinition.slots) {
+//         for (var slot of webComponentDefinition.slots) {
+//             fillWebComponentFile(fileStructure, converter.onSlot(slot));
+//         }
+//     }
+//     if (webComponentDefinition.methods) {
+//         for (var method of webComponentDefinition.methods) {
+//             fillWebComponentFile(fileStructure, { kind: "methodConstant" }, converter.onMethod(method));
+//         }
+//     }
+//     if (webComponentDefinition.attributes) {
+//         for (var attribute of webComponentDefinition.attributes) {
+//             fillWebComponentFile(fileStructure, { kind: "attributeSetter" }, converter.onAttribute(fileStructure.componentClass, attribute));
+//         }
+//     }
+//     if (webComponentDefinition.properties) {
+//         for (var property of webComponentDefinition.properties) {
+//             fillWebComponentFile(fileStructure, { kind: "propertySetter" }, converter.onProperty(fileStructure.componentClass, property));
+//         }
+//     }
 
-export function GetDefaultDefinitionNavigator(): WebComponentDefinitionNavigator<schema.CustomElement> {
-    return {
-        getElement: (def: schema.CustomElement) => def,
-        getSlots: (def: schema.CustomElement) => def.slots!,
-        getMethods: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "method")!,
-        getAttributes: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "field" && x.description && (x as any).attribute)!,
-        getProperties: (def: schema.CustomElement): schema.ClassField[] => def.members?.filter(x => x.kind == "field").filter(x => x.description)!,
-        getEvents: (def: schema.CustomElement) => def.events?.filter(x => !x.deprecated)!
-    }
-}
+//     if (webComponentDefinition.events) {
+//         for (var event of webComponentDefinition.events) {
+//             fillWebComponentFile(fileStructure, { kind: "event" }, converter.onEvent(fileStructure.componentClass, event));
+//         }
+//     }
+//     return getWebComponentFile(fileStructure);
+// }
+
+// export function GetDefaultDefinitionNavigator(): WebComponentDefinitionNavigator<schema.CustomElement> {
+//     return {
+//         getElement: (def: schema.CustomElement) => def,
+//         getSlots: (def: schema.CustomElement) => def.slots!,
+//         getMethods: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "method")!,
+//         getAttributes: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "field" && x.description && (x as any).attribute)!,
+//         getProperties: (def: schema.CustomElement): schema.ClassField[] => def.members?.filter(x => x.kind == "field").filter(x => x.description)!,
+//         getEvents: (def: schema.CustomElement) => def.events?.filter(x => !x.deprecated)!
+//     }
+// }
 
 // export function GetDefaultWebComponentConverter(options: { ssrConstructorName: string, csrConstructorName: string }): WebComponentConverter {
 //     return {
@@ -266,34 +277,22 @@ function escapeComment(str: string | undefined) {
 }
 
 
-export function createSlotNameConstant(s: schema.Slot): csharp.SyntaxNode[] {
-    // If not default slot
-    if (s.name) {
-        return [
-            csharp.constantNode({
-                name: toCSharpValidName(s.name),
-                type: sysTypes.systemString,
-                value: csharp.stringLiteral(s.name),
-                visibility: "public"
-            })
-        ]
-    }
-
-    return []
+export function createSlotNameConstant(slotName: string): csharp.SyntaxNode {
+    return csharp.constantNode({
+        name: toCSharpValidName(slotName),
+        type: sysTypes.systemString,
+        value: csharp.stringLiteral(slotName),
+        visibility: "public"
+    })
 }
 
-export function createMethodNameConstant(m: schema.ClassMethod): csharp.SyntaxNode[] {
-    if (m.description) {
-        return [
-            csharp.constantNode({
-                name: toCSharpValidName(m.name),
-                type: sysTypes.systemString,
-                value: csharp.stringLiteral(m.name),
-                visibility: "public"
-            })
-        ]
-    }
-    return []
+export function createMethodNameConstant(methodName: string): csharp.SyntaxNode {
+    return csharp.constantNode({
+        name: toCSharpValidName(methodName),
+        type: sysTypes.systemString,
+        value: csharp.stringLiteral(methodName),
+        visibility: "public"
+    })
 }
 
 
