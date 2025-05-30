@@ -98,24 +98,31 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
     throw `SyntaxKind ${typeNode.kind} not supported in ${typeNode}!`
 }
 
-// function getTypeReferenceName(typeReferenceNode: ts.TypeReferenceNode, checker: ts.TypeChecker):string {
-//     if (ts.isIdentifier(typeReferenceNode.typeName)) {
-//         var symbolAtLocation = checker.getSymbolAtLocation(typeReferenceNode.typeName);
-//         if (symbolAtLocation) {
-//             if (symbolAtLocation.declarations) {
-//                 for (var declaration of symbolAtLocation.declarations) {
-//                     if (ts.isTypeAliasDeclaration(declaration)) {
-//                         return declaration.type;
-//                     }
-//                     if (ts.isInterfaceDeclaration(declaration)) {
-//                         return declaration;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     throw "Type reference not found!";
-// }
+export type ConstituentType =
+    { kind: "literal", type: string, value: string } |
+    { kind: "type", type: string } |
+    { kind: "array", itemType: string} |
+    { kind: "function", text: string }
+
+export function getConstituentTypes(typeDefinition: string) {
+    var outList: ConstituentType[] = [];
+    var typeHandler: TypeHandler = new TypeHandler();
+    typeHandler.onLiteral = (value, jsType) => {
+        outList.push({ kind: "literal", type: jsType, value })
+    }
+    typeHandler.onType = (jsType: string) => {
+        outList.push({kind:"type", type: jsType});
+    }
+    typeHandler.onArray = (itemType: string) => {
+        outList.push({kind: "array", itemType})
+    }
+    typeHandler.onFunction = (fnText: string) => {
+     
+     outList.push({kind:"function", text: fnText});
+    }
+    handleTypeDefinition(typeDefinition, typeHandler);
+    return outList;
+}
 
 export function handleTypeDefinition(typeDefinition: string, typeHandler: TypeHandler): void {
     try {
