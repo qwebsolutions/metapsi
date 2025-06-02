@@ -393,14 +393,14 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
             for (var constituentType of types) {
                 if (constituentType.kind == "literal") {
                     if (constituentType.type == "string") {
-                        propertySetters.push(csr.createLiteralPropertySetter(customElementName,property.name, constituentType.value));
+                        propertySetters.push(csr.createLiteralPropertySetter(customElementName, property.name, constituentType.value));
                     }
                     else throw new Error("Literal type not supported!")
                 }
                 else {
                     if (constituentType.kind == "type") {
                         if (constituentType.type == "string") {
-                            propertySetters.push(csr.createValuePropertySetter(customElementName,property.name, sysTypes.systemString))
+                            propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemString))
                         }
                         else if (constituentType.type == "Date") {
                             console.warn(`Ignoring Date property on ${customElementName}.${property.name}`)
@@ -434,14 +434,14 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
             for (var constituentType of types) {
                 if (constituentType.kind == "literal") {
                     if (constituentType.type == "string") {
-                        propertySetters.push(csr.createLiteralPropertySetter(customElementName,property.name, constituentType.value));
+                        propertySetters.push(csr.createLiteralPropertySetter(customElementName, property.name, constituentType.value));
                     }
                     else throw new Error("Literal type not supported!")
                 }
                 else {
                     if (constituentType.kind == "type") {
                         if (constituentType.type == "string") {
-                            propertySetters.push(csr.createValuePropertySetter(customElementName,property.name, sysTypes.systemString))
+                            propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemString))
                         }
                         else throw new Error(`Unsupported type ${property.type} in ${customElementName}.${property.name}`)
                     }
@@ -519,17 +519,22 @@ function createShoelaceAttributeSetters(customElementName: string, attribute: cs
             }
         }
     }
-    return outNodes.map(x => ({ kind: "attributeSetter", node: x,comment: attribute.description }));
+    return outNodes.map(x => ({ kind: "attributeSetter", node: x, comment: attribute.description }));
 }
 
 function createShoelaceEventSetters(customElementName: string, event: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
     var outNodes: csharp.MethodDefinition[] = [];
     if (event.kind == "event") {
-        outNodes.push(csr.createVarActionEventEventSetter(customElementName, event.name));
-        outNodes.push(csr.CreateFuncSyntaxBuilderEventEventSetter(customElementName, event.name));
+        outNodes.push(createShoelaceVarActionModelEventEventSetter(customElementName, event.name));
+        outNodes.push(createShoelaceSyntaxBuilderActionModelEventEventSetter(customElementName, event.name));        
+        outNodes.push(createShoelaceVarActionModelEventSetter(customElementName, event.name));
+        outNodes.push(createShoelaceSyntaxBuilderActionModelEventSetter(customElementName, event.name));
+        // outNodes.push(csr.CreateFuncSyntaxBuilderEventEventSetter(customElementName, event.name));
+        // outNodes.push(csr.createVarActionEventSetter(customElementName, event.name));
+        // outNodes.push(csr.CreateFuncSyntaxBuilderEventSetter(customElementName, event.name));
+        if (event.customDetailType) {
 
-        outNodes.push(csr.createVarActionEventSetter(customElementName, event.name));
-        outNodes.push(csr.CreateFuncSyntaxBuilderEventSetter(customElementName, event.name));
+        }
     }
     if (!outNodes.length) {
         throw new Error(`${customElementName}.${event.name} not implemented`)
@@ -537,42 +542,137 @@ function createShoelaceEventSetters(customElementName: string, event: cswc.WebCo
     return outNodes.map(x => ({ kind: "event", node: x, comment: event.description }));
 }
 
-// function createShoelaceConverter(): cswc.WebComponentConverter {
-//     return {
-//         onCustomElement: (c) => [
+/**
+ * Var<Hypertype.Action<TModel, Html.Event>>
+ * @param customElementName 
+ * @param eventName 
+ * @returns 
+ */
+function createShoelaceVarActionModelEventEventSetter(customElementName: string, eventName: string): csharp.MethodDefinition {
+    return csr.createEventSetter(
+        cswc.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...csr.varType,
+                    typeArguments: [
+                        {
+                            ...csr.hyperappActionType,
+                            typeArguments: [
+                                { name: "TModel" },
+                                csr.domEventType
+                            ]
+                        }
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            "OnSlEvent",
+            csharp.stringLiteralNode("on" + eventName),
+            csharp.identifierNode("action")
+        )
+    ])
+}
 
-//         ],
-//         createSsrConstructors: (c) => [
+/**
+ * System.Func<SyntaxBuilder, Var<TModel>, Var<Html.Event>, Var<TModel>>
+ * @param customElementName 
+ * @param eventName 
+ * @returns 
+ */
+function createShoelaceSyntaxBuilderActionModelEventEventSetter(customElementName: string, eventName: string): csharp.MethodDefinition {
+    return csr.createEventSetter(
+        cswc.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...sysTypes.systemFunc,
+                    typeArguments: [
+                        csr.syntaxBuilderType,
+                        csr.varTModelType,
+                        csr.varDomEventType,
+                        csr.varTModelType
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            cswc.EventFnName(eventName),
+            csharp.functionCallNode("b", "MakeAction", csharp.identifierNode("action"))
+        )
+    ])
+}
 
-//         ],// ssr.createServerSideConstructors(c.name, c.tagName!, "SlTag"),
-//         createCsrConstructors: (c) => [], // csr.createClientSideConstructors(c.name, c.tagName!, "SlNode"),
-//         onSlot: cswc.createSlotNameConstant,
-//         onMethod: cswc.createMethodNameConstant,
-//         onAttribute: (classType, attribute) => {
-//             var outNodes: csharp.SyntaxNode[] = [];
-//             // var types = typeParser.getConstituentTypes(attribute.type!.text);
-//             // for (var type of types) {
-//             //     outNodes.push(...CreateShoelaceAttributes(type, classType, attribute))
-//             // }
-//             return outNodes;
-//         },
-//         onProperty: (c: csharp.TypeReference, p: customElementManifestSchema.ClassField): csharp.SyntaxNode[] => {
-//             var methodDefinitions: csharp.MethodDefinition[] = createShoelaceProperty(c, p);
-//             return methodDefinitions.map(x => ({ nodeType: csharp.NodeType.MethodDefinition, method: x }))
-//         },
-//         // createProperty: (classType, property) => {
-//         //     var outNodes: csharp.SyntaxNode[] = [];
-//         //     var types = typeParser.getConstituentTypes(property.type!.text);
-//         //     for (var type of types) {
-//         //         outNodes.push(...CreateShoelaceAttributes(type, classType, property))
-//         //     }
-//         //     return outNodes;
-//         // },
-//         onEvent: () => []
-//     }
-// }
+/**
+ * Var<HyperType.Action<TModel>>
+ * @param customElementName 
+ * @param eventName 
+ * @returns 
+ */
+function createShoelaceVarActionModelEventSetter(customElementName: string, eventName: string): csharp.MethodDefinition {
+    return csr.createEventSetter(
+        cswc.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...csr.varType,
+                    typeArguments: [
+                        {
+                            ...csr.hyperappActionType,
+                            typeArguments: [
+                                { name: "TModel" }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            "OnSlEvent",
+            csharp.stringLiteralNode("on" + eventName),
+            csharp.identifierNode("action")
+        )
+    ])
+}
 
-// async function LoadIonic() {
-//     const docs = await import('@ionic/core/dist/docs.json', { assert: { type: 'json' } });
-//     console.log(docs.default);
-// }
+
+/**
+ * System.Func<SyntaxBuilder, Var<TModel>, Var<TModel>>
+ * @param customElementName 
+ * @param eventName 
+ * @returns 
+ */
+function createShoelaceSyntaxBuilderActionModelEventSetter(customElementName: string, eventName: string): csharp.MethodDefinition {
+    return csr.createEventSetter(
+        cswc.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...sysTypes.systemFunc,
+                    typeArguments: [
+                        csr.syntaxBuilderType,
+                        csr.varTModelType,
+                        csr.varTModelType
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            cswc.EventFnName(eventName),
+            csharp.functionCallNode("b", "MakeAction", csharp.identifierNode("action"))
+        )
+    ])
+}

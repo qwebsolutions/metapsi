@@ -5,15 +5,15 @@ import * as typeParser from './TypeParser.js';
 import * as sysTypes from './CSharpSystemTypes.js';
 
 export const varType: csharp.TypeReference = { name: "Var", namespace: "Metapsi.Syntax" }
-const iVNodeType = { name: "IVNode", namespace: "Metapsi.Hyperapp" }
-const varIVNodeType: csharp.TypeReference = { ...varType, typeArguments: [iVNodeType] }
-const layoutBuilderType: csharp.TypeReference = { name: "LayoutBuilder", namespace: "Metapsi.Hyperapp" }
-const propsBuilderType = { name: "PropsBuilder", namespace: "Metapsi.Syntax" }
-const hyperappActionType = { name: "HyperType.Action", namespace: "Metapsi.Hyperapp" }
-const domEventType = { name: "Event", namespace: "Metapsi.Html" }
-const varDomEventType: csharp.TypeReference = { ...varType, typeArguments: [domEventType] }
-const syntaxBuilderType = { name: "SyntaxBuilder", namespace: "Metapsi.Syntax" }
-const varTModelType: csharp.TypeReference = { ...varType, typeArguments: [{ name: "TModel" }] }
+export const iVNodeType = { name: "IVNode", namespace: "Metapsi.Hyperapp" }
+export const varIVNodeType: csharp.TypeReference = { ...varType, typeArguments: [iVNodeType] }
+export const layoutBuilderType: csharp.TypeReference = { name: "LayoutBuilder", namespace: "Metapsi.Hyperapp" }
+export const propsBuilderType = { name: "PropsBuilder", namespace: "Metapsi.Syntax" }
+export const hyperappActionType = { name: "HyperType.Action", namespace: "Metapsi.Hyperapp" }
+export const domEventType = { name: "Event", namespace: "Metapsi.Html" }
+export const varDomEventType: csharp.TypeReference = { ...varType, typeArguments: [domEventType] }
+export const syntaxBuilderType = { name: "SyntaxBuilder", namespace: "Metapsi.Syntax" }
+export const varTModelType: csharp.TypeReference = { ...varType, typeArguments: [{ name: "TModel" }] }
 
 export function createHyperappNodeConstructor(controlTypeName: string, parameters: csharp.Parameter[], body: csharp.SyntaxNode[]): csharp.MethodDefinition {
     return {
