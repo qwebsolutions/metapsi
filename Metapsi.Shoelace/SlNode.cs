@@ -41,7 +41,7 @@ public static partial class SlNodeExtensions
     public static IHtmlNode SlTag(
         this HtmlBuilder b,
         string tag,
-        Dictionary<string,string> attributes,
+        Dictionary<string, string> attributes,
         List<IHtmlNode> children)
     {
         ImportShoelaceTag(b, tag);
@@ -162,5 +162,42 @@ public static partial class SlNodeExtensions
     {
         ImportShoelaceTag(b, tag);
         return b.H(tag, children);
+    }
+
+    internal static Var<HyperType.Effect> AwaitUpdateCompleteEffect<TState>(SyntaxBuilder b, Var<Html.Event> e, Var<HyperType.Action<TState, Html.Event>> action)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                var slControl = b.Get(e, x => x.target);
+                var updateComplete = b.GetProperty<Promise>(slControl, b.Const("updateComplete"));
+                b.PromiseThen<object>(updateComplete, (b, _) =>
+                {
+                    b.Dispatch(dispatch, action, e);
+                });
+            });
+    }
+
+    internal static Var<HyperType.Action<TState, Html.Event>> AwaitUpdateCompleteAction<TState>(SyntaxBuilder b, Var<HyperType.Action<TState, Html.Event>> action)
+    {
+        return b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<Html.Event> e) =>
+        {
+            return b.MakeStateWithEffects(model, b.Call(AwaitUpdateCompleteEffect, e, action));
+        });
+    }
+
+    internal static void OnSlEvent<TState, T>(this PropsBuilder<T> b, string eventName, Var<HyperType.Action<TState, Html.Event>> action)
+    {
+        b.SetProperty(b.Props, b.Const(eventName), b.Call(AwaitUpdateCompleteAction, action));
+    }
+
+    internal static void OnSlEvent<TState,T>(this PropsBuilder<T> b, string eventName, Var<HyperType.Action<TState>> action)
+    {
+        b.SetProperty(b.Props, b.Const(eventName), b.Call(AwaitUpdateCompleteAction, action.As<HyperType.Action<TState, Html.Event>>()));
+    }
+
+    internal static void OnSlEvent<TState, T, TEventDetail>(this PropsBuilder<T> b, string eventName, Var<HyperType.Action<TState, Html.CustomEvent<TEventDetail>>> action)
+    {
+        b.SetProperty(b.Props, b.Const(eventName), b.Call(AwaitUpdateCompleteAction, action.As<HyperType.Action<TState, Html.Event>>()));
     }
 }
