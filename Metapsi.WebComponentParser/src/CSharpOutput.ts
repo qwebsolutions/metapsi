@@ -118,10 +118,10 @@ function identifierToCSharp(node: Identifier): string {
 
 function typeDefinitionToCSharp(node: TypeDefinition, indentLevel: number) {
     var signature = [];
-    signature.push(node.visibility);
+    signature.push(node.visibility?? "public");
     if (node.isStatic) signature.push("static");
     if (node.isPartial) signature.push("partial");
-    signature.push(node.keyword);
+    signature.push(node.keyword?? "class");
     signature.push(node.name);
 
     var signatureLine = signature.join(' ');

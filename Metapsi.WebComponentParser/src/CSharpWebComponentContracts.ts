@@ -138,13 +138,11 @@ export function getWebComponentFile(
     var slotsClass: csharp.TypeDefinition = {
         name: "Slot",
         isStatic: true,
-        keyword: "class",
         body: fs.slots.map(x=> csharp.constantNode(x))
     }
     var methodsClass: csharp.TypeDefinition = {
         name: "Method",
         isStatic: true,
-        keyword: "class",
         body: fs.methods.map(x=> csharp.constantNode(x))
     }
     var componentClass: csharp.TypeDefinition = {
@@ -308,9 +306,14 @@ export function toCSharpValidName(name: string): string {
     return name.split(/[\/-]/).map(x => capitalize(x)).join("");
 }
 
+const reservedKeywords = ["checked", "event", "readonly"];
+
 export function toCSharpValidParameterName(name: string): string {
     var csharpValidName = toCSharpValidName(name);
-    return csharpValidName[0].toLowerCase() + csharpValidName.substring(1);
+    var name = csharpValidName[0].toLowerCase() + csharpValidName.substring(1);
+    if(reservedKeywords.includes(name))
+        name = "@"+name;
+    return name;
 }
 
 export function capitalize(s: string): string {

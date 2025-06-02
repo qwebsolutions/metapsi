@@ -1,5 +1,5 @@
 import * as csharp from './CSharpContracts.js';
-import { SetterFnName, EventFnName, toCSharpValidName } from './CSharpWebComponentContracts.js';
+import { SetterFnName, EventFnName, toCSharpValidName, toCSharpValidParameterName } from './CSharpWebComponentContracts.js';
 import * as ts from "typescript";
 import * as typeParser from './TypeParser.js';
 import * as sysTypes from './CSharpSystemTypes.js';
@@ -195,7 +195,7 @@ export function createValuePropertySetter(controlTypeName: string, propertyName:
         SetterFnName(propertyName),
         controlTypeName,
         [{
-            name: propertyName,
+            name: toCSharpValidParameterName(propertyName),
             type: { ...varType, typeArguments: [csharpType] }
         }],
         [
@@ -207,7 +207,7 @@ export function createValuePropertySetter(controlTypeName: string, propertyName:
                     "b",
                     "Const",
                     csharp.stringLiteralNode(propertyName)),
-                csharp.identifierNode(propertyName))
+                csharp.identifierNode(toCSharpValidParameterName(propertyName)))
         ])
 }
 
@@ -216,7 +216,7 @@ export function createConstRedirectValuePropertySetter(controlTypeName: string, 
         SetterFnName(propertyName),
         controlTypeName,
         [{
-            name: propertyName,
+            name: toCSharpValidParameterName(propertyName),
             type: csharpType
         }],
         [
@@ -226,7 +226,7 @@ export function createConstRedirectValuePropertySetter(controlTypeName: string, 
                 csharp.functionCallNode(
                     "b",
                     "Const",
-                    csharp.identifierNode(propertyName)))
+                    csharp.identifierNode(toCSharpValidParameterName(propertyName))))
         ])
 }
 

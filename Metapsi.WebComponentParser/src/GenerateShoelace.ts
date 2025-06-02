@@ -31,10 +31,11 @@ export async function GenerateShoelace(version: string, outFolder: string): Prom
                             }
                             var file = cswc.getWebComponentFile(fileStructure, dec.name, "Metapsi.Shoelace");
                             var slFilePath = path.join(outFolder, dec.name + ".cs");
+                            console.log(`Generating ${slFilePath} ...`);
                             var csharpFileString = csharpFile.fileToCSharp(file);
-                            //await fs.writeFile(slFilePath, csharpFileString, 'utf-8');
-                            console.log(slFilePath);
-                            console.log(csharpFileString);
+                            await fs.writeFile(slFilePath, csharpFileString, 'utf-8');
+                            console.log(`done`);
+                            //console.log(csharpFileString);
                         }
                 }
             }
@@ -97,6 +98,9 @@ function getInputEntities(def: customElementManifestSchema.CustomElement): cswc.
  * @returns 
  */
 export function convertShoelaceEntity(customElementName: string, inputEntity: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
+    if(customElementName.includes("Checkbox")){
+        console.log(customElementName);
+    }
     switch (inputEntity.kind) {
         case "customElement":
             return [
@@ -382,14 +386,14 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
             for (var constituentType of types) {
                 if (constituentType.kind == "literal") {
                     if (constituentType.type == "string") {
-                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, constituentType.value));
+                        propertySetters.push(csr.createLiteralPropertySetter(customElementName,property.name, constituentType.value));
                     }
                     else throw new Error("Literal type not supported!")
                 }
                 else {
                     if (constituentType.kind == "type") {
                         if (constituentType.type == "string") {
-                            propertySetters.push(ssr.createStringValueAttributeSetter(property.name, customElementName))
+                            propertySetters.push(csr.createValuePropertySetter(customElementName,property.name, sysTypes.systemString))
                         }
                         else if (constituentType.type == "Date") {
                             console.warn(`Ignoring Date property on ${customElementName}.${property.name}`)
@@ -423,14 +427,14 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
             for (var constituentType of types) {
                 if (constituentType.kind == "literal") {
                     if (constituentType.type == "string") {
-                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, constituentType.value));
+                        propertySetters.push(csr.createLiteralPropertySetter(customElementName,property.name, constituentType.value));
                     }
                     else throw new Error("Literal type not supported!")
                 }
                 else {
                     if (constituentType.kind == "type") {
                         if (constituentType.type == "string") {
-                            propertySetters.push(ssr.createStringValueAttributeSetter(property.name, customElementName))
+                            propertySetters.push(csr.createValuePropertySetter(customElementName,property.name, sysTypes.systemString))
                         }
                         else throw new Error(`Unsupported type ${property.type} in ${customElementName}.${property.name}`)
                     }
