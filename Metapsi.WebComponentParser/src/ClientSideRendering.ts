@@ -4,7 +4,7 @@ import * as ts from "typescript";
 import * as typeParser from './TypeParser.js';
 import * as sysTypes from './CSharpSystemTypes.js';
 
-const varType: csharp.TypeReference = { name: "Var", namespace: "Metapsi.Syntax" }
+export const varType: csharp.TypeReference = { name: "Var", namespace: "Metapsi.Syntax" }
 const iVNodeType = { name: "IVNode", namespace: "Metapsi.Hyperapp" }
 const varIVNodeType: csharp.TypeReference = { ...varType, typeArguments: [iVNodeType] }
 const layoutBuilderType: csharp.TypeReference = { name: "LayoutBuilder", namespace: "Metapsi.Hyperapp" }
@@ -13,7 +13,7 @@ const hyperappActionType = { name: "HyperType.Action", namespace: "Metapsi.Hyper
 const domEventType = { name: "Event", namespace: "Metapsi.Html" }
 const varDomEventType: csharp.TypeReference = { ...varType, typeArguments: [domEventType] }
 const syntaxBuilderType = { name: "SyntaxBuilder", namespace: "Metapsi.Syntax" }
-const varTModelType = { name: "TModel" }
+const varTModelType: csharp.TypeReference = { ...varType, typeArguments: [{ name: "TModel" }] }
 
 export function createHyperappNodeConstructor(controlTypeName: string, parameters: csharp.Parameter[], body: csharp.SyntaxNode[]): csharp.MethodDefinition {
     return {
@@ -211,7 +211,7 @@ export function createValuePropertySetter(controlTypeName: string, propertyName:
         ])
 }
 
-export function createConstRedirectPropertySetter(controlTypeName: string, propertyName: string, csharpType: csharp.TypeReference): csharp.MethodDefinition {
+export function createConstRedirectValuePropertySetter(controlTypeName: string, propertyName: string, csharpType: csharp.TypeReference): csharp.MethodDefinition {
     return createPropertySetter(
         SetterFnName(propertyName),
         controlTypeName,

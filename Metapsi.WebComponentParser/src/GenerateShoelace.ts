@@ -19,9 +19,10 @@ export async function GenerateShoelace(version: string, outFolder: string): Prom
                 switch (d.kind) {
                     case "class":
 
-                        var dec = d as customElementManifestSchema.CustomElement;
 
-                        if (dec.name == "SlButton") {
+                        var dec = d as customElementManifestSchema.CustomElement;
+                        if (dec.name != "SlPopup") {
+
                             var inputEntities = getInputEntities(dec);
                             var nodes = inputEntities.flatMap(e => convertShoelaceEntity(dec.name, e));
                             var fileStructure = new cswc.WebComponentFileStructure();// cswc.createWebComponentStructure(d.name, "Metapsi.Shoelace");
@@ -71,7 +72,7 @@ function getInputEntities(def: customElementManifestSchema.CustomElement): cswc.
         for (var member of def.members) {
             if (member.kind == "field") {
                 if (member.description && member.privacy != "private") {
-                    outEntities.push({ kind: "property", name: member.name, description: member.summary ?? "", type: member.type?.text ?? "string" })
+                    outEntities.push({ kind: "property", name: member.name, description: member.description ?? "", type: member.type?.text ?? "string" })
                 }
             }
         }
@@ -149,38 +150,296 @@ export function convertShoelaceEntity(customElementName: string, inputEntity: cs
     }
 }
 
+// only handle number explicitly, so we output int/decimal as preffered
+function createExplicitTypes(customElementName: string, property: cswc.WebComponentInputEntity): csharp.MethodDefinition[] {
+    var propertySetters: csharp.MethodDefinition[] = [];
+    if (property.kind == "property") {
+        if (customElementName == "SlAnimation") {
+            if (property.type == "number") {
+                if (["delay", "duration", "endDelay", "iterations"].includes(property.name)) {
+                    propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                    propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                }
+                if (["iterationStart", "playbackRate"].includes(property.name)) {
+                    propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                    propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                }
+            }
+            if (property.name == "keyframes") {
+                propertySetters.push(
+                    csr.createValuePropertySetter(
+                        customElementName,
+                        property.name,
+                        {
+                            ...csr.varType, typeArguments: [{
+                                ...sysTypes.systemCollectionsGenericList, typeArguments: [{
+                                    name: "Keyframe", namespace: "Metapsi.Html"
+                                }]
+                            }]
+                        }));
+            }
+
+            if (property.name == "currentTime" && property.type == "CSSNumberish") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+        }
+
+        if (customElementName == "SlCarousel") {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+        if (customElementName == "SlCopyButton") {
+            if (property.name == "feedbackDuration") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+
+        if (customElementName == "SlDropdown") {
+            if (property.name == "containingElement" && property.type == 'HTMLElement | undefined') {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, { ...csr.varType, typeArguments: [{ name: "HTMLElement", namespace: "Metapsi.Html" }] }));
+            }
+            if (property.type == "number") {
+                if (property.name == "distance" || property.name == "skidding") {
+                    propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                }
+            }
+        }
+
+        if (customElementName == "SlFormatBytes") {
+            if (property.name == "value") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+
+        if (customElementName == "SlFormatNumber") {
+            if (property.name == "value") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+            else if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+
+        if (customElementName == "SlImageComparer") {
+            if (property.name == "position") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+        if (customElementName == "SlInput") {
+            if (property.name == "minlength" || property.name == "maxlength") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+            if (property.name == "min" || property.name == "max") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemString));
+            }
+
+            if (property.name == "step" && property.type == "number | 'any'") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createLiteralPropertySetter(customElementName, property.name, "any"));
+            }
+        }
+        if (customElementName == "SlProgressBar") {
+            if (property.name == "value" && property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+        }
+
+        if (customElementName == "SlProgressRing") {
+            if (property.name == "value" && property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+        }
+
+        if (customElementName == "SlQrCode") {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+        }
+
+        if (customElementName == "SlRange") {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+            if (property.name == "tooltipFormatter" && property.type == "(value: number) => string") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, {
+                    ...csr.varType,
+                    typeArguments: [{
+                        ...sysTypes.systemFunc, typeArguments: [sysTypes.systemDecimal, sysTypes.systemString]
+                    }]
+                }));
+            }
+        }
+
+        if (customElementName == "SlRating") {
+            if (property.name == "precision") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+            if (property.name == "value" || property.name == "max") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+
+            if (property.name == "getSymbol") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, {
+                    ...csr.varType,
+                    typeArguments: [{
+                        ...sysTypes.systemFunc, typeArguments: [sysTypes.systemDecimal, sysTypes.systemString]
+                    }]
+                }));
+            }
+        }
+
+        if (customElementName == "SlSelect") {
+            if (property.name == "maxOptionsVisible") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+            if (property.name == "getTag" && property.type == "(option: SlOption, index: number) => TemplateResult | string | HTMLElement") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, {
+                    ...csr.varType,
+                    typeArguments: [{
+                        ...sysTypes.systemFunc, typeArguments: [
+                            { name: "SlOption", namespace: "Metapsi.Shoelace" },
+                            sysTypes.systemInt,
+                            sysTypes.systemString
+                        ]
+                    }]
+                }));
+
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, {
+                    ...csr.varType,
+                    typeArguments: [{
+                        ...sysTypes.systemFunc, typeArguments: [
+                            { name: "SlOption", namespace: "Metapsi.Shoelace" },
+                            sysTypes.systemInt,
+                            { name: "HTMLElement", namespace: "Metapsi.Html" }
+                        ]
+                    }]
+                }));
+            }
+        }
+
+        if (customElementName == "SlSplitPanel") {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+
+            if (property.name == "snap") {
+                //TODO:  No support for SnapFunction yet
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+
+        if (customElementName == 'SlTextarea') {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemInt));
+            }
+        }
+
+        if (customElementName == "SlTooltip") {
+            if (property.type == "number") {
+                propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+                propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemDecimal));
+            }
+        }
+    }
+    return propertySetters;
+}
+
 function createShoelacePropertySetters(customElementName: string, property: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
     var propertySetters: csharp.MethodDefinition[] = [];
 
     if (property.kind == "property") {
-        if (property.type == "boolean") {
+        var explicit = createExplicitTypes(customElementName, property);
+        if (explicit.length) {
+            propertySetters.push(...explicit);
+        } else if (property.type == "boolean") {
             propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemBool));
-        }
-
-        if (property.type == "string") {
+            propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemBool));
+        } else if (property.type == "string") {
             propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemString));
-        }
-
-        if (property.type.includes("|")) {
+            propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemString));
+        } else if (property.type.includes("|")) {
             var types = typeParser.getConstituentTypes(property.type);
-            for (var type of types) {
-                if (type.kind == "literal") {
-                    if (type.type == "string") {
-                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, type.value));
+            for (var constituentType of types) {
+                if (constituentType.kind == "literal") {
+                    if (constituentType.type == "string") {
+                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, constituentType.value));
                     }
                     else throw new Error("Literal type not supported!")
                 }
                 else {
-                    if (type.kind == "type") {
-                        if (type.type == "string") {
+                    if (constituentType.kind == "type") {
+                        if (constituentType.type == "string") {
                             propertySetters.push(ssr.createStringValueAttributeSetter(property.name, customElementName))
                         }
+                        else if (constituentType.type == "Date") {
+                            console.warn(`Ignoring Date property on ${customElementName}.${property.name}`)
+                            // Ignore built-in Date types because ... well...
+                        }
                         else throw new Error(`Unsupported type in ${property.type}`)
+                    }
+                    else if (constituentType.kind == "array") {
+                        if (constituentType.itemType == "string") {
+                            propertySetters.push(
+                                csr.createValuePropertySetter(
+                                    customElementName,
+                                    property.name,
+                                    {
+                                        ...csr.varType, typeArguments: [{
+                                            ...sysTypes.systemCollectionsGenericList, typeArguments: [sysTypes.systemString]
+                                        }]
+                                    }));
+                        }
+                        else {
+                            throw new Error(`Unsupported type in ${property.type}`)
+                        }
+                    }
+                    else throw new Error(`Unsupported type in ${property.type}`)
+                }
+            }
+        } else {
+            // If DOM type
+
+            var types = typeParser.getConstituentTypes(property.type);
+            for (var constituentType of types) {
+                if (constituentType.kind == "literal") {
+                    if (constituentType.type == "string") {
+                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, constituentType.value));
+                    }
+                    else throw new Error("Literal type not supported!")
+                }
+                else {
+                    if (constituentType.kind == "type") {
+                        if (constituentType.type == "string") {
+                            propertySetters.push(ssr.createStringValueAttributeSetter(property.name, customElementName))
+                        }
+                        else throw new Error(`Unsupported type ${property.type} in ${customElementName}.${property.name}`)
                     }
                     else throw new Error(`Unsupported type in ${property.type}`)
                 }
             }
         }
+
+
         if (!propertySetters.length)
             throw new Error(`Type ${property.type} unsupported in ${customElementName}.${property.name}`)
     }
@@ -188,14 +447,22 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
     return propertySetters.map(x => ({ kind: "propertySetter", node: x }));
 }
 
+function skipAttribute(customElementName: string, attribute: cswc.WebComponentInputEntity) {
+    if (attribute.kind == "attribute") {
+        if (customElementName == "SlPopup") {
+            return true; // SlPopup does not make sense as a stand-alone component
+        }
+        if (customElementName == "SlSelect" && attribute.name == "getTag") return true;
+    }
+    return false;
+}
+
 function createShoelaceAttributeSetters(customElementName: string, attribute: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
     var outNodes: csharp.MethodDefinition[] = [];
     if (attribute.kind == "attribute") {
-        if (customElementName == "SlAlert") {
-            if (attribute.name == "duration") {
-                //outNodes.push(ssr.(classType,property.name));
-            }
-        }
+
+        if (skipAttribute(customElementName, attribute))
+            return [];
 
         if (attribute.type == "boolean") {
             outNodes.push(ssr.createBoolAttributeSetter(attribute.name, customElementName));
@@ -220,9 +487,23 @@ function createShoelaceAttributeSetters(customElementName: string, attribute: cs
                         if (type.type == "string") {
                             outNodes.push(ssr.createStringValueAttributeSetter(attribute.name, customElementName))
                         }
+                        else if (types.some(x => x.kind == "type" && x.type == "string")) {
+                            // is part of string | other type, already handled
+                        }
+                        else if (type.type == "number") {
+                            outNodes.push(ssr.createStringValueAttributeSetter(attribute.name, customElementName))
+                        }
                         else throw new Error(`Unsupported type in ${attribute.type}`)
                     }
-                    else throw new Error(`Unsupported type in ${attribute.type}`)
+                    else if (type.kind == "array" && type.itemType == "string") {
+                        if (types.some(x => x.kind == "type" && x.type == "string")) {
+                            // is part of string | string[], already handled
+                        }
+                        else throw new Error(`Unsupported type in ${attribute.type}`)
+                    }
+                    else {
+                        throw new Error(`Unsupported type in ${attribute.type}`)
+                    }
                 }
             }
         }
