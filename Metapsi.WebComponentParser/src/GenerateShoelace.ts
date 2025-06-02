@@ -24,11 +24,11 @@ export async function GenerateShoelace(version: string, outFolder: string): Prom
                         if (dec.name == "SlButton") {
                             var inputEntities = getInputEntities(dec);
                             var nodes = inputEntities.flatMap(e => convertShoelaceEntity(dec.name, e));
-                            var fileStructure = cswc.createWebComponentStructure(d.name, "Metapsi.Shoelace");
+                            var fileStructure = new cswc.WebComponentFileStructure();// cswc.createWebComponentStructure(d.name, "Metapsi.Shoelace");
                             for (var node of nodes) {
                                 cswc.addWebComponentNode(fileStructure, node);
                             }
-                            var file = cswc.getWebComponentFile(fileStructure);
+                            var file = cswc.getWebComponentFile(fileStructure, dec.name, "Metapsi.Shoelace");
                             var slFilePath = path.join(outFolder, dec.name + ".cs");
                             var csharpFileString = csharpFile.fileToCSharp(file);
                             //await fs.writeFile(slFilePath, csharpFileString, 'utf-8');
@@ -101,44 +101,44 @@ export function convertShoelaceEntity(customElementName: string, inputEntity: cs
             return [
                 {
                     kind: "ssrConstructor",
-                    node: csharp.methodDefinitionNode(ssr.createActionParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"))
+                    node: ssr.createActionParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
                 },
                 {
                     kind: "ssrConstructor",
-                    node: csharp.methodDefinitionNode(ssr.createParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"))
+                    node: ssr.createParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
                 },
                 {
                     kind: "ssrConstructor",
-                    node: csharp.methodDefinitionNode(ssr.createActionListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"))
+                    node: ssr.createActionListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
                 },
                 {
                     kind: "ssrConstructor",
-                    node: csharp.methodDefinitionNode(ssr.createListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"))
+                    node: ssr.createListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
                 },
                 {
                     kind: "csrConstructor",
-                    node: csharp.methodDefinitionNode(csr.createActionParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"))
+                    node: csr.createActionParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
                 },
                 {
                     kind: "csrConstructor",
-                    node: csharp.methodDefinitionNode(csr.createParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"))
+                    node: csr.createParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
                 },
                 {
                     kind: "csrConstructor",
-                    node: csharp.methodDefinitionNode(csr.createActionListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"))
+                    node: csr.createActionListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
                 },
                 {
                     kind: "csrConstructor",
-                    node: csharp.methodDefinitionNode(csr.createListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"))
+                    node: csr.createListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
                 }
             ]
-        case "attribute": return CreateShoelaceAttributeSetters(customElementName, inputEntity)
+        case "attribute": return createShoelaceAttributeSetters(customElementName, inputEntity)
         case "method": return [{
             kind: "methodConstant",
             node: cswc.createMethodNameConstant(inputEntity.name)
         }]
-        case "property": return []
-        case "event": return []
+        case "property": return createShoelacePropertySetters(customElementName, inputEntity)
+        case "event": return createShoelaceEventSetters(customElementName, inputEntity);
         case "slot": return [{
             kind: "slotConstant",
             node: cswc.createSlotNameConstant(inputEntity.name)
@@ -149,54 +149,46 @@ export function convertShoelaceEntity(customElementName: string, inputEntity: cs
     }
 }
 
+function createShoelacePropertySetters(customElementName: string, property: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
+    var propertySetters: csharp.MethodDefinition[] = [];
 
-// export function GetDefaultDefinitionNavigator(): WebComponentDefinitionNavigator<schema.CustomElement> {
-//     return {
-//         getElement: (def: schema.CustomElement) => def,
-//         getSlots: (def: schema.CustomElement) => def.slots!,
-//         getMethods: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "method")!,
-//         getAttributes: (def: schema.CustomElement) => def.members?.filter(x => x.kind == "field" && x.description && (x as any).attribute)!,
-//         getProperties: (def: schema.CustomElement): schema.ClassField[] => def.members?.filter(x => x.kind == "field").filter(x => x.description)!,
-//         getEvents: (def: schema.CustomElement) => def.events?.filter(x => !x.deprecated)!
-//     }
-// }
+    if (property.kind == "property") {
+        if (property.type == "boolean") {
+            propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemBool));
+        }
 
+        if (property.type == "string") {
+            propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemString));
+        }
 
-// var file = cswc.CreateWebComponentFile(dec, createShoelaceConverter(), "Metapsi.Shoelace");
-// var controlName = dec.name;
-// var slFilePath = path.join(outFolder, controlName + ".cs");
-// // var csharpDefinition = cswc.fromManifest(
-// //     dec,
-// //     "Metapsi.Shoelace",
-// //     cswc.GetDefaultWebComponentConverter({
-// //         ssrConstructorName: "SlTag",
-// //         csrConstructorName: "SlNode"
-// //     }));
-// var csharpFileString = csharpFile.fileToCSharp(file);
-// //await fs.writeFile(slFilePath, csharpFileString, 'utf-8');
-// console.log(slFilePath);
-// console.log(csharpFileString);
-
-function createShoelaceProperty(classType: csharp.TypeReference, property: customElementManifestSchema.ClassField): csharp.MethodDefinition[] {
-    var outNodes: csharp.MethodDefinition[] = [];
-    if (property.default == "Infinity") {
-        outNodes.push(csr.createValuePropertySetter(classType.name, property.name, sysTypes.systemDecimal));
-        return outNodes;
+        if (property.type.includes("|")) {
+            var types = typeParser.getConstituentTypes(property.type);
+            for (var type of types) {
+                if (type.kind == "literal") {
+                    if (type.type == "string") {
+                        propertySetters.push(ssr.createStringLiteralAttributeSetter(property.name, customElementName, type.value));
+                    }
+                    else throw new Error("Literal type not supported!")
+                }
+                else {
+                    if (type.kind == "type") {
+                        if (type.type == "string") {
+                            propertySetters.push(ssr.createStringValueAttributeSetter(property.name, customElementName))
+                        }
+                        else throw new Error(`Unsupported type in ${property.type}`)
+                    }
+                    else throw new Error(`Unsupported type in ${property.type}`)
+                }
+            }
+        }
+        if (!propertySetters.length)
+            throw new Error(`Type ${property.type} unsupported in ${customElementName}.${property.name}`)
     }
-    // if (classType.name == "SlAlert") {
-    //     if (property.name == "duration") {
 
-    //     }
-    // }
-
-    var types = typeParser.getConstituentTypes(property.type!.text);
-    for (var type of types) {
-        //outNodes.push(...CreateShoelaceAttributes(type, classType, property))
-    }
-    return outNodes;
+    return propertySetters.map(x => ({ kind: "propertySetter", node: x }));
 }
 
-function CreateShoelaceAttributeSetters(customElementName: string, attribute: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
+function createShoelaceAttributeSetters(customElementName: string, attribute: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
     var outNodes: csharp.MethodDefinition[] = [];
     if (attribute.kind == "attribute") {
         if (customElementName == "SlAlert") {
@@ -235,7 +227,22 @@ function CreateShoelaceAttributeSetters(customElementName: string, attribute: cs
             }
         }
     }
-    return outNodes.map(x => ({ kind: "attributeSetter", node: csharp.methodDefinitionNode(x) }));
+    return outNodes.map(x => ({ kind: "attributeSetter", node: x }));
+}
+
+function createShoelaceEventSetters(customElementName: string, event: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
+    var outNodes: csharp.MethodDefinition[] = [];
+    if (event.kind == "event") {
+        outNodes.push(csr.createVarActionEventEventSetter(customElementName, event.name));
+        outNodes.push(csr.CreateFuncSyntaxBuilderEventEventSetter(customElementName, event.name));
+
+        outNodes.push(csr.createVarActionEventSetter(customElementName, event.name));
+        outNodes.push(csr.CreateFuncSyntaxBuilderEventSetter(customElementName, event.name));
+    }
+    if (!outNodes.length) {
+        throw new Error(`${customElementName}.${event.name} not implemented`)
+    }
+    return outNodes.map(x => ({ kind: "event", node: x }));
 }
 
 // function createShoelaceConverter(): cswc.WebComponentConverter {

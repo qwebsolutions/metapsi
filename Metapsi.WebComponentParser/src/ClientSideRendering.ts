@@ -11,6 +11,9 @@ const layoutBuilderType: csharp.TypeReference = { name: "LayoutBuilder", namespa
 const propsBuilderType = { name: "PropsBuilder", namespace: "Metapsi.Syntax" }
 const hyperappActionType = { name: "HyperType.Action", namespace: "Metapsi.Hyperapp" }
 const domEventType = { name: "Event", namespace: "Metapsi.Html" }
+const varDomEventType: csharp.TypeReference = { ...varType, typeArguments: [domEventType] }
+const syntaxBuilderType = { name: "SyntaxBuilder", namespace: "Metapsi.Syntax" }
+const varTModelType = { name: "TModel" }
 
 export function createHyperappNodeConstructor(controlTypeName: string, parameters: csharp.Parameter[], body: csharp.SyntaxNode[]): csharp.MethodDefinition {
     return {
@@ -267,6 +270,105 @@ export function createVarActionEventEventSetter(controlTypeName: string, eventNa
     ]
     )
 }
+
+export function CreateFuncSyntaxBuilderEventEventSetter(controlTypeName: string, eventName: string): csharp.MethodDefinition {
+    return createEventSetter(
+        EventFnName(eventName),
+        controlTypeName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...sysTypes.systemFunc,
+                    typeArguments: [
+                        syntaxBuilderType,
+                        varTModelType,
+                        varDomEventType,
+                        varTModelType
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            EventFnName(eventName),
+            csharp.functionCallNode(
+                "b",
+                "MakeAction",
+                csharp.identifierNode("action"))
+        )
+    ]
+    )
+}
+
+/**
+ * Var<Hypertype.Action<TModel>>, ignoring dom event
+ * @param controlTypeName 
+ * @param eventName 
+ * @returns 
+ */
+export function createVarActionEventSetter(controlTypeName: string, eventName: string): csharp.MethodDefinition {
+    return createEventSetter(
+        EventFnName(eventName),
+        controlTypeName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...varType,
+                    typeArguments: [
+                        {
+                            ...hyperappActionType,
+                            typeArguments: [
+                                { name: "TModel" }
+                            ]
+                        }
+                    ]
+                }
+
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            "SetProperty",
+            csharp.identifierNode("b.Props"),
+            csharp.functionCallNode("b", "Const", csharp.stringLiteralNode("on" + eventName)),
+            csharp.identifierNode("action")
+        )
+    ]
+    )
+}
+
+
+export function CreateFuncSyntaxBuilderEventSetter(controlTypeName: string, eventName: string): csharp.MethodDefinition {
+    return createEventSetter(
+        EventFnName(eventName),
+        controlTypeName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...sysTypes.systemFunc,
+                    typeArguments: [
+                        syntaxBuilderType,
+                        varTModelType,
+                        varTModelType
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            EventFnName(eventName),
+            csharp.functionCallNode(
+                "b",
+                "MakeAction",
+                csharp.identifierNode("action"))
+        )
+    ]
+    )
+}
+
 
 // export function getDefaultAddEvent(componentClass: csharp.TypeDefinition, e: schema.Event): csharp.SyntaxNode[] {
 //     var outNodes: csharp.SyntaxNode[] = [];

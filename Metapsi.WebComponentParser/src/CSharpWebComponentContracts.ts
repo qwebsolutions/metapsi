@@ -28,36 +28,124 @@ export type WebComponentInputEntity =
 //     events: schema.Event[]
 // }
 export type WebComponentNode =
-    { kind: "ssrConstructor", node: csharp.SyntaxNode } |
-    { kind: "csrConstructor", node: csharp.SyntaxNode } |
-    { kind: "slotConstant", node: csharp.SyntaxNode } |
-    { kind: "methodConstant", node: csharp.SyntaxNode } |
-    { kind: "attributeSetter", node: csharp.SyntaxNode } |
-    { kind: "propertySetter", node: csharp.SyntaxNode } |
-    { kind: "event", node: csharp.SyntaxNode } |
-    { kind: "classMember", node: csharp.SyntaxNode }
+    { kind: "ssrConstructor", node: csharp.MethodDefinition } |
+    { kind: "csrConstructor", node: csharp.MethodDefinition } |
+    { kind: "slotConstant", node: csharp.ConstantDefinition } |
+    { kind: "methodConstant", node: csharp.ConstantDefinition } |
+    { kind: "attributeSetter", node: csharp.MethodDefinition } |
+    { kind: "propertySetter", node: csharp.MethodDefinition } |
+    { kind: "event", node: csharp.MethodDefinition } |
+    { kind: "classMember", node: csharp.PropertyDefinition }
 
+export class WebComponentFileStructure {
+    members: csharp.PropertyDefinition[] = []
+    slots: csharp.ConstantDefinition[] = []
+    methods: csharp.ConstantDefinition[] = []
+    ssrConstructors: csharp.MethodDefinition[] = []
+    attributeSetters: csharp.MethodDefinition[] = []
+    csrConstructors: csharp.MethodDefinition[] = []
+    propertySetters: csharp.MethodDefinition[] = []
+    events: csharp.MethodDefinition[] = []
 
-type WebComponentFileStructure = {
-    namespace: string,
-    componentClass: csharp.TypeDefinition,
-    slotsClass: csharp.TypeDefinition,
-    methodsClass: csharp.TypeDefinition,
-    extensionsClass: csharp.TypeDefinition
+    // namespace: string,
+    // componentClass: csharp.TypeDefinition,
+    // slotsClass: csharp.TypeDefinition,
+    // methodsClass: csharp.TypeDefinition,
+    // extensionsClass: csharp.TypeDefinition
 }
 
-export function createWebComponentStructure(customElementName: string, namespace: string): WebComponentFileStructure {
+// export function createWebComponentStructure(customElementName: string, namespace: string): WebComponentFileStructure {
+//     var slotsClass: csharp.TypeDefinition = {
+//         name: "Slot",
+//         isStatic: true,
+//         keyword: "class",
+//         body: []
+//     }
+//     var methodsClass: csharp.TypeDefinition = {
+//         name: "Method",
+//         isStatic: true,
+//         keyword: "class",
+//         body: []
+//     }
+//     var componentClass: csharp.TypeDefinition = {
+//         name: customElementName,
+//         isPartial: true,
+//         body: [
+//             csharp.commentNode(``),
+//             { nodeType: csharp.NodeType.TypeDefinition, definition: slotsClass },
+//             csharp.commentNode(``),
+//             { nodeType: csharp.NodeType.TypeDefinition, definition: methodsClass }
+//         ]
+//     }
+//     var extensionsClass: csharp.TypeDefinition = {
+//         name: customElementName + "Control",
+//         isStatic: true,
+//         isPartial: true,
+//         body: []
+//     }
+//     return {
+//         namespace,
+//         componentClass,
+//         slotsClass,
+//         methodsClass,
+//         extensionsClass
+//     }
+// }
+
+export function addWebComponentNode(fs: WebComponentFileStructure, entity: WebComponentNode): void {
+    switch (entity.kind) {
+        case "ssrConstructor":
+            fs.ssrConstructors.push(entity.node);
+            break;
+        case "csrConstructor":
+            fs.csrConstructors.push(entity.node);
+            break;
+        case "slotConstant":
+            fs.slots.push(entity.node);
+            break;
+        case "methodConstant":
+            fs.methods.push(entity.node);
+            break;
+        case "attributeSetter":
+            fs.attributeSetters.push(entity.node);
+            break;
+        case "propertySetter":
+            fs.propertySetters.push(entity.node);
+            break;
+        case "event":
+            fs.events.push(entity.node);
+            break;
+        case "classMember":
+            fs.members.push(entity.node);
+            break;
+        default:
+            const c: never = entity;
+    }
+}
+
+export function getWebComponentFile(
+    fs: WebComponentFileStructure,
+    customElementName: string,
+    namespace: string): csharpFile.File {
+
+    var outFile = new csharpFile.File();
+
+    outFile.usings.push("Metapsi.Html");
+    outFile.usings.push("Metapsi.Syntax");
+    outFile.usings.push("Metapsi.Hyperapp");
+    outFile.namespace = namespace;
+
     var slotsClass: csharp.TypeDefinition = {
         name: "Slot",
         isStatic: true,
         keyword: "class",
-        body: []
+        body: fs.slots.map(x=> csharp.constantNode(x))
     }
     var methodsClass: csharp.TypeDefinition = {
         name: "Method",
         isStatic: true,
         keyword: "class",
-        body: []
+        body: fs.methods.map(x=> csharp.constantNode(x))
     }
     var componentClass: csharp.TypeDefinition = {
         name: customElementName,
@@ -73,59 +161,18 @@ export function createWebComponentStructure(customElementName: string, namespace
         name: customElementName + "Control",
         isStatic: true,
         isPartial: true,
-        body: []
+        body: [
+            ... fs.ssrConstructors.map(x=> csharp.methodDefinitionNode(x)),
+            ... fs.attributeSetters.map(x=> csharp.methodDefinitionNode(x)),
+            ... fs.csrConstructors.map(x=>csharp.methodDefinitionNode(x)),
+            ... fs.propertySetters.map(x=> csharp.methodDefinitionNode(x)),
+            ... fs.events.map(x=>csharp.methodDefinitionNode(x))
+        ]
     }
-    return {
-        namespace,
-        componentClass,
-        slotsClass,
-        methodsClass,
-        extensionsClass
-    }
-}
 
-export function addWebComponentNode(fs: WebComponentFileStructure, entity: WebComponentNode): void {
-    switch (entity.kind) {
-        case "ssrConstructor":
-            fs.extensionsClass.body.push(entity.node);
-            break;
-        case "csrConstructor":
-            fs.extensionsClass.body.push(entity.node);
-            break;
-        case "slotConstant":
-            fs.slotsClass.body.push(entity.node);
-            break;
-        case "methodConstant":
-            fs.methodsClass.body.push(entity.node);
-            break;
-        case "attributeSetter":
-            fs.extensionsClass.body.push(entity.node);
-            break;
-        case "propertySetter":
-            fs.extensionsClass.body.push(entity.node);
-            break;
-        case "event":
-            fs.extensionsClass.body.push(entity.node);
-            break;
-        case "classMember":
-            fs.componentClass.body.push(entity.node);
-            break;
-        default:
-            const c: never = entity;
-    }
-}
-
-export function getWebComponentFile(fs: WebComponentFileStructure): csharpFile.File {
-
-    var outFile = new csharpFile.File();
-
-    outFile.usings.push("Metapsi.Html");
-    outFile.usings.push("Metapsi.Syntax");
-    outFile.usings.push("Metapsi.Hyperapp");
-    outFile.namespace = fs.namespace;
     //outFile.content.push(csharp.commentNode(`<para> ${escapeComment(manifestWebComponent.summary!)} </para>`));
-    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: fs.componentClass });
-    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: fs.extensionsClass });
+    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: componentClass });
+    outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: extensionsClass });
     return outFile;
 }
 
@@ -277,22 +324,22 @@ function escapeComment(str: string | undefined) {
 }
 
 
-export function createSlotNameConstant(slotName: string): csharp.SyntaxNode {
-    return csharp.constantNode({
+export function createSlotNameConstant(slotName: string): csharp.ConstantDefinition {
+    return {
         name: toCSharpValidName(slotName),
         type: sysTypes.systemString,
         value: csharp.stringLiteral(slotName),
         visibility: "public"
-    })
+    }
 }
 
-export function createMethodNameConstant(methodName: string): csharp.SyntaxNode {
-    return csharp.constantNode({
+export function createMethodNameConstant(methodName: string): csharp.ConstantDefinition {
+    return {
         name: toCSharpValidName(methodName),
         type: sysTypes.systemString,
         value: csharp.stringLiteral(methodName),
         visibility: "public"
-    })
+    }
 }
 
 
