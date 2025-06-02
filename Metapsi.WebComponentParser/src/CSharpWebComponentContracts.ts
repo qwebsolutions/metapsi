@@ -28,95 +28,64 @@ export type WebComponentInputEntity =
 //     events: schema.Event[]
 // }
 export type WebComponentNode =
-    { kind: "ssrConstructor", node: csharp.MethodDefinition } |
-    { kind: "csrConstructor", node: csharp.MethodDefinition } |
-    { kind: "slotConstant", node: csharp.ConstantDefinition } |
-    { kind: "methodConstant", node: csharp.ConstantDefinition } |
-    { kind: "attributeSetter", node: csharp.MethodDefinition } |
-    { kind: "propertySetter", node: csharp.MethodDefinition } |
-    { kind: "event", node: csharp.MethodDefinition } |
-    { kind: "classMember", node: csharp.PropertyDefinition }
+    { kind: "ssrConstructor", node: csharp.MethodDefinition, comment: string } |
+    { kind: "csrConstructor", node: csharp.MethodDefinition, comment: string } |
+    { kind: "slotConstant", node: csharp.ConstantDefinition, comment: string } |
+    { kind: "methodConstant", node: csharp.ConstantDefinition, comment: string } |
+    { kind: "attributeSetter", node: csharp.MethodDefinition, comment: string } |
+    { kind: "propertySetter", node: csharp.MethodDefinition, comment: string } |
+    { kind: "event", node: csharp.MethodDefinition, comment: string } |
+    { kind: "classMember", node: csharp.PropertyDefinition, comment: string }
 
 export class WebComponentFileStructure {
-    members: csharp.PropertyDefinition[] = []
-    slots: csharp.ConstantDefinition[] = []
-    methods: csharp.ConstantDefinition[] = []
-    ssrConstructors: csharp.MethodDefinition[] = []
-    attributeSetters: csharp.MethodDefinition[] = []
-    csrConstructors: csharp.MethodDefinition[] = []
-    propertySetters: csharp.MethodDefinition[] = []
-    events: csharp.MethodDefinition[] = []
-
-    // namespace: string,
-    // componentClass: csharp.TypeDefinition,
-    // slotsClass: csharp.TypeDefinition,
-    // methodsClass: csharp.TypeDefinition,
-    // extensionsClass: csharp.TypeDefinition
+    members: csharp.SyntaxNode[] = []
+    slots: csharp.SyntaxNode[] = []
+    methods: csharp.SyntaxNode[] = []
+    ssrConstructors: csharp.SyntaxNode[] = []
+    attributeSetters: csharp.SyntaxNode[] = []
+    csrConstructors: csharp.SyntaxNode[] = []
+    propertySetters: csharp.SyntaxNode[] = []
+    events: csharp.SyntaxNode[] = []
 }
-
-// export function createWebComponentStructure(customElementName: string, namespace: string): WebComponentFileStructure {
-//     var slotsClass: csharp.TypeDefinition = {
-//         name: "Slot",
-//         isStatic: true,
-//         keyword: "class",
-//         body: []
-//     }
-//     var methodsClass: csharp.TypeDefinition = {
-//         name: "Method",
-//         isStatic: true,
-//         keyword: "class",
-//         body: []
-//     }
-//     var componentClass: csharp.TypeDefinition = {
-//         name: customElementName,
-//         isPartial: true,
-//         body: [
-//             csharp.commentNode(``),
-//             { nodeType: csharp.NodeType.TypeDefinition, definition: slotsClass },
-//             csharp.commentNode(``),
-//             { nodeType: csharp.NodeType.TypeDefinition, definition: methodsClass }
-//         ]
-//     }
-//     var extensionsClass: csharp.TypeDefinition = {
-//         name: customElementName + "Control",
-//         isStatic: true,
-//         isPartial: true,
-//         body: []
-//     }
-//     return {
-//         namespace,
-//         componentClass,
-//         slotsClass,
-//         methodsClass,
-//         extensionsClass
-//     }
-// }
 
 export function addWebComponentNode(fs: WebComponentFileStructure, entity: WebComponentNode): void {
     switch (entity.kind) {
         case "ssrConstructor":
-            fs.ssrConstructors.push(entity.node);
+            fs.ssrConstructors.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.ssrConstructors.push(csharp.methodDefinitionNode(entity.node));
+            fs.ssrConstructors.push(csharp.newLineNode());
             break;
         case "csrConstructor":
-            fs.csrConstructors.push(entity.node);
+            fs.csrConstructors.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.csrConstructors.push(csharp.methodDefinitionNode(entity.node));
+            fs.csrConstructors.push(csharp.newLineNode());
             break;
         case "slotConstant":
-            fs.slots.push(entity.node);
+            fs.slots.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.slots.push(csharp.constantNode(entity.node));
             break;
         case "methodConstant":
-            fs.methods.push(entity.node);
+            fs.methods.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.methods.push(csharp.constantNode(entity.node));
             break;
         case "attributeSetter":
-            fs.attributeSetters.push(entity.node);
+            fs.attributeSetters.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.attributeSetters.push(csharp.methodDefinitionNode(entity.node));
+            fs.attributeSetters.push(csharp.newLineNode());
             break;
         case "propertySetter":
-            fs.propertySetters.push(entity.node);
+            fs.propertySetters.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.propertySetters.push(csharp.methodDefinitionNode(entity.node));
+            fs.propertySetters.push(csharp.newLineNode());
             break;
         case "event":
-            fs.events.push(entity.node);
+            fs.events.push(csharp.commentNode(escapeComment(entity.comment)));
+            fs.events.push(csharp.methodDefinitionNode(entity.node));
+            fs.events.push(csharp.newLineNode());
             break;
         case "classMember":
-            fs.members.push(entity.node);
+            //fs.members.push(csharp.commentNode(escapeComment(entity.comment)));
+            //fs.members.push( entity.node);
             break;
         default:
             const c: never = entity;
@@ -126,7 +95,8 @@ export function addWebComponentNode(fs: WebComponentFileStructure, entity: WebCo
 export function getWebComponentFile(
     fs: WebComponentFileStructure,
     customElementName: string,
-    namespace: string): csharpFile.File {
+    namespace: string,
+    componentComment: string): csharpFile.File {
 
     var outFile = new csharpFile.File();
 
@@ -138,12 +108,12 @@ export function getWebComponentFile(
     var slotsClass: csharp.TypeDefinition = {
         name: "Slot",
         isStatic: true,
-        body: fs.slots.map(x=> csharp.constantNode(x))
+        body: fs.slots
     }
     var methodsClass: csharp.TypeDefinition = {
         name: "Method",
         isStatic: true,
-        body: fs.methods.map(x=> csharp.constantNode(x))
+        body: fs.methods
     }
     var componentClass: csharp.TypeDefinition = {
         name: customElementName,
@@ -160,16 +130,17 @@ export function getWebComponentFile(
         isStatic: true,
         isPartial: true,
         body: [
-            ... fs.ssrConstructors.map(x=> csharp.methodDefinitionNode(x)),
-            ... fs.attributeSetters.map(x=> csharp.methodDefinitionNode(x)),
-            ... fs.csrConstructors.map(x=>csharp.methodDefinitionNode(x)),
-            ... fs.propertySetters.map(x=> csharp.methodDefinitionNode(x)),
-            ... fs.events.map(x=>csharp.methodDefinitionNode(x))
+            ...fs.ssrConstructors,
+            ...fs.attributeSetters,
+            ...fs.csrConstructors,
+            ...fs.propertySetters,
+            ...fs.events
         ]
     }
 
-    //outFile.content.push(csharp.commentNode(`<para> ${escapeComment(manifestWebComponent.summary!)} </para>`));
+    outFile.content.push(csharp.commentNode(escapeComment(componentComment)));
     outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: componentClass });
+    outFile.content.push(csharp.commentNode(`Setter extensions of ${customElementName}`));
     outFile.content.push({ nodeType: csharp.NodeType.TypeDefinition, definition: extensionsClass });
     return outFile;
 }
@@ -311,8 +282,8 @@ const reservedKeywords = ["checked", "event", "readonly"];
 export function toCSharpValidParameterName(name: string): string {
     var csharpValidName = toCSharpValidName(name);
     var name = csharpValidName[0].toLowerCase() + csharpValidName.substring(1);
-    if(reservedKeywords.includes(name))
-        name = "@"+name;
+    if (reservedKeywords.includes(name))
+        name = "@" + name;
     return name;
 }
 

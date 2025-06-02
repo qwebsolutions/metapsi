@@ -29,7 +29,7 @@ export async function GenerateShoelace(version: string, outFolder: string): Prom
                             for (var node of nodes) {
                                 cswc.addWebComponentNode(fileStructure, node);
                             }
-                            var file = cswc.getWebComponentFile(fileStructure, dec.name, "Metapsi.Shoelace");
+                            var file = cswc.getWebComponentFile(fileStructure, dec.name, "Metapsi.Shoelace", dec.summary!);
                             var slFilePath = path.join(outFolder, dec.name + ".cs");
                             console.log(`Generating ${slFilePath} ...`);
                             var csharpFileString = csharpFile.fileToCSharp(file);
@@ -49,7 +49,7 @@ function getInputEntities(def: customElementManifestSchema.CustomElement): cswc.
     if (def.slots) {
         for (var slot of def.slots) {
             if (slot.name) {
-                outEntities.push({ kind: "slot", name: slot.name, description: slot.summary ?? "" })
+                outEntities.push({ kind: "slot", name: slot.name, description: slot.description ?? "" })
             }
         }
     }
@@ -57,7 +57,7 @@ function getInputEntities(def: customElementManifestSchema.CustomElement): cswc.
         for (var method of def.members) {
             if (method.kind == "method") {
                 if (method.description && method.privacy != "private") {
-                    outEntities.push({ kind: "method", name: method.name, description: method.summary ?? "" })
+                    outEntities.push({ kind: "method", name: method.name, description: method.description ?? "" })
                 }
             }
         }
@@ -98,55 +98,62 @@ function getInputEntities(def: customElementManifestSchema.CustomElement): cswc.
  * @returns 
  */
 export function convertShoelaceEntity(customElementName: string, inputEntity: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
-    if(customElementName.includes("Checkbox")){
-        console.log(customElementName);
-    }
     switch (inputEntity.kind) {
         case "customElement":
             return [
                 {
                     kind: "ssrConstructor",
-                    node: ssr.createActionParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
+                    node: ssr.createActionParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "ssrConstructor",
-                    node: ssr.createParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
+                    node: ssr.createParamsChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "ssrConstructor",
-                    node: ssr.createActionListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
+                    node: ssr.createActionListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "ssrConstructor",
-                    node: ssr.createListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag")
+                    node: ssr.createListChildrenTagConstructor(inputEntity.name, inputEntity.tag, "SlTag"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "csrConstructor",
-                    node: csr.createActionParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
+                    node: csr.createActionParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "csrConstructor",
-                    node: csr.createParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
+                    node: csr.createParamsChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "csrConstructor",
-                    node: csr.createActionListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
+                    node: csr.createActionListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"),
+                    comment: inputEntity.description
                 },
                 {
                     kind: "csrConstructor",
-                    node: csr.createListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode")
+                    node: csr.createListChildrenHyperappNodeConstructor(inputEntity.name, inputEntity.tag, "SlNode"),
+                    comment: inputEntity.description
                 }
             ]
         case "attribute": return createShoelaceAttributeSetters(customElementName, inputEntity)
         case "method": return [{
             kind: "methodConstant",
-            node: cswc.createMethodNameConstant(inputEntity.name)
+            node: cswc.createMethodNameConstant(inputEntity.name),
+            comment: inputEntity.description
         }]
         case "property": return createShoelacePropertySetters(customElementName, inputEntity)
         case "event": return createShoelaceEventSetters(customElementName, inputEntity);
         case "slot": return [{
             kind: "slotConstant",
-            node: cswc.createSlotNameConstant(inputEntity.name)
+            node: cswc.createSlotNameConstant(inputEntity.name),
+            comment: inputEntity.description
         }]
         default:
             const check: never = inputEntity;
@@ -448,7 +455,7 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
             throw new Error(`Type ${property.type} unsupported in ${customElementName}.${property.name}`)
     }
 
-    return propertySetters.map(x => ({ kind: "propertySetter", node: x }));
+    return propertySetters.map(x => ({ kind: "propertySetter", node: x, comment: property.description }));
 }
 
 function skipAttribute(customElementName: string, attribute: cswc.WebComponentInputEntity) {
@@ -512,7 +519,7 @@ function createShoelaceAttributeSetters(customElementName: string, attribute: cs
             }
         }
     }
-    return outNodes.map(x => ({ kind: "attributeSetter", node: x }));
+    return outNodes.map(x => ({ kind: "attributeSetter", node: x,comment: attribute.description }));
 }
 
 function createShoelaceEventSetters(customElementName: string, event: cswc.WebComponentInputEntity): cswc.WebComponentNode[] {
@@ -527,7 +534,7 @@ function createShoelaceEventSetters(customElementName: string, event: cswc.WebCo
     if (!outNodes.length) {
         throw new Error(`${customElementName}.${event.name} not implemented`)
     }
-    return outNodes.map(x => ({ kind: "event", node: x }));
+    return outNodes.map(x => ({ kind: "event", node: x, comment: event.description }));
 }
 
 // function createShoelaceConverter(): cswc.WebComponentConverter {
