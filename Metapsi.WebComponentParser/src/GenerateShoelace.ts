@@ -8,7 +8,6 @@ import * as typeParser from './TypeParser.js'
 import * as csr from './ClientSideRendering.js'
 import * as ssr from './ServerSideRendering.js'
 import * as sysTypes from './CSharpSystemTypes.js'
-import { text } from "stream/consumers";
 
 export async function GenerateShoelace(version: string, outFolder: string): Promise<void> {
     var response = await fetch(`https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/custom-elements.json`)

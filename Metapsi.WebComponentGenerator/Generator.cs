@@ -577,6 +577,22 @@ public static class Generator
             codeBuilder.AppendLine("    /// <summary>");
             codeBuilder.AppendLine($"    /// {@event.Comment}");
             codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Metapsi.Html.CustomEvent<{csharpType}>>> action) where TComponent: {webComponent.Name}");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action);");
+            codeBuilder.AppendLine("    }");
+
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {@event.Comment}");
+            codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Metapsi.Html.CustomEvent<{csharpType}>>, Var<TModel>> action) where TComponent: {webComponent.Name}");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", b.MakeAction(action));");
+            codeBuilder.AppendLine("    }");
+
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {@event.Comment}");
+            codeBuilder.AppendLine("    /// </summary>");
             codeBuilder.AppendLine($"    public static void On{Utils.ToCSharpValidName(@event.Name)}<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, {csharpType}>> action) where TComponent: {webComponent.Name}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{@event.Name}\", action{detailPath});");
@@ -725,13 +741,16 @@ public static class Generator
         codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), value);");
         codeBuilder.AppendLine("    }");
 
-        codeBuilder.AppendLine("    /// <summary>");
-        codeBuilder.AppendLine($"    /// {property.Description}");
-        codeBuilder.AppendLine("    /// </summary>");
-        codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {propertyType.ToCSharpType(converter)} value) where T: {component.Name}");
-        codeBuilder.AppendLine("    {");
-        codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(value));");
-        codeBuilder.AppendLine("    }");
+        if (propertyType.TypeName != "object")
+        {
+            codeBuilder.AppendLine("    /// <summary>");
+            codeBuilder.AppendLine($"    /// {property.Description}");
+            codeBuilder.AppendLine("    /// </summary>");
+            codeBuilder.AppendLine($"    public static void Set{Utils.ToCSharpValidName(property.PropertyName)}<T>(this PropsBuilder<T> b, {propertyType.ToCSharpType(converter)} value) where T: {component.Name}");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.SetProperty(b.Props, b.Const(\"{property.PropertyName}\"), b.Const(value));");
+            codeBuilder.AppendLine("    }");
+        }
 
         return codeBuilder.ToString();
     }

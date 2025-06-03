@@ -1056,7 +1056,10 @@ public static class CSharpGeneratorExtensions
         else if (setter.Parameters.Count == 1)
         {
             codeBuilder.AppendLine(GenerateVariableClientSideSetter(setter, component));
-            codeBuilder.AppendLine(GenerateConstClientSideSetter(setter, component));
+            if (setter.CSharpType != "object")
+            {
+                codeBuilder.AppendLine(GenerateConstClientSideSetter(setter, component));
+            }
         }
         else throw new NotSupportedException();
         return codeBuilder.ToString();
@@ -1184,6 +1187,18 @@ public static class CSharpGeneratorExtensions
             codeBuilder.AppendLine($"    public static void {csEvent.CSharpName}<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<{csEvent.TypeName}>, Var<TModel>> action) where TComponent: {cSharpComponent.ClassName}");
             codeBuilder.AppendLine("    {");
             codeBuilder.AppendLine($"        b.OnEventAction(\"on{csEvent.OriginalName}\", b.MakeAction(action){detailPath});");
+            codeBuilder.AppendLine("    }");
+
+            codeBuilder.AppendComments(csEvent.Comments, 1);
+            codeBuilder.AppendLine($"    public static void {csEvent.CSharpName}<TComponent, TModel>(this PropsBuilder<TComponent> b, Var<HyperType.Action<TModel, Metapsi.Html.CustomEvent<{csEvent.TypeName}>>> action) where TComponent: {cSharpComponent.ClassName}");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{csEvent.OriginalName}\", action);");
+            codeBuilder.AppendLine("    }");
+
+            codeBuilder.AppendComments(csEvent.Comments, 1);
+            codeBuilder.AppendLine($"    public static void {csEvent.CSharpName}<TComponent, TModel>(this PropsBuilder<TComponent> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Metapsi.Html.CustomEvent<{csEvent.TypeName}>>, Var<TModel>> action) where TComponent: {cSharpComponent.ClassName}");
+            codeBuilder.AppendLine("    {");
+            codeBuilder.AppendLine($"        b.OnEventAction(\"on{csEvent.OriginalName}\", b.MakeAction(action));");
             codeBuilder.AppendLine("    }");
         }
 
