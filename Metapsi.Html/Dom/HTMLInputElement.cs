@@ -1,6 +1,8 @@
 ﻿using Metapsi.Html;
 using Metapsi.Syntax;
 
+namespace Metapsi.Html;
+
 /// <summary>
 /// The value property of the HTMLInputElement interface represents the current value of the &lt;input&gt; element as a string.
 /// </summary>

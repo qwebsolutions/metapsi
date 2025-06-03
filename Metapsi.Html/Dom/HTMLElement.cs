@@ -3,6 +3,8 @@ using Metapsi;
 using Metapsi.Html;
 using Metapsi.Syntax;
 
+namespace Metapsi.Html;
+
 /// <summary>
 /// The HTMLElement interface represents any HTML element
 /// </summary>
