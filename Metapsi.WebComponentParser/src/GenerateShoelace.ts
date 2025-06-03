@@ -383,6 +383,7 @@ function createShoelacePropertySetters(customElementName: string, property: cswc
         if (explicit.length) {
             propertySetters.push(...explicit);
         } else if (property.type == "boolean") {
+            propertySetters.push(csr.createDefaultTrueBoolPropertySetter(customElementName, property.name));
             propertySetters.push(csr.createValuePropertySetter(customElementName, property.name, sysTypes.systemBool));
             propertySetters.push(csr.createConstRedirectValuePropertySetter(customElementName, property.name, sysTypes.systemBool));
         } else if (property.type == "string") {
@@ -526,14 +527,15 @@ function createShoelaceEventSetters(customElementName: string, event: cswc.WebCo
     var outNodes: csharp.MethodDefinition[] = [];
     if (event.kind == "event") {
         outNodes.push(createShoelaceVarActionModelEventEventSetter(customElementName, event.name));
-        outNodes.push(createShoelaceSyntaxBuilderActionModelEventEventSetter(customElementName, event.name));        
+        outNodes.push(createShoelaceSyntaxBuilderActionModelEventEventSetter(customElementName, event.name));
         outNodes.push(createShoelaceVarActionModelEventSetter(customElementName, event.name));
         outNodes.push(createShoelaceSyntaxBuilderActionModelEventSetter(customElementName, event.name));
         // outNodes.push(csr.CreateFuncSyntaxBuilderEventEventSetter(customElementName, event.name));
         // outNodes.push(csr.createVarActionEventSetter(customElementName, event.name));
         // outNodes.push(csr.CreateFuncSyntaxBuilderEventSetter(customElementName, event.name));
         if (event.customDetailType) {
-
+            //console.log(`Custom event detail ${event.name}: ${event.customDetailType}`)
+            outNodes.push(createShoelaceVarActionModelCustomEventEventSetter(customElementName, event.name));
         }
     }
     if (!outNodes.length) {
@@ -673,6 +675,42 @@ function createShoelaceSyntaxBuilderActionModelEventSetter(customElementName: st
             "b",
             cswc.EventFnName(eventName),
             csharp.functionCallNode("b", "MakeAction", csharp.identifierNode("action"))
+        )
+    ])
+}
+
+function createShoelaceVarActionModelCustomEventEventSetter(customElementName: string, eventName: string): csharp.MethodDefinition {
+    return csr.createEventSetter(
+        cswc.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...csr.varType,
+                    typeArguments: [
+                        {
+                            ...csr.hyperappActionType,
+                            typeArguments: [
+                                { name: "TModel" },
+                                {
+                                    name: "CustomEvent", namespace: "Metapsi.Html", typeArguments: [{
+                                        //name: customElementName + cswc.toCSharpValidName(eventName.substring(3)) + "Detail"
+                                        name: cswc.toCSharpValidName(eventName) + "Detail"
+                                    }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ], [
+        csharp.functionCallNode(
+            "b",
+            "OnSlEvent",
+            csharp.stringLiteralNode("on" + eventName),
+            csharp.identifierNode("action")
         )
     ])
 }

@@ -190,6 +190,23 @@ export function createLiteralPropertySetter(controlTypeName: string, propertyNam
         ])
 }
 
+
+export function createDefaultTrueBoolPropertySetter(controlTypeName: string, propertyName: string): csharp.MethodDefinition {
+    return createPropertySetter(
+        SetterFnName(propertyName),
+        controlTypeName,
+        [],
+        [
+            csharp.functionCallNode(
+                "b",
+                SetterFnName(propertyName),
+                csharp.functionCallNode(
+                    "b",
+                    "Const",
+                    csharp.trueLiteralNode()))
+        ])
+}
+
 export function createValuePropertySetter(controlTypeName: string, propertyName: string, csharpType: csharp.TypeReference): csharp.MethodDefinition {
     return createPropertySetter(
         SetterFnName(propertyName),
