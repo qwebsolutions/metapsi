@@ -40,6 +40,8 @@ await fsp.writeFile(path.join(metapsiGenerateOutputPath, "shoelace.target"), tar
 fs.mkdirSync(metapsiShoelaceControlsPath);
 await generateCodeFiles(shoelaceManifest, metapsiShoelaceControlsPath);
 
+await fsp.writeFile(path.join(metapsiGenerateOutputPath, "Cdn.cs"), getCdnFileContent(shoelaceVersion, shoelaceManifest), "utf-8");
+
 function copyAssets(relativeToPath: string, sourcePaths: string[], intoFolder: string) {
     for (var assetPath of sourcePaths) {
         var assetRelativePath = assetPath.replace(relativeToPath, "");
@@ -52,7 +54,44 @@ function copyAssets(relativeToPath: string, sourcePaths: string[], intoFolder: s
     }
 }
 
-//function getCdnFileContent(version: string, )
+function getCdnFileContent(version: string, schema: cemSchema.Package): string {
+    let importPaths: { tagName: string, path: string }[] = [];
+
+    for (const m of schema.modules) {
+        for (const dec of m.declarations!) {
+            if (dec.kind == "class") {
+                var customElement: cemSchema.CustomElementDeclaration = dec as cemSchema.CustomElementDeclaration;
+                if (customElement.name != "SlPopup") {
+                    importPaths.push({ tagName: customElement.tagName!, path: m.path });
+                }
+            }
+        }
+    }
+
+    var dictLines = importPaths.map(x => `        { "${x.tagName}", "${x.path}"}`)
+
+    var fakeDictionaryLiteral = "new()\n    {\n" + dictLines.join("\n") + "\n    }";
+
+    var cdnClass: gen.TypeDefinition = {
+        name: "Cdn",
+        isStatic: true,
+        isPartial: true,
+        body: [
+            gen.constantNode({ name: "Version", value: gen.stringLiteral(shoelaceVersion), type: gen.systemString }),
+            gen.constantNode({ name: "ImportPaths", value: { "value": fakeDictionaryLiteral }, type: { ...gen.systemCollectionsGenericDictionary, typeArguments: [gen.systemString, gen.systemString] } }),
+        ]
+    }
+
+    var cdnFile: gen.File = {
+        namespace: "Metapsi.Shoelace",
+        content: [
+            { nodeType: gen.NodeType.TypeDefinition, definition: cdnClass }
+        ],
+        usings: []
+    };
+
+    return gen.fileToCSharp(cdnFile);
+}
 
 function getTargetFileContent(version: string, relativePaths: string[]): string {
     var outLines: string[] = [];
