@@ -1,0 +1,14 @@
+{
+  "name": "metapsi-csharp-generator",
+  "main": "./dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "custom-elements-manifest": "^2.1.0",
+    "typescript": "^5.8.3"
+  }
+}
