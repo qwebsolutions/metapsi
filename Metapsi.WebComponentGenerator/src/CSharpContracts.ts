@@ -93,7 +93,8 @@ export type PropertyDefinition = {
     name: string
     type: TypeReference
     visibility: AccessModifierKeyword
-    isStatic?: boolean
+    isStatic?: boolean,
+    initializer?: Literal
 }
 
 export type MethodDefinition = {

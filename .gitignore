@@ -8,3 +8,6 @@ launchSettings.json
 .vs
 Scripts/nugets/*
 push_nuget.sinapsi.ro.bat
+node_modules
+Metapsi.WebComponentGenerator/dist
+Metapsi.Shoelace.Generate/dist

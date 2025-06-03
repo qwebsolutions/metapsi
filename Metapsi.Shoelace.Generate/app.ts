@@ -14,7 +14,7 @@ var customElementsManifestContent = await fsp.readFile(customElementsManifestJso
 var shoelaceManifest = JSON.parse(customElementsManifestContent) as cemSchema.Package;
 
 var metapsiShoelaceProjectPath = path.join(process.cwd(), "..", "Metapsi.Shoelace");
-var metapsiGenerateOutputPath = path.join(metapsiShoelaceProjectPath, "Generated");
+var metapsiGenerateOutputPath = path.join(metapsiShoelaceProjectPath, "generated");
 
 try {
     await fsp.rm(metapsiGenerateOutputPath, { recursive: true, force: true });
@@ -22,7 +22,7 @@ try {
     console.error(`Output folder ${metapsiGenerateOutputPath} not removed`, err);
 }
 
-var metapsiShoelaceControlsPath = path.join(metapsiGenerateOutputPath, "Controls");
+var metapsiShoelaceControlsPath = path.join(metapsiGenerateOutputPath, "controls");
 var metapsiShoelaceEmbeddedPath = path.join(metapsiGenerateOutputPath, "embedded");
 
 var allPaths = getFilePathsRecursiveSync(shoelaceDistFolder);
@@ -70,15 +70,24 @@ function getCdnFileContent(version: string, schema: cemSchema.Package): string {
 
     var dictLines = importPaths.map(x => `        { "${x.tagName}", "${x.path}"}`)
 
-    var fakeDictionaryLiteral = "new()\n    {\n" + dictLines.join("\n") + "\n    }";
+    var fakeDictionaryLiteral = "new()\n    {\n" + dictLines.join(",\n") + "\n    };";
 
     var cdnClass: gen.TypeDefinition = {
         name: "Cdn",
         isStatic: true,
         isPartial: true,
         body: [
-            gen.constantNode({ name: "Version", value: gen.stringLiteral(shoelaceVersion), type: gen.systemString }),
-            gen.constantNode({ name: "ImportPaths", value: { "value": fakeDictionaryLiteral }, type: { ...gen.systemCollectionsGenericDictionary, typeArguments: [gen.systemString, gen.systemString] } }),
+            gen.constantNode({ name: "Version", value: gen.stringLiteral(version), type: gen.systemString, visibility: 'public' }),
+            {
+                nodeType: gen.NodeType.PropertyDefinition,
+                prop: {
+                    visibility: 'public',
+                    isStatic: true,
+                    name: "ImportPaths",
+                    type: { ...gen.systemCollectionsGenericDictionary, typeArguments: [gen.systemString, gen.systemString] },
+                    initializer: { value: fakeDictionaryLiteral }
+                }
+            }
         ]
     }
 
@@ -95,13 +104,13 @@ function getCdnFileContent(version: string, schema: cemSchema.Package): string {
 
 function getTargetFileContent(version: string, relativePaths: string[]): string {
     var outLines: string[] = [];
-    outLines.push('<Project Sdk="Microsoft.NET.Sdk">')
+    outLines.push('<Project>')
     outLines.push('  <PropertyGroup>')
     outLines.push(`    <ShoelaceVersion>${version}</ShoelaceVersion>`)
     outLines.push('  </PropertyGroup>')
     outLines.push('  <ItemGroup>')
     for (const assetPath of relativePaths) {
-        outLines.push(`    <EmbeddedResource Include="embedded\\${assetPath}" LogicalName="shoelace@${version}/${assetPath.replaceAll("\\", "/")}" />`)
+        outLines.push(`    <EmbeddedResource Include="generated\\embedded\\${assetPath}" LogicalName="shoelace@${version}/${assetPath.replaceAll("\\", "/")}" />`)
     }
     outLines.push('  </ItemGroup>')
     outLines.push('</Project>')

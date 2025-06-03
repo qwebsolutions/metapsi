@@ -5,7 +5,13 @@
 /// </summary>
 public interface SlSlideChangeDetail
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public int index { get; }
+    /// <summary>
+    /// 
+    /// </summary>
     public SlCarouselItem slide { get; }
 }
 

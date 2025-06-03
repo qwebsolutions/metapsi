@@ -81,7 +81,7 @@ export function toCSharp(node: SyntaxNode, indentLevel: number): string {
             return callToCSharp(node.call, indentLevel);
         case NodeType.IfStatement:
             return ifStatementToCSharp(node.ifStatement, indentLevel);
-            case NodeType.TypeReference: 
+        case NodeType.TypeReference:
             return "" // Type references are directly handled inside the other cases
         default:
             const check: never = node;
@@ -118,10 +118,10 @@ function identifierToCSharp(node: Identifier): string {
 
 function typeDefinitionToCSharp(node: TypeDefinition, indentLevel: number) {
     var signature = [];
-    signature.push(node.visibility?? "public");
+    signature.push(node.visibility ?? "public");
     if (node.isStatic) signature.push("static");
     if (node.isPartial) signature.push("partial");
-    signature.push(node.keyword?? "class");
+    signature.push(node.keyword ?? "class");
     signature.push(node.name);
 
     var signatureLine = signature.join(' ');
@@ -146,7 +146,7 @@ function typeUsageToCSharp(type: TypeReference): string {
 
     if (!type.typeArguments)
         return qualifiedBaseType;
-    if(!type.typeArguments.length){
+    if (!type.typeArguments.length) {
         return qualifiedBaseType;
     }
 
@@ -173,6 +173,9 @@ function propertyToCSharp(node: PropertyDefinition, indentLevel: number) {
     lines.push(typeUsageToCSharp(node.type!));
     lines.push(node.name);
     lines.push("{ get; set; }");
+    if (node.initializer) {
+        lines.push("= " + literalToCSharp(node.initializer))
+    }
     return spaces(indentLevel) + lines.join(" ");
 }
 
