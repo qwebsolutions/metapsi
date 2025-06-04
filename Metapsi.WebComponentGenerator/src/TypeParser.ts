@@ -13,9 +13,6 @@ export class TypeHandler {
 }
 
 function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler: TypeHandler): void {
-    if (typeNode.getFullText().includes("Play")) {
-        //console.log(typeNode.getFullText());
-    }
     // explicit primitive types
     switch (typeNode.kind) {
         case ts.SyntaxKind.UndefinedKeyword:
@@ -32,6 +29,9 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
             return;
         case ts.SyntaxKind.NumberKeyword:
             typeHandler.onType!("number");
+            return;
+        case ts.SyntaxKind.AnyKeyword:
+            typeHandler.onType!("any");
             return;
     }
 
@@ -58,7 +58,7 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
         }
     }
 
-    if(ts.isTypeLiteralNode(typeNode)) {
+    if (ts.isTypeLiteralNode(typeNode)) {
         typeHandler.onType!(typeNode.getText());
         return;
     }
@@ -81,8 +81,14 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
         throw "Not implemented";
     }
 
-    if(ts.isIntersectionTypeNode(typeNode)) {
-        console.log(typeNode.getText());
+    if (ts.isIntersectionTypeNode(typeNode)) {
+        typeHandler.onType!(typeNode.getText());
+        return;
+    }
+
+    if (ts.isParenthesizedTypeNode(typeNode)) {
+        handleType(typeNode.type, checker, typeHandler);
+        return;
     }
 
     if (ts.isTypeReferenceNode(typeNode)) {
