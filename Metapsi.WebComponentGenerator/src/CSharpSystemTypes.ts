@@ -1,6 +1,7 @@
 import { TypeReference } from "./CSharpContracts.js";
 
 export const systemVoid : TypeReference = {name:"void"}
+export const systemObject : TypeReference = {name: "object"}
 export const systemString :TypeReference = {name:"string"}
 export const systemInt: TypeReference = {name:"int"}
 export const systemDecimal: TypeReference = {name: "decimal"};

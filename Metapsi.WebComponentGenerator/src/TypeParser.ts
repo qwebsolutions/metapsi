@@ -21,6 +21,9 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
         case ts.SyntaxKind.UndefinedKeyword:
             // Ignore 'undefined' type
             return;
+        case ts.SyntaxKind.NullKeyword:
+            // Ignore 'null' type
+            return;
         case ts.SyntaxKind.BooleanKeyword:
             typeHandler.onType!("boolean");
             return;
@@ -47,11 +50,18 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
             case ts.SyntaxKind.NumericLiteral:
                 typeHandler.onLiteral!(typeNode.literal.text, "number");
                 return;
+            case ts.SyntaxKind.NullKeyword:
+                // Ignore 'null' type
+                return;
             default:
                 throw `Literal SyntaxKind ${typeNode.literal.kind} not supported!`
         }
     }
 
+    if(ts.isTypeLiteralNode(typeNode)) {
+        typeHandler.onType!(typeNode.getText());
+        return;
+    }
     if (ts.isFunctionTypeNode(typeNode)) {
         typeHandler.onFunction!(typeNode.getFullText());
         return;
@@ -70,6 +80,11 @@ function handleType(typeNode: ts.TypeNode, checker: ts.TypeChecker, typeHandler:
         console.log("Direct type alias");
         throw "Not implemented";
     }
+
+    if(ts.isIntersectionTypeNode(typeNode)) {
+        console.log(typeNode.getText());
+    }
+
     if (ts.isTypeReferenceNode(typeNode)) {
         if (ts.isIdentifier(typeNode.typeName)) {
             var symbolAtLocation = checker.getSymbolAtLocation(typeNode.typeName);
