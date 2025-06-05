@@ -101,8 +101,9 @@ try {
 fs.mkdirSync(path.join(generateToPath, "controls"), { recursive: true });
 
 
-for (var component of docsObject.components.slice(50)) {
-    if (component.tag != "ion-picker-legacy") {
+for (var component of docsObject.components.slice(81)) {
+    var skippedTags = ["ion-picker-legacy", "ion-select-modal"]
+    if (!skippedTags.includes(component.tag)) {
         var className = gen.toCSharpValidName(component.tag);
         var csPath = path.join(generateToPath, "controls", className + ".cs");
         console.log(`Generating ${csPath} ...`)
@@ -598,7 +599,7 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                 ]
             }
 
-            if (property.name == "debounce" && property.type == "number") {
+            if (property.name == "debounce" && property.type == "number | undefined") {
                 return [
                     gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
@@ -620,6 +621,188 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                 return [
                     gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal),
                     gen.createValuePropertySetter(customElementName, property.name, gen.systemObject)
+                ]
+            }
+        }
+
+        if (customElementName == "IonRefresher") {
+            if (property.name == "pullFactor" && property.type == "number") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal)
+                ]
+            }
+            if (property.name == "pullMax" && property.type == "number") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+            if (property.name == "pullMin" && property.type == "number") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+        }
+
+        if (customElementName == "IonRoute") {
+            if (property.name == "beforeEnter" && property.type == "(() => NavigationHookResult | Promise<NavigationHookResult>) | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [gen.systemBool] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "NavigationHookOptions", namespace: "Metapsi.Ionic" }] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "Promise", namespace: "Metapsi.Html", typeArguments: [gen.systemBool] }] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "Promise", namespace: "Metapsi.Html", typeArguments: [{ name: "NavigationHookOptions", namespace: "Metapsi.Ionic" }] }] }),
+                ]
+            }
+        }
+
+        if (customElementName == "IonRoute") {
+            if (property.name == "beforeLeave" && property.type == "(() => NavigationHookResult | Promise<NavigationHookResult>) | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [gen.systemBool] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "NavigationHookOptions", namespace: "Metapsi.Ionic" }] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "Promise", namespace: "Metapsi.Html", typeArguments: [gen.systemBool] }] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [{ name: "Promise", namespace: "Metapsi.Html", typeArguments: [{ name: "NavigationHookOptions", namespace: "Metapsi.Ionic" }] }] }),
+                ]
+            }
+        }
+
+        if (customElementName == "IonSearchbar") {
+            if (property.name == "debounce" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                ]
+            }
+            if (property.name == "maxlength" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                ]
+            }
+            if (property.name == "minlength" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                ]
+            }
+        }
+
+        if (customElementName == "IonSegment") {
+            if (property.name == "value" && property.type == "number | string | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
+                ]
+            }
+        }
+
+        if (customElementName == "IonSegmentButton") {
+            if (property.name == "value" && property.type == "number | string") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
+                ]
+            }
+        }
+
+        if (customElementName == "IonSelect") {
+            if (property.name == "compareWith" && property.type == "((currentValue: any, compareValue: any) => boolean) | null | string | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [gen.systemObject, gen.systemObject, gen.systemBool] })
+                ]
+            }
+
+            if (property.name == "interfaceOptions" && property.type == "any") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemObject)
+                ]
+            }
+
+            if (property.name == "value" && property.type == "any") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemObject)
+                ]
+            }
+        }
+
+        if (customElementName == "IonSelectOption") {
+            if (property.name == "value" && property.type == "any") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemObject)
+                ]
+            }
+        }
+
+        if (customElementName == "IonSpinner") {
+            if (property.name == "duration" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+        }
+
+        if (customElementName == "IonTab") {
+            if (property.name == "component" && property.type == "Function | HTMLElement | null | string | undefined") {
+                return [
+                    // Don't know much about how to use the other types
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
+                ]
+            }
+        }
+
+        if (customElementName == "IonTextarea") {
+            if (property.name == "cols" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+
+            if (property.name == "counterFormatter" && property.type == "((inputLength: number, maxLength: number) => string) | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemFunc, typeArguments: [gen.systemInt, gen.systemInt, gen.systemString] })
+                ]
+            }
+
+            if (property.name == "debounce" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+
+            if (property.name == "maxlength" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+
+            if (property.name == "minlength" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+
+            if (property.name == "rows" && property.type == "number | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+        }
+
+        if (customElementName == "IonToast") {
+            if (property.name == "buttons" && property.type == "(string | ToastButton)[] | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString] }),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ToastButton", namespace: "Metapsi.Ionic" }] })
+                ]
+            }
+
+            if (property.name == "duration" && property.type == "number") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+
+            if (property.name == "positionAnchor" && property.type == "HTMLElement | string | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createValuePropertySetter(customElementName, property.name, { name: "HTMLElement", namespace: "Metapsi.Html" })
                 ]
             }
         }
