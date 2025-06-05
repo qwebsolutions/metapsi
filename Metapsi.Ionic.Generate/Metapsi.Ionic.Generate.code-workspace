@@ -13,20 +13,7 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "My Task1",
-				"command": "echo hello",
-				"type": "shell",
-				"args": [],
-				"problemMatcher": [
-					"$tsc"
-				],
-				"presentation": {
-					"reveal": "always"
-				},
-				"group": "build"
-			},
-			{
-				"label": "My Task2",
+				"label": "build builder",
 				"command": "tsc",
 				"type": "shell",
 				"args": ["--build"],
@@ -45,13 +32,13 @@
 		"version": "0.2.0",
 		"configurations": [
 			{
-				"name": "Just run the fucking thing!",
+				"name": "Just run the thing already!",
 				"type": "node",
 				"request": "launch",
 				"skipFiles": [
 					"<node_internals>/**"
 				],
-				"preLaunchTask": "My Task2",
+				"preLaunchTask": "build builder",
 				"program": "${workspaceFolder:ionic}/dist/app.js",
 				"outFiles": [
 					"${workspaceFolder:gen}/**/*.(m|c|)js",
