@@ -286,7 +286,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> buttons) where T: IonActionSheet
+    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> buttons) where T: IonActionSheet
     {
         b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
@@ -294,7 +294,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// An array of buttons for the action sheet.
     /// </summary>
-    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.ActionSheetButton>>> buttons) where T: IonActionSheet
+    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.ActionSheetButton>> buttons) where T: IonActionSheet
     {
         b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
@@ -310,7 +310,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> cssClass) where T: IonActionSheet
+    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> cssClass) where T: IonActionSheet
     {
         b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
@@ -334,7 +334,7 @@ public static partial class IonActionSheetControl
     /// <summary>
     /// Additional attributes to pass to the action sheet.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonActionSheet
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonActionSheet
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }

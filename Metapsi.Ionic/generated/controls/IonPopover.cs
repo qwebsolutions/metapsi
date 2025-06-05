@@ -534,7 +534,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// The data to pass to the popover component. You only need to use this if you are not using a JavaScript framework. Otherwise, you can just set the props directly on your component.
     /// </summary>
-    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> componentProps) where T: IonPopover
+    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> componentProps) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }
@@ -598,7 +598,7 @@ public static partial class IonPopoverControl
     /// <summary>
     /// Additional attributes to pass to the popover.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonPopover
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonPopover
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }

@@ -134,7 +134,7 @@ public static partial class IonNavLinkControl
     /// <summary>
     /// Data you want to pass to the component as props. Only used if the `"routerDirection"` is `"forward"` or `"root"`.
     /// </summary>
-    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> componentProps) where T: IonNavLink
+    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> componentProps) where T: IonNavLink
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }

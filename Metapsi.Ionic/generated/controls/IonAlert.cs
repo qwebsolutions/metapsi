@@ -294,7 +294,7 @@ public static partial class IonAlertControl
     /// <summary>
     /// Array of buttons to be added to the alert.
     /// </summary>
-    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> buttons) where T: IonAlert
+    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> buttons) where T: IonAlert
     {
         b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
@@ -302,7 +302,7 @@ public static partial class IonAlertControl
     /// <summary>
     /// Array of buttons to be added to the alert.
     /// </summary>
-    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.AlertButton>>> buttons) where T: IonAlert
+    public static void SetButtons<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.AlertButton>> buttons) where T: IonAlert
     {
         b.SetProperty(b.Props, b.Const("buttons"), buttons);
     }
@@ -318,7 +318,7 @@ public static partial class IonAlertControl
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> cssClass) where T: IonAlert
+    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> cssClass) where T: IonAlert
     {
         b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
@@ -342,7 +342,7 @@ public static partial class IonAlertControl
     /// <summary>
     /// Additional attributes to pass to the alert.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonAlert
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonAlert
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
@@ -350,7 +350,7 @@ public static partial class IonAlertControl
     /// <summary>
     /// Array of input to show in the alert.
     /// </summary>
-    public static void SetInputs<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.AlertInput>>> inputs) where T: IonAlert
+    public static void SetInputs<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Metapsi.Ionic.AlertInput>> inputs) where T: IonAlert
     {
         b.SetProperty(b.Props, b.Const("inputs"), inputs);
     }

@@ -1222,7 +1222,7 @@ public static partial class IonDatetimeControl
     /// <summary>
     /// The value of the datetime as a valid ISO 8601 datetime string. This should be an array of strings only when `multiple="true"`.
     /// </summary>
-    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> value) where T: IonDatetime
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> value) where T: IonDatetime
     {
         b.SetProperty(b.Props, b.Const("value"), value);
     }

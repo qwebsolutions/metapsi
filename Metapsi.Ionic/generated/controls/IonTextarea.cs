@@ -816,6 +816,14 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
+    /// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer.
+    /// </summary>
+    public static void SetCols<T>(this Metapsi.Syntax.PropsBuilder<T> b, int cols) where T: IonTextarea
+    {
+        b.SetCols(b.Const(cols));
+    }
+
+    /// <summary>
     /// If `true`, a character counter will display the ratio of characters used and the total character limit. Developers must also set the `maxlength` property for the counter to be calculated correctly.
     /// </summary>
     public static void SetCounter<T>(this Metapsi.Syntax.PropsBuilder<T> b) where T: IonTextarea
@@ -853,6 +861,14 @@ public static partial class IonTextareaControl
     public static void SetDebounce<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> debounce) where T: IonTextarea
     {
         b.SetProperty(b.Props, b.Const("debounce"), debounce);
+    }
+
+    /// <summary>
+    /// Set the amount of time, in milliseconds, to wait to trigger the `ionInput` event after each keystroke.
+    /// </summary>
+    public static void SetDebounce<T>(this Metapsi.Syntax.PropsBuilder<T> b, int debounce) where T: IonTextarea
+    {
+        b.SetDebounce(b.Const(debounce));
     }
 
     /// <summary>
@@ -1112,11 +1128,27 @@ public static partial class IonTextareaControl
     }
 
     /// <summary>
+    /// This attribute specifies the maximum number of characters that the user can enter.
+    /// </summary>
+    public static void SetMaxlength<T>(this Metapsi.Syntax.PropsBuilder<T> b, int maxlength) where T: IonTextarea
+    {
+        b.SetMaxlength(b.Const(maxlength));
+    }
+
+    /// <summary>
     /// This attribute specifies the minimum number of characters that the user can enter.
     /// </summary>
     public static void SetMinlength<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> minlength) where T: IonTextarea
     {
         b.SetProperty(b.Props, b.Const("minlength"), minlength);
+    }
+
+    /// <summary>
+    /// This attribute specifies the minimum number of characters that the user can enter.
+    /// </summary>
+    public static void SetMinlength<T>(this Metapsi.Syntax.PropsBuilder<T> b, int minlength) where T: IonTextarea
+    {
+        b.SetMinlength(b.Const(minlength));
     }
 
     /// <summary>
@@ -1221,6 +1253,14 @@ public static partial class IonTextareaControl
     public static void SetRows<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> rows) where T: IonTextarea
     {
         b.SetProperty(b.Props, b.Const("rows"), rows);
+    }
+
+    /// <summary>
+    /// The number of visible text lines for the control.
+    /// </summary>
+    public static void SetRows<T>(this Metapsi.Syntax.PropsBuilder<T> b, int rows) where T: IonTextarea
+    {
+        b.SetRows(b.Const(rows));
     }
 
     /// <summary>

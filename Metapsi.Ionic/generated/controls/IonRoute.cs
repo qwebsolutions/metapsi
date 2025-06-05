@@ -190,7 +190,7 @@ public static partial class IonRouteControl
     /// <summary>
     /// A key value `{ 'red': true, 'blue': 'white'}` containing props that should be passed to the defined component when rendered.
     /// </summary>
-    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> componentProps) where T: IonRoute
+    public static void SetComponentProps<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> componentProps) where T: IonRoute
     {
         b.SetProperty(b.Props, b.Const("componentProps"), componentProps);
     }

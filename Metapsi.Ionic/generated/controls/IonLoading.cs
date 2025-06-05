@@ -374,7 +374,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> cssClass) where T: IonLoading
+    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> cssClass) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
@@ -390,7 +390,7 @@ public static partial class IonLoadingControl
     /// <summary>
     /// Additional attributes to pass to the loader.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonLoading
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonLoading
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }

@@ -462,9 +462,25 @@ public static partial class IonSegmentControl
     /// <summary>
     /// the value of the segment.
     /// </summary>
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, int value) where T: IonSegment
+    {
+        b.SetValue(b.Const(value));
+    }
+
+    /// <summary>
+    /// the value of the segment.
+    /// </summary>
     public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> value) where T: IonSegment
     {
         b.SetProperty(b.Props, b.Const("value"), value);
+    }
+
+    /// <summary>
+    /// the value of the segment.
+    /// </summary>
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, string value) where T: IonSegment
+    {
+        b.SetValue(b.Const(value));
     }
 
     /// <summary>

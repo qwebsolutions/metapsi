@@ -494,7 +494,7 @@ public static partial class IonModalControl
     /// <summary>
     /// Additional attributes to pass to the modal.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonModal
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
@@ -505,6 +505,30 @@ public static partial class IonModalControl
     public static void SetInitialBreakpoint<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<decimal> initialBreakpoint) where T: IonModal
     {
         b.SetProperty(b.Props, b.Const("initialBreakpoint"), initialBreakpoint);
+    }
+
+    /// <summary>
+    /// A decimal value between 0 and 1 that indicates the initial point the modal will open at when creating a sheet modal. This value must also be listed in the `breakpoints` array.
+    /// </summary>
+    public static void SetInitialBreakpoint<T>(this Metapsi.Syntax.PropsBuilder<T> b, decimal initialBreakpoint) where T: IonModal
+    {
+        b.SetInitialBreakpoint(b.Const(initialBreakpoint));
+    }
+
+    /// <summary>
+    /// A decimal value between 0 and 1 that indicates the initial point the modal will open at when creating a sheet modal. This value must also be listed in the `breakpoints` array.
+    /// </summary>
+    public static void SetInitialBreakpoint<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> initialBreakpoint) where T: IonModal
+    {
+        b.SetProperty(b.Props, b.Const("initialBreakpoint"), initialBreakpoint);
+    }
+
+    /// <summary>
+    /// A decimal value between 0 and 1 that indicates the initial point the modal will open at when creating a sheet modal. This value must also be listed in the `breakpoints` array.
+    /// </summary>
+    public static void SetInitialBreakpoint<T>(this Metapsi.Syntax.PropsBuilder<T> b, int initialBreakpoint) where T: IonModal
+    {
+        b.SetInitialBreakpoint(b.Const(initialBreakpoint));
     }
 
     /// <summary>

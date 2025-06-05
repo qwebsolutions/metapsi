@@ -222,7 +222,7 @@ public static partial class IonNavControl
     /// <summary>
     /// Any parameters for the root component
     /// </summary>
-    public static void SetRootParams<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> rootParams) where T: IonNav
+    public static void SetRootParams<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> rootParams) where T: IonNav
     {
         b.SetProperty(b.Props, b.Const("rootParams"), rootParams);
     }

@@ -259,7 +259,7 @@ function getInputEntities(def: IonicComponentMetadata): gen.WebComponentInputEnt
             var detailType = event.complexType.resolved;
             if (detailType == "void")
                 detailType = "";
-            if(detailType == "any")
+            if (detailType == "any")
                 detailType = "";
             outEntities.push({ kind: "event", name: event.event, description: event.docs ?? "", customDetailType: detailType })
         }
@@ -374,31 +374,18 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
     var propertySetters: gen.MethodDefinition[] = [];
     if (property.kind == "property") {
         if (customElementName == "IonActionSheet" && property.name == "buttons" && property.type == "(string | ActionSheetButton<any>)[]") {
-            // var actionSheetButtonSetter = gen.createValuePropertySetter(
-            //     customElementName,
-            //     property.name,
-            //     {
-            //         ...gen.varType, typeArguments: [{
-            //             ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic", typeArguments: [{ name: "T" }] }]
-            //         }]
-            //     })
-            // actionSheetButtonSetter.typeParameters?.push({ name: "T" })
             var actionSheetButtonSetter = gen.createValuePropertySetter(
                 customElementName,
                 property.name,
                 {
-                    ...gen.varType, typeArguments: [{
-                        ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic" }]
-                    }]
+                    ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic" }]
                 })
             return [
                 gen.createValuePropertySetter(
                     customElementName,
                     property.name,
                     {
-                        ...gen.varType, typeArguments: [{
-                            ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
-                        }]
+                        ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
                     }),
                 actionSheetButtonSetter
             ]
@@ -411,17 +398,13 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                         customElementName,
                         property.name,
                         {
-                            ...gen.varType, typeArguments: [{
-                                ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
-                            }]
+                            ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
                         }),
                     gen.createValuePropertySetter(
                         customElementName,
                         property.name,
                         {
-                            ...gen.varType, typeArguments: [{
-                                ...gen.systemCollectionsGenericList, typeArguments: [{ name: "AlertButton", namespace: "Metapsi.Ionic" }]
-                            }]
+                            ...gen.systemCollectionsGenericList, typeArguments: [{ name: "AlertButton", namespace: "Metapsi.Ionic" }]
                         }),
                 ]
             }
@@ -431,9 +414,7 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                         customElementName,
                         property.name,
                         {
-                            ...gen.varType, typeArguments: [{
-                                ...gen.systemCollectionsGenericList, typeArguments: [{ name: "AlertInput", namespace: "Metapsi.Ionic" }]
-                            }]
+                            ...gen.systemCollectionsGenericList, typeArguments: [{ name: "AlertInput", namespace: "Metapsi.Ionic" }]
                         }),
                 ]
             }
@@ -595,7 +576,10 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
 
             if (property.name == "initialBreakpoint" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemDecimal),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
@@ -807,7 +791,9 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
             if (property.name == "value" && property.type == "number | string | undefined") {
                 return [
                     gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemString)
                 ]
             }
         }
@@ -816,7 +802,9 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
             if (property.name == "value" && property.type == "number | string") {
                 return [
                     gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemString),
                 ]
             }
         }
@@ -870,7 +858,8 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
         if (customElementName == "IonTextarea") {
             if (property.name == "cols" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
@@ -882,25 +871,29 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
 
             if (property.name == "debounce" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
             if (property.name == "maxlength" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
             if (property.name == "minlength" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
             if (property.name == "rows" && property.type == "number | undefined") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
         }
@@ -915,7 +908,8 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
 
             if (property.name == "duration" && property.type == "number") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt)
                 ]
             }
 
@@ -939,9 +933,7 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                     customElementName,
                     property.name,
                     {
-                        ...gen.varType, typeArguments: [{
-                            ...gen.systemCollectionsGenericList, typeArguments: [gen.systemObject]
-                        }]
+                        ...gen.systemCollectionsGenericList, typeArguments: [gen.systemObject]
                     }),
             ]
         }
@@ -1009,9 +1001,7 @@ function createPropertySetters(customElementName: string, property: gen.WebCompo
                                     customElementName,
                                     property.name,
                                     {
-                                        ...gen.varType, typeArguments: [{
-                                            ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
-                                        }]
+                                        ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
                                     }));
                         }
                         else {

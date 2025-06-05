@@ -6,6 +6,14 @@ namespace Metapsi.Ionic;
 
 public static partial class IonModalControl
 {
+    /// <summary>
+    /// The breakpoints to use when creating a sheet modal. Each value in the array must be a decimal between 0 and 1 where 0 indicates the modal is fully closed and 1 indicates the modal is fully open. Values are relative to the height of the modal, not the height of the screen. One of the values in this array must be the value of the `initialBreakpoint` property. For example: [0, .25, .5, 1]
+    /// </summary>
+    public static void SetBreakpoints<T>(this Metapsi.Syntax.PropsBuilder<T> b, params decimal[] breakpoints) where T : IonModal
+    {
+        b.SetBreakpoints(b.Const(new System.Collections.Generic.List<decimal>(breakpoints)));
+    }
+
     public static Var<Promise> PresentIonModal<TElement>(this SyntaxBuilder b, Var<TElement> domElement) where TElement : Html.Element
     {
         return b.CallOnObject<Promise>(domElement, "present");

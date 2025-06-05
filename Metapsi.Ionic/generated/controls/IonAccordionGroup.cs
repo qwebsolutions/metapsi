@@ -334,7 +334,7 @@ public static partial class IonAccordionGroupControl
     /// <summary>
     /// The value of the accordion group. This controls which accordions are expanded. This should be an array of strings only when `multiple="true"`
     /// </summary>
-    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> value) where T: IonAccordionGroup
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> value) where T: IonAccordionGroup
     {
         b.SetProperty(b.Props, b.Const("value"), value);
     }

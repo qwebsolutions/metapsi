@@ -494,7 +494,7 @@ public static partial class IonToastControl
     /// <summary>
     /// Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.
     /// </summary>
-    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<string>>> cssClass) where T: IonToast
+    public static void SetCssClass<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> cssClass) where T: IonToast
     {
         b.SetProperty(b.Props, b.Const("cssClass"), cssClass);
     }
@@ -505,6 +505,14 @@ public static partial class IonToastControl
     public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> duration) where T: IonToast
     {
         b.SetProperty(b.Props, b.Const("duration"), duration);
+    }
+
+    /// <summary>
+    /// How many milliseconds to wait before hiding the toast. By default, it will show until `dismiss()` is called.
+    /// </summary>
+    public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, int duration) where T: IonToast
+    {
+        b.SetDuration(b.Const(duration));
     }
 
     /// <summary>
@@ -526,7 +534,7 @@ public static partial class IonToastControl
     /// <summary>
     /// Additional attributes to pass to the toast.
     /// </summary>
-    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Collections.Generic.List<object>>> htmlAttributes) where T: IonToast
+    public static void SetHtmlAttributes<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<System.Collections.Generic.List<object>> htmlAttributes) where T: IonToast
     {
         b.SetProperty(b.Props, b.Const("htmlAttributes"), htmlAttributes);
     }
