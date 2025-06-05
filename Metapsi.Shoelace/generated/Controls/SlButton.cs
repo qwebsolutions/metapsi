@@ -872,6 +872,14 @@ public static partial class SlButtonControl
     }
 
     /// <summary>
+    /// Tells the browser to download the linked file as this filename. Only used when `href` is present.
+    /// </summary>
+    public static void SetDownload<T>(this Metapsi.Syntax.PropsBuilder<T> b, string download) where T: SlButton
+    {
+        b.SetDownload(b.Const(download));
+    }
+
+    /// <summary>
     /// The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
     /// </summary>
     public static void SetForm<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> form) where T: SlButton

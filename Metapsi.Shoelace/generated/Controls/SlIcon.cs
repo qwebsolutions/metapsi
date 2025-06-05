@@ -132,11 +132,27 @@ public static partial class SlIconControl
     }
 
     /// <summary>
+    /// The name of the icon to draw. Available names depend on the icon library being used.
+    /// </summary>
+    public static void SetName<T>(this Metapsi.Syntax.PropsBuilder<T> b, string name) where T: SlIcon
+    {
+        b.SetName(b.Const(name));
+    }
+
+    /// <summary>
     /// An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks.
     /// </summary>
     public static void SetSrc<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> src) where T: SlIcon
     {
         b.SetProperty(b.Props, b.Const("src"), src);
+    }
+
+    /// <summary>
+    /// An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks.
+    /// </summary>
+    public static void SetSrc<T>(this Metapsi.Syntax.PropsBuilder<T> b, string src) where T: SlIcon
+    {
+        b.SetSrc(b.Const(src));
     }
 
     /// <summary>

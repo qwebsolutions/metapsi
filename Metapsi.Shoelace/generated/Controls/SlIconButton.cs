@@ -208,11 +208,27 @@ public static partial class SlIconButtonControl
     }
 
     /// <summary>
+    /// The name of the icon to draw. Available names depend on the icon library being used.
+    /// </summary>
+    public static void SetName<T>(this Metapsi.Syntax.PropsBuilder<T> b, string name) where T: SlIconButton
+    {
+        b.SetName(b.Const(name));
+    }
+
+    /// <summary>
     /// The name of a registered custom icon library.
     /// </summary>
     public static void SetLibrary<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> library) where T: SlIconButton
     {
         b.SetProperty(b.Props, b.Const("library"), library);
+    }
+
+    /// <summary>
+    /// The name of a registered custom icon library.
+    /// </summary>
+    public static void SetLibrary<T>(this Metapsi.Syntax.PropsBuilder<T> b, string library) where T: SlIconButton
+    {
+        b.SetLibrary(b.Const(library));
     }
 
     /// <summary>
@@ -224,11 +240,27 @@ public static partial class SlIconButtonControl
     }
 
     /// <summary>
+    /// An external URL of an SVG file. Be sure you trust the content you are including, as it will be executed as code and can result in XSS attacks.
+    /// </summary>
+    public static void SetSrc<T>(this Metapsi.Syntax.PropsBuilder<T> b, string src) where T: SlIconButton
+    {
+        b.SetSrc(b.Const(src));
+    }
+
+    /// <summary>
     /// When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`.
     /// </summary>
     public static void SetHref<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> href) where T: SlIconButton
     {
         b.SetProperty(b.Props, b.Const("href"), href);
+    }
+
+    /// <summary>
+    /// When set, the underlying button will be rendered as an `&lt;a&gt;` with this `href` instead of a `&lt;button&gt;`.
+    /// </summary>
+    public static void SetHref<T>(this Metapsi.Syntax.PropsBuilder<T> b, string href) where T: SlIconButton
+    {
+        b.SetHref(b.Const(href));
     }
 
     /// <summary>
@@ -269,6 +301,14 @@ public static partial class SlIconButtonControl
     public static void SetDownload<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> download) where T: SlIconButton
     {
         b.SetProperty(b.Props, b.Const("download"), download);
+    }
+
+    /// <summary>
+    /// Tells the browser to download the linked file as this filename. Only used when `href` is set.
+    /// </summary>
+    public static void SetDownload<T>(this Metapsi.Syntax.PropsBuilder<T> b, string download) where T: SlIconButton
+    {
+        b.SetDownload(b.Const(download));
     }
 
     /// <summary>

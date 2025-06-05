@@ -160,6 +160,14 @@ public static partial class SlBreadcrumbItemControl
     }
 
     /// <summary>
+    /// Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead.
+    /// </summary>
+    public static void SetHref<T>(this Metapsi.Syntax.PropsBuilder<T> b, string href) where T: SlBreadcrumbItem
+    {
+        b.SetHref(b.Const(href));
+    }
+
+    /// <summary>
     /// Tells the browser where to open the link. Only used when `href` is set.
     /// </summary>
     public static void SetTarget_blank<T>(this Metapsi.Syntax.PropsBuilder<T> b) where T: SlBreadcrumbItem

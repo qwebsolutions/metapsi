@@ -557,11 +557,11 @@ function createShoelacePropertySetters(customElementName: string, property: gen.
         var explicit = createExplicitTypes(customElementName, property);
         if (explicit.length) {
             propertySetters.push(...explicit);
-        } else if (property.type == "boolean") {
+        } else if (property.type == "boolean" || property.type == "boolean | undefined") {
             propertySetters.push(gen.createDefaultTrueBoolPropertySetter(customElementName, property.name));
             propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemBool));
             propertySetters.push(gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemBool));
-        } else if (property.type == "string") {
+        } else if (property.type == "string" || property.type == "string | undefined") {
             propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemString));
             propertySetters.push(gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemString));
         } else if (property.type.includes("|")) {
