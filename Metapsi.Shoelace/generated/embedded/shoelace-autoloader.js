@@ -1,7 +1,7 @@
 import {
   getBasePath
 } from "./chunks/chunk.3Y6SB6QS.js";
-import "./chunks/chunk.KAW7D32O.js";
+import "./chunks/chunk.W27M6RDR.js";
 
 // src/shoelace-autoloader.ts
 var observer = new MutationObserver((mutations) => {

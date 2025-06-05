@@ -1514,23 +1514,15 @@ public static partial class SlInputControl
     /// <summary>
     /// Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `&lt;input type="{{type}}"&gt;` implementation and may result in an error.
     /// </summary>
-    public static void SetValueAsDate<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> valueAsDate) where T: SlInput
+    public static void SetValueAsDate<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<object> valueAsDate) where T: SlInput
     {
         b.SetProperty(b.Props, b.Const("valueAsDate"), valueAsDate);
     }
 
     /// <summary>
-    /// Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `&lt;input type="{{type}}"&gt;` implementation and may result in an error.
-    /// </summary>
-    public static void SetValueAsDate<T>(this Metapsi.Syntax.PropsBuilder<T> b, string valueAsDate) where T: SlInput
-    {
-        b.SetValueAsDate(b.Const(valueAsDate));
-    }
-
-    /// <summary>
     /// Gets or sets the current value as a number. Returns `NaN` if the value can't be converted.
     /// </summary>
-    public static void SetValueAsNumber<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> valueAsNumber) where T: SlInput
+    public static void SetValueAsNumber<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<decimal> valueAsNumber) where T: SlInput
     {
         b.SetProperty(b.Props, b.Const("valueAsNumber"), valueAsNumber);
     }
@@ -1538,41 +1530,9 @@ public static partial class SlInputControl
     /// <summary>
     /// Gets or sets the current value as a number. Returns `NaN` if the value can't be converted.
     /// </summary>
-    public static void SetValueAsNumber<T>(this Metapsi.Syntax.PropsBuilder<T> b, string valueAsNumber) where T: SlInput
+    public static void SetValueAsNumber<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> valueAsNumber) where T: SlInput
     {
-        b.SetValueAsNumber(b.Const(valueAsNumber));
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validity) where T: SlInput
-    {
-        b.SetProperty(b.Props, b.Const("validity"), validity);
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validity) where T: SlInput
-    {
-        b.SetValidity(b.Const(validity));
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validationMessage) where T: SlInput
-    {
-        b.SetProperty(b.Props, b.Const("validationMessage"), validationMessage);
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validationMessage) where T: SlInput
-    {
-        b.SetValidationMessage(b.Const(validationMessage));
+        b.SetProperty(b.Props, b.Const("valueAsNumber"), valueAsNumber);
     }
 
     /// <summary>

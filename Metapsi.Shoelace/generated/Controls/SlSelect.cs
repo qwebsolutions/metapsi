@@ -388,14 +388,6 @@ public static partial class SlSelectControl
     }
 
     /// <summary>
-    /// The current value of the select, submitted as a name/value pair with form data. When `multiple` is enabled, the value attribute will be a space-delimited list of values based on the options selected, and the value property will be an array. **For this reason, values must not contain spaces.**
-    /// </summary>
-    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, string value) where T: SlSelect
-    {
-        b.SetValue(b.Const(value));
-    }
-
-    /// <summary>
     /// The default value of the form control. Primarily used for resetting the form control.
     /// </summary>
     public static void SetDefaultValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> defaultValue) where T: SlSelect
@@ -729,38 +721,6 @@ public static partial class SlSelectControl
     public static void SetGetTag<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Syntax.Var<System.Func<Metapsi.Shoelace.SlOption, int, Metapsi.Html.HTMLElement>>> getTag) where T: SlSelect
     {
         b.SetProperty(b.Props, b.Const("getTag"), getTag);
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validity) where T: SlSelect
-    {
-        b.SetProperty(b.Props, b.Const("validity"), validity);
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validity) where T: SlSelect
-    {
-        b.SetValidity(b.Const(validity));
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validationMessage) where T: SlSelect
-    {
-        b.SetProperty(b.Props, b.Const("validationMessage"), validationMessage);
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validationMessage) where T: SlSelect
-    {
-        b.SetValidationMessage(b.Const(validationMessage));
     }
 
     /// <summary>

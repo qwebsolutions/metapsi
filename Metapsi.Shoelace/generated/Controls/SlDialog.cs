@@ -152,22 +152,6 @@ public static partial class SlDialogControl
     }
 
     /// <summary>
-    /// Exposes the internal modal utility that controls focus trapping. To temporarily disable focus trapping and allow third-party modals spawned from an active Shoelace modal, call `modal.activateExternal()` when the third-party modal opens. Upon closing, call `modal.deactivateExternal()` to restore Shoelace's focus trapping.
-    /// </summary>
-    public static void SetModal<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> modal) where T: SlDialog
-    {
-        b.SetProperty(b.Props, b.Const("modal"), modal);
-    }
-
-    /// <summary>
-    /// Exposes the internal modal utility that controls focus trapping. To temporarily disable focus trapping and allow third-party modals spawned from an active Shoelace modal, call `modal.activateExternal()` when the third-party modal opens. Upon closing, call `modal.deactivateExternal()` to restore Shoelace's focus trapping.
-    /// </summary>
-    public static void SetModal<T>(this Metapsi.Syntax.PropsBuilder<T> b, string modal) where T: SlDialog
-    {
-        b.SetModal(b.Const(modal));
-    }
-
-    /// <summary>
     /// Indicates whether or not the dialog is open. You can toggle this attribute to show and hide the dialog, or you can use the `show()` and `hide()` methods and this attribute will reflect the dialog's open state.
     /// </summary>
     public static void SetOpen<T>(this Metapsi.Syntax.PropsBuilder<T> b) where T: SlDialog

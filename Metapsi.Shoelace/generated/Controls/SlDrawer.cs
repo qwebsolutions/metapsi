@@ -200,22 +200,6 @@ public static partial class SlDrawerControl
     }
 
     /// <summary>
-    /// Exposes the internal modal utility that controls focus trapping. To temporarily disable focus trapping and allow third-party modals spawned from an active Shoelace modal, call `modal.activateExternal()` when the third-party modal opens. Upon closing, call `modal.deactivateExternal()` to restore Shoelace's focus trapping.
-    /// </summary>
-    public static void SetModal<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> modal) where T: SlDrawer
-    {
-        b.SetProperty(b.Props, b.Const("modal"), modal);
-    }
-
-    /// <summary>
-    /// Exposes the internal modal utility that controls focus trapping. To temporarily disable focus trapping and allow third-party modals spawned from an active Shoelace modal, call `modal.activateExternal()` when the third-party modal opens. Upon closing, call `modal.deactivateExternal()` to restore Shoelace's focus trapping.
-    /// </summary>
-    public static void SetModal<T>(this Metapsi.Syntax.PropsBuilder<T> b, string modal) where T: SlDrawer
-    {
-        b.SetModal(b.Const(modal));
-    }
-
-    /// <summary>
     /// Indicates whether or not the drawer is open. You can toggle this attribute to show and hide the drawer, or you can use the `show()` and `hide()` methods and this attribute will reflect the drawer's open state.
     /// </summary>
     public static void SetOpen<T>(this Metapsi.Syntax.PropsBuilder<T> b) where T: SlDrawer

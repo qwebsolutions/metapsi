@@ -1,11 +1,11 @@
 import {
-  animations,
+  dist_exports,
   getAnimationNames,
   getEasingNames
-} from "../../chunks/chunk.TJOP7HQP.js";
-import "../../chunks/chunk.KAW7D32O.js";
+} from "../../chunks/chunk.S32TRDOY.js";
+import "../../chunks/chunk.W27M6RDR.js";
 export {
-  animations,
+  dist_exports as animations,
   getAnimationNames,
   getEasingNames
 };

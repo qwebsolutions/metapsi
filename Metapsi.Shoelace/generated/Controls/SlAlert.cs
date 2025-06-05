@@ -294,7 +294,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`, meaning the alert will not close on its own.
     /// </summary>
-    public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> duration) where T: SlAlert
+    public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> duration) where T: SlAlert
     {
         b.SetProperty(b.Props, b.Const("duration"), duration);
     }
@@ -302,7 +302,7 @@ public static partial class SlAlertControl
     /// <summary>
     /// The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`, meaning the alert will not close on its own.
     /// </summary>
-    public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, string duration) where T: SlAlert
+    public static void SetDuration<T>(this Metapsi.Syntax.PropsBuilder<T> b, int duration) where T: SlAlert
     {
         b.SetDuration(b.Const(duration));
     }

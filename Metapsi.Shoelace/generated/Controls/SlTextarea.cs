@@ -1076,38 +1076,6 @@ public static partial class SlTextareaControl
     }
 
     /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validity) where T: SlTextarea
-    {
-        b.SetProperty(b.Props, b.Const("validity"), validity);
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validity) where T: SlTextarea
-    {
-        b.SetValidity(b.Const(validity));
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validationMessage) where T: SlTextarea
-    {
-        b.SetProperty(b.Props, b.Const("validationMessage"), validationMessage);
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validationMessage) where T: SlTextarea
-    {
-        b.SetValidationMessage(b.Const(validationMessage));
-    }
-
-    /// <summary>
     /// Emitted when the control loses focus.
     /// </summary>
     public static void OnSlBlur<T,TModel>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Hyperapp.HyperType.Action<TModel, Metapsi.Html.Event>> action) where T: SlTextarea

@@ -328,38 +328,6 @@ public static partial class SlRadioGroupControl
     }
 
     /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validity) where T: SlRadioGroup
-    {
-        b.SetProperty(b.Props, b.Const("validity"), validity);
-    }
-
-    /// <summary>
-    /// Gets the validity state object
-    /// </summary>
-    public static void SetValidity<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validity) where T: SlRadioGroup
-    {
-        b.SetValidity(b.Const(validity));
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> validationMessage) where T: SlRadioGroup
-    {
-        b.SetProperty(b.Props, b.Const("validationMessage"), validationMessage);
-    }
-
-    /// <summary>
-    /// Gets the validation message
-    /// </summary>
-    public static void SetValidationMessage<T>(this Metapsi.Syntax.PropsBuilder<T> b, string validationMessage) where T: SlRadioGroup
-    {
-        b.SetValidationMessage(b.Const(validationMessage));
-    }
-
-    /// <summary>
     /// Emitted when the radio group's selected value changes.
     /// </summary>
     public static void OnSlChange<T,TModel>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<Metapsi.Hyperapp.HyperType.Action<TModel, Metapsi.Html.Event>> action) where T: SlRadioGroup

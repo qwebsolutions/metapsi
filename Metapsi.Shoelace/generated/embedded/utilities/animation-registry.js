@@ -2,8 +2,8 @@ import {
   getAnimation,
   setAnimation,
   setDefaultAnimation
-} from "../chunks/chunk.K7JGTRV7.js";
-import "../chunks/chunk.KAW7D32O.js";
+} from "../chunks/chunk.25TVLSB6.js";
+import "../chunks/chunk.W27M6RDR.js";
 export {
   getAnimation,
   setAnimation,

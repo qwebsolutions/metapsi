@@ -1,7 +1,9 @@
-import "../chunks/chunk.KAW7D32O.js";
+import {
+  registerTranslation
+} from "../chunks/chunk.TDEXDIPB.js";
+import "../chunks/chunk.W27M6RDR.js";
 
 // src/translations/ar.ts
-import { registerTranslation } from "@shoelace-style/localize";
 var translation = {
   $code: "ar",
   $name: "\u0627\u0644\u0639\u0631\u0628\u064A\u0629",

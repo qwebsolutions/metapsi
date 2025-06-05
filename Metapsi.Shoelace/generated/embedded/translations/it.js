@@ -1,7 +1,9 @@
-import "../chunks/chunk.KAW7D32O.js";
+import {
+  registerTranslation
+} from "../chunks/chunk.TDEXDIPB.js";
+import "../chunks/chunk.W27M6RDR.js";
 
 // src/translations/it.ts
-import { registerTranslation } from "@shoelace-style/localize";
 var translation = {
   $code: "it",
   $name: "Italian",

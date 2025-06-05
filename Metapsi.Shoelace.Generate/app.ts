@@ -9,6 +9,7 @@ var shoelacePackageJsonPath = path.join(shoelaceNodeModulePath, "package.json");
 var shoelaceVersion = JSON.parse(await fsp.readFile(shoelacePackageJsonPath, { encoding: "utf-8" })).version;
 console.log(`Generating Shoelace version ${shoelaceVersion}`)
 var shoelaceDistFolder = path.join(process.cwd(), "node_modules", "@shoelace-style", "shoelace", "dist")
+var shoelaceCdnFolder = path.join(process.cwd(), "node_modules", "@shoelace-style", "shoelace", "cdn")
 var customElementsManifestJsonPath = path.join(shoelaceDistFolder, "custom-elements.json");
 var customElementsManifestContent = await fsp.readFile(customElementsManifestJsonPath, { encoding: "utf-8" });
 var shoelaceManifest = JSON.parse(customElementsManifestContent) as cemSchema.Package;
@@ -25,14 +26,14 @@ try {
 var metapsiShoelaceControlsPath = path.join(metapsiGenerateOutputPath, "controls");
 var metapsiShoelaceEmbeddedPath = path.join(metapsiGenerateOutputPath, "embedded");
 
-var allPaths = getFilePathsRecursiveSync(shoelaceDistFolder);
+var allPaths = getFilePathsRecursiveSync(shoelaceCdnFolder);
 var assetPaths = allPaths.filter(x => !x.endsWith(".ts")).filter(x => !x.endsWith(".json")).filter(x => {
-    var relative = x.replace(shoelaceDistFolder, "").substring(1);
+    var relative = x.replace(shoelaceCdnFolder, "").substring(1);
     return !relative.startsWith("react");
 });
-copyAssets(shoelaceDistFolder, assetPaths, metapsiShoelaceEmbeddedPath)
+copyAssets(shoelaceCdnFolder, assetPaths, metapsiShoelaceEmbeddedPath)
 
-var relativeAssetPaths = assetPaths.map(x => x.replace(shoelaceDistFolder + "\\", ""));
+var relativeAssetPaths = assetPaths.map(x => x.replace(shoelaceCdnFolder + "\\", ""));
 
 var targetFile = getTargetFileContent(shoelaceVersion, relativeAssetPaths);
 await fsp.writeFile(path.join(metapsiGenerateOutputPath, "shoelace.target"), targetFile, 'utf-8');
@@ -247,8 +248,15 @@ function getInputEntities(def: cemSchema.CustomElement): gen.WebComponentInputEn
     if (def.members) {
         for (var member of def.members) {
             if (member.kind == "field") {
-                if (member.description && member.privacy != "private") {
-                    outEntities.push({ kind: "property", name: member.name, description: member.description ?? "", type: member.type?.text ?? "string" })
+                if (member.description && member.privacy != "private" && !member.readonly) {
+                    var propertyType = member.type?.text;
+                    if (!propertyType && member.default == "Infinity") {
+                        propertyType = "number";
+                    }
+                    if (!propertyType) {
+                        propertyType = "any"
+                    }
+                    outEntities.push({ kind: "property", name: member.name, description: member.description ?? "", type: propertyType })
                 }
             }
         }
@@ -371,6 +379,13 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
             }
         }
 
+        if (customElementName == "SlAlert") {
+            if (property.name == "duration") {
+                propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemInt));
+                propertySetters.push(gen.createConstRedirectValuePropertySetter(customElementName, property.name, gen.systemInt));
+            }
+        }
+
         if (customElementName == "SlCarousel") {
             if (property.type == "number") {
                 propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemInt));
@@ -430,6 +445,15 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
             if (property.name == "step" && property.type == "number | 'any'") {
                 propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal));
                 propertySetters.push(gen.createLiteralPropertySetter(customElementName, property.name, "any"));
+            }
+
+            if (property.name == "valueAsDate") {
+                propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemObject));
+            }
+
+            if (property.name == "valueAsNumber") {
+                propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemDecimal));
+                propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemInt));
             }
         }
         if (customElementName == "SlProgressBar") {
@@ -516,6 +540,10 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
                     }]
                 }));
             }
+
+            if (property.name == "value") {
+                propertySetters.push(gen.createValuePropertySetter(customElementName, property.name, gen.systemString));
+            }
         }
 
         if (customElementName == "SlSplitPanel") {
@@ -554,6 +582,12 @@ function createShoelacePropertySetters(customElementName: string, property: gen.
     var propertySetters: gen.MethodDefinition[] = [];
 
     if (property.kind == "property") {
+        if (customElementName == "SlDialog" && property.name == "modal") {
+            return [];
+        }
+        if (customElementName == "SlDrawer" && property.name == "modal") {
+            return []
+        }
         var explicit = createExplicitTypes(customElementName, property);
         if (explicit.length) {
             propertySetters.push(...explicit);

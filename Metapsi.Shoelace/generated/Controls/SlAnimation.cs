@@ -318,7 +318,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// The number of iterations to run before the animation completes. Defaults to `Infinity`, which loops.
     /// </summary>
-    public static void SetIterations<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> iterations) where T: SlAnimation
+    public static void SetIterations<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> iterations) where T: SlAnimation
     {
         b.SetProperty(b.Props, b.Const("iterations"), iterations);
     }
@@ -326,7 +326,7 @@ public static partial class SlAnimationControl
     /// <summary>
     /// The number of iterations to run before the animation completes. Defaults to `Infinity`, which loops.
     /// </summary>
-    public static void SetIterations<T>(this Metapsi.Syntax.PropsBuilder<T> b, string iterations) where T: SlAnimation
+    public static void SetIterations<T>(this Metapsi.Syntax.PropsBuilder<T> b, int iterations) where T: SlAnimation
     {
         b.SetIterations(b.Const(iterations));
     }
