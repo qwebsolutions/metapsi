@@ -11,6 +11,11 @@ namespace Metapsi.Syntax
             b.CallDynamic(import, into, propertyName, value);
         }
 
+        public static void SetProperty(this SyntaxBuilder b, IVariable into, string propertyName, IVariable value)
+        {
+            b.SetProperty(into, b.Const(propertyName), value);
+        }
+
         public static void SetLax<TItem>(SyntaxBuilder b, Var<TItem> var, LambdaExpression access, IVariable value)
         {
             if (!(access.Body is MemberExpression))

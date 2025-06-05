@@ -17,6 +17,6 @@ public partial class IonActionSheetControl
         {
             b.Push(actions, b.SetProps(b.NewObj(), action));
         }
-        b.SetButtons(actions);
+        b.SetButtons(b.Const(actions));
     }
 }

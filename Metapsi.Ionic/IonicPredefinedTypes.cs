@@ -1,7 +1,7 @@
 ﻿namespace Metapsi.Ionic;
 
 public interface Animation { }
-public interface AnimationBuilder { }
+//public interface AnimationBuilder { }
 public interface DatetimeHighlightStyle { }
 public interface DatetimeHighlight { }
 public interface FocusEvent { }
@@ -50,4 +50,48 @@ public class HTMLIonPickerColumnElement
 public interface IonicSafeString
 {
 
+}
+
+/// <summary>
+/// 
+/// </summary>
+public interface NavigationHookOptions
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public string redirect { get; set; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public interface IonTabsWillChangeDetail
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public string tab { get; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public interface IonTabsDidChangeDetail
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public string tab { get; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public interface IonSplitPaneVisibleDetail
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool visible { get; }
 }

@@ -4,6 +4,7 @@ import * as fs from "fs";
 import path from "path";
 
 import * as ionic from "@ionic/core"
+import { exit } from "process";
 function ionicTests() {
 
     var a: ionic.DatetimeHighlight;
@@ -88,6 +89,15 @@ var docsFilePath = path.join(distFolder, "docs.json");
 var docsFileContent = await fsp.readFile(docsFilePath, { encoding: "utf-8" });
 var docsObject = JSON.parse(docsFileContent) as IonicMetadata;
 
+// for (var c of docsObject.components) {
+//     for (var e of c.events) {
+//         if (e.complexType.resolved.includes("<"))
+//             console.log(`${c.tag} ${e.event} ${e.complexType.resolved}`);
+//     }
+// }
+
+// throw new Error();
+
 var csProjPath = path.join(process.cwd(), "..", "Metapsi.Ionic");
 var generateToPath = path.join(csProjPath, "generated");
 
@@ -96,7 +106,6 @@ try {
 } catch (err) {
     console.error(`Output folder ${generateToPath} not removed`, err);
 }
-
 
 fs.mkdirSync(path.join(generateToPath, "controls"), { recursive: true });
 
@@ -139,6 +148,15 @@ var jsPaths = allPaths.filter(x => {
 
 var cssPath = path.join(nodeModulePath, "css", "ionic.bundle.css");
 
+var cdnCsContent = `namespace Metapsi.Ionic;
+
+public static partial class Cdn
+{
+    public const string Version = "${ionicVersion}";
+}
+`
+fs.writeFileSync(path.join(generateToPath, "Cdn.cs"), cdnCsContent, { encoding: "utf8" });
+
 copyAssets(path.join(distFolder, "ionic"), jsPaths, path.join(generateToPath, "embedded"))
 fs.copyFileSync(
     cssPath,
@@ -160,6 +178,33 @@ function copyAssets(relativeToPath: string, sourcePaths: string[], intoFolder: s
     }
 }
 
+var relativePaths = allPaths.filter(x => {
+    var relative = x.replace(distFolder, "").slice(1);
+    return relative.startsWith("ionic")
+}).map(x => {
+    var relative = x.replace(distFolder, "").slice(1);
+    return relative.replace("ionic\\", "")
+})
+
+relativePaths.push("ionic.bundle.css")
+
+function getTargetFileContent(version: string, relativePaths: string[]): string {
+    var outLines: string[] = [];
+    outLines.push('<Project>')
+    outLines.push('  <PropertyGroup>')
+    outLines.push(`    <IonicVersion>${version}</IonicVersion>`)
+    outLines.push('  </PropertyGroup>')
+    outLines.push('  <ItemGroup>')
+    for (const assetPath of relativePaths) {
+        outLines.push(`    <EmbeddedResource Include="generated\\embedded\\${assetPath}" LogicalName="ionic@${version}/${assetPath.replaceAll("\\", "/")}" />`)
+    }
+    outLines.push('  </ItemGroup>')
+    outLines.push('</Project>')
+    return outLines.join("\n");
+}
+
+var targetFile = getTargetFileContent(ionicVersion, relativePaths);
+await fsp.writeFile(path.join(generateToPath, "ionic.target"), targetFile, 'utf-8');
 
 for (var component of docsObject.components) {
     var skippedTags = ["ion-picker-legacy", "ion-select-modal"]
@@ -171,6 +216,8 @@ for (var component of docsObject.components) {
         console.log("Done")
     }
 }
+
+console.log(`Complete!`)
 
 function getInputEntities(def: IonicComponentMetadata): gen.WebComponentInputEntity[] {
     var outEntities: gen.WebComponentInputEntity[] = [];
@@ -209,7 +256,12 @@ function getInputEntities(def: IonicComponentMetadata): gen.WebComponentInputEnt
         for (var event of def.events) {
             //console.log("event type:"+ event.complexType.original + " "+event.complexType.resolved);
             //console.log("event detail:"+ event.detail);
-            outEntities.push({ kind: "event", name: event.event, description: event.docs ?? "", customDetailType: event.complexType.resolved })
+            var detailType = event.complexType.resolved;
+            if (detailType == "void")
+                detailType = "";
+            if(detailType == "any")
+                detailType = "";
+            outEntities.push({ kind: "event", name: event.event, description: event.docs ?? "", customDetailType: detailType })
         }
     }
 
@@ -322,15 +374,23 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
     var propertySetters: gen.MethodDefinition[] = [];
     if (property.kind == "property") {
         if (customElementName == "IonActionSheet" && property.name == "buttons" && property.type == "(string | ActionSheetButton<any>)[]") {
+            // var actionSheetButtonSetter = gen.createValuePropertySetter(
+            //     customElementName,
+            //     property.name,
+            //     {
+            //         ...gen.varType, typeArguments: [{
+            //             ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic", typeArguments: [{ name: "T" }] }]
+            //         }]
+            //     })
+            // actionSheetButtonSetter.typeParameters?.push({ name: "T" })
             var actionSheetButtonSetter = gen.createValuePropertySetter(
                 customElementName,
                 property.name,
                 {
                     ...gen.varType, typeArguments: [{
-                        ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic", typeArguments: [{ name: "T" }] }]
+                        ...gen.systemCollectionsGenericList, typeArguments: [{ name: "ActionSheetButton", namespace: "Metapsi.Ionic" }]
                     }]
                 })
-            actionSheetButtonSetter.typeParameters?.push({ name: "T" })
             return [
                 gen.createValuePropertySetter(
                     customElementName,
@@ -1080,7 +1140,13 @@ function createEventSetters(customElementName: string, event: gen.WebComponentIn
         // outNodes.push(gen.CreateFuncSyntaxBuilderEventSetter(customElementName, event.name));
         if (event.customDetailType) {
             //console.log(`Custom event detail ${event.name}: ${event.customDetailType}`)
-            outNodes.push(createIonicVarActionModelCustomEventEventSetter(customElementName, event));
+            var detailType = event.customDetailType;
+            if (detailType.includes("{")) {
+                detailType = gen.toCSharpValidName(event.name) + "Detail"
+            }
+            if (detailType.includes("<any>"))
+                detailType = detailType.replace("<any>", "");
+            outNodes.push(createIonicVarActionModelCustomEventEventSetter(customElementName, event.name, detailType));
         }
     }
     if (!outNodes.length) {
@@ -1227,42 +1293,39 @@ function createSyntaxBuilderActionModelEventSetter(customElementName: string, ev
     ])
 }
 
-function createIonicVarActionModelCustomEventEventSetter(customElementName: string, event: gen.WebComponentInputEntity): gen.MethodDefinition {
-    if (event.kind == "event") {
-        return gen.createEventSetter(
-            gen.EventFnName(event.name),
-            customElementName,
-            [
-                {
-                    name: "action",
-                    type: {
-                        ...gen.varType,
-                        typeArguments: [
-                            {
-                                ...gen.hyperappActionType,
-                                typeArguments: [
-                                    { name: "TModel" },
-                                    {
-                                        name: "CustomEvent", namespace: "Metapsi.Html", typeArguments: [{
-                                            //name: customElementName + gen.toCSharpValidName(eventName.substring(3)) + "Detail"
-                                            name: event.customDetailType
-                                        }
-                                        ]
+function createIonicVarActionModelCustomEventEventSetter(customElementName: string, eventName: string, detailType: string): gen.MethodDefinition {
+    return gen.createEventSetter(
+        gen.EventFnName(eventName),
+        customElementName,
+        [
+            {
+                name: "action",
+                type: {
+                    ...gen.varType,
+                    typeArguments: [
+                        {
+                            ...gen.hyperappActionType,
+                            typeArguments: [
+                                { name: "TModel" },
+                                {
+                                    name: "CustomEvent", namespace: "Metapsi.Html", typeArguments: [{
+                                        //name: customElementName + gen.toCSharpValidName(eventName.substring(3)) + "Detail"
+                                        name: detailType
                                     }
-                                ]
-                            }
-                        ]
-                    }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
-            ], [
-            gen.functionCallNode(
-                "b",
-                "SetProperty",
-                gen.identifierNode("b.Props"),
-                gen.stringLiteralNode("on" + event.name),
-                gen.identifierNode("action")
-            )
-        ])
-    }
-    throw new Error("Not an event");
+            }
+        ], [
+        gen.functionCallNode(
+            "b",
+            "SetProperty",
+            gen.identifierNode("b.Props"),
+            gen.stringLiteralNode("on" + eventName),
+            gen.identifierNode("action")
+        )
+    ])
 }

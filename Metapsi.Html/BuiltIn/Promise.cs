@@ -12,6 +12,17 @@ public class Promise
 
 }
 
+// TODO: Actually add support for typed promise
+
+/// <summary>
+/// The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class Promise<T>
+{
+
+}
+
 /// <summary>
 /// 
 /// </summary>
