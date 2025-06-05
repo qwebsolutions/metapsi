@@ -100,6 +100,66 @@ try {
 
 fs.mkdirSync(path.join(generateToPath, "controls"), { recursive: true });
 
+function getFilePathsRecursiveSync(currentPath: string): string[] {
+    var outPaths: string[] = []
+    // Check if source exists
+    if (!fs.existsSync(currentPath)) {
+        throw new Error(`Source path does not exist: ${currentPath}`);
+    }
+
+    const stats = fs.statSync(currentPath);
+
+    if (stats.isDirectory()) {
+        // Read all entries in the source directory
+        const entries = fs.readdirSync(currentPath);
+
+        for (const entry of entries) {
+            const srcPath = path.join(currentPath, entry);
+
+            // Recursively copy each entry
+            outPaths.push(...getFilePathsRecursiveSync(srcPath));
+        }
+    } else if (stats.isFile()) {
+        // Copy file
+        //fs.copyFileSync(src, dest);
+        outPaths.push(currentPath);
+    } else {
+        // Handle other types (symlinks, etc.) if needed
+        console.warn(`Skipping unsupported file type: ${currentPath}`);
+    }
+
+    return outPaths;
+}
+
+var allPaths = getFilePathsRecursiveSync(distFolder);
+var jsPaths = allPaths.filter(x => {
+    var relative = x.replace(distFolder, "").slice(1);
+    return relative.startsWith("ionic")
+})
+
+var cssPath = path.join(nodeModulePath, "css", "ionic.bundle.css");
+
+copyAssets(path.join(distFolder, "ionic"), jsPaths, path.join(generateToPath, "embedded"))
+fs.copyFileSync(
+    cssPath,
+    path.join(
+        generateToPath,
+        "embedded",
+        cssPath.replace(path.join(nodeModulePath, "css"), "").slice(1)
+    ));
+
+function copyAssets(relativeToPath: string, sourcePaths: string[], intoFolder: string) {
+    for (var assetPath of sourcePaths) {
+        var assetRelativePath = assetPath.replace(relativeToPath, "");
+        var destinationPath = path.join(intoFolder, assetRelativePath);
+        var folder = path.dirname(destinationPath);
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder, { recursive: true });
+        }
+        fs.copyFileSync(assetPath, destinationPath);
+    }
+}
+
 
 for (var component of docsObject.components.slice(81)) {
     var skippedTags = ["ion-picker-legacy", "ion-select-modal"]
