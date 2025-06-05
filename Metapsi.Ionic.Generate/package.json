@@ -1,8 +1,8 @@
 {
-  "name": "metapsi.shoelace.generate",
+  "name": "metapsi.ionic.generate",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,9 +11,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@shoelace-style/shoelace": "2.20.1",
+    "@ionic/core": "^8.5.8",
     "@types/node": "^22.15.29",
-    "custom-elements-manifest": "^2.1.0",
     "metapsi-csharp-generator": "file:../Metapsi.WebComponentGenerator",
     "typescript": "^5.8.3"
   }

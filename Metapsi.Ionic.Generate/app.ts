@@ -161,7 +161,7 @@ function copyAssets(relativeToPath: string, sourcePaths: string[], intoFolder: s
 }
 
 
-for (var component of docsObject.components.slice(81)) {
+for (var component of docsObject.components) {
     var skippedTags = ["ion-picker-legacy", "ion-select-modal"]
     if (!skippedTags.includes(component.tag)) {
         var className = gen.toCSharpValidName(component.tag);

@@ -1,0 +1,66 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "ionic"
+		},
+		{
+			"path": "../Metapsi.WebComponentGenerator",
+			"name": "gen"
+		}
+	],
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "My Task1",
+				"command": "echo hello",
+				"type": "shell",
+				"args": [],
+				"problemMatcher": [
+					"$tsc"
+				],
+				"presentation": {
+					"reveal": "always"
+				},
+				"group": "build"
+			},
+			{
+				"label": "My Task2",
+				"command": "tsc",
+				"type": "shell",
+				"args": ["--build"],
+				"problemMatcher": [
+					"$tsc"
+				],
+				"presentation": {
+					"reveal": "always"
+				},
+				"group": "build"
+			}
+		]
+	},
+	"settings": {},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Just run the fucking thing!",
+				"type": "node",
+				"request": "launch",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"preLaunchTask": "My Task2",
+				"program": "${workspaceFolder:ionic}/dist/app.js",
+				"outFiles": [
+					"${workspaceFolder:gen}/**/*.(m|c|)js",
+					"${workspaceFolder:ionic}/**/*.(m|c|)js",
+					"!**/node_modules/**"
+				],
+				"sourceMaps": true
+			}
+		],
+		"compounds": [],
+	}
+}
