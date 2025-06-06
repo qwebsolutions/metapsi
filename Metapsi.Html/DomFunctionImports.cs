@@ -47,15 +47,15 @@ namespace Metapsi.Html
     //}
 
 
-    public class InputTarget
-    {
-        public string value { get; set; }
-    }
+    //public class InputTarget
+    //{
+    //    public string value { get; set; }
+    //}
 
-    public class KeyboardEvent
-    {
-        public string key { get; set; }
-    }
+    //public class KeyboardEvent
+    //{
+    //    public string key { get; set; }
+    //}
 
     public static class FunctionImports
     {

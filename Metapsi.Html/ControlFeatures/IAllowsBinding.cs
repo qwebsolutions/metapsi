@@ -1,193 +1,291 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
-public class ControlBinder<TControl>
-    where TControl : new()
+/// <summary>
+/// Control has a value of type <typeparamref name="TValue"/> that can be edited
+/// </summary>
+/// <typeparam name="TValue">The type of editable value. A single control can have multiple types (string, bool, int, etc) </typeparam>
+/// <remarks> The interface is just a marker. The HTML controls are just interfaces which are never actually instantiated. Bindings are registered using <see cref="Binding.Registry"/> </remarks>
+public interface IHasEditableValue<TValue>
 {
-    public string NewValueEventName { get; set; }
-    public System.Func<SyntaxBuilder, Var<Event>, Var<string>> GetEventValue { get; set; }
-    public System.Action<PropsBuilder<TControl>, Var<string>> SetControlValue { get; set; }
-}
-
-public interface IAllowsBinding<TControl>
-    where TControl : new()
-{
-    ControlBinder<TControl> GetControlBinder();
-}
-
-public class Converter<T>
-{
-    public System.Func<SyntaxBuilder, Var<string>, Var<T>> ConvertFromString { get; set; } = (b, v) => v.As<T>();
-    public System.Func<SyntaxBuilder, Var<T>, Var<string>> ConvertToString { get; set; } = (b, v) => b.AsString(v);
-}
-
-public class Converter
-{
-    public static Converter<Guid> GuidConverter = new Converter<Guid>(); // guids are just strings
-
-    public static Converter<int> IntConverter = new Converter<int>()
-    {
-        ConvertFromString = (b, v) => b.ParseInt(v),
-        ConvertToString = (b, v) => b.AsString(v)
-    };
-
-    public static Converter<bool> BoolConverter = new()
-    {
-        ConvertFromString = (b, v) => b.ParseBool(v),
-        ConvertToString = (b, v) => b.AsString(v)
-    };
 }
 
 public static class Binding
 {
-    public static ControlBinder<TControl> GetHtmlDefaultBinder<TControl>()
-        where TControl : new()
+    /// <summary>
+    /// A control-related pair of value setter and event handler for value update
+    /// </summary>
+    public class Accessor
     {
-        return new ControlBinder<TControl>()
+        /// <summary>
+        /// The action that sets a value on the control props
+        /// </summary>
+        internal Action<SyntaxBuilder, Var<object>, Var<object>> SetControlValue { get; set; } // control reference, value
+
+        internal Action<SyntaxBuilder, Var<Html.Event>, Var<object>> GetValue { get; set; }
+
+        /// <summary>
+        /// An action that registers the event listener for updated values. Receives control props. Will invoke callback with model + new value
+        /// </summary>
+        internal Action<SyntaxBuilder, Var<object>, Var<Action<object, object>>> ListenForUpdate { get; set; } // control reference, onUpdate(model,newValue)
+    }
+
+    /// <summary>
+    /// Registers value accessors
+    /// </summary>
+    public static AccessorRegistry Registry { get; } = new AccessorRegistry();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AccessorRegistry
+    {
+        internal Dictionary<string, Accessor> accessors = new Dictionary<string, Accessor>();
+        //static AccessorRegistry()
+        //{
+        //    HtmlAccessors.RegisterHtmlAccessors();
+        //}
+    }
+
+    public static void Register(AccessorRegistry r, string key, Accessor valueAccessor)
+    {
+        r.accessors[key] = valueAccessor;
+    }
+
+    public static Accessor Get(AccessorRegistry r, string key)
+    {
+        return r.accessors[key];
+    }
+
+    public static void Register<TControl, TValue>(
+        this AccessorRegistry r,
+        Action<PropsBuilder<TControl>, Var<TValue>> setValue,
+        Action<PropsBuilder<TControl>, Var<Action<object, TValue>>> listenForUpdates)
+        where TControl : IHasEditableValue<TValue>
+    {
+        var accessor = new Accessor()
         {
-            NewValueEventName = "input",
-            GetEventValue = (SyntaxBuilder b, Var<Event> @event) =>
+            SetControlValue = (SyntaxBuilder b, Var<object> props, Var<object> value) =>
             {
-                return b.NavigateProperties<Event, string>(@event, "currentTarget", "value");
+                b.SetProps<TControl>(props, b =>
+                {
+                    setValue(b, value.As<TValue>());
+                });
             },
-            SetControlValue = (b, value) => b.SetAttribute("value", value)
+            ListenForUpdate = (SyntaxBuilder b, Var<object> props, Var<Action<object, object>> onUpdate) =>
+            {
+                b.SetProps<TControl>(props, b =>
+                {
+                    listenForUpdates(b, onUpdate.As<Action<object, TValue>>());
+                });
+            }
         };
+
+        r.accessors[$"{typeof(TControl).GetSemiQualifiedTypeName()}-{typeof(TValue).GetSemiQualifiedTypeName()}"] = accessor;
     }
 
-    public static void BindTo<TControl, TState, TEntity, TValue>(
-        this PropsBuilder<TControl> b,
-        Var<TState> state,
-        Var<System.Func<TState, TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty,
-        Converter<TValue> converter)
-        where TControl : IAllowsBinding<TControl>, new()
+    public static Accessor Get<TControl, TValue>(this AccessorRegistry r)
     {
-        Var<TEntity> entity = b.Call(onEntity, state);
-        Var<TValue> value = b.Get(entity, onProperty);
+        return r.accessors[$"{typeof(TControl).GetSemiQualifiedTypeName()}-{typeof(TValue).GetSemiQualifiedTypeName()}"];
+    }
 
-        var setProperty = b.MakeAction<TState, string>((SyntaxBuilder b, Var<TState> state, Var<string> inputValue) =>
+    internal static void BindToInternal<TControl, TValue>(
+        PropsBuilder<TControl> b,
+        Var<Func<TValue>> getEntityValue,
+        Var<Action<object, TValue>> setEntityValue)
+        where TControl : IHasEditableValue<TValue>
+    {
+        var value = b.Call(getEntityValue);
+        var accessor = Binding.Registry.Get<TControl, TValue>();
+        b.Call(accessor.SetControlValue, b.Props.As<object>(), value.As<object>());
+        b.Call(accessor.ListenForUpdate, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
+    }
+
+    /// <summary>
+    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    /// </summary>
+    /// <typeparam name="TControl"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="model"></param>
+    /// <param name="onEntity"></param>
+    /// <param name="onProperty"></param>
+    public static void BindTo<TControl, TModel, TEntity, TValue>(
+        this PropsBuilder<TControl> b,
+        Var<TModel> model,
+        Var<System.Func<TModel, TEntity>> onEntity,
+        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+        where TControl : IHasEditableValue<TValue>
+    {
+        var getEntityValue = b.Def((SyntaxBuilder b) =>
         {
-            Var<TEntity> entity = b.Call(onEntity, state);
-            b.Set(entity, onProperty, b.Call(converter.ConvertFromString, inputValue));
-            return b.Clone(state);
+            Var<TEntity> entity = b.Call(onEntity, model);
+            Var<TValue> value = b.Get(entity, onProperty);
+            return value;
         });
 
-        var binder = new TControl().GetControlBinder();
-        binder.SetControlValue(b, b.Call(converter.ConvertToString, value));
-        b.OnEventAction(binder.NewValueEventName, setProperty, b.Def(binder.GetEventValue));
-    }
-
-    public static void BindTo<TControl, TState, TEntity, TValue>(
-        this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty,
-        Converter<TValue> converter)
-        where TControl : IAllowsBinding<TControl>, new()
-    {
-        b.BindTo(state, b.Def(onEntity), onProperty, converter);
-    }
-
-    public static void BindTo<TControl, TState, TValue>(
-        this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Linq.Expressions.Expression<System.Func<TState, TValue>> onProperty,
-        Converter<TValue> converter)
-        where TControl : IAllowsBinding<TControl>, new()
-    {
-        b.BindTo<TControl, TState, TState, TValue>(state, (SyntaxBuilder b, Var<TState> model) => model, onProperty, converter);
-    }
-
-    public static void BindTo<TControl, TState>(
-        this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Linq.Expressions.Expression<System.Func<TState, string>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
-    {
-        b.BindTo<TControl, TState, TState>(state, (SyntaxBuilder b, Var<TState> model) => model, onProperty);
-    }
-
-    public static void BindTo<TControl, TState, TEntity>(
-        this PropsBuilder<TControl> b,
-        Var<TState> state,
-        Var<System.Func<TState, TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
-    {
-        Var<TEntity> entity = b.Call(onEntity, state);
-        Var<string> value = b.Get(entity, onProperty);
-
-        var setProperty = b.MakeAction<TState, string>((SyntaxBuilder b, Var<TState> state, Var<string> inputValue) =>
+        var setNewValue = b.Def((SyntaxBuilder b, Var<object> model, Var<TValue> newValue) =>
         {
-            Var<TEntity> entity = b.Call(onEntity, state);
-            b.Set(entity, onProperty, inputValue);
-            return b.Clone(state);
+            Var<TEntity> entity = b.Call(onEntity, model.As<TModel>());
+            b.Set(entity, onProperty, newValue);
         });
 
-        var binder = new TControl().GetControlBinder();
-        binder.SetControlValue(b, value);
-        b.OnEventAction(binder.NewValueEventName, setProperty, b.Def(binder.GetEventValue));
+        BindToInternal(b, getEntityValue, setNewValue);
     }
 
-    public static void BindTo<TControl, TState, TEntity>(
+    /// <summary>
+    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    /// </summary>
+    /// <typeparam name="TControl"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="model"></param>
+    /// <param name="onEntity"></param>
+    /// <param name="onProperty"></param>
+    public static void BindTo<TControl, TModel, TEntity, TValue>(
         this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
+        Var<TModel> model,
+        System.Func<SyntaxBuilder, Var<TModel>, Var<TEntity>> onEntity,
+        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+        where TControl : IHasEditableValue<TValue>
     {
-        b.BindTo(state, b.Def(onEntity), onProperty);
+        b.BindTo(model, b.Def(onEntity), onProperty);
     }
 
-    public static void BindTo<TControl, TState, TEntity>(this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Linq.Expressions.Expression<System.Func<TState, TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
-    {
-        b.BindTo(state, b.Def((SyntaxBuilder b, Var<TState> state) => b.Get(state, onEntity)), onProperty);
-    }
-
-    public static void BindTo<TControl, TState, TEntity>(
+    /// <summary>
+    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    /// </summary>
+    /// <typeparam name="TControl"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="model"></param>
+    /// <param name="onEntity"></param>
+    /// <param name="onProperty"></param>
+    public static void BindTo<TControl, TModel, TEntity, TValue>(
         this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, Guid>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
+        Var<TModel> model,
+        System.Linq.Expressions.Expression<System.Func<TModel, TEntity>> onEntity,
+        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+        where TControl : IHasEditableValue<TValue>
     {
-        b.BindTo(state, b.Def(onEntity), onProperty, Converter.GuidConverter);
+        b.BindTo(model, b.Def((SyntaxBuilder b, Var<TModel> model) => b.Get(model, onEntity)), onProperty);
     }
 
-    public static void BindTo<TControl, TState, TEntity>(
+    public static void BindTo<TControl, TModel, TValue>(
         this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
+        Var<TModel> model,
+        System.Linq.Expressions.Expression<System.Func<TModel, TValue>> onProperty)
+        where TControl : IHasEditableValue<TValue>
     {
-        b.BindTo(state, b.Def(onEntity), onProperty, Converter.IntConverter);
+        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }
 
-    public static void BindTo<TControl, TState, TEntity>(
+    public static void BindTo<TControl, TModel>(
         this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
+        Var<TModel> model,
+        System.Linq.Expressions.Expression<System.Func<TModel, string>> onProperty)
+        where TControl : IHasEditableValue<string>
     {
-        b.BindTo(state, b.Def(onEntity), onProperty, Converter.BoolConverter);
+        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }
 
-    public static void BindTo<TControl, TState, TEntity>(
+    public static void BindTo<TControl, TModel>(
         this PropsBuilder<TControl> b,
-        Var<TState> state,
-        System.Linq.Expressions.Expression<System.Func<TState, TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
-        where TControl : IAllowsBinding<TControl>, new()
+        Var<TModel> model,
+        System.Linq.Expressions.Expression<System.Func<TModel, int>> onProperty)
+        where TControl : IHasEditableValue<int>
     {
-        b.BindTo(state, (SyntaxBuilder b, Var<TState> state) => b.Get(state, onEntity), onProperty);
+        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    Var<System.Func<TState, TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
+    //    where TControl : IHasEditableValue<string>
+    //{
+    //    Var<TEntity> entity = b.Call(onEntity, state);
+    //    Var<string> value = b.Get(entity, onProperty);
+
+    //    var setProperty = b.MakeAction<TState, string>((SyntaxBuilder b, Var<TState> state, Var<string> inputValue) =>
+    //    {
+    //        Var<TEntity> entity = b.Call(onEntity, state);
+    //        b.Set(entity, onProperty, inputValue);
+    //        return b.Clone(state);
+    //    });
+
+    //    var binder = new TControl().GetValueAccessor();
+    //    binder.SetControlValue(b, value);
+    //    b.OnEventAction(binder.NewValueEventName, setProperty, b.Def(binder.GetNewValue));
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, b.Def(onEntity), onProperty);
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Linq.Expressions.Expression<System.Func<TState, TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, b.Def((SyntaxBuilder b, Var<TState> state) => b.Get(state, onEntity)), onProperty);
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, Guid>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, b.Def(onEntity), onProperty, Converter.GuidConverter);
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, b.Def(onEntity), onProperty, Converter.IntConverter);
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Func<SyntaxBuilder, Var<TState>, Var<TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, b.Def(onEntity), onProperty, Converter.BoolConverter);
+    //}
+
+    //public static void BindTo<TControl, TState, TEntity>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TState> state,
+    //    System.Linq.Expressions.Expression<System.Func<TState, TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
+    //    where TControl : IHasEditableValue<TControl>, new()
+    //{
+    //    b.BindTo(state, (SyntaxBuilder b, Var<TState> state) => b.Get(state, onEntity), onProperty);
+    //}
 }

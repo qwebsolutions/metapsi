@@ -1,29 +1,44 @@
 ﻿using Metapsi.Html;
+using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 
 namespace Metapsi.Ionic;
 
-public partial class IonInput : IAllowsBinding<IonInput>
-{
-    ControlBinder<IonInput> IAllowsBinding<IonInput>.GetControlBinder()
-    {
-        return new ControlBinder<IonInput>()
-        {
-            NewValueEventName = "ionInput",
-            SetControlValue = (b, value) => b.SetValue(value),
-            GetEventValue = (b, domEvent) => b.NavigateProperties<Html.Event, string>(domEvent, "detail", "value")
-        };
-    }
-}
+public partial class IonInput : IHasEditableValue<string> { }
+public partial class IonTextarea: IHasEditableValue<string> { }
 
-public partial class IonTextarea : IAllowsBinding<IonTextarea>
+public static class Binding
 {
-    ControlBinder<IonTextarea> IAllowsBinding<IonTextarea>.GetControlBinder()
+    public static void Register()
     {
-        return new ControlBinder<IonTextarea>()
-        {
-            NewValueEventName = "ionInput",
-            SetControlValue = (b, value) => b.SetValue(value),
-            GetEventValue = (b, domEvent) => b.NavigateProperties<Html.Event, string>(domEvent, "detail", "value")
-        };
+        Metapsi.Html.Binding.Registry.Register<IonInput, string>(
+            (b, value) =>
+            {
+                b.SetValue(value);
+            },
+            (b, update) =>
+            {
+                b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<InputInputEventDetail>> e) =>
+                {
+                    var newValue = b.Get(e, x => x.detail.value);
+                    b.Call(update, model, newValue);
+                    return b.Clone(model);
+                }));
+            });
+
+        Metapsi.Html.Binding.Registry.Register<IonTextarea, string>(
+            (b, value) =>
+            {
+                b.SetValue(value);
+            },
+            (b, update) =>
+            {
+                b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<TextareaInputEventDetail>> e) =>
+                {
+                    var newValue = b.Get(e, x => x.detail.value);
+                    b.Call(update, model, newValue);
+                    return b.Clone(model);
+                }));
+            });
     }
 }

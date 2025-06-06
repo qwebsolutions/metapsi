@@ -58,18 +58,18 @@ public partial class TomSelect
     public TomSelectSettings settings { get; set; } = new();
 }
 
-public partial class TomSelect : IAllowsBinding<TomSelect>
-{
-    public ControlBinder<TomSelect> GetControlBinder()
-    {
-        return new ControlBinder<TomSelect>()
-        {
-            NewValueEventName = "change",
-            GetEventValue = (b, @event) => b.GetProperty<string>(@event, b.Const("detail")),
-            SetControlValue = Control.SetItem
-        };
-    }
-}
+//public partial class TomSelect : IHasEditableValue<TomSelect>
+//{
+//    public ValueAccessor<TomSelect> GetValueAccessor()
+//    {
+//        return new ValueAccessor<TomSelect>()
+//        {
+//            NewValueEventName = "change",
+//            GetNewValue = (b, @event) => b.GetProperty<string>(@event, b.Const("detail")),
+//            SetControlValue = Control.SetItem
+//        };
+//    }
+//}
 
 public class ClearButtonConfiguration
 {
@@ -85,11 +85,9 @@ public static class Control
         //b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
         b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
 
-        // Use own props builder to serialize the default values of the TomSelect class
-        var tomSelectPropsBuilder = new PropsBuilder<TomSelect>(b) { Props = b.NewObj<TomSelect>() };
-        buildProps(tomSelectPropsBuilder);
+        var props = b.SetProps(b.NewObj(), buildProps);
 
-        return b.H("metapsi-tom-select", tomSelectPropsBuilder.Props.As<object>());
+        return b.H("metapsi-tom-select", props.As<object>());
     }
 
     public static void Configure<TProp>(

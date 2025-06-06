@@ -24,7 +24,12 @@ namespace Metapsi.Syntax
                     Select(x => Activator.CreateInstance(x.ParameterType, new object[] { x.Name }) as IVariable)
                     .ToList();
 
-            var delegateBuilder = Activator.CreateInstance(fn.GetType().GenericTypeArguments.First(), b);
+            var delegateBuilder = Activator.CreateInstance(
+                fn.GetType().GenericTypeArguments.First(),
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
+                binder: null,
+                new object[] { b },
+                culture: null);
             List<object> arguments = new List<object> { delegateBuilder };
             arguments.AddRange(parameters);
 

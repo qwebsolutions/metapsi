@@ -5,9 +5,9 @@ namespace Metapsi.Ionic;
 public class TextareaInputEventDetail 
 {
     /// <summary>
-    /// string | null
+    /// string
     /// </summary>
-    public object value { get; set; }
+    public string value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

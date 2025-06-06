@@ -1,5 +1,7 @@
 ﻿using Metapsi.Syntax;
 using System;
+using System.Drawing;
+using System.Xml.Linq;
 
 namespace Metapsi.Html;
 

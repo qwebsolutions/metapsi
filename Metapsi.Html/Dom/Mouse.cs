@@ -10,7 +10,6 @@ public static partial class EventExtensionsClick
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
         Var<HyperType.Action<TState>> onClick)
-        where TControl : new()
     {
         b.OnEventAction("click", onClick);
     }
@@ -18,35 +17,45 @@ public static partial class EventExtensionsClick
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
         System.Func<SyntaxBuilder, Var<TState>, Var<TState>> onClick)
-        where TControl : new()
     {
-        b.OnEventAction("click", b.MakeAction(onClick));
+        b.OnClickAction(b.MakeAction(onClick));
     }
 
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
         System.Func<SyntaxBuilder, Var<TState>, Var<HyperType.StateWithEffects>> onClick)
-        where TControl : new()
     {
-        b.OnEventAction("click", b.MakeAction(onClick));
+        b.OnClickAction(b.MakeAction(onClick));
     }
 
-    // Click with event payload
+    // Click with event
 
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
-        Var<HyperType.Action<TState, Event>> onClick)
-        where TControl : new()
+        Var<HyperType.Action<TState, PointerEvent>> onClick)
     {
-        b.OnEventAction("click", onClick);
+        b.OnClickAction(onClick);
     }
 
     public static void OnClickAction<TState, TControl>(
         this PropsBuilder<TControl> b,
-        System.Func<SyntaxBuilder, Var<TState>, Var<Event>, Var<TState>> onClick)
-        where TControl : new()
+        System.Func<SyntaxBuilder, Var<TState>, Var<PointerEvent>, Var<TState>> onClick)
     {
-        b.OnEventAction("click", b.MakeAction(onClick));
+        b.OnClickAction(b.MakeAction(onClick));
+    }
+
+    public static void OnClickAction<TState, TControl>(
+        this PropsBuilder<TControl> b,
+        Var<HyperType.Action<TState, Html.Event>> onClick)
+    {
+        b.OnClickAction(onClick);
+    }
+
+    public static void OnClickAction<TState, TControl>(
+        this PropsBuilder<TControl> b,
+        System.Func<SyntaxBuilder, Var<TState>, Var<Html.Event>, Var<TState>> onClick)
+    {
+        b.OnClickAction(b.MakeAction(onClick));
     }
 
     // Click with data payload

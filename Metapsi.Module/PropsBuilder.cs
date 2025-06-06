@@ -4,11 +4,11 @@ namespace Metapsi.Syntax
 {
     public class PropsBuilder<TProps> : SyntaxBuilder
     {
-        public PropsBuilder(SyntaxBuilder parent): base(parent) 
+        internal PropsBuilder(SyntaxBuilder parent): base(parent) 
         {
             this.Props = this.NewObj().As<TProps>();
         }
-        public PropsBuilder(PropsBuilder<TProps> parent) : base(parent)
+        internal PropsBuilder(PropsBuilder<TProps> parent) : base(parent)
         {
             this.Props = parent.Props;
         }

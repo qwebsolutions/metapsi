@@ -13,7 +13,7 @@ public static partial class EventExtensions
 
     public static void OnKeyDown<TState, TControl>(this PropsBuilder<TControl> b, Var<HyperType.Action<TState, KeyboardEvent>> onKeyDown)
     {
-        b.OnEventAction("onkeydown", onKeyDown);
+        b.OnEventAction("keydown", onKeyDown);
     }
 
     public static void OnKeyDown<TState, TControl>(this PropsBuilder<TControl> b, Var<HyperType.Action<TState, string>> onKeyDown)

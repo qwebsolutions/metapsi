@@ -43,6 +43,8 @@ public class Entry
 
 public class MarketData
 {
+    public string BindingTest { get; set; }
+
     public List<Entry> Entries { get; set; } = new List<Entry>()
     {
         new Entry(){ Ticker = "NVDA", Name = "Nvidia" },
@@ -64,7 +66,7 @@ public class Form
     public String Title { get; set; }
 }
 
-public class Widget 
+public class Widget
 {
 
 }
@@ -84,7 +86,7 @@ public class TextBox : Widget
 
 public static class ServerActionExtensions
 {
-    
+
 }
 
 
@@ -112,12 +114,12 @@ public static class Program
     /// <param name="builder"></param>
     /// <returns></returns>
     public static HubEndpointConventionBuilder MapDefaultSignalRHub(
-        this IEndpointRouteBuilder builder, 
+        this IEndpointRouteBuilder builder,
         string path = nameof(DefaultMetapsiSignalRHub),
         Action<IHubContext> storeHubContext = null)
     {
         var hubBuilder = builder.MapHub<DefaultMetapsiSignalRHub>(path);
-        if(storeHubContext!=null)
+        if (storeHubContext != null)
         {
             var hubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext;
             storeHubContext(hubContext);
@@ -217,11 +219,14 @@ public static class Program
         await EmbeddedFiles.Load.WebEmbeddedFiles();
         await EmbeddedFiles.Load.SyntaxCoreEmbeddedFiles();
         await EmbeddedFiles.Load.ShoelaceEmbeddedFiles();
+        await EmbeddedFiles.Load.HtmlEmbeddedFiles();
 
         app.MapGet("/market", () => Page.Result(new MarketData()));
 
         app.UseRenderer<MarketData>(model =>
         {
+            Metapsi.Shoelace.Binding.Register();
+
             return HtmlBuilder.FromDefault(
                 b =>
                 {
@@ -607,41 +612,48 @@ public static class Program
         b.AddRequiredStylesheetMetadata("wrong.css");
         b.AddRequiredScriptMetadata("wrong.js");
         return b.HtmlDiv(
-            b.Map(
-                b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
-                (b, company) =>
+            b.SlInput(
+                b =>
                 {
-                    return b.HtmlDiv(
-                        b =>
-                        {
-                            b.AddStyle("display", "flex");
-                            b.Comment("Display flex");
-                            b.AddStyle(
-                                "color",
-                                b.If(
-                                    b.Get(company, x => x.GoingUp),
-                                    b => b.Const("green"),
-                                    b => b.Const("red")));
-                        },
-                        b.SlBadge(
+                    b.BindTo(model, x => x.BindingTest);
+                    b.Log("model", model);
+                }),
+            b.HtmlDiv(
+                b.Map(
+                    b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
+                    (b, company) =>
+                    {
+                        return b.HtmlDiv(
                             b =>
                             {
-                                b.AddStyle("width", "100px");
+                                b.AddStyle("display", "flex");
+                                b.Comment("Display flex");
+                                b.AddStyle(
+                                    "color",
+                                    b.If(
+                                        b.Get(company, x => x.GoingUp),
+                                        b => b.Const("green"),
+                                        b => b.Const("red")));
                             },
-                            b.Text(b.Get(company, x => x.Ticker))),
-                        b.HtmlDiv(
-                            b =>
-                            {
-                                b.AddStyle("width", "150px");
-                            },
-                            b.Text(b.Get(company, x => x.Name))),
-                        b.HtmlDiv(
-                            b =>
-                            {
-                                b.AddStyle("width", "50px");
-                            },
-                            b.Text(b.AsString(b.Get(company, x => x.Value)))));
-                }));
+                            b.SlBadge(
+                                b =>
+                                {
+                                    b.AddStyle("width", "100px");
+                                },
+                                b.Text(b.Get(company, x => x.Ticker))),
+                            b.HtmlDiv(
+                                b =>
+                                {
+                                    b.AddStyle("width", "150px");
+                                },
+                                b.Text(b.Get(company, x => x.Name))),
+                            b.HtmlDiv(
+                                b =>
+                                {
+                                    b.AddStyle("width", "50px");
+                                },
+                                b.Text(b.AsString(b.Get(company, x => x.Value)))));
+                    })));
     }
 
     public static IHubContext StaticHubContext;
@@ -663,12 +675,12 @@ public static class Program
             }
 
             // Raise SignalR event with new data
-            await StaticHubContext.Clients.All.RaiseCustomEvent(
-                typeof(Refresh).Name,
-                new Refresh()
-                {
-                    MarketData = marketData
-                });
+            //await StaticHubContext.Clients.All.RaiseCustomEvent(
+            //    typeof(Refresh).Name,
+            //    new Refresh()
+            //    {
+            //        MarketData = marketData
+            //    });
         }
     }
 }
