@@ -121,7 +121,7 @@ namespace Metapsi.Syntax
         }
 
         /// <summary>
-        /// Swith expression
+        /// Switch expression
         /// </summary>
         /// <typeparam name="TSyntaxBuilder"></typeparam>
         /// <typeparam name="TResult"></typeparam>

@@ -6,11 +6,10 @@ using System.Collections.Generic;
 namespace Metapsi.Html;
 
 /// <summary>
-/// Control has a value of type <typeparamref name="TValue"/> that can be edited
+/// Control has a value that can be edited
 /// </summary>
-/// <typeparam name="TValue">The type of editable value. A single control can have multiple types (string, bool, int, etc) </typeparam>
 /// <remarks> The interface is just a marker. The HTML controls are just interfaces which are never actually instantiated. Bindings are registered using <see cref="Binding.Registry"/> </remarks>
-public interface IHasEditableValue<TValue>
+public interface IHasEditableValue
 {
 }
 
@@ -64,12 +63,12 @@ public static class Binding
         return r.accessors[key];
     }
 
-    public static void Register<TControl, TValue>(
+    public static void Register<TControl>(
         this AccessorRegistry r,
-        Action<PropsBuilder<TControl>, Var<TValue>> setValue,
-        Func<SyntaxBuilder, Var<Html.Event>, Var<TValue>> getValue,
+        Action<PropsBuilder<TControl>, Var<object>> setValue,
+        Func<SyntaxBuilder, Var<Html.Event>, Var<object>> getValue,
         Action<PropsBuilder<TControl>, Var<HyperType.Action<object, Html.Event>>> listenForUpdates)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         var accessor = new Accessor()
         {
@@ -77,7 +76,7 @@ public static class Binding
             {
                 b.SetProps<TControl>(props, b =>
                 {
-                    setValue(b, value.As<TValue>());
+                    setValue(b, value);
                 });
             },
             GetEventValue = (SyntaxBuilder b, Var<Html.Event> e) =>
@@ -98,22 +97,22 @@ public static class Binding
             }
         };
 
-        r.accessors[$"{typeof(TControl).GetSemiQualifiedTypeName()}-{typeof(TValue).GetSemiQualifiedTypeName()}"] = accessor;
+        r.accessors[typeof(TControl).GetSemiQualifiedTypeName()] = accessor;
     }
 
-    public static Accessor Get<TControl, TValue>(this AccessorRegistry r)
+    public static Accessor Get<TControl>(this AccessorRegistry r)
     {
-        return r.accessors[$"{typeof(TControl).GetSemiQualifiedTypeName()}-{typeof(TValue).GetSemiQualifiedTypeName()}"];
+        return r.accessors[typeof(TControl).GetSemiQualifiedTypeName()];
     }
 
     internal static void BindToInternal<TControl, TValue>(
         PropsBuilder<TControl> b,
         Var<Func<TValue>> getEntityValue,
         Var<Action<object, TValue>> setEntityValue)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         var value = b.Call(getEntityValue);
-        var accessor = Binding.Registry.Get<TControl, TValue>();
+        var accessor = Binding.Registry.Get<TControl>();
         b.Call(accessor.SetControlValue, b.Props.As<object>(), value.As<object>());
         b.Call(accessor.ListenForUpdates, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
     }
@@ -134,7 +133,7 @@ public static class Binding
         Var<TModel> model,
         Var<System.Func<TModel, TEntity>> onEntity,
         System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         var getEntityValue = b.Def((SyntaxBuilder b) =>
         {
@@ -168,7 +167,7 @@ public static class Binding
         Var<TModel> model,
         System.Func<SyntaxBuilder, Var<TModel>, Var<TEntity>> onEntity,
         System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         b.BindTo(model, b.Def(onEntity), onProperty);
     }
@@ -189,7 +188,7 @@ public static class Binding
         Var<TModel> model,
         System.Linq.Expressions.Expression<System.Func<TModel, TEntity>> onEntity,
         System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         b.BindTo(model, b.Def((SyntaxBuilder b, Var<TModel> model) => b.Get(model, onEntity)), onProperty);
     }
@@ -198,7 +197,7 @@ public static class Binding
         this PropsBuilder<TControl> b,
         Var<TModel> model,
         System.Linq.Expressions.Expression<System.Func<TModel, TValue>> onProperty)
-        where TControl : IHasEditableValue<TValue>
+        where TControl : IHasEditableValue
     {
         b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }
@@ -207,7 +206,7 @@ public static class Binding
         this PropsBuilder<TControl> b,
         Var<TModel> model,
         System.Linq.Expressions.Expression<System.Func<TModel, string>> onProperty)
-        where TControl : IHasEditableValue<string>
+        where TControl : IHasEditableValue
     {
         b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }
@@ -216,7 +215,7 @@ public static class Binding
         this PropsBuilder<TControl> b,
         Var<TModel> model,
         System.Linq.Expressions.Expression<System.Func<TModel, int>> onProperty)
-        where TControl : IHasEditableValue<int>
+        where TControl : IHasEditableValue
     {
         b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
     }

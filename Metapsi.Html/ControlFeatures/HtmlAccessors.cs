@@ -4,8 +4,13 @@ using static Metapsi.Html.Binding;
 
 namespace Metapsi.Html;
 
-public partial class HtmlInput : IHasEditableValue<string>, IHasEditableValue<bool>
+public partial class HtmlInput : IHasEditableValue
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public string type { get; set; }
+
     /// <summary>
     /// 
     /// </summary>
@@ -17,12 +22,12 @@ public partial class HtmlInput : IHasEditableValue<string>, IHasEditableValue<bo
     public bool @checked { get; set; }
 }
 
-public partial class HtmlTextarea : IHasEditableValue<string>
+public partial class HtmlTextarea : IHasEditableValue
 {
     public string value { get; set; }
 }
 
-public partial class HtmlSelect : IHasEditableValue<string>
+public partial class HtmlSelect : IHasEditableValue
 {
     public string value { get; set; }
 }
@@ -31,14 +36,94 @@ public static class HtmlAccessors
 {
     public static void RegisterHtmlAccessors()
     {
-        Binding.Registry.Register<HtmlInput, string>(
-            HtmlInputControl.SetValue,
-            (b, e) => b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.value),
-            (b, action) => b.OnEventAction("input", action));
+        Binding.Registry.Register<HtmlInput>(
+            (b, value) =>
+            {
+                var controlType = b.StringToLowerCase(b.Get(b.Props, x => x.type));
+                b.If(
+                    b.AreEqual(controlType, b.Const("checkbox")),
+                    b =>
+                    {
+                        b.Set(x => x.@checked, value);
+                    });
 
-        Binding.Registry.Register<HtmlInput, bool>(
-            (b, value) => b.Set(x => x.@checked, value),
-            (b, e) => b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.@checked),
-            (b, action) => b.OnEventAction("click", action));
+                // Radios are weird. You set the bool 'checked' if the string 'value' is equal to the radio's value
+
+                b.If(
+                    b.AreEqual(controlType, b.Const("radio")),
+                    b =>
+                    {
+                        var radioValue = b.Get(b.Props, x => x.value);
+                        b.If(
+                            b.AreEqual(radioValue, value.As<string>()),
+                            b =>
+                            {
+                                b.Set(x => x.@checked, value);
+                            });
+                    });
+
+                b.If(
+                    b.AreEqual(controlType, b.Const("file")),
+                    b =>
+                    {
+                        throw new System.Exception("Input type='file' does not support bindings");
+                    });
+            },
+            (b, e) =>
+            {
+                var target = b.Get(e, x => x.target).As<HTMLInputElement>();
+                var outRef = b.Ref(b.Get(target, x => x.value));
+                var controlType = b.StringToLowerCase(b.Get(target, x => x.type));
+                b.If(
+                    b.AreEqual(controlType, b.Const("checkbox")),
+                    b =>
+                    {
+                        b.SetRef(outRef, b.Get(target, x => x.@checked).As<string>());
+                    });
+
+                b.If(
+                    b.AreEqual(controlType, b.Const("radio")),
+                    b =>
+                    {
+                        b.If(b.Get(target, x => x.@checked),
+                            b =>
+                            {
+                                b.SetRef(outRef, b.Get(target, x => x.value));
+                            });
+                    });
+
+                return b.GetRef(outRef).As<object>();
+            },
+            (b, action) =>
+            {
+                var controlType = b.StringToLowerCase(b.Get(b.Props, x => x.type));
+                var isSet = b.If(
+                    b.AreEqual(controlType, b.Const("checkbox")),
+                    b =>
+                    {
+                        b.OnEventAction("click", action);
+                        return b.Const(true);
+                    },
+                    b =>
+                    {
+                        return b.If(
+                            b.AreEqual(controlType, b.Const("radio")),
+                            b =>
+                            {
+                                b.OnEventAction("change", action);
+                                return b.Const(true);
+                            },
+                            b =>
+                            {
+                                return b.Const(false);
+                            });
+                    });
+                b.If(
+                    b.Not(isSet),
+                    b =>
+                    {
+                        b.OnEventAction("input", action);
+                    });
+            });
     }
 }

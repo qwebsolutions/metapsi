@@ -9,6 +9,11 @@ namespace Metapsi.Html;
 public interface HTMLInputElement : HTMLElement
 {
     /// <summary>
+    /// The type property of the HTMLInputElement interface indicates the kind of data allowed in the &lt;input&gt; element, for example a number, a date, or an email. Browsers will select the appropriate widget and behavior to help users to enter a valid value.
+    /// </summary>
+    public string type { get; set; }
+
+    /// <summary>
     /// The value property of the HTMLInputElement interface represents the current value of the &lt;input&gt; element as a string.
     /// </summary>
     public string value { get; set; }

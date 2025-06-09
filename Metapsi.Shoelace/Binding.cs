@@ -5,17 +5,17 @@ using Metapsi.Syntax;
 namespace Metapsi.Shoelace;
 
 
-public partial class SlCheckbox : IHasEditableValue<bool>
+public partial class SlCheckbox : IHasEditableValue
 {
     public bool @checked { get; set; }
 }
 
-public partial class SlInput : IHasEditableValue<string>, IHasEditableValue<int>
+public partial class SlInput : IHasEditableValue
 {
     public string value { get; set; }
 }
 
-public partial class SlSelect : IHasEditableValue<string>
+public partial class SlSelect : IHasEditableValue
 {
     public string value { get; set; }
 }
@@ -24,50 +24,34 @@ public static class Binding
 {
     public static void Register()
     {
-        Metapsi.Html.Binding.Registry.Register<SlInput, string>(
-            SlInputControl.SetValue,
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value),
-            SlInputControl.OnSlInput);
-
-        Metapsi.Html.Binding.Registry.Register<SlInput, int>(
+        Metapsi.Html.Binding.Registry.Register<SlInput>(
             (b, value) =>
             {
-                b.SetValueAsNumber(value);
+                b.SetValue(value.As<string>());
             },
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<int>(),
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
             SlInputControl.OnSlInput);
 
-        Metapsi.Html.Binding.Registry.Register<SlSelect, string>(
-            SlSelectControl.SetValue,
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value),
+        Metapsi.Html.Binding.Registry.Register<SlSelect>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
             (b, updateAction) =>
             {
                 b.OnSlChange(updateAction);
             });
 
-        Metapsi.Html.Binding.Registry.Register<SlCheckbox, bool>(
-            SlCheckboxControl.SetChecked,
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked),
+        Metapsi.Html.Binding.Registry.Register<SlCheckbox>(
+            (b, value) =>
+            {
+                b.SetChecked(value.As<bool>());
+            },
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked).As<object>(),
             (b, updateAction) =>
             {
                 b.OnSlChange(updateAction);
             });
     }
 }
-
-
-//public partial class SlSelect : IHasEditableValue<SlSelect>
-//{
-//    ValueAccessor<SlSelect> IHasEditableValue<SlSelect>.GetValueAccessor()
-//    {
-//        return new ValueAccessor<SlSelect>()
-//        {
-//            NewValueEventName = "sl-change",
-//            GetNewValue = (b, @event) =>
-//            {
-//                return b.NavigateProperties<Event, string>(@event, "target", "value");
-//            },
-//            SetControlValue = SlSelectControl.SetValue
-//        };
-//    }
-//}
