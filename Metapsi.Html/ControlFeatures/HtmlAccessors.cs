@@ -17,42 +17,28 @@ public partial class HtmlInput : IHasEditableValue<string>, IHasEditableValue<bo
     public bool @checked { get; set; }
 }
 
+public partial class HtmlTextarea : IHasEditableValue<string>
+{
+    public string value { get; set; }
+}
+
+public partial class HtmlSelect : IHasEditableValue<string>
+{
+    public string value { get; set; }
+}
+
 public static class HtmlAccessors
 {
     public static void RegisterHtmlAccessors()
     {
         Binding.Registry.Register<HtmlInput, string>(
-            (b, value) =>
-            {
-                b.Set(x => x.value, value);
-            },
-            (b, update) =>
-            {
-                b.OnEventAction("input", b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    b.Call(
-                        update,
-                        model,
-                        b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.value));
-                    return b.Clone(model);
-                }));
-            });
+            HtmlInputControl.SetValue,
+            (b, e) => b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.value),
+            (b, action) => b.OnEventAction("input", action));
 
         Binding.Registry.Register<HtmlInput, bool>(
-            (b, value) =>
-            {
-                b.Set(x => x.@checked, value);
-            },
-            (b, update) =>
-            {
-                b.OnEventAction("click", b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    b.Call(
-                        update,
-                        model,
-                        b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.@checked));
-                    return b.Clone(model);
-                }));
-            });
+            (b, value) => b.Set(x => x.@checked, value),
+            (b, e) => b.Get(b.Get(e, x => x.currentTarget).As<HTMLInputElement>(), x => x.@checked),
+            (b, action) => b.OnEventAction("click", action));
     }
 }

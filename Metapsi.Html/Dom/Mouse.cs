@@ -34,7 +34,7 @@ public static partial class EventExtensionsClick
         this PropsBuilder<TControl> b,
         Var<HyperType.Action<TState, PointerEvent>> onClick)
     {
-        b.OnClickAction(onClick);
+        b.OnClickAction(onClick.As<HyperType.Action<TState>>());
     }
 
     public static void OnClickAction<TState, TControl>(
@@ -48,7 +48,7 @@ public static partial class EventExtensionsClick
         this PropsBuilder<TControl> b,
         Var<HyperType.Action<TState, Html.Event>> onClick)
     {
-        b.OnClickAction(onClick);
+        b.OnClickAction(onClick.As<HyperType.Action<TState, PointerEvent>>());
     }
 
     public static void OnClickAction<TState, TControl>(

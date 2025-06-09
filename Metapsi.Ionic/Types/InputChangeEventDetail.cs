@@ -7,7 +7,7 @@ public class InputChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public object value { get; set; }
+    public string value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

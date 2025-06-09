@@ -25,64 +25,32 @@ public static class Binding
     public static void Register()
     {
         Metapsi.Html.Binding.Registry.Register<SlInput, string>(
-            (b, value) =>
-            {
-                b.SetValue(value);
-            },
-            (b, update) =>
-            {
-                b.Log("Binding update ", update);
-                b.OnSlInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    var newValue = b.Get(b.Get(e, x => x.target).As<SlInput>(), x => x.value);
-                    b.Call(update, model, newValue);
-                    b.Log("Binding update ", newValue);
-                    return b.Clone(model);
-                }));
-            });
+            SlInputControl.SetValue,
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value),
+            SlInputControl.OnSlInput);
 
         Metapsi.Html.Binding.Registry.Register<SlInput, int>(
             (b, value) =>
             {
-                b.SetValue(value.As<string>());
+                b.SetValueAsNumber(value);
             },
-            (b, update) =>
-            {
-                b.OnSlInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    var newValue = b.Get(b.Get(e, x => x.target).As<SlInput>(), x => x.value).As<int>();
-                    b.Call(update, model, newValue);
-                    return b.Clone(model);
-                }));
-            });
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<int>(),
+            SlInputControl.OnSlInput);
 
         Metapsi.Html.Binding.Registry.Register<SlSelect, string>(
-            (b, value) =>
+            SlSelectControl.SetValue,
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value),
+            (b, updateAction) =>
             {
-                b.SetValue(value);
-            },
-            (b, update) =>
-            {
-                b.OnSlChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    var newValue = b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value);
-                    return b.Clone(model);
-                }));
+                b.OnSlChange(updateAction);
             });
 
         Metapsi.Html.Binding.Registry.Register<SlCheckbox, bool>(
-            (b, value) =>
+            SlCheckboxControl.SetChecked,
+            (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked),
+            (b, updateAction) =>
             {
-                b.SetChecked(value);
-            },
-            (b, update) =>
-            {
-                b.OnSlChange((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
-                {
-                    var newValue = b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked);
-                    b.Call(update, model, newValue);
-                    return b.Clone(model);
-                });
+                b.OnSlChange(updateAction);
             });
     }
 }

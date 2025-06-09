@@ -26,12 +26,15 @@ public static class Binding
         /// </summary>
         internal Action<SyntaxBuilder, Var<object>, Var<object>> SetControlValue { get; set; } // control reference, value
 
-        internal Action<SyntaxBuilder, Var<Html.Event>, Var<object>> GetValue { get; set; }
+        /// <summary>
+        /// The function that extracts the new value from the DOM event
+        /// </summary>
+        public Func<SyntaxBuilder, Var<Html.Event>, Var<object>> GetEventValue { get; set; }
 
         /// <summary>
         /// An action that registers the event listener for updated values. Receives control props. Will invoke callback with model + new value
         /// </summary>
-        internal Action<SyntaxBuilder, Var<object>, Var<Action<object, object>>> ListenForUpdate { get; set; } // control reference, onUpdate(model,newValue)
+        internal Action<SyntaxBuilder, Var<object>, Var<Action<object, object>>> ListenForUpdates { get; set; } // control reference, onUpdate(model,newValue)
     }
 
     /// <summary>
@@ -64,7 +67,8 @@ public static class Binding
     public static void Register<TControl, TValue>(
         this AccessorRegistry r,
         Action<PropsBuilder<TControl>, Var<TValue>> setValue,
-        Action<PropsBuilder<TControl>, Var<Action<object, TValue>>> listenForUpdates)
+        Func<SyntaxBuilder, Var<Html.Event>, Var<TValue>> getValue,
+        Action<PropsBuilder<TControl>, Var<HyperType.Action<object, Html.Event>>> listenForUpdates)
         where TControl : IHasEditableValue<TValue>
     {
         var accessor = new Accessor()
@@ -76,11 +80,20 @@ public static class Binding
                     setValue(b, value.As<TValue>());
                 });
             },
-            ListenForUpdate = (SyntaxBuilder b, Var<object> props, Var<Action<object, object>> onUpdate) =>
+            GetEventValue = (SyntaxBuilder b, Var<Html.Event> e) =>
+            {
+                return getValue(b, e).As<object>();
+            },
+            ListenForUpdates = (SyntaxBuilder b, Var<object> props, Var<Action<object, object>> onUpdate) =>
             {
                 b.SetProps<TControl>(props, b =>
                 {
-                    listenForUpdates(b, onUpdate.As<Action<object, TValue>>());
+                    listenForUpdates(b, b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+                    {
+                        var newValue = getValue(b, e);
+                        b.Call(onUpdate, model, newValue.As<object>());
+                        return b.Clone(model);
+                    }));
                 });
             }
         };
@@ -102,7 +115,7 @@ public static class Binding
         var value = b.Call(getEntityValue);
         var accessor = Binding.Registry.Get<TControl, TValue>();
         b.Call(accessor.SetControlValue, b.Props.As<object>(), value.As<object>());
-        b.Call(accessor.ListenForUpdate, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
+        b.Call(accessor.ListenForUpdates, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
     }
 
     /// <summary>
