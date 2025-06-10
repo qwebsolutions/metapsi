@@ -4,28 +4,29 @@ using System;
 using System.Linq;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using System.Reflection;
 
 
 namespace Metapsi;
 
 public static partial class ServerAction
 {
+    public class Delegate
+    {
+        //public string DelegateType { get; set; }
+        public string ClassName { get; set; }
+        public string MethodName { get; set; }
+    }
+
     public class Call
     {
-        public string MethodName { get; set; }
-        public List<string> Parameters { get; set; }
+        public ServerAction.Delegate Delegate { get; set; }
+        public List<string> JsonParameters { get; set; }
     }
 
-    private static Reference<string> ServerActionUrl = new Reference<string>();
-
-    public static void SetServerActionUrl(this SyntaxBuilder b, string url)
-    {
-        b.Log("Set server action url", b.Const(url));
-        b.SetRef(b.Const(ServerActionUrl), b.Const(url));
-    }
-
-    public static Var<HyperType.Action<TModel, TInput>> CallServer<TModel, TInput, TOutput>(
+    public static Var<HyperType.Action<TModel, TInput>> CallServerAction<TModel, TInput, TOutput>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
         Func<TModel, TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
         Var<HyperType.Action<TModel, Html.Error>> onError)
@@ -37,12 +38,13 @@ public static partial class ServerAction
             b.Push(parameters, input.As<object>());
             return b.MakeStateWithEffects(
                 model,
-                b.CallDelegateServerActionEffect(parameters, action, onSuccess, onError));
+                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
         });
     }
 
-    public static Var<HyperType.Action<TModel, TInput>> CallServer<TModel, TInput>(
+    public static Var<HyperType.Action<TModel, TInput>> CallServerAction<TModel, TInput>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
         Func<TModel, TInput, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
         Var<HyperType.Action<TModel, Html.Error>> onError = null)
@@ -65,15 +67,17 @@ public static partial class ServerAction
             return b.MakeStateWithEffects(
                 model,
                 b.CallDelegateServerActionEffect(
-                    parameters,
+                    serverActionUrl,
                     action,
+                    parameters,
                     onSuccess,
                     onError));
         });
     }
 
-    public static Var<HyperType.Action<TModel>> CallServer<TModel>(
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
         Func<TModel, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
         Var<HyperType.Action<TModel, Html.Error>> onError = null)
@@ -95,15 +99,17 @@ public static partial class ServerAction
             return b.MakeStateWithEffects(
                 model,
                 b.CallDelegateServerActionEffect(
-                    parameters,
+                    serverActionUrl,
                     action,
+                    parameters,
                     onSuccess,
                     onError));
         });
     }
 
-    public static Var<HyperType.Action<TModel>> CallServer<TModel, TInput, TOutput>(
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TInput, TOutput>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
         Var<TInput> input,
         Func<TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
@@ -115,12 +121,13 @@ public static partial class ServerAction
             b.Push(parameters, input.As<object>());
             return b.MakeStateWithEffects(
                 model,
-                b.CallDelegateServerActionEffect(parameters, action, onSuccess, onError));
+                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
         });
     }
 
-    public static Var<HyperType.Action<TModel>> CallServer<TModel, TInput, TOutput>(
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TInput, TOutput>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
         Var<TInput> input,
         Func<TModel, TInput, Task<TOutput>> action,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
@@ -133,96 +140,225 @@ public static partial class ServerAction
             b.Push(parameters, input.As<object>());
             return b.MakeStateWithEffects(
                 model,
-                b.CallDelegateServerActionEffect(parameters, action, onSuccess, onError));
+                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
         });
     }
 
     public static Var<HyperType.Effect> CallDelegateServerActionEffect<TModel, TOutput>(
         this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        System.Delegate serverAction,
         Var<List<object>> parameters,
-        Delegate serverAction,
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
         Var<HyperType.Action<TModel, Html.Error>> onError)
     {
         b.AddMetadata(new Metadata() { Key = "server-action", Value = serverAction.Method.Name });
-        ServerAction.Store(serverAction);
-        var serverActionUrl = b.GetRef(b.Const(ServerActionUrl));
-        b.Log("Call delegate server action url", serverActionUrl);
         return b.PostJsonEffect<TModel, ServerAction.Call, TOutput>(
             serverActionUrl,
-            b.NewObj<ServerAction.Call>(
-                b =>
-                {
-                    b.Set(x => x.MethodName, serverAction.Method.Name);
-                    b.Set(x => x.Parameters, b.Map(parameters, (b, item) => b.Serialize(item)));
-                }),
+            ToServerCall(
+                b,
+                ToServerAction(b, serverAction),
+                parameters),
             onSuccess,
             onError);
     }
 
-    internal class ServerActionDelegate
+    public static Var<ServerAction.Call> ToServerCall(SyntaxBuilder b, Var<ServerAction.Delegate> serverActionDelegate, Var<List<object>> parameters)
     {
-        internal Delegate Delegate { get; set; }
-
-        // Store types once so we avoid reflection on every call
-        internal List<Type> ParameterTypes { get; set; } = new List<Type>();
-        internal Type ReturnType { get; set; }
-    }
-
-    private static TaskQueue<Dictionary<string, ServerActionDelegate>> actionsQueue = new(new Dictionary<string, ServerActionDelegate>());
-
-    public static string PostPath = "/_Server_Action_";
-
-    //public class Call
-    //{
-    //    public string MethodName { get; set; }
-    //    public List<string> Parameters { get; set; }
-    //}
-
-    public static void Store(Delegate action)
-    {
-        var _ = actionsQueue.Enqueue(async (actions) =>
-        {
-            if (!actions.ContainsKey(action.Method.Name))
+        return b.NewObj<ServerAction.Call>(
+            b =>
             {
-                ServerActionDelegate serverActionDelegate = new ServerActionDelegate()
-                {
-                    Delegate = action
-                };
-
-                foreach (var parameter in action.Method.GetParameters())
-                {
-                    serverActionDelegate.ParameterTypes.Add(parameter.ParameterType);
-                }
-
-                actions[action.Method.Name] = serverActionDelegate;
-            }
-        });
+                b.Set(x => x.Delegate, serverActionDelegate);
+                b.Set(x => x.JsonParameters, b.Map(parameters, (b, item) => b.Serialize(item)));
+            });
     }
 
-    internal static async Task<ServerActionDelegate> Get(string name)
+    public static Var<ServerAction.Delegate> ToServerAction(SyntaxBuilder b, System.Delegate serverAction)
     {
-        return await actionsQueue.Enqueue(async (actions) =>
-        {
-            var found = actions.TryGetValue(name, out ServerActionDelegate action);
-            if (!found)
+        return b.NewObj<ServerAction.Delegate>(
+            b =>
             {
-                throw new Exception($"Action {name} not registered!");
-            }
-            return action;
-        });
+                //b.Set(x => x.DelegateType, serverAction.GetType().GetSemiQualifiedTypeName());
+                b.Set(x => x.ClassName, serverAction.Method.DeclaringType.GetParentNamedType().GetSemiQualifiedTypeName());
+                b.Set(x => x.MethodName, serverAction.Method.Name);
+            });
     }
 
-    public static async Task<dynamic> Run(ServerAction.Call serverCall)
+    public static MethodInfo FindMethodInfo(this ServerAction.Call serverCall)
     {
-        var serverActionDelegate = await ServerAction.Get(serverCall.MethodName);
-        object[] parameters = new object[serverActionDelegate.ParameterTypes.Count];
-        for (int i = 0; i < serverActionDelegate.ParameterTypes.Count; i++)
+        MethodInfo methodInfo = null;
+
+        var declaringClass = Type.GetType(serverCall.Delegate.ClassName);
+        Type[] nestedTypes = declaringClass.GetNestedTypes(
+            BindingFlags.Public |
+            BindingFlags.NonPublic |
+            BindingFlags.Instance |
+            BindingFlags.Static |
+            BindingFlags.DeclaredOnly);
+        var allTypes = new List<Type>();
+        allTypes.Add(declaringClass);
+        allTypes.AddRange(nestedTypes);
+        foreach (Type nestedType in allTypes)
         {
-            parameters[i] = Metapsi.Serialize.FromJson(serverActionDelegate.ParameterTypes[i], serverCall.Parameters[i]);
+            // is static method
+            methodInfo = nestedType.GetMethod(serverCall.Delegate.MethodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            if (methodInfo != null)
+            {
+                return methodInfo;
+            }
+
+            // is instance method, presume target type has default constructor
+            methodInfo = nestedType.GetMethod(serverCall.Delegate.MethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (methodInfo != null)
+            {
+                return methodInfo;
+            }
         }
 
-        var result = serverActionDelegate.Delegate.DynamicInvoke(parameters);
+        throw new Exception($"Method info {serverCall.Delegate.ClassName}.{serverCall.Delegate.MethodName} not found!");
+    }
+
+    //public static System.Delegate FindDelegate(this ServerAction.Call serverAction)
+    //{
+    //    var methodInfo = FindMethodInfo(serverAction);
+    //    var d = System.Delegate.CreateDelegate(Type.GetType(serverAction.Delegate.DelegateType), methodInfo);
+    //    return d;
+    //}
+
+    public static object GetParameterByName(this ServerAction.Call serverCall, string parameterName)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        for (int i = 0; i < methodInfoParameters.Count(); i++)
+        {
+            if (methodInfoParameters[i].Name == parameterName)
+            {
+                return Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
+            }
+        }
+
+        throw new Exception($"Parameter {parameterName} not found!");
+    }
+
+    public static T GetParameterByName<T>(this ServerAction.Call serverCall, string parameterName)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        for (int i = 0; i < methodInfoParameters.Count(); i++)
+        {
+            if (methodInfoParameters[i].Name == parameterName)
+            {
+                return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[i]);
+            }
+        }
+
+        throw new Exception($"Parameter {parameterName} not found!");
+    }
+
+    public static object GetParameterByIndex(this ServerAction.Call serverCall, int index)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        if (methodInfoParameters.Length < index)
+        {
+            throw new Exception($"Parameter index {index} not found!");
+        }
+        var parameter = methodInfoParameters[index];
+
+        return Metapsi.Serialize.FromJson(parameter.ParameterType, serverCall.JsonParameters[index]);
+    }
+
+    public static T GetParameterByIndex<T>(this ServerAction.Call serverCall, int index)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        if (methodInfoParameters.Length < index)
+        {
+            throw new Exception($"Parameter index {index} not found!");
+        }
+        var parameter = methodInfoParameters[index];
+
+        return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[index]);
+    }
+
+    public static T GetParameterByType<T>(this ServerAction.Call serverCall)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        var parametersOfType = methodInfoParameters.Where(x => x.ParameterType == typeof(T));
+        if (!parametersOfType.Any())
+        {
+            throw new Exception($"Parameter of type {typeof(T).Name} not found");
+        }
+        if (parametersOfType.Count() > 1)
+        {
+            throw new Exception($"Multiple parameters of type {typeof(T).Name} in server call");
+        }
+        return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[parametersOfType.Single().Position]);
+    }
+
+    public static void UpdateParameterByType<T>(this ServerAction.Call serverCall, Action<T> update)
+    {
+        var methodInfo = serverCall.FindMethodInfo();
+        var methodInfoParameters = methodInfo.GetParameters();
+        var parametersOfType = methodInfoParameters.Where(x => x.ParameterType == typeof(T));
+        if (!parametersOfType.Any())
+        {
+            throw new Exception($"Parameter of type {typeof(T).Name} not found");
+        }
+        if (parametersOfType.Count() > 1)
+        {
+            throw new Exception($"Multiple parameters of type {typeof(T).Name} in server call");
+        }
+        var parameterObject = Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[parametersOfType.Single().Position]);
+        update(parameterObject);
+        serverCall.JsonParameters[parametersOfType.Single().Position] = Metapsi.Serialize.ToJson(parameterObject);
+    }
+
+    public static async Task<dynamic> Run(this ServerAction.Call serverCall, List<Type> whitelistClasses)
+    {
+        if (!whitelistClasses.Any(x => x.GetSemiQualifiedTypeName() == serverCall.Delegate.ClassName))
+            throw new Exception($"Class {serverCall.Delegate.ClassName} is not whitelisted");
+
+        object target = null;
+        MethodInfo methodInfo = null;
+
+        var declaringClass = Type.GetType(serverCall.Delegate.ClassName);
+        Type[] nestedTypes = declaringClass.GetNestedTypes(
+            BindingFlags.Public |
+            BindingFlags.NonPublic |
+            BindingFlags.Instance |
+            BindingFlags.Static |
+            BindingFlags.DeclaredOnly);
+        var allTypes = new List<Type>();
+        allTypes.Add(declaringClass);
+        allTypes.AddRange(nestedTypes);
+        foreach (Type nestedType in allTypes)
+        {
+            // is static method
+            methodInfo = nestedType.GetMethod(serverCall.Delegate.MethodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            if (methodInfo != null)
+            {
+                break;
+            }
+
+            // is instance method, presume target type has default constructor
+            methodInfo = nestedType.GetMethod(serverCall.Delegate.MethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (methodInfo != null)
+            {
+                target = Activator.CreateInstance(nestedType);
+                break;
+            }
+        }
+
+        var methodInfoParameters = methodInfo.GetParameters();
+        object[] parameters = new object[methodInfoParameters.Count()];
+        for (int i = 0; i < methodInfoParameters.Count(); i++)
+        {
+            parameters[i] = Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
+        }
+
+        var result = methodInfo.Invoke(target, parameters);
         if (result is Task)
         {
             await (Task)result;

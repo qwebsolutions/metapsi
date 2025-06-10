@@ -14,6 +14,7 @@ using Metapsi.SignalR;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using Metapsi.Shoelace;
+using System.Runtime.CompilerServices;
 
 public class DataModel
 {
@@ -222,6 +223,14 @@ public static class Program
         await EmbeddedFiles.Load.HtmlEmbeddedFiles();
 
         app.MapGet("/market", () => Page.Result(new MarketData()));
+        app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call) =>
+        {
+            call.UpdateParameterByType<MarketData>(model =>
+            {
+                model.BindingTest = httpContext.Request.Headers.UserAgent;
+            });
+            return ServerAction.Run(call, new() { typeof(Program) });
+        });
 
         app.UseRenderer<MarketData>(model =>
         {
@@ -606,6 +615,22 @@ public static class Program
             }));
     }
 
+    public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, Task<MarketData>> action)
+    {
+        return b.CallServerAction<MarketData>(b.Const("/serverAction"), action);
+    }
+
+    public static Var<HyperType.Action<MarketData, string>> CallServerAction(this SyntaxBuilder b, Func<MarketData, string, Task<MarketData>> action)
+    {
+        return b.CallServerAction<MarketData, string>(b.Const("/serverAction"), action);
+    }
+
+    public static async Task<MarketData> StaticAction(MarketData marketData, string someValue)
+    {
+        marketData.BindingTest += someValue;
+        return marketData;
+    }
+
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
     {
         b.AddRequiredStylesheetMetadata("wrong.css");
@@ -617,6 +642,8 @@ public static class Program
                 {
                     b.BindTo(model, x => x.BindingTest);
                     b.Log("model", model);
+                    //b.OnSlChange(b.CallMarketAction(StaticAction));
+                    b.OnSlChange(b.CallServerAction(StaticAction));
                 }),
             b.HtmlDiv(
                 b.Map(
@@ -645,6 +672,11 @@ public static class Program
                                 b =>
                                 {
                                     b.AddStyle("width", "150px");
+                                    b.OnClickAction(b.CallServerAction(
+                                        async (model) =>
+                                        {
+                                            return model;
+                                        }));
                                 },
                                 b.Text(b.Get(company, x => x.Name))),
                             b.HtmlDiv(

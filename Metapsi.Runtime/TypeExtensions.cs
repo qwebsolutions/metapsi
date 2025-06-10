@@ -2,6 +2,7 @@
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi
 {
@@ -69,7 +70,7 @@ namespace Metapsi
             TypeData typeData = new TypeData()
             {
                 Namespace = type.Namespace,
-                DeclaringTypes = type.GetDeclaringTypes().Select(x=>x.Name).ToList()
+                DeclaringTypes = type.GetDeclaringTypes().Select(x => x.Name).ToList()
             };
 
             if (!type.IsGenericType)
@@ -160,6 +161,27 @@ namespace Metapsi
         public static string GetSemiQualifiedTypeName(this System.Type type)
         {
             return $"{type.FullName}, {type.Assembly.GetName().Name}";
+        }
+
+        /// <summary>
+        /// Retrieves the first parent type that is not compiler-generated
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static Type GetParentNamedType(this System.Type type)
+        {
+            while (true)
+            {
+                if (type == null)
+                    throw new Exception("Cannot identify parent type");
+                if (Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute)))
+                {
+                    type = type.DeclaringType;
+                }
+                else break;
+            }
+            return type;
         }
     }
 }
