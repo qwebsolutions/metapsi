@@ -229,7 +229,7 @@ public static class Program
             {
                 model.BindingTest = httpContext.Request.Headers.UserAgent;
             });
-            return ServerAction.Run(call, new() { typeof(Program) });
+            return call.Run(new() { typeof(Program) });
         });
 
         app.UseRenderer<MarketData>(model =>
@@ -245,7 +245,7 @@ public static class Program
                         b.Hyperapp<MarketData>(
                             InitializeClientSideApp,
                             RenderClientSideApp,
-                            ListenToUpdates));
+                            ListenForUpdates));
                 });
         });
         //app.UseRenderer<DataModel>(model => $"<html><head><title>{model.Title}</title></head><body>{model.Message}</body></html>");
@@ -602,7 +602,7 @@ public static class Program
     //}
 
 
-    public static Var<HyperType.Subscription> ListenToUpdates(SyntaxBuilder b, Var<MarketData> _modelNotUsed)
+    public static Var<HyperType.Subscription> ListenForUpdates(SyntaxBuilder b, Var<MarketData> _modelNotUsed)
     {
         // Listen to SignalR event
         return b.Listen(
