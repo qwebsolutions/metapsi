@@ -52,7 +52,7 @@ public class SsrPageConfiguration<TModel>
 public class SsrPageConfiguration
 {
     public string Name { get; set; }
-    public Func<Metapsi.Web.CfHttpContext, App.Model, Task> Handle { get; set; }
+    public Func<Metapsi.Web.CfHttpContext, App.Model, Task> HandleRequest { get; set; }
 }
 
 public static class SsrPageFeature
@@ -133,7 +133,7 @@ public static class SsrPageFeature
         b.Configuration.Pages.Add(name, new SsrPageConfiguration()
         {
             Name = name,
-            Handle = handle
+            HandleRequest = handle
         });
     }
 
@@ -150,5 +150,13 @@ public static class SsrPageFeature
             b,
             pageInstance.Name,
             pageInstance.GetHandler());
+    }
+
+    public static string GetPageUrl<T>(this App.Model appKeys)
+        where T : IServerRenderedPage, new()
+    {
+        SsrPageFeature.Data pageData = appKeys.FeatureModels[SsrPageFeature.FeatureName] as SsrPageFeature.Data;
+        var pageName = new T().Name;
+        return pageData.PageUrls[pageName];
     }
 }

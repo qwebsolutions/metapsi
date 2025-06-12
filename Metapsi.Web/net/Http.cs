@@ -5,9 +5,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using System.Net.Http;
 using System.Linq;
+using Metapsi.Syntax;
 
 namespace Metapsi.Web;
 
@@ -85,6 +84,12 @@ public static class HttpExtensions
     {
         response.Response.ContentType = "text/html";
         await response.Response.WriteAsync(document.ToHtml());
+    }
+
+    public static async Task WriteJsModuleReponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
+    {
+        response.Response.ContentType = "text/javascript";
+        await response.Response.WriteAsync(module.ToJs());
     }
 
     public static async Task WriteJsonReponse<T>(this CfHttpResponse response, T value)

@@ -96,23 +96,13 @@ public class NavigateToPage : ServerRenderedPage<NavigateToPage.Model>
     }
 }
 
-public static class QuickPageUrlExtensions
-{
-    public static string GetPageUrl<T>(this App.Model appKeys)
-        where T : IServerRenderedPage, new()
-    {
-        SsrPageFeature.Data pageData = appKeys.FeatureModels[SsrPageFeature.FeatureName] as SsrPageFeature.Data;
-        var pageName = new T().Name;
-        return pageData.PageUrls[pageName];
-    }
-}
-
 public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.Model>
 {
     public class Model
     {
         public int RandomValue { get; set; }
         public string NavigateToUrl { get; set; }
+        public string CustomElement1JsPath { get; set; }
     }
 
     public TestPageImplementation()
@@ -125,28 +115,43 @@ public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.
         return new Model()
         {
             NavigateToUrl = model.GetPageUrl<NavigateToPage>(),
-            RandomValue = new Random().Next()
+            RandomValue = new Random().Next(),
+            CustomElement1JsPath = model.GetCustomElementUrl<TestCustomElement>()
         };
     }
 
     public override void OnRender(HtmlBuilder b, Model model)
     {
+        b.AddScriptModule(model.CustomElement1JsPath);
         b.BodyAppend(
-            //b.Text(model.RandomValue.ToString()),
             b.HtmlA(
-                b=>
+                b =>
                 {
                     b.SetHref(model.NavigateToUrl);
                 },
-                b.Text("Navigate")));
+                b.Text("Navigate")),
+            b.Tag(new TestCustomElement().Tag));
     }
 }
 
-public static class ServerActionExtensions
+public class TestCustomElement : CustomElement<DataModel>
 {
+    public TestCustomElement()
+    {
+        this.Tag = "test-custom";
+    }
 
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, CfHttpContext context, App.Model model, Var<Element> element)
+    {
+        return b.MakeStateWithEffects(b.NewObj<DataModel>());
+    }
+
+    public override IRootControl OnRender(LayoutBuilder b, Var<DataModel> model)
+    {
+        return Root(
+            b.HtmlDiv(b.Text(b.Get(model, x => x.Title))));
+    }
 }
-
 
 public static class Program
 {
@@ -274,6 +279,12 @@ public static class Program
         var testApp1 = App.New(
             b =>
             {
+                b.ConfigureCustomElements(
+                    b =>
+                    {
+                        b.Add<TestCustomElement>();
+                    });
+
                 b.ConfigurePages(
                     b =>
                     {

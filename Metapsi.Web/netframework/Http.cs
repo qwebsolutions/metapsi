@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Metapsi.Syntax;
 
 namespace Metapsi.Web;
 
@@ -79,6 +80,12 @@ public static class HttpExtensions
     {
         response.Response.ContentType = "application/json";
         response.Response.Write(Metapsi.Serialize.ToJson(value));
+    }
+
+    public static async Task WriteJsModuleReponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
+    {
+        response.Response.ContentType = "text/javascript";
+        response.Response.Write(module.ToJs());
     }
 
     public static async Task SetStatusCode(this CfHttpResponse httpResponse, int statusCode)
