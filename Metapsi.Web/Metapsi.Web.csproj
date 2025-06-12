@@ -15,7 +15,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
-		<Compile Remove="netframework\*.cs" />
+		<Compile Remove="netframework\**\*.cs" />
 		<None Include="netframework\**\*.cs" />
 		<EmbeddedResource Include="net\embedded\signalr.js" LogicalName="signalr.js" />
 		<EmbeddedResource Include="net\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />		
@@ -24,7 +24,7 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net47'">
 		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
 		<Reference Include="System.Web" />
-		<Compile Remove="net\*.cs" />
+		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
 		<EmbeddedResource Include="netframework\embedded\jQueryShim.js" LogicalName="jQueryShim.js" />
 		<EmbeddedResource Include="netframework\embedded\signalr.js" LogicalName="signalr.js" />

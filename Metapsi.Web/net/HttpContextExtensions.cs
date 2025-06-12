@@ -8,10 +8,10 @@ namespace Metapsi
 {
     public static class HttpContextExtensions
     {
-        public static string EntityId(this HttpContext httpContext)
-        {
-            return httpContext.Request.Path.Value.Split("/").Last();
-        }
+        //public static string EntityId(this HttpContext httpContext)
+        //{
+        //    return httpContext.Request.Path.Value.Split("/").Last();
+        //}
 
         //public static Metapsi.Ui.User User(this HttpContext httpContext)
         //{
@@ -65,59 +65,59 @@ namespace Metapsi
         //    return user;
         //}
 
-        public static async Task<string> Payload(this HttpContext httpContext)
-        {
-            if (httpContext.Request.Method.ToLower() == "get")
-                return string.Empty;
+        //public static async Task<string> Payload(this HttpContext httpContext)
+        //{
+        //    if (httpContext.Request.Method.ToLower() == "get")
+        //        return string.Empty;
 
-            var form = await httpContext.Request.ReadFormAsync();
-            if(form.ContainsKey("payload"))
-                return form["payload"];
+        //    var form = await httpContext.Request.ReadFormAsync();
+        //    if(form.ContainsKey("payload"))
+        //        return form["payload"];
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
 
-        public static async Task<T> Payload<T>(this HttpContext httpContext)
-        {
-            var stringPayload = await httpContext.Payload();
-            if (string.IsNullOrEmpty(stringPayload))
-                return default(T);
+        //public static async Task<T> Payload<T>(this HttpContext httpContext)
+        //{
+        //    var stringPayload = await httpContext.Payload();
+        //    if (string.IsNullOrEmpty(stringPayload))
+        //        return default(T);
 
-            return Metapsi.Serialize.FromJson<T>(stringPayload);
-        }
+        //    return Metapsi.Serialize.FromJson<T>(stringPayload);
+        //}
 
-        public static async Task<string> UiState(this HttpContext httpContext)
-        {
-            if (httpContext.Request.Method.ToLower() == "get")
-                return string.Empty;
+        //public static async Task<string> UiState(this HttpContext httpContext)
+        //{
+        //    if (httpContext.Request.Method.ToLower() == "get")
+        //        return string.Empty;
 
-            var form = await httpContext.Request.ReadFormAsync();
-            if (form.ContainsKey("uistate"))
-                return form["uistate"];
+        //    var form = await httpContext.Request.ReadFormAsync();
+        //    if (form.ContainsKey("uistate"))
+        //        return form["uistate"];
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
 
-        public const string RootPathHeaderKey = "X-RootPath";
+        //public const string RootPathHeaderKey = "X-RootPath";
 
-        public static string GetHostedRootPath(this HttpContext httpContext)
-        {
-            if (httpContext.Request.Headers.ContainsKey(RootPathHeaderKey))
-            {
-                return $"{httpContext.Request.Headers["X-Forwarded-Proto"]}://{httpContext.Request.Headers.Host}{httpContext.Request.Headers[RootPathHeaderKey]}";
-            }
+        //public static string GetHostedRootPath(this HttpContext httpContext)
+        //{
+        //    if (httpContext.Request.Headers.ContainsKey(RootPathHeaderKey))
+        //    {
+        //        return $"{httpContext.Request.Headers["X-Forwarded-Proto"]}://{httpContext.Request.Headers.Host}{httpContext.Request.Headers[RootPathHeaderKey]}";
+        //    }
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
 
-        public static string GetRelativeRootPath(this HttpContext httpContext)
-        {
-            if (httpContext.Request.Headers.ContainsKey(RootPathHeaderKey))
-            {
-                return httpContext.Request.Headers[RootPathHeaderKey];
-            }
+        //public static string GetRelativeRootPath(this HttpContext httpContext)
+        //{
+        //    if (httpContext.Request.Headers.ContainsKey(RootPathHeaderKey))
+        //    {
+        //        return httpContext.Request.Headers[RootPathHeaderKey];
+        //    }
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
     }
 }

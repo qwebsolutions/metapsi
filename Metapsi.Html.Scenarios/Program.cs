@@ -12,9 +12,8 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Routing;
 using Metapsi.SignalR;
 using Microsoft.AspNetCore.Http;
-using System.Text;
 using Metapsi.Shoelace;
-using System.Runtime.CompilerServices;
+using Metapsi.Web;
 
 public class DataModel
 {
@@ -79,11 +78,69 @@ public class TextBox : Widget
     public String Value { get; set; }
 }
 
-//public class ServerActionsData
-//{
-//    public Dictionary<string, Delegate> Actions { get; set; } = new();
-//}
+public class NavigateToPage : ServerRenderedPage<NavigateToPage.Model>
+{
+    public class Model
+    {
 
+    }
+
+    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Model model)
+    {
+        return new Model();
+    }
+
+    public override void OnRender(HtmlBuilder b, Model model)
+    {
+        b.BodyAppend(b.Text("Works!"));
+    }
+}
+
+public static class QuickPageUrlExtensions
+{
+    public static string GetPageUrl<T>(this App.Model appKeys)
+        where T : IServerRenderedPage, new()
+    {
+        SsrPageFeature.Data pageData = appKeys.FeatureModels[SsrPageFeature.FeatureName] as SsrPageFeature.Data;
+        var pageName = new T().Name;
+        return pageData.PageUrls[pageName];
+    }
+}
+
+public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.Model>
+{
+    public class Model
+    {
+        public int RandomValue { get; set; }
+        public string NavigateToUrl { get; set; }
+    }
+
+    public TestPageImplementation()
+    {
+        this.Name = "test";
+    }
+
+    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Model model)
+    {
+        return new Model()
+        {
+            NavigateToUrl = model.GetPageUrl<NavigateToPage>(),
+            RandomValue = new Random().Next()
+        };
+    }
+
+    public override void OnRender(HtmlBuilder b, Model model)
+    {
+        b.BodyAppend(
+            //b.Text(model.RandomValue.ToString()),
+            b.HtmlA(
+                b=>
+                {
+                    b.SetHref(model.NavigateToUrl);
+                },
+                b.Text("Navigate")));
+    }
+}
 
 public static class ServerActionExtensions
 {
@@ -213,6 +270,45 @@ public static class Program
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub(storeHubContext: hc => StaticHubContext = hc);
+
+        var testApp1 = App.New(
+            b =>
+            {
+                b.ConfigurePages(
+                    b =>
+                    {
+                        b.Add<TestPageImplementation>();
+                        b.Add<NavigateToPage>();
+                        b.Add<MarketData>(
+                            b =>
+                            {
+                                b.Configuration.Name = "m";
+                                b.Configuration.LoadModel = async (httpContext) =>
+                                {
+                                    return new MarketData();
+                                };
+                                b.Configuration.Render = (b, model) =>
+                                {
+                                    b.BodyAppend(b.Text("I don't know what to do with this MarketData"));
+                                };
+                            });
+                        b.Add<DataModel>(
+                            b =>
+                            {
+                                b.Configuration.LoadModel = async (httpContext) =>
+                                {
+                                    return new DataModel();
+                                };
+
+                                b.Configuration.Render = (b, model) =>
+                                {
+                                    b.BodyAppend(b.Text("I don't know what to do with this DataModel"));
+                                };
+                            });
+                    });
+            });
+
+        app.MapGroup("testApp1").MapApp(testApp1);
 
         //app.MapGet("/", () => Page.Result(new DataModel()));
         //app.MapServerActions("someOtherPath");

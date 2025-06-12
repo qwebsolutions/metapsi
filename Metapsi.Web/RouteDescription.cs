@@ -1,41 +1,51 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace Metapsi
+namespace Metapsi;
+
+/// <summary>
+/// Describes routes. Used to find relative or absolute URLs when building page models
+/// </summary>
+public class RouteDescription
 {
-    /// <summary>
-    /// Describes routes. Used to find relative or absolute URLs when building page models
-    /// </summary>
-    public class RouteDescription
+    public string Name { get; internal set; }
+    private Dictionary<string, string> Arguments { get; set; } = new Dictionary<string, string>();
+
+    public RouteDescription(string name)
     {
-        public string Name { get; internal set; }
-        private Dictionary<string, string> Arguments { get; set; } = new Dictionary<string, string>();
+        this.Name = name;
+    }
 
-        public RouteDescription(string name)
+    public static RouteDescription New(string name, System.Action<RouteDescription> setArguments = null)
+    {
+        RouteDescription result = new RouteDescription(name);
+        if (setArguments != null)
         {
-            this.Name = name;
+            setArguments(result);
         }
 
-        public static RouteDescription New(string name, System.Action<RouteDescription> setArguments = null)
-        {
-            RouteDescription result = new RouteDescription(name);
-            if (setArguments != null)
-            {
-                setArguments(result);
-            }
+        return result;
+    }
 
-            return result;
-        }
+    public RouteDescription Add(string name, string value)
+    {
+        this.Arguments.Add(name, value);
+        return this;
+    }
 
-        public RouteDescription Add(string name, string value)
-        {
-            this.Arguments.Add(name, value);
-            return this;
-        }
+    public string Get(string name)
+    {
+        this.Arguments.TryGetValue(name, out string value);
+        return value;
+    }
 
-        public string Get(string name)
-        {
-            this.Arguments.TryGetValue(name, out string value);
-            return value;
-        }
+    public string ToRouteName()
+    {
+        return string.Join(
+            "-",
+            this.Name,
+            string.Join(
+                "-",
+                Arguments.Select(x => $"{x.Key}-{x.Value}")));
     }
 }

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Web;
 
-public class HttpRequest
+public class CfHttpRequest
 {
-    public HttpRequest(System.Web.HttpRequest request)
+    public CfHttpRequest(System.Web.HttpRequest request)
     {
         Request = request;
     }
@@ -16,9 +16,9 @@ public class HttpRequest
     public System.Web.HttpRequest Request { get; }
 }
 
-public class HttpResponse
+public class CfHttpResponse
 {
-    public HttpResponse(System.Web.HttpResponse response)
+    public CfHttpResponse(System.Web.HttpResponse response)
     {
         Response = response;
     }
@@ -29,17 +29,17 @@ public class HttpResponse
     public System.Web.HttpResponse Response { get; }
 }
 
-public class HttpContext
+public class CfHttpContext
 {
-    public HttpContext(System.Web.HttpContext context)
+    public CfHttpContext(System.Web.HttpContext context)
     {
         Context = context;
-        Request = new HttpRequest(context.Request);
-        Response = new HttpResponse(context.Response);
+        Request = new CfHttpRequest(context.Request);
+        Response = new CfHttpResponse(context.Response);
     }
 
-    public Metapsi.Web.HttpRequest Request { get; private set; }
-    public Metapsi.Web.HttpResponse Response { get;private set; }
+    public Metapsi.Web.CfHttpRequest Request { get; private set; }
+    public Metapsi.Web.CfHttpResponse Response { get;private set; }
 
     /// <summary>
     /// Original HTTP context
@@ -49,44 +49,44 @@ public class HttpContext
 
 public static class HttpExtensions
 {
-    public static Stream Body(this HttpRequest request)
+    public static Stream Body(this CfHttpRequest request)
     {
         return request.Request.InputStream;
     }
 
-    public static Stream Body(this HttpResponse response)
+    public static Stream Body(this CfHttpResponse response)
     {
         return response.Response.OutputStream;
     }
 
-    public static string GetHeader(this HttpRequest httpRequest, string key)
+    public static string GetHeader(this CfHttpRequest httpRequest, string key)
     {
         return httpRequest.Request.Headers[key];
     }
 
-    public static async Task WriteAsync(this HttpResponse response, string content)
+    public static async Task WriteAsync(this CfHttpResponse response, string content)
     {
         response.Response.Write(content);
     }
 
-    public static async Task WriteHtmlDocument(this HttpResponse response, Metapsi.Html.HtmlDocument document)
+    public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)
     {
         response.Response.ContentType = "text/html";
         response.Response.Write(document.ToHtml());
     }
 
-    public static async Task WriteJsonReponse<T>(this HttpResponse response, T value)
+    public static async Task WriteJsonReponse<T>(this CfHttpResponse response, T value)
     {
         response.Response.ContentType = "application/json";
         response.Response.Write(Metapsi.Serialize.ToJson(value));
     }
 
-    public static async Task SetStatusCode(this HttpResponse httpResponse, int statusCode)
+    public static async Task SetStatusCode(this CfHttpResponse httpResponse, int statusCode)
     {
         httpResponse.Response.StatusCode = statusCode;
     }
 
-    public static async Task<T> ReadJsonBody<T>(this HttpRequest request)
+    public static async Task<T> ReadJsonBody<T>(this CfHttpRequest request)
     {
         return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(request.Request.InputStream);
     }
