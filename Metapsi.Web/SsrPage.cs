@@ -106,7 +106,7 @@ public static class SsrPageFeature
     }
 
     /// <summary>
-    /// Add a page by explicit configuration
+    /// Add a page rendering a <typeparamref name="TModel"/> by explicit configuration
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     /// <param name="b"></param>

@@ -39,7 +39,9 @@ public abstract class CustomElement<TModel> : ICustomElement
 
     public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
 
-    //public Type ModelType => typeof(TModel);
+    public virtual void OnSubscribe(SyntaxBuilder b, Var<TModel> model, Var<List<HyperType.Subscription>> subscriptions)
+    {
+    }
 
     public IRootControl Root(Action<PropsBuilder<object>> setProps, params Var<IVNode>[] children)
     {
@@ -61,18 +63,22 @@ public abstract class CustomElement<TModel> : ICustomElement
                     b.Call(b =>
                     {
                         b.DefineCustomElement(
-                            this.Tag,
-                            (SyntaxBuilder b, Var<Element> element) =>
+                            b.Const(this.Tag),
+                            b.Def((SyntaxBuilder b, Var<Element> element) =>
                             {
                                 return this.OnInit(b, httpContext, appModel, element);
-                            },
-                            (LayoutBuilder b, string tagName, Var<TModel> model) =>
+                            }),
+                            b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
                             {
                                 this.rootLayoutBuilder = b;
                                 return (this.OnRender(b, model) as RootControl).RootVirtualNode;
-                            });
-
-                            //customElement.Subscriptions.ToArray());
+                            }),
+                            b.Def((SyntaxBuilder b, Var<TModel> model) =>
+                            {
+                                var subscriptions = b.NewCollection<HyperType.Subscription>();
+                                this.OnSubscribe(b, model, subscriptions);
+                                return subscriptions;
+                            }));
                     });
                 });
 
@@ -86,7 +92,7 @@ public class CustomElementConfiguration<TModel>
 {
     public string Tag { get; set; } = CustomElementExtensions.GetCustomElementTagName(typeof(TModel));
     public Func<SyntaxBuilder, CfHttpContext, App.Model, Var<Element>, Var<HyperType.StateWithEffects>> Init { get; set; } = (SyntaxBuilder b, CfHttpContext httpContext, App.Model appModel, Var<Element> e) => b.MakeStateWithEffects(b.NewObj().As<TModel>());
-    public Func<LayoutBuilder, string, Var<TModel>, Var<IVNode>> Render { get; set; } = (LayoutBuilder b, string tag, Var<TModel> model) => b.H(tag);
+    public Func<LayoutBuilder, Var<string>, Var<TModel>, Var<IVNode>> Render { get; set; } = (LayoutBuilder b, Var<string> tag, Var<TModel> model) => b.H(tag);
     public List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> Subscriptions { get; set; } = new List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>>();
 }
 

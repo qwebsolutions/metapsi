@@ -122,6 +122,13 @@ public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.
 
     public override void OnRender(HtmlBuilder b, Model model)
     {
+        //HtmlBuilder trackers : always convert to HTML, as it needs to be serializable (does it?)
+        //    b.CustomElement<T> adds header
+
+        //    Custom element - call server - endpoint name
+        //    MakeServerAction != CallServer in , for example, Custom element init
+
+
         b.AddScriptModule(model.CustomElement1JsPath);
         b.BodyAppend(
             b.HtmlA(
@@ -131,6 +138,14 @@ public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.
                 },
                 b.Text("Navigate")),
             b.Tag(new TestCustomElement().Tag));
+    }
+}
+
+public static class SubscriptionExtensions
+{
+    public static void AddSubscription(this PropsBuilder<List<HyperType.Subscription>> b, Var<HyperType.Subscription> subscription)
+    {
+        b.Push(b.Props, subscription);
     }
 }
 
@@ -150,6 +165,11 @@ public class TestCustomElement : CustomElement<DataModel>
     {
         return Root(
             b.HtmlDiv(b.Text(b.Get(model, x => x.Title))));
+    }
+
+    public override void OnSubscribe(SyntaxBuilder b, Var<DataModel> model, Var<List<HyperType.Subscription>> subscriptions)
+    {
+        b.Push(subscriptions, b.NewObj<HyperType.Subscription>());
     }
 }
 
