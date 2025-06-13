@@ -59,6 +59,10 @@ As of June 2025
 
   IBM Carbon? Fluent UI?
 
+- __Generate static sites__ : under consideration
+
+  Very much possible, maybe quite easy to implement.
+
 ### Features
 
  I call _features_ pieces of application that are separately developed and distributed. It relates to "feature-based app configuration" described earlier. 
@@ -83,9 +87,11 @@ app.ConfigureFeature(
 
   This would create "automatic proxies", basically run server-side event handlers written in-place.
   While it works, there are several issues to consider:
-  - security - you wouldn't want to run anything. At this point, this is handled by a white-list when executing the event handler
+  - security - you wouldn't want to run just about any C# method by name. At this point, this is handled by a white-list on parent class when executing the event handler
   - performance - default implementation uses a lot of reflection
   - distributed app - globally storing the allowed handlers when rending the page is safer and faster, but the action request might come on a different server than the one who rendered the app
+
+    There are possibly multiple ways to register the allowed handlers. I'm considering which need to be supported at framework level.
   
 - __PWA app template__
 
