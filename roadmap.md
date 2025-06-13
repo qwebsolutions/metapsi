@@ -54,6 +54,11 @@ As of June 2025
 - __Better documentation__: planned
 
   Overhaul of http://metapsi.dev to allow easier publishing of articles and more obvious navigation.
+  
+  Should contain
+  - Reference for basic syntax: If, Foreach, function definitions, etc
+  - Quickstart guides for client-side app, server-side app, PWA
+  - Blog-like posts
 
 - __Web component libraries__: under consideration
 
