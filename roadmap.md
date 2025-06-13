@@ -55,6 +55,10 @@ As of June 2025
 
   Overhaul of http://metapsi.dev to allow easier publishing of articles and more obvious navigation.
 
+- __Web component libraries__: under consideration
+
+  IBM Carbon? Fluent UI?
+
 ### Features
 
  I call _features_ pieces of application that are separately developed and distributed. It relates to "feature-based app configuration" described earlier. 
