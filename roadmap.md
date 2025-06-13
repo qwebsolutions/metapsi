@@ -18,11 +18,11 @@ As of June 2025
 
   Full support for Shoelace with LayoutBuilder and HtmlBuilder
 
-- __Generic typescript -> C# generator__: in progress
+- __Generic typescript -> C# generator__: usable, in progress
 
   Node module that outputs C#. Works, not fun to use yet
 
-- __Web component definition -> C# generator__: in progress
+- __Web component definition -> C# generator__: usable, in progress
 
   Node module that outputs C#. Works, based on JSON documentation. Should probably switch to TypeScript type definition as input. This would allow the import of the full DOM API as well.
   
@@ -39,7 +39,7 @@ As of June 2025
   While NET is going to work "out of the box", an application can as well be imported in NET Framework and wired-up by hand. This allows incremental adoption.
   Should work in Blazor as well.
 
-- __Full DOM support__: in progress
+- __Full DOM support__: usable, in progress
 
   At this point the DOM JS types and signatures are imported by hand. I either continue that or adjust the C# generator to import everything at once
 
