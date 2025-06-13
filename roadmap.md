@@ -63,6 +63,12 @@ As of June 2025
 
   Very much possible, maybe quite easy to implement.
 
+- __Implement RealWorld__: under consideration
+  
+  https://github.com/gothinkster/realworld
+
+  Two versions, server-side and client-side
+
 ### Features
 
  I call _features_ pieces of application that are separately developed and distributed. It relates to "feature-based app configuration" described earlier. 
