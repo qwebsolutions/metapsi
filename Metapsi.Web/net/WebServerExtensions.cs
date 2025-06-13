@@ -92,12 +92,6 @@ namespace Metapsi
 
         public static void UseEmbeddedFiles(this WebApplication app)
         {
-            var fileProviders = Metapsi.EmbeddedFiles.GetAll();
-            foreach (var fileProvider in fileProviders)
-            {
-
-            }
-
             // Embedded static files
             app.Use(async (context, next) =>
             {
@@ -108,7 +102,7 @@ namespace Metapsi
                 if (!string.IsNullOrEmpty(context.Request.Path))
                 {
                     var fileName = context.Request.Path.Value.ToLower().Trim('/');
-                    var embeddedFile = await Metapsi.EmbeddedFiles.GetAsync(fileName);
+                    var embeddedFile = Metapsi.EmbeddedFiles.Get(fileName);
                     if (embeddedFile != null)
                     {
                         var bytes = embeddedFile.Content;

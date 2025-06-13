@@ -9,15 +9,6 @@ namespace Metapsi.Shoelace;
 
 public static partial class SlNodeExtensions
 {
-    /// <summary>
-    /// Load embedded files of Metapsi.Html in memory
-    /// </summary>
-    /// <param name="loader"></param>
-    public static async Task ShoelaceEmbeddedFiles(this EmbeddedFiles.ILoader loader)
-    {
-        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly);
-    }
-
     public static IHtmlNode SlTag<T>(
         this HtmlBuilder b,
         string tag,

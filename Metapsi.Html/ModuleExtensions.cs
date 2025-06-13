@@ -12,15 +12,6 @@ namespace Metapsi.Html;
 public static class ModuleExtensions
 {
     /// <summary>
-    /// Load embedded files of Metapsi.Html in memory
-    /// </summary>
-    /// <param name="loader"></param>
-    public static async Task HtmlEmbeddedFiles(this EmbeddedFiles.ILoader loader)
-    {
-        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Html.IHtmlNode).Assembly);
-    }
-
-    /// <summary>
     /// 
     /// </summary>
     /// <param name="metadata"></param>

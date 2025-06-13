@@ -10,15 +10,6 @@ namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
-    /// <summary>
-    /// Load embedded files of Metapsi.Html in memory
-    /// </summary>
-    /// <param name="loader"></param>
-    public static async Task IonicEmbeddedFiles(this EmbeddedFiles.ILoader loader)
-    {
-        await EmbeddedFiles.AddAssembly(typeof(Metapsi.Ionic.IonicNodeImport).Assembly);
-    }
-
     public static IHtmlNode IonicTag<T>(
         this HtmlBuilder b,
         string tag,

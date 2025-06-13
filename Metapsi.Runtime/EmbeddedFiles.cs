@@ -11,81 +11,42 @@ namespace Metapsi;
 
 public static class EmbeddedFiles
 {
-    public interface ILoader
-    {
-
-    }
-
-    public static ILoader Load { get; set; }
-
-    static int updating = 0;
-
     private static ConcurrentDictionary<string, EmbeddedFile> embeddedResources = new();
 
-    private static HashSet<string> assemblyName = new HashSet<string>();
-
-    private static TaskQueue assembliesQueue { get; set; } = new TaskQueue();
-
-    public static Task AddAssembly(string assemblyName)
-    {
-        Interlocked.Exchange(ref updating, 1);
-        return assembliesQueue.Enqueue(async () =>
-        {
-            var added = EmbeddedFiles.assemblyName.Add(assemblyName);
-            if (added)
-            {
-                var assembly = System.Reflection.Assembly.Load(assemblyName);
-
-                foreach (var resourceName in assembly.GetManifestResourceNames())
-                {
-                    var stream = assembly.GetManifestResourceStream(resourceName);
-                    if (stream == null)
-                    {
-                        throw new Exception($"Embedded resource {resourceName} not found");
-                    }
-                    var embeddedReference = CreateEmbeddedReference(assembly, stream, resourceName);
-                    var lowerTrimmed = resourceName.ToLowerInvariant().Trim('/');
-                    embeddedResources[lowerTrimmed] = embeddedReference;
-                }
-            }
-
-            Interlocked.Exchange(ref updating, 0);
-        });
-    }
-
-
-    public static async Task AddAssembly(Assembly assembly)
-    {
-        await AddAssembly(assembly.GetName().Name);
-    }
-
-    public static async Task<EmbeddedFile> GetAsync(string fileName)
+    /// <summary>
+    /// Searches for <paramref name="fileName"/> through all the embedded resources of Metapsi assemblies
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns>Embedded file reference</returns>
+    /// <remarks>Found files are cached in memory, only slow on first request</remarks>
+    public static EmbeddedFile Get(string fileName)
     {
         // The file name is probably already lowercase, as it's generally requested by the web server
         fileName = fileName.ToLowerInvariant().Trim('/');
 
-        // GetAsync should use the queue only as a last resort, otherwise all HTTP requests become sequential
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return null;
+        }
+
         embeddedResources.TryGetValue(fileName, out var embeddedFile);
 
         if (embeddedFile != null)
             return embeddedFile;
 
-        if (updating == 1)
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().Name.StartsWith("Metapsi")))
         {
-            return await assembliesQueue.Enqueue(async () =>
+            var actualCaseResourceName = assembly.GetManifestResourceNames().SingleOrDefault(x => x.ToLowerInvariant() == fileName);
+            if (actualCaseResourceName != null)
             {
-                embeddedResources.TryGetValue(fileName, out EmbeddedFile existingStaticResource);
-
-                if (existingStaticResource == null)
-                {
-                    return null;
-                }
-
-                return existingStaticResource;
-            });
+                var stream = assembly.GetManifestResourceStream(actualCaseResourceName);
+                var embeddedReference = CreateEmbeddedReference(assembly, stream, actualCaseResourceName);
+                embeddedResources[fileName] = embeddedReference;
+                return embeddedReference;
+            }
         }
 
-        else return null;
+        return null;
     }
 
     private static EmbeddedFile CreateEmbeddedReference(Assembly assembly, Stream stream, string resourceName)
@@ -127,15 +88,5 @@ public static class EmbeddedFiles
     public static string Hash(string content)
     {
         return Hash(System.Text.Encoding.UTF8.GetBytes(content));
-    }
-
-    public static List<EmbeddedFile> GetAll()
-    {
-        return embeddedResources.Select(x => x.Value).ToList();
-    }
-
-    public static List<string> GetAllPaths()
-    {
-        return GetAll().Select(x => x.LowerCaseFileName).ToList();
     }
 }

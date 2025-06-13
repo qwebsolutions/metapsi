@@ -9,11 +9,6 @@ namespace Metapsi.Syntax
 {
     public static partial class MetadataExtensions
     {
-        public static async Task SyntaxCoreEmbeddedFiles(this EmbeddedFiles.ILoader loader)
-        {
-            await EmbeddedFiles.AddAssembly(typeof(MetadataExtensions).Assembly);
-        }
-
         public static void AddMetadata(this ModuleBuilder b, Metadata metadata)
         {
             b.Module.Metadata.Add(metadata);

@@ -344,11 +344,6 @@ public static class Program
         //app.MapGet("/", () => Page.Result(new DataModel()));
         //app.MapServerActions("someOtherPath");
 
-        await EmbeddedFiles.Load.WebEmbeddedFiles();
-        await EmbeddedFiles.Load.SyntaxCoreEmbeddedFiles();
-        await EmbeddedFiles.Load.ShoelaceEmbeddedFiles();
-        await EmbeddedFiles.Load.HtmlEmbeddedFiles();
-
         app.MapGet("/market", () => Page.Result(new MarketData()));
         app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call) =>
         {

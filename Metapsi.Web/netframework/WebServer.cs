@@ -14,15 +14,14 @@ public class EmbeddedResourceVirtualPathProvider : VirtualPathProvider
         virtualPath = virtualPath.TrimStart('~').ToLowerInvariant();
         //var fileName = System.IO.Path.GetFileName(virtualPath).ToLowerInvariant();
         //TODO: Fix SingleOrDefault
-        var all = EmbeddedFiles.GetAll().Where(x => x.LowerCaseFileName == virtualPath);
-        var file = EmbeddedFiles.GetAll().SingleOrDefault(x => x.LowerCaseFileName == virtualPath);
+        var file = EmbeddedFiles.Get(virtualPath);
         if (file != null)
             return file;
 
         if (virtualPath.StartsWith("/"))
         {
             virtualPath = virtualPath.TrimStart('/');
-            file = EmbeddedFiles.GetAll().SingleOrDefault(x => x.LowerCaseFileName == virtualPath);
+            file = EmbeddedFiles.Get(virtualPath);
         }
 
         return file;
