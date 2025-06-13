@@ -760,9 +760,6 @@ public static class Program
 
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
     {
-        b.AddRequiredStylesheetMetadata("wrong.css");
-        b.AddRequiredStylesheetMetadata("wrong.css");
-        b.AddRequiredScriptMetadata("wrong.js");
         return b.HtmlDiv(
             b.SlInput(
                 b =>
