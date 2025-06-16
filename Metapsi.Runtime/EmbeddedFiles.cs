@@ -34,7 +34,7 @@ public static class EmbeddedFiles
         if (embeddedFile != null)
             return embeddedFile;
 
-        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().Name.StartsWith("Metapsi")))
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             var actualCaseResourceName = assembly.GetManifestResourceNames().SingleOrDefault(x => x.ToLowerInvariant() == fileName);
             if (actualCaseResourceName != null)
