@@ -1,5 +1,6 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using System;
 using static Metapsi.Html.Binding;
 
 namespace Metapsi.Html;
@@ -32,43 +33,71 @@ public partial class HtmlSelect : IHasEditableValue
     public string value { get; set; }
 }
 
-public static class HtmlAccessors
+/// <summary>
+/// 
+/// </summary>
+public interface IAutoRegisterBinding : IAutoLoader
 {
-    public static void RegisterHtmlAccessors()
+    /// <summary>
+    /// 
+    /// </summary>
+    Type ControlType { get; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    Binding GetBinding();
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class AutoRegisterHtmlInputBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public Type ControlType => typeof(HtmlInput);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
+    public Binding GetBinding()
     {
-        Binding.Registry.Register<HtmlInput>(
-            (b, value) =>
-            {
-                var controlType = b.StringToLowerCase(b.Get(b.Props, x => x.type));
-                b.If(
-                    b.AreEqual(controlType, b.Const("checkbox")),
-                    b =>
-                    {
-                        b.Set(x => x.@checked, value);
-                    });
+        return Binding.New<HtmlInput>((b, value) =>
+        {
+            var controlType = b.StringToLowerCase(b.Get(b.Props, x => x.type));
+            b.If(
+                b.AreEqual(controlType, b.Const("checkbox")),
+                b =>
+                {
+                    b.Set(x => x.@checked, value);
+                });
 
-                // Radios are weird. You set the bool 'checked' if the string 'value' is equal to the radio's value
+            // Radios are weird. You set the bool 'checked' if the string 'value' is equal to the radio's value
 
-                b.If(
-                    b.AreEqual(controlType, b.Const("radio")),
-                    b =>
-                    {
-                        var radioValue = b.Get(b.Props, x => x.value);
-                        b.If(
-                            b.AreEqual(radioValue, value.As<string>()),
-                            b =>
-                            {
-                                b.Set(x => x.@checked, value);
-                            });
-                    });
+            b.If(
+                b.AreEqual(controlType, b.Const("radio")),
+                b =>
+                {
+                    var radioValue = b.Get(b.Props, x => x.value);
+                    b.If(
+                        b.AreEqual(radioValue, value.As<string>()),
+                        b =>
+                        {
+                            b.Set(x => x.@checked, value);
+                        });
+                });
 
-                b.If(
-                    b.AreEqual(controlType, b.Const("file")),
-                    b =>
-                    {
-                        throw new System.Exception("Input type='file' does not support bindings");
-                    });
-            },
+            b.If(
+                b.AreEqual(controlType, b.Const("file")),
+                b =>
+                {
+                    throw new System.Exception("Input type='file' does not support bindings");
+                });
+        },
             (b, e) =>
             {
                 var target = b.Get(e, x => x.target).As<HTMLInputElement>();
@@ -126,4 +155,9 @@ public static class HtmlAccessors
                     });
             });
     }
+}
+
+public static class HtmlAccessors
+{
+
 }

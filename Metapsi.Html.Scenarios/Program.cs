@@ -356,8 +356,6 @@ public static class Program
 
         app.UseRenderer<MarketData>(model =>
         {
-            Metapsi.Shoelace.Binding.Register();
-
             return HtmlBuilder.FromDefault(
                 b =>
                 {

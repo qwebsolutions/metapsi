@@ -1,7 +1,9 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Metapsi.Html;
 
@@ -13,64 +15,50 @@ public interface IHasEditableValue
 {
 }
 
-public static class Binding
+public class Binding
 {
     /// <summary>
-    /// A control-related pair of value setter and event handler for value update
+    /// The action that sets a value on the control props
     /// </summary>
-    public class Accessor
-    {
-        /// <summary>
-        /// The action that sets a value on the control props
-        /// </summary>
-        internal Action<SyntaxBuilder, Var<object>, Var<object>> SetControlValue { get; set; } // control reference, value
-
-        /// <summary>
-        /// The function that extracts the new value from the DOM event
-        /// </summary>
-        public Func<SyntaxBuilder, Var<Html.Event>, Var<object>> GetEventValue { get; set; }
-
-        /// <summary>
-        /// An action that registers the event listener for updated values. Receives control props. Will invoke callback with model + new value
-        /// </summary>
-        internal Action<SyntaxBuilder, Var<object>, Var<Action<object, object>>> ListenForUpdates { get; set; } // control reference, onUpdate(model,newValue)
-    }
+    internal Action<SyntaxBuilder, Var<object>, Var<object>> SetControlValue { get; set; } // control reference, value
 
     /// <summary>
-    /// Registers value accessors
+    /// The function that extracts the new value from the DOM event
     /// </summary>
-    public static AccessorRegistry Registry { get; } = new AccessorRegistry();
+    public Func<SyntaxBuilder, Var<Html.Event>, Var<object>> GetEventValue { get; set; }
+
+    /// <summary>
+    /// An action that registers the event listener for updated values. Receives control props. Will invoke callback with model + new value
+    /// </summary>
+    internal Action<SyntaxBuilder, Var<object>, Var<Action<object, object>>> ListenForUpdates { get; set; } // control reference, onUpdate(model,newValue)
+
+    internal static ConcurrentDictionary<string, Binding> bindings = new ConcurrentDictionary<string, Binding>();
 
     /// <summary>
     /// 
     /// </summary>
-    public class AccessorRegistry
+    /// <typeparam name="TControl"></typeparam>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public static Binding Get<TControl>()
     {
-        internal Dictionary<string, Accessor> accessors = new Dictionary<string, Accessor>();
-        //static AccessorRegistry()
-        //{
-        //    HtmlAccessors.RegisterHtmlAccessors();
-        //}
+        var key = typeof(TControl).GetSemiQualifiedTypeName();
+        return bindings.GetOrAdd(key, key =>
+        {
+            var forType = AutoLoader.FindAllLoaded<IAutoRegisterBinding>().SingleOrDefault(x => x.ControlType == typeof(TControl));
+            if (forType == null)
+                throw new Exception("Binding not found for " + typeof(TControl).Name);
+            return forType.GetBinding();
+        });
     }
 
-    public static void Register(AccessorRegistry r, string key, Accessor valueAccessor)
-    {
-        r.accessors[key] = valueAccessor;
-    }
-
-    public static Accessor Get(AccessorRegistry r, string key)
-    {
-        return r.accessors[key];
-    }
-
-    public static void Register<TControl>(
-        this AccessorRegistry r,
+    public static Binding New<TControl>(
         Action<PropsBuilder<TControl>, Var<object>> setValue,
         Func<SyntaxBuilder, Var<Html.Event>, Var<object>> getValue,
         Action<PropsBuilder<TControl>, Var<HyperType.Action<object, Html.Event>>> listenForUpdates)
         where TControl : IHasEditableValue
     {
-        var accessor = new Accessor()
+        var accessor = new Binding()
         {
             SetControlValue = (SyntaxBuilder b, Var<object> props, Var<object> value) =>
             {
@@ -97,14 +85,15 @@ public static class Binding
             }
         };
 
-        r.accessors[typeof(TControl).GetSemiQualifiedTypeName()] = accessor;
+        return accessor;
     }
+}
 
-    public static Accessor Get<TControl>(this AccessorRegistry r)
-    {
-        return r.accessors[typeof(TControl).GetSemiQualifiedTypeName()];
-    }
-
+/// <summary>
+/// 
+/// </summary>
+public static class BindingExtensions
+{
     internal static void BindToInternal<TControl, TValue>(
         PropsBuilder<TControl> b,
         Var<Func<TValue>> getEntityValue,
@@ -112,7 +101,7 @@ public static class Binding
         where TControl : IHasEditableValue
     {
         var value = b.Call(getEntityValue);
-        var accessor = Binding.Registry.Get<TControl>();
+        var accessor = Binding.Get<TControl>();
         b.Call(accessor.SetControlValue, b.Props.As<object>(), value.As<object>());
         b.Call(accessor.ListenForUpdates, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
     }

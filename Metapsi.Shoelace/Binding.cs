@@ -20,38 +20,84 @@ public partial class SlSelect : IHasEditableValue
     public string value { get; set; }
 }
 
-public static class Binding
+/// <summary>
+/// 
+/// </summary>
+public class SlInputBinding : IAutoRegisterBinding
 {
-    public static void Register()
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Type ControlType => typeof(SlInput);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Html.Binding GetBinding()
     {
-        Metapsi.Html.Binding.Registry.Register<SlInput>(
+        return Html.Binding.New<SlInput>(
             (b, value) =>
             {
                 b.SetValue(value.As<string>());
             },
             (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
             SlInputControl.OnSlInput);
+    }
+}
 
-        Metapsi.Html.Binding.Registry.Register<SlSelect>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
-            (b, updateAction) =>
-            {
-                b.OnSlChange(updateAction);
-            });
+/// <summary>
+/// 
+/// </summary>
+public class SlSelectBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Type ControlType => typeof(SlSelect);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Html.Binding GetBinding()
+    {
+        return Html.Binding.New<SlSelect>((b, value) =>
+        {
+            b.SetValue(value.As<string>());
+        },
+        (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
+        (b, updateAction) =>
+        {
+            b.OnSlChange(updateAction);
+        });
+    }
+}
 
-        Metapsi.Html.Binding.Registry.Register<SlCheckbox>(
-            (b, value) =>
-            {
-                b.SetChecked(value.As<bool>());
-            },
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked).As<object>(),
-            (b, updateAction) =>
-            {
-                b.OnSlChange(updateAction);
-            });
+/// <summary>
+/// 
+/// </summary>
+public class SlCheckboxBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Type ControlType => typeof(SlCheckbox);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Html.Binding GetBinding()
+    {
+        return Html.Binding.New<SlCheckbox>((b, value) =>
+        {
+            b.SetChecked(value.As<bool>());
+        },
+        (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked).As<object>(),
+        (b, updateAction) =>
+        {
+            b.OnSlChange(updateAction);
+        });
     }
 }
