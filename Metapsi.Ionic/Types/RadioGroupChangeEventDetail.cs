@@ -1,3 +1,5 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class RadioGroupChangeEventDetail 
@@ -5,7 +7,7 @@ public class RadioGroupChangeEventDetail
     /// <summary>
     /// T
     /// </summary>
-    public DynamicObject value { get; set; }
+    public object value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

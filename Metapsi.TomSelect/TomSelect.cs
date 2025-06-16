@@ -37,7 +37,7 @@ public class TomSelectSettings
 
     public List<TomSelectOption> options { get; set; } = new();
     public List<string> items { get; set; }= new();
-    public DynamicObject plugins { get; set; } = new();
+    public object plugins { get; set; } = new();
 
     public Action<object> onInitialize { get; set; }
     public Action<object> onDropdownOpen { get; set; }
@@ -46,7 +46,7 @@ public class TomSelectSettings
     /// <summary>
     /// Custom for Metapsi, edit directly the main div
     /// </summary>
-    public Action<DomElement> editTsControl { get; set; } 
+    public Action<Element> editTsControl { get; set; } 
 }
 
 public partial class TomSelect
@@ -58,18 +58,18 @@ public partial class TomSelect
     public TomSelectSettings settings { get; set; } = new();
 }
 
-public partial class TomSelect : IAllowsBinding<TomSelect>
-{
-    public ControlBinder<TomSelect> GetControlBinder()
-    {
-        return new ControlBinder<TomSelect>()
-        {
-            NewValueEventName = "change",
-            GetEventValue = (b, @event) => b.GetProperty<string>(@event, b.Const("detail")),
-            SetControlValue = Control.SetItem
-        };
-    }
-}
+//public partial class TomSelect : IHasEditableValue<TomSelect>
+//{
+//    public ValueAccessor<TomSelect> GetValueAccessor()
+//    {
+//        return new ValueAccessor<TomSelect>()
+//        {
+//            NewValueEventName = "change",
+//            GetNewValue = (b, @event) => b.GetProperty<string>(@event, b.Const("detail")),
+//            SetControlValue = Control.SetItem
+//        };
+//    }
+//}
 
 public class ClearButtonConfiguration
 {
@@ -82,15 +82,12 @@ public static class Control
 {
     public static Var<IVNode> TomSelect(this LayoutBuilder b, Action<PropsBuilder<TomSelect>> buildProps)
     {
-        b.AddScript("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
-        b.AddScript(typeof(TomSelect).Assembly, "metapsi.tomselect.js", "module");
+        //b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
+        b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
 
-        // Use own props builder to serialize the default values of the TomSelect class
-        var tomSelectPropsBuilder = new PropsBuilder<TomSelect>() { Props = b.NewObj<TomSelect>() };
-        tomSelectPropsBuilder.InitializeFrom(b);
-        buildProps(tomSelectPropsBuilder);
+        var props = b.SetProps(b.NewObj(), buildProps);
 
-        return b.H("metapsi-tom-select", tomSelectPropsBuilder.Props.As<DynamicObject>());
+        return b.H("metapsi-tom-select", props.As<object>());
     }
 
     public static void Configure<TProp>(
@@ -294,7 +291,7 @@ public static class Control
         //    ////return b.Const("<sl-popup active></sl-popup>");
         //});
 
-        b.Configure(x => x.editTsControl, b.Def((SyntaxBuilder b, Var<DomElement> tsControl) =>
+        b.Configure(x => x.editTsControl, b.Def((SyntaxBuilder b, Var<Element> tsControl) =>
         {
             var svg = b.Const("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-chevron-down\" viewBox=\"0 0 16 16\" part=\"svg\">\r\n      <path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path>\r\n    </svg>");
 

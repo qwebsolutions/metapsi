@@ -1,0 +1,20 @@
+{
+  "name": "metapsi.shoelace.generate",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@shoelace-style/shoelace": "2.20.1",
+    "@types/node": "^22.15.29",
+    "custom-elements-manifest": "^2.1.0",
+    "metapsi-csharp-generator": "file:../Metapsi.WebComponentGenerator",
+    "typescript": "^5.8.3"
+  }
+}

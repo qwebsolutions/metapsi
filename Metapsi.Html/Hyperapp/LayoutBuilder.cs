@@ -5,11 +5,11 @@ namespace Metapsi.Hyperapp
 {
     public class LayoutBuilder : SyntaxBuilder
     {
-        public LayoutBuilder() { }
-        public override void InitializeFrom(SyntaxBuilder parent)
-        {
-            base.InitializeFrom(parent);
-        }
+        public LayoutBuilder(SyntaxBuilder b) : base(b) { }
+        //public override void InitializeFrom(SyntaxBuilder parent)
+        //{
+        //    base.InitializeFrom(parent);
+        //}
     }
 
     public static partial class LayoutBuilderExtensions

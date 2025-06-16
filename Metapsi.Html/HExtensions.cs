@@ -15,11 +15,8 @@ public static class HExtensions
         Action<PropsBuilder<TControl>> buildProps,
         Var<List<IVNode>> children)
     {
-        var propsBuilder = new PropsBuilder<TControl>();
-        propsBuilder.InitializeFrom(b);
-        propsBuilder.Props = b.NewObj<DynamicObject>().As<TControl>();
-        buildProps(propsBuilder);
-        return b.H(tag, propsBuilder.Props.As<DynamicObject>(), children);
+        var props = b.SetProps(b.NewObj(), buildProps);
+        return b.H(tag, props.As<object>(), children);
     }
 
     public static Var<IVNode> H<TControl>(
@@ -56,19 +53,19 @@ public static class HExtensions
     public static Var<IVNode> H(
         this LayoutBuilder b,
         Var<string> tag,
-        Action<PropsBuilder<DynamicObject>> buildProps,
+        Action<PropsBuilder<object>> buildProps,
         Var<List<IVNode>> children)
     {
-        return b.H<DynamicObject>(tag, buildProps, children);
+        return b.H<object>(tag, buildProps, children);
     }
 
     public static Var<IVNode> H(
         this LayoutBuilder b,
         string tag,
-        Action<PropsBuilder<DynamicObject>> buildProps,
+        Action<PropsBuilder<object>> buildProps,
         Var<List<IVNode>> children)
     {
-        return b.H<DynamicObject>(b.Const(tag), buildProps, children);
+        return b.H<object>(b.Const(tag), buildProps, children);
     }
 
     // Untyped control with params
@@ -76,19 +73,19 @@ public static class HExtensions
     public static Var<IVNode> H(
         this LayoutBuilder b,
         Var<string> tag,
-        Action<PropsBuilder<DynamicObject>> buildProps,
+        Action<PropsBuilder<object>> buildProps,
         params Var<IVNode>[] children)
     {
-        return b.H<DynamicObject>(tag, buildProps, children);
+        return b.H<object>(tag, buildProps, children);
     }
 
     public static Var<IVNode> H(
         this LayoutBuilder b,
         string tag,
-        Action<PropsBuilder<DynamicObject>> buildProps,
+        Action<PropsBuilder<object>> buildProps,
         params Var<IVNode>[] children)
     {
-        return b.H<DynamicObject>(b.Const(tag), buildProps, children);
+        return b.H<object>(b.Const(tag), buildProps, children);
     }
 }
 

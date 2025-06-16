@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>11.0</LangVersion>
+		<Description>Use Swiper Element 11.2.6 with Metapsi for both server-side and client-side web pages (https://swiperjs.com/element)</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
+	</ItemGroup>
+
+	<Import Project="embedded.target" />
+
+</Project>

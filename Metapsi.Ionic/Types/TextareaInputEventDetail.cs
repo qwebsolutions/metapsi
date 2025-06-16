@@ -1,11 +1,13 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class TextareaInputEventDetail 
 {
     /// <summary>
-    /// string | null
+    /// string
     /// </summary>
-    public DynamicObject value { get; set; }
+    public string value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

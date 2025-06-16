@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Metapsi.Html;
+using System.Collections.Generic;
 
 namespace Metapsi.Hyperapp
 {
@@ -18,7 +19,7 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> VoidNode(this LayoutBuilder b)
         {
-            return b.CallExternal<IVNode>("hyperapp", "h", b.Const(VoidNodeTag), b.NewObj<DynamicObject>());
+            return b.H(b.Const(VoidNodeTag), b.NewObj<object>());
         }
 
         public static Var<string> Url(this SyntaxBuilder b, Delegate handler)
@@ -27,29 +28,29 @@ namespace Metapsi.Hyperapp
             return path;
         }
 
-        public static Var<string> Url<TRoute>(this SyntaxBuilder b)
-            where TRoute : Route.IGet
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Const($"/{path}");
-        }
+        //public static Var<string> Url<TRoute>(this SyntaxBuilder b)
+        //    where TRoute : Route.IGet
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Const($"/{path}");
+        //}
 
-        public static Var<string> Url<TRoute, TPayload>(this SyntaxBuilder b)
-            where TRoute : Route.IPost<TPayload>
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Const($"/{path}");
-        }
+        //public static Var<string> Url<TRoute, TPayload>(this SyntaxBuilder b)
+        //    where TRoute : Route.IPost<TPayload>
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Const($"/{path}");
+        //}
 
-        public static Var<string> Url<TRoute, TParam>(this SyntaxBuilder b, Var<TParam> param)
-            where TRoute : Route.IGet<TParam>
-        {
-            var nestedTypeNames = typeof(TRoute).NestedTypeNames();
-            string path = string.Join("/", nestedTypeNames);
-            return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
-        }
+        //public static Var<string> Url<TRoute, TParam>(this SyntaxBuilder b, Var<TParam> param)
+        //    where TRoute : Route.IGet<TParam>
+        //{
+        //    var nestedTypeNames = typeof(TRoute).NestedTypeNames();
+        //    string path = string.Join("/", nestedTypeNames);
+        //    return b.Concat(b.Const("/"), b.Const(path), b.Const("/"), b.AsString(param));
+        //}
 
         public static Var<string> RootPath(this SyntaxBuilder b)
         {
@@ -68,7 +69,7 @@ namespace Metapsi.Hyperapp
             return methodPath.Replace("//", "/");
         }
 
-        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, Var<string> locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, Var<string> locale, Var<object> options)
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateDate = b.ParseDate(dateString);
@@ -76,29 +77,29 @@ namespace Metapsi.Hyperapp
             return dateStringLocale;
         }
 
-        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale, Var<DynamicObject> options)
+        public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale, Var<object> options)
         {
             return b.FormatDate(date, b.Const(locale), options);
         }
 
         public static Var<string> FormatDate(this SyntaxBuilder b, Var<DateTime> date, string locale)
         {
-            return b.FormatDate(date, locale, b.NewObj<DynamicObject>());
+            return b.FormatDate(date, locale, b.NewObj<object>());
         }
 
         public static Var<string> EnglishDayName(this SyntaxBuilder b, Var<DateTime> date)
         {
-            var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("weekday"), b.Const("long"));
+            var formatParams = b.NewObj<object>();
+            b.SetProperty(formatParams, b.Const("weekday"), b.Const("long"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
 
         public static Var<string> EnglishDayAndShortMonth(this SyntaxBuilder b, Var<DateTime> date)
         {
-            var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("day"), b.Const("numeric"));
-            b.SetDynamic(formatParams, new DynamicProperty<string>("month"), b.Const("short"));
+            var formatParams = b.NewObj<object>();
+            b.SetProperty(formatParams, b.Const("day"), b.Const("numeric"));
+            b.SetProperty(formatParams, b.Const("month"), b.Const("short"));
 
             return FormatDate(b, date, "en-gb", formatParams);
         }
@@ -138,9 +139,9 @@ namespace Metapsi.Hyperapp
         {
             var dateString = date.As<string>();// for JS it IS a string
             var dateTime = b.ParseDate(dateString);
-            var formatParams = b.NewObj<DynamicObject>();
-            b.SetDynamic(formatParams, new DynamicProperty<string>("timeStyle"), b.Const("short"));
-            b.SetDynamic(formatParams, new DynamicProperty<string>("dateStyle"), b.Const("short"));
+            var formatParams = b.NewObj<object>();
+            b.SetProperty(formatParams, b.Const("timeStyle"), b.Const("short"));
+            b.SetProperty(formatParams, b.Const("dateStyle"), b.Const("short"));
             return b.FormatLocaleDateTime(dateTime, b.Const("en-gb"), formatParams);
         }
 
@@ -178,15 +179,8 @@ namespace Metapsi.Hyperapp
         public static void AddModuleStylesheet(this SyntaxBuilder b, Assembly assembly)
         {
             var cssName = b.GetModuleStylesheetName(assembly);
-            var staticFile = EmbeddedFiles.Add(assembly, cssName);
-            if (staticFile != null)
-            {
-                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
-                {
-                    cssName = cssName + "?h=" + staticFile.Hash;
-                }
-            }
-            b.AddStylesheet(cssName);
+            b.AddRequiredStylesheetMetadata(cssName);
+            b.AddEmbeddedResourceMetadata(assembly, cssName);
         }
 
         /// <summary>
@@ -196,57 +190,32 @@ namespace Metapsi.Hyperapp
         /// <param name="assembly"></param>
         /// <param name="src"></param>
         /// <param name="type"></param>
-        public static void AddScript(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
+        public static void AddRequiredScriptMetadata(this SyntaxBuilder b, Assembly assembly, string src, string type = "")
         {
-            var staticFile = EmbeddedFiles.Add(assembly, src);
-            if (staticFile != null)
-            {
-                if (!string.IsNullOrWhiteSpace(staticFile.Hash))
-                {
-                    src = src + "?h=" + staticFile.Hash;
-                }
-            }
-
-            // Use URL for script path
-            if (!src.StartsWith('/'))
-            {
-                src = "/" + src.ToLowerInvariant();
-            }
-
-            DistinctTag scriptTag = new DistinctTag("script");
-            scriptTag.SetAttribute("src", src);
-            if (!string.IsNullOrEmpty(type))
-            {
-                scriptTag.SetAttribute("type", type);
-            }
-            b.Const(scriptTag);
+            b.AddRequiredScriptMetadata(src, type);
+            b.AddEmbeddedResourceMetadata(assembly, src);
         }
 
-        public static void AddScript(this SyntaxBuilder b, string src, string type = "")
+        public static void AddRequiredScriptMetadata(this SyntaxBuilder b, string src, string type = "")
         {
-            if (!src.StartsWith("http"))
-            {
-                // If it is not absolute path, make it absolute
-                src = $"/{src}".Replace("//", "/");
-            }
-            DistinctTag scriptTag = new DistinctTag("script");
+            var scriptTag = new HtmlTag("script");
             scriptTag.SetAttribute("src", src);
             if (!string.IsNullOrEmpty(type))
             {
                 scriptTag.SetAttribute("type", type);
             }
-            b.Const(scriptTag);
+            b.Metadata().AddRequiredTagMetadata(scriptTag);
         }
 
         public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
         {
-            DistinctTag scriptTag = new DistinctTag("script");
+            HtmlTag scriptTag = new HtmlTag("script");
             if (!string.IsNullOrEmpty(type))
             {
                 scriptTag.SetAttribute("type", type);
             }
             scriptTag.AddChild(new HtmlText(scriptContent));
-            b.Const(scriptTag);
+            b.Metadata().AddRequiredTagMetadata(scriptTag);
         }
     }
 }

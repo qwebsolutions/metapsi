@@ -59,7 +59,7 @@ public class JsLinqVisitorTests
     {
         //var oldStyle = JsLinq.Convert(expression);
 
-        var newConverter = new JavaScript.LinqConverter();
+        var newConverter = new Syntax.LinqConverter();
         newConverter.Visit(expression);
         var output = newConverter.JsLinq();
 

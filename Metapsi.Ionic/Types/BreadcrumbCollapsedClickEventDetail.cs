@@ -5,7 +5,7 @@ public class BreadcrumbCollapsedClickEventDetail
     /// <summary>
     /// HTMLElement
     /// </summary>
-    public HTMLElement ionShadowTarget { get; set; }
+    public Metapsi.Html.HTMLElement ionShadowTarget { get; set; }
     /// <summary>
     /// HTMLIonBreadcrumbElement[]
     /// </summary>

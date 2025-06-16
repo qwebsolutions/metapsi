@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>11.0</LangVersion>
 		<Description>Use Choices.js as web component in Metapsi apps (https://github.com/Choices-js/Choices)</Description>
 	</PropertyGroup>
 

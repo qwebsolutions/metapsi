@@ -1,51 +1,41 @@
 ﻿using Metapsi.Html;
+using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
 
-public partial class SlInput : IAllowsBinding<SlInput>
+
+public static partial class SlInputControl
 {
-    ControlBinder<SlInput> IAllowsBinding<SlInput>.GetControlBinder()
+    /// <summary>
+    /// Emitted when an alteration to the control's value is committed by the user.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="action"></param>
+    public static void OnSlChange<T, TModel>(this PropsBuilder<T> b, Var<HyperType.Action<TModel, string>> action) where T : SlInput
     {
-        return new ControlBinder<SlInput>()
+        b.OnSlChange(b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<Html.Event> e) =>
         {
-            NewValueEventName = "sl-input",
-            GetEventValue = (b, @event) =>
-            {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
-            },
-            SetControlValue = SlInputControl.SetValue
-        };
+            return b.MakeActionDescriptor(action, b.GetTargetValue(e));
+        }));
     }
 }
 
 
-public partial class SlInput : IHasInputTextEvent<SlInput>
-{
-    InputTextEventDescription<SlInput> IHasInputTextEvent<SlInput>.GetInputTextEventDescription()
-    {
-        return new InputTextEventDescription<SlInput>()
-        {
-            InputTextEventName = "sl-input",
-            GetEventValue = (b, @event) =>
-            {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
-            }
-        };
-    }
-}
-
-public partial class SlSelect : IAllowsBinding<SlSelect>
-{
-    ControlBinder<SlSelect> IAllowsBinding<SlSelect>.GetControlBinder()
-    {
-        return new ControlBinder<SlSelect>()
-        {
-            NewValueEventName = "sl-change",
-            GetEventValue = (b, @event) =>
-            {
-                return b.NavigateProperties<DomEvent, string>(@event, "target", "value");
-            },
-            SetControlValue = SlSelectControl.SetValue
-        };
-    }
-}
+//public partial class SlSelect : IHasEditableValue<SlSelect>
+//{
+//    ValueAccessor<SlSelect> IHasEditableValue<SlSelect>.GetValueAccessor()
+//    {
+//        return new ValueAccessor<SlSelect>()
+//        {
+//            NewValueEventName = "sl-change",
+//            GetNewValue = (b, @event) =>
+//            {
+//                return b.NavigateProperties<Event, string>(@event, "target", "value");
+//            },
+//            SetControlValue = SlSelectControl.SetValue
+//        };
+//    }
+//}

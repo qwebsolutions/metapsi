@@ -39,6 +39,8 @@ namespace Metapsi.Html;
 
 public class HtmlDocument : HtmlTag
 {
+    public HashSet<Metapsi.Syntax.Metadata> Metadata { get; set; } = new HashSet<Syntax.Metadata>();
+
     public HtmlDocument() : base("html")
     {
         this.Children.Add(this.Head);

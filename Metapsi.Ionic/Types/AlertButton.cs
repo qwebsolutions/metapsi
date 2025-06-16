@@ -21,9 +21,9 @@ public class AlertButton
     /// <summary>
     /// { [key: string]: any }
     /// </summary>
-    public DynamicObject htmlAttributes { get; set; }
+    public object htmlAttributes { get; set; }
     /// <summary>
     /// (value: any) =&gt; AlertButtonOverlayHandler | Promise&lt;AlertButtonOverlayHandler&gt;
     /// </summary>
-    public DynamicObject handler { get; set; }
+    public object handler { get; set; }
 }

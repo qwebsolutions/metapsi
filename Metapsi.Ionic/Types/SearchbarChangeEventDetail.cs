@@ -1,3 +1,5 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class SearchbarChangeEventDetail 
@@ -5,7 +7,7 @@ public class SearchbarChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public DynamicObject value { get; set; }
+    public object value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

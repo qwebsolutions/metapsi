@@ -1,5 +1,6 @@
 ﻿using Metapsi.Syntax;
 using Metapsi.Html;
+using System;
 
 namespace Metapsi.Hyperapp;
 
@@ -66,15 +67,20 @@ public static class Time
         b.Dispatch(dispatch, action, b.DateNow());
     }
 
-    public static Var<HyperType.Subscription> Every<TState>(this SyntaxBuilder b, Var<int> delay, Var<HyperType.Action<TState, long>> action)
+    public static Var<HyperType.Subscription> Every<TState>(this SyntaxBuilder b, Var<int> delayMs, Var<HyperType.Action<TState, long>> action)
     {
         return b.MakeSubscription<TState, IntervalProps<TState>>(
             b.Def<SyntaxBuilder, HyperType.Dispatcher, IntervalProps<TState>, System.Action>(Interval),
             b.NewObj<IntervalProps<TState>>(b =>
             {
-                b.Set(x => x.DelayMs, delay);
+                b.Set(x => x.DelayMs, delayMs);
                 b.Set(x => x.Action, action);
             }));
+    }
+
+    public static Var<HyperType.Subscription> Every<TState>(this SyntaxBuilder b, TimeSpan timespan, Var<HyperType.Action<TState, long>> action)
+    {
+        return b.Every(b.Const((int)timespan.TotalMilliseconds), action);
     }
 
     public static Var<HyperType.Effect> Delay<TState>(this SyntaxBuilder b, Var<int> delay, Var<HyperType.Action<TState>> action)

@@ -1,5 +1,4 @@
-﻿using Metapsi.SignalR;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 
 namespace Metapsi.Hyperapp
 {
@@ -7,8 +6,9 @@ namespace Metapsi.Hyperapp
     {
         public static Var<bool> IsSafari(this SyntaxBuilder b)
         {
-            EmbeddedFiles.Add(typeof(Browser).Assembly, "Browser.js");
-            return b.CallExternal<bool>(nameof(Browser), nameof(IsSafari));
+            b.AddEmbeddedResourceMetadata(typeof(Browser).Assembly, "Browser.js");
+            var isSafari = b.ImportName<System.Func<bool>>("Browser.js", "IsSafari");
+            return b.Call(IsSafari);
         }
     }
 }

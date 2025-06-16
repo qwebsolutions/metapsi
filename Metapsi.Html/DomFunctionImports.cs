@@ -1,63 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using Metapsi.Syntax;
 
 namespace Metapsi.Html
 {
-    public interface IDomElement
-    {
-    }
+    //public interface IDomElement
+    //{
+    //}
 
-    public class Window : IDomElement
-    {
+    //public class Window : IDomElement
+    //{
 
-    }
+    //}
 
-    public class Document: IDomElement
-    {
+    //public class Document: IDomElement
+    //{
 
-    }
+    //}
 
-    public class DomElement : IDomElement
-    {
-        public string id { get; }
-        public string @class { get; }
-        public string innerHTML { get; }
-        public List<DomElement> children { get; }
-    }
+    //public class DomElement : IDomElement
+    //{
+    //    public string id { get; }
+    //    public string @class { get; }
+    //    public string innerHTML { get; }
+    //    public List<DomElement> children { get; }
+    //}
 
-    public class ClickTarget
-    {
-    }
+    //public class ClickTarget
+    //{
+    //}
 
-    public interface IDomEvent
-    {
+    //public interface IDomEvent
+    //{
 
-    }
+    //}
 
-    public class DomEvent<TTarget> : IDomEvent
-    {
-        public TTarget target { get; set; }
-    }
+    //public class DomEvent<TTarget> : IDomEvent
+    //{
+    //    public TTarget target { get; set; }
+    //}
 
-    public class DomEvent : IDomEvent
-    {
-        public DomElement currentTarget { get; set; }
-        public DomElement target { get; set; }
-    }
+    //public class DomEvent : IDomEvent
+    //{
+    //    public DomElement currentTarget { get; set; }
+    //    public DomElement target { get; set; }
+    //}
 
 
-    public class InputTarget
-    {
-        public string value { get; set; }
-    }
+    //public class InputTarget
+    //{
+    //    public string value { get; set; }
+    //}
 
-    public class KeyboardEvent
-    {
-        public string key { get; set; }
-    }
+    //public class KeyboardEvent
+    //{
+    //    public string key { get; set; }
+    //}
 
     public static class FunctionImports
     {
@@ -65,17 +63,69 @@ namespace Metapsi.Html
 
         public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            return b.CallExternal<TOut>(ModuleName, function, arguments);
+            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            return b.CallDynamic<TOut>(fn, arguments);
         }
 
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            b.CallExternal(ModuleName, function, arguments);
+            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            b.CallDynamic(fn, arguments);
         }
 
         public static Var<object> Self(this SyntaxBuilder b)
         {
             return b.CallCoreFunction<object>(nameof(Self));
+        }
+
+        /// <summary>
+        /// While loop
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="checkFn"></param>
+        /// <param name="doFn"></param>
+        public static void While(this SyntaxBuilder b, Var<Func<bool>> checkFn, Var<Action> doFn)
+        {
+            b.CallDomFunction("While", checkFn, doFn);
+        }
+
+        /// <summary>
+        /// While loop
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="checkFn"></param>
+        /// <param name="doFn"></param>
+        public static void While(this SyntaxBuilder b, Func<SyntaxBuilder, Var<bool>> checkFn, Action<SyntaxBuilder> doFn)
+        {
+            b.While(b.Def(checkFn), b.Def(doFn));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="collection"></param>
+        /// <param name="doStuff"></param>
+        /// <returns></returns>
+        public static Var<Promise> AsyncForeach<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<Func<T, Promise>> doStuff)
+        {
+            return b.CallCoreFunction<Promise>("AsyncForeach", collection, doStuff);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSyntaxBuilder"></typeparam>
+        /// <typeparam name="TItem"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="collection"></param>
+        /// <param name="doStuff"></param>
+        /// <returns></returns>
+        public static Var<Promise> AsyncForeach<TSyntaxBuilder, TItem>(this TSyntaxBuilder b, Var<List<TItem>> collection, Func<SyntaxBuilder, Var<TItem>, Var<Promise>> doStuff)
+            where TSyntaxBuilder: SyntaxBuilder
+        {
+            return b.CallCoreFunction<Promise>("AsyncForeach", collection, b.Def(doStuff));
         }
 
         /// <summary>
@@ -94,12 +144,33 @@ namespace Metapsi.Html
             return b.GetProperty<Window>(b.Self(), "window");
         }
 
+        /// <summary>
+        /// Uses the 'new' keyword to create an object based on <paramref name="constructor"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="constructor"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static Var<T> New<T>(this SyntaxBuilder b, Var<object> constructor, params IVariable[] args)
         {
             List<IVariable> withFunc = new List<IVariable>();
             withFunc.Add(constructor);
             withFunc.AddRange(args);
             return b.CallCoreFunction<T>("New", withFunc.ToArray());
+        }
+
+        /// <summary>
+        /// Uses the 'new' keyword to create an object based on constructor of type 'T'
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
+        {
+            var constructor = b.GetProperty<object>(b.Self(), b.Const(typeof(T).Name));
+            return b.New<T>(constructor, args);
         }
 
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)
@@ -120,71 +191,52 @@ namespace Metapsi.Html
             return b.GetProperty<Document>(b.Self(), "document");
         }
 
-        public static Var<DomElement> GetElementById(this SyntaxBuilder b, Var<string> id)
+        public static Var<Element> GetElementById(this SyntaxBuilder b, Var<string> id)
         {
-            return b.CallOnObject<DomElement>(b.Document(), "getElementById", id);
+            return b.CallOnObject<Element>(b.Document(), "getElementById", id);
         }
 
-        public static Var<DomElement> GetElementById(this SyntaxBuilder b, string id)
+        public static Var<Element> GetElementById(this SyntaxBuilder b, string id)
         {
             return b.GetElementById(b.Const(id));
         }
 
-        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<DomElement> parent, Var<string> selector)
+
+        public static Var<List<Element>> GetElementsByTagName(this SyntaxBuilder b, Var<Element> parent, Var<string> tagName)
         {
-            return b.CallOnObject<DomElement>(parent, "querySelector", selector);
+            return b.CallOnObject<List<Element>>(parent, "getElementsByTagName", tagName);
         }
 
-        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<DomElement> parent, string selector)
-        {
-            return b.QuerySelector(parent, b.Const(selector));
-        }
-
-        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, Var<string> selector)
-        {
-            return b.QuerySelector(b.Document().As<DomElement>(), selector);
-        }
-
-        public static Var<DomElement> QuerySelector(this SyntaxBuilder b, string selector)
-        {
-            return b.QuerySelector(b.Const(selector));
-        }
-
-        public static Var<List<DomElement>> GetElementsByTagName(this SyntaxBuilder b, Var<DomElement> parent, Var<string> tagName)
-        {
-            return b.CallOnObject<List<DomElement>>(parent, "getElementsByTagName", tagName);
-        }
-
-        public static Var<List<DomElement>> GetElementsByTagName(this SyntaxBuilder b, Var<DomElement> parent, string tagName)
+        public static Var<List<Element>> GetElementsByTagName(this SyntaxBuilder b, Var<Element> parent, string tagName)
         {
             return b.GetElementsByTagName(parent, b.Const(tagName));
         }
 
-        public static Var<DomElement> CreateElement(this SyntaxBuilder b, Var<string> tag)
+        public static Var<Element> CreateElement(this SyntaxBuilder b, Var<string> tag)
         {
-            return b.CallOnObject<DomElement>(b.Document(), "createElement", tag);
+            return b.CallOnObject<Element>(b.Document(), "createElement", tag);
         }
 
-        public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, Var<string> content)
+        public static Var<Element> CreateTextNode(this SyntaxBuilder b, Var<string> content)
         {
-            return b.CallOnObject<DomElement>(b.Document(), "createTextNode", content);
+            return b.CallOnObject<Element>(b.Document(), "createTextNode", content);
         }
 
-        public static Var<DomElement> CreateTextNode(this SyntaxBuilder b, string content)
+        public static Var<Element> CreateTextNode(this SyntaxBuilder b, string content)
         {
             return b.CreateTextNode(b.Const(content));
         }
 
-        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, Var<string> tag, Action<PropsBuilder<T>> buildProps, Var<List<DomElement>> children)
+        public static Var<Element> CreateElement<T>(this SyntaxBuilder b, Var<string> tag, Action<PropsBuilder<T>> buildProps, Var<List<Element>> children)
         {
             var domElement = b.CreateElement(tag);
-            b.CallOnObject<DomElement>(
+            b.CallOnObject<Element>(
                 b.GetProperty<object>(
                     b.Self(),
                     b.Const("Object")),
                 "assign",
                 domElement,
-                b.SetProps(b.NewObj<DynamicObject>(), buildProps));
+                b.SetProps(b.NewObj<object>(), buildProps));
             b.Foreach(
                 children,
                 (b, c) =>
@@ -193,27 +245,27 @@ namespace Metapsi.Html
                 });
             return domElement;
         }
-        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, Var<List<DomElement>> children)
+        public static Var<Element> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, Var<List<Element>> children)
         {
             return b.CreateElement(b.Const(tag), buildProps, children);
         }
 
-        public static Var<DomElement> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, params Var<DomElement>[] children)
+        public static Var<Element> CreateElement<T>(this SyntaxBuilder b, string tag, Action<PropsBuilder<T>> buildProps, params Var<Element>[] children)
         {
             return b.CreateElement(b.Const(tag), buildProps, b.List(children));
         }
 
-        public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName)
+        public static Var<T> GetAttribute<T>(this SyntaxBuilder b, Var<Element> domElement, Var<string> attributeName)
         {
             return b.CallOnObject<T>(domElement, "getAttribute", attributeName);
         }
 
-        public static void SetAttribute<T>(this SyntaxBuilder b, Var<DomElement> domElement, Var<string> attributeName, Var<T> attributeValue)
+        public static void SetAttribute<T>(this SyntaxBuilder b, Var<Element> domElement, Var<string> attributeName, Var<T> attributeValue)
         {
             b.CallOnObject(domElement, "setAttribute", attributeName, attributeValue);
         }
 
-        public static void AppendChild(this SyntaxBuilder b, Var<DomElement> parent, Var<DomElement> child)
+        public static void AppendChild(this SyntaxBuilder b, Var<Element> parent, Var<Element> child)
         {
             b.CallOnObject(parent, "appendChild", child);
         }
@@ -241,18 +293,6 @@ namespace Metapsi.Html
             b.RequestAnimationFrame(b.Def(action));
         }
 
-        public static void StopPropagation<T>(this SyntaxBuilder b, Var<T> domEvent)
-            where T: IDomEvent
-        {
-            b.CallOnObject(domEvent, "stopPropagation");
-        }
-
-        public static void PreventDefault<T>(this SyntaxBuilder b, Var<T> domEvent)
-            where T : IDomEvent
-        {
-            b.CallOnObject(domEvent, "preventDefault");
-        }
-
 
         // Not event present?
         /*
@@ -271,27 +311,6 @@ namespace Metapsi.Html
             b.SetProperty(b.GetProperty<object>(b.Window(), "location"), b.Const("href"), url);
         }
 
-        public static void ScrollIntoView(this SyntaxBuilder b, Var<DomElement> domElement)
-        {
-            b.If(
-                b.HasObject(domElement),
-                b =>
-                {
-                    var scrollOptions = b.NewObj<DynamicObject>();
-                    b.SetProperty(scrollOptions, b.Const("behavior"), b.Const("smooth"));
-                    b.CallOnObject(domElement, "scrollIntoView", scrollOptions);
-                });
-        }
-
-        public static void ScrollBy(this SyntaxBuilder b, Var<int> x, Var<int> y)
-        {
-            b.CallOnObject(b.Window(), "scrollBy", x, y);
-        }
-
-        public static void ScrollTo(this SyntaxBuilder b, Var<int> x, Var<int> y)
-        {
-            b.CallOnObject(b.Window(), "scrollTo", x, y);
-        }
 
         public static Var<string> GetLocale(this SyntaxBuilder b)
         {
@@ -301,7 +320,7 @@ namespace Metapsi.Html
             return b.GetProperty<string>(resolvedOptions, "locale");
         }
 
-        public static void SetStyle(this SyntaxBuilder b, Var<DomElement> element, Var<string> styleName, Var<string> styleValue)
+        public static void SetStyle(this SyntaxBuilder b, Var<Element> element, Var<string> styleName, Var<string> styleValue)
         {
             b.SetProperty(b.GetProperty<object>(element, "style"), styleName, styleValue);
         }

@@ -17,5 +17,5 @@ public class PickerButton
     /// <summary>
     /// (value: any) =&gt; boolean | void
     /// </summary>
-    public DynamicObject handler { get; set; }
+    public object handler { get; set; }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "metapsi.ionic.generate",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@ionic/core": "^8.5.8",
+    "@types/node": "^22.15.29",
+    "metapsi-csharp-generator": "file:../Metapsi.WebComponentGenerator",
+    "typescript": "^5.8.3"
+  }
+}

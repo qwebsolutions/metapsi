@@ -8,7 +8,7 @@ public static partial class DialogExtensions
     public static void ShowDialog(this SyntaxBuilder b, Var<string> dialogId)
     {
         var popup = b.GetElementById(dialogId);
-        b.SetDynamic(popup, DynamicProperty.Bool("open"), b.Const(true));
+        b.SetProperty(popup, b.Const("open"), b.Const(true));
     }
 
     public static void ShowDialog(this SyntaxBuilder b, string dialogId)
@@ -19,7 +19,7 @@ public static partial class DialogExtensions
     public static void HideDialog(this SyntaxBuilder b, Var<string> dialogId)
     {
         var popup = b.GetElementById(dialogId);
-        b.SetDynamic(popup, DynamicProperty.Bool("open"), b.Const(false));
+        b.SetProperty(popup, b.Const("open"), b.Const(false));
     }
 
     public static void HideDialog(this SyntaxBuilder b, string dialogId)

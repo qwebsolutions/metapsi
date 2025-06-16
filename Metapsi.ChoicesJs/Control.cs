@@ -208,8 +208,8 @@ public static partial class Control
 
     private static void AddStaticFiles(this LayoutBuilder b)
     {
-        b.AddStylesheet("metapsi.choices.css");
-        b.AddScript("choices.min.js");
-        b.AddScript("metapsi.choices.js", "module");
+        b.AddRequiredStylesheetMetadata("metapsi.choices.css");
+        b.AddRequiredScriptMetadata("choices.min.js");
+        b.AddRequiredScriptMetadata("metapsi.choices.js", "module");
     }
 }

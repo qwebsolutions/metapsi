@@ -6,8 +6,14 @@ using System.Reflection;
 
 namespace Metapsi.Html;
 
+/// <summary>
+/// Builder for an HTML document
+/// </summary>
 public class HtmlBuilder
 {
+    /// <summary>
+    /// The HTML document
+    /// </summary>
     public HtmlDocument Document { get; private set; }
 
     private HtmlBuilder()
@@ -15,11 +21,11 @@ public class HtmlBuilder
         this.Document = new HtmlDocument();
     }
 
-    public HtmlBuilder(HtmlBuilder b)
-    {
-        this.Document = b.Document;
-    }
-
+    /// <summary>
+    /// Start from a completely empty document
+    /// </summary>
+    /// <param name="build"></param>
+    /// <returns></returns>
     public static HtmlDocument FromEmpty(Action<HtmlBuilder> build)
     {
         var builder = new HtmlBuilder();
@@ -70,20 +76,31 @@ public class HtmlBuilder
             b.BodyAppend(build(b));
         });
     }
+
+    /// <summary>
+    /// Builds a fragment of a document, discarding the head and body
+    /// </summary>
+    /// <param name="build"></param>
+    /// <returns></returns>
+    public static IHtmlNode Node(Func<HtmlBuilder, IHtmlNode> build)
+    {
+        var builder = new HtmlBuilder();
+        return build(builder);
+    }
 }
 
 public static class HtmlBuilderExtensions
 {
-    public static HtmlDocument Document(this HtmlBuilder b)
-    {
-        return b.Document;
-    }
+    //public static HtmlDocument Document(this HtmlBuilder b)
+    //{
+    //    return b.Document;
+    //}
 
     /// <summary>
-    /// Adds child to head tag if it doesn't already exists
+    /// Adds children to head tag if they don't already exist
     /// </summary>
     /// <param name="b"></param>
-    /// <param name="htmlNode"></param>
+    /// <param name="nodes"></param>
     public static void HeadAppend(this HtmlBuilder b, params IHtmlNode[] nodes)
     {
         foreach (var node in nodes)
@@ -95,11 +112,24 @@ public static class HtmlBuilderExtensions
         }
     }
 
+    /// <summary>
+    /// Adds children to the body tag
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="nodes"></param>
     public static void BodyAppend(this HtmlBuilder b, params IHtmlNode[] nodes)
     {
         b.Document.Body.Children.AddRange(nodes);
     }
 
+    /// <summary>
+    /// Creates a tag
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="attributes"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
         return new HtmlTag(tagName)
@@ -109,27 +139,42 @@ public static class HtmlBuilderExtensions
         };
     }
 
+    /// <summary>
+    /// Creates a tag
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="attributes"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, params IHtmlNode[] children)
     {
         return b.Tag(tagName, attributes, children.ToList());
     }
 
+    /// <summary>
+    /// Creates a tag
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, params IHtmlNode[] children)
     {
         return b.Tag(tagName, children.ToList());
     }
 
+    /// <summary>
+    /// Creates a tag
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="tagName"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, List<IHtmlNode> children)
     {
         return b.Tag(tagName, new Dictionary<string, string>(), children);
     }
-
-    //public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Action<AttributesBuilder<object>> buildAttributes, params IHtmlNode[] children)
-    //{
-    //    AttributesBuilder<object> builder = new();
-    //    buildAttributes(builder);
-    //    return b.Tag(tagName, builder.Attributes, children);
-    //}
 
     public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, List<IHtmlNode> children)
     {
@@ -148,6 +193,11 @@ public static class HtmlBuilderExtensions
         return new HtmlText(text);
     }
 
+    /// <summary>
+    /// Adds the <paramref name="href"/> stylesheet do document head if it doesn't already exist
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="href"></param>
     public static void AddStylesheet(this HtmlBuilder b, string href)
     {
         if (!href.StartsWith("http"))
@@ -164,6 +214,12 @@ public static class HtmlBuilderExtensions
                 }));
     }
 
+    /// <summary>
+    /// Adds <paramref name="src"/> script to document head if it doesn't already exist
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="src"></param>
+    /// <param name="type"></param>
     public static void AddScript(this HtmlBuilder b, string src, string type = null)
     {
         b.HeadAppend(
@@ -180,14 +236,6 @@ public static class HtmlBuilderExtensions
 
     public static void AddScript(this HtmlBuilder b, Assembly assembly, string jsFile, string type = null)
     {
-        var embeddedFile = EmbeddedFiles.Add(assembly, jsFile);
-        if (embeddedFile != null)
-        {
-            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-            {
-                jsFile = jsFile + "?h=" + embeddedFile.Hash;
-            }
-        }
         b.AddScript(jsFile, type);
     }
 
@@ -205,14 +253,14 @@ public static class HtmlBuilderExtensions
 
     public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
     {
-        var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
-        if (embeddedFile != null)
-        {
-            if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-            {
-                cssFile = cssFile + "?h=" + embeddedFile.Hash;
-            }
-        }
+        //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
+        //if (embeddedFile != null)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
+        //    {
+        //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
+        //    }
+        //}
         b.HeadAppend(b.HtmlLink(b =>
         {
             b.SetAttribute("rel", "stylesheet");

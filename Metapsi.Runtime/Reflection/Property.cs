@@ -7,18 +7,18 @@ using System.Runtime.CompilerServices;
 
 namespace Metapsi
 {
-    public static class Property
-    {
-        public static TValue Get<TValue>(object o, string propertyName)
-        {
-            return (TValue)o.GetType().GetProperty(propertyName).GetValue(o);
-        }
+    //public static class Property
+    //{
+    //    public static TValue Get<TValue>(object o, string propertyName)
+    //    {
+    //        return (TValue)o.GetType().GetProperty(propertyName).GetValue(o);
+    //    }
 
-        public static void Set<TValue>(object o, string propertyName, TValue value)
-        {
-            o.GetType().GetProperty(propertyName).SetValue(o, value);
-        }
-    }
+    //    public static void Set<TValue>(object o, string propertyName, TValue value)
+    //    {
+    //        o.GetType().GetProperty(propertyName).SetValue(o, value);
+    //    }
+    //}
 
     //public class SerializationConverterFactory : System.Text.Json.Serialization.JsonConverterFactory
     //{

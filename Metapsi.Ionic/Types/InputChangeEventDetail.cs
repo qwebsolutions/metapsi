@@ -1,3 +1,5 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class InputChangeEventDetail 
@@ -5,7 +7,7 @@ public class InputChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public DynamicObject value { get; set; }
+    public string value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

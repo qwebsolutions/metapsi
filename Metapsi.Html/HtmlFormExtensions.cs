@@ -9,6 +9,11 @@ public static class HtmlFormExtensions
         b.SetAttribute("method", "POST");
     }
 
+    public static void SetAction(this AttributesBuilder<HtmlForm> b, string action)
+    {
+        b.SetAttribute("action", action);
+    }
+
     public static void SetMethodPost(this PropsBuilder<HtmlForm> b)
     {
         b.SetAttribute("method", "POST");

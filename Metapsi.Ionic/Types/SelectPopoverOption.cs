@@ -25,5 +25,5 @@ public class SelectPopoverOption
     /// <summary>
     /// (value: any) =&gt; boolean | void | { [key: string]: any }
     /// </summary>
-    public DynamicObject handler { get; set; }
+    public object handler { get; set; }
 }

@@ -1,3 +1,5 @@
+using Metapsi.Html;
+
 namespace Metapsi.Ionic;
 
 public class TextareaChangeEventDetail 
@@ -5,7 +7,7 @@ public class TextareaChangeEventDetail
     /// <summary>
     /// string | null
     /// </summary>
-    public DynamicObject value { get; set; }
+    public object value { get; set; }
     /// <summary>
     /// Event
     /// </summary>

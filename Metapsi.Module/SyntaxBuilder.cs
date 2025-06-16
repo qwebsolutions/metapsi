@@ -1,163 +1,274 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi.Syntax
 {
     public class SyntaxBuilder
     {
-        public virtual void InitializeFrom(SyntaxBuilder parent)
+        internal ModuleBuilder moduleBuilder;
+        internal List<ISyntaxNode> nodes { get; set; } = new List<ISyntaxNode>();
+
+        internal SyntaxBuilder(ModuleBuilder moduleBuilder)
         {
-            if (this.blockBuilder == null)
+            this.moduleBuilder = moduleBuilder;
+        }
+
+        public SyntaxBuilder(SyntaxBuilder parent)
+        {
+            this.moduleBuilder = parent.moduleBuilder;
+        }
+
+        public string NewVarName()
+        {
+            return this.moduleBuilder.NewName();
+        }
+
+        public HashSet<Metadata> Metadata()
+        {
+            return this.moduleBuilder.Module.Metadata;
+        }
+
+        private string FixSource(string source)
+        {
+            if (!source.EndsWith(".js") && !source.EndsWith(".mjs"))
             {
-                this.blockBuilder = parent.blockBuilder; // TODO: Seems shady?
+                source += ".js";
             }
+            if (!source.StartsWith("http://") && !source.StartsWith("https://"))
+            {
+                if (!source.StartsWith("/"))
+                {
+                    source = "/" + source;
+                }
+            }
+            return source;
         }
 
-        internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b, TSyntaxBuilder source)
-            where TSyntaxBuilder : SyntaxBuilder, new()
+        public Var<T> ImportName<T>(string source, string importName)
         {
-            TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
-            syntaxBuilder.InitializeFrom(source);
-            return syntaxBuilder;
+            source = FixSource(source);
+            this.moduleBuilder.Module.ImportName(source, importName);
+            return new Var<T>(importName);
         }
 
-        //public static TSyntaxBuilder New<TSyntaxBuilder>(TSyntaxBuilder source)
-        //    where TSyntaxBuilder : SyntaxBuilder, new()
-        //{
-        //    TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
-        //    return syntaxBuilder;
-        //}
-
-        internal BlockBuilder blockBuilder;
-
-        public Module Module => blockBuilder.ModuleBuilder.Module;
-
-        public SyntaxBuilder()
+        public void ImportDefault(string source, string asName)
         {
+            source = FixSource(source);
+            this.moduleBuilder.Module.ImportDefault(source, asName);
         }
 
-        public SyntaxBuilder(SyntaxBuilder b)
+        public void ImportSideEffect(string source)
         {
-            this.blockBuilder = b.blockBuilder;
+            source = FixSource(source);
+            this.moduleBuilder.Module.ImportSideEffect(source);
         }
 
+        public void DebugComment(string comment)
+        {
+#if DEBUG
+            Comment(comment);
+#endif
+        }
+
+        public void Comment(string comment)
+        {
+            this.nodes.Add(new CommentNode() { Comment = comment });
+        }
+
+
+        /// <summary>
+        /// Add or reuse a module-wide constant
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="constant"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Var<T> Const<T>(T constant)
         {
-            return blockBuilder.Const(constant);
+            if (constant is IVariable)
+                throw new ArgumentException("Constant is not a server-side value");
+            return moduleBuilder.Const(constant);
         }
 
+        /// <summary>
+        /// Add or reuse a module-wide constant. Use specified name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="constant"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Var<T> Const<T>(T constant, string name)
         {
-            return blockBuilder.Const(constant, name);
+            var outConst = Const(constant);
+            outConst.Name = name;
+            return outConst;
         }
 
-        public Var<T> NewObj<T>() where T : new()
+        /// <summary>
+        /// Creates a new object of type T, initialized from obj
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Var<T> NewObj<T>(T obj)
         {
-            return blockBuilder.NewObj<T>();
+            var assignmentNode = new AssignmentNode()
+            {
+                Name = moduleBuilder.NewName(),
+                Node = new LiteralNode()
+                {
+                    Value = System.Text.Json.JsonSerializer.Serialize(obj)
+                }
+            };
+            nodes.Add(assignmentNode);
+            return new Var<T>(assignmentNode.Name);
         }
 
-        public Var<List<T>> NewCollection<T>()
+        public Var<T> CallDynamic<T>(Var<Delegate> f, params IVariable[] arguments)
         {
-            return blockBuilder.NewCollection<T>();
+            var assignmentNode = new AssignmentNode()
+            {
+                Name = moduleBuilder.NewName(),
+                Node = new CallNode()
+                {
+                    Fn = new IdentifierNode()
+                    {
+                        Name = f.Name
+                    },
+                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
+                }
+            };
+
+            nodes.Add(assignmentNode);
+            return new Var<T>(assignmentNode.Name);
         }
 
-        public Var<TOut> CallExternal<TOut>(string module, string function, params IVariable[] arguments)
+        public void CallDynamic(Var<Delegate> f, params IVariable[] arguments)
         {
-            return blockBuilder.CallExternal<TOut>(module, function, arguments);
-        }
+            var assignmentNode = new AssignmentNode()
+            {
+                Name = moduleBuilder.NewName(),
+                Node = new CallNode()
+                {
+                    Fn = new IdentifierNode()
+                    {
+                        Name = f.Name
+                    },
+                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
+                }
+            };
 
-        public void CallExternal(string module, string function, params IVariable[] arguments)
-        {
-            blockBuilder.CallExternal(module, function, arguments);
-        }
-
-        public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, Var<TProp> value)
-        {
-            blockBuilder.Set<TItem, TProp>(var, access, value);
-        }
-
-        public void SetLax<TItem, TProp>(Var<TItem> var, LambdaExpression access, Var<TProp> value)
-        {
-            blockBuilder.SetLax(var, access, value);
-        }
-
-        public void Set<TItem, TProp>(Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
-        {
-            Set<TItem, TProp>(var, access, Const(value));
-        }
-
-        public void SetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property, Var<TProp> value)
-        {
-            this.SetProperty(item, Const(property.PropertyName), value);
-        }
-
-        public Var<TProp> GetDynamic<TProp>(IVariable item, DynamicProperty<TProp> property)
-        {
-            return this.GetProperty<TProp>(item, Const(property.PropertyName));
-        }
-
-        public void Comment(string comment,
-            [System.Runtime.CompilerServices.CallerFilePath] String file = "",
-            [System.Runtime.CompilerServices.CallerLineNumber] Int32 line = 0)
-        {
-            blockBuilder.Comment(comment, file, line);
-        }
-
-        public IVariable GetLax(
-            LambdaExpression expression,
-            params IVariable[] arguments)
-        {
-            blockBuilder.ModuleBuilder.AddImport("linq", "Enumerable");
-            var constExpr = blockBuilder.ModuleBuilder.AddExpression(expression);
-            return blockBuilder.CallFunction<object>(constExpr, arguments);
-        }
-
-        public Var<TResult> Get<TInput, TResult>(
-            Var<TInput> input,
-            Expression<Func<TInput, TResult>> expression)
-        {
-            return GetLax(expression, input).As<TResult>();
-        }
-
-        public Var<TResult> Get<TInput1, TInput2, TResult>(
-            Var<TInput1> input1,
-            Var<TInput2> input2,
-            Expression<Func<TInput1, TInput2, TResult>> expression)
-        {
-            return GetLax(expression, input1, input2).As<TResult>();
-        }
-
-        public Var<TResult> Get<TInput1, TInput2, TInput3, TResult>(
-            Var<TInput1> input1,
-            Var<TInput2> input2,
-            Var<TInput3> input3,
-            Expression<Func<TInput1, TInput2, TInput3, TResult>> expression)
-        {
-            return GetLax(expression, input1, input2, input3).As<TResult>();
-        }
-
-        public Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TResult>(
-            Var<TInput1> input1,
-            Var<TInput2> input2,
-            Var<TInput3> input3,
-            Var<TInput4> input4,
-            Expression<Func<TInput1, TInput2, TInput3, TInput4, TResult>> expression)
-        {
-            return GetLax(expression, input1, input2, input3, input4).As<TResult>();
-        }
-
-        public Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TInput5, TResult>(
-            Var<TInput1> input1,
-            Var<TInput2> input2,
-            Var<TInput3> input3,
-            Var<TInput4> input4,
-            Var<TInput5> input5,
-            Expression<Func<TInput1, TInput2, TInput3, TInput4, TInput5, TResult>> expression)
-        {
-            return GetLax(expression, input1, input2, input3, input4, input5).As<TResult>();
+            nodes.Add(assignmentNode);
         }
     }
+
+
+    public static class SyntaxBuilderExtensions
+    {
+        public static Var<T> As<T>(this IVariable variable)
+        {
+            return new Var<T>(variable.Name);
+        }
+
+        /// <summary>
+        /// Creates a new empty object
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<object> NewObj(this SyntaxBuilder b)
+        {
+            return b.NewObj<object>();
+        }
+
+        /// <summary>
+        /// Creates a new object of type T, using the server-side initializer of properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Var<T> NewObj<T>(this SyntaxBuilder b) where T : new()
+        {
+            return b.NewObj(new T());
+        }
+
+        //public static Var<T> NewObj<T>(
+        //    this SyntaxBuilder b,
+        //    Action<PropsBuilder<T>> setProps)
+        //    where T : new()
+        //{
+        //    return b.SetProps(b.NewObj<T>(), setProps);
+        //}
+
+        /// <summary>
+        /// Creates an empty collection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <remarks>To initialize a collection based on </remarks>
+        public static Var<List<T>> NewCollection<T>(this SyntaxBuilder b)
+        {
+            return b.NewObj<List<T>>();
+        }
+    }
+
+    //public class SyntaxBuilder
+    //{
+    //    public virtual void InitializeFrom(SyntaxBuilder parent)
+    //    {
+    //        if (this.blockBuilder == null)
+    //        {
+    //            this.blockBuilder = parent.blockBuilder; // TODO: Seems shady?
+    //        }
+    //    }
+
+    //    internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b, TSyntaxBuilder source)
+    //        where TSyntaxBuilder : SyntaxBuilder, new()
+    //    {
+    //        TSyntaxBuilder syntaxBuilder = new TSyntaxBuilder() { blockBuilder = b };
+    //        syntaxBuilder.InitializeFrom(source);
+    //        return syntaxBuilder;
+    //    }
+
+    //    //public static TSyntaxBuilder New<TSyntaxBuilder>(TSyntaxBuilder source)
+    //    //    where TSyntaxBuilder : SyntaxBuilder, new()
+    //    //{
+    //    //    TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
+    //    //    return syntaxBuilder;
+    //    //}
+
+    //    internal BlockBuilder blockBuilder;
+
+    //    public Metapsi.Module.ModuleDefinition Module => blockBuilder.ModuleBuilder.Module;
+
+    //    public SyntaxBuilder()
+    //    {
+    //    }
+
+    //    public SyntaxBuilder(SyntaxBuilder b)
+    //    {
+    //        this.blockBuilder = b.blockBuilder;
+    //    }
+
+
+    //    public Var<TOut> CallExternal<TOut>(string module, string function, params IVariable[] arguments)
+    //    {
+    //        return blockBuilder.CallExternal<TOut>(module, function, arguments);
+    //    }
+
+    //    public void CallExternal(string module, string function, params IVariable[] arguments)
+    //    {
+    //        blockBuilder.CallExternal(module, function, arguments);
+    //    }
+
+
+
+    //    public void Comment(string comment,
+    //        [System.Runtime.CompilerServices.CallerFilePath] String file = "",
+    //        [System.Runtime.CompilerServices.CallerLineNumber] Int32 line = 0)
+    //    {
+    //        blockBuilder.Comment(comment, file, line);
+    //    }
+
+
 }
 

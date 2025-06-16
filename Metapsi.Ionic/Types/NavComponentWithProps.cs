@@ -9,5 +9,5 @@ public class NavComponentWithProps
     /// <summary>
     /// ComponentProps&lt;T&gt; | null
     /// </summary>
-    public DynamicObject componentProps { get; set; }
+    public object componentProps { get; set; }
 }

@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using Metapsi.Html;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Metapsi.Ionic;
 
 public static class IonicNodeImport
 {
-
     public static IHtmlNode IonicTag<T>(
         this HtmlBuilder b,
         string tag,
@@ -74,13 +74,14 @@ public static class IonicNodeImport
         return b.Tag(tag, children);
     }
 
-    private static void ImportIonic(
-        this HtmlBuilder b)
+    public static void ImportIonic(HtmlBuilder b)
     {
-        EmbedAll();
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
-        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
+        string jsPath = $"/ionic@{Cdn.Version}/ionic.esm.js";
+        string cssPath = $"/ionic@{Cdn.Version}/ionic.bundle.css";
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, jsPath);
+        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, cssPath);
+        b.AddScript(jsPath, "module");
+        b.AddStylesheet(cssPath);
     }
 
     public static Var<IVNode> IonicNode<TProps>(
@@ -89,10 +90,9 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
     {
-        EmbedAll();
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
-        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
+        b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
+        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
+        b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, buildProps, children);
     }
@@ -130,10 +130,8 @@ public static class IonicNodeImport
         Var<string> tag,
         Var<List<IVNode>> children)
     {
-        EmbedAll();
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
-        b.AddStylesheet($"/ionic@{Cdn.Version}/ionic.bundle.css");
+        b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
+        b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
 
         return b.H(tag, children);
     }
@@ -152,16 +150,5 @@ public static class IonicNodeImport
         params Var<IVNode>[] children)
     {
         return b.IonicNode(b.Const(tag), b.List(children));
-    }
-
-    private static bool embedded = false;
-
-    private static void EmbedAll()
-    {
-        if (!embedded)
-        {
-            embedded = true;
-            EmbeddedFiles.AddAll(typeof(IonicNodeImport).Assembly);
-        }
     }
 }

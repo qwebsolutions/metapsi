@@ -1,4 +1,7 @@
 ﻿using Metapsi.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Metapsi.Html;
 
@@ -16,7 +19,7 @@ public static class GlobalAttributeExtensions
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<string> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<string>(name), value);
+        b.SetProperty(b.Props, b.Const(name), value);
     }
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, string value)
@@ -26,7 +29,7 @@ public static class GlobalAttributeExtensions
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<int> value)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<int>(name), value);
+        b.SetProperty(b.Props, b.Const(name), value);
     }
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, int value)
@@ -43,7 +46,7 @@ public static class GlobalAttributeExtensions
     /// <param name="name"></param>
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name)
     {
-        b.SetDynamic(b.Props, new DynamicProperty<bool>(name), b.Const(true));
+        b.SetProperty(b.Props, b.Const(name), b.Const(true));
     }
 
     /// <summary>
@@ -73,7 +76,9 @@ public static class GlobalAttributeExtensions
 
     public static void SetClass<T>(this PropsBuilder<T> b, Var<string> @class)
     {
-        b.SetAttribute("class", @class);
+        var classList = b.GetClassList();
+        b.Clear(classList);
+        b.Push(classList.As<List<string>>(), @class);
     }
 
     public static void SetClass<T>(this PropsBuilder<T> b, string @class)
@@ -81,11 +86,34 @@ public static class GlobalAttributeExtensions
         b.SetClass(b.Const(@class));
     }
 
+    private static Var<List<object>> GetClassList<T>(this PropsBuilder<T> b)
+    {
+        var classList = b.GetProperty<List<object>>(b.Props, b.Const("class"));
+        return b.If(
+            b.HasObject(classList),
+            b => classList,
+            b =>
+            {
+                var newList = b.NewCollection<object>();
+                b.SetProperty(b.Props, b.Const("class"), newList);
+                return newList;
+            });
+    }
+
     public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class)
     {
-        var currentClass = b.GetDynamic(b.Props, new DynamicProperty<string>("class"));
-        var updatedClass = b.Concat(currentClass, b.Const(" "), @class);
-        b.SetClass(updatedClass);
+        b.Push(b.GetClassList(), @class.As<object>());
+        return b;
+    }
+
+    public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class, Var<bool> enabled)
+    {
+        b.Push(b.GetClassList(), b.NewObj<object>(
+            b =>
+            {
+                b.SetProperty(b.Props, @class, enabled);
+            }));
+
         return b;
     }
 
@@ -96,18 +124,16 @@ public static class GlobalAttributeExtensions
 
     public static void AddStyle<T>(this PropsBuilder<T> b, string property, Var<string> value)
     {
-        var styleProperty = new DynamicProperty<object>("style");
-
-        var currentStyle = b.GetDynamic(b.Props, styleProperty);
+        var currentStyle = b.GetProperty<object>(b.Props, "style");
         b.If(
             b.Not(b.HasObject(currentStyle)),
             b =>
             {
-                b.SetDynamic(b.Props, styleProperty, b.NewObj<object>());
+                b.SetProperty(b.Props, b.Const("style"), b.NewObj<object>());
             });
 
-        currentStyle = b.GetDynamic(b.Props, styleProperty);
-        b.SetDynamic(currentStyle, new DynamicProperty<string>(property), value);
+        currentStyle = b.GetProperty<object>(b.Props, "style");
+        b.SetProperty(currentStyle, b.Const(property), value);
     }
 
     public static void AddStyle<T>(this PropsBuilder<T> b, string property, string value)
@@ -125,19 +151,19 @@ public static class GlobalAttributeExtensions
         b.SetSlot(b.Const(slotName));
     }
 
-    public static void AddStylesheet(this SyntaxBuilder b, string href)
+    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, string href)
     {
-        if (!href.StartsWith("http"))
-        {
-            // If it is not absolute path, make it absolute
-            href = $"/{href}".Replace("//", "/");
-        }
-
-        var stylesheet = new DistinctTag("link");
+        var stylesheet= new HtmlTag("link");
         stylesheet.Attributes.Add("rel", "stylesheet");
         stylesheet.Attributes.Add("href", href);
 
-        b.Const(stylesheet);
+        b.Metadata().AddRequiredTagMetadata(stylesheet);
+    }
+
+    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)
+    {
+        b.AddRequiredStylesheetMetadata(href);
+        b.AddEmbeddedResourceMetadata(assembly, href);
     }
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)

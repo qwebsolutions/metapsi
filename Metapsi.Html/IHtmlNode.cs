@@ -97,53 +97,53 @@ public class HtmlTag : IHtmlNode
     }
 }
 
-public class DistinctTag : HtmlTag, IEquatable<DistinctTag>
-{
-    public DistinctTag() { }
+//public class DistinctTag : HtmlTag, IEquatable<DistinctTag>
+//{
+//    public DistinctTag() { }
 
-    public DistinctTag(string tag) : base(tag)
-    {
+//    public DistinctTag(string tag) : base(tag)
+//    {
 
-    }
+//    }
 
-    public DistinctTag(HtmlTag tag)
-    {
-        this.Tag = tag.Tag;
-        this.Attributes = new Dictionary<string, string>(tag.Attributes);
-        this.Children = new List<IHtmlNode>(tag.Children);
-    }
+//    public DistinctTag(HtmlTag tag)
+//    {
+//        this.Tag = tag.Tag;
+//        this.Attributes = new Dictionary<string, string>(tag.Attributes);
+//        this.Children = new List<IHtmlNode>(tag.Children);
+//    }
 
-    public bool Equals(DistinctTag other)
-    {
-        return HtmlNodeComparer.HtmlTagEquals(this, other);
-    }
+//    public bool Equals(DistinctTag other)
+//    {
+//        return HtmlNodeComparer.HtmlTagEquals(this, other);
+//    }
 
-    public override bool Equals(object obj)
-    {
-        if (obj == null) return false;
-        return this.Equals(obj as DistinctTag);
-    }
+//    public override bool Equals(object obj)
+//    {
+//        if (obj == null) return false;
+//        return this.Equals(obj as DistinctTag);
+//    }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(this.ToHtml());
-    }
+//    public override int GetHashCode()
+//    {
+//        return HashCode.Combine(this.ToHtml());
+//    }
 
-    public static DistinctTag New<T>(string tagName, Action<AttributesBuilder<T>> buildAttributes, params IHtmlNode[] children)
-    {
-        DistinctTag tag = new DistinctTag(tagName);
-        buildAttributes(new AttributesBuilder<T>() { Attributes = tag.Attributes });
-        tag.Children.AddRange(children);
-        return tag;
-    }
+//    public static DistinctTag New<T>(string tagName, Action<AttributesBuilder<T>> buildAttributes, params IHtmlNode[] children)
+//    {
+//        DistinctTag tag = new DistinctTag(tagName);
+//        buildAttributes(new AttributesBuilder<T>() { Attributes = tag.Attributes });
+//        tag.Children.AddRange(children);
+//        return tag;
+//    }
 
-    public static DistinctTag New<T>(string tagName, params IHtmlNode[] children)
-    {
-        DistinctTag tag = new DistinctTag(tagName);
-        tag.Children.AddRange(children);
-        return tag;
-    }
-}
+//    public static DistinctTag New<T>(string tagName, params IHtmlNode[] children)
+//    {
+//        DistinctTag tag = new DistinctTag(tagName);
+//        tag.Children.AddRange(children);
+//        return tag;
+//    }
+//}
 
 public class HtmlNodeComparer : IEqualityComparer<IHtmlNode>
 {
@@ -169,7 +169,7 @@ public class HtmlNodeComparer : IEqualityComparer<IHtmlNode>
         return x.Equals(y);
     }
 
-    public int GetHashCode([DisallowNull] IHtmlNode obj)
+    public int GetHashCode(/*[DisallowNull]*/ IHtmlNode obj)
     {
         return obj.GetHashCode();
     }
@@ -232,7 +232,8 @@ public static class HtmlNodeExtensions
 
     public static string GetAttribute(this HtmlTag element, string name)
     {
-        return element.Attributes.GetValueOrDefault(name);
+        element.Attributes.TryGetValue(name, out var value);
+        return value;
     }
 
     public static void SetAttribute(this HtmlTag element, string name, string value)

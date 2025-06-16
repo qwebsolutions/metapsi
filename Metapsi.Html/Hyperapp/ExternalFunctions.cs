@@ -18,7 +18,8 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
-            return b.CallExternal<IVNode>("hyperapp", "text", text);
+            var textFn = b.ImportName<Func<string, IVNode>>("hyperapp.js", "text");
+            return b.Call(textFn, text);
         }
 
         /// <summary>
@@ -42,22 +43,23 @@ namespace Metapsi.Hyperapp
         /// <param name="props"></param>
         /// <param name="children"></param>
         /// <returns></returns>
-        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, Var<List<IVNode>> children)
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<object> props, Var<List<IVNode>> children)
         {
-            return b.CallExternal<IVNode>("hyperapp", "h", tag, props, b.Call(ValidChildren, children));
+            var h = b.ImportName<Func<string, object, List<IVNode>, IVNode>>("hyperapp.js", "h");
+            return b.Call(h, tag, props, b.Call(ValidChildren, children));
         }
 
-        public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, Var<List<IVNode>> children)
+        public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<object> props, Var<List<IVNode>> children)
         {
             return b.H(b.Const(tag), props, children);
         }
 
-        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<DynamicObject> props, params Var<IVNode>[] children)
+        public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<object> props, params Var<IVNode>[] children)
         {
             return b.H(tag, props, b.List(children));
         }
 
-        public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<DynamicObject> props, params Var<IVNode>[] children)
+        public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<object> props, params Var<IVNode>[] children)
         {
             return b.H(b.Const(tag), props, b.List(children));
         }
@@ -66,40 +68,40 @@ namespace Metapsi.Hyperapp
 
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<List<IVNode>> children)
         {
-            return b.H(tag, b.NewObj<DynamicObject>(), children);
+            return b.H(tag, b.NewObj<object>(), children);
         }
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag, Var<List<IVNode>> children)
         {
-            return b.H(tag, b.NewObj<DynamicObject>(), children);
+            return b.H(tag, b.NewObj<object>(), children);
         }
 
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, params Var<IVNode>[] children)
         {
-            return b.H(tag, b.NewObj<DynamicObject>(), children);
+            return b.H(tag, b.NewObj<object>(), children);
         }
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag, params Var<IVNode>[] children)
         {
-            return b.H(tag, b.NewObj<DynamicObject>(), children);
+            return b.H(tag, b.NewObj<object>(), children);
         }
 
         // Just tag
 
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag)
         {
-            return b.H(tag, b.NewObj<DynamicObject>());
+            return b.H(tag, b.NewObj<object>());
         }
 
         public static Var<IVNode> H(this LayoutBuilder b, string tag)
         {
-            return b.H(b.Const(tag), b.NewObj<DynamicObject>());
+            return b.H(b.Const(tag), b.NewObj<object>());
         }
 
         public static Var<bool> IsVoidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)
             where TSyntaxBuilder : SyntaxBuilder
         {
-            return b.AreEqual(b.GetDynamic(node, DynamicProperty.String("tag")), b.Const(ViewBuilder.VoidNodeTag));
+            return b.AreEqual(b.GetProperty<string>(node, b.Const("tag")), b.Const(ViewBuilder.VoidNodeTag));
         }
 
         public static Var<bool> IsValidNode<TSyntaxBuilder>(this TSyntaxBuilder b, Var<IVNode> node)

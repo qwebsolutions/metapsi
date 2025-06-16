@@ -15,8 +15,8 @@ namespace Metapsi.Hyperapp
                 var domElement = b.GetElementById(elementId);
                 b.If(b.HasObject(domElement), b =>
                 {
-                    var scrollHeight = b.GetDynamic(domElement, new DynamicProperty<int>("scrollHeight"));
-                    b.SetDynamic(domElement, new DynamicProperty<int>("scrollTop"), scrollHeight);
+                    var scrollHeight = b.GetProperty<int>(domElement, "scrollHeight");
+                    b.SetProperty(domElement, b.Const("scrollTop"), scrollHeight);
                 });
             }));
         }

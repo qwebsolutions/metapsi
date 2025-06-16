@@ -17,5 +17,5 @@ public class NavOptions : RouterOutletOptions
     /// <summary>
     /// (enteringEl: HTMLElement) =&gt; Promise&lt;any&gt;
     /// </summary>
-    public DynamicObject viewIsReady { get; set; }
+    public object viewIsReady { get; set; }
 }
