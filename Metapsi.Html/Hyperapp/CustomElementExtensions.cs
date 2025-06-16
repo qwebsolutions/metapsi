@@ -12,24 +12,6 @@ public static partial class CustomElementExtensions
     private const string ExternalScriptName = "metapsi-custom-elements.js";
 
     /// <summary>
-    /// Creates a script tag that defines a custom element with the children list as inner HTML
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="tagName"></param>
-    /// <param name="children"></param>
-    /// <returns></returns>
-    public static IHtmlNode HtmlCustomElement(this HtmlBuilder b, string tagName, params IHtmlNode[] children)
-    {
-        var innerHtml = HttpUtility.JavaScriptStringEncode(string.Join("\n", children.Select(x => x.ToHtml())));
-        return b.HtmlScriptModule(b =>
-        {
-            b.AddEmbeddedResourceMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName);
-            var define = b.ImportName<Action<string, string>>(ExternalScriptName, "defineStaticCustomElement");
-            b.Call(define, b.Const(tagName), b.Const(innerHtml));
-        });
-    }
-
-    /// <summary>
     /// Define a render/attach/cleanup custom element
     /// </summary>
     /// <param name="b"></param>
@@ -71,19 +53,6 @@ public static partial class CustomElementExtensions
         var jsAttach = b.Def("attach", attach);
         var jsCleanup = b.Def("cleanup", cleanup);
         b.DefineCustomElement(b.Const(tagName), jsRender, jsAttach, jsCleanup);
-    }
-
-
-    /// <summary>
-    /// Adds a head script tag that defines a custom element with the children list as inner HTML 
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="tagName"></param>
-    /// <param name="children"></param>
-    public static void AddCustomElement(this HtmlBuilder b, string tagName, params IHtmlNode[] children)
-    {
-        var innerHtml = HttpUtility.JavaScriptStringEncode(string.Join("\n", children.Select(x => x.ToHtml())));
-        b.HeadAppend(b.HtmlCustomElement(tagName, children));
     }
 
     public static IHtmlNode HtmlCustomElement(

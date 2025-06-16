@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Web", "Metapsi.Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Module", "Metapsi.Module\Metapsi.Module.csproj", "{A8C0A22E-4CB7-49AA-A921-2FD4FE775A2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.JavaScript", "Metapsi.JavaScript\Metapsi.JavaScript.csproj", "{F5D59282-AB1B-4BDB-9C93-6B3522A78744}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.SQLite", "Metapsi.Sqlite\Metapsi.SQLite.csproj", "{13905C55-A2F5-4380-B1C8-2660DD07E252}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metapsi.Heroicons", "Metapsi.Heroicons\Metapsi.Heroicons.csproj", "{34F2064B-2012-4AB0-BC83-56697A8A984D}"
@@ -55,10 +53,6 @@ Global
 		{A8C0A22E-4CB7-49AA-A921-2FD4FE775A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8C0A22E-4CB7-49AA-A921-2FD4FE775A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8C0A22E-4CB7-49AA-A921-2FD4FE775A2D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5D59282-AB1B-4BDB-9C93-6B3522A78744}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13905C55-A2F5-4380-B1C8-2660DD07E252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13905C55-A2F5-4380-B1C8-2660DD07E252}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13905C55-A2F5-4380-B1C8-2660DD07E252}.Release|Any CPU.ActiveCfg = Release|Any CPU

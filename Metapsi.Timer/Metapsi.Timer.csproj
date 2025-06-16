@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <EmbedAllSources>true</EmbedAllSources>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net47</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
+		<DebugType>embedded</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<EmbedAllSources>true</EmbedAllSources>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />
+	</ItemGroup>
 
 </Project>

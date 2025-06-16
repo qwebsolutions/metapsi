@@ -23,7 +23,9 @@ public static class ObjectExtensions
     /// <returns>The target object.</returns>
     public static Var<T> ObjectAssign<T>(this SyntaxBuilder b, Var<T> target, params IVariable[] source)
     {
-        return b.CallOnObject<T>(b.StaticObject(), "assign", source.Prepend(target).ToArray());
+        var parameters = new List<IVariable>() { target };
+        parameters.AddRange(source);
+        return b.CallOnObject<T>(b.StaticObject(), "assign", parameters.ToArray());
     }
 
     /// <summary>

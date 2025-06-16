@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="generated\shoelace.target" />
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<LangVersion>11.0</LangVersion>
 		<IsPackable>true</IsPackable>
 		<Description>Use Shoelace $(ShoelaceVersion) with Metapsi for both server-side and client-side generated web pages (https://shoelace.style)</Description>

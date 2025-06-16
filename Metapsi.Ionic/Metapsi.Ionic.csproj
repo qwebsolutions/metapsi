@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="generated\ionic.target" />
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<LangVersion>11.0</LangVersion>
 		<Description>Use Ionic $(IonicVersion) with Metapsi (https://ionicframework.com)</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
