@@ -26,8 +26,6 @@
 		<Reference Include="System.Web" />
 		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
-		<EmbeddedResource Include="netframework\embedded\jQueryShim.js" LogicalName="jQueryShim.js" />
-		<EmbeddedResource Include="netframework\embedded\signalr.js" LogicalName="signalr.js" />
 		<EmbeddedResource Include="netframework\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
 	</ItemGroup>
 
