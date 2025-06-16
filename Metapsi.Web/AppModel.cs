@@ -42,25 +42,6 @@ public static class App
         return ConfigurationBuilder.Configure(configure);
     }
 
-    //public static void FillUrlAppKey(this Metapsi.App.Model model, string urlKey, Func<RouteDescription, string> findUrl)
-    //{
-    //    model.FeatureModels[urlKey] = findUrl(RouteDescription.New(urlKey));
-    //}
-
-    //public static App.Model MapHandlers(this App.Setup app, FeatureMapperRegistry mappers)
-    //{
-    //    var appModel = new App.Model();
-    //    foreach (var featureConfiguration in app.Features)
-    //    {
-    //        if (featureConfiguration.Value.Register != null)
-    //        {
-    //            featureConfiguration.Value.Register(mappers);
-    //        }
-    //    }
-
-    //    return appModel;
-    //}
-
     public static App.Model GetAppModel(this App.Setup appSetup, System.Func<RouteDescription, string> findRoute)
     {
         Model model = new Model();
