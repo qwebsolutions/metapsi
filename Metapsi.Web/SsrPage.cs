@@ -119,7 +119,16 @@ public static class SsrPageFeature
             page.Name,
             async (httpContext, appModel) =>
             {
-                var model = await page.LoadModel(httpContext);
+                TModel model = default(TModel);
+                if (page.LoadModel != null)
+                {
+                    model = await page.LoadModel(httpContext);
+                }
+                else
+                {
+                    model = (TModel)Activator.CreateInstance(typeof(TModel));
+                }
+
                 var document = HtmlBuilder.FromDefault(b =>
                 {
                     page.Render(b, model);
