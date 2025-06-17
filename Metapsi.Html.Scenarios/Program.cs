@@ -296,6 +296,11 @@ public static class Program
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub(storeHubContext: hc => StaticHubContext = hc);
 
+        app.MapGet("abc/{p1}/something/{f}", async (string p1, int f) =>
+        {
+
+        }).WithName("pattern");
+
         var testApp1 = App.New(
             b =>
             {
@@ -314,8 +319,9 @@ public static class Program
                             b =>
                             {
                                 b.Configuration.Name = "m";
-                                b.Configuration.LoadModel = async (httpContext) =>
+                                b.Configuration.LoadModel = async (httpContext, appModel) =>
                                 {
+                                    var models = appModel.FeatureModels;
                                     return new MarketData();
                                 };
                                 b.Configuration.Render = (b, model) =>
@@ -326,7 +332,7 @@ public static class Program
                         b.Add<DataModel>(
                             b =>
                             {
-                                b.Configuration.LoadModel = async (httpContext) =>
+                                b.Configuration.LoadModel = async (httpContext, appModel) =>
                                 {
                                     return new DataModel();
                                 };

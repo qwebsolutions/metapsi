@@ -150,8 +150,36 @@ public static class HttpExtensions
         var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
         var path = linkGenerator.GetPathByName(name);
 
+        if (string.IsNullOrEmpty(path))
+        {
+            // It has pattern parameters
+            var endpointDataSource = httpContext.RequestServices.GetRequiredService<EndpointDataSource>();
+            foreach (var endpoint in endpointDataSource.Endpoints)
+            {
+                if (endpoint is RouteEndpoint routeEndpoint)
+                {
+                    var endpointName = routeEndpoint.Metadata.GetMetadata<IEndpointNameMetadata>();
+                    if (endpointName != null)
+                    {
+                        if (endpointName.EndpointName == name)
+                        {
+                            Dictionary<string, string> endpointArguments = new Dictionary<string, string>();
+                            var pattern = routeEndpoint.RoutePattern;
+                            // pattern.Parameters gives you the parameter info
+                            foreach (var param in pattern.Parameters)
+                            {
+                                endpointArguments.Add(param.Name, "-");
+                            }
+
+                            path = linkGenerator.GetPathByName(name, endpointArguments);
+                        }
+                    }
+                }
+            }
+        }
+
         if (!string.IsNullOrEmpty(path))
-            path = path.TrimEnd('/');
+            path = path.TrimEnd('/', '-');
 
         return path;
     }
