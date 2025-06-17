@@ -97,7 +97,7 @@ public static class AppModelExtensions
         return b.GetRef(b.Const(appModelReference));
     }
 
-    public static Var<T> GetFeatureData<T>(this SyntaxBuilder b, Var<string> featureName)
+    public static Var<T> GetFeature<T>(this SyntaxBuilder b, Var<string> featureName)
     {
         var features = b.Get(GetAppModel(b), x => x.FeatureModels);
         return b.GetProperty<T>(features, featureName);
