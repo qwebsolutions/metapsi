@@ -203,6 +203,17 @@ public static class CustomElementsFeature
             });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="configureCustomElement"></param>
+    public static void Add<TModel, TProps>(this ConfigurationBuilder<Configuration> b, Action<ConfigurationBuilder<CustomElementConfiguration<TModel>>> configureCustomElement)
+    {
+        b.Add<TModel>(configureCustomElement);
+    }
+
     private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Model, Module> getModule)
     {
         b.Configuration.CustomElements.Add(tag, new CustomElementConfiguration()
