@@ -11,7 +11,6 @@ namespace Metapsi;
 public interface ICustomElement
 {
     string Tag { get; }
-    //internal Type ModelType { get; }
     internal Func<App.Model, Module> GetModule();
 }
 
@@ -214,11 +213,15 @@ public static class CustomElementsFeature
             instance.GetModule());
     }
 
-    public static string GetCustomElementUrl<T>(this App.Model appKeys)
+    public static string GetCustomElementUrl(this App.Model appModel, string tag)
+    {
+        CustomElementsFeature.Data data = appModel.FeatureModels[CustomElementsFeature.FeatureName] as CustomElementsFeature.Data;
+        return data.JsUrls[tag];
+    }
+
+    public static string GetCustomElementUrl<T>(this App.Model appModel)
         where T : ICustomElement, new()
     {
-        CustomElementsFeature.Data data = appKeys.FeatureModels[CustomElementsFeature.FeatureName] as CustomElementsFeature.Data;
-        var tag = new T().Tag;
-        return data.JsUrls[tag];
+        return appModel.GetCustomElementUrl(new T().Tag);
     }
 }
