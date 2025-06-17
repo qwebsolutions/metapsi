@@ -14,6 +14,11 @@ public interface ICustomElement
     internal Func<App.Model, Module> GetModule();
 }
 
+public interface ICustomElementProps<T>
+{
+
+}
+
 public interface IRootControl
 {
 }
@@ -88,6 +93,14 @@ public abstract class CustomElement<TModel> : ICustomElement
     }
 }
 
+public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICustomElementProps<TProps>
+{
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element)
+    {
+        return OnInitProps(b, model, b.GetInitProps<TProps>(element));
+    }
+    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, App.Model model, Var<TProps> props);
+}
 
 public class CustomElementConfiguration<TModel>
 {
