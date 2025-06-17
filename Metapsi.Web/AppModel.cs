@@ -85,6 +85,11 @@ public static class App
 
 public static class AppModelExtensions
 {
+    public static void AddFeature(this ConfigurationBuilder<App.Setup> b, string featureName, App.Feature feature)
+    {
+        b.Configuration.Features.Add(featureName, feature);
+    }
+
     internal static Reference<App.Model> appModelReference = new Reference<App.Model>();
 
     public static void SetAppModel(SyntaxBuilder b, App.Model model)
@@ -95,6 +100,11 @@ public static class AppModelExtensions
     public static Var<App.Model> GetAppModel(SyntaxBuilder b)
     {
         return b.GetRef(b.Const(appModelReference));
+    }
+
+    public static Var<T> GetFeature<T>(this SyntaxBuilder b, string featureName)
+    {
+        return b.GetFeature<T>(b.Const(featureName));
     }
 
     public static Var<T> GetFeature<T>(this SyntaxBuilder b, Var<string> featureName)
