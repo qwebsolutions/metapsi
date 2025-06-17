@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System;
 using Metapsi.Web;
+using Metapsi.Syntax;
 
 namespace Metapsi;
 
@@ -119,5 +120,17 @@ public static class CrossFrameworkApiFeature
     {
         Data apisData = appModel.FeatureModels[FeatureName] as Data;
         return apisData.ApiUrls[apiName];
+    }
+
+    public static Var<string> GetApiUrl(this SyntaxBuilder b, Var<string> apiName)
+    {
+        var data = b.GetFeature<Data>(CrossFrameworkApiFeature.FeatureName);
+        var apiUrls = b.Get(data, x => x.ApiUrls);
+        return b.GetProperty<string>(apiUrls, apiName);
+    }
+
+    public static Var<string> GetApiUrl(this SyntaxBuilder b, string apiName)
+    {
+        return b.GetApiUrl(b.Const(apiName));
     }
 }
