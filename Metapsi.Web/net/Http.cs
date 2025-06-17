@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using Metapsi.Syntax;
+using Microsoft.AspNetCore.Builder;
 
 namespace Metapsi.Web;
 
@@ -147,7 +148,17 @@ public static class HttpExtensions
     public static string GetEndpointUrl(this HttpContext httpContext, string name)
     {
         var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
-        return linkGenerator.GetPathByName(name).TrimEnd('/');
+        var path = linkGenerator.GetPathByName(name);
+
+        if (!string.IsNullOrEmpty(path))
+            path = path.TrimEnd('/');
+
+        return path;
+    }
+
+    public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, RouteDescription routeDescription)
+    {
+        return endpoint.WithName(routeDescription.ToRouteName());
     }
 
     public static void MapApp(this IEndpointRouteBuilder endpoint, App.Setup app, Initializer initializer = null)
