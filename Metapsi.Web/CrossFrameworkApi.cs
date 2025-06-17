@@ -115,7 +115,7 @@ public static class CrossFrameworkApiFeature
         };
     }
 
-    public static string GetApiUrl<T>(this App.Model appModel, string apiName)
+    public static string GetApiUrl(this App.Model appModel, string apiName)
     {
         Data apisData = appModel.FeatureModels[FeatureName] as Data;
         return apisData.ApiUrls[apiName];
