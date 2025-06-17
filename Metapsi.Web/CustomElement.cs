@@ -12,7 +12,7 @@ public interface ICustomElement
 {
     string Tag { get; }
     //internal Type ModelType { get; }
-    internal Func<CfHttpContext, App.Model, Task> GetHandler();
+    internal Func<App.Model, Module> GetModule();
 }
 
 public interface IRootControl
@@ -35,7 +35,7 @@ public abstract class CustomElement<TModel> : ICustomElement
 
     internal LayoutBuilder rootLayoutBuilder { get; set; }
 
-    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Metapsi.Web.CfHttpContext context, App.Model model, Var<Element> element);
+    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element);
 
     public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
 
@@ -53,20 +53,22 @@ public abstract class CustomElement<TModel> : ICustomElement
         return Root(b => { }, children);
     }
 
-    Func<CfHttpContext, App.Model, Task> ICustomElement.GetHandler()
+    Func<App.Model, Module> ICustomElement.GetModule()
     {
-        return async (httpContext, appModel) =>
+        return (appModel) =>
         {
             var module = ModuleBuilder.New(
                 b =>
                 {
                     b.Call(b =>
                     {
+                        AppModelExtensions.SetAppModel(b, appModel);
+
                         b.DefineCustomElement(
                             b.Const(this.Tag),
                             b.Def((SyntaxBuilder b, Var<Element> element) =>
                             {
-                                return this.OnInit(b, httpContext, appModel, element);
+                                return this.OnInit(b, appModel, element);
                             }),
                             b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
                             {
@@ -82,7 +84,7 @@ public abstract class CustomElement<TModel> : ICustomElement
                     });
                 });
 
-            await httpContext.Response.WriteJsModuleReponse(module);
+            return module;
         };
     }
 }
@@ -91,7 +93,7 @@ public abstract class CustomElement<TModel> : ICustomElement
 public class CustomElementConfiguration<TModel>
 {
     public string Tag { get; set; } = CustomElementExtensions.GetCustomElementTagName(typeof(TModel));
-    public Func<SyntaxBuilder, CfHttpContext, App.Model, Var<Element>, Var<HyperType.StateWithEffects>> Init { get; set; } = (SyntaxBuilder b, CfHttpContext httpContext, App.Model appModel, Var<Element> e) => b.MakeStateWithEffects(b.NewObj().As<TModel>());
+    public Func<SyntaxBuilder, App.Model, Var<Element>, Var<HyperType.StateWithEffects>> Init { get; set; } = (SyntaxBuilder b, App.Model appModel, Var<Element> e) => b.MakeStateWithEffects(b.NewObj().As<TModel>());
     public Func<LayoutBuilder, Var<string>, Var<TModel>, Var<IVNode>> Render { get; set; } = (LayoutBuilder b, Var<string> tag, Var<TModel> model) => b.H(tag);
     public List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> Subscriptions { get; set; } = new List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>>();
 }
@@ -99,7 +101,7 @@ public class CustomElementConfiguration<TModel>
 public class CustomElementConfiguration
 {
     public string Tag { get; set; }
-    public Func<CfHttpContext, App.Model, Task> HandleRequest { get; set; }
+    public Func<App.Model, Module> GetModule { get; set; }
 }
 
 
@@ -165,7 +167,7 @@ public static class CustomElementsFeature
         Add(
             b,
             customElement.Tag,
-            async (httpContext, appModel) =>
+            (appModel) =>
             {
                 var module = ModuleBuilder.New(
                     b =>
@@ -178,23 +180,23 @@ public static class CustomElementsFeature
                                 customElement.Tag,
                                 (SyntaxBuilder b, Var<Element> element) =>
                                 {
-                                    return customElement.Init(b, httpContext, appModel, element);
+                                    return customElement.Init(b, appModel, element);
                                 },
                                 customElement.Render,
                                 customElement.Subscriptions.ToArray());
                         });
                     });
 
-                await httpContext.Response.WriteJsModuleReponse(module);
+                return module;
             });
     }
 
-    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<Metapsi.Web.CfHttpContext, App.Model, Task> handle)
+    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Model, Module> getModule)
     {
         b.Configuration.CustomElements.Add(tag, new CustomElementConfiguration()
         {
             Tag = tag,
-            HandleRequest = handle
+            GetModule = getModule
         });
     }
 
@@ -209,7 +211,7 @@ public static class CustomElementsFeature
         Add(
             b,
             instance.Tag,
-            instance.GetHandler());
+            instance.GetModule());
     }
 
     public static string GetCustomElementUrl<T>(this App.Model appKeys)

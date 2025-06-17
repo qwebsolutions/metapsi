@@ -156,7 +156,7 @@ public class TestCustomElement : CustomElement<DataModel>
         this.Tag = "test-custom";
     }
 
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, CfHttpContext context, App.Model model, Var<Element> element)
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element)
     {
         return b.MakeStateWithEffects(b.NewObj<DataModel>());
     }
