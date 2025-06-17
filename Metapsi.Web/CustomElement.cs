@@ -105,7 +105,7 @@ public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICu
 public class CustomElementConfiguration<TModel>
 {
     public string Tag { get; set; } = CustomElementExtensions.GetCustomElementTagName(typeof(TModel));
-    public Func<SyntaxBuilder, App.Model, Var<Element>, Var<HyperType.StateWithEffects>> Init { get; set; } = (SyntaxBuilder b, App.Model appModel, Var<Element> e) => b.MakeStateWithEffects(b.NewObj().As<TModel>());
+    public Func<SyntaxBuilder, Var<Element>, Var<HyperType.StateWithEffects>> Init { get; set; } = (SyntaxBuilder b, Var<Element> e) => b.MakeStateWithEffects(b.NewObj().As<TModel>());
     public Func<LayoutBuilder, Var<string>, Var<TModel>, Var<IVNode>> Render { get; set; } = (LayoutBuilder b, Var<string> tag, Var<TModel> model) => b.H(tag);
     public List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> Subscriptions { get; set; } = new List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>>();
 }
@@ -192,7 +192,7 @@ public static class CustomElementsFeature
                                 customElement.Tag,
                                 (SyntaxBuilder b, Var<Element> element) =>
                                 {
-                                    return customElement.Init(b, appModel, element);
+                                    return customElement.Init(b, element);
                                 },
                                 customElement.Render,
                                 customElement.Subscriptions.ToArray());
@@ -236,5 +236,20 @@ public static class CustomElementsFeature
         where T : ICustomElement, new()
     {
         return appModel.GetCustomElementUrl(new T().Tag);
+    }
+
+    public static void OnInit<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<SyntaxBuilder, Var<Html.Element>, Var<HyperType.StateWithEffects>> onInit)
+    {
+        b.Configuration.Init = onInit;
+    }
+
+    public static void OnRender<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<LayoutBuilder, Var<string>, Var<TModel>, Var<IVNode>> onRender)
+    {
+        b.Configuration.Render = onRender;
+    }
+
+    public static void AddSubscription<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, System.Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>> subscribe)
+    {
+        b.Configuration.Subscriptions.Add(subscribe);
     }
 }
