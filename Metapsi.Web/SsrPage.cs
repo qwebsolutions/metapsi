@@ -45,7 +45,7 @@ public abstract class ServerRenderedPage<TModel> : IServerRenderedPage
 public class SsrPageConfiguration<TModel>
 {
     public string Name { get; set; } = typeof(TModel).CSharpTypeName();
-    public Func<Metapsi.Web.CfHttpContext, Task<TModel>> LoadModel { get; set; }
+    public Func<Metapsi.Web.CfHttpContext, App.Model, Task<TModel>> LoadModel { get; set; }
     public Action<HtmlBuilder, TModel> Render { get; set; }
 }
 
@@ -122,7 +122,7 @@ public static class SsrPageFeature
                 TModel model = default(TModel);
                 if (page.LoadModel != null)
                 {
-                    model = await page.LoadModel(httpContext);
+                    model = await page.LoadModel(httpContext, appModel);
                 }
                 else
                 {
