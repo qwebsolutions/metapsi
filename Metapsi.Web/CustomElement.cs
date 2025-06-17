@@ -172,6 +172,8 @@ public static class CustomElementsFeature
                     {
                         b.Call(b =>
                         {
+                            AppModelExtensions.SetAppModel(b, appModel);
+
                             b.DefineCustomElement(
                                 customElement.Tag,
                                 (SyntaxBuilder b, Var<Element> element) =>

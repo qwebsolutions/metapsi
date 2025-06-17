@@ -1,4 +1,5 @@
 ﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 
@@ -79,5 +80,26 @@ public static class App
         }
 
         return model;
+    }
+}
+
+public static class AppModelExtensions
+{
+    internal static Reference<App.Model> appModelReference = new Reference<App.Model>();
+
+    public static void SetAppModel(SyntaxBuilder b, App.Model model)
+    {
+        b.SetRef(b.Const(appModelReference), b.Const(model));
+    }
+
+    public static Var<App.Model> GetAppModel(SyntaxBuilder b)
+    {
+        return b.GetRef(b.Const(appModelReference));
+    }
+
+    public static Var<T> GetFeatureData<T>(this SyntaxBuilder b, Var<string> featureName)
+    {
+        var features = b.Get(GetAppModel(b), x => x.FeatureModels);
+        return b.GetProperty<T>(features, featureName);
     }
 }
