@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using Metapsi.Web;
+using System.Linq;
 
 namespace Metapsi;
 
 public interface ICustomElement
 {
     string Tag { get; }
-    internal Func<App.Model, Module> GetModule();
+    internal Func<App.Map, Module> GetModule();
 }
 
 public interface ICustomElementProps<T>
@@ -39,7 +40,7 @@ public abstract class CustomElement<TModel> : ICustomElement
 
     internal LayoutBuilder rootLayoutBuilder { get; set; }
 
-    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element);
+    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map appMap, Var<Element> element);
 
     public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
 
@@ -57,22 +58,22 @@ public abstract class CustomElement<TModel> : ICustomElement
         return Root(b => { }, children);
     }
 
-    Func<App.Model, Module> ICustomElement.GetModule()
+    Func<App.Map, Module> ICustomElement.GetModule()
     {
-        return (appModel) =>
+        return (appMap) =>
         {
             var module = ModuleBuilder.New(
                 b =>
                 {
                     b.Call(b =>
                     {
-                        AppModelExtensions.SetAppModel(b, appModel);
+                        AppMapExtensions.SetAppMap(b, appMap);
 
                         b.DefineCustomElement(
                             b.Const(this.Tag),
                             b.Def((SyntaxBuilder b, Var<Element> element) =>
                             {
-                                return this.OnInit(b, appModel, element);
+                                return this.OnInit(b, appMap, element);
                             }),
                             b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
                             {
@@ -95,11 +96,11 @@ public abstract class CustomElement<TModel> : ICustomElement
 
 public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICustomElementProps<TProps>
 {
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element)
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map appMap, Var<Element> element)
     {
-        return OnInitProps(b, model, b.GetInitProps<TProps>(element));
+        return OnInitProps(b, appMap, b.GetInitProps<TProps>(element));
     }
-    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, App.Model model, Var<TProps> props);
+    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, App.Map appMap, Var<TProps> props);
 }
 
 public class CustomElementConfiguration<TModel>
@@ -113,7 +114,7 @@ public class CustomElementConfiguration<TModel>
 public class CustomElementConfiguration
 {
     public string Tag { get; set; }
-    public Func<App.Model, Module> GetModule { get; set; }
+    public Func<App.Map, Module> GetModule { get; set; }
 }
 
 
@@ -132,7 +133,7 @@ public static class CustomElementsFeature
         }
     }
 
-    public class Data
+    public class Details
     {
         public Dictionary<string, string> JsUrls { get; set; } = new Dictionary<string, string>();
     }
@@ -142,7 +143,7 @@ public static class CustomElementsFeature
         public Dictionary<string, CustomElementConfiguration> CustomElements { get; set; } = new Dictionary<string, CustomElementConfiguration>();
     }
 
-    public static string FeatureName = nameof(CustomElementsFeature);
+    public static string FeatureName = nameof(Metapsi.CustomElementsFeature);
 
     public static void ConfigureCustomElements(
            this ConfigurationBuilder<App.Setup> b,
@@ -153,9 +154,9 @@ public static class CustomElementsFeature
         b.Configuration.Features[FeatureName] = new App.Feature()
         {
             Configuration = configuration,
-            GetData = (findUrl) =>
+            GetDetails = (findUrl) =>
             {
-                var data = new Data();
+                var data = new Details();
 
                 foreach (var customElement in configuration.CustomElements)
                 {
@@ -179,14 +180,14 @@ public static class CustomElementsFeature
         Add(
             b,
             customElement.Tag,
-            (appModel) =>
+            (appMap) =>
             {
                 var module = ModuleBuilder.New(
                     b =>
                     {
                         b.Call(b =>
                         {
-                            AppModelExtensions.SetAppModel(b, appModel);
+                            AppMapExtensions.SetAppMap(b, appMap);
 
                             b.DefineCustomElement(
                                 customElement.Tag,
@@ -214,7 +215,7 @@ public static class CustomElementsFeature
         b.Add<TModel>(configureCustomElement);
     }
 
-    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Model, Module> getModule)
+    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Map, Module> getModule)
     {
         b.Configuration.CustomElements.Add(tag, new CustomElementConfiguration()
         {
@@ -237,16 +238,16 @@ public static class CustomElementsFeature
             instance.GetModule());
     }
 
-    public static string GetCustomElementUrl(this App.Model appModel, string tag)
+    public static string GetCustomElementUrl(this App.Map appMap, string tag)
     {
-        CustomElementsFeature.Data data = appModel.FeatureModels[CustomElementsFeature.FeatureName] as CustomElementsFeature.Data;
+        CustomElementsFeature.Details data = appMap.Features[Metapsi.CustomElementsFeature.FeatureName] as CustomElementsFeature.Details;
         return data.JsUrls[tag];
     }
 
-    public static string GetCustomElementUrl<T>(this App.Model appModel)
+    public static string GetCustomElementUrl<T>(this App.Map appMap)
         where T : ICustomElement, new()
     {
-        return appModel.GetCustomElementUrl(new T().Tag);
+        return appMap.GetCustomElementUrl(new T().Tag);
     }
 
     public static void OnInit<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<SyntaxBuilder, Var<Html.Element>, Var<HyperType.StateWithEffects>> onInit)
@@ -262,5 +263,51 @@ public static class CustomElementsFeature
     public static void AddSubscription<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, System.Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>> subscribe)
     {
         b.Configuration.Subscriptions.Add(subscribe);
+    }
+
+    public static bool HasCustomElementsFeature(this App.Map appMap)
+    {
+        return appMap.Features.ContainsKey(FeatureName);
+    }
+
+    public static CustomElementsFeature.Details CustomElementsDetails(this App.Map appMap)
+    {
+        if (!appMap.Features.ContainsKey(FeatureName))
+            throw new Exception("Custom element feature is not registered");
+
+        return appMap.Features[FeatureName] as CustomElementsFeature.Details;
+    }
+
+    /// <summary>
+    /// Gets the &lt;script type="module" src="path.js"&gt; for the specified custom element
+    /// </summary>
+    /// <param name="appMap"></param>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentException">If tag is not registered in <paramref name="appMap"/></exception>
+    public static IHtmlNode GetCustomElementScriptTag(this HtmlBuilder b, Details details, string tag)
+    {
+        if (!details.JsUrls.ContainsKey(tag))
+        {
+            throw new Exception($"Custom element {tag} is not registered");
+        }
+
+        return b.HtmlScript(
+            b =>
+            {
+                b.SetTypeModule();
+                b.SetSrc(details.JsUrls[tag]);
+            });
+    }
+
+    /// <summary>
+    /// Gets a list of &lt;script type="module" src="path.js"&gt; for all the registered documents. Does not throw if there are none.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="details"></param>
+    /// <returns></returns>
+    public static List<IHtmlNode> GetAllCustomElementScriptTags(this HtmlBuilder b, Details details)
+    {
+        return details.JsUrls.Select(x => b.GetCustomElementScriptTag(details, x.Key)).ToList();
     }
 }

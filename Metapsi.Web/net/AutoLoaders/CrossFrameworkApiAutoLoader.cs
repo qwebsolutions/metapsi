@@ -14,7 +14,7 @@ public class CrossFrameworkApiAutoLoader : IRegisterAppFeature
         {
             endpoint.MapPost(api.Key, async (Microsoft.AspNetCore.Http.HttpContext httpContext) =>
             {
-                await api.Value.HandleRequest(new Metapsi.Web.CfHttpContext(httpContext), ModelExtensions.LazyAppModel(appSetup, httpContext));
+                await api.Value.HandleRequest(new Metapsi.Web.CfHttpContext(httpContext), appSetup.GetAppMap(httpContext));
             }).WithName(CrossFrameworkApiFeature.Routes.GetApiByName(api.Key));
         }
     }

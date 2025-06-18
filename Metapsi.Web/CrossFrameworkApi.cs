@@ -9,7 +9,7 @@ namespace Metapsi;
 public class CfApiConfiguration
 {
     public string Name { get; set; }
-    public Func<Metapsi.Web.CfHttpContext, App.Model, Task> HandleRequest { get; set; }
+    public Func<Metapsi.Web.CfHttpContext, App.Map, Task> HandleRequest { get; set; }
 }
 
 public static class CrossFrameworkApiFeature
@@ -29,7 +29,7 @@ public static class CrossFrameworkApiFeature
         }
     }
 
-    public class Data
+    public class Details
     {
         public Dictionary<string, string> ApiUrls { get; set; } = new Dictionary<string, string>();
     }
@@ -48,9 +48,9 @@ public static class CrossFrameworkApiFeature
         b.Configuration.Features[FeatureName] = new App.Feature()
         {
             Configuration = apisConfiguration,
-            GetData = (findUrl) =>
+            GetDetails = (findUrl) =>
             {
-                var data = new Data();
+                var data = new Details();
 
                 foreach (var page in apisConfiguration.Apis)
                 {
@@ -69,16 +69,16 @@ public static class CrossFrameworkApiFeature
     /// <param name="b"></param>
     /// <param name="name"></param>
     /// <param name="handle"></param>
-    public static void Add<TResult>(this ConfigurationBuilder<Configuration> b, string name, Func<Metapsi.Web.CfHttpContext, App.Model, Task<TResult>> handle)
+    public static void Add<TResult>(this ConfigurationBuilder<Configuration> b, string name, Func<Metapsi.Web.CfHttpContext, App.Map, Task<TResult>> handle)
     {
         b.Configuration.Apis[name] = new CfApiConfiguration()
         {
             Name = name,
-            HandleRequest = async (httpContext, appModel) =>
+            HandleRequest = async (httpContext, appMap) =>
             {
                 try
                 {
-                    var response = await handle(httpContext, appModel);
+                    var response = await handle(httpContext, appMap);
                     await httpContext.Response.WriteJsonReponse(response);
                 }
                 catch (Exception ex)
@@ -96,16 +96,16 @@ public static class CrossFrameworkApiFeature
     /// <param name="b"></param>
     /// <param name="name"></param>
     /// <param name="handle"></param>
-    public static void Add(this ConfigurationBuilder<Configuration> b, string name, Func<Metapsi.Web.CfHttpContext, App.Model, Task> handle)
+    public static void Add(this ConfigurationBuilder<Configuration> b, string name, Func<Metapsi.Web.CfHttpContext, App.Map, Task> handle)
     {
         b.Configuration.Apis[name] = new CfApiConfiguration()
         {
             Name = name,
-            HandleRequest = async (httpContext, appModel) =>
+            HandleRequest = async (httpContext, appMap) =>
             {
                 try
                 {
-                    await handle(httpContext, appModel);
+                    await handle(httpContext, appMap);
                 }
                 catch (Exception ex)
                 {
@@ -116,15 +116,15 @@ public static class CrossFrameworkApiFeature
         };
     }
 
-    public static string GetApiUrl(this App.Model appModel, string apiName)
+    public static string GetApiUrl(this App.Map appMap, string apiName)
     {
-        Data apisData = appModel.FeatureModels[FeatureName] as Data;
+        Details apisData = appMap.Features[FeatureName] as Details;
         return apisData.ApiUrls[apiName];
     }
 
     public static Var<string> GetApiUrl(this SyntaxBuilder b, Var<string> apiName)
     {
-        var data = b.GetFeature<Data>(CrossFrameworkApiFeature.FeatureName);
+        var data = b.GetFeature<Details>(CrossFrameworkApiFeature.FeatureName);
         var apiUrls = b.Get(data, x => x.ApiUrls);
         return b.GetProperty<string>(apiUrls, apiName);
     }

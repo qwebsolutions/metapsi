@@ -85,7 +85,7 @@ public class NavigateToPage : ServerRenderedPage<NavigateToPage.Model>
 
     }
 
-    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Model model)
+    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Map model)
     {
         return new Model();
     }
@@ -110,7 +110,7 @@ public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.
         this.Name = "test";
     }
 
-    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Model model)
+    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Map model)
     {
         return new Model()
         {
@@ -156,7 +156,7 @@ public class TestCustomElement : CustomElement<DataModel>
         this.Tag = "test-custom";
     }
 
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Model model, Var<Element> element)
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map model, Var<Element> element)
     {
         return b.MakeStateWithEffects(b.NewObj<DataModel>());
     }
@@ -321,7 +321,7 @@ public static class Program
                                 b.Configuration.Name = "m";
                                 b.Configuration.LoadModel = async (httpContext, appModel) =>
                                 {
-                                    var models = appModel.FeatureModels;
+                                    var models = appModel.Features;
                                     return new MarketData();
                                 };
                                 b.Configuration.Render = (b, model) =>

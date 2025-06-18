@@ -10,7 +10,7 @@ public interface IServerRenderedPage
 {
     string Name { get; }
     internal Type ModelType { get; }
-    internal Func<CfHttpContext, App.Model, Task> GetHandler();
+    internal Func<CfHttpContext, App.Map, Task> GetHandler();
 }
 
 public abstract class ServerRenderedPage<TModel> : IServerRenderedPage
@@ -22,17 +22,17 @@ public abstract class ServerRenderedPage<TModel> : IServerRenderedPage
         this.Name = this.GetType().CSharpTypeName();
     }
 
-    public abstract Task<TModel> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Model model);
+    public abstract Task<TModel> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Map model);
 
     public abstract void OnRender(HtmlBuilder b, TModel model);
 
     public Type ModelType => typeof(TModel);
 
-    Func<CfHttpContext, App.Model, Task> IServerRenderedPage.GetHandler()
+    Func<CfHttpContext, App.Map, Task> IServerRenderedPage.GetHandler()
     {
-        return async (httpContext, appModel) =>
+        return async (httpContext, appMap) =>
         {
-            var model = await OnLoadModel(httpContext, appModel);
+            var model = await OnLoadModel(httpContext, appMap);
             var document = HtmlBuilder.FromDefault(b =>
             {
                 OnRender(b, model);
@@ -45,14 +45,14 @@ public abstract class ServerRenderedPage<TModel> : IServerRenderedPage
 public class SsrPageConfiguration<TModel>
 {
     public string Name { get; set; } = typeof(TModel).CSharpTypeName();
-    public Func<Metapsi.Web.CfHttpContext, App.Model, Task<TModel>> LoadModel { get; set; }
+    public Func<Metapsi.Web.CfHttpContext, App.Map, Task<TModel>> LoadModel { get; set; }
     public Action<HtmlBuilder, TModel> Render { get; set; }
 }
 
 public class SsrPageConfiguration
 {
     public string Name { get; set; }
-    public Func<Metapsi.Web.CfHttpContext, App.Model, Task> HandleRequest { get; set; }
+    public Func<Metapsi.Web.CfHttpContext, App.Map, Task> HandleRequest { get; set; }
 }
 
 public static class SsrPageFeature
@@ -70,7 +70,7 @@ public static class SsrPageFeature
         }
     }
 
-    public class Data
+    public class Details
     {
         public Dictionary<string,string> PageUrls { get; set; } = new Dictionary<string,string>();
     }
@@ -91,9 +91,9 @@ public static class SsrPageFeature
         b.Configuration.Features[FeatureName] = new App.Feature()
         {
             Configuration = ssrPagesConfiguration,
-            GetData = (findUrl) =>
+            GetDetails = (findUrl) =>
             {
-                var data = new Data();
+                var data = new Details();
 
                 foreach (var page in ssrPagesConfiguration.Pages)
                 {
@@ -117,12 +117,12 @@ public static class SsrPageFeature
         Add(
             b,
             page.Name,
-            async (httpContext, appModel) =>
+            async (httpContext, appMap) =>
             {
                 TModel model = default(TModel);
                 if (page.LoadModel != null)
                 {
-                    model = await page.LoadModel(httpContext, appModel);
+                    model = await page.LoadModel(httpContext, appMap);
                 }
                 else
                 {
@@ -137,7 +137,7 @@ public static class SsrPageFeature
             });
     }
 
-    private static void Add(ConfigurationBuilder<Configuration> b, string name, Func<CfHttpContext, App.Model, Task> handle)
+    private static void Add(ConfigurationBuilder<Configuration> b, string name, Func<CfHttpContext, App.Map, Task> handle)
     {
         b.Configuration.Pages.Add(name, new SsrPageConfiguration()
         {
@@ -161,10 +161,10 @@ public static class SsrPageFeature
             pageInstance.GetHandler());
     }
 
-    public static string GetPageUrl<T>(this App.Model appKeys)
+    public static string GetPageUrl<T>(this App.Map appKeys)
         where T : IServerRenderedPage, new()
     {
-        SsrPageFeature.Data pageData = appKeys.FeatureModels[SsrPageFeature.FeatureName] as SsrPageFeature.Data;
+        SsrPageFeature.Details pageData = appKeys.Features[SsrPageFeature.FeatureName] as SsrPageFeature.Details;
         var pageName = new T().Name;
         return pageData.PageUrls[pageName];
     }
