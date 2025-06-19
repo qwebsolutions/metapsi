@@ -115,7 +115,7 @@ namespace Metapsi
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
             builder.Services.AddMetapsiCommandContext(setup, ig);
             builder.Services.ConfigureHttpJsonOptions(options =>
             {

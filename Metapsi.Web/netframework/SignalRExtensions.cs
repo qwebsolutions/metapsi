@@ -51,10 +51,6 @@ public static partial class SignalRClient
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
-#if NETFRAMEWORK
-        b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "jQueryShim.js");
-#endif
-        b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "signalr.js");
         b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "metapsi-signalr.js");
         var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>("metapsi-signalr", "Connect");
         b.Call(connect, b.Const(hubPath), register, onConnect);

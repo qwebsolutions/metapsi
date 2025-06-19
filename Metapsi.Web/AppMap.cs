@@ -136,4 +136,14 @@ public static class AppMapExtensions
         var features = b.Get(GetAppMap(b), x => x.Features);
         return b.GetProperty<T>(features, featureName);
     }
+
+    public static Var<bool> HasFeature(this SyntaxBuilder b, Var<string> featureName)
+    {
+        return b.HasObject(b.GetFeature<object>(featureName));
+    }
+
+    public static Var<bool> HasFeature(this SyntaxBuilder b, string featureName)
+    {
+        return b.HasFeature(b.Const(featureName));
+    }
 }
