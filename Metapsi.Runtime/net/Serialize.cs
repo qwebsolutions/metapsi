@@ -6,8 +6,11 @@ using System.Text.Json;
 
 namespace Metapsi
 {
-    public static class Serialize
+
+    public class SystemTextJsonSerializer : IJsonSerializer, IAutoLoader
     {
+        public string Name { get; } = "default";
+
         private static JsonSerializerOptions toJsonOptions = null;
         private static JsonSerializerOptions ToJsonOptions
         {
@@ -89,103 +92,54 @@ namespace Metapsi
             }
         }
 
-        public static string ToJson(object o)
+        public string ToJson(object o)
         {
             string jsonContent = JsonSerializer.Serialize(o, ToJsonOptions);
 
             return jsonContent;
         }
 
-        public static T FromTypedJson<T>(string json)
-        {
-            return (T)FromTypedJson(json);
-        }
+        //public static T FromTypedJson<T>(string json)
+        //{
+        //    return (T)FromTypedJson(json);
+        //}
 
-        public static T FromJson<T>(string json)
+        public T FromJson<T>(string json)
         {
             T deserialized = JsonSerializer.Deserialize<T>(json, FromJsonOptions);
             return deserialized;
         }
 
-        public static object FromJson(Type t, string json)
+        public object FromJson(Type t, string json)
         {
             object deserialized = JsonSerializer.Deserialize(json, t, FromJsonOptions);
             return deserialized;
         }
 
-        public static string ToTypedJson(object o)
-        {
-            ObjectTypeWrapper untypedTypeWrapper = new ObjectTypeWrapper();
-            untypedTypeWrapper.Set(o);
+        //public static string ToTypedJson(object o)
+        //{
+        //    ObjectTypeWrapper untypedTypeWrapper = new ObjectTypeWrapper();
+        //    untypedTypeWrapper.Set(o);
 
-            return System.Text.Json.JsonSerializer.Serialize(untypedTypeWrapper, options: ToTypedJsonOptions);
-        }
+        //    return System.Text.Json.JsonSerializer.Serialize(untypedTypeWrapper, options: ToTypedJsonOptions);
+        //}
 
-        public static object FromTypedJson(string serializedJson)
-        {
-            var typeProperty = System.Text.Json.JsonSerializer.Deserialize<ObjectTypeWrapper>(serializedJson, FromTypedJsonOptions);
-            Type contentObjectType = Type.GetType(typeProperty.TypeName);
+        //public static object FromTypedJson(string serializedJson)
+        //{
+        //    var typeProperty = System.Text.Json.JsonSerializer.Deserialize<ObjectTypeWrapper>(serializedJson, FromTypedJsonOptions);
+        //    Type contentObjectType = Type.GetType(typeProperty.TypeName);
 
-            if (contentObjectType == null)
-            {
-                var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes());
-                contentObjectType = allTypes.FirstOrDefault(x => x.FullName == typeProperty.TypeName);
-            }
+        //    if (contentObjectType == null)
+        //    {
+        //        var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes());
+        //        contentObjectType = allTypes.FirstOrDefault(x => x.FullName == typeProperty.TypeName);
+        //    }
 
-            var genericWrapperType = typeof(GenericTypedWrapper<>).MakeGenericType(contentObjectType);
+        //    var genericWrapperType = typeof(GenericTypedWrapper<>).MakeGenericType(contentObjectType);
 
-            object wrapperObject = System.Text.Json.JsonSerializer.Deserialize(serializedJson, genericWrapperType, FromTypedJsonOptions);
-            ITypeWrapper objectAccessor = wrapperObject as ITypeWrapper;
-            return objectAccessor.Get();
-        }
-
-        public static byte[] ToByteArray(string stringValue)
-        {
-            return System.Text.Encoding.UTF8.GetBytes(stringValue);
-        }
-
-        public static string FromByteArray(byte[] bytes)
-        {
-            return System.Text.Encoding.UTF8.GetString(bytes);
-        }
-    }
-    public static class Locate
-    {
-        public static object DataItemInCollection(object dataModel, string collectionName, System.Guid itemId)
-        {
-            dynamic collection = dataModel.GetType().GetProperty(collectionName).GetValue(dataModel);
-            foreach (dynamic item in collection)
-            {
-                if (item.Id == itemId)
-                {
-                    return item;
-                }
-            }
-
-            throw new System.Exception($"Cannot locate item with id {itemId} in {collectionName}");
-        }
-    }
-
-    public static class MetapsiDateTime
-    {
-        public static string Roundtrip(this DateTime dateTime)
-        {
-            return dateTime.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        public static string JsRoundtrip(this DateTime dateTime)
-        {
-            return dateTime.ToString("s");
-        }
-
-        public static DateTime FromRoundTrip(string roundtripDate)
-        {
-            return DateTime.Parse(roundtripDate, null, System.Globalization.DateTimeStyles.RoundtripKind);
-        }
-
-        public static string ItalianFormat(this DateTime dateTime)
-        {
-            return dateTime.ToString("G", new System.Globalization.CultureInfo("it-IT"));
-        }
+        //    object wrapperObject = System.Text.Json.JsonSerializer.Deserialize(serializedJson, genericWrapperType, FromTypedJsonOptions);
+        //    ITypeWrapper objectAccessor = wrapperObject as ITypeWrapper;
+        //    return objectAccessor.Get();
+        //}
     }
 }
