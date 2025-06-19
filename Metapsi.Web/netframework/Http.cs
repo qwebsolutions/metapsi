@@ -95,6 +95,10 @@ public static class HttpExtensions
 
     public static async Task<T> ReadJsonBody<T>(this CfHttpRequest request)
     {
-        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(request.Request.InputStream);
+        using (var reader = new StreamReader(request.Request.InputStream))
+        {
+            string result = reader.ReadToEnd();
+            return Metapsi.Serialize.FromJson<T>(result);
+        }
     }
 }

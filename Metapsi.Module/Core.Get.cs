@@ -21,14 +21,16 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = b.NewVarName(),
-                Node =
-                new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = LinqNodeExtensions.FromLambda(expression),
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList(),
+                    Call = new CallNode()
+                    {
+                        Fn = new SyntaxNode() { Linq = LinqNodeExtensions.FromLambda(expression) },
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList(),
+                    }
                 }
             };
-            b.nodes.Add(assignmentNode);
+            b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<object>(assignmentNode.Name);
         }
 

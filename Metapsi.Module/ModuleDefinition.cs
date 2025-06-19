@@ -16,7 +16,7 @@ namespace Metapsi.Syntax
         /// Key = source
         /// </summary>
         public Dictionary<string, Import> Imports { get; set; } = new Dictionary<string, Import>();
-        public List<ISyntaxNode> Nodes { get; set; } = new List<ISyntaxNode>(); // AssignmentNode or CallNode
+        public List<SyntaxNode> Nodes { get; set; } = new List<SyntaxNode>(); // AssignmentNode or CallNode
     }
 
     public enum NodeType
@@ -84,54 +84,63 @@ namespace Metapsi.Syntax
         public HashSet<LocalRename> Locals { get; set; } = new HashSet<LocalRename>();
     }
 
-    public interface ISyntaxNode
+    public class SyntaxNode
     {
-        NodeType Type { get; }
+        public LiteralNode Literal { get; set; }
+        public IdentifierNode Identifier { get; set; }
+        public AssignmentNode Assignment { get; set; }
+        public FnNode Fn { get; set; }
+        public LinqNode Linq { get; set; }
+        public CallNode Call { get; set; }
+        public CommentNode Comment { get; set; }
     }
 
-    public class LiteralNode : ISyntaxNode
+    public class LiteralNode
     {
-        public NodeType Type => NodeType.Literal;
+        //public NodeType Type => NodeType.Literal;
         public string Value { get; set; } // a JSON serialization
     }
 
-    public class IdentifierNode : ISyntaxNode
+    public class IdentifierNode
     {
-        public NodeType Type => NodeType.Identifier;
+        //public NodeType Type => NodeType.Identifier;
         public string Name { get; set; }
     }
 
-    public class AssignmentNode : ISyntaxNode
+    public class AssignmentNode
     {
-        public NodeType Type => NodeType.Assignment;
+        //public NodeType Type => NodeType.Assignment;
         public string Name { get; set; }
-        public ISyntaxNode Node { get; set; }
+        public SyntaxNode Node { get; set; }
     }
 
-    public class FnNode : ISyntaxNode
+    public class FnNode
     {
-        public NodeType Type => NodeType.Fn;
+        //public NodeType Type => NodeType.Fn;
         public List<string> Parameters { get; set; } = new List<string>();
-        public List<ISyntaxNode> Body { get; set; } = new List<ISyntaxNode>(); // Assignment nodes
+        public List<SyntaxNode> Body { get; set; } = new List<SyntaxNode>(); // Assignment nodes
         public string Return { get; set; } // Optional, return identifier name
     }
 
-    public class LinqNode : ISyntaxNode
+    public class LinqNode
     {
-        public NodeType Type => NodeType.Linq;
+        //public NodeType Type => NodeType.Linq;
         public string Expr { get; set; } // Expression is a string so it can be called in environments where the initial C# types are not defined
     }
 
-    public class CallNode : ISyntaxNode
+    public class CallNode
     {
-        public NodeType Type => NodeType.Call;
-        public ISyntaxNode Fn { get; set; } // IdentifierNode or FnNode
-        public List<ISyntaxNode> Arguments { get; set; } = new List<ISyntaxNode>(); // Literal, Identifier or Fn
+        //public NodeType Type => NodeType.Call;
+        /// <summary>
+        /// IdentifierNode or FnNode
+        /// </summary>
+        public SyntaxNode Fn { get; set; } 
+        public List<SyntaxNode> Arguments { get; set; } = new List<SyntaxNode>(); // Literal, Identifier or Fn
     }
 
-    public class CommentNode : ISyntaxNode
+    public class CommentNode
     {
-        public NodeType Type => NodeType.Comment;
+        //public NodeType Type => NodeType.Comment;
         public string Comment { get; set; }
     }
 
@@ -190,6 +199,8 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
+
+
         public static string ToJs(this Module moduleDefinition)
         {
             StringBuilder outJs = new StringBuilder();
@@ -240,47 +251,55 @@ namespace Metapsi.Syntax
             return outJs.ToString();
         }
 
-        public static string ToJs(this ISyntaxNode syntaxNode)
+        public static NodeType GetNodeType(this SyntaxNode syntaxNode)
         {
-            switch (syntaxNode.Type)
+            if (syntaxNode.Literal != null) return NodeType.Literal;
+            if (syntaxNode.Identifier != null) return NodeType.Identifier;
+            if (syntaxNode.Assignment != null) return NodeType.Assignment;
+            if (syntaxNode.Fn != null) return NodeType.Fn;
+            if (syntaxNode.Linq != null) return NodeType.Linq;
+            if (syntaxNode.Call != null) return NodeType.Call;
+            if (syntaxNode.Comment != null) return NodeType.Comment;
+
+            throw new ArgumentException("Node type not supported");
+        }
+
+        public static string ToJs(this SyntaxNode syntaxNode)
+        {
+            switch (syntaxNode.GetNodeType())
             {
                 case NodeType.Literal:
                     {
-                        var literal = syntaxNode as LiteralNode;
-                        return literal.Value;
+                        return syntaxNode.Literal.Value;
                     }
                 case NodeType.Identifier:
                     {
-                        var identifier = syntaxNode as IdentifierNode;
-                        return identifier.Name;
+                        return syntaxNode.Identifier.Name;
                     }
                 case NodeType.Assignment:
                     {
-                        var assignment = syntaxNode as AssignmentNode;
+                        var assignment = syntaxNode.Assignment;
                         return $"let {assignment.Name} = " + assignment.Node.ToJs();
                     }
                 case NodeType.Fn:
                     {
-                        var fnDef = syntaxNode as FnNode;
-                        return ToJs(fnDef);
+                        return ToJs(syntaxNode.Fn);
                     }
                 case NodeType.Linq:
                     {
-                        var linqNode = syntaxNode as LinqNode;
-                        return linqNode.Expr;
+                        return syntaxNode.Linq.Expr;
                     }
                 case NodeType.Call:
                     {
-                        var callNode = syntaxNode as CallNode;
-                        return ToJs(callNode);
+                        return ToJs(syntaxNode.Call);
                     }
                 case NodeType.Comment:
                     {
-                        var commentNode = syntaxNode as CommentNode;
+                        var commentNode = syntaxNode.Comment;
                         return $"// {commentNode.Comment}";
                     }
                 default:
-                    throw new NotSupportedException(syntaxNode.Type.ToString());
+                    throw new NotSupportedException("Node type not supported");
             }
         }
 
@@ -307,19 +326,19 @@ namespace Metapsi.Syntax
         public static string ToJs(this CallNode callNode)
         {
             StringBuilder outJs = new StringBuilder();
-            if (callNode.Fn.Type == NodeType.Fn)
+            if (callNode.Fn.GetNodeType() == NodeType.Fn)
             {
-                outJs.Append("(" + ToJs(callNode.Fn as FnNode) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn.Fn) + ")");
             }
-            else if (callNode.Fn.Type == NodeType.Identifier)
+            else if (callNode.Fn.GetNodeType() == NodeType.Identifier)
             {
-                outJs.Append((callNode.Fn as IdentifierNode).Name);
+                outJs.Append((callNode.Fn.Identifier).Name);
             }
-            else if (callNode.Fn.Type == NodeType.Linq)
+            else if (callNode.Fn.GetNodeType() == NodeType.Linq)
             {
-                outJs.Append("(" + ToJs(callNode.Fn as LinqNode) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn) + ")");
             }
-            else throw new NotSupportedException($"Cannot call {callNode.Fn.Type}");
+            else throw new NotSupportedException($"Cannot call {callNode.Fn.GetNodeType()}");
             List<string> arguments = new List<string>();
             foreach (var argument in callNode.Arguments)
             {

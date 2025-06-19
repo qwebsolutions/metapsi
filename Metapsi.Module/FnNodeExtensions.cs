@@ -62,9 +62,9 @@ namespace Metapsi.Syntax
                 var assignmentNode = new AssignmentNode()
                 {
                     Name = b.NewVarName(),
-                    Node = FromDelegate(b, fn)
+                    Node = new SyntaxNode() { Fn = FromDelegate(b, fn) }
                 };
-                b.nodes.Add(assignmentNode);
+                b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
                 return new Var<T>(assignmentNode.Name);
             }
         }

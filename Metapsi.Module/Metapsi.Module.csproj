@@ -13,10 +13,10 @@
 		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<PackageReference Include="System.Text.Json" Version="9.0.4" />
 		<PackageReference Include="System.IO.Hashing" Version="9.0.4" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />

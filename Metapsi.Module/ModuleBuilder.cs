@@ -229,10 +229,13 @@ namespace Metapsi.Syntax
             if (!expressionsCache.ContainsKey(s))
             {
                 Var<T> c = new Var<T>(NewName());
-                Module.Nodes.Add(new AssignmentNode()
+                Module.Nodes.Add(new SyntaxNode()
                 {
-                    Name = c.Name,
-                    Node = LinqNodeExtensions.FromLambda(expression)
+                    Assignment = new AssignmentNode()
+                    {
+                        Name = c.Name,
+                        Node = new SyntaxNode() { Linq = LinqNodeExtensions.FromLambda(expression) }
+                    }
                 });
                 expressionsCache[s] = c;
             }
@@ -259,11 +262,18 @@ namespace Metapsi.Syntax
                 // This avoids infinite recursion
                 functionsCache.Add(name);
 
-                Module.Nodes.Add(new AssignmentNode()
-                {
-                    Name = name,
-                    Node = FnNodeExtensions.FromDelegate(new SyntaxBuilder(this), function)
-                });
+                Module.Nodes.Add(
+                    new SyntaxNode()
+                    {
+                        Assignment = new AssignmentNode()
+                        {
+                            Name = name,
+                            Node = new SyntaxNode()
+                            {
+                                Fn = FnNodeExtensions.FromDelegate(new SyntaxBuilder(this), function)
+                            }
+                        }
+                    });
             }
 
             return new Var<T>(name);
@@ -274,12 +284,18 @@ namespace Metapsi.Syntax
             if (!this.constantsCache.ContainsKey(value))
             {
                 Var<T> c = new Var<T>(name);
-                Module.Nodes.Add(new AssignmentNode()
+                Module.Nodes.Add(new SyntaxNode()
                 {
-                    Name = name,
-                    Node = new LiteralNode()
+                    Assignment = new AssignmentNode()
                     {
-                        Value = System.Text.Json.JsonSerializer.Serialize(value)
+                        Name = name,
+                        Node = new SyntaxNode()
+                        {
+                            Literal = new LiteralNode()
+                            {
+                                Value = Metapsi.Serialize.ToJson(value)
+                            }
+                        }
                     }
                 });
                 constantsCache[value] = c;
@@ -309,7 +325,7 @@ namespace Metapsi.Syntax
         /// <param name="action"></param>
         public void Call(Var<Action> action)
         {
-            this.Module.Nodes.Add(new CallNode() { Fn = new IdentifierNode() { Name = action.Name } });
+            this.Module.Nodes.Add(new SyntaxNode() { Call = new CallNode() { Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = action.Name } } } });
         }
 
         /// <summary>

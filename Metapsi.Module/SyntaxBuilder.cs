@@ -8,7 +8,7 @@ namespace Metapsi.Syntax
     public class SyntaxBuilder
     {
         internal ModuleBuilder moduleBuilder;
-        internal List<ISyntaxNode> nodes { get; set; } = new List<ISyntaxNode>();
+        internal List<SyntaxNode> nodes { get; set; } = new List<SyntaxNode>();
 
         internal SyntaxBuilder(ModuleBuilder moduleBuilder)
         {
@@ -74,7 +74,7 @@ namespace Metapsi.Syntax
 
         public void Comment(string comment)
         {
-            this.nodes.Add(new CommentNode() { Comment = comment });
+            this.nodes.Add(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
         }
 
 
@@ -116,12 +116,15 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = moduleBuilder.NewName(),
-                Node = new LiteralNode()
+                Node = new SyntaxNode()
                 {
-                    Value = System.Text.Json.JsonSerializer.Serialize(obj)
+                    Literal = new LiteralNode()
+                    {
+                        Value = Metapsi.Serialize.ToJson(obj)
+                    }
                 }
             };
-            nodes.Add(assignmentNode);
+            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
 
@@ -130,17 +133,23 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = moduleBuilder.NewName(),
-                Node = new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = new IdentifierNode()
+                    Call = new CallNode()
                     {
-                        Name = f.Name
-                    },
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
+                        Fn = new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = f.Name
+                            }
+                        },
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                    }
                 }
             };
 
-            nodes.Add(assignmentNode);
+            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
 
@@ -149,20 +158,25 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = moduleBuilder.NewName(),
-                Node = new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = new IdentifierNode()
+                    Call = new CallNode()
                     {
-                        Name = f.Name
-                    },
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
+                        Fn = new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = f.Name
+                            }
+                        },
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                    }
                 }
             };
 
-            nodes.Add(assignmentNode);
+            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
         }
     }
-
 
     public static class SyntaxBuilderExtensions
     {

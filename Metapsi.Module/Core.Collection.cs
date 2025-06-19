@@ -13,16 +13,16 @@ namespace Metapsi.Syntax
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            b.nodes.Add(new CallNode()
+            b.nodes.Add(new SyntaxNode()
             {
-                Fn = new IdentifierNode() { Name = mForEach.Name },
-                Arguments = new List<ISyntaxNode>()
+                Call = new CallNode()
                 {
-                    new IdentifierNode()
+                    Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = mForEach.Name } },
+                    Arguments = new List<SyntaxNode>()
                     {
-                        Name = collection.Name
-                    },
-                    FnNodeExtensions.FromDelegate(b, onItem)
+                        new SyntaxNode() { Identifier = new IdentifierNode(){Name = collection.Name} },
+                        new SyntaxNode(){ Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+                    }
                 }
             });
         }
@@ -35,16 +35,16 @@ namespace Metapsi.Syntax
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            b.nodes.Add(new CallNode()
+            b.nodes.Add(new SyntaxNode()
             {
-                Fn = new IdentifierNode() { Name = mForEach.Name },
-                Arguments = new List<ISyntaxNode>()
+                Call = new CallNode()
                 {
-                    new IdentifierNode()
+                    Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = mForEach.Name } },
+                    Arguments = new List<SyntaxNode>()
                     {
-                        Name = collection.Name
-                    },
-                    FnNodeExtensions.FromDelegate(b, onItem)
+                        new SyntaxNode(){Identifier = new IdentifierNode(){Name = collection.Name} },
+                        new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+                    }
                 }
             });
         }
