@@ -7,7 +7,7 @@ using System.Text.Json;
 namespace Metapsi
 {
 
-    public class SystemTextJsonSerializer : IJsonSerializer, IAutoLoader
+    public class DefaultSerializer : IJsonSerializer, IAutoLoader
     {
         public string Name { get; } = "default";
 
@@ -22,10 +22,11 @@ namespace Metapsi
                     {
                         WriteIndented = true,
                         IgnoreReadOnlyFields = true,
-                        IgnoreReadOnlyProperties = true
+                        IgnoreReadOnlyProperties = true,
+                        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                     };
                     //newOptions.Converters.Add(new DynamicObjectConverter());
-                    
+
                     // Only assign after options are fully built to avoid multi-threading errors
                     toJsonOptions = newOptions;
                 }
