@@ -109,14 +109,15 @@ namespace Metapsi.Syntax
 
     public class AssignmentNode
     {
-        //public NodeType Type => NodeType.Assignment;
+        public string DebugType { get; set; }
         public string Name { get; set; }
         public SyntaxNode Node { get; set; }
     }
 
     public class FnNode
     {
-        //public NodeType Type => NodeType.Fn;
+        public string DebugSource { get; set; }
+
         public List<string> Parameters { get; set; } = new List<string>();
         public List<SyntaxNode> Body { get; set; } = new List<SyntaxNode>(); // Assignment nodes
         public string Return { get; set; } // Optional, return identifier name
@@ -130,7 +131,6 @@ namespace Metapsi.Syntax
 
     public class CallNode
     {
-        //public NodeType Type => NodeType.Call;
         /// <summary>
         /// IdentifierNode or FnNode
         /// </summary>
@@ -199,7 +199,10 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
-
+        private static string Spaces(int indentLevel)
+        {
+            return new string(' ', indentLevel * 2);
+        }
 
         public static string ToJs(this Module moduleDefinition)
         {
@@ -223,8 +226,8 @@ namespace Metapsi.Syntax
                 {
                     outJs.AppendLine($"import {importDefinition.Default} from \"{source}\";");
                 }
-                
-                if(importDefinition.Imports.Any())
+
+                if (importDefinition.Imports.Any())
                 {
                     List<string> importNames = new List<string>();
                     foreach (var name in importDefinition.Imports)
@@ -264,8 +267,10 @@ namespace Metapsi.Syntax
             throw new ArgumentException("Node type not supported");
         }
 
-        public static string ToJs(this SyntaxNode syntaxNode)
+        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel = 0)
         {
+            // This renders the node itself, which could be anywhere
+            // Pass indent level, but don't use it for alignment
             switch (syntaxNode.GetNodeType())
             {
                 case NodeType.Literal:
@@ -279,11 +284,12 @@ namespace Metapsi.Syntax
                 case NodeType.Assignment:
                     {
                         var assignment = syntaxNode.Assignment;
-                        return $"let {assignment.Name} = " + assignment.Node.ToJs();
+                        var typeComment = string.IsNullOrEmpty(assignment.DebugType) ? "" : $"/*{assignment.DebugType}*/ ";
+                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel);
                     }
                 case NodeType.Fn:
                     {
-                        return ToJs(syntaxNode.Fn);
+                        return ToJs(syntaxNode.Fn, indentLevel);
                     }
                 case NodeType.Linq:
                     {
@@ -291,7 +297,7 @@ namespace Metapsi.Syntax
                     }
                 case NodeType.Call:
                     {
-                        return ToJs(syntaxNode.Call);
+                        return ToJs(syntaxNode.Call, indentLevel);
                     }
                 case NodeType.Comment:
                     {
@@ -303,27 +309,30 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static string ToJs(this FnNode fnNode)
+        public static string ToJs(this FnNode fnNode, int indentLevel = 0)
         {
+            // This handles { ... } blocks, this is the place where alignment happens
+
             StringBuilder outJs = new StringBuilder();
             var parameters = string.Join(", ", fnNode.Parameters);
-            outJs.AppendLine($"({parameters}) => {{ ");
+            var fnNameComment = string.IsNullOrEmpty(fnNode.DebugSource) ? "" : $"/*{fnNode.DebugSource}*/";
+            outJs.AppendLine($"({parameters}) => {{ {fnNameComment}");
             foreach (var line in fnNode.Body)
             {
-                outJs.AppendLine(line.ToJs());
+                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1));
             }
 
             if (fnNode.Return != null)
             {
-                outJs.AppendLine($"return {fnNode.Return}");
+                outJs.AppendLine($"{Spaces(indentLevel + 1)}return {fnNode.Return}");
             }
 
-            outJs.Append("}");
+            outJs.Append(Spaces(indentLevel) + "}");
 
             return outJs.ToString();
         }
 
-        public static string ToJs(this CallNode callNode)
+        public static string ToJs(this CallNode callNode, int indentLevel = 0)
         {
             StringBuilder outJs = new StringBuilder();
             if (callNode.Fn.GetNodeType() == NodeType.Fn)
@@ -332,7 +341,7 @@ namespace Metapsi.Syntax
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Identifier)
             {
-                outJs.Append((callNode.Fn.Identifier).Name);
+                outJs.Append(callNode.Fn.Identifier.Name);
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Linq)
             {
@@ -342,7 +351,7 @@ namespace Metapsi.Syntax
             List<string> arguments = new List<string>();
             foreach (var argument in callNode.Arguments)
             {
-                arguments.Add(argument.ToJs());
+                arguments.Add(argument.ToJs(indentLevel));
             }
 
             outJs.Append($"({string.Join(", ", arguments)})");

@@ -124,6 +124,7 @@ namespace Metapsi.Syntax
                     }
                 }
             };
+            assignmentNode.AddDebugType(typeof(T));
             nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
@@ -149,32 +150,27 @@ namespace Metapsi.Syntax
                 }
             };
 
+            assignmentNode.AddDebugType(typeof(T));
+
             nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
 
         public void CallDynamic(Var<Delegate> f, params IVariable[] arguments)
         {
-            var assignmentNode = new AssignmentNode()
+            var callNode = new CallNode()
             {
-                Name = moduleBuilder.NewName(),
-                Node = new SyntaxNode()
+                Fn = new SyntaxNode()
                 {
-                    Call = new CallNode()
+                    Identifier = new IdentifierNode()
                     {
-                        Fn = new SyntaxNode()
-                        {
-                            Identifier = new IdentifierNode()
-                            {
-                                Name = f.Name
-                            }
-                        },
-                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                        Name = f.Name
                     }
-                }
+                },
+                Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
             };
 
-            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
+            nodes.Add(new SyntaxNode() { Call = callNode });
         }
     }
 

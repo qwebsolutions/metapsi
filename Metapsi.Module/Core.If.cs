@@ -48,6 +48,8 @@ namespace Metapsi.Syntax
                 }
             };
 
+            assignmentNode.AddDebugType(typeof(TResult));
+
             b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<TResult>(assignmentNode.Name);
         }
