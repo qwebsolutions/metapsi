@@ -19,6 +19,11 @@ public static partial class DateTimeExtensions
         return b.CallOnObject<DateTime>(b.DateTimeStatic(), "utc");
     }
 
+    public static Var<DateTime> LuxonDateTimeSetLocale(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> locale)
+    {
+        return b.CallOnObject<DateTime>(dateTime, "setLocale", locale);
+    }
+
     public static Var<string> LuxonDateTimeToRelative(this SyntaxBuilder b, Var<DateTime> dateTime)
     {
         return b.CallOnObject<string>(dateTime, "toRelative");
