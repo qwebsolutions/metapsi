@@ -7,7 +7,7 @@ namespace Metapsi.Syntax
     {
         public static void AddDebugType(this AssignmentNode assignmentNode, System.Type type)
         {
-#if DEBUG
+//#if DEBUG
             if (type.Name == "Var`1")
             {
                 var varType = type.GenericTypeArguments.FirstOrDefault();
@@ -20,14 +20,14 @@ namespace Metapsi.Syntax
             {
                 assignmentNode.DebugType = type.CSharpTypeName();
             }
-#endif
+//#endif
         }
 
         public static void AddDebugType(this FnNode fnNode, System.Delegate @delegate)
         {
-#if DEBUG
+//#if DEBUG
             fnNode.DebugSource = $"{@delegate.Method.DeclaringType.CSharpTypeName()}";
-#endif
+//#endif
         }
     }
 }
