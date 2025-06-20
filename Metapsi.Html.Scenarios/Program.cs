@@ -639,6 +639,21 @@ public static class Program
 
     public static Var<HyperType.Init> InitializeClientSideApp(SyntaxBuilder b)
     {
+        var dateTimeFormat = b.NewIntlDateTimeFormat(
+            b.Const("ro"),
+            b.Const(new Intl.DateTimeFormatOptions()
+            {
+                dateStyle = "long"
+            }));
+        var dateConstructor = b.GetProperty<object>(b.Self(), "Date");
+        var nowDate = b.New<object>(dateConstructor);
+        b.Log(b.CallOnObject<string>(dateTimeFormat, "format", nowDate));
+            //b.NewObj<Intl.DateTimeFormatOptions>(
+            //    b =>
+            //    {
+            //        b.Set(x => x.dateStyle, "long");
+            //    }));
+
         return b.MakeInit(
             b.MakeStateWithEffects(
                 b.Const(new MarketData()),

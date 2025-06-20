@@ -13,12 +13,12 @@ public static partial class Intl
     /// <summary>
     /// 
     /// </summary>
-    public interface RelativeTimeFormatOptions
+    public class RelativeTimeFormatOptions
     {
         /// <summary>
         /// The locale matching algorithm to use. Possible values are "lookup" and "best fit"; the default is "best fit". For information about this option, see Locale identification and negotiation.
         /// </summary>
-        string localeMatcher { get; set; }
+        public string localeMatcher { get; set; }
 
         /// <summary>
         /// The style of the formatted relative time.Possible values are:
@@ -26,11 +26,11 @@ public static partial class Intl
         /// <para>"short" E.g., "in 1 mo." </para>
         /// <para>"narrow" E.g., "in 1 mo.". The narrow style could be similar to the short style for some locales.</para>
         /// </summary>
-        string style { get; set; }
+        public string style { get; set; }
 
         /// <summary>
         /// Whether to use numeric values in the output. Possible values are "always" and "auto"; the default is "always". When set to "auto", the output may use more idiomatic phrasing such as "yesterday" instead of "1 day ago".
         /// </summary>
-        string numeric { get; set; }
+        public string numeric { get; set; }
     }
 }

@@ -169,8 +169,17 @@ namespace Metapsi.Html
         /// <returns></returns>
         public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
         {
-            var constructor = b.GetProperty<object>(b.Self(), b.Const(typeof(T).Name));
-            return b.New<T>(constructor, args);
+            var typeName = typeof(T).CSharpTypeName();
+
+            // Might be nested, like Intl.DateTimeFormat
+            Var<object> current = b.Self();
+            // is nested
+            foreach (var type in typeName.Split('.'))
+            {
+                current = b.GetProperty<object>(current, type);
+            }
+
+            return b.New<T>(current, args);
         }
 
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)

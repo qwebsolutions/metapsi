@@ -6,11 +6,6 @@ using System.Threading;
 
 namespace Metapsi.Luxon;
 
-public class DateTime
-{
-
-}
-
 public class Interval
 {
 
@@ -29,7 +24,7 @@ public class Duration
     public decimal milliseconds { get; }
 }
 
-public static class DateTimeExtensions
+public static partial class DateTimeExtensions
 {
     private static void AddLuxon(this SyntaxBuilder b)
     {
@@ -49,11 +44,6 @@ public static class DateTimeExtensions
         b.AddLuxon();
         var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getIntervalStatic");
         return b.Call(get);
-    }
-
-    public static Var<DateTime> LuxonUtc(this SyntaxBuilder b)
-    {
-        return b.CallOnObject<DateTime>(b.DateTimeStatic(), "utc");
     }
 
     public static Var<DateTime> LuxonFromIso(this SyntaxBuilder b, Var<string> isoDateTime)
@@ -114,15 +104,5 @@ public static class DateTimeExtensions
     public static Var<Duration> LuxonDurationShiftTo(this SyntaxBuilder b, Var<Duration> duration, params string[] units)
     {
         return b.LuxonDurationShiftTo(duration, units.Select(x => b.Const(x)).ToArray());
-    }
-
-    public static Var<string> LuxonDateTimeToRelative(this SyntaxBuilder b, Var<DateTime> dateTime)
-    {
-        return b.CallOnObject<string>(dateTime, "toRelative");
-    }
-
-    public static Var<string> LuxonDateTimeToIso(this SyntaxBuilder b, Var<DateTime> dateTime)
-    {
-        return b.CallOnObject<string>(dateTime, "toISO");
     }
 }

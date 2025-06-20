@@ -18,7 +18,7 @@ public static partial class Intl
     /// <summary>
     /// An object that contains configuration for the Locale. Option values here take priority over extension keys in the locale identifier
     /// </summary>
-    public interface LocaleOptions
+    public class LocaleOptions
     {
         /// <summary>
         /// The language. Any syntactically valid string following the unicode_language_subtag grammar (2–3 or 5–8 letters) is accepted, but the implementation only recognizes certain kinds.
