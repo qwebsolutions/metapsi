@@ -4,6 +4,8 @@
 		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<LangVersion>8.0</LangVersion>
 		<OutputType>Library</OutputType>
+		<IncludeSource>true</IncludeSource>
+		<EmbedAllSources>true</EmbedAllSources>
 		<Description>The base package for building client-side web pages in C# with Metapsi. Allows defining abstract logic that can be converted to other programming languages on demand (JavaScript, for now).</Description>
 	</PropertyGroup>
 

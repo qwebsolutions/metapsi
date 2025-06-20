@@ -7,6 +7,8 @@
 		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Description>Simplified HTML tag methods for client-side generated web pages</Description>
+		<IncludeSource>true</IncludeSource>
+		<EmbedAllSources>true</EmbedAllSources>
 	</PropertyGroup>
 
 	<ItemGroup>
