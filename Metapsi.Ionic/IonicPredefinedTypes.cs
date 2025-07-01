@@ -95,3 +95,18 @@ public interface IonSplitPaneVisibleDetail
     /// </summary>
     public bool visible { get; }
 }
+
+public interface InputOtpInputEventDetail
+{
+    string value { get; }
+}
+
+public interface InputOtpChangeEventDetail
+{
+    string value { get; }
+}
+
+public interface InputOtpCompleteEventDetail
+{
+    string value { get; }
+}
