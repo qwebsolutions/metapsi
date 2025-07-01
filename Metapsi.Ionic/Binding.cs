@@ -6,8 +6,8 @@ namespace Metapsi.Ionic;
 
 public partial class IonInput : IHasEditableValue { }
 public partial class IonTextarea : IHasEditableValue { }
-
 public partial class IonSelect : IHasEditableValue { }
+public partial class IonPickerColumn : IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -83,6 +83,25 @@ public class IonSelectBinding : IAutoRegisterBinding
                 b.SetValue(value.As<object>());
             },
             (b, e) => b.Get(e.As<CustomEvent<SelectChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class IonPickerColumnBinding : IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonPickerColumn);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonPickerColumn>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<PickerColumnChangeEventDetail>>(), x => x.detail.value).As<object>(),
             (b, updateAction) => b.OnIonChange(updateAction));
     }
 }
