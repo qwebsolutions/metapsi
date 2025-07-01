@@ -547,6 +547,24 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
             }
         }
 
+        if (customElementName == "IonInputOtp") {
+            if (property.name == "length" && property.type == "number") {
+                return [gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)]
+            }
+            if (property.name == "separators" && property.type == "number[] | string | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createValuePropertySetter(customElementName, property.name, { ...gen.systemCollectionsGenericList, typeArguments: [gen.systemInt] }),
+                ]
+            }
+            if (property.name == "value" && property.type == "null | number | string | undefined") {
+                return [
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
+                ]
+            }
+        }
+
         if (customElementName == "IonLoading" && property.name == "duration" && property.type == "number") {
             return [
                 gen.createValuePropertySetter(customElementName, property.name, gen.systemInt)
@@ -1044,10 +1062,48 @@ function createPropertySetters(customElementName: string, property: gen.WebCompo
 
 function skipAttribute(customElementName: string, attribute: gen.WebComponentInputEntity) {
     if (attribute.kind == "attribute") {
-        if (customElementName == "SlPopup") {
-            return true; // SlPopup does not make sense as a stand-alone component
+        if (customElementName == "IonActionSheet") {
+            if (attribute.name == "buttons") return true;
+            if (attribute.name == "htmlAttributes") return true
         }
-        if (customElementName == "SlSelect" && attribute.name == "getTag") return true;
+        if (customElementName == "IonAlert") {
+            if (attribute.name == "buttons") return true;
+            if (attribute.name == "htmlAttributes") return true
+        }
+        if (customElementName == "IonDatetime") {
+            if (attribute.name == "formatOptions") return true;
+            if (attribute.name == "highlightedDates") return true;
+        }
+
+        if (customElementName == "IonLoading") {
+            if (attribute.name == "htmlAttributes") return true
+        }
+
+        if (customElementName == "IonModal") {
+            if (attribute.name == "breakpoints") return true
+            if (attribute.name == "htmlAttributes") return true
+            if (attribute.name == "presentingElement") return true
+        }
+        if (customElementName == "IonNav") {
+            if (attribute.name == "rootParams") return true;
+        }
+        if (customElementName == "IonNavLink") {
+            if (attribute.name == "componentProps") return true;
+        }
+
+        if (customElementName == "IonPopover") {
+            if (attribute.name == "componentProps") return true;
+            if (attribute.name == "htmlAttributes") return true
+        }
+
+        if (customElementName == "IonRoute") {
+            if (attribute.name == "componentProps") return true;
+        }
+
+        if(customElementName == "IonToast"){
+            if(attribute.name == "buttons") return true;
+            if (attribute.name == "htmlAttributes") return true
+        }
     }
     return false;
 }
@@ -1060,6 +1116,9 @@ function createAttributeSetters(customElementName: string, attribute: gen.WebCom
             return [];
 
         if (attribute.type == "number | number[] | string | undefined") {
+            outNodes.push(gen.createStringValueAttributeSetter(attribute.name, customElementName))
+        }
+        else if (attribute.type == "number[] | string | undefined") {
             outNodes.push(gen.createStringValueAttributeSetter(attribute.name, customElementName))
         }
         else if (attribute.type == "boolean") {
