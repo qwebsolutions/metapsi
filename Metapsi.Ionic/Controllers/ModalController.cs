@@ -120,7 +120,7 @@ public static partial class IonModalControl
     public static Var<Promise> ModalControllerShowModal(this SyntaxBuilder b, Var<ModalOptions> options)
     {
         var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
-        b.SetProperty(b.Window(), "modalController", modalController);
+        //b.SetProperty(b.Window(), "modalController", modalController);
         var createPromise = b.CallOnObject<Promise>(modalController, "create", options);
 
         return b.PromiseThen(createPromise, (SyntaxBuilder b, Var<object> modal) =>
@@ -156,6 +156,17 @@ public static partial class IonModalControl
     {
         var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data);
+    }
+
+    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<string> data)
+    {
+        return b.ModalControllerDismiss(data.As<object>());
+    }
+
+    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b)
+    {
+        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        return b.CallOnObject<Promise>(modalController, "dismiss");
     }
 
     public static void SetComponent(this PropsBuilder<ModalOptions> b, string componentTag)

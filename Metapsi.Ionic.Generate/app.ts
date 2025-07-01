@@ -642,7 +642,8 @@ function createExplicitTypes(customElementName: string, property: gen.WebCompone
         if (customElementName == "IonPickerColumnOption") {
             if (property.name == "value" && property.type == "any") {
                 return [
-                    gen.createValuePropertySetter(customElementName, property.name, gen.systemObject)
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemInt),
+                    gen.createValuePropertySetter(customElementName, property.name, gen.systemString)
                 ]
             }
         }
