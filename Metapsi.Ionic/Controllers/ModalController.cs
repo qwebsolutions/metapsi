@@ -112,16 +112,28 @@ public interface ModalOptions
 public static partial class IonModalControl
 {
     /// <summary>
-    /// 
+    /// Returns a promise resolving to the modal
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static Var<Promise> ModalControllerCreate(this SyntaxBuilder b, Var<ModalOptions> options)
+    {
+        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        //b.SetProperty(b.Window(), "modalController", modalController);
+        var createPromise = b.CallOnObject<Promise>(modalController, "create", options);
+        return createPromise;
+    }
+
+    /// <summary>
+    /// Creates and presents a modal
     /// </summary>
     /// <param name="b"></param>
     /// <param name="options"></param>
     /// <returns></returns>
     public static Var<Promise> ModalControllerShowModal(this SyntaxBuilder b, Var<ModalOptions> options)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
-        //b.SetProperty(b.Window(), "modalController", modalController);
-        var createPromise = b.CallOnObject<Promise>(modalController, "create", options);
+        var createPromise = b.ModalControllerCreate(options);
 
         return b.PromiseThen(createPromise, (SyntaxBuilder b, Var<object> modal) =>
         {
