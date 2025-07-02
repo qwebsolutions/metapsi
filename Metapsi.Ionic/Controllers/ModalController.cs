@@ -120,9 +120,7 @@ public static partial class IonModalControl
     public static Var<Promise> ModalControllerCreate(this SyntaxBuilder b, Var<ModalOptions> options)
     {
         var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
-        //b.SetProperty(b.Window(), "modalController", modalController);
-        var createPromise = b.CallOnObject<Promise>(modalController, "create", options);
-        return createPromise;
+        return b.CallOnObject<Promise>(modalController, "create", options);
     }
 
     /// <summary>
@@ -131,7 +129,7 @@ public static partial class IonModalControl
     /// <param name="b"></param>
     /// <param name="options"></param>
     /// <returns></returns>
-    public static Var<Promise> ModalControllerShowModal(this SyntaxBuilder b, Var<ModalOptions> options)
+    public static Var<Promise> ModalControllerPresent(this SyntaxBuilder b, Var<ModalOptions> options)
     {
         var createPromise = b.ModalControllerCreate(options);
 
@@ -147,9 +145,9 @@ public static partial class IonModalControl
     /// <param name="b"></param>
     /// <param name="setOptions"></param>
     /// <returns></returns>
-    public static Var<Promise> ModalControllerShowModal(this SyntaxBuilder b, System.Action<PropsBuilder<ModalOptions>> setOptions)
+    public static Var<Promise> ModalControllerPresent(this SyntaxBuilder b, System.Action<PropsBuilder<ModalOptions>> setOptions)
     {
-        return b.ModalControllerShowModal(b.SetProps(b.NewObj(), setOptions));
+        return b.ModalControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
@@ -179,10 +177,5 @@ public static partial class IonModalControl
     {
         var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss");
-    }
-
-    public static void SetComponent(this PropsBuilder<ModalOptions> b, string componentTag)
-    {
-        b.Set(x => x.component, b.Const(componentTag).As<object>());
     }
 }
