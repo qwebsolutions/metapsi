@@ -32,7 +32,7 @@ namespace Metapsi.Syntax
 
         private string FixSource(string source)
         {
-            if (!source.EndsWith(".js") && !source.EndsWith(".mjs"))
+            if (!source.EndsWith(".js") && !source.EndsWith(".mjs") && !source.EndsWith("+esm"))
             {
                 source += ".js";
             }
