@@ -8,6 +8,7 @@ public partial class IonInput : IHasEditableValue { }
 public partial class IonTextarea : IHasEditableValue { }
 public partial class IonSelect : IHasEditableValue { }
 public partial class IonPickerColumn : IHasEditableValue { }
+public partial class IonDatetime : IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -102,6 +103,32 @@ public class IonPickerColumnBinding : IAutoRegisterBinding
                 b.SetValue(value.As<string>());
             },
             (b, e) => b.Get(e.As<CustomEvent<PickerColumnChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class IonDatetimeBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public Type ControlType => typeof(IonDatetime);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonDatetime>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<DatetimeChangeEventDetail>>(), x => x.detail.value).As<object>(),
             (b, updateAction) => b.OnIonChange(updateAction));
     }
 }
