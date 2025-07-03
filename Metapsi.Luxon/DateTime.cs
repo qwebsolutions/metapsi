@@ -6,11 +6,28 @@ namespace Metapsi.Luxon;
 /// <summary>
 /// A DateTime is an immutable data structure representing a specific date and time and accompanying methods. It contains class and instance methods for creating, parsing, interrogating, transforming, and formatting them.
 /// </summary>
-public class DateTime
+public abstract class DateTime
 {
+    public static bool operator <(DateTime left, DateTime right)
+    {
+        throw new System.Exception("Client-side only");
+    }
 
+    public static bool operator >(DateTime left, DateTime right)
+    {
+        throw new System.Exception("Client-side only");
+    }
+
+    public static bool operator <=(DateTime left, DateTime right)
+    {
+        throw new System.Exception("Client-side only");
+    }
+
+    public static bool operator >=(DateTime left, DateTime right)
+    {
+        throw new System.Exception("Client-side only");
+    }
 }
-
 
 public static partial class DateTimeExtensions
 {
