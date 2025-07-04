@@ -15,7 +15,6 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="embedded\luxon.min.js" LogicalName="luxon.min.js" />
-		<EmbeddedResource Include="embedded\metapsi.luxon.js" LogicalName="metapsi.luxon.js" />
 	</ItemGroup>
 
 </Project>

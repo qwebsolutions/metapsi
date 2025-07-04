@@ -6,74 +6,28 @@ using System.Threading;
 
 namespace Metapsi.Luxon;
 
-public class Interval
-{
-
-}
-
-public class Duration
-{
-    public decimal years { get; }
-    public decimal quarters { get; }
-    public decimal months { get; }
-    public decimal weeks { get; }
-    public decimal days { get; }
-    public decimal hours { get; }
-    public decimal minutes { get; }
-    public decimal seconds { get; }
-    public decimal milliseconds { get; }
-}
-
 public static partial class DateTimeExtensions
 {
-    private static void AddLuxon(this SyntaxBuilder b)
+    internal static void AddLuxon(this SyntaxBuilder b)
     {
         b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "luxon.min.js");
         b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "metapsi.luxon.js");
     }
 
-    private static Var<object> DateTimeStatic(this SyntaxBuilder b)
-    {
-        b.AddLuxon();
-        var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getDateTimeStatic");
-        return b.Call(get);
-    }
+    //private static Var<object> DateTimeStatic(this SyntaxBuilder b)
+    //{
+    //    b.AddLuxon();
+    //    var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getDateTimeStatic");
+    //    return b.Call(get);
+    //}
 
-    private static Var<object> IntervalStatic(this SyntaxBuilder b)
-    {
-        b.AddLuxon();
-        var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getIntervalStatic");
-        return b.Call(get);
-    }
+    //private static Var<object> IntervalStatic(this SyntaxBuilder b)
+    //{
+    //    b.AddLuxon();
+    //    var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getIntervalStatic");
+    //    return b.Call(get);
+    //}
 
-    public static Var<DateTime> LuxonFromIso(this SyntaxBuilder b, Var<string> isoDateTime)
-    {
-        return b.CallOnObject<DateTime>(b.DateTimeStatic(), "fromISO", isoDateTime);
-    }
-
-    public static Var<Interval> LuxonIntervalFromDateTimes(this SyntaxBuilder b, Var<DateTime> start, Var<DateTime> end)
-    {
-        return b.CallOnObject<Interval>(b.IntervalStatic(), "fromDateTimes", start, end);
-    }
-
-    public static Var<Duration> LuxonIntervalToDuration(this SyntaxBuilder b, Var<Interval> interval)
-    {
-        return b.CallOnObject<Duration>(interval, "toDuration");
-    }
-    public static Var<Duration> LuxonIntervalToDuration(this SyntaxBuilder b, Var<Interval> interval, Var<string> unit)
-    {
-        return b.CallOnObject<Duration>(interval, "toDuration", unit);
-    }
-
-    public static Var<Duration> LuxonIntervalToDuration(this SyntaxBuilder b, Var<Interval> interval, Var<List<string>> units)
-    {
-        return b.CallOnObject<Duration>(interval, "toDuration", units);
-    }
-
-    public static Var<Duration> LuxonIntervalToDuration(this SyntaxBuilder b, Var<Interval> interval, List<string> units)
-    {
-        return b.LuxonIntervalToDuration(interval, b.Const(units));
-    }
 
     public static Var<Duration> LuxonDurationNormalize(this SyntaxBuilder b, Var<Duration> duration)
     {
