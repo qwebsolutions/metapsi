@@ -1,6 +1,7 @@
 ﻿using Metapsi.Html;
 using Metapsi.Syntax;
 using System;
+using System.Globalization;
 
 namespace Metapsi.Luxon;
 
@@ -628,6 +629,27 @@ public static partial class DateTimeExtensions
         return b.CallOnObject<DateTime>(dateTime, "endOf", b.EnumToLowercase(unit));
     }
 
+    /// <summary>
+    /// Return whether this DateTime is in the same unit of time as another DateTime. Higher-order units must also be identical for this function to return true.
+    /// <para> Note that time zones are *ignored* in this comparison, which compares the *local* calendar time.</para>
+    /// <para>Use <see cref="LuxonDateTimeSetZone(SyntaxBuilder, Var{DateTime}, Var{string})"/> to convert one of the dates if needed.</para>
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="dateTime"></param>
+    /// <param name="otherDateTime"></param>
+    /// <param name="dateTimeUnit"></param>
+    /// <returns></returns>
+    public static Var<bool> LuxonDateTimeHasSame(this SyntaxBuilder b, Var<DateTime> dateTime, Var<DateTime> otherDateTime, Var<DateTimeUnit> dateTimeUnit)
+    {
+        return b.CallOnObject<bool>(dateTime, "hasSame", otherDateTime, b.EnumToLowercase(dateTimeUnit));
+    }
+
+    /// <summary>
+    /// Returns a string representation of this time relative to now, such as "in two days". Can only internationalize if your platform supports <see cref="Intl.RelativeTimeFormat"/>. Rounds down by default.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static Var<string> LuxonDateTimeToRelative(this SyntaxBuilder b, Var<DateTime> dateTime)
     {
         return b.CallOnObject<string>(dateTime, "toRelative");
