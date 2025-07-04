@@ -11,23 +11,7 @@ public static partial class DateTimeExtensions
     internal static void AddLuxon(this SyntaxBuilder b)
     {
         b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "luxon.min.js");
-        b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "metapsi.luxon.js");
     }
-
-    //private static Var<object> DateTimeStatic(this SyntaxBuilder b)
-    //{
-    //    b.AddLuxon();
-    //    var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getDateTimeStatic");
-    //    return b.Call(get);
-    //}
-
-    //private static Var<object> IntervalStatic(this SyntaxBuilder b)
-    //{
-    //    b.AddLuxon();
-    //    var get = b.ImportName<Func<object>>("metapsi.luxon.js", "getIntervalStatic");
-    //    return b.Call(get);
-    //}
-
 
     public static Var<Duration> LuxonDurationNormalize(this SyntaxBuilder b, Var<Duration> duration)
     {
