@@ -251,6 +251,13 @@ namespace Metapsi.Syntax
                 {
                     return node;
                 }
+                else if (node.Method != null && node.Method.Name == "get_Item" && node.Method.DeclaringType.Namespace == "System.Collections.Generic")
+                {
+                    jsBuilder.Append("[");
+                    base.Visit(node.Arguments.First());
+                    jsBuilder.Append("]");
+                    return node;
+                }
 
                 jsBuilder.Append(".");
                 jsBuilder.Append(node.Method.Name);
