@@ -39,13 +39,19 @@ public class RouteDescription
         return value;
     }
 
-    public string ToRouteName()
+    public string ToRouteName(App.Setup appSetup)
     {
-        return string.Join(
+        var routeName = string.Join(
             "-",
             this.Name,
             string.Join(
                 "-",
                 Arguments.Select(x => $"{x.Key}-{x.Value}")));
+
+        if (string.IsNullOrWhiteSpace(appSetup.InstanceName))
+        {
+            return routeName;
+        }
+        return appSetup.InstanceName + "-" + routeName;
     }
 }

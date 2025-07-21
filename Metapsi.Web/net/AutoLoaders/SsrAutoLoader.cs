@@ -15,7 +15,7 @@ public class SsrFeatureAutoLoader : IRegisterAppFeature
             endpoint.MapGet(page.Key, async (Microsoft.AspNetCore.Http.HttpContext httpContext) =>
             {
                 await page.Value.HandleRequest(new Metapsi.Web.CfHttpContext(httpContext), appSetup.GetAppMap(httpContext));
-            }).WithName(SsrPageFeature.Routes.PageByName(page.Key));
+            }).WithName(appSetup, SsrPageFeature.Routes.PageByName(page.Key));
         }
     }
 }

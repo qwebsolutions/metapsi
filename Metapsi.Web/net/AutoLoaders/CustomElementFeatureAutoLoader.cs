@@ -17,7 +17,7 @@ public class CustomElementFeatureAutoLoader : IRegisterAppFeature
             {
                 var module = ce.Value.GetModule(appSetup.GetAppMap(httpContext));
                 await httpContext.WriteJsModule(module);
-            }).WithName(CustomElementsFeature.Routes.JsPathByTag(ce.Key).ToRouteName());
+            }).WithName(CustomElementsFeature.Routes.JsPathByTag(ce.Key).ToRouteName(appSetup));
         }
     }
 }

@@ -648,11 +648,11 @@ public static class Program
         var dateConstructor = b.GetProperty<object>(b.Self(), "Date");
         var nowDate = b.New<object>(dateConstructor);
         b.Log(b.CallOnObject<string>(dateTimeFormat, "format", nowDate));
-            //b.NewObj<Intl.DateTimeFormatOptions>(
-            //    b =>
-            //    {
-            //        b.Set(x => x.dateStyle, "long");
-            //    }));
+        //b.NewObj<Intl.DateTimeFormatOptions>(
+        //    b =>
+        //    {
+        //        b.Set(x => x.dateStyle, "long");
+        //    }));
 
         return b.MakeInit(
             b.MakeStateWithEffects(
@@ -844,13 +844,13 @@ public static class Program
                 entry.Value = decimal.Round(newValue, 2);
             }
 
-            // Raise SignalR event with new data
-            //await StaticHubContext.Clients.All.RaiseCustomEvent(
-            //    typeof(Refresh).Name,
-            //    new Refresh()
-            //    {
-            //        MarketData = marketData
-            //    });
+            //Raise SignalR event with new data
+            await StaticHubContext.Clients.All.RaiseCustomEvent(
+                typeof(Refresh).Name,
+                new Refresh()
+                {
+                    MarketData = marketData
+                });
         }
     }
 }

@@ -146,9 +146,9 @@ public static class HttpExtensions
     //}
 
 
-    public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, RouteDescription routeDescription)
+    public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, App.Setup setup, RouteDescription routeDescription)
     {
-        return endpoint.WithName(routeDescription.ToRouteName());
+        return endpoint.WithName(routeDescription.ToRouteName(setup));
     }
 
     public static void MapApp(this IEndpointRouteBuilder endpoint, App.Setup app, Initializer initializer = null)
@@ -232,16 +232,16 @@ public static class HttpExtensions
         return path;
     }
 
-    public static string GetEndpointUrl(this HttpContext httpContext, RouteDescription routeDescription)
+    public static string GetEndpointUrl(this HttpContext httpContext, App.Setup appSetup, RouteDescription routeDescription)
     {
-        return httpContext.GetEndpointUrl(routeDescription.ToRouteName());
+        return httpContext.GetEndpointUrl(routeDescription.ToRouteName(appSetup));
     }
 
     public static App.Map GetAppMap(this App.Setup setup, HttpContext httpContext)
     {
         var findUrl = (RouteDescription routeDescription, HttpContext httpContext) =>
         {
-            return httpContext.GetEndpointUrl(routeDescription);
+            return httpContext.GetEndpointUrl(setup, routeDescription);
         };
 
         Lazy<App.Map> appMap = new Lazy<App.Map>(() =>
