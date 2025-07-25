@@ -41,6 +41,11 @@
             return b.Get(reference, x => x.Value);
         }
 
+        public static Var<T> GetRef<T>(this SyntaxBuilder b, Reference<T> reference)
+        {
+            return b.GetRef(b.Const(reference));
+        }
+
         public static void ClearRef<TSyntaxBuilder, T>(this TSyntaxBuilder b, Var<Reference<T>> reference)
             where TSyntaxBuilder : SyntaxBuilder
             where T : class
