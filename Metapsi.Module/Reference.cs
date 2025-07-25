@@ -30,9 +30,29 @@
             b.Set(reference, x => x.Value, value);
         }
 
+        public static void SetRef<TSyntaxBuilder, T>(this TSyntaxBuilder b, Reference<T> reference, Var<T> value)
+            where TSyntaxBuilder : SyntaxBuilder
+        {
+            b.SetRef(b.Const(reference), value);
+        }
+
         public static Var<T> GetRef<T>(this SyntaxBuilder b, Var<Reference<T>> reference)
         {
             return b.Get(reference, x => x.Value);
+        }
+
+        public static void ClearRef<TSyntaxBuilder, T>(this TSyntaxBuilder b, Var<Reference<T>> reference)
+            where TSyntaxBuilder : SyntaxBuilder
+            where T : class
+        {
+            b.SetRef(reference, b.Get<bool, T>(b.Const(false), x => null));
+        }
+
+        public static void ClearRef<TSyntaxBuilder, T>(this TSyntaxBuilder b, Reference<T> reference)
+            where TSyntaxBuilder : SyntaxBuilder
+            where T : class
+        {
+            b.ClearRef(b.Const(reference));
         }
     }
 }

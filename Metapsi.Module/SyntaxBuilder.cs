@@ -59,6 +59,12 @@ namespace Metapsi.Syntax
             this.moduleBuilder.Module.ImportDefault(source, asName);
         }
 
+        public Var<T> ImportDefault<T>(string source, string asName)
+        {
+            ImportDefault(source, asName);
+            return new Var<T>(asName);
+        }
+
         public void ImportSideEffect(string source)
         {
             source = FixSource(source);
