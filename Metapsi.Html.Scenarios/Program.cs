@@ -214,6 +214,17 @@ public static class Program
     public static async Task Main()
     {
 
+        //var module = Metapsi.Syntax.ModuleBuilder.New(
+        //    b =>
+        //    {
+        //        b.AddFunction("main", b =>
+        //        {
+        //            b.Get(b.Const(0.1m), x => x > 0.2m);
+        //        });
+        //    });
+
+
+
         //var module = Metapsi.Syntax.Module.Build(b =>
         //{
         //    var inlineFunc = b.Def((SyntaxBuilder b, Var<DataModel> model) =>

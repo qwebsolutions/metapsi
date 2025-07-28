@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -64,29 +65,62 @@ namespace Metapsi.Syntax
             return node;
         }
 
+        internal bool IsIntegralType(Type type)
+        {
+            if (type == typeof(byte)) return true;
+            if (type == typeof(sbyte)) return true;
+            if (type == typeof(short)) return true;
+            if (type == typeof(ushort)) return true;
+            if (type == typeof(int)) return true;
+            if (type == typeof(uint)) return true;
+            if (type == typeof(long)) return true;
+            if (type == typeof(ulong)) return true;
+            return false;
+        }
+
+        internal string FormatIntegralConstant(ConstantExpression value)
+        {
+            if (value.Type == typeof(byte)) return ((byte)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(sbyte)) return ((sbyte)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(short)) return ((short)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(ushort)) return ((ushort)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(int)) return ((int)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(uint)) return ((uint)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(long)) return ((long)value.Value).ToString(CultureInfo.InvariantCulture);
+            if (value.Type == typeof(ulong)) return ((ulong)value.Value).ToString(CultureInfo.InvariantCulture);
+
+            throw new NotImplementedException("Integral type mismatch");
+        }
         protected override Expression VisitConstant(ConstantExpression node)
         {
             if (node.Type == typeof(bool))
             {
                 jsBuilder.Append(node.Value.ToString().ToLowerInvariant());
             }
+            else if (node.Value == null)
+            {
+                jsBuilder.Append("null");
+            }
+            else if (node.Type == typeof(string))
+            {
+                jsBuilder.Append("\"" + node.Value.ToString() + "\"");
+            }
+            else if(node.Type == typeof(char))
+            {
+                jsBuilder.Append("'" + node.Value.ToString() + "'");
+            }
+            // Handle numeric types explicitly, as they can introduce culture-dependent separators
+            else if (node.Type == typeof(decimal))
+            {
+                jsBuilder.Append(((decimal)node.Value).ToString("G", CultureInfo.InvariantCulture));
+            }
+            else if(IsIntegralType(node.Type))
+            {
+                jsBuilder.Append(FormatIntegralConstant(node));
+            }
             else
             {
-                if (node.Value == null)
-                {
-                    jsBuilder.Append("null");
-                }
-                else
-                {
-                    if (node.Type == typeof(string))
-                    {
-                        jsBuilder.Append("\"" + node.Value.ToString() + "\"");
-                    }
-                    else
-                    {
-                        jsBuilder.Append(node.Value.ToString());
-                    }
-                }
+                jsBuilder.Append(node.Value.ToString());
             }
 
             return base.VisitConstant(node);
