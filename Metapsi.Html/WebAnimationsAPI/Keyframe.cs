@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Metapsi.Html
+namespace Metapsi.Html;
+
+/// <summary>
+/// 
+/// </summary>
+public interface Keyframe
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface Keyframe
-    {
-    }
 }
