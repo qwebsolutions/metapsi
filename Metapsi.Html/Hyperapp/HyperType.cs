@@ -512,13 +512,12 @@ namespace Metapsi.Hyperapp
         /// <summary>
         /// Dispatch state with effects
         /// </summary>
-        /// <typeparam name="TState"></typeparam>
         /// <param name="b"></param>
         /// <param name="dispatcher"></param>
         /// <param name="action"></param>
-        public static void Dispatch<TState>(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.StateWithEffects> action)
+        public static void Dispatch(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.StateWithEffects> action)
         {
-            b.Dispatch(dispatcher, action.As<HyperType.Action<TState>>());
+            b.Dispatch(dispatcher, action.As<HyperType.Action<object>>());
         }
     }
 }
