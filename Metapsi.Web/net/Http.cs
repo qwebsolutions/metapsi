@@ -109,6 +109,10 @@ public static class HttpExtensions
         return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(request.Request.Body);
     }
 
+    public static async Task<object> ReadJsonBody(this CfHttpRequest request, System.Type type)
+    {
+        return await System.Text.Json.JsonSerializer.DeserializeAsync(request.Request.Body, type);
+    }
 
     //public static Func<RouteDescription, string> FindRelativeUrl(
     //    this Metapsi.Web.CfHttpContext httpContext,

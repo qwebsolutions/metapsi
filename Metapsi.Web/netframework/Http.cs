@@ -101,4 +101,13 @@ public static class HttpExtensions
             return Metapsi.Serialize.FromJson<T>(result);
         }
     }
+
+    public static async Task<object> ReadJsonBody(this CfHttpRequest request, System.Type type)
+    {
+        using (var reader = new StreamReader(request.Request.InputStream))
+        {
+            string result = reader.ReadToEnd();
+            return Metapsi.Serialize.FromJson(type, result);
+        }
+    }
 }
