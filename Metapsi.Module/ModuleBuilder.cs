@@ -246,7 +246,7 @@ namespace Metapsi.Syntax
                     {
                         Literal = new LiteralNode()
                         {
-                            Value = Metapsi.Serialize.ToJson(value)
+                            Value = Metapsi.Serialize.ToJson(value, "to-js")
                         }
                     }
                 };

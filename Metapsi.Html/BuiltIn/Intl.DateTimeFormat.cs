@@ -40,7 +40,7 @@ public static partial class Intl
         /// <summary>
         /// Whether to use 12-hour time (as opposed to 24-hour time). Possible values are true and false; the default is locale dependent. When true, this option sets hourCycle to either "h11" or "h12", depending on the locale. When false, it sets hourCycle to "h23". hour12 overrides both the hc locale extension tag and the hourCycle option, should either or both of those be present.
         /// </summary>
-        public bool hour12 { get; set; }
+        public bool? hour12 { get; set; }
 
         /// <summary>
         /// The hour cycle to use. Possible values are "h11", "h12", "h23", and "h24". This option can also be set through the hc Unicode extension key; if both are provided, this options property takes precedence.
@@ -111,7 +111,7 @@ public static partial class Intl
         /// <summary>
         /// The number of digits used to represent fractions of a second (any additional digits are truncated). Possible values are from 1 to 3.
         /// </summary>
-        public int fractionalSecondDigits { get;set; }
+        public int? fractionalSecondDigits { get;set; }
 
         /// <summary>
         /// The localized representation of the time zone name. Possible values are:

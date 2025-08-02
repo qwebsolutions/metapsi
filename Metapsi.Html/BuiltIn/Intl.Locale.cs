@@ -64,7 +64,7 @@ public static partial class Intl
         /// <summary>
         /// The numeric sort option. A boolean.
         /// </summary>
-        public bool numeric { get; set; }
+        public bool? numeric { get; set; }
     }
 
     public static Var<Locale> NewIntlLocale(this SyntaxBuilder b, Var<string> tag, Var<LocaleOptions> options)
