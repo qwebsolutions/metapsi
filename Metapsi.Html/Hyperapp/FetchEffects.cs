@@ -69,6 +69,98 @@ public static class FetchEffects
     }
 
     /// <summary>
+    /// Posts to url with no request body, expects no content in response body. Dispatches success or error action on result
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="toUrl"></param>
+    /// <param name="successAction"></param>
+    /// <param name="errorAction"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Effect> PostJsonEffect<TModel>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<HyperType.Action<TModel>> successAction,
+        Var<HyperType.Action<TModel, Error>> errorAction)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                var fetchPromise = b.Fetch(
+                    toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                    });
+                var responsePromise = b.PromiseThen(
+                    fetchPromise,
+                    (SyntaxBuilder b, Var<Response> response) =>
+                    {
+                        b.If(
+                            b.Get(response, x => !x.ok),
+                            b =>
+                            {
+                                b.Throw(b.Get(response, x => x.statusText));
+                            });
+                        b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction));
+                    });
+                b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
+                });
+            });
+    }
+
+    /// <summary>
+    /// Posts to url with no request body, expects TOut as json in reponse body. Dispatches success or error action on result
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TOut"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="toUrl"></param>
+    /// <param name="successAction"></param>
+    /// <param name="errorAction"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Effect> PostJsonEffect<TModel, TOut>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<HyperType.Action<TModel, TOut>> successAction,
+        Var<HyperType.Action<TModel, Error>> errorAction)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                var fetchPromise = b.Fetch(
+                    toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                    });
+
+                var jsonPromise = b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Response> response) =>
+                {
+                    b.If(
+                        b.Get(response, x => !x.ok),
+                        b =>
+                        {
+                            b.Throw(b.Get(response, x => x.statusText));
+                        });
+                    return b.ResponseJson(response);
+                });
+
+                var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
+                });
+
+                b.PromiseCatch(jsonPromise, (SyntaxBuilder b, Var<Error> error) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
+                });
+            });
+    }
+
+    /// <summary>
     /// Posts 'input' object to url as json. Dispatches success or error action on result
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
