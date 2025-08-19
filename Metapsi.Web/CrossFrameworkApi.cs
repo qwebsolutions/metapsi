@@ -16,18 +16,18 @@ public static class CrossFrameworkApiFeature
 {
     public static string FeatureName = "cf-api";
 
-    public static class Routes
-    {
-        public static RouteDescription GetApiByName(string apiName)
-        {
-            return RouteDescription.New(
-                "get-cf-api",
-                b =>
-                {
-                    b.Add("api-name", apiName);
-                });
-        }
-    }
+    //public static class Routes
+    //{
+    //    public static RouteDescription GetApiByName(string apiName)
+    //    {
+    //        return RouteDescription.New(
+    //            "get-cf-api",
+    //            b =>
+    //            {
+    //                b.Add("api-name", apiName);
+    //            });
+    //    }
+    //}
 
     public class Details
     {
@@ -54,7 +54,7 @@ public static class CrossFrameworkApiFeature
 
                 foreach (var page in apisConfiguration.Apis)
                 {
-                    data.ApiUrls[page.Value.Name] = findUrl(Routes.GetApiByName(page.Key));
+                    data.ApiUrls[page.Value.Name] = findUrl(new RouteDescription(page.Key));
                 }
 
                 return data;
