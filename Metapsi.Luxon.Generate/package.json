@@ -1,0 +1,21 @@
+{
+  "name": "metapsi.luxon.generate",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "metapsi-csharp-generator": "file:../Metapsi.WebComponentGenerator"
+  },
+  "dependencies": {
+    "@types/luxon": "^3.7.1",
+    "luxon": "^3.7.1"
+  }
+}
