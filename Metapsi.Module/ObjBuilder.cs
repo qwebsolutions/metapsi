@@ -49,6 +49,19 @@ namespace Metapsi.Syntax
             };
         }
 
+        public ObjBuilder<TOut> Get<TOut>(string property)
+        {
+            return new ObjBuilder<TOut>(syntaxBuilder.GetProperty<TOut>(this.Var, property))
+            {
+                syntaxBuilder = this.syntaxBuilder
+            };
+        }
+
+        public ObjBuilder<TOut> Get<TOut>(System.Linq.Expressions.Expression<Func<T, TOut>> property)
+        {
+            return this.Get<TOut>(property.PropertyName());
+        }
+
         public Var<TConst> Const<TConst>(TConst c)
         {
             //if anonymous (or always?), serialize also read-only properties
@@ -64,15 +77,15 @@ namespace Metapsi.Syntax
 
     public static class ObjectBuilderExtensions
     {
-        public static Var<T> GetProperty<T>(this IObjBuilder b, Var<string> name)
-        {
-            return b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
-        }
+        //public static ObjBuilder<T> GetProperty<T>(this IObjBuilder b, Var<string> name)
+        //{
+        //    return new ObjBuilder<object>().Call b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
+        //}
 
-        public static Var<T> GetProperty<T>(this IObjBuilder b, string name)
-        {
-            return b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
-        }
+        //public static ObjBuilder<T> GetProperty<T>(this IObjBuilder b, string name)
+        //{
+        //    return b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
+        //}
 
         public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, Var<TOut>> transform)
         {

@@ -1,0 +1,184 @@
+using Metapsi.Syntax;
+using Metapsi.Html;
+
+namespace Metapsi.Luxon;
+
+public static partial class DurationExtensions
+{
+    public static ObjBuilder<string> locale(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<string>("locale");
+    }
+    public static ObjBuilder<string> numberingSystem(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<string>("numberingSystem");
+    }
+    public static ObjBuilder<int> years(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("years");
+    }
+    public static ObjBuilder<int> quarters(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("quarters");
+    }
+    public static ObjBuilder<int> months(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("months");
+    }
+    public static ObjBuilder<int> weeks(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("weeks");
+    }
+    public static ObjBuilder<int> days(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("days");
+    }
+    public static ObjBuilder<int> hours(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("hours");
+    }
+    public static ObjBuilder<int> minutes(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("minutes");
+    }
+    public static ObjBuilder<int> seconds(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("seconds");
+    }
+    public static ObjBuilder<int> milliseconds(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<int>("milliseconds");
+    }
+    public static ObjBuilder<bool> isValid(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<bool>("isValid");
+    }
+    public static ObjBuilder<string> invalidReason(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<string>("invalidReason");
+    }
+    public static ObjBuilder<string> invalidExplanation(this ObjBuilder<Duration> b) 
+    {
+        return b.Get<string>("invalidExplanation");
+    }
+    public static ObjBuilder<Duration> fromMillis(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("fromMillis");
+    }
+    public static ObjBuilder<Duration> fromObject(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("fromObject");
+    }
+    public static ObjBuilder<Duration> fromDurationLike(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("fromDurationLike");
+    }
+    public static ObjBuilder<Duration> fromISO(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("fromISO");
+    }
+    public static ObjBuilder<Duration> fromISOTime(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("fromISOTime");
+    }
+    public static ObjBuilder<Duration> invalid(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<Duration>("invalid");
+    }
+    public static ObjBuilder<bool> isDuration(this ObjBuilder<ClassDef<Duration>> b) 
+    {
+        return b.Call<bool>("isDuration");
+    }
+    public static ObjBuilder<string> toFormat(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toFormat");
+    }
+    public static ObjBuilder<string> toHuman(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toHuman");
+    }
+    public static ObjBuilder<DurationObjectUnits> toObject(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<DurationObjectUnits>("toObject");
+    }
+    public static ObjBuilder<string> toISO(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toISO");
+    }
+    public static ObjBuilder<string> toISOTime(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toISOTime");
+    }
+    public static ObjBuilder<string> toJSON(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toJSON");
+    }
+    public static ObjBuilder<string> toString(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toString");
+    }
+    public static ObjBuilder<int> toMillis(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<int>("toMillis");
+    }
+    public static ObjBuilder<int> valueOf(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<int>("valueOf");
+    }
+    public static ObjBuilder<Duration> plus(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("plus");
+    }
+    public static ObjBuilder<Duration> minus(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("minus");
+    }
+    public static ObjBuilder<Duration> mapUnits(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("mapUnits");
+    }
+    public static ObjBuilder<int> get(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<int>("get");
+    }
+    public static ObjBuilder<Duration> set(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("set");
+    }
+    public static ObjBuilder<Duration> reconfigure(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("reconfigure");
+    }
+    public static ObjBuilder<int> as(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<int>("as");
+    }
+    public static ObjBuilder<Duration> normalize(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("normalize");
+    }
+    public static ObjBuilder<Duration> rescale(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("rescale");
+    }
+    public static ObjBuilder<Duration> shiftTo(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("shiftTo");
+    }
+    public static ObjBuilder<Duration> shiftToAll(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("shiftToAll");
+    }
+    public static ObjBuilder<Duration> negate(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("negate");
+    }
+    public static ObjBuilder<Duration> removeZeros(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<Duration>("removeZeros");
+    }
+    public static ObjBuilder<bool> equals(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<bool>("equals");
+    }
+}
