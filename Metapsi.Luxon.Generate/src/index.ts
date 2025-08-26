@@ -134,6 +134,9 @@ function isStringType(type: ts.Type): boolean {
     if (typeString == "string | null")
         return true;
 
+    if (typeString == "string | undefined")
+        return true;
+
     return false;
 }
 
@@ -168,6 +171,10 @@ function isDateTime(typeDef: ts.Type): boolean {
         return true;
     }
 
+    if (checker.typeToString(typeDef) == "DateInput") {
+        return true;
+    }
+
     return false;
 }
 
@@ -182,6 +189,22 @@ function isDuration(typeDef: ts.Type): boolean {
     }
 
     if (checker.typeToString(typeDef) == "Duration<true> | Duration<false>") {
+        return true;
+    }
+
+    if (checker.typeToString(typeDef) == "DurationLikeObject") {
+        return true;
+    }
+
+    if (checker.typeToString(typeDef) == "DurationLike") {
+        return true;
+    }
+
+    return false;
+}
+
+function isDurationOptions(typeDef: ts.Type): boolean {
+    if (checker.typeToString(typeDef) == "DurationOptions | undefined") {
         return true;
     }
 
@@ -218,6 +241,9 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
     //     return { name: "DateTime" }
     // }
 
+    if (className == "DateTime" && propertyName == "dateTimes") {
+        return { ...gen.systemCollectionsGenericList, typeArguments: [{ name: "DateTime" }] }
+    }
 
     if (propertyName == "get") {
         return gen.systemInt
@@ -229,6 +255,10 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
 
     if (isDuration(typeDef)) {
         return { name: "Duration" }
+    }
+
+    if (isDurationOptions(typeDef)) {
+        return { name: "DurationOptions" }
     }
 
     if (isInterval(typeDef)) {
@@ -245,6 +275,10 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
 
     if (isLocaleOptions(typeDef)) {
         return { name: "LocaleOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "unknown") {
+        return { name: "object" }
     }
 
     if (checker.typeToString(typeDef) == "this[]") {
@@ -265,6 +299,45 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
 
     if (checker.typeToString(typeDef) == "(Interval<true> | Interval<false>)[]") {
         return { ...gen.systemCollectionsGenericList, typeArguments: [{ name: "Interval" }] }
+    }
+
+    if (checker.typeToString(typeDef) == "Interval<boolean>[]") {
+        return { ...gen.systemCollectionsGenericList, typeArguments: [{ name: "Interval" }] }
+    }
+
+    if (checker.typeToString(typeDef) == "DateTimeFormatOptions | undefined") {
+        return { name: "Intl.DateTimeFormatOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "DateTimeOptions | undefined") {
+        return { name: "DateTimeOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "DateTimeJSOptions | undefined") {
+        return { name: "DateTimeJSOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "LocaleOptions | undefined") {
+        return { name: "LocaleOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "{ zone?: string | Zone<boolean> | undefined; } | undefined") {
+        return { name: "Zone" }
+    }
+
+    if (checker.typeToString(typeDef) == "number") {
+        if (propertyName == "count") return gen.systemInt
+        if (propertyName == "year") return gen.systemInt
+        if (propertyName == "month") return gen.systemInt
+        if (propertyName == "day") return gen.systemInt
+        if (propertyName == "hour") return gen.systemInt
+        if (propertyName == "minute") return gen.systemInt
+        if (propertyName == "second") return gen.systemInt
+        if (propertyName == "millisecond") return gen.systemInt
+        if (propertyName == "milliseconds") return gen.systemInt
+        if (propertyName == "seconds") return gen.systemInt
+
+        console.log(propertyName);
     }
 
     //console.log(checker.typeToString(typeDef));
@@ -461,6 +534,10 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
         if (typeSymbol.name == "DurationObjectUnits") {
             return { name: "DurationObjectUnits" }
         }
+
+        if (typeSymbol.name == "DateObjectUnits") {
+            return { name: "DateObjectUnits" }
+        }
     }
 
     throw new Error(checker.typeToString(typeDef))
@@ -534,33 +611,61 @@ function GenerateStaticProperty(className: string, accessor: ts.GetAccessorDecla
 
 
 
-function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition {
+function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition[] {
+
+    var outMethods: gen.MethodDefinition[] = [];
+
+    console.log("\n");
     console.log(md.getText());
 
     // Returns the type of the method itself
     //var typeDef = checker.getTypeAtLocation(md);
 
-    var typeDef = checker.getReturnTypeOfSignature(checker.getSignatureFromDeclaration(md)!);
-    var methodName = md.name.getText();
-    var returnType = GetReturnType(typeDef, methodName, className);
-    //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
-
-    return {
-        name: methodName,
-        isStatic: true,
-        visibility: "public",
-        returnType: { name: "ObjBuilder", typeArguments: [returnType] },
-        parameters: [{ isThis: true, name: "b", type: ClassBuilderType(className) }],
-        body: [
-            gen.returnNode(
-                gen.functionCallNode(
-                    "b",
-                    "Call<" + returnType.name + ">",
-                    gen.stringLiteralNode(methodName)
-                )
-            )
-        ]
+    var mandatoryCount = md.parameters.filter(x => x.questionToken == undefined).length;
+    var totalCount = md.parameters.length;
+    if (mandatoryCount != totalCount) {
+        console.log("Optional!")
     }
+    for (var i = mandatoryCount; i <= totalCount; i++) {
+
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ClassBuilderType(className) }];
+
+        var currentParameters = md.parameters.slice(0, i);
+        for (var p of currentParameters) {
+            var inParameterType = checker.getTypeAtLocation(p);
+            //checker.getSymbolsOfParameterPropertyDeclaration(p, p.name.getText());
+            var parameterType = GetReturnType(inParameterType, p.name.getText(), className)
+            csharpSignatureParameters.push({
+                name: p.name.getText(),
+                type: { ...gen.varType, typeArguments: [parameterType] }
+            })
+            console.log(p.name.getText() + " - " + p.type?.getText() + " - " + (p.questionToken == undefined ? "mandatory" : "optional"))
+        }
+
+        var typeDef = checker.getReturnTypeOfSignature(checker.getSignatureFromDeclaration(md)!);
+        var methodName = md.name.getText();
+        var returnType = GetReturnType(typeDef, methodName, className);
+        //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
+
+        outMethods.push({
+            name: methodName,
+            isStatic: true,
+            visibility: "public",
+            returnType: { name: "ObjBuilder", typeArguments: [returnType] },
+            parameters: csharpSignatureParameters,
+            body: [
+                gen.returnNode(
+                    gen.functionCallNode(
+                        "b",
+                        "Call<" + returnType.name + ">",
+                        gen.stringLiteralNode(methodName)
+                    )
+                )
+            ]
+        })
+    }
+
+    return outMethods;
 }
 
 function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition {
@@ -616,7 +721,8 @@ function CreateClassDefinition(node: ts.ClassDeclaration): gen.TypeDefinition {
         else if (ts.isMethodDeclaration(node)) {
             const isStatic = node.modifiers?.some(mod => mod.kind === ts.SyntaxKind.StaticKeyword);
             if (isStatic) {
-                staticMethods.push(gen.methodDefinitionNode(GenerateStaticMethod(typeName, node)));
+                var nodes = GenerateStaticMethod(typeName, node).map(x => gen.methodDefinitionNode(x));
+                staticMethods.push(...nodes);
             }
             else {
                 instanceMethods.push(gen.methodDefinitionNode(GenerateInstanceMethod(typeName, node)));

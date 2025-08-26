@@ -29,35 +29,43 @@ public static partial class IntervalExtensions
     {
         return b.Get<string>("invalidExplanation");
     }
-    public static ObjBuilder<Interval> invalid(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> invalid(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<string> reason) 
     {
         return b.Call<Interval>("invalid");
     }
-    public static ObjBuilder<Interval> fromDateTimes(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> invalid(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<string> reason, Metapsi.Syntax.Var<string> explanation) 
+    {
+        return b.Call<Interval>("invalid");
+    }
+    public static ObjBuilder<Interval> fromDateTimes(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<DateTime> start, Metapsi.Syntax.Var<DateTime> end) 
     {
         return b.Call<Interval>("fromDateTimes");
     }
-    public static ObjBuilder<Interval> after(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> after(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<DateTime> start, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<Interval>("after");
     }
-    public static ObjBuilder<Interval> before(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> before(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<DateTime> end, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<Interval>("before");
     }
-    public static ObjBuilder<Interval> fromISO(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> fromISO(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<string> text) 
     {
         return b.Call<Interval>("fromISO");
     }
-    public static ObjBuilder<bool> isInterval(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<Interval> fromISO(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DateTimeOptions> opts) 
+    {
+        return b.Call<Interval>("fromISO");
+    }
+    public static ObjBuilder<bool> isInterval(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<object> o) 
     {
         return b.Call<bool>("isInterval");
     }
-    public static ObjBuilder<System.Collections.Generic.List<Interval>> merge(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<System.Collections.Generic.List<Interval>> merge(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Interval>> intervals) 
     {
         return b.Call<List>("merge");
     }
-    public static ObjBuilder<System.Collections.Generic.List<Interval>> xor(this ObjBuilder<ClassDef<Interval>> b) 
+    public static ObjBuilder<System.Collections.Generic.List<Interval>> xor(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Interval>> intervals) 
     {
         return b.Call<List>("xor");
     }
