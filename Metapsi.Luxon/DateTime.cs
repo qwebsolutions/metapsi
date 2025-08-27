@@ -266,140 +266,128 @@ public abstract class DateTime
     }
 }
 
-/// <summary>
-/// The reference to the Luxon DateTime class itself, for static calls
-/// </summary>
-public interface DateTimeClass
-{
-    // FORMAT PRESETS
+///// <summary>
+///// The reference to the Luxon DateTime class itself, for static calls
+///// </summary>
+//public interface DateTimeClass : ClassDef<DateTime>
+//{
+//    // FORMAT PRESETS
 
-    /// <summary>
-    /// format like 10/14/1983
-    /// </summary>
-    Intl.DateTimeFormatOptions DATE_SHORT { get; }
+//    /// <summary>
+//    /// format like 10/14/1983
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATE_SHORT { get; }
 
-    /// <summary>
-    /// format like 'Oct 14, 1983'
-    /// </summary>
-    Intl.DateTimeFormatOptions DATE_MED { get; }
+//    /// <summary>
+//    /// format like 'Oct 14, 1983'
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATE_MED { get; }
 
-    /// <summary>
-    /// format like 'Fri, Oct 14, 1983'
-    /// </summary>
-    Intl.DateTimeFormatOptions DATE_MED_WITH_WEEKDAY { get; }
+//    /// <summary>
+//    /// format like 'Fri, Oct 14, 1983'
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATE_MED_WITH_WEEKDAY { get; }
 
-    /// <summary>
-    /// format like 'October 14, 1983'
-    /// </summary>
-    Intl.DateTimeFormatOptions DATE_FULL { get; }
+//    /// <summary>
+//    /// format like 'October 14, 1983'
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATE_FULL { get; }
 
-    /// <summary>
-    /// format like 'Tuesday, October 14, 1983'
-    /// </summary>
-    Intl.DateTimeFormatOptions DATE_HUGE { get; }
+//    /// <summary>
+//    /// format like 'Tuesday, October 14, 1983'
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATE_HUGE { get; }
 
-    /// <summary>
-    /// format like '09:30 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_SIMPLE { get; }
+//    /// <summary>
+//    /// format like '09:30 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_SIMPLE { get; }
 
 
-    /// <summary>
-    /// format like '09:30:23 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_WITH_SECONDS { get; }
+//    /// <summary>
+//    /// format like '09:30:23 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_WITH_SECONDS { get; }
     
-    /// <summary>
-    /// format like '09:30:23 AM EDT'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_WITH_SHORT_OFFSET { get; }
+//    /// <summary>
+//    /// format like '09:30:23 AM EDT'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_WITH_SHORT_OFFSET { get; }
     
-    /// <summary>
-    /// format like '09:30:23 AM Eastern Daylight Time'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_WITH_LONG_OFFSET { get; }
+//    /// <summary>
+//    /// format like '09:30:23 AM Eastern Daylight Time'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_WITH_LONG_OFFSET { get; }
 
-    /// <summary>
-    /// format like '09:30', always 24-hour.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_24_SIMPLE { get; }
+//    /// <summary>
+//    /// format like '09:30', always 24-hour.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_24_SIMPLE { get; }
     
-    /// <summary>
-    /// format like '09:30:23', always 24-hour.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_24_WITH_SECONDS { get; }
+//    /// <summary>
+//    /// format like '09:30:23', always 24-hour.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_24_WITH_SECONDS { get; }
     
-    /// <summary>
-    /// format like '09:30:23 EDT', always 24-hour.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_24_WITH_SHORT_OFFSET { get; }
+//    /// <summary>
+//    /// format like '09:30:23 EDT', always 24-hour.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_24_WITH_SHORT_OFFSET { get; }
 
-    /// <summary>
-    /// format like '09:30:23 Eastern Daylight Time', always 24-hour.
-    /// </summary>
-    Intl.DateTimeFormatOptions TIME_24_WITH_LONG_OFFSET { get; }
+//    /// <summary>
+//    /// format like '09:30:23 Eastern Daylight Time', always 24-hour.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions TIME_24_WITH_LONG_OFFSET { get; }
     
-    /// <summary>
-    /// format like '10/14/1983, 9:30 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_SHORT { get; }
+//    /// <summary>
+//    /// format like '10/14/1983, 9:30 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_SHORT { get; }
     
-    /// <summary>
-    /// format like '10/14/1983, 9:30:33 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_SHORT_WITH_SECONDS { get; }
+//    /// <summary>
+//    /// format like '10/14/1983, 9:30:33 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_SHORT_WITH_SECONDS { get; }
     
-    /// <summary>
-    /// format like 'Oct 14, 1983, 9:30 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_MED { get; }
+//    /// <summary>
+//    /// format like 'Oct 14, 1983, 9:30 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_MED { get; }
 
-    /// <summary>
-    /// format like 'Oct 14, 1983, 9:30:33 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_MED_WITH_SECONDS { get; }
+//    /// <summary>
+//    /// format like 'Oct 14, 1983, 9:30:33 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_MED_WITH_SECONDS { get; }
     
-    /// <summary>
-    /// format like 'Fri, 14 Oct 1983, 9:30 AM'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_MED_WITH_WEEKDAY { get; }
+//    /// <summary>
+//    /// format like 'Fri, 14 Oct 1983, 9:30 AM'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_MED_WITH_WEEKDAY { get; }
 
-    /// <summary>
-    /// format like 'October 14, 1983, 9:30 AM EDT'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_FULL { get; }
+//    /// <summary>
+//    /// format like 'October 14, 1983, 9:30 AM EDT'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_FULL { get; }
 
-    /// <summary>
-    /// format like 'October 14, 1983, 9:30:33 AM EDT'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_FULL_WITH_SECONDS { get; }
+//    /// <summary>
+//    /// format like 'October 14, 1983, 9:30:33 AM EDT'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_FULL_WITH_SECONDS { get; }
 
-    /// <summary>
-    /// format like 'Friday, October 14, 1983, 9:30 AM Eastern Daylight Time'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_HUGE { get; }
+//    /// <summary>
+//    /// format like 'Friday, October 14, 1983, 9:30 AM Eastern Daylight Time'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_HUGE { get; }
 
-    /// <summary>
-    ///    format like 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'. Only 12-hour if the locale is.
-    /// </summary>
-    Intl.DateTimeFormatOptions DATETIME_HUGE_WITH_SECONDS { get; }
-}
+//    /// <summary>
+//    ///    format like 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'. Only 12-hour if the locale is.
+//    /// </summary>
+//    Intl.DateTimeFormatOptions DATETIME_HUGE_WITH_SECONDS { get; }
+//}
 
 public static partial class DateTimeExtensions
 {
     // STATIC
-
-    /// <summary>
-    /// Returns the reference to the Luxon DateTime class itself. Use it for static calls
-    /// </summary>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static Var<Luxon.DateTimeClass> LuxonDateTime(this SyntaxBuilder b)
-    {
-        b.AddLuxon();
-        var dateTimeClass = b.ImportName<DateTimeClass>("luxon.min.js", "DateTime");
-        return dateTimeClass;
-    }
 
     /// <summary>
     /// Create a DateTime for the current instant, in the system's time zone.

@@ -1,4 +1,6 @@
-﻿namespace Metapsi.Luxon;
+﻿using Metapsi.Syntax;
+
+namespace Metapsi.Luxon;
 
 /// <summary>
 /// 
@@ -62,3 +64,92 @@ public interface DateObjectUnits
     /// </summary>
     int millisecond { get; set; }
 }
+
+public class DateTimeOptions
+{
+
+}
+
+public class ToRelativeOptions
+{
+
+}
+
+public class ToRelativeCalendarOptions
+{
+
+}
+
+public class DateTimeJSOptions
+{
+
+}
+
+public class TokenParser
+{
+
+}
+
+public class ExplainedFormat
+{
+
+}
+
+public class ToISOTimeOptions
+{
+
+}
+
+public class ToISODateOptions
+{
+
+}
+
+public class ToSQLOptions
+{
+
+}
+
+public class DiffOptions
+{
+
+}
+
+public class DurationOptions
+{
+
+}
+
+public class ToHumanDurationOptions
+{
+
+}
+
+public class ToISOTimeDurationOptions
+{
+
+}
+
+public class DurationFormatOptions
+{
+
+}
+
+public class CountOptions
+{
+
+}
+
+//public static class RandomSyntaxTests
+//{
+//    public static Var<string> T1(this SyntaxBuilder b)
+//    {
+//        var startDate = b.On(b.LuxonDateTime(), b => b.fromISO(b.Const("")));
+//        var endDate = b.On(b.LuxonDateTime(), b => b.fromISO(b.Const("")));
+//        var intervalIso =
+//            b.On(
+//            b.LuxonInterval(),
+//            b => b.fromDateTimes(startDate, endDate).toISO());
+//        return intervalIso;
+//    }
+//}

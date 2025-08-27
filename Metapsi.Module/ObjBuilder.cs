@@ -6,7 +6,7 @@ namespace Metapsi.Syntax
     /// Points to the class definition of T, allowing access to constructor and static properties/methods
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ClassDef<T>
+    public interface ClassDef<T>
     {
 
     }

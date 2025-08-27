@@ -63,11 +63,11 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> merge(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Interval>> intervals) 
     {
-        return b.Call<List>("merge");
+        return b.Call<System.Collections.Generic.List<Interval>>("merge");
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> xor(this ObjBuilder<ClassDef<Interval>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Interval>> intervals) 
     {
-        return b.Call<List>("xor");
+        return b.Call<System.Collections.Generic.List<Interval>>("xor");
     }
     public static ObjBuilder<int> length(this ObjBuilder<Interval> b) 
     {
@@ -75,23 +75,23 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<int> length(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
     {
-        return b.Call<int>("length");
+        return b.Call<int>("length", unit);
     }
     public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b) 
     {
         return b.Call<Interval>("count");
     }
-    public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b, string unit) 
+    public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<Interval>("count", unit);
     }
-    public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b, string unit, CountOptions opts) 
+    public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit, Metapsi.Syntax.Var<CountOptions> opts) 
     {
         return b.Call<Interval>("count", unit, opts);
     }
     public static ObjBuilder<bool> hasSame(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
     {
-        return b.Call<bool>("hasSame");
+        return b.Call<bool>("hasSame", unit);
     }
     public static ObjBuilder<bool> isEmpty(this ObjBuilder<Interval> b) 
     {
@@ -99,59 +99,59 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<bool> isAfter(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<DateTime> dateTime) 
     {
-        return b.Call<bool>("isAfter");
+        return b.Call<bool>("isAfter", dateTime);
     }
     public static ObjBuilder<bool> isBefore(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<DateTime> dateTime) 
     {
-        return b.Call<bool>("isBefore");
+        return b.Call<bool>("isBefore", dateTime);
     }
     public static ObjBuilder<bool> contains(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<DateTime> dateTime) 
     {
-        return b.Call<bool>("contains");
+        return b.Call<bool>("contains", dateTime);
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> splitAt(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<System.Collections.Generic.List<DateTime>> dateTimes) 
     {
-        return b.Call<List>("splitAt");
+        return b.Call<System.Collections.Generic.List<Interval>>("splitAt", dateTimes);
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> splitBy(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Duration> duration) 
     {
-        return b.Call<List>("splitBy");
+        return b.Call<System.Collections.Generic.List<Interval>>("splitBy", duration);
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> divideEqually(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<int> numberOfParts) 
     {
-        return b.Call<List>("divideEqually");
+        return b.Call<System.Collections.Generic.List<Interval>>("divideEqually", numberOfParts);
     }
     public static ObjBuilder<bool> overlaps(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<bool>("overlaps");
+        return b.Call<bool>("overlaps", other);
     }
     public static ObjBuilder<bool> abutsStart(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<bool>("abutsStart");
+        return b.Call<bool>("abutsStart", other);
     }
     public static ObjBuilder<bool> abutsEnd(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<bool>("abutsEnd");
+        return b.Call<bool>("abutsEnd", other);
     }
     public static ObjBuilder<bool> engulfs(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<bool>("engulfs");
+        return b.Call<bool>("engulfs", other);
     }
     public static ObjBuilder<bool> equals(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<bool>("equals");
+        return b.Call<bool>("equals", other);
     }
     public static ObjBuilder<Interval> intersection(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<Interval>("intersection");
+        return b.Call<Interval>("intersection", other);
     }
     public static ObjBuilder<Interval> union(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Interval> other) 
     {
-        return b.Call<Interval>("union");
+        return b.Call<Interval>("union", other);
     }
     public static ObjBuilder<System.Collections.Generic.List<Interval>> difference(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<System.Collections.Generic.List<Interval>> intervals) 
     {
-        return b.Call<List>("difference");
+        return b.Call<System.Collections.Generic.List<Interval>>("difference", intervals);
     }
     public static ObjBuilder<string> toString(this ObjBuilder<Interval> b) 
     {
@@ -163,11 +163,11 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<string> toLocaleString(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts) 
     {
-        return b.Call<string>("toLocaleString");
+        return b.Call<string>("toLocaleString", formatOpts);
     }
     public static ObjBuilder<string> toLocaleString(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts, Metapsi.Syntax.Var<LocaleOptions> opts) 
     {
-        return b.Call<string>("toLocaleString");
+        return b.Call<string>("toLocaleString", formatOpts, opts);
     }
     public static ObjBuilder<string> toISO(this ObjBuilder<Interval> b) 
     {
@@ -175,7 +175,7 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<string> toISO(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<ToISOTimeOptions> opts) 
     {
-        return b.Call<string>("toISO");
+        return b.Call<string>("toISO", opts);
     }
     public static ObjBuilder<string> toISODate(this ObjBuilder<Interval> b) 
     {
@@ -187,25 +187,25 @@ public static partial class IntervalExtensions
     }
     public static ObjBuilder<string> toISOTime(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<ToISOTimeOptions> opts) 
     {
-        return b.Call<string>("toISOTime");
+        return b.Call<string>("toISOTime", opts);
     }
     public static ObjBuilder<string> toFormat(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> dateFormat) 
     {
-        return b.Call<string>("toFormat");
+        return b.Call<string>("toFormat", dateFormat);
     }
     public static ObjBuilder<string> toFormat(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> dateFormat, Metapsi.Syntax.Var<object> opts) 
     {
-        return b.Call<string>("toFormat");
+        return b.Call<string>("toFormat", dateFormat, opts);
     }
-    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, string unit) 
+    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<Duration>("toDuration");
     }
-    public static ObjBuilder<Duration> count(this ObjBuilder<Interval> b, System.Collections.Generic.Dictionary<string> unit) 
+    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit) 
     {
         return b.Call<Duration>("toDuration", unit);
     }
-    public static ObjBuilder<Interval> count(this ObjBuilder<Interval> b, string unit, DiffOptions opts) 
+    public static ObjBuilder<Interval> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit, Metapsi.Syntax.Var<DiffOptions> opts) 
     {
         return b.Call<Interval>("toDuration", unit, opts);
     }

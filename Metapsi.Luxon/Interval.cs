@@ -16,19 +16,19 @@ public class Interval
 /// <summary>
 /// 
 /// </summary>
-public static class IntervalExtensions
+public static partial class IntervalExtensions
 {
-    /// <summary>
-    /// Returns the reference to the Luxon Interval class itself. Use it for static calls
-    /// </summary>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static Var<Luxon.IntervalClass> LuxonInterval(this SyntaxBuilder b)
-    {
-        b.AddLuxon();
-        var dateTimeClass = b.ImportName<IntervalClass>("luxon.min.js", "Interval");
-        return dateTimeClass;
-    }
+    ///// <summary>
+    ///// Returns the reference to the Luxon Interval class itself. Use it for static calls
+    ///// </summary>
+    ///// <param name="b"></param>
+    ///// <returns></returns>
+    //public static Var<Luxon.IntervalClass> LuxonInterval(this SyntaxBuilder b)
+    //{
+    //    b.AddLuxon();
+    //    var dateTimeClass = b.ImportName<IntervalClass>("luxon.min.js", "Interval");
+    //    return dateTimeClass;
+    //}
 
     public static Var<Interval> LuxonIntervalFromDateTimes(this SyntaxBuilder b, Var<DateTime> start, Var<DateTime> end)
     {

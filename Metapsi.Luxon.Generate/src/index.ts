@@ -297,7 +297,7 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
     }
 
     if (checker.typeToString(typeDef) == "Date") {
-        return { name: "Date", namespace: "Metapsi.Html" }
+        return gen.systemObject
     }
 
     if (checker.typeToString(typeDef) == "ToObjectOutput<IncludeConfig, IsValid>") {
@@ -726,6 +726,8 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
         var returnType = GetReturnType(typeDef, methodName, className);
         //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
 
+        var fullType = gen.typeUsageToCSharp(returnType)
+
         outMethods.push({
             name: methodName,
             isStatic: true,
@@ -736,7 +738,7 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
                 gen.returnNode(
                     gen.functionCallNode(
                         "b",
-                        "Call<" + returnType.name + ">",
+                        "Call<" + fullType + ">",
                         gen.stringLiteralNode(methodName)
                     )
                 )
@@ -749,6 +751,7 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
 
 function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition[] {
     console.log(md.getText());
+
 
     if (className == "Duration" && md.name.getText() == "mapUnits") {
         var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
@@ -828,7 +831,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     {
                         name: "units",
                         isParams: true,
-                        type: gen.systemString
+                        type: { ...gen.varType, typeArguments: [gen.systemString] }
                     }
                 ],
                 body: [
@@ -873,7 +876,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     ...csharpSignatureParameters,
                     {
                         name: "unit",
-                        type: gen.systemString
+                        type: { ...gen.varType, typeArguments: [gen.systemString] }
                     }
                 ],
                 body: [
@@ -895,11 +898,11 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     ...csharpSignatureParameters,
                     {
                         name: "unit",
-                        type: gen.systemString
+                        type: { ...gen.varType, typeArguments: [gen.systemString] }
                     },
                     {
                         name: "opts",
-                        type: { name: "CountOptions" }
+                        type: { ...gen.varType, typeArguments: [{ name: "CountOptions" }] }
                     }
                 ],
                 body: [
@@ -933,7 +936,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     ...csharpSignatureParameters,
                     {
                         name: "unit",
-                        type: gen.systemString
+                        type: { ...gen.varType, typeArguments: [gen.systemString] }
                     }
                 ],
                 body: [
@@ -947,7 +950,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 ]
             },
             {
-                name: "count",
+                name: "toDuration",
                 isStatic: true,
                 visibility: "public",
                 returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
@@ -955,7 +958,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     ...csharpSignatureParameters,
                     {
                         name: "unit",
-                        type: { ...gen.systemCollectionsGenericDictionary, typeArguments: [gen.systemString] }
+                        type: { ...gen.varType, typeArguments: [{ ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString] }] }
                     }
                 ],
                 body: [
@@ -969,7 +972,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     )
                 ]
             }, {
-                name: "count",
+                name: "toDuration",
                 isStatic: true,
                 visibility: "public",
                 returnType: { name: "ObjBuilder", typeArguments: [{ name: "Interval" }] },
@@ -977,11 +980,11 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                     ...csharpSignatureParameters,
                     {
                         name: "unit",
-                        type: gen.systemString
+                        type: { ...gen.varType, typeArguments: [gen.systemString] }
                     },
                     {
                         name: "opts",
-                        type: { name: "DiffOptions" }
+                        type: { ...gen.varType, typeArguments: [{ name: "DiffOptions" }] }
                     }
                 ],
                 body: [
@@ -1038,7 +1041,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
                 parameters: [
                     ...csharpSignatureParameters,
-                    { name: "unit", type: gen.systemString }
+                    { name: "unit", type: { ...gen.varType, typeArguments: [gen.systemString] } }
                 ],
                 body: [
                     gen.returnNode(
@@ -1080,7 +1083,7 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
                 parameters: [
                     ...csharpSignatureParameters,
-                    { name: "opts", type: gen.systemObject }
+                    { name: "opts", type: { ...gen.varType, typeArguments: [gen.systemObject] } }
                 ],
                 body: [
                     gen.returnNode(
@@ -1103,10 +1106,10 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 name: "toObject",
                 isStatic: true,
                 visibility: "public",
-                returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
+                returnType: { name: "ObjBuilder", typeArguments: [gen.systemObject] },
                 parameters: [
                     ...csharpSignatureParameters,
-                    { name: "opts", type: gen.systemObject }
+                    { name: "opts", type: { ...gen.varType, typeArguments: [gen.systemObject] } }
                 ],
                 body: [
                     gen.returnNode(
@@ -1149,10 +1152,23 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
         var typeDef = checker.getReturnTypeOfSignature(checker.getSignatureFromDeclaration(md)!);
         var methodName = md.name.getText();
         var returnType = GetReturnType(typeDef, methodName, className);
+        if (className == "Duration" && methodName == "toObject") {
+            returnType = gen.systemObject
+        }
         //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
 
+
+        // var fullType = returnType.namespace ?
+        //     returnType.namespace + "." + returnType.name :
+        //     returnType.name;
+
+        var fullType = gen.typeUsageToCSharp(returnType)
+
+        var validMethodName = methodName;
+        if (validMethodName == "as") validMethodName = "@as";
+
         outMethods.push({
-            name: methodName,
+            name: validMethodName,
             isStatic: true,
             visibility: "public",
             returnType: { name: "ObjBuilder", typeArguments: [returnType] },
@@ -1161,8 +1177,9 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 gen.returnNode(
                     gen.functionCallNode(
                         "b",
-                        "Call<" + returnType.name + ">",
-                        gen.stringLiteralNode(methodName)
+                        "Call<" + fullType + ">",
+                        gen.stringLiteralNode(methodName),
+                        ...csharpSignatureParameters.slice(1).map(x => gen.identifierNode(x.name))
                     )
                 )
             ]
