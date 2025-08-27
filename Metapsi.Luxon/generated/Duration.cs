@@ -109,11 +109,19 @@ public static partial class DurationExtensions
     {
         return b.Call<bool>("isDuration");
     }
-    public static ObjBuilder<string> toFormat(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<string> toFormat(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<string> fmt) 
+    {
+        return b.Call<string>("toFormat");
+    }
+    public static ObjBuilder<string> toFormat(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<string> fmt, Metapsi.Syntax.Var<DurationFormatOptions> opts) 
     {
         return b.Call<string>("toFormat");
     }
     public static ObjBuilder<string> toHuman(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toHuman");
+    }
+    public static ObjBuilder<string> toHuman(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<ToHumanDurationOptions> opts) 
     {
         return b.Call<string>("toHuman");
     }
@@ -126,6 +134,10 @@ public static partial class DurationExtensions
         return b.Call<string>("toISO");
     }
     public static ObjBuilder<string> toISOTime(this ObjBuilder<Duration> b) 
+    {
+        return b.Call<string>("toISOTime");
+    }
+    public static ObjBuilder<string> toISOTime(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<ToISOTimeDurationOptions> opts) 
     {
         return b.Call<string>("toISOTime");
     }
@@ -145,23 +157,27 @@ public static partial class DurationExtensions
     {
         return b.Call<int>("valueOf");
     }
-    public static ObjBuilder<Duration> plus(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> plus(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<Duration>("plus");
     }
-    public static ObjBuilder<Duration> minus(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> minus(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<Duration>("minus");
     }
-    public static ObjBuilder<Duration> mapUnits(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> mapUnits(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<System.Func<int, int>> fn) 
     {
-        return b.Call<Duration>("mapUnits");
+        return b.Call<Duration>("mapUnits", fn);
     }
-    public static ObjBuilder<int> get(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> mapUnits(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<System.Func<int, string, int>> fn) 
+    {
+        return b.Call<Duration>("mapUnits", fn);
+    }
+    public static ObjBuilder<int> get(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<int>("get");
     }
-    public static ObjBuilder<Duration> set(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> set(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<Duration> values) 
     {
         return b.Call<Duration>("set");
     }
@@ -169,7 +185,11 @@ public static partial class DurationExtensions
     {
         return b.Call<Duration>("reconfigure");
     }
-    public static ObjBuilder<int> as(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> reconfigure(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<DurationOptions> opts) 
+    {
+        return b.Call<Duration>("reconfigure");
+    }
+    public static ObjBuilder<int> as(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<int>("as");
     }
@@ -181,9 +201,9 @@ public static partial class DurationExtensions
     {
         return b.Call<Duration>("rescale");
     }
-    public static ObjBuilder<Duration> shiftTo(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<Duration> shiftTo(this ObjBuilder<Duration> b, params string[] units) 
     {
-        return b.Call<Duration>("shiftTo");
+        return b.Call<Duration>("shiftTo", units);
     }
     public static ObjBuilder<Duration> shiftToAll(this ObjBuilder<Duration> b) 
     {
@@ -197,7 +217,7 @@ public static partial class DurationExtensions
     {
         return b.Call<Duration>("removeZeros");
     }
-    public static ObjBuilder<bool> equals(this ObjBuilder<Duration> b) 
+    public static ObjBuilder<bool> equals(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<Duration> other) 
     {
         return b.Call<bool>("equals");
     }

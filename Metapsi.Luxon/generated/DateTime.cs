@@ -529,19 +529,31 @@ public static partial class DateTimeExtensions
     {
         return b.Call<DateTime>("fromFormatParser");
     }
-    public static ObjBuilder<int> get(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> get(this ObjBuilder<DateTime> b, string unit) 
     {
-        return b.Call<int>("get");
+        return b.Call<DateTime>("get", unit);
     }
     public static ObjBuilder<System.Collections.Generic.List<DateTime>> getPossibleOffsets(this ObjBuilder<DateTime> b) 
     {
         return b.Call<List>("getPossibleOffsets");
     }
-    public static ObjBuilder<LocaleOptions> resolvedLocaleOptions(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> resolvedLocaleOptions(this ObjBuilder<DateTime> b) 
     {
-        return b.Call<LocaleOptions>("resolvedLocaleOptions");
+        return b.Call<DateTime>("resolvedLocaleOptions");
+    }
+    public static ObjBuilder<DateTime> resolvedLocaleOptions(this ObjBuilder<DateTime> b, object opts) 
+    {
+        return b.Call<DateTime>("resolvedLocaleOptions", opts);
     }
     public static ObjBuilder<DateTime> toUTC(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<DateTime>("toUTC");
+    }
+    public static ObjBuilder<DateTime> toUTC(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<int> offset) 
+    {
+        return b.Call<DateTime>("toUTC");
+    }
+    public static ObjBuilder<DateTime> toUTC(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<int> offset, Metapsi.Syntax.Var<ZoneOptions> opts) 
     {
         return b.Call<DateTime>("toUTC");
     }
@@ -553,35 +565,55 @@ public static partial class DateTimeExtensions
     {
         return b.Call<DateTime>("setZone");
     }
-    public static ObjBuilder<DateTime> reconfigure(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> setZone(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Zone> zone) 
+    {
+        return b.Call<DateTime>("setZone");
+    }
+    public static ObjBuilder<DateTime> setZone(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Zone> zone, Metapsi.Syntax.Var<ZoneOptions> opts) 
+    {
+        return b.Call<DateTime>("setZone");
+    }
+    public static ObjBuilder<DateTime> reconfigure(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<LocaleOptions> properties) 
     {
         return b.Call<DateTime>("reconfigure");
     }
-    public static ObjBuilder<DateTime> setLocale(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> setLocale(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> locale) 
     {
         return b.Call<DateTime>("setLocale");
     }
-    public static ObjBuilder<DateTime> set(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> set(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateObjectUnits> values) 
     {
         return b.Call<DateTime>("set");
     }
-    public static ObjBuilder<DateTime> plus(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> plus(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<DateTime>("plus");
     }
-    public static ObjBuilder<DateTime> minus(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> minus(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Duration> duration) 
     {
         return b.Call<DateTime>("minus");
     }
-    public static ObjBuilder<DateTime> startOf(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> startOf(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<DateTime>("startOf");
     }
-    public static ObjBuilder<DateTime> endOf(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> startOf(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> unit, Metapsi.Syntax.Var<object> opts) 
+    {
+        return b.Call<DateTime>("startOf");
+    }
+    public static ObjBuilder<DateTime> endOf(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<DateTime>("endOf");
     }
-    public static ObjBuilder<string> toFormat(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> endOf(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> unit, Metapsi.Syntax.Var<object> opts) 
+    {
+        return b.Call<DateTime>("endOf");
+    }
+    public static ObjBuilder<string> toFormat(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> format) 
+    {
+        return b.Call<string>("toFormat");
+    }
+    public static ObjBuilder<string> toFormat(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
         return b.Call<string>("toFormat");
     }
@@ -589,7 +621,19 @@ public static partial class DateTimeExtensions
     {
         return b.Call<string>("toLocaleString");
     }
+    public static ObjBuilder<string> toLocaleString(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts) 
+    {
+        return b.Call<string>("toLocaleString");
+    }
+    public static ObjBuilder<string> toLocaleString(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts, Metapsi.Syntax.Var<LocaleOptions> opts) 
+    {
+        return b.Call<string>("toLocaleString");
+    }
     public static ObjBuilder<System.Collections.Generic.List<Intl.DateTimeFormatPart>> toLocaleParts(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<List>("toLocaleParts");
+    }
+    public static ObjBuilder<System.Collections.Generic.List<Intl.DateTimeFormatPart>> toLocaleParts(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> opts) 
     {
         return b.Call<List>("toLocaleParts");
     }
@@ -597,7 +641,15 @@ public static partial class DateTimeExtensions
     {
         return b.Call<string>("toISO");
     }
+    public static ObjBuilder<string> toISO(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToISOTimeOptions> opts) 
+    {
+        return b.Call<string>("toISO");
+    }
     public static ObjBuilder<string> toISODate(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<string>("toISODate");
+    }
+    public static ObjBuilder<string> toISODate(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToISODateOptions> opts) 
     {
         return b.Call<string>("toISODate");
     }
@@ -606,6 +658,10 @@ public static partial class DateTimeExtensions
         return b.Call<string>("toISOWeekDate");
     }
     public static ObjBuilder<string> toISOTime(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<string>("toISOTime");
+    }
+    public static ObjBuilder<string> toISOTime(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToISOTimeOptions> opts) 
     {
         return b.Call<string>("toISOTime");
     }
@@ -625,7 +681,15 @@ public static partial class DateTimeExtensions
     {
         return b.Call<string>("toSQLTime");
     }
+    public static ObjBuilder<string> toSQLTime(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToSQLOptions > opts) 
+    {
+        return b.Call<string>("toSQLTime");
+    }
     public static ObjBuilder<string> toSQL(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<string>("toSQL");
+    }
+    public static ObjBuilder<string> toSQL(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToSQLOptions > opts) 
     {
         return b.Call<string>("toSQL");
     }
@@ -657,15 +721,23 @@ public static partial class DateTimeExtensions
     {
         return b.Call<Date>("toBSON");
     }
-    public static ObjBuilder<object> toObject(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<DateTime> toObject(this ObjBuilder<DateTime> b, object opts) 
     {
-        return b.Call<object>("toObject");
+        return b.Call<object>("toObject", opts);
     }
     public static ObjBuilder<Metapsi.Html.Date> toJSDate(this ObjBuilder<DateTime> b) 
     {
         return b.Call<Date>("toJSDate");
     }
-    public static ObjBuilder<Duration> diff(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<Duration> diff(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime) 
+    {
+        return b.Call<Duration>("diff");
+    }
+    public static ObjBuilder<Duration> diff(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit) 
+    {
+        return b.Call<Duration>("diff");
+    }
+    public static ObjBuilder<Duration> diff(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit, Metapsi.Syntax.Var<DiffOptions> opts) 
     {
         return b.Call<Duration>("diff");
     }
@@ -673,15 +745,27 @@ public static partial class DateTimeExtensions
     {
         return b.Call<Duration>("diffNow");
     }
-    public static ObjBuilder<Interval> until(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<Duration> diffNow(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit) 
+    {
+        return b.Call<Duration>("diffNow");
+    }
+    public static ObjBuilder<Duration> diffNow(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit, Metapsi.Syntax.Var<DiffOptions> opts) 
+    {
+        return b.Call<Duration>("diffNow");
+    }
+    public static ObjBuilder<Interval> until(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime) 
     {
         return b.Call<Interval>("until");
     }
-    public static ObjBuilder<bool> hasSame(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<bool> hasSame(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime, Metapsi.Syntax.Var<string> unit) 
     {
         return b.Call<bool>("hasSame");
     }
-    public static ObjBuilder<bool> equals(this ObjBuilder<DateTime> b) 
+    public static ObjBuilder<bool> hasSame(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> otherDateTime, Metapsi.Syntax.Var<string> unit, Metapsi.Syntax.Var<object> opts) 
+    {
+        return b.Call<bool>("hasSame");
+    }
+    public static ObjBuilder<bool> equals(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<DateTime> other) 
     {
         return b.Call<bool>("equals");
     }
@@ -689,7 +773,15 @@ public static partial class DateTimeExtensions
     {
         return b.Call<string>("toRelative");
     }
+    public static ObjBuilder<string> toRelative(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToRelativeOptions> options) 
+    {
+        return b.Call<string>("toRelative");
+    }
     public static ObjBuilder<string> toRelativeCalendar(this ObjBuilder<DateTime> b) 
+    {
+        return b.Call<string>("toRelativeCalendar");
+    }
+    public static ObjBuilder<string> toRelativeCalendar(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<ToRelativeCalendarOptions> options) 
     {
         return b.Call<string>("toRelativeCalendar");
     }

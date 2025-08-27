@@ -137,12 +137,19 @@ function isStringType(type: ts.Type): boolean {
     if (typeString == "string | undefined")
         return true;
 
+    if (typeString == "DateTimeUnit") {
+        return true;
+    }
+
     return false;
 }
 
 function isLocaleOptions(type: ts.Type) {
     var typeString = checker.typeToString(type);
     if (typeString == "Required<LocaleOptions>")
+        return true;
+
+    if (typeString == "LocaleOptions")
         return true;
 
     return false;
@@ -309,6 +316,10 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
         return { name: "Intl.DateTimeFormatOptions" }
     }
 
+    if (checker.typeToString(typeDef) == "DurationFormatOptions | undefined") {
+        return { name: "DurationFormatOptions" }
+    }
+
     if (checker.typeToString(typeDef) == "DateTimeOptions | undefined") {
         return { name: "DateTimeOptions" }
     }
@@ -325,7 +336,73 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
         return { name: "Zone" }
     }
 
-    if (checker.typeToString(typeDef) == "number") {
+    if (checker.typeToString(typeDef) == "string | Zone<boolean> | undefined") {
+        return { name: "Zone" }
+    }
+
+    if (checker.typeToString(typeDef) == "ToHumanDurationOptions | undefined") {
+        return { name: "ToHumanDurationOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "ToISOTimeDurationOptions | undefined") {
+        return { name: "ToISOTimeDurationOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "keyof DurationLikeObject") {
+        return gen.systemString
+    }
+
+    if (checker.typeToString(typeDef) == "keyof DurationLikeObject | undefined") {
+        return gen.systemString
+    }
+
+    if (checker.typeToString(typeDef) == "DateTime<boolean>[]") {
+        return { ...gen.systemCollectionsGenericList, typeArguments: [{ name: "DateTime" }] }
+    }
+
+    if (checker.typeToString(typeDef) == "ToISOTimeOptions | undefined") {
+        return { name: "ToISOTimeOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "{ separator?: string | undefined; } | undefined") {
+        return gen.systemObject
+    }
+
+    if (checker.typeToString(typeDef) == "ZoneOptions | undefined") {
+        return { name: "ZoneOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "_UseLocaleWeekOption | undefined") {
+        return gen.systemObject
+    }
+
+    if (checker.typeToString(typeDef) == "ToISODateOptions | undefined") {
+        return { name: "ToISODateOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "ToSQLOptions | undefined") {
+        return { name: "ToSQLOptions " }
+    }
+
+    if (checker.typeToString(typeDef) == "DurationUnits | undefined") {
+        return {
+            ...gen.systemCollectionsGenericList, typeArguments: [gen.systemString]
+        }
+    }
+
+    if (checker.typeToString(typeDef) == "DiffOptions | undefined") {
+        return { name: "DiffOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "ToRelativeOptions | undefined") {
+        return { name: "ToRelativeOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "ToRelativeCalendarOptions | undefined") {
+        return { name: "ToRelativeCalendarOptions" }
+    }
+
+    if (checker.typeToString(typeDef) == "number" || checker.typeToString(typeDef) == "number | undefined") {
         if (propertyName == "count") return gen.systemInt
         if (propertyName == "year") return gen.systemInt
         if (propertyName == "month") return gen.systemInt
@@ -336,6 +413,8 @@ function GetReturnType(typeDef: ts.Type, propertyName: string, className: string
         if (propertyName == "millisecond") return gen.systemInt
         if (propertyName == "milliseconds") return gen.systemInt
         if (propertyName == "seconds") return gen.systemInt
+        if (propertyName == "numberOfParts") return gen.systemInt
+        if (propertyName == "offset") return gen.systemInt
 
         console.log(propertyName);
     }
@@ -668,33 +747,429 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
     return outMethods;
 }
 
-function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition {
+function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): gen.MethodDefinition[] {
     console.log(md.getText());
 
-    // Returns the type of the method itself
-    //var typeDef = checker.getTypeAtLocation(md);
-
-    var typeDef = checker.getReturnTypeOfSignature(checker.getSignatureFromDeclaration(md)!);
-    var methodName = md.name.getText();
-    var returnType = GetReturnType(typeDef, methodName, className);
-    //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
-
-    return {
-        name: methodName,
-        isStatic: true,
-        visibility: "public",
-        returnType: { name: "ObjBuilder", typeArguments: [returnType] },
-        parameters: [{ isThis: true, name: "b", type: ObjBuilderType(className) }],
-        body: [
-            gen.returnNode(
-                gen.functionCallNode(
-                    "b",
-                    "Call<" + returnType.name + ">",
-                    gen.stringLiteralNode(methodName)
-                )
-            )
+    if (className == "Duration" && md.name.getText() == "mapUnits") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "mapUnits",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "fn", type:
+                        {
+                            ...gen.varType,
+                            typeArguments: [{ name: "Func", namespace: "System", typeArguments: [gen.systemInt, gen.systemInt] }]
+                        }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("mapUnits"),
+                            gen.identifierNode("fn")
+                        )
+                    )
+                ]
+            }, {
+                name: "mapUnits",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "fn", type:
+                        {
+                            ...gen.varType,
+                            typeArguments: [
+                                {
+                                    name: "Func",
+                                    namespace: "System",
+                                    typeArguments: [
+                                        gen.systemInt,
+                                        gen.systemString,
+                                        gen.systemInt]
+                                }]
+                        }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("mapUnits"),
+                            gen.identifierNode("fn")
+                        )
+                    )
+                ]
+            }
         ]
     }
+
+    if (className == "Duration" && md.name.getText() == "shiftTo") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "shiftTo",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "units",
+                        isParams: true,
+                        type: gen.systemString
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("shiftTo"),
+                            gen.identifierNode("units")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "Interval" && md.name.getText() == "count") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "count",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Interval" }] },
+                parameters: csharpSignatureParameters,
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Interval>",
+                            gen.stringLiteralNode("count")
+                        )
+                    )
+                ]
+            },
+            {
+                name: "count",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Interval" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "unit",
+                        type: gen.systemString
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Interval>",
+                            gen.stringLiteralNode("count"),
+                            gen.identifierNode("unit")
+                        )
+                    )
+                ]
+            }, {
+                name: "count",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Interval" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "unit",
+                        type: gen.systemString
+                    },
+                    {
+                        name: "opts",
+                        type: { name: "CountOptions" }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Interval>",
+                            gen.stringLiteralNode("count"),
+                            gen.identifierNode("unit"),
+                            gen.identifierNode("opts")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "Interval" && md.name.getText() == "set") {
+        return []
+    }
+
+    if (className == "Interval" && md.name.getText() == "toDuration") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "toDuration",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "unit",
+                        type: gen.systemString
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("toDuration")
+                        )
+                    )
+                ]
+            },
+            {
+                name: "count",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "unit",
+                        type: { ...gen.systemCollectionsGenericDictionary, typeArguments: [gen.systemString] }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("toDuration"),
+                            gen.identifierNode("unit")
+                        )
+                    )
+                ]
+            }, {
+                name: "count",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Interval" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "unit",
+                        type: gen.systemString
+                    },
+                    {
+                        name: "opts",
+                        type: { name: "DiffOptions" }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Interval>",
+                            gen.stringLiteralNode("toDuration"),
+                            gen.identifierNode("unit"),
+                            gen.identifierNode("opts")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "Interval" && md.name.getText() == "mapEndpoints") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "mapEndpoints",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    {
+                        name: "mapFn",
+                        type: { ...gen.varType, typeArguments: [{ ...gen.systemFunc, typeArguments: [{ name: "DateTime" }, { name: "DateTime" }] }] }
+                    }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("mapEndpoints"),
+                            gen.identifierNode("mapFn")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "DateTime" && md.name.getText() == "get") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "get",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    { name: "unit", type: gen.systemString }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<DateTime>",
+                            gen.stringLiteralNode("get"),
+                            gen.identifierNode("unit")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "DateTime" && md.name.getText() == "resolvedLocaleOptions") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "resolvedLocaleOptions",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
+                parameters: csharpSignatureParameters,
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<DateTime>",
+                            gen.stringLiteralNode("resolvedLocaleOptions")
+                        )
+                    )
+                ]
+            },
+            {
+                name: "resolvedLocaleOptions",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    { name: "opts", type: gen.systemObject }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<DateTime>",
+                            gen.stringLiteralNode("resolvedLocaleOptions"),
+                            gen.identifierNode("opts")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    if (className == "DateTime" && md.name.getText() == "toObject") {
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+        return [
+            {
+                name: "toObject",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "DateTime" }] },
+                parameters: [
+                    ...csharpSignatureParameters,
+                    { name: "opts", type: gen.systemObject }
+                ],
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<object>",
+                            gen.stringLiteralNode("toObject"),
+                            gen.identifierNode("opts")
+                        )
+                    )
+                ]
+            }
+        ]
+    }
+
+    var outMethods: gen.MethodDefinition[] = [];
+
+
+    var mandatoryCount = md.parameters.filter(x => x.questionToken == undefined).length;
+    var totalCount = md.parameters.length;
+    if (mandatoryCount != totalCount) {
+        console.log("Optional!")
+    }
+    for (var i = mandatoryCount; i <= totalCount; i++) {
+
+        var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ObjBuilderType(className) }]
+
+        var currentParameters = md.parameters.slice(0, i);
+        for (var p of currentParameters) {
+            var inParameterType = checker.getTypeAtLocation(p);
+            //checker.getSymbolsOfParameterPropertyDeclaration(p, p.name.getText());
+            var parameterType = GetReturnType(inParameterType, p.name.getText(), className)
+            csharpSignatureParameters.push({
+                name: p.name.getText(),
+                type: { ...gen.varType, typeArguments: [parameterType] }
+            })
+            console.log(p.name.getText() + " - " + p.type?.getText() + " - " + (p.questionToken == undefined ? "mandatory" : "optional"))
+        }
+
+        var typeDef = checker.getReturnTypeOfSignature(checker.getSignatureFromDeclaration(md)!);
+        var methodName = md.name.getText();
+        var returnType = GetReturnType(typeDef, methodName, className);
+        //var returnType = { namespace: "Metapsi.Html", name: accessor.type?.getText()! }
+
+        outMethods.push({
+            name: methodName,
+            isStatic: true,
+            visibility: "public",
+            returnType: { name: "ObjBuilder", typeArguments: [returnType] },
+            parameters: csharpSignatureParameters,
+            body: [
+                gen.returnNode(
+                    gen.functionCallNode(
+                        "b",
+                        "Call<" + returnType.name + ">",
+                        gen.stringLiteralNode(methodName)
+                    )
+                )
+            ]
+        })
+    }
+
+    return outMethods;
 }
 
 function CreateClassDefinition(node: ts.ClassDeclaration): gen.TypeDefinition {
@@ -725,7 +1200,8 @@ function CreateClassDefinition(node: ts.ClassDeclaration): gen.TypeDefinition {
                 staticMethods.push(...nodes);
             }
             else {
-                instanceMethods.push(gen.methodDefinitionNode(GenerateInstanceMethod(typeName, node)));
+                var nodes = GenerateInstanceMethod(typeName, node).map(x => gen.methodDefinitionNode(x));
+                instanceMethods.push(...nodes);
             }
         }
         else if (ts.isMethodSignature(node)) {
