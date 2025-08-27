@@ -217,11 +217,11 @@ public static class CustomElementsFeature
 
     private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Map, Module> getModule)
     {
-        b.Configuration.CustomElements.Add(tag, new CustomElementConfiguration()
+        b.Configuration.CustomElements[tag] = new CustomElementConfiguration()
         {
             Tag = tag,
             GetModule = getModule
-        });
+        };
     }
 
     /// <summary>
@@ -236,6 +236,36 @@ public static class CustomElementsFeature
             b,
             instance.Tag,
             instance.GetModule());
+    }
+
+    /// <summary>
+    /// Adds all ICustomElement types from assembly.
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="assembly"></param>
+    /// <param name="namespace"></param>
+    public static void AddFrom(
+        this ConfigurationBuilder<CustomElementsFeature.Configuration> b,
+        System.Reflection.Assembly assembly,
+        string @namespace = null)
+    {
+        var customElementTypes = assembly.GetTypes().Where(x => typeof(ICustomElement).IsAssignableFrom(x));
+
+        foreach (var type in customElementTypes)
+        {
+            var isValid = true;
+
+            if (!string.IsNullOrWhiteSpace(@namespace))
+            {
+                isValid = type.Namespace == @namespace;
+            }
+
+            if (isValid)
+            {
+                var instance = (ICustomElement)Activator.CreateInstance(type);
+                Add(b, instance.Tag, instance.GetModule());
+            }
+        }
     }
 
     public static string GetCustomElementUrl(this App.Map appMap, string tag)
