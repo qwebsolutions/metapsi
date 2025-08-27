@@ -142,14 +142,23 @@ public class CountOptions
 
 //public static class RandomSyntaxTests
 //{
-//    public static Var<string> T1(this SyntaxBuilder b)
+//    public static Var<string> T1(this SyntaxBuilder b, Var<string> startIso, Var<string> endIso)
 //    {
-//        var startDate = b.On(b.LuxonDateTime(), b => b.fromISO(b.Const("")));
-//        var endDate = b.On(b.LuxonDateTime(), b => b.fromISO(b.Const("")));
-//        var intervalIso =
-//            b.On(
+//        var startOfMonth = b.Const("");
+
+//        b.On(b.LuxonDateTime(),
+//            b =>
+//            {
+//                return b.fromISO(startOfMonth).toLocaleString();
+//            });
+
+//        var startDate = b.On(b.LuxonDateTime(), b => b.fromISO(startIso));
+//        var endDate = b.On(b.LuxonDateTime(), b => b.fromISO(endIso));
+//        var otherInterval = b.On(b.LuxonInterval(), b => b.fromDateTimes(null, null));
+
+//        var intervalIso = b.On(
 //            b.LuxonInterval(),
-//            b => b.fromDateTimes(startDate, endDate).toISO());
+//            b => b.fromDateTimes(startDate, endDate).intersection(otherInterval).toISODate());
 //        return intervalIso;
 //    }
 //}
