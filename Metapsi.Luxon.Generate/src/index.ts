@@ -932,6 +932,22 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                 isStatic: true,
                 visibility: "public",
                 returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
+                parameters: csharpSignatureParameters,
+                body: [
+                    gen.returnNode(
+                        gen.functionCallNode(
+                            "b",
+                            "Call<Duration>",
+                            gen.stringLiteralNode("toDuration")
+                        )
+                    )
+                ]
+            },
+            {
+                name: "toDuration",
+                isStatic: true,
+                visibility: "public",
+                returnType: { name: "ObjBuilder", typeArguments: [{ name: "Duration" }] },
                 parameters: [
                     ...csharpSignatureParameters,
                     {
@@ -944,7 +960,8 @@ function GenerateInstanceMethod(className: string, md: ts.MethodDeclaration): ge
                         gen.functionCallNode(
                             "b",
                             "Call<Duration>",
-                            gen.stringLiteralNode("toDuration")
+                            gen.stringLiteralNode("toDuration"),
+                            gen.identifierNode("unit")
                         )
                     )
                 ]

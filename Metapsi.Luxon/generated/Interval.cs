@@ -197,9 +197,13 @@ public static partial class IntervalExtensions
     {
         return b.Call<string>("toFormat", dateFormat, opts);
     }
-    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
+    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b) 
     {
         return b.Call<Duration>("toDuration");
+    }
+    public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<string> unit) 
+    {
+        return b.Call<Duration>("toDuration", unit);
     }
     public static ObjBuilder<Duration> toDuration(this ObjBuilder<Interval> b, Metapsi.Syntax.Var<System.Collections.Generic.List<string>> unit) 
     {
