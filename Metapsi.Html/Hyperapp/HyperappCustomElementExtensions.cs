@@ -115,6 +115,9 @@ public static partial class CustomElementExtensions
                 b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
                 // Remove dispatcher so the controls gets rendered when reused
                 b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+                
+                // clear content so it won't get duplicated on multiple disconnect/connect calls
+                b.Set(node, x => x.innerHTML, b.Const(""));
             }));
     }
 
