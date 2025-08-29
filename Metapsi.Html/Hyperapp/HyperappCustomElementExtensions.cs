@@ -79,34 +79,38 @@ public static partial class CustomElementExtensions
             tagName,
             render: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
-                b.If(
-                    b.Not(b.HasObject(dispatch)),
+                b.RequestAnimationFrame(
                     b =>
                     {
-                        b.Log("Init application", tagName);
-                        var appConfig = b.NewObj().As<HyperType.App<TModel>>();
+                        var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
+                        b.If(
+                            b.Not(b.HasObject(dispatch)),
+                            b =>
+                            {
+                                b.Log("Init application", tagName);
+                                var appConfig = b.NewObj().As<HyperType.App<TModel>>();
 
-                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-                        {
-                            var outNode = b.Call(render, tagName, model);
-                            b.Log("view outNode", outNode);
-                            return outNode;
-                        });
+                                var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+                                {
+                                    var outNode = b.Call(render, tagName, model);
+                                    b.Log("view outNode", outNode);
+                                    return outNode;
+                                });
 
-                        b.Set(appConfig, x => x.view, view);
-                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                        b.Set(appConfig, x => x.node, node);
-                        b.Set(appConfig, x => x.subscriptions, subscribeFn);
-                        b.SetRef(b.GlobalRef(dispatchRef), b.Hyperapp(appConfig));
-                    },
-                    b =>
-                    {
-                        b.Log("Re-init", tagName);
-                        b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
-                        {
-                            return b.Call(init, node);
-                        }));
+                                b.Set(appConfig, x => x.view, view);
+                                b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
+                                b.Set(appConfig, x => x.node, node);
+                                b.Set(appConfig, x => x.subscriptions, subscribeFn);
+                                b.SetRef(b.GlobalRef(dispatchRef), b.Hyperapp(appConfig));
+                            },
+                            b =>
+                            {
+                                b.Log("Re-init", tagName);
+                                b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+                                {
+                                    return b.Call(init, node);
+                                }));
+                            });
                     });
             }),
             attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
