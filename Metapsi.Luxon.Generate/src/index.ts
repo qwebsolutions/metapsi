@@ -705,6 +705,10 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
     if (mandatoryCount != totalCount) {
         console.log("Optional!")
     }
+
+    if(md.getText() == "fromDateTimes"){
+        console.log("HERE");
+    }
     for (var i = mandatoryCount; i <= totalCount; i++) {
 
         var csharpSignatureParameters: gen.Parameter[] = [{ isThis: true, name: "b", type: ClassBuilderType(className) }];
@@ -739,7 +743,8 @@ function GenerateStaticMethod(className: string, md: ts.MethodDeclaration): gen.
                     gen.functionCallNode(
                         "b",
                         "Call<" + fullType + ">",
-                        gen.stringLiteralNode(methodName)
+                        gen.stringLiteralNode(methodName),
+                        ...csharpSignatureParameters.slice(1).map(x => gen.identifierNode(x.name))
                     )
                 )
             ]

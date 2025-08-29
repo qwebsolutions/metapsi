@@ -63,51 +63,51 @@ public static partial class DurationExtensions
     }
     public static ObjBuilder<Duration> fromMillis(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<int> count) 
     {
-        return b.Call<Duration>("fromMillis");
+        return b.Call<Duration>("fromMillis", count);
     }
     public static ObjBuilder<Duration> fromMillis(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<int> count, Metapsi.Syntax.Var<DurationOptions> opts) 
     {
-        return b.Call<Duration>("fromMillis");
+        return b.Call<Duration>("fromMillis", count, opts);
     }
     public static ObjBuilder<Duration> fromObject(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<Duration> obj) 
     {
-        return b.Call<Duration>("fromObject");
+        return b.Call<Duration>("fromObject", obj);
     }
     public static ObjBuilder<Duration> fromObject(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<Duration> obj, Metapsi.Syntax.Var<DurationOptions> opts) 
     {
-        return b.Call<Duration>("fromObject");
+        return b.Call<Duration>("fromObject", obj, opts);
     }
     public static ObjBuilder<Duration> fromDurationLike(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<Duration> durationLike) 
     {
-        return b.Call<Duration>("fromDurationLike");
+        return b.Call<Duration>("fromDurationLike", durationLike);
     }
     public static ObjBuilder<Duration> fromISO(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<Duration>("fromISO");
+        return b.Call<Duration>("fromISO", text);
     }
     public static ObjBuilder<Duration> fromISO(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DurationOptions> opts) 
     {
-        return b.Call<Duration>("fromISO");
+        return b.Call<Duration>("fromISO", text, opts);
     }
     public static ObjBuilder<Duration> fromISOTime(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<Duration>("fromISOTime");
+        return b.Call<Duration>("fromISOTime", text);
     }
     public static ObjBuilder<Duration> fromISOTime(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DurationOptions> opts) 
     {
-        return b.Call<Duration>("fromISOTime");
+        return b.Call<Duration>("fromISOTime", text, opts);
     }
     public static ObjBuilder<Duration> invalid(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> reason) 
     {
-        return b.Call<Duration>("invalid");
+        return b.Call<Duration>("invalid", reason);
     }
     public static ObjBuilder<Duration> invalid(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<string> reason, Metapsi.Syntax.Var<string> explanation) 
     {
-        return b.Call<Duration>("invalid");
+        return b.Call<Duration>("invalid", reason, explanation);
     }
     public static ObjBuilder<bool> isDuration(this ObjBuilder<ClassDef<Duration>> b, Metapsi.Syntax.Var<object> o) 
     {
-        return b.Call<bool>("isDuration");
+        return b.Call<bool>("isDuration", o);
     }
     public static ObjBuilder<string> toFormat(this ObjBuilder<Duration> b, Metapsi.Syntax.Var<string> fmt) 
     {

@@ -251,59 +251,59 @@ public static partial class DateTimeExtensions
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<int> millisecond) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute, second, millisecond);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<int> millisecond, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute, second, millisecond, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute, second);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute, second, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, minute, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, hour, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, day, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, month, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", year, opts);
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b) 
     {
@@ -311,63 +311,63 @@ public static partial class DateTimeExtensions
     }
     public static ObjBuilder<DateTime> local(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("local");
+        return b.Call<DateTime>("local", opts);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<int> millisecond) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute, second, millisecond);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<int> millisecond, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute, second, millisecond, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute, second);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<int> second, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute, second, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<int> minute, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, minute, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<int> hour, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, hour, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<int> day, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, day, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<int> month, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, month, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> year, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", year, options);
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b) 
     {
@@ -375,99 +375,99 @@ public static partial class DateTimeExtensions
     }
     public static ObjBuilder<DateTime> utc(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<DateTime>("utc");
+        return b.Call<DateTime>("utc", options);
     }
     public static ObjBuilder<DateTime> fromJSDate(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<object> date) 
     {
-        return b.Call<DateTime>("fromJSDate");
+        return b.Call<DateTime>("fromJSDate", date);
     }
     public static ObjBuilder<DateTime> fromJSDate(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<object> date, Metapsi.Syntax.Var<Zone> options) 
     {
-        return b.Call<DateTime>("fromJSDate");
+        return b.Call<DateTime>("fromJSDate", date, options);
     }
     public static ObjBuilder<DateTime> fromMillis(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> milliseconds) 
     {
-        return b.Call<DateTime>("fromMillis");
+        return b.Call<DateTime>("fromMillis", milliseconds);
     }
     public static ObjBuilder<DateTime> fromMillis(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> milliseconds, Metapsi.Syntax.Var<DateTimeJSOptions> options) 
     {
-        return b.Call<DateTime>("fromMillis");
+        return b.Call<DateTime>("fromMillis", milliseconds, options);
     }
     public static ObjBuilder<DateTime> fromSeconds(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> seconds) 
     {
-        return b.Call<DateTime>("fromSeconds");
+        return b.Call<DateTime>("fromSeconds", seconds);
     }
     public static ObjBuilder<DateTime> fromSeconds(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<int> seconds, Metapsi.Syntax.Var<DateTimeJSOptions> options) 
     {
-        return b.Call<DateTime>("fromSeconds");
+        return b.Call<DateTime>("fromSeconds", seconds, options);
     }
     public static ObjBuilder<DateTime> fromObject(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<DateObjectUnits> obj) 
     {
-        return b.Call<DateTime>("fromObject");
+        return b.Call<DateTime>("fromObject", obj);
     }
     public static ObjBuilder<DateTime> fromObject(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<DateObjectUnits> obj, Metapsi.Syntax.Var<DateTimeJSOptions> opts) 
     {
-        return b.Call<DateTime>("fromObject");
+        return b.Call<DateTime>("fromObject", obj, opts);
     }
     public static ObjBuilder<DateTime> fromISO(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<DateTime>("fromISO");
+        return b.Call<DateTime>("fromISO", text);
     }
     public static ObjBuilder<DateTime> fromISO(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DateTimeOptions> opts) 
     {
-        return b.Call<DateTime>("fromISO");
+        return b.Call<DateTime>("fromISO", text, opts);
     }
     public static ObjBuilder<DateTime> fromRFC2822(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<DateTime>("fromRFC2822");
+        return b.Call<DateTime>("fromRFC2822", text);
     }
     public static ObjBuilder<DateTime> fromRFC2822(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DateTimeOptions> opts) 
     {
-        return b.Call<DateTime>("fromRFC2822");
+        return b.Call<DateTime>("fromRFC2822", text, opts);
     }
     public static ObjBuilder<DateTime> fromHTTP(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<DateTime>("fromHTTP");
+        return b.Call<DateTime>("fromHTTP", text);
     }
     public static ObjBuilder<DateTime> fromHTTP(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DateTimeOptions> opts) 
     {
-        return b.Call<DateTime>("fromHTTP");
+        return b.Call<DateTime>("fromHTTP", text, opts);
     }
     public static ObjBuilder<DateTime> fromFormat(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<DateTime>("fromFormat");
+        return b.Call<DateTime>("fromFormat", text, format);
     }
     public static ObjBuilder<DateTime> fromFormat(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<DateTimeOptions> opts) 
     {
-        return b.Call<DateTime>("fromFormat");
+        return b.Call<DateTime>("fromFormat", text, format, opts);
     }
     public static ObjBuilder<DateTime> fromString(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<DateTime>("fromString");
+        return b.Call<DateTime>("fromString", text, format);
     }
     public static ObjBuilder<DateTime> fromString(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<DateTimeOptions> options) 
     {
-        return b.Call<DateTime>("fromString");
+        return b.Call<DateTime>("fromString", text, format, options);
     }
     public static ObjBuilder<DateTime> fromSQL(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text) 
     {
-        return b.Call<DateTime>("fromSQL");
+        return b.Call<DateTime>("fromSQL", text);
     }
     public static ObjBuilder<DateTime> fromSQL(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<DateTimeOptions> opts) 
     {
-        return b.Call<DateTime>("fromSQL");
+        return b.Call<DateTime>("fromSQL", text, opts);
     }
     public static ObjBuilder<DateTime> invalid(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> reason) 
     {
-        return b.Call<DateTime>("invalid");
+        return b.Call<DateTime>("invalid", reason);
     }
     public static ObjBuilder<DateTime> invalid(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> reason, Metapsi.Syntax.Var<string> explanation) 
     {
-        return b.Call<DateTime>("invalid");
+        return b.Call<DateTime>("invalid", reason, explanation);
     }
     public static ObjBuilder<bool> isDateTime(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<object> o) 
     {
-        return b.Call<bool>("isDateTime");
+        return b.Call<bool>("isDateTime", o);
     }
     public static ObjBuilder<string> parseFormatForOpts(this ObjBuilder<ClassDef<DateTime>> b) 
     {
@@ -475,59 +475,59 @@ public static partial class DateTimeExtensions
     }
     public static ObjBuilder<string> parseFormatForOpts(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts) 
     {
-        return b.Call<string>("parseFormatForOpts");
+        return b.Call<string>("parseFormatForOpts", formatOpts);
     }
     public static ObjBuilder<string> parseFormatForOpts(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<Intl.DateTimeFormatOptions> formatOpts, Metapsi.Syntax.Var<LocaleOptions> localeOpts) 
     {
-        return b.Call<string>("parseFormatForOpts");
+        return b.Call<string>("parseFormatForOpts", formatOpts, localeOpts);
     }
     public static ObjBuilder<string> expandFormat(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<string>("expandFormat");
+        return b.Call<string>("expandFormat", format);
     }
     public static ObjBuilder<string> expandFormat(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<LocaleOptions> localeOptions) 
     {
-        return b.Call<string>("expandFormat");
+        return b.Call<string>("expandFormat", format, localeOptions);
     }
     public static ObjBuilder<DateTime> min(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<DateTime>> dateTimes) 
     {
-        return b.Call<DateTime>("min");
+        return b.Call<DateTime>("min", dateTimes);
     }
     public static ObjBuilder<DateTime> max(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<System.Collections.Generic.List<DateTime>> dateTimes) 
     {
-        return b.Call<DateTime>("max");
+        return b.Call<DateTime>("max", dateTimes);
     }
     public static ObjBuilder<ExplainedFormat> fromFormatExplain(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<ExplainedFormat>("fromFormatExplain");
+        return b.Call<ExplainedFormat>("fromFormatExplain", text, format);
     }
     public static ObjBuilder<ExplainedFormat> fromFormatExplain(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<DateTimeOptions> options) 
     {
-        return b.Call<ExplainedFormat>("fromFormatExplain");
+        return b.Call<ExplainedFormat>("fromFormatExplain", text, format, options);
     }
     public static ObjBuilder<ExplainedFormat> fromStringExplain(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<ExplainedFormat>("fromStringExplain");
+        return b.Call<ExplainedFormat>("fromStringExplain", text, format);
     }
     public static ObjBuilder<ExplainedFormat> fromStringExplain(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<DateTimeOptions> options) 
     {
-        return b.Call<ExplainedFormat>("fromStringExplain");
+        return b.Call<ExplainedFormat>("fromStringExplain", text, format, options);
     }
     public static ObjBuilder<TokenParser> buildFormatParser(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> format) 
     {
-        return b.Call<TokenParser>("buildFormatParser");
+        return b.Call<TokenParser>("buildFormatParser", format);
     }
     public static ObjBuilder<TokenParser> buildFormatParser(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> format, Metapsi.Syntax.Var<LocaleOptions> options) 
     {
-        return b.Call<TokenParser>("buildFormatParser");
+        return b.Call<TokenParser>("buildFormatParser", format, options);
     }
     public static ObjBuilder<DateTime> fromFormatParser(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<TokenParser> parser) 
     {
-        return b.Call<DateTime>("fromFormatParser");
+        return b.Call<DateTime>("fromFormatParser", text, parser);
     }
     public static ObjBuilder<DateTime> fromFormatParser(this ObjBuilder<ClassDef<DateTime>> b, Metapsi.Syntax.Var<string> text, Metapsi.Syntax.Var<TokenParser> parser, Metapsi.Syntax.Var<DateTimeOptions> options) 
     {
-        return b.Call<DateTime>("fromFormatParser");
+        return b.Call<DateTime>("fromFormatParser", text, parser, options);
     }
     public static ObjBuilder<DateTime> get(this ObjBuilder<DateTime> b, Metapsi.Syntax.Var<string> unit) 
     {
