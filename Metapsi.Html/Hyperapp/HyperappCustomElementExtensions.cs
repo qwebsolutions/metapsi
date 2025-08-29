@@ -116,11 +116,14 @@ public static partial class CustomElementExtensions
             }),
             cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-                b.Log("Dispatch null for cleanup", tagName);
-                // Remove dispatcher so the controls gets rendered when reused
-                b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
-                b.Log("Unset app", tagName);
+                b.RequestAnimationFrame(b =>
+                {
+                    b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                    b.Log("Dispatch null for cleanup", tagName);
+                    // Remove dispatcher so the controls gets rendered when reused
+                    b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+                    b.Log("Unset app", tagName);
+                });
             }));
     }
 
