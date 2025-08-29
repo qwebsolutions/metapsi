@@ -84,11 +84,13 @@ public static partial class CustomElementExtensions
                     b.Not(b.HasObject(dispatch)),
                     b =>
                     {
+                        b.Log("Init application");
                         var appConfig = b.NewObj().As<HyperType.App<TModel>>();
 
                         var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
                         {
                             var outNode = b.Call(render, tagName, model);
+                            b.Log("view outNode", outNode);
                             return outNode;
                         });
 
@@ -100,6 +102,7 @@ public static partial class CustomElementExtensions
                     },
                     b =>
                     {
+                        b.Log("Re-init");
                         b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
                         {
                             return b.Call(init, node);
@@ -108,16 +111,16 @@ public static partial class CustomElementExtensions
             }),
             attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
+                b.Log("Empty attach in constructor");
                 //var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
             }),
             cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
                 b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                b.Log("Dispatch null for cleanup");
                 // Remove dispatcher so the controls gets rendered when reused
                 b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
-                
-                // clear content so it won't get duplicated on multiple disconnect/connect calls
-                b.Set(node, x => x.innerHTML, b.Const(""));
+                b.Log("Unset app");
             }));
     }
 
