@@ -75,6 +75,8 @@ public static partial class CustomElementExtensions
         Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
     {
         Reference<HyperType.Dispatcher> dispatchRef = new();
+        Reference<bool> dispose = new();
+
         b.DefineCustomElement(
             tagName,
             render: b.Def((SyntaxBuilder b, Var<Element> node) =>
@@ -106,6 +108,7 @@ public static partial class CustomElementExtensions
                             b =>
                             {
                                 b.Log("Re-init", tagName);
+                                b.SetRef(dispose, b.Const(false));
                                 b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
                                 {
                                     return b.Call(init, node);
@@ -120,14 +123,25 @@ public static partial class CustomElementExtensions
             }),
             cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                b.RequestAnimationFrame(b =>
+                // Mark cleanup as possible
+                b.SetRef(dispose, b.Const(true));
+
+                b.SetTimeout(b.Def((SyntaxBuilder b) =>
                 {
-                    b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-                    b.Log("Dispatch null for cleanup", tagName);
-                    // Remove dispatcher so the controls gets rendered when reused
-                    b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
-                    b.Log("Unset app", tagName);
-                });
+                    // Check if cleanup is still needed.
+                    // This might not be the case if there were multiple rapid-fire disconnect/connect calls
+                    b.If(b.GetRef(dispose),
+                        b =>
+                        {
+                            b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                            b.Log("Dispatch null for cleanup", tagName);
+                            // Remove dispatcher so the controls gets rendered when reused
+                            b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+                            b.Log("Unset app", tagName);
+                        });
+                }),
+                // Wait a bit to be sure the control doesn't get reconnected. 
+                b.Const(5000));
             }));
     }
 
