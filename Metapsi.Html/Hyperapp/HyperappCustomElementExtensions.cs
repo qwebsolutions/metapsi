@@ -75,47 +75,34 @@ public static partial class CustomElementExtensions
         Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
     {
         Reference<HyperType.Dispatcher> dispatchRef = new();
-        Reference<bool> dispose = new();
-
         b.DefineCustomElement(
             tagName,
             render: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                b.RequestAnimationFrame(
+                // Only initialize once
+                // Automatic cleanup/reinitialize seem to create problems when 
+                // there are rapid-fire connect/disconnects
+
+                var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
+                b.If(
+                    b.Not(b.HasObject(dispatch)),
                     b =>
                     {
-                        var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
-                        b.If(
-                            b.Not(b.HasObject(dispatch)),
-                            b =>
-                            {
-                                b.Log("Init application", tagName);
-                                var appConfig = b.NewObj().As<HyperType.App<TModel>>();
+                        b.Log("Init application", tagName);
+                        var appConfig = b.NewObj().As<HyperType.App<TModel>>();
 
-                                var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-                                {
-                                    var outNode = b.Call(render, tagName, model);
-                                    b.Log("view outNode", outNode);
-                                    return outNode;
-                                });
+                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+                        {
+                            var outNode = b.Call(render, tagName, model);
+                            b.Log("view outNode", outNode);
+                            return outNode;
+                        });
 
-                                b.Set(appConfig, x => x.view, view);
-                                b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                                b.Set(appConfig, x => x.node, node);
-                                b.Set(appConfig, x => x.subscriptions, subscribeFn);
-                                b.SetRef(b.GlobalRef(dispatchRef), b.Hyperapp(appConfig));
-                            },
-                            b =>
-                            {
-                                b.Log("Re-init", tagName);
-                                b.SetRef(dispose, b.Const(false));
-                                b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
-                                {
-                                    var initResult = b.Call(init, node);
-                                    b.Log("initResult", initResult);
-                                    return initResult;
-                                }));
-                            });
+                        b.Set(appConfig, x => x.view, view);
+                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
+                        b.Set(appConfig, x => x.node, node);
+                        b.Set(appConfig, x => x.subscriptions, subscribeFn);
+                        b.SetRef(b.GlobalRef(dispatchRef), b.Hyperapp(appConfig));
                     });
             }),
             attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
@@ -125,25 +112,29 @@ public static partial class CustomElementExtensions
             }),
             cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                // Mark cleanup as possible
-                b.SetRef(dispose, b.Const(true));
+                //initialize once
+                //Reinitialize explicitly with subscription
+                //Explicit dispose (hierarchical?)
 
-                b.SetTimeout(b.Def((SyntaxBuilder b) =>
-                {
-                    // Check if cleanup is still needed.
-                    // This might not be the case if there were multiple rapid-fire disconnect/connect calls
-                    b.If(b.GetRef(dispose),
-                        b =>
-                        {
-                            b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-                            b.Log("Dispatch null for cleanup", tagName);
-                            // Remove dispatcher so the controls gets rendered when reused
-                            b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
-                            b.Log("Unset app", tagName);
-                        });
-                }),
-                // Wait a bit to be sure the control doesn't get reconnected. 
-                b.Const(0));
+                //// Mark cleanup as possible
+                //b.SetRef(dispose, b.Const(true));
+
+                //b.SetTimeout(b.Def((SyntaxBuilder b) =>
+                //{
+                //    // Check if cleanup is still needed.
+                //    // This might not be the case if there were multiple rapid-fire disconnect/connect calls
+                //    b.If(b.GetRef(dispose),
+                //        b =>
+                //        {
+                //            b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
+                //            b.Log("Dispatch null for cleanup", tagName);
+                //            // Remove dispatcher so the controls gets rendered when reused
+                //            b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
+                //            b.Log("Unset app", tagName);
+                //        });
+                //}),
+                //// Wait a bit to be sure the control doesn't get reconnected. 
+                //b.Const(0));
             }));
     }
 
