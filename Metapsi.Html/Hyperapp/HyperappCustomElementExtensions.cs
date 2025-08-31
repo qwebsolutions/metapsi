@@ -74,16 +74,12 @@ public static partial class CustomElementExtensions
         Var<Func<string, TModel, IVNode>> render,
         Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
     {
-        Reference<HyperType.Dispatcher> dispatchRef = new();
         b.DefineCustomElement(
             tagName,
             render: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                // Only initialize once
-                // Automatic cleanup/reinitialize seem to create problems when 
-                // there are rapid-fire connect/disconnects
-
-                var dispatch = b.GetRef(b.GlobalRef(dispatchRef)).As<HyperType.Dispatcher>();
+                // Keep dispatch on control itself, because it can be rendered multiple times
+                var dispatch = b.GetProperty<HyperType.Dispatcher>(node, "_hDispatch");
                 b.If(
                     b.Not(b.HasObject(dispatch)),
                     b =>
@@ -102,7 +98,7 @@ public static partial class CustomElementExtensions
                         b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
                         b.Set(appConfig, x => x.node, node);
                         b.Set(appConfig, x => x.subscriptions, subscribeFn);
-                        b.SetRef(b.GlobalRef(dispatchRef), b.Hyperapp(appConfig));
+                        b.SetProperty(node, "_hDispatch", b.Hyperapp(appConfig));
                     });
             }),
             attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
