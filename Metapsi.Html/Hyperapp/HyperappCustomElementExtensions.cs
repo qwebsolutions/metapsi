@@ -141,7 +141,7 @@ public static partial class CustomElementExtensions
                         });
                 }),
                 // Wait a bit to be sure the control doesn't get reconnected. 
-                b.Const(5000));
+                b.Const(0));
             }));
     }
 
