@@ -111,7 +111,9 @@ public static partial class CustomElementExtensions
                                 b.SetRef(dispose, b.Const(false));
                                 b.Dispatch(dispatch, b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
                                 {
-                                    return b.Call(init, node);
+                                    var initResult = b.Call(init, node);
+                                    b.Log("initResult", initResult);
+                                    return initResult;
                                 }));
                             });
                     });
