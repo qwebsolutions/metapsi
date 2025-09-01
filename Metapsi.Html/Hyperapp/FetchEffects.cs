@@ -72,7 +72,7 @@ public static class FetchEffects
             },
             b =>
             {
-                return response.As<Promise>();
+                return b.PromiseResolve(response);
             });
     }
 
