@@ -482,7 +482,7 @@ namespace Metapsi.Hyperapp
         }
         
         /// <summary>
-        /// Dispatch the speficied <paramref name="action"/>
+        /// Dispatch the specified <paramref name="action"/>
         /// </summary>
         /// <typeparam name="TState"></typeparam>
         /// <param name="b"></param>
