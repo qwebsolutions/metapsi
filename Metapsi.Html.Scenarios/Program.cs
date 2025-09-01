@@ -382,6 +382,9 @@ public static class Program
             //{
             //    model.BindingTest = httpContext.Request.Headers.UserAgent;
             //});
+
+            //return Results.Problem("Problem detail!");
+
             return call.Run(new() { typeof(Program) }, testService);
         });
 
@@ -657,7 +660,7 @@ public static class Program
         //app.UseRenderer<MarketData>(
         //    model =>);
 
-        var _notAwaited = Task.Run(GenerateRandomData);
+        //var _notAwaited = Task.Run(GenerateRandomData);
 
         await app.RunAsync();
     }
