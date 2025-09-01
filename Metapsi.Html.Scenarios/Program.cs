@@ -71,6 +71,19 @@ public class Widget
 
 }
 
+public interface ITestService
+{
+    void Works();
+}
+
+public class TestService : ITestService
+{
+    public void Works()
+    {
+        Console.WriteLine("Server-side service works!");
+    }
+}
+
 public class TextBox : Widget
 {
     public Action OnChange { get; set; }
@@ -302,6 +315,7 @@ public static class Program
             {
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
             });
+        builder.Services.AddTransient<ITestService>(b => new TestService());
         var app = builder.Build();
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
@@ -362,13 +376,13 @@ public static class Program
         //app.MapServerActions("someOtherPath");
 
         app.MapGet("/market", () => Page.Result(new MarketData()));
-        app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call) =>
+        app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call, ITestService testService) =>
         {
-            call.UpdateParameterByType<MarketData>(model =>
-            {
-                model.BindingTest = httpContext.Request.Headers.UserAgent;
-            });
-            return call.Run(new() { typeof(Program) });
+            //call.UpdateParameterByType<MarketData>(model =>
+            //{
+            //    model.BindingTest = httpContext.Request.Headers.UserAgent;
+            //});
+            return call.Run(new() { typeof(Program) }, testService);
         });
 
         app.UseRenderer<MarketData>(model =>
@@ -769,17 +783,43 @@ public static class Program
 
     public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, Task<MarketData>> action)
     {
-        return b.CallServerAction<MarketData>(b.Const("/serverAction"), action);
+        return b.CallServerAction(b.Const("/serverAction"), action);
     }
 
-    public static Var<HyperType.Action<MarketData, string>> CallServerAction(this SyntaxBuilder b, Func<MarketData, string, Task<MarketData>> action)
+    public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, ITestService, Task<MarketData>> action)
     {
-        return b.CallServerAction<MarketData, string>(b.Const("/serverAction"), action);
+        return b.CallServerAction(b.Const("/serverAction"), action);
     }
 
-    public static async Task<MarketData> StaticAction(MarketData marketData, string someValue)
+    public static Var<HyperType.Action<MarketData>> CallServerAction<TArg>(
+        this SyntaxBuilder b,
+        Var<TArg> argument,
+        Func<MarketData, TArg, ITestService, Task<MarketData>> action)
     {
-        marketData.BindingTest += someValue;
+        return b.CallServerAction(b.Const("/serverAction"), argument, action);
+    }
+
+    public static Var<HyperType.Action<MarketData>> CallServerAction<TArg>(
+        this SyntaxBuilder b,
+        Var<TArg> argument,
+        Func<MarketData, TArg, Task<MarketData>> action)
+    {
+        return b.CallServerAction(b.Const("/serverAction"), argument, action);
+    }
+
+    //public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, ITestService, Task<MarketData>> action)
+    //{
+    //    return b.CallServerAction<MarketData>(b.Const("/serverAction"), action);
+    //}
+
+    //public static Var<HyperType.Action<MarketData, string>> CallServerAction(this SyntaxBuilder b, Func<MarketData, string, Task<MarketData>> action)
+    //{
+    //    return b.CallServerAction<MarketData, string>(b.Const("/serverAction"), action);
+    //}
+
+    public static async Task<MarketData> StaticAction(MarketData marketData, ITestService service)
+    {
+        service.Works();
         return marketData;
     }
 
@@ -822,8 +862,10 @@ public static class Program
                                 {
                                     b.AddStyle("width", "150px");
                                     b.OnClickAction(b.CallServerAction(
-                                        async (model) =>
+                                        b.Get(company, x=>x.Ticker),
+                                        async (model, ticker) =>
                                         {
+                                            Console.WriteLine(ticker);
                                             return model;
                                         }));
                                 },
