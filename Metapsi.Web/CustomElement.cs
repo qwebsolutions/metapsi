@@ -249,7 +249,7 @@ public static class CustomElementsFeature
         System.Reflection.Assembly assembly,
         string @namespace = null)
     {
-        var customElementTypes = assembly.GetTypes().Where(x => typeof(ICustomElement).IsAssignableFrom(x));
+        var customElementTypes = assembly.GetTypes().Where(x => typeof(ICustomElement).IsAssignableFrom(x)).Where(x => !x.IsAbstract);
 
         foreach (var type in customElementTypes)
         {
