@@ -7,7 +7,6 @@ public interface DatetimeHighlight { }
 public interface FocusEvent { }
 public interface Function { }
 public interface GestureDetail { }
-public interface HTMLFormElement { }
 public interface HTMLIonPickerColumnInternalElement { }
 public interface HTMLIonBreadcrumbElement { }
 public interface Mode { }
