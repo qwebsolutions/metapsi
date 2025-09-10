@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace Metapsi.Syntax
 {
@@ -204,22 +203,46 @@ namespace Metapsi.Syntax
             return new string(' ', indentLevel * 2);
         }
 
-        public static string ToJs(this Module moduleDefinition)
+        private static string GetMetadataHash(this Module moduleDefinition, string fileName)
         {
-            StringBuilder outJs = new StringBuilder();
+            var embeddedFileMetadata = moduleDefinition.Metadata.SingleOrDefault(x => x.Key == "embedded-file" && x.Value == fileName);
+            if (embeddedFileMetadata == null)
+                return string.Empty;
+            var hashMetadata = embeddedFileMetadata.Data.SingleOrDefault(x => x.Key == "hash");
+            if (hashMetadata == null)
+                return string.Empty;
+            return hashMetadata.Value;
+        }
 
-            //foreach (var comment in moduleDefinition.Comments)
-            //{
-            //    var lines = comment.Split('\n');
-            //    foreach (var line in lines)
-            //    {
-            //        outJs.AppendLine($"// {line}");
-            //    }
-            //}
+        private static string GetEmbeddedFilePath(this Module moduleDefinition, string fileName)
+        {
+            var hash = GetMetadataHash(moduleDefinition, fileName);
+            if (string.IsNullOrEmpty(hash))
+                return $"/{fileName}";
+            return $"/{fileName}?h={hash}";
+        }
+
+        public static string ToJs(this Module moduleDefinition, Func<string,string> moduleResolver = null)
+        {
+            if (moduleResolver == null)
+            {
+                moduleResolver = (source) =>
+                {
+                    if (source == "hyperapp.js") return moduleDefinition.GetEmbeddedFilePath("hyperapp.js");
+                    if (source == "metapsi-signalr") return moduleDefinition.GetEmbeddedFilePath("metapsi-signalr.js");
+                    if (source == "linq.js") return moduleDefinition.GetEmbeddedFilePath("linq.js");
+                    if (source == "metapsi.core") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
+                    if (source == "metapsi.core.js") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
+                    return source;
+                };
+            }
+
+            StringBuilder outJs = new StringBuilder();
 
             foreach (var import in moduleDefinition.Imports)
             {
                 var source = import.Key;
+                source = moduleResolver(source);
                 var importDefinition = import.Value;
 
                 if (!string.IsNullOrEmpty(importDefinition.Default))

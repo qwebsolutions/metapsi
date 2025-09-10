@@ -30,32 +30,14 @@ namespace Metapsi.Syntax
             return this.moduleBuilder.Module.Metadata;
         }
 
-        private string FixSource(string source)
-        {
-            if (!source.EndsWith(".js") && !source.EndsWith(".mjs") && !source.EndsWith("+esm"))
-            {
-                source += ".js";
-            }
-            if (!source.StartsWith("http://") && !source.StartsWith("https://"))
-            {
-                if (!source.StartsWith("/"))
-                {
-                    source = "/" + source;
-                }
-            }
-            return source;
-        }
-
         public Var<T> ImportName<T>(string source, string importName)
         {
-            source = FixSource(source);
             this.moduleBuilder.Module.ImportName(source, importName);
             return new Var<T>(importName);
         }
 
         public void ImportDefault(string source, string asName)
         {
-            source = FixSource(source);
             this.moduleBuilder.Module.ImportDefault(source, asName);
         }
 
@@ -67,7 +49,6 @@ namespace Metapsi.Syntax
 
         public void ImportSideEffect(string source)
         {
-            source = FixSource(source);
             this.moduleBuilder.Module.ImportSideEffect(source);
         }
 
@@ -207,14 +188,6 @@ namespace Metapsi.Syntax
             return b.NewObj(new T());
         }
 
-        //public static Var<T> NewObj<T>(
-        //    this SyntaxBuilder b,
-        //    Action<PropsBuilder<T>> setProps)
-        //    where T : new()
-        //{
-        //    return b.SetProps(b.NewObj<T>(), setProps);
-        //}
-
         /// <summary>
         /// Creates an empty collection
         /// </summary>
@@ -226,65 +199,5 @@ namespace Metapsi.Syntax
             return b.NewObj<List<T>>();
         }
     }
-
-    //public class SyntaxBuilder
-    //{
-    //    public virtual void InitializeFrom(SyntaxBuilder parent)
-    //    {
-    //        if (this.blockBuilder == null)
-    //        {
-    //            this.blockBuilder = parent.blockBuilder; // TODO: Seems shady?
-    //        }
-    //    }
-
-    //    internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b, TSyntaxBuilder source)
-    //        where TSyntaxBuilder : SyntaxBuilder, new()
-    //    {
-    //        TSyntaxBuilder syntaxBuilder = new TSyntaxBuilder() { blockBuilder = b };
-    //        syntaxBuilder.InitializeFrom(source);
-    //        return syntaxBuilder;
-    //    }
-
-    //    //public static TSyntaxBuilder New<TSyntaxBuilder>(TSyntaxBuilder source)
-    //    //    where TSyntaxBuilder : SyntaxBuilder, new()
-    //    //{
-    //    //    TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
-    //    //    return syntaxBuilder;
-    //    //}
-
-    //    internal BlockBuilder blockBuilder;
-
-    //    public Metapsi.Module.ModuleDefinition Module => blockBuilder.ModuleBuilder.Module;
-
-    //    public SyntaxBuilder()
-    //    {
-    //    }
-
-    //    public SyntaxBuilder(SyntaxBuilder b)
-    //    {
-    //        this.blockBuilder = b.blockBuilder;
-    //    }
-
-
-    //    public Var<TOut> CallExternal<TOut>(string module, string function, params IVariable[] arguments)
-    //    {
-    //        return blockBuilder.CallExternal<TOut>(module, function, arguments);
-    //    }
-
-    //    public void CallExternal(string module, string function, params IVariable[] arguments)
-    //    {
-    //        blockBuilder.CallExternal(module, function, arguments);
-    //    }
-
-
-
-    //    public void Comment(string comment,
-    //        [System.Runtime.CompilerServices.CallerFilePath] String file = "",
-    //        [System.Runtime.CompilerServices.CallerLineNumber] Int32 line = 0)
-    //    {
-    //        blockBuilder.Comment(comment, file, line);
-    //    }
-
-
 }
 

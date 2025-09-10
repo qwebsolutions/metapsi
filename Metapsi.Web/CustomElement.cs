@@ -160,7 +160,8 @@ public static class CustomElementsFeature
 
                 foreach (var customElement in configuration.CustomElements)
                 {
-                    data.JsUrls[customElement.Value.Tag] = findUrl(Routes.JsPathByTag(customElement.Value.Tag));
+                    var customElementUrl = findUrl(Routes.JsPathByTag(customElement.Value.Tag));
+                    data.JsUrls[customElement.Value.Tag] = customElementUrl;
                 }
 
                 return data;
@@ -277,7 +278,12 @@ public static class CustomElementsFeature
     public static string GetCustomElementUrl<T>(this App.Map appMap)
         where T : ICustomElement, new()
     {
-        return appMap.GetCustomElementUrl(new T().Tag);
+        var customElement = new T();
+        var module = customElement.GetModule()(appMap);
+        var moduleJs = module.ToJs();
+        var hash = EmbeddedFiles.Hash(moduleJs);
+        var baseUrl = appMap.GetCustomElementUrl(customElement.Tag);
+        return $"{baseUrl}?hash={hash}";
     }
 
     public static void OnInit<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<SyntaxBuilder, Var<Html.Element>, Var<HyperType.StateWithEffects>> onInit)
