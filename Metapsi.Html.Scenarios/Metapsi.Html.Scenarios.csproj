@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Metapsi.FluentUi\Metapsi.FluentUi.csproj" />
     <ProjectReference Include="..\Metapsi.Html\Metapsi.Html.csproj" />
     <ProjectReference Include="..\Metapsi.Ionic\Metapsi.Ionic.csproj" />
     <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj" />

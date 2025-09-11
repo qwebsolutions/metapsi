@@ -14,6 +14,7 @@ using Metapsi.SignalR;
 using Microsoft.AspNetCore.Http;
 using Metapsi.Shoelace;
 using Metapsi.Web;
+using Metapsi.FluentUi;
 
 public class DataModel
 {
@@ -393,8 +394,33 @@ public static class Program
             return HtmlBuilder.FromDefault(
                 b =>
                 {
+                    b.HeadAppend(
+                        b.HtmlScript(
+                            b =>
+                            {
+                                b.SetTypeModule();
+                                b.SetSrc("https://unpkg.com/@fluentui/web-components@beta");
+                            }));
+                    b.HeadAppend(
+                        b.HtmlScriptModule(
+                            b=>
+                            {
+
+                            },
+                            b =>
+                            {
+                                var setTheme = b.ImportName<Action<string>>("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/+esm", "setTheme");
+                                var webLightTheme = b.ImportName<string>("https://cdn.jsdelivr.net/npm/@fluentui/tokens/+esm", "webLightTheme");
+                                b.Call(setTheme, webLightTheme);
+                                //b.ImportSideEffect("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/button.js");
+                                /*import { setTheme } from '@fluentui/web-components';
+import { webLightTheme } from '@fluentui/tokens';
+
+setTheme(webLightTheme);*/
+                            }));
                     b.UseWebComponentsFadeIn();
                     b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
+                    //b.BodyAppend(b.Tag("fluent-button", b.Text("Server-side button")));
                     b.BodyAppend(
                         b.Hyperapp<MarketData>(
                             InitializeClientSideApp,
@@ -829,6 +855,90 @@ public static class Program
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
     {
         return b.HtmlDiv(
+            b.FluentMessageBar(
+                b=>
+                {
+                    b.SetIntentWarning();
+                    b.SetShapeSquare();
+                    b.SetDismissMessageBar(b.Def((SyntaxBuilder b) =>
+                    {
+                        b.Log("WHAT? Does this just work?");
+                    }));
+                },
+                b.Text("Message bar"),
+                b.FluentButton(
+                    b =>
+                    {
+                        b.SetSlot(FluentMessageBar.Slot.Dismiss);
+                        b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
+                        {
+                            var messageBar = b.QuerySelector("fluent-message-bar").As<FluentTree>();
+                            //b.On(messageBar, b =>
+                            //{
+                            //    b.UpdateSizeAndAppearance();
+                            //});
+                            return b.Clone(model);
+                        });
+                    },
+                    b.SlIcon(
+                        b =>
+                        {
+                            b.SetName("x-lg");
+                        }))),
+                b.FluentAccordion(
+                    b=>
+                    {
+                        b.SetExpandmodeSingle();
+                        b.OnFluentChangeAction(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Metapsi.Html.Event> e) =>
+                        {
+                            b.Set(model, x => x.BindingTest, "Accordion change works!");
+                            return b.Clone(model);
+                        }));
+                    },
+                    b.FluentAccordionItem(
+                        b.HtmlDiv(
+                            b=>
+                            {
+                                b.SetSlot(FluentAccordionItem.Slot.Heading);
+                            },
+                            b.Text("First heading")),
+                        b.FluentLabel(b.Text("First thing"))),
+                    b.FluentAccordionItem(
+                        b.HtmlDiv(
+                            b=>
+                            {
+                                b.SetSlot(FluentAccordionItem.Slot.Heading);
+                            },
+                            b.Text("Second heading")),
+                        b.FluentLabel(b.Text("Second thing")))),
+                b.FluentTree(
+                    b=>
+                    {
+
+                    },
+                    b.FluentTreeItem(
+                        b=>
+                        {
+
+                        },
+                        b.Text("First node"),
+                        b.FluentTreeItem(b => { }, b.Text("What now?"))),
+                    b.FluentTreeItem(
+                        b=>
+                        {
+
+                        },
+                        b.Text("Second node"))),
+                
+            b.FluentButton(
+                b=>
+                {
+                    b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
+                    {
+                        return b.Clone(model);
+                    });
+                },
+                b.Text("Fluent button")),
             b.SlInput(
                 b =>
                 {

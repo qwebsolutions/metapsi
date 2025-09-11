@@ -49,6 +49,11 @@ namespace Metapsi.Syntax
             };
         }
 
+        public void Call(string methodName, params IVariable[] parameters)
+        {
+            syntaxBuilder.CallOnObject(Var, methodName, parameters);
+        }
+
         public ObjBuilder<TOut> Get<TOut>(string property)
         {
             return new ObjBuilder<TOut>(syntaxBuilder.GetProperty<TOut>(this.Var, property))
@@ -97,6 +102,11 @@ namespace Metapsi.Syntax
         {
             var result = transform(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
             return result.Var;
+        }
+
+        public static void On<TIn>(this SyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
+        {
+            call(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
         }
     }
 }
