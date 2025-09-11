@@ -17,6 +17,7 @@ namespace Metapsi.Syntax
             LambdaExpression expression,
             params IVariable[] arguments)
         {
+            b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.ObjBuilder<>).Assembly, "linq.js");
             b.ImportDefault("linq.js", "Enumerable");
             var assignmentNode = new AssignmentNode()
             {

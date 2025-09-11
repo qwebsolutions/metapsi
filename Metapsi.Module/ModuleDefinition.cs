@@ -205,7 +205,7 @@ namespace Metapsi.Syntax
 
         private static string GetMetadataHash(this Module moduleDefinition, string fileName)
         {
-            var embeddedFileMetadata = moduleDefinition.Metadata.SingleOrDefault(x => x.Key == "embedded-file" && x.Value == fileName);
+            var embeddedFileMetadata = moduleDefinition.Metadata.SingleOrDefault(x => x.Key == "embedded-file" && x.Value == fileName.ToLowerInvariant());
             if (embeddedFileMetadata == null)
                 return string.Empty;
             var hashMetadata = embeddedFileMetadata.Data.SingleOrDefault(x => x.Key == "hash");
@@ -217,6 +217,8 @@ namespace Metapsi.Syntax
         private static string GetEmbeddedFilePath(this Module moduleDefinition, string fileName)
         {
             var hash = GetMetadataHash(moduleDefinition, fileName);
+            if (string.IsNullOrEmpty(hash))
+                return string.Empty;
             if (string.IsNullOrEmpty(hash))
                 return $"/{fileName}";
             return $"/{fileName}?h={hash}";
@@ -233,6 +235,11 @@ namespace Metapsi.Syntax
                     if (source == "linq.js") return moduleDefinition.GetEmbeddedFilePath("linq.js");
                     if (source == "metapsi.core") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
                     if (source == "metapsi.core.js") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
+                    var embededPath = moduleDefinition.GetEmbeddedFilePath(source);
+                    if (!string.IsNullOrEmpty(embededPath))
+                    {
+                        return embededPath;
+                    }
                     return source;
                 };
             }

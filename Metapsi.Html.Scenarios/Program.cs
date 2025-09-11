@@ -854,6 +854,10 @@ setTheme(webLightTheme);*/
 
     public static Var<IVNode> RenderClientSideApp(LayoutBuilder b, Var<MarketData> model)
     {
+        b.Debounce(b.Const(1000), b.MakeAction((SyntaxBuilder b, Var<object> model) =>
+        {
+            return b.Clone(model);
+        }));
         return b.HtmlDiv(
             b.FluentMessageBar(
                 b=>
