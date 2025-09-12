@@ -29,3 +29,4 @@ dotnet pack ../Metapsi.Messaging -o $outputFolder -c Release -p:Version="$versio
 dotnet pack ../Metapsi.Sqlite -o $outputFolder -c Release -p:Version="$version" -p:RepositoryUrl="$REPO_URL" -p:RepositoryBranch="$REPO_BRANCH" -p:RepositoryCommit="$REPO_COMMIT" -p:RepositoryType="git"
 dotnet pack ../Metapsi.Mds -o $outputFolder -c Release -p:Version="$version" -p:RepositoryUrl="$REPO_URL" -p:RepositoryBranch="$REPO_BRANCH" -p:RepositoryCommit="$REPO_COMMIT" -p:RepositoryType="git"
 dotnet pack ../Metapsi.TomSelect -o $outputFolder -c Release -p:Version="$version" -p:RepositoryUrl="$REPO_URL" -p:RepositoryBranch="$REPO_BRANCH" -p:RepositoryCommit="$REPO_COMMIT" -p:RepositoryType="git"
+dotnet pack ../Metapsi.Timer -o $outputFolder -c Release -p:Version="$version" -p:RepositoryUrl="$REPO_URL" -p:RepositoryBranch="$REPO_BRANCH" -p:RepositoryCommit="$REPO_COMMIT" -p:RepositoryType="git"
