@@ -686,7 +686,7 @@ setTheme(webLightTheme);*/
         //app.UseRenderer<MarketData>(
         //    model =>);
 
-        //var _notAwaited = Task.Run(GenerateRandomData);
+        var _notAwaited = Task.Run(GenerateRandomData);
 
         await app.RunAsync();
     }
