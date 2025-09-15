@@ -92,9 +92,9 @@ namespace Metapsi
 
 
 
-        public static void UseEmbeddedFiles(this WebApplication app)
+        public static RouteHandlerBuilder UseEmbeddedFiles(this WebApplication app)
         {
-            app.MapGet("/r/{package}/{version}/{*logicalName}", async (HttpContext httpContext, string package, string version, string logicalName) =>
+            return app.MapGet("/r/{package}/{version}/{*logicalName}", async (HttpContext httpContext, string package, string version, string logicalName) =>
             {
                 logicalName = logicalName.ToLowerInvariant().Trim('/');
                 var packageAssembly = Assembly.Load(package);
