@@ -87,7 +87,7 @@ public class AutoRegisterHtmlInputBinding : IAutoRegisterBinding
                         b.AreEqual(radioValue, value.As<string>()),
                         b =>
                         {
-                            b.Set(x => x.@checked, value);
+                            b.Set(x => x.@checked, value.As<bool>());
                         });
                 });
 
