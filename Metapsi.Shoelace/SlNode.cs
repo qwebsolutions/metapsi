@@ -85,15 +85,10 @@ public static partial class SlNodeExtensions
         scriptTag.SetAttribute("type", "module");
 
         b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { scriptTag} });
-            
+
         //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
-        b.HeadAppend(
-            b.HtmlScript(
-                b =>
-                {
-                    b.SetTypeModule();
-                },
-                b.Text($"import {{ setBasePath }} from 'r/Metapsi.Shoelace/1.0.0.0/{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n")));
+        b.HeadAppend(b.HtmlScriptModule(SetBasePath));
+
         b.TrackWebComponent(tag);
     }
 
