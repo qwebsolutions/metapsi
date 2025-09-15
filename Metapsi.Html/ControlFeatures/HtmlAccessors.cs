@@ -125,7 +125,7 @@ public class AutoRegisterHtmlInputBinding : IAutoRegisterBinding
             },
             (b, action) =>
             {
-                var controlType = b.StringToLowerCase(b.Get(b.Props, x => x.type));
+                var controlType = b.If(b.HasValue(b.Get(b.Props, x => x.type)), b => b.StringToLowerCase(b.Get(b.Props, x => x.type)), b => b.Const(string.Empty));
                 var isSet = b.If(
                     b.AreEqual(controlType, b.Const("checkbox")),
                     b =>
