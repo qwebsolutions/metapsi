@@ -95,7 +95,7 @@ public class AutoRegisterHtmlInputBinding : IAutoRegisterBinding
                 b.AreEqual(controlType, b.Const("file")),
                 b =>
                 {
-                    throw new System.Exception("Input type='file' does not support bindings");
+                    b.Throw(b.Const("Input type='file' does not support bindings"));
                 });
         },
             (b, e) =>
