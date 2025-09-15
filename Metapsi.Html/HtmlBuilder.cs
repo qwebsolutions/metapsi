@@ -208,21 +208,21 @@ public static class HtmlBuilderExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <param name="href"></param>
-    public static void AddStylesheet(this HtmlBuilder b, string href)
-    {
-        if (!href.StartsWith("http"))
-        {
-            // If it is not absolute path, make it absolute
-            href = $"/{href}".Replace("//", "/");
-        }
-        b.HeadAppend(
-            b.HtmlLink(
-                b =>
-                {
-                    b.SetHref(href);
-                    b.SetRel("stylesheet");
-                }));
-    }
+    //public static void AddStylesheet(this HtmlBuilder b, string href)
+    //{
+    //    if (!href.StartsWith("http"))
+    //    {
+    //        // If it is not absolute path, make it absolute
+    //        href = $"/{href}".Replace("//", "/");
+    //    }
+    //    b.HeadAppend(
+    //        b.HtmlLink(
+    //            b =>
+    //            {
+    //                b.SetHref(href);
+    //                b.SetRel("stylesheet");
+    //            }));
+    //}
 
     /// <summary>
     /// Adds <paramref name="src"/> script to document head if it doesn't already exist
@@ -254,29 +254,29 @@ public static class HtmlBuilderExtensions
         b.AddScript(src, "module");
     }
 
-    public static void AddModuleStylesheet(this HtmlBuilder b)
-    {
-        var assembly = System.Reflection.Assembly.GetCallingAssembly();
-        var cssName = $"{assembly.GetName().Name}.css";
-        b.AddStylesheet(assembly, cssName);
-    }
+    //public static void AddModuleStylesheet(this HtmlBuilder b)
+    //{
+    //    var assembly = System.Reflection.Assembly.GetCallingAssembly();
+    //    var cssName = $"{assembly.GetName().Name}.css";
+    //    b.AddStylesheet(assembly, cssName);
+    //}
 
-    public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
-    {
-        //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
-        //if (embeddedFile != null)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-        //    {
-        //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
-        //    }
-        //}
-        b.HeadAppend(b.HtmlLink(b =>
-        {
-            b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", "/" + cssFile);
-        }));
-    }
+    //public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
+    //{
+    //    //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
+    //    //if (embeddedFile != null)
+    //    //{
+    //    //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
+    //    //    {
+    //    //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
+    //    //    }
+    //    //}
+    //    b.HeadAppend(b.HtmlLink(b =>
+    //    {
+    //        b.SetAttribute("rel", "stylesheet");
+    //        b.SetAttribute("href", "/" + cssFile);
+    //    }));
+    //}
 
     public static IHtmlNode Optional(this HtmlBuilder b, bool variable, Func<HtmlBuilder, IHtmlNode> ifTrue)
     {

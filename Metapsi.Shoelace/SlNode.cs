@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
-using System.Threading.Tasks;
 
 namespace Metapsi.Shoelace;
 
@@ -70,8 +69,11 @@ public static partial class SlNodeExtensions
     public static void AddShoelaceStylesheet(this HtmlBuilder b)
     {
         string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        b.AddStylesheet(stylesheetPath);
+        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        var link = new HtmlTag("link");
+        link.SetAttribute("rel", "stylesheet");
+        link.SetAttribute("href", resource);
+        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { link } });
     }
 
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)

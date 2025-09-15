@@ -78,10 +78,21 @@ public static class IonicNodeImport
     {
         string jsPath = $"/ionic@{Cdn.Version}/ionic.esm.js";
         string cssPath = $"/ionic@{Cdn.Version}/ionic.bundle.css";
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, jsPath);
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, cssPath);
-        b.AddScript(jsPath, "module");
-        b.AddStylesheet(cssPath);
+        var ionicJsResource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, jsPath);
+        var ionicCssResource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, cssPath);
+
+        var scriptNode = new HtmlTag("script");
+        scriptNode.SetAttribute("src", ionicJsResource);
+        scriptNode.SetAttribute("type", "module");
+
+        var link= new HtmlTag("link");
+        link.SetAttribute("rel", "stylesheet");
+        link.SetAttribute("href", ionicCssResource);
+
+        b.HeadAppend(new HtmlNode()
+        {
+            Tags = new List<HtmlTag>() { scriptNode, link }
+        });
     }
 
     public static Var<IVNode> IonicNode<TProps>(
