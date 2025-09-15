@@ -83,9 +83,20 @@ public static class Control
     public static Var<IVNode> TomSelect(this LayoutBuilder b, Action<PropsBuilder<TomSelect>> buildProps)
     {
         //b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
-        b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
+        var resource = b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "tom-select.complete.min.js");
+        var tomSelectScript = new HtmlTag("script");
+        tomSelectScript.SetAttribute("src", resource);
+        tomSelectScript.SetAttribute("type", "module");
+        b.Metadata().AddRequiredTagMetadata(tomSelectScript);
 
-        var props = b.SetProps(b.NewObj(), buildProps);
+        var tomSelectCustomElementResource = b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
+        var tomSelectCustomElementScript = new HtmlTag("script");
+        tomSelectCustomElementScript.SetAttribute("src", tomSelectCustomElementResource);
+        tomSelectCustomElementScript.SetAttribute("type", "module");
+
+        b.Metadata().AddRequiredTagMetadata(tomSelectCustomElementScript);
+
+        var props = b.SetProps(b.NewObj<TomSelect>(), buildProps);
 
         return b.H("metapsi-tom-select", props.As<object>());
     }
@@ -96,6 +107,12 @@ public static class Control
         Var<TProp> value)
     {
         var configuration = b.Get(b.Props, x => x.settings);
+        b.If(
+            b.Not(b.HasObject(configuration)),
+            b=>
+            {
+                b.Set(b.Props, x => x.settings, b.NewObj<object>());
+            });
         b.Set(configuration, property, value);
     }
 

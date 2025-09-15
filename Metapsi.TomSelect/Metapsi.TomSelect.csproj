@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net47</TargetFrameworks>
-		<LangVersion>11.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -9,6 +9,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="embedded\tom-select.complete.min.js" LogicalName="tom-select.complete.min.js" />
 		<EmbeddedResource Include="embedded\metapsi.tomselect.js" LogicalName="metapsi.tomselect.js" />
 		<EmbeddedResource Include="embedded\metapsi.tomselect.shoelace.css" LogicalName="metapsi.tomselect.shoelace.css" />
 		<EmbeddedResource Include="embedded\tom-select.bootstrap4.css" LogicalName="tom-select.bootstrap4.css" />

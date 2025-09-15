@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Metapsi.Shoelace;
 using Metapsi.Web;
 using Metapsi.FluentUi;
+using Metapsi.TomSelect;
 
 public class DataModel
 {
@@ -859,6 +860,11 @@ setTheme(webLightTheme);*/
             return b.Clone(model);
         }));
         return b.HtmlDiv(
+            b.TomSelect(
+                b=>
+                {
+                    b.SetOptions(b.Get(model, x => x.Entries), x => x.Name, x => x.Name);
+                }),
             b.FluentMessageBar(
                 b=>
                 {
