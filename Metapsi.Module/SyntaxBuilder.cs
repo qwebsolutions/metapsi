@@ -36,7 +36,18 @@ namespace Metapsi.Syntax
             return new Var<T>(importName);
         }
 
+        public Var<T> ImportName<T>(ResourceMetadata source, string importName)
+        {
+            this.moduleBuilder.Module.ImportName(source, importName);
+            return new Var<T>(importName);
+        }
+
         public void ImportDefault(string source, string asName)
+        {
+            this.moduleBuilder.Module.ImportDefault(source, asName);
+        }
+
+        public void ImportDefault(ResourceMetadata source, string asName)
         {
             this.moduleBuilder.Module.ImportDefault(source, asName);
         }
@@ -48,6 +59,11 @@ namespace Metapsi.Syntax
         }
 
         public void ImportSideEffect(string source)
+        {
+            this.moduleBuilder.Module.ImportSideEffect(source);
+        }
+
+        public void ImportSideEffect(ResourceMetadata source)
         {
             this.moduleBuilder.Module.ImportSideEffect(source);
         }

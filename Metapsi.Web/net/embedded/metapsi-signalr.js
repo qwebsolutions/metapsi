@@ -1,4 +1,4 @@
-import { HubConnectionBuilder, LogLevel } from "/signalr.js";
+import { HubConnectionBuilder, LogLevel } from "/r/Metapsi.Web/0/signalr.js";
 
 export const Connect = (hubUrl, register, onConnect) => {
 

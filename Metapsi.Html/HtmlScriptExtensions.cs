@@ -11,23 +11,53 @@ public static class HtmlScriptExtensions
         b.SetAttribute("type", "module");
     }
 
-    public static IHtmlNode HtmlScriptModule(this HtmlBuilder b, Action<AttributesBuilder<HtmlScript>> setAttributes, Action<SyntaxBuilder> buildScript)
+    public static IHtmlNode HtmlScriptModule(
+        this HtmlBuilder b,
+        Action<AttributesBuilder<HtmlScript>> setAttributes,
+        Action<SyntaxBuilder> buildScript)
     {
         ModuleBuilder moduleBuilder = new ModuleBuilder();
         moduleBuilder.AddFunction("main", buildScript);
-        //GenerateAddExternalResources(b, moduleBuilder);
+
+        var scriptTag = b.HtmlScript(
+            b =>
+            {
+                b.SetAttribute("type", "module");
+                setAttributes(b);
+            });
+
+        moduleBuilder.Module.Nodes.Add(
+            new SyntaxNode()
+            {
+                Call = new CallNode()
+                {
+                    Fn = new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = "main"
+                        }
+                    }
+                }
+            });
+
         return b.HtmlScript(
             b =>
             {
                 b.SetAttribute("type", "module");
                 setAttributes(b);
             },
-            b.Text(moduleBuilder.Module.ToJs()),
-            b.Text("main()"));
+            new HtmlNode()
+            {
+                Modules = new System.Collections.Generic.List<Module>()
+                {
+                    moduleBuilder.Module
+                }
+            });
     }
 
     public static IHtmlNode HtmlScriptModule(
-        this HtmlBuilder b, 
+        this HtmlBuilder b,
         Action<SyntaxBuilder> buildScript)
     {
         return b.HtmlScriptModule(b => { }, buildScript);
@@ -50,7 +80,7 @@ public static class HtmlScriptExtensions
 
         foreach (var tag in requiredTags)
         {
-            b.HeadAppend(tag);
+            b.HeadAppend(new HtmlNode() { Tags = requiredTags });
         }
 
         return true;

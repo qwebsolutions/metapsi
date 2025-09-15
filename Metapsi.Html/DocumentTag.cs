@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Metapsi.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -36,6 +39,40 @@ namespace Metapsi.Html;
 //    }
 //}
 
+public class ToHtmlOptions
+{
+    public ToJavaScriptOptions ToJavaScriptOptions { get; set; } = new ToJavaScriptOptions();
+    public int Indent { get; set; } = 2;
+    public Func<HtmlDocument, Metapsi.Syntax.ResourceMetadata, string> ResolveResource { get; set; } = (htmlDocument, resource) =>
+    {
+        //if (string.IsNullOrWhiteSpace(resource.FileHash))
+        //{
+        //    resource.FileHash = GetEmbeddedFileHashMetadata(htmlDocument, resource.RelativePath);
+        //}
+        return resource.GetDefaultHttpPath();
+    };
+
+    //private static string GetEmbeddedFileHashMetadata(HtmlDocument htmlDocument, string fileName)
+    //{
+    //    var isKnownResource = htmlDocument.Metadata.Contains(new Metadata()
+    //    {
+    //        Type = "embedded-resource-name",
+    //        Value = fileName.ToLowerInvariant()
+    //    });
+    //    if (!isKnownResource)
+    //        return string.Empty;
+
+    //    var allEmbeddedResources = htmlDocument.Metadata.Where(x => x.Type == "embedded-resource");
+    //    foreach (var resource in allEmbeddedResources)
+    //    {
+    //        var r = Metapsi.Serialize.FromJson<ResourceMetadata>(resource.Value);
+    //        if (r.LogicalName == fileName)
+    //            return r.FileHash;
+    //    }
+
+    //    return string.Empty;
+    //}
+}
 
 public class HtmlDocument : HtmlTag
 {
@@ -43,18 +80,19 @@ public class HtmlDocument : HtmlTag
 
     public HtmlDocument() : base("html")
     {
-        this.Children.Add(this.Head);
-        this.Children.Add(this.Body);
+        this.Children.Add(new HtmlNode() { Tags = new List<HtmlTag>() { this.Head } });
+        this.Children.Add(new HtmlNode() { Tags = new List<HtmlTag>() { this.Body } });
     }
 
     public HtmlTag Head { get; } = new HtmlTag("head");
     public HtmlTag Body { get; } = new HtmlTag("body");
 
-    public override string ToHtml()
+    public override string ToHtml(ToHtmlOptions options = null)
     {
+        if (options == null) options = new ToHtmlOptions();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.AppendLine("<!DOCTYPE html>");
-        stringBuilder.AppendLine(base.ToHtml());
+        stringBuilder.AppendLine(base.ToHtml(options));
         return stringBuilder.ToString();
     }
 }

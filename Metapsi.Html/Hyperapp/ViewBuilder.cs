@@ -207,15 +207,15 @@ namespace Metapsi.Hyperapp
             b.Metadata().AddRequiredTagMetadata(scriptTag);
         }
 
-        public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
-        {
-            HtmlTag scriptTag = new HtmlTag("script");
-            if (!string.IsNullOrEmpty(type))
-            {
-                scriptTag.SetAttribute("type", type);
-            }
-            scriptTag.AddChild(new HtmlText(scriptContent));
-            b.Metadata().AddRequiredTagMetadata(scriptTag);
-        }
+        //public static void AddInlineScript(this SyntaxBuilder b, string scriptContent, string type = "")
+        //{
+        //    HtmlTag scriptTag = new HtmlTag("script");
+        //    if (!string.IsNullOrEmpty(type))
+        //    {
+        //        scriptTag.SetAttribute("type", type);
+        //    }
+        //    scriptTag.AddChild(new HtmlText(scriptContent));
+        //    b.Metadata().AddRequiredTagMetadata(scriptTag);
+        //}
     }
 }

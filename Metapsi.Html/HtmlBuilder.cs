@@ -107,7 +107,7 @@ public static class HtmlBuilderExtensions
         {
             if (!b.Document.Head.Children.Contains(node, new HtmlNodeComparer()))
             {
-                b.Document.Head.Children.Add(node);
+                b.Document.Head.Children.Add(node as HtmlNode);
             }
         }
     }
@@ -119,7 +119,7 @@ public static class HtmlBuilderExtensions
     /// <param name="nodes"></param>
     public static void BodyAppend(this HtmlBuilder b, params IHtmlNode[] nodes)
     {
-        b.Document.Body.Children.AddRange(nodes);
+        b.Document.Body.Children.AddRange(nodes.Cast<HtmlNode>());
     }
 
     /// <summary>
@@ -132,10 +132,20 @@ public static class HtmlBuilderExtensions
     /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
-        return new HtmlTag(tagName)
+        var attributesDictionary = new Dictionary<string, HtmlAttribute>();
+        foreach (var attribute in attributes)
         {
-            Attributes = new Dictionary<string, string>(attributes),
-            Children = children.ToList()
+            attributesDictionary[attribute.Key] = new HtmlAttribute() { Value = attribute.Value };
+        }
+        return new HtmlNode()
+        {
+            Tags = new List<HtmlTag>() {
+                new HtmlTag(tagName)
+                {
+                    Attributes = attributesDictionary,
+                    Children = children.Cast<HtmlNode>().ToList()
+                }
+            }
         };
     }
 
@@ -190,7 +200,7 @@ public static class HtmlBuilderExtensions
 
     public static IHtmlNode Text(this HtmlBuilder b, string text)
     {
-        return new HtmlText(text);
+        return new HtmlNode() { Text = new List<HtmlText>() { new HtmlText(text) } };
     }
 
     /// <summary>

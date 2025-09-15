@@ -213,7 +213,7 @@ public static partial class ServerAction
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
         Var<HyperType.Action<TModel, Html.Error>> onError)
     {
-        b.AddMetadata(new Metadata() { Key = "server-action", Value = serverAction.Method.Name });
+        b.AddMetadata(new Metadata() { Type = "server-action", Value = serverAction.Method.Name });
         return b.PostJsonEffect<TModel, ServerAction.Call, TOutput>(
             serverActionUrl,
             ToServerCall(

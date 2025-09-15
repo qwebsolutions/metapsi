@@ -78,16 +78,22 @@ public static partial class SlNodeExtensions
     {
         b.AddShoelaceStylesheet();
         string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
 
-        b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
+        var scriptTag = new HtmlTag("script");
+        scriptTag.SetAttribute("src", resource);
+        scriptTag.SetAttribute("type", "module");
+
+        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { scriptTag} });
+            
+        //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         b.HeadAppend(
             b.HtmlScript(
                 b =>
                 {
                     b.SetTypeModule();
                 },
-                b.Text($"import {{ setBasePath }} from '/shoelace@{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n")));
+                b.Text($"import {{ setBasePath }} from 'r/Metapsi.Shoelace/1.0.0.0/{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n")));
         b.TrackWebComponent(tag);
     }
 
@@ -95,12 +101,13 @@ public static partial class SlNodeExtensions
 
     private static void SetBasePath(SyntaxBuilder b)
     {
-        var setBasePath = b.ImportName<Action<string>>($"/shoelace@{Cdn.Version}/utilities/base-path.js", "setBasePath");
+        var basePathResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, $"/shoelace@{Cdn.Version}/utilities/base-path.js");
+        var setBasePath = b.ImportName<Action<string>>(basePathResource, "setBasePath");
 
         b.If(b.Not(b.GetRef(b.Const(basePathSet))),
             b =>
             {
-                b.Call(setBasePath, b.Const($"/shoelace@{Cdn.Version}/"));
+                b.Call(setBasePath, b.Const($"r/Metapsi.Shoelace/1.0.0.0/{Cdn.Version}/"));
             });
     }
 
@@ -109,10 +116,12 @@ public static partial class SlNodeExtensions
         string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
         string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
 
-        b.AddRequiredStylesheetMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+        var stylesheetResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        b.AddRequiredStylesheetMetadata(stylesheetResource);
+
+        var componentResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
         SetBasePath(b);
-        b.ImportSideEffect(scriptPath);
+        b.ImportSideEffect(componentResource);
     }
 
     public static Var<IVNode> SlNode<TProps>(

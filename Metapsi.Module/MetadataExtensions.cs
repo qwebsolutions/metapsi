@@ -24,73 +24,82 @@ namespace Metapsi.Syntax
             b.moduleBuilder.AddMetadata(metadata);
         }
 
-        public static void AddEmbeddedResourceMetadata(
-            HashSet<Metadata> metadata,
-            string sourceAssembly,
-            string filePath,
-            string hash)
+        //public static void AddEmbeddedResourceMetadata(
+        //    HashSet<Metadata> metadata,
+        //    ResourceMetadata resourceMetadata)
+        //{
+        //    metadata.Add(new Metadata()
+        //    {
+        //        Type = "embedded-resource",
+        //        Value = Metapsi.Serialize.ToJson(resourceMetadata)
+        //    });
+
+        //    metadata.Add(new Metadata()
+        //    {
+        //        Type = "embedded-resource-name",
+        //        Value = resourceMetadata.RelativePath
+        //    });
+        //}
+
+        //public static List<ResourceMetadata> GetEmbeddedResourcesMetadata(this HashSet<Metadata> metadata)
+        //{
+        //    return metadata.Where(x => x.Type == "embedded-file").Select(x => Metapsi.Serialize.FromJson<ResourceMetadata>(x.Value)).ToList();
+        //}
+
+        public static ResourceMetadata AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string logicalName)
         {
-            metadata.Add(new Metadata()
+            return b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(assembly, logicalName);
+        }
+
+        /// <summary>
+        /// This is called when defining the page/module, says "Hey, when the page was defined, this particular hash of <paramref name="logicalName"/> was used"
+        /// </summary>
+        /// <param name="metadata"></param>
+        /// <param name="assembly"></param>
+        /// <param name="logicalName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static ResourceMetadata AddEmbeddedResourceMetadata(this HashSet<Metadata> metadata, Assembly assembly, string logicalName)
+        {
+            logicalName = logicalName.ToLowerInvariant();
+            logicalName = logicalName.Trim('/');
+
+            ResourceMetadata resourceMetadata = null;
+
+            foreach (var rn in assembly.GetManifestResourceNames())
             {
-                Key = "embedded-file",
-                Value = filePath,
-                Data = new HashSet<Metadata>()
-                    {
-                        new Metadata()
-                        {
-                            Key = "source-assembly",
-                            Value = sourceAssembly,
-                        },
-                        new Metadata()
-                        {
-                            Key = "hash",
-                            Value= hash
-                        }
-                    }
-            });
-        }
-
-        public static List<Metadata> GetEmbeddedResourcesMetadata(this HashSet<Metadata> metadata)
-        {
-            return metadata.Where(x => x.Key == "embedded-file").ToList();
-        }
-
-        public static void AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string filePath)
-        {
-            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
-        }
-
-        public static void AddEmbeddedResourceMetadata(this HashSet<Metadata> metadata, Assembly assembly, string filePath)
-        {
-            filePath = filePath.ToLowerInvariant();
-            filePath = filePath.Trim('/');
-
-            var alreadyExists = metadata.Any(x => x.Key == "embedded-file" && x.Value == filePath);
-
-            if (!alreadyExists)
-            {
-                var added = false;
-                foreach (var rn in assembly.GetManifestResourceNames())
+                var resourceName = rn.ToLowerInvariant().Trim('/');
+                if (resourceName == logicalName)
                 {
-                    var resourceName = rn.ToLowerInvariant().Trim('/');
-                    if (resourceName == filePath)
+                    using var stream = assembly.GetManifestResourceStream(rn);
+                    using (var ms = new MemoryStream())
                     {
-                        using var stream = assembly.GetManifestResourceStream(rn);
-                        using (var ms = new MemoryStream())
+                        stream.CopyTo(ms);
+                        var content = ms.ToArray();
+                        var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
+                        resourceMetadata = new ResourceMetadata()
                         {
-                            stream.CopyTo(ms);
-                            var content = ms.ToArray();
-                            var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
-                            AddEmbeddedResourceMetadata(metadata, assembly.GetName().Name, filePath, hash);
-                        }
-                        added = true;
+                            PackageName = assembly.GetName().Name,
+                            PackageVersion = assembly.GetName().Version.ToString(),
+                            LogicalName = logicalName,
+                            FileHash = hash
+                        };
                     }
                 }
+            }
 
-                if(!added)
+            if (resourceMetadata == null)
+            {
+                throw new Exception($"{logicalName} is not an embedded resource of {assembly.FullName}");
+            }
+            else
+            {
+                metadata.Add(new Metadata()
                 {
-                    throw new ArgumentException($"{filePath} is not an embedded resource");
-                }
+                    Type = "embedded-resource",
+                    Value = Metapsi.Serialize.ToJson(resourceMetadata)
+                });
+                return resourceMetadata;
             }
         }
     }

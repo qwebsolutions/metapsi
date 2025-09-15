@@ -11,15 +11,20 @@ namespace Metapsi.Html;
 /// </summary>
 public static partial class HyperappExtensions
 {
-    internal class HyperAppNode : IHtmlNode
-    {
-        public IHtmlNode MountDiv { get; set; }
-        public IHtmlNode ScriptTag { get; set; }
-        string IHtmlNode.ToHtml()
-        {
-            return $"{MountDiv.ToHtml()}\n{ScriptTag.ToHtml()}";
-        }
-    }
+    //internal class HyperAppNode : IHtmlNode
+    //{
+    //    public IHtmlNode MountDiv { get; set; }
+    //    //public IHtmlNode ScriptTag { get; set; }
+    //    public Module Module { get; set; }
+    //    string IHtmlNode.ToHtml(System.Func<ResourceMetadata, string> resourceResolver)
+    //    {
+    //        var scriptTag = new HtmlTag("script");
+    //        scriptTag.SetAttribute("type", "module");
+    //        var moduleText = Module.ToJs(resourceResolver) + "\nvar dispatch = main()";
+    //        scriptTag.AddChild(new HtmlText(moduleText));
+    //        return $"{MountDiv.ToHtml(resourceResolver)}\n{scriptTag.ToHtml()}";
+    //    }
+    //}
 
     /// <summary>
     /// Imports 'app' from hyperapp
@@ -29,11 +34,10 @@ public static partial class HyperappExtensions
     /// <returns></returns>
     public static Var<Func<HyperType.App<TModel>, HyperType.Dispatcher>> ImportHyperapp<TModel>(this SyntaxBuilder b)
     {
-        b.AddEmbeddedResourceMetadata(typeof(HyperAppNode).Assembly, "hyperapp.js");
-        var app = b.ImportName<Func<HyperType.App<TModel>, HyperType.Dispatcher>>("hyperapp.js", "app");
+        var resource = b.AddEmbeddedResourceMetadata(typeof(HyperType).Assembly, "hyperapp.js");
+        var app = b.ImportName<Func<HyperType.App<TModel>, HyperType.Dispatcher>>(resource, "app");
         return app;
     }
-
 
     /// <summary>
     /// 
@@ -79,21 +83,37 @@ public static partial class HyperappExtensions
             b.Document.Metadata.Add(moduleMetadata);
         }
 
-        var moduleScript = moduleBuilder.Module.ToJs();
-
-        return new HyperAppNode()
-        {
-            MountDiv = b.HtmlDiv(b =>
+        moduleBuilder.Module.Nodes.Add(
+            new SyntaxNode()
             {
-                b.SetAttribute("id", mountNodeId);
-            }),
-            ScriptTag = b.HtmlScript(
-                b =>
+                Call = new CallNode()
                 {
-                    b.SetAttribute("type", "module");
-                },
-                b.Text(moduleScript),
-                b.Text("var dispatch = main()"))
+                    Fn = new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = "main"
+                        }
+                    }
+                }
+            });
+
+        //var moduleScript = moduleBuilder.Module.ToJs();
+
+        var outNode = new HtmlNode();
+        var divTag = new HtmlTag("div");
+        divTag.SetAttribute("id", mountNodeId);
+
+        var scriptTag = new HtmlTag("script");
+        scriptTag.SetAttribute("type", "module");
+        scriptTag.Children.Add(new HtmlNode()
+        {
+            Modules = new List<Module>() { moduleBuilder.Module },
+        });
+
+        return new HtmlNode()
+        {
+            Tags = new() { divTag, scriptTag }
         };
     }
 

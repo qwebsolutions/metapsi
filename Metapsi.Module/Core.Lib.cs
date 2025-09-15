@@ -7,14 +7,10 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
-        public const string ModuleName = "metapsi.core";
-
         private static Var<T> ImportCore<T>(SyntaxBuilder b, string symbol)
         {
-            //Metapsi.EmbeddedFiles.AddAll(typeof(Core).Assembly);
-            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
-            b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
-            return b.ImportName<T>(ModuleName, symbol);
+            var metapsiCore = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
+            return b.ImportName<T>(metapsiCore, symbol);
         }
 
         private static Var<Delegate> ImportFn(SyntaxBuilder b, string symbol)
@@ -161,92 +157,96 @@ namespace Metapsi.Syntax
 
         public static void Clear<T>(this SyntaxBuilder b, Var<List<T>> collection)
         {
-            b.CallExternal(ModuleName, nameof(Clear), collection);
+            b.CallDynamic(ImportFn(b, nameof(Clear)), collection);
         }
 
         public static Var<int> IndexOf<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<T> item)
         {
-            return b.CallExternal<int>(ModuleName, nameof(IndexOf), collection, item);
+            return b.CallDynamic<int>(ImportFn(b, nameof(IndexOf)), collection, item);
         }
 
         public static void Remove<T>(this SyntaxBuilder b, Var<List<T>> fromCollection, Var<T> item)
         {
-            b.CallExternal<int>(ModuleName, nameof(Remove), fromCollection, item);
+            b.CallDynamic<int>(ImportFn(b, nameof(Remove)), fromCollection, item);
         }
 
         public static Var<bool> Not(this SyntaxBuilder b, Var<bool> v)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(Not), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(Not)), v);
         }
 
         public static Var<bool> And(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(And), l, r);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(And)), l, r);
         }
 
         public static Var<bool> Or(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(Or), l, r);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(Or)), l, r);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<string> v)
         {
-            return b.CallExternal<bool>(ModuleName, "IsEmptyString", v);
+            return b.CallDynamic<bool>(ImportFn(b, "IsEmptyString"), v);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<object> v)
         {
-            return b.CallExternal<bool>(ModuleName, "IsEmptyObject", v);
+            return b.CallDynamic<bool>(ImportFn(b, "IsEmptyObject"), v);
         }
 
         public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<Guid> v)
         {
-            return b.CallExternal<bool>(ModuleName, "IsEmptyGuid", v);
+            return b.CallDynamic<bool>(ImportFn(b, "IsEmptyGuid"), v);
         }
 
         public static Var<bool> IsNull(this SyntaxBuilder b, IVariable v)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(IsNull), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(IsNull)), v);
         }
 
         public static Var<bool> HasValue(this SyntaxBuilder b, Var<string> v)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(HasValue), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(HasValue)), v);
         }
 
         public static Var<bool> HasId(this SyntaxBuilder b, Var<Guid> v)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(HasId), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(HasId)), v);
         }
 
         public static Var<bool> HasObject<T>(this SyntaxBuilder b, Var<T> v)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(HasObject), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(HasObject)), v);
         }
 
         public static Var<bool> HasFunction<T>(this SyntaxBuilder b, Var<T> v) where T : System.Delegate
         {
-            return b.CallExternal<bool>(ModuleName, nameof(HasFunction), v);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(HasFunction)), v);
         }
 
         public static Var<Guid> NewId(this SyntaxBuilder b)
         {
-            return b.CallExternal<Guid>(ModuleName, nameof(NewId));
+            var resource = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
+            var newId = b.ImportName<Func<Guid>>(resource, "v4");
+            return b.Call(newId);
         }
 
         public static Var<Guid> EmptyId(this SyntaxBuilder b)
         {
-            return b.CallExternal<Guid>(ModuleName, nameof(EmptyId));
+            var resource = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
+            var emptyId = b.ImportName<Guid>(resource, "NIL");
+            return emptyId;
         }
 
         public static Var<Guid> ParseId(this SyntaxBuilder b, Var<string> id)
         {
-            return b.CallExternal<Guid>(ModuleName, nameof(ParseId), id);
+            return b.CallDynamic<Guid>(ImportFn(b, nameof(ParseId)), id);
         }
 
         public static Var<int> ParseInt(this SyntaxBuilder b, Var<string> v)
         {
-            return b.CallExternal<int>(ModuleName, nameof(ParseInt), v);
+            return b.CallDynamic<int>(ImportFn(b, nameof(ParseInt)), v);
         }
 
         public static Var<bool> ParseBool(this SyntaxBuilder b, Var<string> v)
@@ -256,16 +256,16 @@ namespace Metapsi.Syntax
 
         public static Var<decimal> ParseDecimal(this SyntaxBuilder b, Var<string> v)
         {
-            return b.CallExternal<decimal>(ModuleName, nameof(ParseDecimal), v);
+            return b.CallDynamic<decimal>(ImportFn(b, nameof(ParseDecimal)), v);
         }
         public static Var<string> ToLowercase(this SyntaxBuilder b, Var<string> text)
         {
-            return b.CallExternal<string>(ModuleName, nameof(ToLowercase), text);
+            return b.CallDynamic<string>(ImportFn(b, nameof(ToLowercase)), text);
         }
 
         public static Var<bool> EndsWith(this SyntaxBuilder b, Var<string> larger, Var<string> end)
         {
-            return b.CallExternal<bool>(ModuleName, nameof(EndsWith), larger, end);
+            return b.CallDynamic<bool>(ImportFn(b, nameof(EndsWith)), larger, end);
         }
 
         public static Var<TScalar> ParseScalar<TScalar>(this SyntaxBuilder b, Var<string> value)
@@ -288,7 +288,7 @@ namespace Metapsi.Syntax
         public static Var<string> JoinStrings(this SyntaxBuilder b, Var<string> separator, Var<List<string>> values)
         {
             var checkedValues = b.Get(values, x => x.Where(x => x != null && x != "").ToList());
-            return b.CallExternal<string>(ModuleName, nameof(Concat), b.Join(separator, checkedValues));
+            return b.CallDynamic<string>(ImportFn(b, nameof(Concat)), b.Join(separator, checkedValues));
         }
 
         public static Var<List<T>> Join<T>(this SyntaxBuilder b, Var<T> separator, Var<List<T>> items)
@@ -306,64 +306,65 @@ namespace Metapsi.Syntax
 
         public static Var<string> Replace(this SyntaxBuilder b, Var<string> initialString, Var<string> oldText, Var<string> newText)
         {
-            return b.CallExternal<string>(ModuleName, nameof(Replace), initialString, oldText, newText);
+            return b.CallDynamic<string>(ImportFn(b, nameof(Replace)), initialString, oldText, newText);
         }
 
         public static Var<int> GetHours(this SyntaxBuilder b, Var<DateTime> dateTime)
         {
-            return b.CallExternal<int>(ModuleName, nameof(GetHours), dateTime);
+            return b.CallDynamic<int>(ImportFn(b, nameof(GetHours)), dateTime);
         }
 
 
         public static Var<int> GetMinutes(this SyntaxBuilder b, Var<DateTime> dateTime)
         {
-            return b.CallExternal<int>(ModuleName, nameof(GetMinutes), dateTime);
+            return b.CallDynamic<int>(ImportFn(b, nameof(GetMinutes)), dateTime);
         }
 
         public static Var<int> GetHours(this SyntaxBuilder b, Var<DateTime?> dateTime)
         {
-            return b.CallExternal<int>(ModuleName, nameof(GetHours), dateTime);
+            return b.CallDynamic<int>(ImportFn(b, nameof(GetHours)), dateTime);
         }
 
         public static Var<int> Floor<T>(this SyntaxBuilder b, Var<T> n)
         {
-            return b.CallExternal<int>(ModuleName, nameof(Floor), n);
+            return b.CallDynamic<int>(ImportFn(b, nameof(Floor)), n);
         }
 
         public static Var<int> GetMinutes(this SyntaxBuilder b, Var<DateTime?> dateTime)
         {
-            return b.CallExternal<int>(ModuleName, nameof(GetMinutes), dateTime);
+            return b.CallDynamic<int>(ImportFn(b, nameof(GetMinutes)), dateTime);
         }
 
         public static Var<bool> Includes<T>(this SyntaxBuilder b, Var<List<T>> collection, Var<T> item)
         {
-            return b.CallExternal<bool>(ModuleName, "ArrayIncludes", new IVariable[2] { collection, item });
+            return b.CallDynamic<bool>(ImportFn(b, "ArrayIncludes"), new IVariable[2] { collection, item });
         }
 
         // Metapsi.Syntax.Core
         public static Var<bool> Includes(this SyntaxBuilder b, Var<string> large, Var<string> small)
         {
-            return b.CallExternal<bool>(ModuleName, "StringIncludes", new IVariable[2] { large, small });
+            return b.CallDynamic<bool>(ImportFn(b, "StringIncludes"), new IVariable[2] { large, small });
         }
 
 
         public static Var<List<string>> Split(this SyntaxBuilder b, Var<string> inputString, Var<string> separator)
         {
-            return b.CallExternal<List<string>>(ModuleName, nameof(Split), inputString, separator);
+            return b.CallDynamic<List<string>>(ImportFn(b, nameof(Split)), inputString, separator);
         }
 
         public static Var<string> SubstringStart(this SyntaxBuilder b, Var<string> inputString, Var<string> start)
         {
-            return b.CallExternal<string>(ModuleName, nameof(SubstringStart), inputString, start);
+            return b.CallDynamic<string>(ImportFn(b, nameof(SubstringStart)), inputString, start);
         }
+
         public static Var<string> SubstringStartLength(this SyntaxBuilder b, Var<string> inputString, Var<string> start, Var<string> end)
         {
-            return b.CallExternal<string>(ModuleName, nameof(SubstringStartLength), inputString, start, end);
+            return b.CallDynamic<string>(ImportFn(b, nameof(SubstringStartLength)), inputString, start, end);
         }
 
         public static Var<string> Slice(this SyntaxBuilder b, Var<string> inputString, Var<int> start, Var<int> end)
         {
-            return b.CallExternal<string>(ModuleName, nameof(Slice), inputString, start, end);
+            return b.CallDynamic<string>(ImportFn(b, nameof(Slice)), inputString, start, end);
         }
 
         public static Var<int> StringLength(this SyntaxBuilder b, Var<string> inputString)
@@ -378,37 +379,37 @@ namespace Metapsi.Syntax
 
         public static Var<int> Minus(this SyntaxBuilder b, Var<int> number)
         {
-            return b.CallExternal<int>(ModuleName, nameof(Minus), number);
+            return b.CallDynamic<int>(ImportFn(b, nameof(Minus)), number);
         }
 
         public static Var<int> Add(this SyntaxBuilder b, Var<int> firstNumber, Var<int> secondNumber)
         {
-            return b.CallExternal<int>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallDynamic<int>(ImportFn(b, nameof(Add)), firstNumber, secondNumber);
         }
 
         public static Var<decimal> Add(this SyntaxBuilder b, Var<decimal> firstNumber, Var<decimal> secondNumber)
         {
-            return b.CallExternal<decimal>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallDynamic<decimal>(ImportFn(b, nameof(Add)), firstNumber, secondNumber);
         }
 
         public static Var<long> Add(this SyntaxBuilder b, Var<long> firstNumber, Var<long> secondNumber)
         {
-            return b.CallExternal<long>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallDynamic<long>(ImportFn(b, nameof(Add)), firstNumber, secondNumber);
         }
 
         public static Var<double> Add(this SyntaxBuilder b, Var<double> firstNumber, Var<double> secondNumber)
         {
-            return b.CallExternal<double>(ModuleName, nameof(Add), firstNumber, secondNumber);
+            return b.CallDynamic<double>(ImportFn(b, nameof(Add)), firstNumber, secondNumber);
         }
 
         public static Var<string> ToFixed(this SyntaxBuilder b, Var<decimal> number, Var<int> digits)
         {
-            return b.CallExternal<string>(ModuleName, nameof(ToFixed), number, digits);
+            return b.CallDynamic<string>(ImportFn(b, nameof(ToFixed)), number, digits);
         }
 
         public static Var<TResult> TryCatchReturn<TResult>(this SyntaxBuilder b, Var<Func<TResult>> onTry, Var<Func<object, TResult>> onCatch)
         {
-            return b.CallExternal<TResult>(ModuleName, nameof(TryCatchReturn), onTry, onCatch);
+            return b.CallDynamic<TResult>(ImportFn(b, nameof(TryCatchReturn)), onTry, onCatch);
         }
 
         public static Var<T> Clone<T>(this SyntaxBuilder b, Var<T> v)
@@ -420,11 +421,11 @@ namespace Metapsi.Syntax
             }
             else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(typeof(T)))
             {
-                return b.CallExternal<T>(ModuleName, "CloneCollection", v);
+                return b.CallDynamic<T>(ImportFn(b, "CloneCollection"), v);
             }
             else
             {
-                return b.CallExternal<T>(ModuleName, "CloneObject", v);
+                return b.CallDynamic<T>(ImportFn(b, "CloneObject"), v);
             }
         }
 
@@ -505,17 +506,17 @@ namespace Metapsi.Syntax
 
         public static Var<T> Deserialize<T>(this SyntaxBuilder b, Var<string> json)
         {
-            return b.CallExternal<T>(ModuleName, nameof(Deserialize), json);
+            return b.CallDynamic<T>(ImportFn(b, nameof(Deserialize)), json);
         }
 
         public static Var<string> Serialize<T>(this SyntaxBuilder b, Var<T> obj)
         {
-            return b.CallExternal<string>(ModuleName, nameof(Serialize), obj);
+            return b.CallDynamic<string>(ImportFn(b, nameof(Serialize)), obj);
         }
 
         public static Var<List<IVariable>> ObjectValues<T>(this SyntaxBuilder b, Var<T> obj)
         {
-            return b.CallExternal<List<IVariable>>(ModuleName, nameof(ObjectValues), obj);
+            return b.CallDynamic<List<IVariable>>(ImportFn(b, nameof(ObjectValues)), obj);
         }
 
         public static Var<string> ConcatObjectValues<T>(this SyntaxBuilder b, Var<T> obj)
@@ -530,32 +531,32 @@ namespace Metapsi.Syntax
 
         public static Var<DateTime> ParseDate(this SyntaxBuilder b, Var<string> stringDate)
         {
-            return b.CallExternal<DateTime>(ModuleName, nameof(ParseDate), stringDate);
+            return b.CallDynamic<DateTime>(ImportFn(b, nameof(ParseDate)), stringDate);
         }
 
         public static Var<string> FormatLocaleDateTime(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode)
         {
-            return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDateTime), dateTime, localeCode);
+            return b.CallDynamic<string>(ImportFn(b, nameof(FormatLocaleDateTime)), dateTime, localeCode);
         }
         public static Var<string> FormatLocaleDateTime(this SyntaxBuilder b, Var<DateTime?> dateTime, Var<string> localeCode)
         {
-            return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDateTime), dateTime, localeCode);
+            return b.CallDynamic<string>(ImportFn(b, nameof(FormatLocaleDateTime)), dateTime, localeCode);
         }
 
         public static Var<string> FormatLocaleDateTime(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<object> options)
         {
-            return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDateTime), dateTime, localeCode, options);
+            return b.CallDynamic<string>(ImportFn(b, nameof(FormatLocaleDateTime)), dateTime, localeCode, options);
         }
 
         public static Var<string> FormatLocaleDate(this SyntaxBuilder b, Var<DateTime> dateTime, Var<string> localeCode, Var<object> options)
         {
-            return b.CallExternal<string>(ModuleName, nameof(FormatLocaleDate), dateTime, localeCode, options);
+            return b.CallDynamic<string>(ImportFn(b, nameof(FormatLocaleDate)), dateTime, localeCode, options);
         }
 
 
         public static void Log(this SyntaxBuilder b, IVariable v)
         {
-            b.CallExternal(ModuleName, nameof(Log), v);
+            b.CallDynamic(ImportFn(b, nameof(Log)), v);
         }
 
         public static void Log(this SyntaxBuilder b, Var<string> tag, IVariable v)
@@ -576,7 +577,7 @@ namespace Metapsi.Syntax
 
         public static Var<string> ToBase64<T>(this SyntaxBuilder b, Var<T> input)
         {
-            return b.CallExternal<string>(ModuleName, nameof(ToBase64), input);
+            return b.CallDynamic<string>(ImportFn(b, nameof(ToBase64)), input);
         }
 
         public static void FileToBase64(
@@ -585,27 +586,27 @@ namespace Metapsi.Syntax
             Var<Action<object, string>> onResult,
             Var<Action<object>> onError)
         {
-            b.CallExternal(ModuleName, nameof(FileToBase64), file, onResult, onError);
+            b.CallDynamic(ImportFn(b, nameof(FileToBase64)), file, onResult, onError);
         }
 
         public static Var<List<char>> Chars(this SyntaxBuilder b, Var<string> s)
         {
-            return b.CallExternal<List<char>>(ModuleName, nameof(Chars), s);
+            return b.CallDynamic<List<char>>(ImportFn(b, nameof(Chars)), s);
         }
 
         public static Var<string> JoinChars(this SyntaxBuilder b, Var<List<char>> s)
         {
-            return b.CallExternal<string>(ModuleName, nameof(JoinChars), s);
+            return b.CallDynamic<string>(ImportFn(b, nameof(JoinChars)), s);
         }
 
         public static Var<char> CharToUpperCase(this SyntaxBuilder b, Var<char> c)
         {
-            return b.CallExternal<char>(ModuleName, nameof(CharToUpperCase), c);
+            return b.CallDynamic<char>(ImportFn(b, nameof(CharToUpperCase)), c);
         }
 
         public static Var<char> CharToLowerCase(this SyntaxBuilder b, Var<char> c)
         {
-            return b.CallExternal<char>(ModuleName, nameof(CharToLowerCase), c);
+            return b.CallDynamic<char>(ImportFn(b, nameof(CharToLowerCase)), c);
         }
 
         public static Var<bool> CharIsUpperCase(this SyntaxBuilder b, Var<char> c)

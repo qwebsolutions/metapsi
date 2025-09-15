@@ -8,7 +8,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -92,51 +94,79 @@ namespace Metapsi
 
         public static void UseEmbeddedFiles(this WebApplication app)
         {
-            // Embedded static files
-            app.Use(async (context, next) =>
+            app.MapGet("/r/{package}/{version}/{*logicalName}", async (HttpContext httpContext, string package, string version, string logicalName) =>
             {
-                var handled = false;
+                logicalName = logicalName.ToLowerInvariant().Trim('/');
+                var packageAssembly = Assembly.Load(package);
+                if (packageAssembly == null)
+                    return Results.NotFound();
 
-                // Try EmbeddedStaticFiles
+                var contentType = GetMimeTypeForFileExtension(logicalName);
 
-                if (!string.IsNullOrEmpty(context.Request.Path))
+                foreach (var rn in packageAssembly.GetManifestResourceNames())
                 {
-                    var fileName = context.Request.Path.Value.ToLower().Trim('/');
-                    var embeddedFile = Metapsi.EmbeddedFiles.Get(fileName);
-                    if (embeddedFile != null)
+                    var resourceName = rn.ToLowerInvariant().Trim('/');
+                    if (resourceName == logicalName)
                     {
-                        var bytes = embeddedFile.Content;
-                        if (bytes != null)
+                        using var stream = packageAssembly.GetManifestResourceStream(rn);
+                        using (var ms = new MemoryStream())
                         {
-                            handled = true;
-
-                            var contentType = GetMimeTypeForFileExtension(fileName);
-
-                            switch (contentType)
-                            {
-                                case "text/html":
-                                    {
-                                        context.Response.StatusCode = StatusCodes.Status404NotFound;
-                                        handled = true;
-                                    }
-                                    break;
-                                default:
-                                    {
-#if !DEBUG
-                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
-#endif
-                                        context.Response.ContentType = contentType;
-                                        await context.Response.BodyWriter.WriteAsync(bytes);
-                                        handled = true;
-                                    }
-                                    break;
-                            }
+                            stream.CopyTo(ms);
+                            var content = ms.ToArray();
+                            return Results.Bytes(content, contentType);
+                            //return Results.Stream(stream, contentType);
                         }
                     }
                 }
-                if (!handled)
-                    await next(context);
+
+                return Results.NotFound();
             });
+
+//            // Embedded static files
+//            app.Use(async (context, next) =>
+//            {
+//                var handled = false;
+
+//                // Try EmbeddedStaticFiles
+
+//                if (!string.IsNullOrEmpty(context.Request.Path))
+//                {
+//                    var fileName = context.Request.Path.Value.ToLower().Trim('/');
+//                    var embeddedFile = Metapsi.EmbeddedFiles.Get(fileName);
+//                    if (embeddedFile != null)
+//                    {
+//                        var bytes = embeddedFile.Content;
+//                        if (bytes != null)
+//                        {
+//                            handled = true;
+
+//                            var contentType = GetMimeTypeForFileExtension(fileName);
+
+//                            switch (contentType)
+//                            {
+//                                case "text/html":
+//                                    {
+//                                        context.Response.StatusCode = StatusCodes.Status404NotFound;
+//                                        handled = true;
+//                                    }
+//                                    break;
+//                                default:
+//                                    {
+//#if !DEBUG
+//                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
+//#endif
+//                                        context.Response.ContentType = contentType;
+//                                        await context.Response.BodyWriter.WriteAsync(bytes);
+//                                        handled = true;
+//                                    }
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                }
+//                if (!handled)
+//                    await next(context);
+//            });
         }
 
         public static string GetMimeTypeForFileExtension(string filePath)

@@ -81,6 +81,8 @@ namespace Metapsi.Syntax
         /// Local renames. Could be multiple for same import
         /// </summary>
         public HashSet<LocalRename> Locals { get; set; } = new HashSet<LocalRename>();
+
+        public ResourceMetadata ResourceMetadata { get; set; }
     }
 
     public class SyntaxNode
@@ -163,6 +165,21 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
+        public static void ImportName(this Module moduleDefinition, ResourceMetadata source, string importName)
+        {
+            moduleDefinition.Imports.TryGetValue(source.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = source
+                };
+            }
+
+            import.Imports.Add(importName);
+            moduleDefinition.Imports[source.GetIdentifierPath()] = import;
+        }
+
         /// <summary>
         /// Import default with name <paramref name="asName"/>
         /// </summary>
@@ -179,6 +196,21 @@ namespace Metapsi.Syntax
 
             import.Default = asName;
             moduleDefinition.Imports[source] = import;
+        }
+
+        public static void ImportDefault(this Module moduleDefinition, ResourceMetadata resource, string asName)
+        {
+            moduleDefinition.Imports.TryGetValue(resource.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = resource
+                };
+            }
+
+            import.Default = asName;
+            moduleDefinition.Imports[resource.GetIdentifierPath()] = import;
         }
 
         /// <summary>
@@ -198,58 +230,43 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
+        public static void ImportSideEffect(this Module moduleDefinition, ResourceMetadata source)
+        {
+            moduleDefinition.Imports.TryGetValue(source.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = source
+                };
+            }
+
+            import.SideEffect = true;
+            moduleDefinition.Imports[source.GetIdentifierPath()] = import;
+        }
+
         private static string Spaces(int indentLevel)
         {
             return new string(' ', indentLevel * 2);
         }
 
-        private static string GetMetadataHash(this Module moduleDefinition, string fileName)
-        {
-            var embeddedFileMetadata = moduleDefinition.Metadata.SingleOrDefault(x => x.Key == "embedded-file" && x.Value == fileName.ToLowerInvariant());
-            if (embeddedFileMetadata == null)
-                return string.Empty;
-            var hashMetadata = embeddedFileMetadata.Data.SingleOrDefault(x => x.Key == "hash");
-            if (hashMetadata == null)
-                return string.Empty;
-            return hashMetadata.Value;
-        }
+        
 
-        private static string GetEmbeddedFilePath(this Module moduleDefinition, string fileName)
+        public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options = null)
         {
-            var hash = GetMetadataHash(moduleDefinition, fileName);
-            if (string.IsNullOrEmpty(hash))
-                return string.Empty;
-            if (string.IsNullOrEmpty(hash))
-                return $"/{fileName}";
-            return $"/{fileName}?h={hash}";
-        }
-
-        public static string ToJs(this Module moduleDefinition, Func<string,string> moduleResolver = null)
-        {
-            if (moduleResolver == null)
-            {
-                moduleResolver = (source) =>
-                {
-                    if (source == "hyperapp.js") return moduleDefinition.GetEmbeddedFilePath("hyperapp.js");
-                    if (source == "metapsi-signalr") return moduleDefinition.GetEmbeddedFilePath("metapsi-signalr.js");
-                    if (source == "linq.js") return moduleDefinition.GetEmbeddedFilePath("linq.js");
-                    if (source == "metapsi.core") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
-                    if (source == "metapsi.core.js") return moduleDefinition.GetEmbeddedFilePath("metapsi.core.js");
-                    var embededPath = moduleDefinition.GetEmbeddedFilePath(source);
-                    if (!string.IsNullOrEmpty(embededPath))
-                    {
-                        return embededPath;
-                    }
-                    return source;
-                };
-            }
+            if (options == null) options = new ToJavaScriptOptions();
+            
 
             StringBuilder outJs = new StringBuilder();
 
             foreach (var import in moduleDefinition.Imports)
             {
                 var source = import.Key;
-                source = moduleResolver(source);
+                if (import.Value.ResourceMetadata != null)
+                {
+                    source = options.ResolveResource(moduleDefinition, import.Value.ResourceMetadata);
+                }
+
                 var importDefinition = import.Value;
 
                 if (!string.IsNullOrEmpty(importDefinition.Default))
