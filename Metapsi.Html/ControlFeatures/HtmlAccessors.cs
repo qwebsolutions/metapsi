@@ -73,7 +73,7 @@ public class AutoRegisterHtmlInputBinding : IAutoRegisterBinding
                 b.AreEqual(controlType, b.Const("checkbox")),
                 b =>
                 {
-                    b.Set(x => x.@checked, value);
+                    b.Set(x => x.@checked, value.As<bool>());
                 });
 
             // Radios are weird. You set the bool 'checked' if the string 'value' is equal to the radio's value
