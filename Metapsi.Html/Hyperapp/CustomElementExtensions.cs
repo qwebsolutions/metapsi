@@ -26,8 +26,8 @@ public static partial class CustomElementExtensions
         Var<Action<Element>> attach,
         Var<Action<Element>> cleanup)
     {
-        b.AddEmbeddedResourceMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName);
-        var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(ExternalScriptName, "defineRACCustomElement");
+        var metapsiCustomElementsJsResource = b.AddEmbeddedResourceMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName);
+        var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(metapsiCustomElementsJsResource, "defineRACCustomElement");
         b.Call(define, tagName, render, attach, cleanup);
     }
 
