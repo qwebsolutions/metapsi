@@ -171,7 +171,7 @@ public static class IonicNodeImport
 
     internal static Var<object> ImportController(this SyntaxBuilder b, string controllerName)
     {
-        var ionicJsResource = b.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, $"/ionic@{Cdn.Version}/ionic.esm.js");
+        var ionicJsResource = b.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, $"/ionic@{Cdn.Version}/index.esm.js");
         return b.ImportName<object>(ionicJsResource, "actionSheetController");
     }
 }
