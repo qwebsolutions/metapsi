@@ -45,10 +45,6 @@ public class ToHtmlOptions
     public int Indent { get; set; } = 2;
     public Func<HtmlDocument, Metapsi.Syntax.ResourceMetadata, string> ResolveResource { get; set; } = (htmlDocument, resource) =>
     {
-        //if (string.IsNullOrWhiteSpace(resource.FileHash))
-        //{
-        //    resource.FileHash = GetEmbeddedFileHashMetadata(htmlDocument, resource.RelativePath);
-        //}
         return resource.GetDefaultHttpPath();
     };
 
