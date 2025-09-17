@@ -101,10 +101,19 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
     {
-        b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        //b.AddScript($"/ionic@{Cdn.Version}/ionic.js");
-        b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
+        var ionicJs = b.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, $"/ionic@{Cdn.Version}/ionic.esm.js");
 
+        var scriptTag = new HtmlTag("script");
+        scriptTag.SetAttribute("type", "module");
+        scriptTag.SetAttribute("src", ionicJs);
+        b.Metadata().AddRequiredTagMetadata(scriptTag);
+
+        var ionicCss = b.AddEmbeddedResourceMetadata(typeof(IonicNodeImport).Assembly, $"/ionic@{Cdn.Version}/ionic.bundle.css");
+
+        var stylesheet = new HtmlTag("link");
+        stylesheet.SetAttribute("rel", "stylesheet");
+        stylesheet.SetAttribute("href", ionicCss);
+        b.Metadata().AddRequiredTagMetadata(stylesheet);
         return b.H(tag, buildProps, children);
     }
 
@@ -141,10 +150,7 @@ public static class IonicNodeImport
         Var<string> tag,
         Var<List<IVNode>> children)
     {
-        b.AddRequiredScriptMetadata($"/ionic@{Cdn.Version}/ionic.esm.js", "module");
-        b.AddRequiredStylesheetMetadata($"/ionic@{Cdn.Version}/ionic.bundle.css");
-
-        return b.H(tag, children);
+        return b.IonicNode<object>(tag, b => { }, children);
     }
 
     public static Var<IVNode> IonicNode(

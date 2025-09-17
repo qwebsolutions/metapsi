@@ -16,6 +16,7 @@ using Metapsi.Shoelace;
 using Metapsi.Web;
 using Metapsi.FluentUi;
 using Metapsi.TomSelect;
+using Metapsi.Ionic;
 
 public class DataModel
 {
@@ -327,6 +328,22 @@ public static class Program
         {
 
         }).WithName("pattern");
+
+        app.MapGet("ionic", async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.BodyAppend(
+                        b.Hyperapp(new object(),
+                        (b, model) =>
+                        {
+                            return b.IonApp(
+                                b.IonHeader(),
+                                b.IonContent(b.IonButton(b.Text("Test button"))));
+                        }));
+                }));
+        });
 
         var testApp1 = App.New(
             b =>
