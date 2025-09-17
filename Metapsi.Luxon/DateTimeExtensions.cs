@@ -8,9 +8,9 @@ namespace Metapsi.Luxon;
 
 public static partial class DateTimeExtensions
 {
-    internal static void AddLuxon(this SyntaxBuilder b)
+    internal static ResourceMetadata AddLuxon(this SyntaxBuilder b)
     {
-        b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "luxon.min.js");
+        return b.AddEmbeddedResourceMetadata(typeof(DateTimeExtensions).Assembly, "luxon.min.js");
     }
 
     public static Var<Duration> LuxonDurationNormalize(this SyntaxBuilder b, Var<Duration> duration)

@@ -15,8 +15,8 @@ public static partial class Control
     private static void AddSwiper(this SyntaxBuilder b)
     {
         string scriptPath = $"swiper@{Cdn.Version}/swiper-element-bundle.mjs";
-        b.AddEmbeddedResourceMetadata(typeof(SwiperContainer).Assembly, scriptPath);
-        var register = b.ImportName<Action>(scriptPath, "register");
+        var resource = b.AddEmbeddedResourceMetadata(typeof(SwiperContainer).Assembly, scriptPath);
+        var register = b.ImportName<Action>(resource, "register");
         b.Call(register);
     }
 
