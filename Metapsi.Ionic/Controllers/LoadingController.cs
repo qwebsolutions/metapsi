@@ -94,7 +94,7 @@ public static partial class IonLoadingControl
     /// <returns></returns>
     public static Var<Promise> LoadingControllerCreate(this SyntaxBuilder b, Var<LoadingOptions> options)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "loadingController");
+        var controller = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(controller, "create", options);
     }
 
@@ -127,19 +127,19 @@ public static partial class IonLoadingControl
 
     public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
     {
-        var loadingController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "loadingController");
+        var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data, role, id);
     }
 
     public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
     {
-        var loadingController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "loadingController");
+        var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data, role);
     }
 
     public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data)
     {
-        var loadingController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "loadingController");
+        var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data);
     }
 
@@ -150,7 +150,7 @@ public static partial class IonLoadingControl
 
     public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b)
     {
-        var loadingController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "loadingController");
+        var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss");
     }
 }

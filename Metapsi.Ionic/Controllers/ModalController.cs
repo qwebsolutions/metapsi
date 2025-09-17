@@ -119,7 +119,7 @@ public static partial class IonModalControl
     /// <returns></returns>
     public static Var<Promise> ModalControllerCreate(this SyntaxBuilder b, Var<ModalOptions> options)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "create", options);
     }
 
@@ -152,19 +152,19 @@ public static partial class IonModalControl
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data, role, id);
     }
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data, role);
     }
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data);
     }
 
@@ -175,7 +175,7 @@ public static partial class IonModalControl
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b)
     {
-        var modalController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "modalController");
+        var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss");
     }
 }

@@ -97,7 +97,7 @@ public static partial class IonAlertControl
     /// <returns></returns>
     public static Var<Promise> AlertControllerCreate(this SyntaxBuilder b, Var<AlertOptions> options)
     {
-        var alertController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "alertController");
+        var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "create", options);
     }
 
@@ -130,19 +130,19 @@ public static partial class IonAlertControl
 
     public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
     {
-        var alertController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "alertController");
+        var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data, role, id);
     }
 
     public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
     {
-        var alertController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "alertController");
+        var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data, role);
     }
 
     public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data)
     {
-        var alertController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "alertController");
+        var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data);
     }
 
@@ -153,7 +153,7 @@ public static partial class IonAlertControl
 
     public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b)
     {
-        var alertController = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "alertController");
+        var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss");
     }
 }

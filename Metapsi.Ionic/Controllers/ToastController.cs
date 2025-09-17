@@ -126,7 +126,7 @@ public static partial class IonToastControl
     /// <returns></returns>
     public static Var<Promise> ToastControllerCreate(this SyntaxBuilder b, Var<ToastOptions> options)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "toastController");
+        var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "create", options);
     }
 
@@ -159,19 +159,19 @@ public static partial class IonToastControl
 
     public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "toastController");
+        var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role, id);
     }
 
     public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "toastController");
+        var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role);
     }
 
     public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "toastController");
+        var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data);
     }
 
@@ -182,7 +182,7 @@ public static partial class IonToastControl
 
     public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "toastController");
+        var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss");
     }
 }

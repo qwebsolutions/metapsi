@@ -85,7 +85,7 @@ public static partial class IonActionSheetControl
     /// <returns></returns>
     public static Var<Promise> ActionSheetControllerCreate(this SyntaxBuilder b, Var<ActionSheetOptions> options)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "actionSheetController");
+        var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "create", options);
     }
 
@@ -123,19 +123,19 @@ public static partial class IonActionSheetControl
 
     public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "actionSheetController");
+        var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role, id);
     }
 
     public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "actionSheetController");
+        var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role);
     }
 
     public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "actionSheetController");
+        var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data);
     }
 
@@ -146,7 +146,7 @@ public static partial class IonActionSheetControl
 
     public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b)
     {
-        var controller = b.ImportName<object>($"/ionic@{Cdn.Version}/index.esm.js", "actionSheetController");
+        var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss");
     }
 }
