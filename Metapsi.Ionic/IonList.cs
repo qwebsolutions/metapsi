@@ -21,7 +21,7 @@ public static partial class IonListControl
     {
         var childNodes = b.NewCollection<IVNode>();
         b.Push(childNodes, listHeader);
-        b.PushRange(childNodes, childNodes);
+        b.PushRange(childNodes, children);
         return b.IonList(buildProps, childNodes);
     }
 
@@ -35,7 +35,7 @@ public static partial class IonListControl
     {
         var childNodes = b.NewCollection<IVNode>();
         b.Push(childNodes, listHeader);
-        b.PushRange(childNodes, childNodes);
+        b.PushRange(childNodes, children);
         return b.IonList(b => { }, childNodes);
     }
 }
