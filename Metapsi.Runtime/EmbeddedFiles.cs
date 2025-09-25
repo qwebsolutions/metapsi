@@ -36,13 +36,16 @@ public static class EmbeddedFiles
 
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            var actualCaseResourceName = assembly.GetManifestResourceNames().SingleOrDefault(x => x.ToLowerInvariant() == fileName);
-            if (actualCaseResourceName != null)
+            if (!assembly.IsDynamic)
             {
-                var stream = assembly.GetManifestResourceStream(actualCaseResourceName);
-                var embeddedReference = CreateEmbeddedReference(assembly, stream, actualCaseResourceName);
-                embeddedResources[fileName] = embeddedReference;
-                return embeddedReference;
+                var actualCaseResourceName = assembly.GetManifestResourceNames().SingleOrDefault(x => x.ToLowerInvariant() == fileName);
+                if (actualCaseResourceName != null)
+                {
+                    var stream = assembly.GetManifestResourceStream(actualCaseResourceName);
+                    var embeddedReference = CreateEmbeddedReference(assembly, stream, actualCaseResourceName);
+                    embeddedResources[fileName] = embeddedReference;
+                    return embeddedReference;
+                }
             }
         }
 
