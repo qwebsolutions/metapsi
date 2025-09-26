@@ -18,6 +18,11 @@ using Metapsi.FluentUi;
 using Metapsi.TomSelect;
 using Metapsi.Ionic;
 
+//scenarios:
+//- Render html page
+//- Render html page with client-side hyperapp
+//- Render html page importing locally defined custom element
+
 public class DataModel
 {
     public bool ShowText { get; set; }
@@ -132,7 +137,7 @@ public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.
         {
             NavigateToUrl = model.GetPageUrl<NavigateToPage>(),
             RandomValue = new Random().Next(),
-            CustomElement1JsPath = model.GetCustomElementUrl<TestCustomElement>()
+            //CustomElement1JsPath = model.GetCustomElementUrl<TestCustomElement>()
         };
     }
 
@@ -172,7 +177,7 @@ public class TestCustomElement : CustomElement<DataModel>
         this.Tag = "test-custom";
     }
 
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map model, Var<Element> element)
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
     {
         return b.MakeStateWithEffects(b.NewObj<DataModel>());
     }
@@ -324,6 +329,18 @@ public static class Program
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub(storeHubContext: hc => StaticHubContext = hc);
 
+        // Write document directly to context
+        app.MapGet("/", async (HttpContext httpContext) =>
+        {
+            var ce = Scenario.CustomElementWithExplicitHttpHandler();
+            await Scenario.WriteHomepage(httpContext, ce);
+        });
+
+        // return Page.Result test
+        app.MapGet("/page-result", Scenario.PageResult).WithName("page-result");
+
+        app.MapGet("/custom-element-http-handler.js", Scenario.CustomElementHttpHandler).WithName("custom-element-http-handler");
+
         app.MapGet("abc/{p1}/something/{f}", async (string p1, int f) =>
         {
 
@@ -430,11 +447,6 @@ public static class Program
                                 var setTheme = b.ImportName<Action<string>>("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/+esm", "setTheme");
                                 var webLightTheme = b.ImportName<string>("https://cdn.jsdelivr.net/npm/@fluentui/tokens/+esm", "webLightTheme");
                                 b.Call(setTheme, webLightTheme);
-                                //b.ImportSideEffect("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/button.js");
-                                /*import { setTheme } from '@fluentui/web-components';
-import { webLightTheme } from '@fluentui/tokens';
-
-setTheme(webLightTheme);*/
                             }));
                     b.UseWebComponentsFadeIn();
                     b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));

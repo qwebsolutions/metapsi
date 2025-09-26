@@ -12,7 +12,16 @@ namespace Metapsi;
 public interface ICustomElement
 {
     string Tag { get; }
-    internal Func<App.Map, Module> GetModule();
+    public Module Module { get; }
+}
+
+/// <summary>
+/// Keeps on-the-spot custom element definitions 
+/// </summary>
+public class CustomElement : ICustomElement
+{
+    public string Tag { get; set; }
+    public Module Module { get; set; }
 }
 
 public interface ICustomElementProps<T>
@@ -40,7 +49,7 @@ public abstract class CustomElement<TModel> : ICustomElement
 
     internal LayoutBuilder rootLayoutBuilder { get; set; }
 
-    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map appMap, Var<Element> element);
+    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element);
 
     public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
 
@@ -58,22 +67,22 @@ public abstract class CustomElement<TModel> : ICustomElement
         return Root(b => { }, children);
     }
 
-    Func<App.Map, Module> ICustomElement.GetModule()
+    public Module Module
     {
-        return (appMap) =>
+        get
         {
             var module = ModuleBuilder.New(
                 b =>
                 {
                     b.Call(b =>
                     {
-                        AppMapExtensions.SetAppMap(b, appMap);
+                        //AppMapExtensions.SetAppMap(b, appMap);
 
                         b.DefineCustomElement(
                             b.Const(this.Tag),
                             b.Def((SyntaxBuilder b, Var<Element> element) =>
                             {
-                                return this.OnInit(b, appMap, element);
+                                return this.OnInit(b, element);
                             }),
                             b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
                             {
@@ -90,17 +99,17 @@ public abstract class CustomElement<TModel> : ICustomElement
                 });
 
             return module;
-        };
+        }
     }
 }
 
 public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICustomElementProps<TProps>
 {
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, App.Map appMap, Var<Element> element)
+    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
     {
-        return OnInitProps(b, appMap, b.GetInitProps<TProps>(element));
+        return OnInitProps(b, b.GetInitProps<TProps>(element));
     }
-    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, App.Map appMap, Var<TProps> props);
+    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, Var<TProps> props);
 }
 
 public class CustomElementConfiguration<TModel>
@@ -111,15 +120,20 @@ public class CustomElementConfiguration<TModel>
     public List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> Subscriptions { get; set; } = new List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>>();
 }
 
-public class CustomElementConfiguration
-{
-    public string Tag { get; set; }
-    public Func<App.Map, Module> GetModule { get; set; }
-}
+//public class CustomElementConfiguration
+//{
+//    public string Tag { get; set; }
+//    public Func<App.Map, Module> GetModule { get; set; }
+//}
 
 
 public static class CustomElementsFeature
 {
+    public static string GetCustomElementDefaultPath(this ICustomElement ce)
+    {
+        return $"/ce/{ce.Tag}.js";
+    }
+
     public static class Routes
     {
         public static RouteDescription JsPathByTag(string tag)
@@ -140,7 +154,7 @@ public static class CustomElementsFeature
 
     public class Configuration
     {
-        public Dictionary<string, CustomElementConfiguration> CustomElements { get; set; } = new Dictionary<string, CustomElementConfiguration>();
+        public Dictionary<string, ICustomElement> CustomElements { get; set; } = new Dictionary<string, ICustomElement>();
     }
 
     public static string FeatureName = nameof(Metapsi.CustomElementsFeature);
@@ -178,31 +192,25 @@ public static class CustomElementsFeature
     public static void Add<TModel>(this ConfigurationBuilder<Configuration> b, Action<ConfigurationBuilder<CustomElementConfiguration<TModel>>> configureCustomElement)
     {
         var customElement = ConfigurationBuilder.Configure(configureCustomElement);
-        Add(
-            b,
-            customElement.Tag,
-            (appMap) =>
+        var module = ModuleBuilder.New(
+            b =>
             {
-                var module = ModuleBuilder.New(
-                    b =>
-                    {
-                        b.Call(b =>
+                b.Call(b =>
+                {
+                    //AppMapExtensions.SetAppMap(b, appMap);
+
+                    b.DefineCustomElement(
+                        customElement.Tag,
+                        (SyntaxBuilder b, Var<Element> element) =>
                         {
-                            AppMapExtensions.SetAppMap(b, appMap);
-
-                            b.DefineCustomElement(
-                                customElement.Tag,
-                                (SyntaxBuilder b, Var<Element> element) =>
-                                {
-                                    return customElement.Init(b, element);
-                                },
-                                customElement.Render,
-                                customElement.Subscriptions.ToArray());
-                        });
-                    });
-
-                return module;
+                            return customElement.Init(b, element);
+                        },
+                        customElement.Render,
+                        customElement.Subscriptions.ToArray());
+                });
             });
+
+        Add(b, customElement.Tag, module);
     }
 
     /// <summary>
@@ -216,12 +224,12 @@ public static class CustomElementsFeature
         b.Add<TModel>(configureCustomElement);
     }
 
-    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Func<App.Map, Module> getModule)
+    private static void Add(ConfigurationBuilder<Configuration> b, string tag, Module module)
     {
-        b.Configuration.CustomElements[tag] = new CustomElementConfiguration()
+        b.Configuration.CustomElements[tag] = new CustomElement()
         {
             Tag = tag,
-            GetModule = getModule
+            Module = module
         };
     }
 
@@ -236,7 +244,7 @@ public static class CustomElementsFeature
         Add(
             b,
             instance.Tag,
-            instance.GetModule());
+            instance.Module);
     }
 
     /// <summary>
@@ -264,27 +272,27 @@ public static class CustomElementsFeature
             if (isValid)
             {
                 var instance = (ICustomElement)Activator.CreateInstance(type);
-                Add(b, instance.Tag, instance.GetModule());
+                Add(b, instance.Tag, instance.Module);
             }
         }
     }
 
-    public static string GetCustomElementUrl(this App.Map appMap, string tag)
-    {
-        CustomElementsFeature.Details data = appMap.Features[Metapsi.CustomElementsFeature.FeatureName] as CustomElementsFeature.Details;
-        return data.JsUrls[tag];
-    }
+    //public static string GetCustomElementUrl(this List<PathResolution> appMap, string tag)
+    //{
+    //    CustomElementsFeature.Details data = appMap.Features[Metapsi.CustomElementsFeature.FeatureName] as CustomElementsFeature.Details;
+    //    return data.JsUrls[tag];
+    //}
 
-    public static string GetCustomElementUrl<T>(this App.Map appMap)
-        where T : ICustomElement, new()
-    {
-        var customElement = new T();
-        var module = customElement.GetModule()(appMap);
-        var moduleJs = module.ToJs();
-        var hash = EmbeddedFiles.Hash(moduleJs);
-        var baseUrl = appMap.GetCustomElementUrl(customElement.Tag);
-        return $"{baseUrl}?hash={hash}";
-    }
+    //public static string GetCustomElementUrl<T>(this App.Map appMap)
+    //    where T : ICustomElement, new()
+    //{
+    //    var customElement = new T();
+    //    var module = customElement.GetModule(appMap);
+    //    var moduleJs = module.ToJs();
+    //    var hash = EmbeddedFiles.Hash(moduleJs);
+    //    var baseUrl = appMap.GetCustomElementUrl(customElement.Tag);
+    //    return $"{baseUrl}?hash={hash}";
+    //}
 
     public static void OnInit<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<SyntaxBuilder, Var<Html.Element>, Var<HyperType.StateWithEffects>> onInit)
     {

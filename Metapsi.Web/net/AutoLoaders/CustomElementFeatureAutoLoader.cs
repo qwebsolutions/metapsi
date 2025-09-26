@@ -15,7 +15,7 @@ public class CustomElementFeatureAutoLoader : IRegisterAppFeature
         {
             customElementsGroup.MapGet(ce.Value.Tag + ".js", async (Microsoft.AspNetCore.Http.HttpContext httpContext) =>
             {
-                var module = ce.Value.GetModule(appSetup.GetAppMap(httpContext));
+                var module = ce.Value.Module;
                 await httpContext.WriteJsModule(module);
             }).WithName(CustomElementsFeature.Routes.JsPathByTag(ce.Key).ToRouteName(appSetup));
         }

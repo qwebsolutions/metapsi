@@ -90,8 +90,6 @@ namespace Metapsi
             });
         }
 
-
-
         public static RouteHandlerBuilder UseEmbeddedFiles(this WebApplication app)
         {
             return app.MapGet("/r/{package}/{version}/{*logicalName}", async (HttpContext httpContext, string package, string version, string logicalName) =>
@@ -113,6 +111,7 @@ namespace Metapsi
                         {
                             stream.CopyTo(ms);
                             var content = ms.ToArray();
+                            httpContext.Response.Headers["Cache-Control"] = "public,max-age=31536000"; // Cache for 1 year
                             return Results.Bytes(content, contentType);
                             //return Results.Stream(stream, contentType);
                         }
@@ -122,51 +121,51 @@ namespace Metapsi
                 return Results.NotFound();
             });
 
-//            // Embedded static files
-//            app.Use(async (context, next) =>
-//            {
-//                var handled = false;
+            //            // Embedded static files
+            //            app.Use(async (context, next) =>
+            //            {
+            //                var handled = false;
 
-//                // Try EmbeddedStaticFiles
+            //                // Try EmbeddedStaticFiles
 
-//                if (!string.IsNullOrEmpty(context.Request.Path))
-//                {
-//                    var fileName = context.Request.Path.Value.ToLower().Trim('/');
-//                    var embeddedFile = Metapsi.EmbeddedFiles.Get(fileName);
-//                    if (embeddedFile != null)
-//                    {
-//                        var bytes = embeddedFile.Content;
-//                        if (bytes != null)
-//                        {
-//                            handled = true;
+            //                if (!string.IsNullOrEmpty(context.Request.Path))
+            //                {
+            //                    var fileName = context.Request.Path.Value.ToLower().Trim('/');
+            //                    var embeddedFile = Metapsi.EmbeddedFiles.Get(fileName);
+            //                    if (embeddedFile != null)
+            //                    {
+            //                        var bytes = embeddedFile.Content;
+            //                        if (bytes != null)
+            //                        {
+            //                            handled = true;
 
-//                            var contentType = GetMimeTypeForFileExtension(fileName);
+            //                            var contentType = GetMimeTypeForFileExtension(fileName);
 
-//                            switch (contentType)
-//                            {
-//                                case "text/html":
-//                                    {
-//                                        context.Response.StatusCode = StatusCodes.Status404NotFound;
-//                                        handled = true;
-//                                    }
-//                                    break;
-//                                default:
-//                                    {
-//#if !DEBUG
-//                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
-//#endif
-//                                        context.Response.ContentType = contentType;
-//                                        await context.Response.BodyWriter.WriteAsync(bytes);
-//                                        handled = true;
-//                                    }
-//                                    break;
-//                            }
-//                        }
-//                    }
-//                }
-//                if (!handled)
-//                    await next(context);
-//            });
+            //                            switch (contentType)
+            //                            {
+            //                                case "text/html":
+            //                                    {
+            //                                        context.Response.StatusCode = StatusCodes.Status404NotFound;
+            //                                        handled = true;
+            //                                    }
+            //                                    break;
+            //                                default:
+            //                                    {
+            //#if !DEBUG
+            //                                    context.Response.Headers.CacheControl = new[] { "public", $"max-age={TimeSpan.FromDays(100).TotalSeconds}" };
+            //#endif
+            //                                        context.Response.ContentType = contentType;
+            //                                        await context.Response.BodyWriter.WriteAsync(bytes);
+            //                                        handled = true;
+            //                                    }
+            //                                    break;
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //                if (!handled)
+            //                    await next(context);
+            //            });
         }
 
         public static string GetMimeTypeForFileExtension(string filePath)
@@ -183,20 +182,21 @@ namespace Metapsi
             return contentType;
         }
 
-        public static async Task WriteHtmlDocumentResponse(this HttpContext httpContext, HtmlDocument document)
+        public static async Task WriteHtmlDocumentResponse(
+            this HttpContext httpContext, 
+            HtmlDocument document,
+            ToHtmlOptions options = null)
         {
-            //await MetadataExtensions.LoadMetadataResources(document.Metadata);
-
-            string html = document.ToHtml();
+            string html = document.ToHtml(options);
             httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
             httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
             await httpContext.Response.WriteAsync(html);
         }
 
-        public static async Task WriteJsModule(this HttpContext httpContext, Metapsi.Syntax.Module module)
+        public static async Task WriteJsModule(this HttpContext httpContext, Metapsi.Syntax.Module module, ToJavaScriptOptions options = null)
         {
             httpContext.Response.ContentType = "text/javascript";
-            await httpContext.Response.WriteAsync(module.ToJs());
+            await httpContext.Response.WriteAsync(module.ToJs(options));
         }
     }
 }

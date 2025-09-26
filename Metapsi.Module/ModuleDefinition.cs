@@ -255,7 +255,6 @@ namespace Metapsi.Syntax
         public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options = null)
         {
             if (options == null) options = new ToJavaScriptOptions();
-            
 
             StringBuilder outJs = new StringBuilder();
 

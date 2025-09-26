@@ -30,4 +30,11 @@ namespace Metapsi.Syntax
             return keyHashCode ^ valueHashCode;
         }
     }
+
+    public class PathResolution
+    {
+        public string Type { get; set; }
+        public string Idenfifier { get; set; }
+        public string ResolvedPath { get; set; }
+    }
 }
