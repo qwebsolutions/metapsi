@@ -17,7 +17,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, setAttributes, children);
     }
 
@@ -28,7 +28,7 @@ public static class IonicNodeImport
         params IHtmlNode[] children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, setAttributes, children);
     }
 
@@ -39,7 +39,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, attributes, children);
     }
 
@@ -50,7 +50,7 @@ public static class IonicNodeImport
         params IHtmlNode[] children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, attributes, children);
     }
 
@@ -60,7 +60,7 @@ public static class IonicNodeImport
         List<IHtmlNode> children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, children);
     }
 
@@ -70,7 +70,7 @@ public static class IonicNodeImport
         params IHtmlNode[] children)
     {
         ImportIonic(b);
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
         return b.Tag(tag, children);
     }
 
@@ -133,6 +133,7 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         Var<List<IVNode>> children)
     {
+        b.Metadata().TrackWebComponent(tag);
         return b.IonicNode(b.Const(tag), buildProps, children);
     }
 
@@ -142,23 +143,25 @@ public static class IonicNodeImport
         Action<PropsBuilder<TProps>> buildProps,
         params Var<IVNode>[] children)
     {
+        b.Metadata().TrackWebComponent(tag);
         return b.IonicNode(b.Const(tag), buildProps, children);
     }
 
-    public static Var<IVNode> IonicNode(
-        this LayoutBuilder b,
-        Var<string> tag,
-        Var<List<IVNode>> children)
-    {
-        return b.IonicNode<object>(tag, b => { }, children);
-    }
+    //public static Var<IVNode> IonicNode(
+    //    this LayoutBuilder b,
+    //    Var<string> tag,
+    //    Var<List<IVNode>> children)
+    //{
+    //    return b.IonicNode<object>(tag, b => { }, children);
+    //}
 
     public static Var<IVNode> IonicNode(
         this LayoutBuilder b,
         string tag,
         Var<List<IVNode>> children)
     {
-        return b.IonicNode(b.Const(tag), children);
+        b.Metadata().TrackWebComponent(tag);
+        return b.IonicNode<object>(b.Const(tag), b => { }, children);
     }
 
     public static Var<IVNode> IonicNode(
@@ -166,7 +169,8 @@ public static class IonicNodeImport
         string tag,
         params Var<IVNode>[] children)
     {
-        return b.IonicNode(b.Const(tag), b.List(children));
+        b.Metadata().TrackWebComponent(tag);
+        return b.IonicNode<object>(b.Const(tag), b => { }, b.List(children));
     }
 
     internal static Var<object> ImportController(this SyntaxBuilder b, string controllerName)

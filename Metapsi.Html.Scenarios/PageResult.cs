@@ -3,6 +3,8 @@ using Metapsi.Html;
 using Microsoft.AspNetCore.Http;
 using System;
 
+namespace Metapsi.Html.Scenarios;
+
 public static partial class Scenario
 {
     public static IResult PageResult()

@@ -120,13 +120,6 @@ public class CustomElementConfiguration<TModel>
     public List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> Subscriptions { get; set; } = new List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>>();
 }
 
-//public class CustomElementConfiguration
-//{
-//    public string Tag { get; set; }
-//    public Func<App.Map, Module> GetModule { get; set; }
-//}
-
-
 public static class CustomElementsFeature
 {
     public static string GetCustomElementDefaultPath(this ICustomElement ce)

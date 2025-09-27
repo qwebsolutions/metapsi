@@ -90,8 +90,7 @@ public static partial class SlNodeExtensions
 
         //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
         b.HeadAppend(b.HtmlScriptModule(SetBasePath));
-
-        b.TrackWebComponent(tag);
+        b.Document.Metadata.TrackWebComponent(tag);
     }
 
     private static Reference<bool> basePathSet = new Reference<bool>();
@@ -119,6 +118,7 @@ public static partial class SlNodeExtensions
         var componentResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
         SetBasePath(b);
         b.ImportSideEffect(componentResource);
+        b.Metadata().TrackWebComponent(tag);
     }
 
     public static Var<IVNode> SlNode<TProps>(

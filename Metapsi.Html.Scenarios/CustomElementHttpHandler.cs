@@ -4,6 +4,8 @@ using Metapsi.Syntax;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
+namespace Metapsi.Html.Scenarios;
+
 public static partial class Scenario
 {
     public static ICustomElement CustomElementWithExplicitHttpHandler()

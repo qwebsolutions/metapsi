@@ -189,7 +189,10 @@ public static class HtmlBuilderExtensions
     public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, List<IHtmlNode> children)
     {
         AttributesBuilder<TTag> builder = new();
-        buildAttributes(builder);
+        if (buildAttributes != null)
+        {
+            buildAttributes(builder);
+        }
         return b.Tag(tagName, builder.Attributes, children);
     }
 

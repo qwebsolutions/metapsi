@@ -1,9 +1,12 @@
 ﻿using Metapsi;
 using Metapsi.Html;
+using Metapsi.Ionic;
 using Metapsi.Syntax;
 using Metapsi.Web;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+
+namespace Metapsi.Html.Scenarios;
 
 public static partial class Scenario
 {
@@ -30,7 +33,7 @@ public static partial class Scenario
             b =>
             {
                 b.HeadAppend(b.HtmlTitle("Metapsi Playground"));
-                b.HeadAppend(b.HtmlStyle(b.Text("body { font-family : arial }")));
+                b.HeadAppend(b.HtmlStyle(b.Text("body { font-family : arial; display: flex; flex-direction: column; gap:20px; }")));
 
                 b.BodyAppend(
                     b.HtmlDiv(
@@ -56,70 +59,53 @@ public static partial class Scenario
                     b.Text("This one is explicitly added"),
                     b.Tag("custom-element-http-handler")));
 
+                //b.BodyAppend(
+                //    b.HtmlDiv(
+                //    b =>
+                //    {
+                //        b.SetStyle("border: 1px solid grey");
+                //    },
+                //    b.Text("This one is added with b.CustomElement"),
+                //    b.HtmlDiv(b.ResolvedCustomElement(customHttpHandlerElement))));
                 b.BodyAppend(
-                    b.HtmlDiv(
-                    b =>
-                    {
-                        b.SetStyle("border: 1px solid grey");
-                    },
-                    b.Text("This one is added with b.CustomElement"),
-                    b.HtmlDiv(b.CustomElement(customHttpHandlerElement))));
+                    b.IonButton());
+                //b.BodyAppend(
+                //    b.HtmlDiv(
+                //        b.HtmlScript(
+                //            b=>
+                //            {
+                //                b.SetTypeModule();
+                //            },
+                //            b.Text(Scenario.InlineCustomElement().Module.ToJs()))),
+                //    b.Tag(Scenario.InlineCustomElement().Tag));
+                b.BodyAppend(
+                    b.MediaLoader(
+                        b=>
+                        {
+                            b.SetSrc("http://localhost:5000/test-svg.svg");
+                        }));
+                b.BodyAppend(
+                    b.Hyperapp(new object(),
+                        (b, model) =>
+                        {
+                            b.Log("From hyperapp renderer");
+                            return b.MediaLoader(
+                                b =>
+                                {
+                                    b.Set(x => x.Src, "https://shoelace.style/assets/images/wordmark.svg");
+                                });
+                        }));
 
-                b.BodyAppend(
-                    b.HtmlDiv(
-                        b.HtmlScript(
-                            b=>
-                            {
-                                b.SetTypeModule();
-                            },
-                            b.Text(Scenario.InlineCustomElement().Module.ToJs()))),
-                    b.Tag(Scenario.InlineCustomElement().Tag));
+                    //b.InlineCustomElement<MediaLoader.Props>(
+                    //    new MediaLoader(),
+                    //    b=>
+                    //    {
+                    //        //b.SetAttribute("Url", "https://shoelace.style/assets/images-/wordmark.svg");
+                    //        b.SetAttribute("Url", "http://localhost:5000/test-svg.svg");
+                    //    }));
+                    
+                b.BodyAppend(b.WebComponentsFadeInScript());
             }), options);
     }
 
-    public static IHtmlNode CustomElement(this HtmlBuilder b, ICustomElement customElement)
-    {
-        //b.Document.Metadata.AddRequiredTagMetadata(new HtmlTag("script")
-        //{
-        //    Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-        //    {
-        //        { "type", new HtmlAttribute(){Value = "module" } },
-        //        {
-        //            "src",
-        //            new HtmlAttribute()
-        //            {
-        //                ResourceMetadata = new ResourceMetadata()
-        //                {
-        //                    LogicalName = $"{customElement.Tag}.js"
-        //                }
-        //            }
-        //        }
-        //    }
-        //});
-
-        b.HeadAppend(new HtmlNode()
-        {
-            Tags = new System.Collections.Generic.List<HtmlTag>()
-            {
-                new HtmlTag("script")
-                {
-                    Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-                    {
-                        { "type", new HtmlAttribute(){Value = "module" } },
-                        {
-                            "src",
-                            new HtmlAttribute()
-                            {
-                                ResourceMetadata = new ResourceMetadata()
-                                {
-                                    LogicalName = $"{customElement.Tag}.js"
-                                }
-                            }
-                        }
-                    }
-            }
-        }
-        });
-        return b.Tag(customElement.Tag);
-    }
 }
