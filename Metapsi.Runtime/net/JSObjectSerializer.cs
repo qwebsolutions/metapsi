@@ -14,6 +14,7 @@ namespace Metapsi.Syntax
         {
             var newOptions = new JsonSerializerOptions()
             {
+                MaxDepth = 256,
                 WriteIndented = true,
                 IgnoreReadOnlyFields = true,
                 IgnoreReadOnlyProperties = false,

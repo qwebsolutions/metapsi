@@ -411,7 +411,7 @@ namespace Metapsi.Syntax
         /// <returns>Module hash</returns>
         public static string Hash(this Module module)
         {
-            return EmbeddedFiles.Hash(Metapsi.Serialize.ToJson(module));
+            return EmbeddedFiles.Hash(Metapsi.Serialize.ToJson(module, "to-js"));
         }
     }
 }
