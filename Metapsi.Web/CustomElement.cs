@@ -9,109 +9,6 @@ using System.Linq;
 
 namespace Metapsi;
 
-public interface ICustomElement
-{
-    string Tag { get; }
-    public Module Module { get; }
-}
-
-/// <summary>
-/// Keeps on-the-spot custom element definitions 
-/// </summary>
-public class CustomElement : ICustomElement
-{
-    public string Tag { get; set; }
-    public Module Module { get; set; }
-}
-
-public interface ICustomElementProps<T>
-{
-
-}
-
-public interface IRootControl
-{
-}
-
-internal class RootControl : IRootControl
-{
-    public Var<IVNode> RootVirtualNode { get; set; }
-}
-
-public abstract class CustomElement<TModel> : ICustomElement
-{
-    public string Tag { get; set; }
-
-    public CustomElement()
-    {
-        this.Tag = CustomElementExtensions.GetCustomElementTagName(this.GetType());
-    }
-
-    internal LayoutBuilder rootLayoutBuilder { get; set; }
-
-    public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element);
-
-    public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
-
-    public virtual void OnSubscribe(SyntaxBuilder b, Var<TModel> model, Var<List<HyperType.Subscription>> subscriptions)
-    {
-    }
-
-    public IRootControl Root(Action<PropsBuilder<object>> setProps, params Var<IVNode>[] children)
-    {
-        return new RootControl() { RootVirtualNode = rootLayoutBuilder.H(this.Tag, setProps, children) };
-    }
-
-    public IRootControl Root(params Var<IVNode>[] children)
-    {
-        return Root(b => { }, children);
-    }
-
-    public Module Module
-    {
-        get
-        {
-            var module = ModuleBuilder.New(
-                b =>
-                {
-                    b.Call(b =>
-                    {
-                        //AppMapExtensions.SetAppMap(b, appMap);
-
-                        b.DefineCustomElement(
-                            b.Const(this.Tag),
-                            b.Def((SyntaxBuilder b, Var<Element> element) =>
-                            {
-                                return this.OnInit(b, element);
-                            }),
-                            b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
-                            {
-                                this.rootLayoutBuilder = b;
-                                return (this.OnRender(b, model) as RootControl).RootVirtualNode;
-                            }),
-                            b.Def((SyntaxBuilder b, Var<TModel> model) =>
-                            {
-                                var subscriptions = b.NewCollection<HyperType.Subscription>();
-                                this.OnSubscribe(b, model, subscriptions);
-                                return subscriptions;
-                            }));
-                    });
-                });
-
-            return module;
-        }
-    }
-}
-
-public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICustomElementProps<TProps>
-{
-    public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
-    {
-        return OnInitProps(b, b.GetInitProps<TProps>(element));
-    }
-    public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, Var<TProps> props);
-}
-
 public class CustomElementConfiguration<TModel>
 {
     public string Tag { get; set; } = CustomElementExtensions.GetCustomElementTagName(typeof(TModel));
@@ -122,10 +19,10 @@ public class CustomElementConfiguration<TModel>
 
 public static class CustomElementsFeature
 {
-    public static string GetCustomElementDefaultPath(this ICustomElement ce)
-    {
-        return $"/ce/{ce.Tag}.js";
-    }
+    //public static string GetCustomElementDefaultPath(this ICustomElement ce)
+    //{
+    //    return $"/ce/{ce.Tag}.js";
+    //}
 
     public static class Routes
     {
