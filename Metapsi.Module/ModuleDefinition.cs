@@ -403,5 +403,15 @@ namespace Metapsi.Syntax
             outJs.Append($"({string.Join(", ", arguments)})");
             return outJs.ToString();
         }
+
+        /// <summary>
+        /// Computes a module hash without resolving resources first
+        /// </summary>
+        /// <param name="module"></param>
+        /// <returns>Module hash</returns>
+        public static string Hash(this Module module)
+        {
+            return EmbeddedFiles.Hash(Metapsi.Serialize.ToJson(module));
+        }
     }
 }

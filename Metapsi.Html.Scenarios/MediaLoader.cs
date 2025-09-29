@@ -15,8 +15,9 @@ public static partial class MediaLoaderExtensions
         this HtmlBuilder b,
         Action<AttributesBuilder<MediaLoader>> setAttributes = null)
     {
-        var mediaLoaderTag = new MediaLoader().Tag;
-        b.HeadAppend(b.CustomElementSrcScript(mediaLoaderTag));
+        var mediaLoader = new MediaLoader();
+        var mediaLoaderTag = mediaLoader.Tag;
+        b.HeadAppend(b.CustomElementSrcScriptTag(mediaLoader));
         return b.Tag(mediaLoaderTag, setAttributes);
     }
 
@@ -35,7 +36,7 @@ public static partial class MediaLoaderExtensions
         this LayoutBuilder b,
         Action<PropsBuilder<MediaLoader.Props>> setProps)
     {
-        b.Metadata().AddRequiredTagMetadata(b.CustomElementSrcScript(new MediaLoader().Tag));
+        b.Metadata().AddRequiredTagMetadata(b.CustomElementSrcScriptTag(new MediaLoader()));
         return b.H(new MediaLoader().Tag, setProps);
     }
 }

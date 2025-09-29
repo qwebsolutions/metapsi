@@ -5,89 +5,54 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
+using System.Reflection;
 
 namespace Metapsi.Html.Scenarios;
 
 public static class CustomElementExtensions
 {
-    //public static Var<IVNode> InlineCustomElement<TInitProps>(
-    //    this LayoutBuilder b, 
-    //    CustomElement customElement,
-    //    Action<PropsBuilder<TInitProps>> setProps)
-    //{
-    //    b.Metadata().AddRequiredTagMetadata(
-    //        new HtmlTag("script")
-    //        {
-    //            Children = new List<HtmlNode>()
-    //            {
-    //                new HtmlNode()
-    //                {
-    //                    Modules = new List<Module>()
-    //                    {
-    //                        customElement.Module
-    //                    }
-    //                }
-    //            }
-    //        });
-
-    //    return b.H(customElement.Tag, setProps);
-    //}
-
-    //public static IHtmlNode InlineCustomElement<TInitProps>(
-    //    this HtmlBuilder b,
-    //    ICustomElement customElement,
-    //    Action<AttributesBuilder<TInitProps>> setAttributes)
-    //{
-    //    b.HeadAppend(new HtmlNode()
-    //    {
-    //        Tags = new System.Collections.Generic.List<HtmlTag>()
-    //        {
-    //            new HtmlTag("script")
-    //            {
-    //                Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-    //                {
-    //                    { "type", new HtmlAttribute(){Value = "module" } },
-    //                },
-    //                Children = new System.Collections.Generic.List<HtmlNode>()
-    //                {
-    //                    new HtmlNode()
-    //                    {
-    //                        Modules = new System.Collections.Generic.List<Module>()
-    //                        {
-    //                            customElement.Module
-    //                        }
-    //                    }
-    //                }
-    //        }
-    //    }
-    //    });
-    //    return b.Tag<TInitProps>(
-    //        customElement.Tag,
-    //        setAttributes);
-    //}
-
-    public static IHtmlNode CustomElementSrcScript(this HtmlBuilder b, string tagName)
+    public static IHtmlNode CustomElementSrcScriptTag(
+        this HtmlBuilder b,
+        ICustomElement customElement)
     {
+        var jsFile = $"{customElement.Tag}.js";
         return new HtmlNode()
         {
             Tags = new System.Collections.Generic.List<HtmlTag>()
             {
-                new HtmlTag("script")
+                SrcScriptTag(jsFile, "metapsi-custom-element", "1.0", customElement.Module.Hash())
+            }
+        };
+    }
+
+    public static HtmlTag SrcScriptTag(
+        string jsFile,
+        string packageName,
+        string packageVersion,
+        string fileHash = null)
+    {
+        return new HtmlTag("script")
+        {
+            Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
+            {
                 {
-                    Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
+                    "type",
+                    new HtmlAttribute()
                     {
-                        { "type", new HtmlAttribute() { Value = "module" } },
+                        Value = "module"
+                    }
+                },
+                {
+                    "src",
+                    new HtmlAttribute()
+                    {
+                        ResourceMetadata = new ResourceMetadata()
                         {
-                            "src",
-                            new HtmlAttribute()
-                            {
-                                //VariableName = $"custom-element-path:{customElement.Tag}"
-                                ResourceMetadata = new ResourceMetadata()
-                                {
-                                    LogicalName = $"{tagName}.js",
-                                    ResourceType = "metapsi-js-module"
-                                }
-                            }
+                            ResourceType = "metapsi-js-module",
+                            LogicalName = jsFile,
+                            PackageName = packageName,
+                            PackageVersion = packageVersion,
+                            FileHash = fileHash
                         }
                     }
                 }
@@ -95,26 +60,22 @@ public static class CustomElementExtensions
         };
     }
 
-    public static HtmlTag CustomElementSrcScript(this LayoutBuilder b, string tagName)
+    public static HtmlTag CustomElementSrcScriptTag(
+        this LayoutBuilder b,
+        ICustomElement customElement)
     {
-        return new HtmlTag("script")
-        {
-            Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-                    {
-                        { "type", new HtmlAttribute() { Value = "module" } },
-                        {
-                            "src",
-                            new HtmlAttribute()
-                            {
-                                //VariableName = $"custom-element-path:{customElement.Tag}"
-                                ResourceMetadata = new ResourceMetadata()
-                                {
-                                    LogicalName = $"{tagName}.js",
-                                    ResourceType = "metapsi-js-module"
-                                }
-                            }
-                        }
-                    }
-        };
+        var jsFile = $"{customElement.Tag}.js";
+        return SrcScriptTag(jsFile, "metapsi-custom-element", "1.0", customElement.Module.Hash());
+    }
+
+    public static HtmlTag CustomElementSrcScriptTag(
+        this LayoutBuilder b,
+        string tag,
+        string packageName,
+        string packageVersion,
+        string fileHash = null)
+    {
+        var jsFile = $"{tag}.js";
+        return SrcScriptTag(jsFile, packageVersion, packageVersion, fileHash);
     }
 }
