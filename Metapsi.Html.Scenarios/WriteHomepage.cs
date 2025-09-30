@@ -1,5 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Html;
+using Metapsi.Hyperapp;
 using Metapsi.Ionic;
 using Metapsi.Syntax;
 using Metapsi.Web;
@@ -93,7 +94,20 @@ public static partial class Scenario
                                 b =>
                                 {
                                     b.Set(x => x.Src, "https://shoelace.style/assets/images/wordmark.svg");
-                                });
+                                },
+                                b.HtmlDiv(
+                                    b=>
+                                    {
+                                        b.SetSlot("before");
+                                    },
+                                    b.Text("Before text")),
+                                b.HtmlDiv(
+                                    b =>
+                                    {
+                                        b.SetSlot("after");
+                                    },
+                                    b.Text("After text"))
+                                );
                         }));
 
                     //b.InlineCustomElement<MediaLoader.Props>(

@@ -34,10 +34,11 @@ public static partial class MediaLoaderExtensions
 
     public static Var<IVNode> MediaLoader(
         this LayoutBuilder b,
-        Action<PropsBuilder<MediaLoader.Props>> setProps)
+        Action<PropsBuilder<MediaLoader.Props>> setProps,
+        params Var<IVNode>[] children)
     {
         b.Metadata().AddRequiredTagMetadata(b.CustomElementSrcScriptTag(new MediaLoader()));
-        return b.H(new MediaLoader().Tag, setProps);
+        return b.H(new MediaLoader().Tag, setProps, children);
     }
 }
 
@@ -86,16 +87,31 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
 
     public override IRootControl OnRender(LayoutBuilder b, Var<Model> model)
     {
+        var widthStyle = b.Concat(b.Const("width:"), b.Concat(b.AsString(b.Get(model, x => x.Width)), b.Const("px")));
+        var heightStyle = b.Concat(b.Const("height:"), b.Concat(b.AsString(b.Get(model, x => x.Height)), b.Const("px")));
+        var joinList = b.NewCollection<string>();
+        b.Push(joinList, widthStyle);
+        b.Push(joinList, heightStyle);
+        b.Push(joinList, b.Const("flex-direction: column; align-items:center; justify-content:center"));
+        var style = b.Concat(b.Const(":host  {"), b.JoinStrings(b.Const(";"), joinList), b.Const("}"));
+        b.Log(style);
+
         return this.Root(
-            b =>
-            {
-                b.AddStyle("width", b.Concat(b.AsString(b.Get(model, x => x.Width)), b.Const("px")));
-                b.AddStyle("height", b.Concat(b.AsString(b.Get(model, x => x.Height)), b.Const("px")));
-                b.AddStyle("display", "flex");
-                b.AddStyle("flex-direction", "column");
-                b.AddStyle("align-items", "center");
-                b.AddStyle("justify-content", "center");
-            },
+            //b =>
+            //{
+            //    //b.AddStyle("width", b.Concat(b.AsString(b.Get(model, x => x.Width)), b.Const("px")));
+            //    //b.AddStyle("height", b.Concat(b.AsString(b.Get(model, x => x.Height)), b.Const("px")));
+            //    //b.AddStyle("display", "flex");
+            //    //b.AddStyle("flex-direction", "column");
+            //    //b.AddStyle("align-items", "center");
+            //    //b.AddStyle("justify-content", "center");
+            //},
+            b.HtmlStyle(b.Text(style)),
+            b.HtmlSlot(
+                b=>
+                {
+                    b.SetProperty(b.Props, "name", b.Const("before"));
+                }),
             b.Optional(
                 b.Get(model, x => x.Loading),
                 b =>
@@ -118,6 +134,11 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
                                 return b.Clone(model);
                             }));
                         });
+                }),
+            b.HtmlSlot(
+                b =>
+                {
+                    b.SetProperty(b.Props, "name", b.Const("after"));
                 }));
     }
 

@@ -47,6 +47,10 @@ public abstract class CustomElement<TModel> : ICustomElement
     }
 
     internal LayoutBuilder rootLayoutBuilder { get; set; }
+    /// <summary>
+    /// could be different in case we use shadowDom
+    /// </summary>
+    internal Var<string> layoutRootTag { get; set; }
 
     public abstract Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element);
 
@@ -56,9 +60,10 @@ public abstract class CustomElement<TModel> : ICustomElement
     {
     }
 
-    public IRootControl Root(Action<PropsBuilder<object>> setProps, params Var<IVNode>[] children)
+    // style cannot be set on shadow root, so hide this one until I figure out how to do it better
+    private IRootControl Root(Action<PropsBuilder<object>> setProps, params Var<IVNode>[] children)
     {
-        return new RootControl() { RootVirtualNode = rootLayoutBuilder.H(this.Tag, setProps, children) };
+        return new RootControl() { RootVirtualNode = rootLayoutBuilder.H(this.layoutRootTag, setProps, children) };
     }
 
     public IRootControl Root(params Var<IVNode>[] children)
@@ -86,6 +91,7 @@ public abstract class CustomElement<TModel> : ICustomElement
                             b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
                             {
                                 this.rootLayoutBuilder = b;
+                                this.layoutRootTag = tagName;
                                 return (this.OnRender(b, model) as RootControl).RootVirtualNode;
                             }),
                             b.Def((SyntaxBuilder b, Var<TModel> model) =>

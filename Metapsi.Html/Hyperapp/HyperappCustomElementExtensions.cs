@@ -78,33 +78,32 @@ public static partial class CustomElementExtensions
             tagName,
             render: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
+                var shadowRoot = b.Get(node, x => x.shadowRoot);
+                var rootTag = b.GetProperty<string>(shadowRoot, "nodeName");
                 // Keep dispatch on control itself, because it can be rendered multiple times
                 var dispatch = b.GetProperty<HyperType.Dispatcher>(node, "_hDispatch");
                 b.If(
                     b.Not(b.HasObject(dispatch)),
                     b =>
                     {
-                        b.Log("Init application", tagName);
                         var appConfig = b.NewObj().As<HyperType.App<TModel>>();
 
                         var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
                         {
-                            var outNode = b.Call(render, tagName, model);
-                            b.Log("view outNode", outNode);
+                            var outNode = b.Call(render, rootTag, model);
                             return outNode;
                         });
 
                         b.Set(appConfig, x => x.view, view);
                         b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                        b.Set(appConfig, x => x.node, node);
+                        b.Set(appConfig, x => x.node, shadowRoot.As<Element>());
                         b.Set(appConfig, x => x.subscriptions, subscribeFn);
                         b.SetProperty(node, "_hDispatch", b.Hyperapp(appConfig));
                     });
             }),
             attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
-                b.Log("Empty attach in constructor", tagName);
-                //var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
+                var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
             }),
             cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
             {
