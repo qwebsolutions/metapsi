@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace Metapsi.Html.Scenarios;
 
+public class BindingModelTest
+{
+    public string S1 { get; set; } = "S1";
+    public bool Enabled { get; set; } = true;
+    public string S2 { get; set; } = "S2";
+}
+
 public static partial class Scenario
 {
     public static async Task WriteHomepage(
@@ -110,14 +117,51 @@ public static partial class Scenario
                                 );
                         }));
 
-                    //b.InlineCustomElement<MediaLoader.Props>(
-                    //    new MediaLoader(),
-                    //    b=>
-                    //    {
-                    //        //b.SetAttribute("Url", "https://shoelace.style/assets/images-/wordmark.svg");
-                    //        b.SetAttribute("Url", "http://localhost:5000/test-svg.svg");
-                    //    }));
-                    
+                b.BodyAppend(
+                    b.Hyperapp(
+                        new BindingModelTest(),
+                        (b, model) =>
+                        {
+                            return b.HtmlDiv(
+                                b.HtmlInput(
+                                    b =>
+                                    {
+                                        b.BindTo(model, x => x.S1);
+                                    }),
+                                b.HtmlInput(
+                                    b =>
+                                    {
+                                        b.SetType("checkbox");
+                                        b.BindTo(model, x => x.Enabled);
+                                    }),
+                                b.Optional(
+                                    b.Get(model, x => x.Enabled),
+                                    b => b.HtmlInput(
+                                        b =>
+                                        {
+                                            b.BindTo(model, x => x.S2);
+                                        })),
+                                b.HtmlButton(
+                                    b =>
+                                    {
+                                        b.OnClickAction(b.MakeAction((SyntaxBuilder b, Var<BindingModelTest> model) =>
+                                        {
+                                            var newModel = b.NewObj<BindingModelTest>();
+                                            b.Set(newModel, x => x.S1, "S1 updated");
+                                            return newModel;
+                                        }));
+                                    },
+                                    b.Text("CLICK!")));
+                        }));
+
+                //b.InlineCustomElement<MediaLoader.Props>(
+                //    new MediaLoader(),
+                //    b=>
+                //    {
+                //        //b.SetAttribute("Url", "https://shoelace.style/assets/images-/wordmark.svg");
+                //        b.SetAttribute("Url", "http://localhost:5000/test-svg.svg");
+                //    }));
+
                 b.BodyAppend(b.WebComponentsFadeInScript());
             }), options);
     }
