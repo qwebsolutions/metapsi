@@ -13,8 +13,20 @@ public static partial class AutoLoader
 {
     public static List<Type> FindAllTypes(List<Assembly> inAssemblies)
     {
-        var autoLoaders = inAssemblies.SelectMany(x => x.GetTypes()).Where(x => typeof(IAutoLoader).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
-        return autoLoaders.ToList();
+        List<Type> autoLoaders = new List<Type>();
+        foreach (var assembly in inAssemblies)
+        {
+            try
+            {
+                autoLoaders.AddRange(assembly.GetTypes().Where(x => typeof(IAutoLoader).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.ToString());
+            }
+        }
+
+        return autoLoaders;
     }
 
     public static List<T> FindAll<T>(List<Assembly> inAssemblies)
@@ -25,7 +37,7 @@ public static partial class AutoLoader
 
     public static List<T> FindAllLoaded<T>()
     {
-        return FindAll<T>(AppDomain.CurrentDomain.GetAssemblies().ToList());
+        return FindAll<T>(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.GetName().Name.StartsWith("System.")).ToList());
     }
 }
 
