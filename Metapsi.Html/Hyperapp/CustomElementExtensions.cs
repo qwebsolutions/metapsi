@@ -56,6 +56,16 @@ public abstract class CustomElement<TModel> : ICustomElement
 
     public abstract IRootControl OnRender(LayoutBuilder b, Var<TModel> model);
 
+    public virtual Var<Node> OnAttach(SyntaxBuilder b, Var<Element> element)
+    {
+        return element.As<Node>();
+    }
+
+    public virtual void OnCleanup(SyntaxBuilder b, Var<Element> element)
+    {
+
+    }
+
     public virtual void OnSubscribe(SyntaxBuilder b, Var<TModel> model, Var<List<HyperType.Subscription>> subscriptions)
     {
     }
@@ -81,25 +91,43 @@ public abstract class CustomElement<TModel> : ICustomElement
                     b.Call(b =>
                     {
                         //AppMapExtensions.SetAppMap(b, appMap);
+                        //var empty = b.NewObj<object>(b => { });
 
                         b.DefineCustomElement(
-                            b.Const(this.Tag),
-                            b.Def((SyntaxBuilder b, Var<Element> element) =>
-                            {
-                                return this.OnInit(b, element);
-                            }),
-                            b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
-                            {
-                                this.rootLayoutBuilder = b;
-                                this.layoutRootTag = tagName;
-                                return (this.OnRender(b, model) as RootControl).RootVirtualNode;
-                            }),
-                            b.Def((SyntaxBuilder b, Var<TModel> model) =>
-                            {
-                                var subscriptions = b.NewCollection<HyperType.Subscription>();
-                                this.OnSubscribe(b, model, subscriptions);
-                                return subscriptions;
-                            }));
+                            b.NewObj<HyperappCustomElementDefinition>(
+                                b=>
+                                {
+                                    b.Set(x => x.Tag, b.Const(this.Tag));
+                                    b.Set(x => x.Init, b.Def<SyntaxBuilder, Element, HyperType.StateWithEffects>(this.OnInit).As<Func<Element, HyperType.Init>>());
+                                    b.Set(x => x.View, b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
+                                    {
+                                        this.rootLayoutBuilder = b;
+                                        this.layoutRootTag = tagName;
+                                        return (this.OnRender(b, model) as RootControl).RootVirtualNode;
+                                    }).As<Func<string, object, IVNode>>());
+                                    b.Set(x => x.SubscribeFn, b.Def((SyntaxBuilder b, Var<TModel> model) =>
+                                    {
+                                        var subscriptions = b.NewCollection<HyperType.Subscription>();
+                                        this.OnSubscribe(b, model, subscriptions);
+                                        return subscriptions;
+                                    }).As<Func<object, List<HyperType.Subscription>>>());
+                                    b.Set(x => x.Attach, b.Def<SyntaxBuilder, Element, Node>(this.OnAttach));
+                                    b.Set(x => x.Cleanup, b.Def<SyntaxBuilder, Element>(this.OnCleanup));
+                                }));
+                            
+                           //,
+                           // b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
+                           // {
+                           //     this.rootLayoutBuilder = b;
+                           //     this.layoutRootTag = tagName;
+                           //     return (this.OnRender(b, model) as RootControl).RootVirtualNode;
+                           // }),
+                           // b.Def((SyntaxBuilder b, Var<TModel> model) =>
+                           // {
+                           //     var subscriptions = b.NewCollection<HyperType.Subscription>();
+                           //     this.OnSubscribe(b, model, subscriptions);
+                           //     return subscriptions;
+                           // }));
                     });
                 });
 
@@ -117,6 +145,14 @@ public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICu
     public abstract Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, Var<TProps> props);
 }
 
+
+public class ArcCustomElementDefinition
+{
+    public string Tag { get; set; }
+    public Action<Element> Render { get; set; }
+    public Action<Element> Attach { get; set; }
+    public Action<Element> Cleanup { get; set; }
+}
 
 public static partial class CustomElementExtensions
 {
@@ -140,6 +176,17 @@ public static partial class CustomElementExtensions
         var metapsiCustomElementsJsResource = b.AddEmbeddedResourceMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName);
         var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(metapsiCustomElementsJsResource, "defineRACCustomElement");
         b.Call(define, tagName, render, attach, cleanup);
+    }
+
+    public static void DefineCustomElement(
+        SyntaxBuilder b,
+        Var<ArcCustomElementDefinition> definition)
+    {
+        b.DefineCustomElement(
+            b.Get(definition, x => x.Tag),
+            b.Get(definition, x => x.Render),
+            b.Get(definition, x => x.Attach),
+            b.Get(definition, x => x.Cleanup));
     }
 
     /// <summary>

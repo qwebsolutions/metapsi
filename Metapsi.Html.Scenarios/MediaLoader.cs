@@ -66,7 +66,7 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
 
     public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
     {
-        b.Log(element);
+        b.Log("OnInit", element);
         var src = b.GetAttribute<string>(element, b.Const("src"));
         b.Log(src);
         return OnInitProps(b, b.NewObj<Props>(
@@ -76,8 +76,17 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
             }));
     }
 
+    public override Var<Node> OnAttach(SyntaxBuilder b, Var<Element> element)
+    {
+        return b.ElementAttachShadow(element, b =>
+        {
+            b.Set(x => x.mode, "open");
+        }).As<Node>();
+    }
+
     public override Var<HyperType.StateWithEffects> OnInitProps(SyntaxBuilder b, Var<Props> props)
     {
+        b.Log("OnInitProps");
         return b.MakeStateWithEffects(b.NewObj<MediaLoader.Model>(
             b =>
             {
@@ -122,6 +131,7 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
                 b.Not(b.Get(model, x => x.Loading)),
                 b =>
                 {
+                    //return b.HtmlDiv(b.Text("WTF?!"));
                     return b.IonImg(
                         b =>
                         {
@@ -129,8 +139,8 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
                             b.SetSrc(b.Get(model, x => x.Src));
                             b.OnIonError(b.MakeAction((SyntaxBuilder b, Var<Model> model, Var<Metapsi.Html.Event> e) =>
                             {
-                                //b.Log("Error", e);
-                                b.Set(model, x => x.Loading, true);
+                                b.Log("IonImg.OnIonError", e);
+                                //b.Set(model, x => x.Loading, true);
                                 return b.Clone(model);
                             }));
                         });
@@ -154,7 +164,7 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
             {
                 b.Push(
                     subscriptions,
-                    b.Every<Model>(TimeSpan.FromMilliseconds(500),
+                    b.Every<Model>(TimeSpan.FromMilliseconds(5000),
                     b.MakeAction((SyntaxBuilder b, Var<Model> model, Var<long> tick) =>
                     {
                         return b.MakeStateWithEffects(

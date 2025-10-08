@@ -1,9 +1,20 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Metapsi.Html;
+
+public class HyperappCustomElementDefinition
+{
+    public string Tag { get; set; }
+    public Func<Element, HyperType.Init> Init { get; set; }
+    public Func<string, object, IVNode> View { get; set; }
+    public Func<object, System.Collections.Generic.List<HyperType.Subscription>> SubscribeFn { get; set; }
+    public Func<Element, Node> Attach { get; set; }
+    public Action<Element> Cleanup { get; set; }
+}
 
 /// <summary>
 /// 
@@ -58,80 +69,112 @@ public static partial class CustomElementExtensions
         return GetCustomElementTagName<T>();
     }
 
-    /// <summary>
-    /// Define a Hyperapp-based custom element
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="tagName"></param>
-    /// <param name="init"></param>
-    /// <param name="render"></param>
-    /// <param name="subscribeFn"></param>
-    public static void DefineCustomElement<TModel>(
+    public static void DefineCustomElement(
         this SyntaxBuilder b,
-        Var<string> tagName,
-        Var<Func<Element, HyperType.StateWithEffects>> init,
-        Var<Func<string, TModel, IVNode>> render,
-        Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
+        Var<HyperappCustomElementDefinition> definition)
     {
-        b.DefineCustomElement(
-            tagName,
-            render: b.Def((SyntaxBuilder b, Var<Element> node) =>
-            {
-                var shadowRoot = b.Get(node, x => x.shadowRoot);
-                var rootTag = b.GetProperty<string>(shadowRoot, "nodeName");
-                // Keep dispatch on control itself, because it can be rendered multiple times
-                var dispatch = b.GetProperty<HyperType.Dispatcher>(node, "_hDispatch");
-                b.If(
-                    b.Not(b.HasObject(dispatch)),
-                    b =>
-                    {
-                        var appConfig = b.NewObj().As<HyperType.App<TModel>>();
-
-                        var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+        DefineCustomElement(
+            b,
+            b.NewObj<ArcCustomElementDefinition>(
+                b =>
+                {
+                    b.Set(x => x.Tag, b.Get(definition, x => x.Tag));
+                    b.Set(
+                        x => x.Attach,
+                        b.Def((SyntaxBuilder b, Var<Element> element) =>
                         {
-                            var outNode = b.Call(render, rootTag, model);
-                            return outNode;
-                        });
+                            var hyperappAttach = b.Get(definition, x => x.Attach);
+                            var takeoverNode = b.Call(hyperappAttach, element);
+                            b.Log("Attached ", takeoverNode);
+                            b.SetProperty(element, "_hNode", takeoverNode);
+                        }));
+                        
+                    b.Set(x => x.Cleanup, b.Get(definition, x => x.Cleanup));
+                    b.Set(x => x.Render, b.Def((SyntaxBuilder b, Var<Element> hostElement) =>
+                    {
+                        b.Log("Render hostElement", hostElement);
+                        var takeoverNode = b.GetProperty<Node>(hostElement, "_hNode");
+                        b.Log("Render takeoverNode", takeoverNode);
+                        //var shadowRoot = b.Get(node, x => x.shadowRoot);
+                        var rootTag = b.StringToLowerCase(b.GetProperty<string>(takeoverNode, "nodeName"));
+                        b.Log("Render rootTag", rootTag);
+                        // Keep dispatch on control itself, because it can be rendered multiple times
+                        var dispatch = b.GetProperty<HyperType.Dispatcher>(hostElement, "_hDispatch");
+                        b.If(
+                            b.Not(b.HasObject(dispatch)),
+                            b =>
+                            {
+                                b.Log("Not initialized ", dispatch);
+                                var appConfig = b.NewObj().As<HyperType.App<object>>();
 
-                        b.Set(appConfig, x => x.view, view);
-                        b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-                        b.Set(appConfig, x => x.node, shadowRoot.As<Element>());
-                        b.Set(appConfig, x => x.subscriptions, subscribeFn);
-                        b.SetProperty(node, "_hDispatch", b.Hyperapp(appConfig));
-                    });
-            }),
-            attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
-            {
-                var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
-            }),
-            cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
-            {
-                //initialize once
-                //Reinitialize explicitly with subscription
-                //Explicit dispose (hierarchical?)
+                                var view = b.Def((LayoutBuilder b, Var<object> model) =>
+                                {
+                                    var outNode = b.Call(b.Get(definition, x => x.View), rootTag, model);
+                                    return outNode;
+                                });
 
-                //// Mark cleanup as possible
-                //b.SetRef(dispose, b.Const(true));
-
-                //b.SetTimeout(b.Def((SyntaxBuilder b) =>
-                //{
-                //    // Check if cleanup is still needed.
-                //    // This might not be the case if there were multiple rapid-fire disconnect/connect calls
-                //    b.If(b.GetRef(dispose),
-                //        b =>
-                //        {
-                //            b.Call(b.GetRef(b.GlobalRef(dispatchRef)).As<System.Action>());
-                //            b.Log("Dispatch null for cleanup", tagName);
-                //            // Remove dispatcher so the controls gets rendered when reused
-                //            b.SetRef(b.GlobalRef(dispatchRef), b.Get<bool, HyperType.Dispatcher>(b.Const(false), x => null));
-                //            b.Log("Unset app", tagName);
-                //        });
-                //}),
-                //// Wait a bit to be sure the control doesn't get reconnected. 
-                //b.Const(0));
-            }));
+                                b.Set(appConfig, x => x.view, view);
+                                b.Set(appConfig, x => x.init, b.Call(b.Get(definition, x => x.Init), hostElement));
+                                b.Set(appConfig, x => x.node, takeoverNode);
+                                b.Set(appConfig, x => x.subscriptions, b.Get(definition, x => x.SubscribeFn));
+                                b.Log("calling hyperapp");
+                                b.SetProperty(hostElement, "_hDispatch", b.Hyperapp(appConfig));
+                            });
+                    }));
+                }));
     }
+
+    ///// <summary>
+    ///// Define a Hyperapp-based custom element
+    ///// </summary>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="tagName"></param>
+    ///// <param name="init"></param>
+    ///// <param name="render"></param>
+    ///// <param name="subscribeFn"></param>
+    //public static void DefineCustomElement<TModel>(
+    //    this SyntaxBuilder b,
+    //    Var<string> tagName,
+    //    Var<Func<Element, HyperType.StateWithEffects>> init,
+    //    Var<Func<string, TModel, IVNode>> render,
+    //    Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
+    //{
+    //    b.DefineCustomElement(
+    //        tagName,
+    //        render: b.Def((SyntaxBuilder b, Var<Element> node) =>
+    //        {
+    //            var shadowRoot = b.Get(node, x => x.shadowRoot);
+    //            var rootTag = b.GetProperty<string>(shadowRoot, "nodeName");
+    //            // Keep dispatch on control itself, because it can be rendered multiple times
+    //            var dispatch = b.GetProperty<HyperType.Dispatcher>(node, "_hDispatch");
+    //            b.If(
+    //                b.Not(b.HasObject(dispatch)),
+    //                b =>
+    //                {
+    //                    var appConfig = b.NewObj().As<HyperType.App<TModel>>();
+
+    //                    var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
+    //                    {
+    //                        var outNode = b.Call(render, rootTag, model);
+    //                        return outNode;
+    //                    });
+
+    //                    b.Set(appConfig, x => x.view, view);
+    //                    b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
+    //                    b.Set(appConfig, x => x.node, shadowRoot.As<Element>());
+    //                    b.Set(appConfig, x => x.subscriptions, subscribeFn);
+    //                    b.SetProperty(node, "_hDispatch", b.Hyperapp(appConfig));
+    //                });
+    //        }),
+    //        attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
+    //        {
+    //            var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
+    //        }),
+    //        cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
+    //        {
+    //        }));
+    //}
 
     /// <summary>
     /// Define a Hyperapp custom element
@@ -151,10 +194,14 @@ public static partial class CustomElementExtensions
         params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
     {
         b.DefineCustomElement(
-            b.Const(tagName),
-            b.Def(init),
-            b.Def(render),
-            b.MakeSubscriptions(subscriptions.ToList()));
+            b.NewObj<HyperappCustomElementDefinition>(
+                b =>
+                {
+                    b.Set(x => x.Tag, b.Const(tagName));
+                    b.Set(x => x.Init, b.Def(init).As<Func<Element, HyperType.Init>>());
+                    b.Set(x => x.View, b.Def(render).As<Func<string, object, IVNode>>());
+                    b.Set(x => x.SubscribeFn, b.MakeSubscriptions(subscriptions.ToList()).As<Func<object, List<HyperType.Subscription>>>());
+                }));
     }
 
     /// <summary>
@@ -174,10 +221,14 @@ public static partial class CustomElementExtensions
         Func<SyntaxBuilder, Var<TModel>, Var<System.Collections.Generic.List<HyperType.Subscription>>> subscriptionFn)
     {
         b.DefineCustomElement(
-            b.Const(tagName),
-            b.Def(init),
-            b.Def(render),
-            b.Def(subscriptionFn));
+            b.NewObj<HyperappCustomElementDefinition>(
+                b =>
+                {
+                    b.Set(x => x.Tag, b.Const(tagName));
+                    b.Set(x => x.Init, b.Def(init).As<Func<Element, HyperType.Init>>());
+                    b.Set(x => x.View, b.Def(render).As<Func<string, object, IVNode>>());
+                    b.Set(x => x.SubscribeFn, b.Def(subscriptionFn).As<Func<object, List<HyperType.Subscription>>>());
+                }));
     }
 
     /// <summary>
