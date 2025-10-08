@@ -83,10 +83,19 @@ public static partial class CustomElementExtensions
                         x => x.Attach,
                         b.Def((SyntaxBuilder b, Var<Element> element) =>
                         {
-                            var hyperappAttach = b.Get(definition, x => x.Attach);
-                            var takeoverNode = b.Call(hyperappAttach, element);
-                            b.Log("Attached ", takeoverNode);
-                            b.SetProperty(element, "_hNode", takeoverNode);
+                            var hyperappAttachFn = b.Get(definition, x => x.Attach);
+                            b.If(
+                                b.HasObject(hyperappAttachFn),
+                                b =>
+                                {
+                                    var takeoverNode = b.Call(hyperappAttachFn, element);
+                                    b.Log("Attached ", takeoverNode);
+                                    b.SetProperty(element, "_hNode", takeoverNode);
+                                },
+                                b =>
+                                {
+                                    b.SetProperty(element, "_hNode", element);
+                                });
                         }));
                         
                     b.Set(x => x.Cleanup, b.Get(definition, x => x.Cleanup));
