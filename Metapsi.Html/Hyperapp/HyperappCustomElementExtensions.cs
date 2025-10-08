@@ -101,12 +101,8 @@ public static partial class CustomElementExtensions
                     b.Set(x => x.Cleanup, b.Get(definition, x => x.Cleanup));
                     b.Set(x => x.Render, b.Def((SyntaxBuilder b, Var<Element> hostElement) =>
                     {
-                        b.Log("Render hostElement", hostElement);
                         var takeoverNode = b.GetProperty<Node>(hostElement, "_hNode");
-                        b.Log("Render takeoverNode", takeoverNode);
-                        //var shadowRoot = b.Get(node, x => x.shadowRoot);
                         var rootTag = b.StringToLowerCase(b.GetProperty<string>(takeoverNode, "nodeName"));
-                        b.Log("Render rootTag", rootTag);
                         // Keep dispatch on control itself, because it can be rendered multiple times
                         var dispatch = b.GetProperty<HyperType.Dispatcher>(hostElement, "_hDispatch");
                         b.If(
