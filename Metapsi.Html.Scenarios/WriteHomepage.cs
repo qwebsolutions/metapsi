@@ -134,6 +134,13 @@ public static partial class Scenario
                                         b.SetType("checkbox");
                                         b.BindTo(model, x => x.Enabled);
                                     }),
+                                b.IonCheckbox(
+                                    b =>
+                                    {
+                                        b.SetLabelPlacementEnd();
+                                        b.BindTo(model, x => x.Enabled);
+                                    },
+                                    b.Text("Ion checkbox binding")),
                                 b.Optional(
                                     b.Get(model, x => x.Enabled),
                                     b => b.HtmlInput(

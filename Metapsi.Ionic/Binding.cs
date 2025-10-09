@@ -10,6 +10,7 @@ public partial class IonSelect : IHasEditableValue { }
 public partial class IonPickerColumn : IHasEditableValue { }
 public partial class IonDatetime : IHasEditableValue { }
 public partial class IonSegment : IHasEditableValue { }
+public partial class IonCheckbox: IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -156,6 +157,22 @@ public class IonSegmentBinding : IAutoRegisterBinding
                 b.SetValue(value.As<string>());
             },
             (b, e) => b.Get(e.As<CustomEvent<SegmentChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+public class IonCheckboxBinding : IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonCheckbox);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonCheckbox>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<CheckboxChangeEventDetail>>(), x => x.detail.@checked).As<object>(),
             (b, updateAction) => b.OnIonChange(updateAction));
     }
 }
