@@ -99,7 +99,17 @@ public static class AppMapExtensions
     /// <param name="appMap"></param>
     public static void SetAppMap(SyntaxBuilder b, App.Map appMap)
     {
-        b.SetRef(b.Const(appMapReference), b.Const(appMap));
+        SetAppMap(b, b.Const(appMap));
+    }
+
+    /// <summary>
+    /// Sets the <see cref="App.Map"/> in a known client-side 'static-like' placeholder
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="appMap"></param>
+    public static void SetAppMap(SyntaxBuilder b, Var<App.Map> appMap)
+    {
+        b.SetRef(b.Const(appMapReference), appMap);
     }
 
     /// <summary>
