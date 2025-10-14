@@ -69,10 +69,10 @@ public static class ModuleExtensions
     //    }
     //}
 
-    public static void AddEmbeddedResourceMetadata(this HtmlDocument document, Assembly assembly, string filePath)
-    {
-        document.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
-    }
+    //public static void AddEmbeddedResourceMetadata(this HtmlDocument document, Assembly assembly, string filePath)
+    //{
+    //    document.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
+    //}
 
     public static List<HtmlTag> GetRequiredTagsMetadata(this Metapsi.Syntax.Module module)
     {
