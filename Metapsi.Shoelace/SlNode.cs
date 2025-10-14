@@ -103,7 +103,9 @@ public static partial class SlNodeExtensions
         b.If(b.Not(b.GetRef(b.Const(basePathSet))),
             b =>
             {
-                b.Call(setBasePath, b.Const($"/r/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/"));
+                var defaultResourceType = new ResourceMetadata().ResourceType;
+                b.Call(setBasePath, b.Const($"/{defaultResourceType}/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/"));
+                b.SetRef(basePathSet, b.Const(true));
             });
     }
 
