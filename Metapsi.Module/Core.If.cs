@@ -27,25 +27,30 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = b.NewVarName(),
-                Node = new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = new IdentifierNode()
+                    Call = new CallNode()
                     {
-                        Name = ifFn.Name,
-                    },
-                    Arguments = new List<ISyntaxNode>()
-                    {
-                        new IdentifierNode()
+                        Fn = new SyntaxNode()
                         {
-                            Name = check.Name
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = ifFn.Name,
+                            }
                         },
-                        FnNodeExtensions.FromDelegate(b, ifTrue),
-                        FnNodeExtensions.FromDelegate(b, ifFalse)
+                        Arguments = new List<SyntaxNode>()
+                        {
+                            new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name} },
+                            new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) },
+                            new SyntaxNode(){ Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
                     },
+                    }
                 }
             };
 
-            b.nodes.Add(assignmentNode);
+            assignmentNode.AddDebugType(typeof(TResult));
+
+            b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<TResult>(assignmentNode.Name);
         }
 
@@ -68,22 +73,22 @@ namespace Metapsi.Syntax
 
             var ifStatmentNode = new CallNode()
             {
-                Fn = new IdentifierNode()
+                Fn = new SyntaxNode()
                 {
-                    Name = ifFn.Name,
-                },
-                Arguments = new List<ISyntaxNode>()
-                {
-                    new IdentifierNode()
+                    Identifier = new IdentifierNode()
                     {
-                        Name = check.Name
-                    },
-                    FnNodeExtensions.FromDelegate(b, ifTrue),
-                    FnNodeExtensions.FromDelegate(b, ifFalse)
+                        Name = ifFn.Name,
+                    }
+                },
+                Arguments = new List<SyntaxNode>()
+                {
+                    new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name}},
+                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) },
+                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
                 },
             };
 
-            b.nodes.Add(ifStatmentNode);
+            b.nodes.Add(new SyntaxNode() { Call = ifStatmentNode });
         }
 
         /// <summary>
@@ -103,21 +108,21 @@ namespace Metapsi.Syntax
 
             var ifStatementNode = new CallNode()
             {
-                Fn = new IdentifierNode()
+                Fn = new SyntaxNode()
                 {
-                    Name = ifFn.Name,
-                },
-                Arguments = new List<ISyntaxNode>()
-                {
-                    new IdentifierNode()
+                    Identifier = new IdentifierNode()
                     {
-                        Name = check.Name
-                    },
-                    FnNodeExtensions.FromDelegate(b, ifTrue)
+                        Name = ifFn.Name,
+                    }
+                },
+                Arguments = new List<SyntaxNode>()
+                {
+                    new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name} },
+                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) }
                 }
             };
 
-            b.nodes.Add(ifStatementNode);
+            b.nodes.Add(new SyntaxNode() { Call = ifStatementNode });
         }
 
         /// <summary>

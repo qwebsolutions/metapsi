@@ -12,3 +12,6 @@ node_modules
 Metapsi.WebComponentGenerator/dist
 Metapsi.Shoelace.Generate/dist
 Metapsi.Ionic.Generate/dist
+/Metapsi.Luxon.Generate/tsconfig.tsbuildinfo
+/Metapsi.Luxon.Generate/dist
+/Metapsi.WebComponentGenerator/tsconfig.tsbuildinfo

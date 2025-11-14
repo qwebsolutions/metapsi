@@ -37,13 +37,13 @@ namespace Metapsi
             string parametersFilePath = GetParametersFilePath(parameterFileName);
 
             string fileContent = System.IO.File.ReadAllText(parametersFilePath);
-            Dictionary<string, string> parameters = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(fileContent);
+            Dictionary<string, string> parameters = Metapsi.Serialize.FromJson<Dictionary<string, string>>(fileContent);
             string filesDirectory = System.IO.Path.GetDirectoryName(parametersFilePath);
             string mdsFilePath = System.IO.Path.Combine(filesDirectory, Constant.MdsFileName);
             if (System.IO.File.Exists(mdsFilePath))
             {
                 string mdsFileContent = System.IO.File.ReadAllText(mdsFilePath);
-                Dictionary<string, string> mdsParameters = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(mdsFileContent);
+                Dictionary<string, string> mdsParameters = Metapsi.Serialize.FromJson<Dictionary<string, string>>(mdsFileContent);
                 parameters[nameof(Mds.InstallationData.ServiceName)] = mdsParameters[nameof(Mds.InstallationData.ServiceName)];
                 parameters[nameof(Mds.InstallationData.InfrastructureName)] = mdsParameters[nameof(Mds.InstallationData.ServiceName)];
                 parameters[nameof(Mds.InstallationData.DataFolder)] = mdsParameters[nameof(Mds.InstallationData.DataFolder)];

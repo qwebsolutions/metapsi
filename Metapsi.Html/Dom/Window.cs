@@ -42,6 +42,11 @@ public interface Window : EventTarget
     /// The Window.navigator read-only property returns a reference to the Navigator object, which has methods and properties about the application running the script.
     /// </summary>
     public Navigator navigator { get; }
+
+    /// <summary>
+    /// The read-only sessionStorage property accesses a session Storage object for the current origin. 
+    /// </summary>
+    public Storage sessionStorage { get; }
 }
 
 /// <summary>

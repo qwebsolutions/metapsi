@@ -1,0 +1,3 @@
+generated/embedded/* -text
+generated/controls/* -text
+generated/* -text

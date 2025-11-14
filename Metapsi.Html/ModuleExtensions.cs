@@ -20,10 +20,10 @@ public static class ModuleExtensions
     {
         var newMetadata = new Metadata()
         {
-            Key = "required-tag"
+            Type = "required-tag",
+            Value = Metapsi.Serialize.ToJson(tag)
         };
 
-        newMetadata.Data.Add(ToMetadata(tag));
         metadata.Add(newMetadata);
     }
 
@@ -32,87 +32,83 @@ public static class ModuleExtensions
         b.Document.Metadata.Add(metadata);
     }
 
-    private static Metadata ToMetadata(IHtmlNode node)
+    //private static Metadata ToMetadata(IHtmlNode node)
+    //{
+    //    if (node is HtmlText textTag)
+    //    {
+    //        return new Metadata()
+    //        {
+    //            Key = "text",
+    //            Value = textTag.Text
+    //        };
+    //    }
+    //    else
+    //    {
+    //        var tag = node as HtmlTag;
+    //        return new Metadata()
+    //        {
+    //            Key = tag.Tag,
+    //            Data = new HashSet<Metadata>()
+    //            {
+    //                new Metadata()
+    //                {
+    //                    Key = "attr",
+    //                    Data = new HashSet<Metadata>(tag.Attributes.Select(x=> new Metadata()
+    //                    {
+    //                        Key = x.Key,
+    //                        Value = x.Value
+    //                    }))
+    //                },
+    //                new Metadata()
+    //                {
+    //                    Key = "children",
+    //                    Data = new HashSet<Metadata>(tag.Children.Select(ToMetadata))
+    //                }
+    //            }
+    //        };
+    //    }
+    //}
+
+    //public static void AddEmbeddedResourceMetadata(this HtmlDocument document, Assembly assembly, string filePath)
+    //{
+    //    document.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
+    //}
+
+    public static List<HtmlTag> GetRequiredTagsMetadata(this Metapsi.Syntax.Module module)
     {
-        if (node is HtmlText textTag)
+        List<HtmlTag> requiredTags = new List<HtmlTag>();
+
+        var requiredTagMetadata = module.Metadata.Where(x => x.Type == "required-tag");
+        foreach (var metadata in requiredTagMetadata)
         {
-            return new Metadata()
-            {
-                Key = "text",
-                Value = textTag.Text
-            };
+            requiredTags.Add(Metapsi.Serialize.FromJson<HtmlTag>(metadata.Value));
         }
-        else
-        {
-            var tag = node as HtmlTag;
-            return new Metadata()
-            {
-                Key = tag.Tag,
-                Data = new HashSet<Metadata>()
-                {
-                    new Metadata()
-                    {
-                        Key = "attr",
-                        Data = new HashSet<Metadata>(tag.Attributes.Select(x=> new Metadata()
-                        {
-                            Key = x.Key,
-                            Value = x.Value
-                        }))
-                    },
-                    new Metadata()
-                    {
-                        Key = "children",
-                        Data = new HashSet<Metadata>(tag.Children.Select(ToMetadata))
-                    }
-                }
-            };
-        }
+
+        return requiredTags;
     }
 
-    public static void AddEmbeddedResourceMetadata(this HtmlDocument document, Assembly assembly, string filePath)
-    {
-        document.Metadata.AddEmbeddedResourceMetadata(assembly, filePath);
-    }
+    //private static IHtmlNode GetTag(this Metapsi.Syntax.Metadata metadata)
+    //{
+    //    var tag = new HtmlTag(metadata.Key);
 
-    public static List<IHtmlNode> GetRequiredTagsMetadata(this Metapsi.Syntax.Module module)
-    {
-        List<IHtmlNode> requiredNodes = new List<IHtmlNode>();
+    //    var attr = metadata.Data.SingleOrDefault(x => x.Key == "attr");
+    //    if (attr != null)
+    //    {
+    //        foreach (var attribute in attr.Data)
+    //        {
+    //            tag.Attributes[attribute.Key] = attribute.Value;
+    //        }
+    //    }
 
-        var requiredTags = module.Metadata.Where(x => x.Key == "required-tag");
-        foreach (var tag in requiredTags)
-        {
-            var data = tag.Data.SingleOrDefault();
-            if (data != null)
-            {
-                requiredNodes.Add(GetTag(data));
-            }
-        }
+    //    var children = metadata.Data.SingleOrDefault(x => x.Key == "children");
+    //    if (children != null)
+    //    {
+    //        foreach (var child in children.Data)
+    //        {
+    //            tag.Children.Add(GetTag(child));
+    //        }
+    //    }
 
-        return requiredNodes;
-    }
-
-    private static IHtmlNode GetTag(this Metapsi.Syntax.Metadata metadata)
-    {
-        var tag = new HtmlTag(metadata.Key);
-
-        var attr = metadata.Data.SingleOrDefault(x => x.Key == "attr");
-        if (attr != null)
-        {
-            foreach (var attribute in attr.Data)
-            {
-                tag.Attributes[attribute.Key] = attribute.Value;
-            }
-        }
-
-        var children = metadata.Data.SingleOrDefault(x => x.Key == "children");
-        if (children != null)
-        {
-            foreach (var child in children.Data)
-            {
-                tag.Children.Add(GetTag(child));
-            }
-        }
-
-        return tag;
-    }
+    //    return tag;
+    //}
 }

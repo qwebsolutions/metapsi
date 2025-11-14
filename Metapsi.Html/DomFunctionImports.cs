@@ -59,17 +59,17 @@ namespace Metapsi.Html
 
     public static class FunctionImports
     {
-        private const string ModuleName = "metapsi.core";
-
         public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
+            var fn = b.ImportName<Delegate>(resourceMetadata, function);
             return b.CallDynamic<TOut>(fn, arguments);
         }
 
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var fn = b.ImportName<Delegate>(ModuleName + ".js", function);
+            var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
+            var fn = b.ImportName<Delegate>(resourceMetadata, function);
             b.CallDynamic(fn, arguments);
         }
 
@@ -169,8 +169,17 @@ namespace Metapsi.Html
         /// <returns></returns>
         public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
         {
-            var constructor = b.GetProperty<object>(b.Self(), b.Const(typeof(T).Name));
-            return b.New<T>(constructor, args);
+            var typeName = typeof(T).CSharpTypeName();
+
+            // Might be nested, like Intl.DateTimeFormat
+            Var<object> current = b.Self();
+            // is nested
+            foreach (var type in typeName.Split('.'))
+            {
+                current = b.GetProperty<object>(current, type);
+            }
+
+            return b.New<T>(current, args);
         }
 
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)

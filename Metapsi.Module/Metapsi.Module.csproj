@@ -4,6 +4,8 @@
 		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<LangVersion>8.0</LangVersion>
 		<OutputType>Library</OutputType>
+		<IncludeSource>true</IncludeSource>
+		<EmbedAllSources>true</EmbedAllSources>
 		<Description>The base package for building client-side web pages in C# with Metapsi. Allows defining abstract logic that can be converted to other programming languages on demand (JavaScript, for now).</Description>
 	</PropertyGroup>
 
@@ -13,10 +15,10 @@
 		<EmbeddedResource Include="embedded\metapsi.core.js" LogicalName="metapsi.core.js" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<PackageReference Include="System.Text.Json" Version="9.0.4" />
 		<PackageReference Include="System.IO.Hashing" Version="9.0.4" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj" />

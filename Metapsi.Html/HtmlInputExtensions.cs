@@ -40,6 +40,29 @@ public static class HtmlInputExtensions
         b.SetPlaceholder(b.Const(placeholder));
     }
 
+    public static void OnInputAction<TModel>(this PropsBuilder<HtmlInput> b, Var<HyperType.Action<TModel, Html.Event>> action)
+    {
+        b.OnEventAction("input", action);
+    }
+
+    public static void OnInputAction<TModel>(this PropsBuilder<HtmlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<Html.Event>, Var<TModel>> action)
+    {
+        b.OnInputAction(b.MakeAction(action));
+    }
+
+    public static void OnInputAction<TModel>(this PropsBuilder<HtmlInput> b, Var<HyperType.Action<TModel, string>> action)
+    {
+        b.OnInputAction(b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<Html.Event> e) =>
+        {
+            return b.MakeActionDescriptor(action, b.GetTargetValue(e));
+        }));
+    }
+
+    public static void OnInputAction<TModel>(this PropsBuilder<HtmlInput> b, System.Func<SyntaxBuilder, Var<TModel>, Var<string>, Var<TModel>> action)
+    {
+        b.OnInputAction(b.MakeAction(action));
+    }
+
     //public static Var<IVNode> HtmlCheckbox(this LayoutBuilder b, System.Action<PropsBuilder<HtmlCheckbox>> buildProps, params Var<IVNode>[] children)
     //{
     //    return b.HtmlInput(

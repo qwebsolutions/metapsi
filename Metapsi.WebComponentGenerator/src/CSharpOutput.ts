@@ -138,7 +138,7 @@ function typeDefinitionToCSharp(node: TypeDefinition, indentLevel: number) {
     return typeLines.join("\n");
 }
 
-function typeUsageToCSharp(type: TypeReference): string {
+export function typeUsageToCSharp(type: TypeReference): string {
     var usage = [];
     if (type.namespace) usage.push(type.namespace);
     usage.push(type.name)

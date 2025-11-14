@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using Metapsi.Syntax;
+using Microsoft.AspNetCore.Builder;
 
 namespace Metapsi.Web;
 
@@ -108,6 +109,10 @@ public static class HttpExtensions
         return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(request.Request.Body);
     }
 
+    public static async Task<object> ReadJsonBody(this CfHttpRequest request, System.Type type)
+    {
+        return await System.Text.Json.JsonSerializer.DeserializeAsync(request.Request.Body, type);
+    }
 
     //public static Func<RouteDescription, string> FindRelativeUrl(
     //    this Metapsi.Web.CfHttpContext httpContext,
@@ -144,10 +149,10 @@ public static class HttpExtensions
     //    };
     //}
 
-    public static string GetEndpointUrl(this HttpContext httpContext, string name)
+
+    public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, App.Setup setup, RouteDescription routeDescription)
     {
-        var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
-        return linkGenerator.GetPathByName(name).TrimEnd('/');
+        return endpoint.WithName(routeDescription.ToRouteName(setup));
     }
 
     public static void MapApp(this IEndpointRouteBuilder endpoint, App.Setup app, Initializer initializer = null)
@@ -190,51 +195,63 @@ public static class HttpExtensions
         }
 
         initializer.RunAll();
-
-        //foreach (var featureConfiguration in app.Features)
-        //{
-        //    if (featureConfiguration.Value.Register != null)
-        //    {
-        //        featureConfiguration.Value.Register(mappers);
-        //    }
-        //}
-
-        //        var mappers = new FeatureMapperRegistry();
-
-        //mappers.OnRegisterFeature<SsrPageFeature.Configuration>(SsrPageFeature.FeatureName, async (appConfiguration, feature) =>
-        //{
-        //    foreach (var page in feature.Pages)
-        //    {
-        //        endpoint.MapGet(page.Key, async (Microsoft.AspNetCore.Http.HttpContext httpContext) =>
-        //        {
-        //            await page.Value.Handle(new Metapsi.Web.CfHttpContext(httpContext), LazyAppModel(appConfiguration, httpContext));
-        //        }).WithName(SsrPageFeature.Routes.PageByName(page.Key).ToRouteName());
-        //    }
-        //});
-
-        //app.MapHandlers(mappers);
     }
 
-    public static App.Model LazyAppModel(App.Setup setup, HttpContext httpContext)
+    public static string GetEndpointUrl(this HttpContext httpContext, string name)
+    {
+        var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
+        var path = linkGenerator.GetPathByName(name);
+
+        if (string.IsNullOrEmpty(path))
+        {
+            // It has pattern parameters
+            var endpointDataSource = httpContext.RequestServices.GetRequiredService<EndpointDataSource>();
+            foreach (var endpoint in endpointDataSource.Endpoints)
+            {
+                if (endpoint is RouteEndpoint routeEndpoint)
+                {
+                    var endpointName = routeEndpoint.Metadata.GetMetadata<IEndpointNameMetadata>();
+                    if (endpointName != null)
+                    {
+                        if (endpointName.EndpointName == name)
+                        {
+                            Dictionary<string, string> endpointArguments = new Dictionary<string, string>();
+                            var pattern = routeEndpoint.RoutePattern;
+                            // pattern.Parameters gives you the parameter info
+                            foreach (var param in pattern.Parameters)
+                            {
+                                endpointArguments.Add(param.Name, "-");
+                            }
+
+                            path = linkGenerator.GetPathByName(name, endpointArguments);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!string.IsNullOrEmpty(path))
+            path = path.TrimEnd('/', '-');
+
+        return path;
+    }
+
+    public static string GetEndpointUrl(this HttpContext httpContext, App.Setup appSetup, RouteDescription routeDescription)
+    {
+        return httpContext.GetEndpointUrl(routeDescription.ToRouteName(appSetup));
+    }
+
+    public static App.Map GetAppMap(this App.Setup setup, HttpContext httpContext)
     {
         var findUrl = (RouteDescription routeDescription, HttpContext httpContext) =>
         {
-            return httpContext.GetEndpointUrl(routeDescription.ToRouteName());
+            return httpContext.GetEndpointUrl(setup, routeDescription);
         };
 
-        Lazy<App.Model> appModel = new Lazy<App.Model>(() =>
+        Lazy<App.Map> appMap = new Lazy<App.Map>(() =>
         {
-            return setup.GetAppModel((routeDescription) => findUrl(routeDescription, httpContext));
+            return setup.GetAppMap((routeDescription) => findUrl(routeDescription, httpContext));
         });
-        return appModel.Value;
+        return appMap.Value;
     }
-
-    //public static string GetRootUrl(this HttpContext httpContext)
-    //{
-    //    var request = httpContext.Request;
-    //    var scheme = request.Scheme;
-    //    var host = request.Host.Value;
-    //    var rootUrl = $"{scheme}://{host}";
-    //    return rootUrl;
-    //}
 }

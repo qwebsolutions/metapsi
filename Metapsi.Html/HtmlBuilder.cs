@@ -107,7 +107,7 @@ public static class HtmlBuilderExtensions
         {
             if (!b.Document.Head.Children.Contains(node, new HtmlNodeComparer()))
             {
-                b.Document.Head.Children.Add(node);
+                b.Document.Head.Children.Add(node as HtmlNode);
             }
         }
     }
@@ -119,7 +119,7 @@ public static class HtmlBuilderExtensions
     /// <param name="nodes"></param>
     public static void BodyAppend(this HtmlBuilder b, params IHtmlNode[] nodes)
     {
-        b.Document.Body.Children.AddRange(nodes);
+        b.Document.Body.Children.AddRange(nodes.Cast<HtmlNode>());
     }
 
     /// <summary>
@@ -132,10 +132,20 @@ public static class HtmlBuilderExtensions
     /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
-        return new HtmlTag(tagName)
+        var attributesDictionary = new Dictionary<string, HtmlAttribute>();
+        foreach (var attribute in attributes)
         {
-            Attributes = new Dictionary<string, string>(attributes),
-            Children = children.ToList()
+            attributesDictionary[attribute.Key] = new HtmlAttribute() { Value = attribute.Value };
+        }
+        return new HtmlNode()
+        {
+            Tags = new List<HtmlTag>() {
+                new HtmlTag(tagName)
+                {
+                    Attributes = attributesDictionary,
+                    Children = children.Cast<HtmlNode>().ToList()
+                }
+            }
         };
     }
 
@@ -179,7 +189,10 @@ public static class HtmlBuilderExtensions
     public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, List<IHtmlNode> children)
     {
         AttributesBuilder<TTag> builder = new();
-        buildAttributes(builder);
+        if (buildAttributes != null)
+        {
+            buildAttributes(builder);
+        }
         return b.Tag(tagName, builder.Attributes, children);
     }
 
@@ -190,7 +203,7 @@ public static class HtmlBuilderExtensions
 
     public static IHtmlNode Text(this HtmlBuilder b, string text)
     {
-        return new HtmlText(text);
+        return new HtmlNode() { Text = new List<HtmlText>() { new HtmlText(text) } };
     }
 
     /// <summary>
@@ -198,21 +211,21 @@ public static class HtmlBuilderExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <param name="href"></param>
-    public static void AddStylesheet(this HtmlBuilder b, string href)
-    {
-        if (!href.StartsWith("http"))
-        {
-            // If it is not absolute path, make it absolute
-            href = $"/{href}".Replace("//", "/");
-        }
-        b.HeadAppend(
-            b.HtmlLink(
-                b =>
-                {
-                    b.SetHref(href);
-                    b.SetRel("stylesheet");
-                }));
-    }
+    //public static void AddStylesheet(this HtmlBuilder b, string href)
+    //{
+    //    if (!href.StartsWith("http"))
+    //    {
+    //        // If it is not absolute path, make it absolute
+    //        href = $"/{href}".Replace("//", "/");
+    //    }
+    //    b.HeadAppend(
+    //        b.HtmlLink(
+    //            b =>
+    //            {
+    //                b.SetHref(href);
+    //                b.SetRel("stylesheet");
+    //            }));
+    //}
 
     /// <summary>
     /// Adds <paramref name="src"/> script to document head if it doesn't already exist
@@ -244,29 +257,29 @@ public static class HtmlBuilderExtensions
         b.AddScript(src, "module");
     }
 
-    public static void AddModuleStylesheet(this HtmlBuilder b)
-    {
-        var assembly = System.Reflection.Assembly.GetCallingAssembly();
-        var cssName = $"{assembly.GetName().Name}.css";
-        b.AddStylesheet(assembly, cssName);
-    }
+    //public static void AddModuleStylesheet(this HtmlBuilder b)
+    //{
+    //    var assembly = System.Reflection.Assembly.GetCallingAssembly();
+    //    var cssName = $"{assembly.GetName().Name}.css";
+    //    b.AddStylesheet(assembly, cssName);
+    //}
 
-    public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
-    {
-        //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
-        //if (embeddedFile != null)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-        //    {
-        //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
-        //    }
-        //}
-        b.HeadAppend(b.HtmlLink(b =>
-        {
-            b.SetAttribute("rel", "stylesheet");
-            b.SetAttribute("href", "/" + cssFile);
-        }));
-    }
+    //public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
+    //{
+    //    //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
+    //    //if (embeddedFile != null)
+    //    //{
+    //    //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
+    //    //    {
+    //    //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
+    //    //    }
+    //    //}
+    //    b.HeadAppend(b.HtmlLink(b =>
+    //    {
+    //        b.SetAttribute("rel", "stylesheet");
+    //        b.SetAttribute("href", "/" + cssFile);
+    //    }));
+    //}
 
     public static IHtmlNode Optional(this HtmlBuilder b, bool variable, Func<HtmlBuilder, IHtmlNode> ifTrue)
     {

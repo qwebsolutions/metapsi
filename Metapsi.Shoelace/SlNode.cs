@@ -3,7 +3,6 @@ using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using Metapsi.Html;
-using System.Threading.Tasks;
 
 namespace Metapsi.Shoelace;
 
@@ -70,37 +69,43 @@ public static partial class SlNodeExtensions
     public static void AddShoelaceStylesheet(this HtmlBuilder b)
     {
         string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        b.AddStylesheet(stylesheetPath);
+        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        var link = new HtmlTag("link");
+        link.SetAttribute("rel", "stylesheet");
+        link.SetAttribute("href", resource);
+        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { link } });
     }
 
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
         b.AddShoelaceStylesheet();
         string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
-        b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
 
-        b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
-        b.HeadAppend(
-            b.HtmlScript(
-                b =>
-                {
-                    b.SetTypeModule();
-                },
-                b.Text($"import {{ setBasePath }} from '/shoelace@{Cdn.Version}/utilities/base-path.js';\r\n  setBasePath('/shoelace@{Cdn.Version}/');\r\n")));
-        b.TrackWebComponent(tag);
+        var scriptTag = new HtmlTag("script");
+        scriptTag.SetAttribute("src", resource);
+        scriptTag.SetAttribute("type", "module");
+
+        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { scriptTag} });
+
+        //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
+        b.HeadAppend(b.HtmlScriptModule(SetBasePath));
+        b.Document.Metadata.TrackWebComponent(tag);
     }
 
     private static Reference<bool> basePathSet = new Reference<bool>();
 
     private static void SetBasePath(SyntaxBuilder b)
     {
-        var setBasePath = b.ImportName<Action<string>>($"/shoelace@{Cdn.Version}/utilities/base-path.js", "setBasePath");
+        var basePathResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, $"/shoelace@{Cdn.Version}/utilities/base-path.js");
+        var setBasePath = b.ImportName<Action<string>>(basePathResource, "setBasePath");
 
         b.If(b.Not(b.GetRef(b.Const(basePathSet))),
             b =>
             {
-                b.Call(setBasePath, b.Const($"/shoelace@{Cdn.Version}/"));
+                var defaultResourceType = new ResourceMetadata().ResourceType;
+                b.Call(setBasePath, b.Const($"/{defaultResourceType}/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/"));
+                b.SetRef(basePathSet, b.Const(true));
             });
     }
 
@@ -109,10 +114,13 @@ public static partial class SlNodeExtensions
         string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
         string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
 
-        b.AddRequiredStylesheetMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+        var stylesheetResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
+        b.AddRequiredStylesheetMetadata(stylesheetResource);
+
+        var componentResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
         SetBasePath(b);
-        b.ImportSideEffect(scriptPath);
+        b.ImportSideEffect(componentResource);
+        b.Metadata().TrackWebComponent(tag);
     }
 
     public static Var<IVNode> SlNode<TProps>(

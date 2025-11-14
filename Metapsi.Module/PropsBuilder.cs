@@ -2,6 +2,7 @@
 
 namespace Metapsi.Syntax
 {
+
     public class PropsBuilder<TProps> : SyntaxBuilder
     {
         internal PropsBuilder(SyntaxBuilder parent): base(parent) 

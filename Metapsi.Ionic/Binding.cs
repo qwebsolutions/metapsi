@@ -6,8 +6,11 @@ namespace Metapsi.Ionic;
 
 public partial class IonInput : IHasEditableValue { }
 public partial class IonTextarea : IHasEditableValue { }
-
 public partial class IonSelect : IHasEditableValue { }
+public partial class IonPickerColumn : IHasEditableValue { }
+public partial class IonDatetime : IHasEditableValue { }
+public partial class IonSegment : IHasEditableValue { }
+public partial class IonCheckbox: IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -83,6 +86,93 @@ public class IonSelectBinding : IAutoRegisterBinding
                 b.SetValue(value.As<object>());
             },
             (b, e) => b.Get(e.As<CustomEvent<SelectChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class IonPickerColumnBinding : IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonPickerColumn);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonPickerColumn>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<PickerColumnChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class IonDatetimeBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public Type ControlType => typeof(IonDatetime);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonDatetime>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<DatetimeChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class IonSegmentBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public Type ControlType => typeof(IonSegment);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonSegment>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<SegmentChangeEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+public class IonCheckboxBinding : IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonCheckbox);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonCheckbox>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<CheckboxChangeEventDetail>>(), x => x.detail.@checked).As<object>(),
             (b, updateAction) => b.OnIonChange(updateAction));
     }
 }

@@ -7,7 +7,6 @@ public interface DatetimeHighlight { }
 public interface FocusEvent { }
 public interface Function { }
 public interface GestureDetail { }
-public interface HTMLFormElement { }
 public interface HTMLIonPickerColumnInternalElement { }
 public interface HTMLIonBreadcrumbElement { }
 public interface Mode { }
@@ -94,4 +93,19 @@ public interface IonSplitPaneVisibleDetail
     /// 
     /// </summary>
     public bool visible { get; }
+}
+
+public interface InputOtpInputEventDetail
+{
+    string value { get; }
+}
+
+public interface InputOtpChangeEventDetail
+{
+    string value { get; }
+}
+
+public interface InputOtpCompleteEventDetail
+{
+    string value { get; }
 }

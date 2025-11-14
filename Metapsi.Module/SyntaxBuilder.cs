@@ -8,7 +8,7 @@ namespace Metapsi.Syntax
     public class SyntaxBuilder
     {
         internal ModuleBuilder moduleBuilder;
-        internal List<ISyntaxNode> nodes { get; set; } = new List<ISyntaxNode>();
+        internal List<SyntaxNode> nodes { get; set; } = new List<SyntaxNode>();
 
         internal SyntaxBuilder(ModuleBuilder moduleBuilder)
         {
@@ -30,38 +30,41 @@ namespace Metapsi.Syntax
             return this.moduleBuilder.Module.Metadata;
         }
 
-        private string FixSource(string source)
-        {
-            if (!source.EndsWith(".js") && !source.EndsWith(".mjs"))
-            {
-                source += ".js";
-            }
-            if (!source.StartsWith("http://") && !source.StartsWith("https://"))
-            {
-                if (!source.StartsWith("/"))
-                {
-                    source = "/" + source;
-                }
-            }
-            return source;
-        }
-
         public Var<T> ImportName<T>(string source, string importName)
         {
-            source = FixSource(source);
+            this.moduleBuilder.Module.ImportName(source, importName);
+            return new Var<T>(importName);
+        }
+
+        public Var<T> ImportName<T>(ResourceMetadata source, string importName)
+        {
             this.moduleBuilder.Module.ImportName(source, importName);
             return new Var<T>(importName);
         }
 
         public void ImportDefault(string source, string asName)
         {
-            source = FixSource(source);
             this.moduleBuilder.Module.ImportDefault(source, asName);
+        }
+
+        public void ImportDefault(ResourceMetadata source, string asName)
+        {
+            this.moduleBuilder.Module.ImportDefault(source, asName);
+        }
+
+        public Var<T> ImportDefault<T>(string source, string asName)
+        {
+            ImportDefault(source, asName);
+            return new Var<T>(asName);
         }
 
         public void ImportSideEffect(string source)
         {
-            source = FixSource(source);
+            this.moduleBuilder.Module.ImportSideEffect(source);
+        }
+
+        public void ImportSideEffect(ResourceMetadata source)
+        {
             this.moduleBuilder.Module.ImportSideEffect(source);
         }
 
@@ -74,7 +77,7 @@ namespace Metapsi.Syntax
 
         public void Comment(string comment)
         {
-            this.nodes.Add(new CommentNode() { Comment = comment });
+            this.nodes.Add(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
         }
 
 
@@ -116,12 +119,16 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = moduleBuilder.NewName(),
-                Node = new LiteralNode()
+                Node = new SyntaxNode()
                 {
-                    Value = System.Text.Json.JsonSerializer.Serialize(obj)
+                    Literal = new LiteralNode()
+                    {
+                        Value = Metapsi.Serialize.ToJson(obj, "to-js")
+                    }
                 }
             };
-            nodes.Add(assignmentNode);
+            assignmentNode.AddDebugType(typeof(T));
+            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
 
@@ -130,39 +137,45 @@ namespace Metapsi.Syntax
             var assignmentNode = new AssignmentNode()
             {
                 Name = moduleBuilder.NewName(),
-                Node = new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = new IdentifierNode()
+                    Call = new CallNode()
                     {
-                        Name = f.Name
-                    },
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
+                        Fn = new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = f.Name
+                            }
+                        },
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                    }
                 }
             };
 
-            nodes.Add(assignmentNode);
+            assignmentNode.AddDebugType(typeof(T));
+
+            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name);
         }
 
         public void CallDynamic(Var<Delegate> f, params IVariable[] arguments)
         {
-            var assignmentNode = new AssignmentNode()
+            var callNode = new CallNode()
             {
-                Name = moduleBuilder.NewName(),
-                Node = new CallNode()
+                Fn = new SyntaxNode()
                 {
-                    Fn = new IdentifierNode()
+                    Identifier = new IdentifierNode()
                     {
                         Name = f.Name
-                    },
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList()
-                }
+                    }
+                },
+                Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
             };
 
-            nodes.Add(assignmentNode);
+            nodes.Add(new SyntaxNode() { Call = callNode });
         }
     }
-
 
     public static class SyntaxBuilderExtensions
     {
@@ -191,14 +204,6 @@ namespace Metapsi.Syntax
             return b.NewObj(new T());
         }
 
-        //public static Var<T> NewObj<T>(
-        //    this SyntaxBuilder b,
-        //    Action<PropsBuilder<T>> setProps)
-        //    where T : new()
-        //{
-        //    return b.SetProps(b.NewObj<T>(), setProps);
-        //}
-
         /// <summary>
         /// Creates an empty collection
         /// </summary>
@@ -210,65 +215,5 @@ namespace Metapsi.Syntax
             return b.NewObj<List<T>>();
         }
     }
-
-    //public class SyntaxBuilder
-    //{
-    //    public virtual void InitializeFrom(SyntaxBuilder parent)
-    //    {
-    //        if (this.blockBuilder == null)
-    //        {
-    //            this.blockBuilder = parent.blockBuilder; // TODO: Seems shady?
-    //        }
-    //    }
-
-    //    internal static TSyntaxBuilder New<TSyntaxBuilder>(BlockBuilder b, TSyntaxBuilder source)
-    //        where TSyntaxBuilder : SyntaxBuilder, new()
-    //    {
-    //        TSyntaxBuilder syntaxBuilder = new TSyntaxBuilder() { blockBuilder = b };
-    //        syntaxBuilder.InitializeFrom(source);
-    //        return syntaxBuilder;
-    //    }
-
-    //    //public static TSyntaxBuilder New<TSyntaxBuilder>(TSyntaxBuilder source)
-    //    //    where TSyntaxBuilder : SyntaxBuilder, new()
-    //    //{
-    //    //    TSyntaxBuilder syntaxBuilder = new() { blockBuilder = b };
-    //    //    return syntaxBuilder;
-    //    //}
-
-    //    internal BlockBuilder blockBuilder;
-
-    //    public Metapsi.Module.ModuleDefinition Module => blockBuilder.ModuleBuilder.Module;
-
-    //    public SyntaxBuilder()
-    //    {
-    //    }
-
-    //    public SyntaxBuilder(SyntaxBuilder b)
-    //    {
-    //        this.blockBuilder = b.blockBuilder;
-    //    }
-
-
-    //    public Var<TOut> CallExternal<TOut>(string module, string function, params IVariable[] arguments)
-    //    {
-    //        return blockBuilder.CallExternal<TOut>(module, function, arguments);
-    //    }
-
-    //    public void CallExternal(string module, string function, params IVariable[] arguments)
-    //    {
-    //        blockBuilder.CallExternal(module, function, arguments);
-    //    }
-
-
-
-    //    public void Comment(string comment,
-    //        [System.Runtime.CompilerServices.CallerFilePath] String file = "",
-    //        [System.Runtime.CompilerServices.CallerLineNumber] Int32 line = 0)
-    //    {
-    //        blockBuilder.Comment(comment, file, line);
-    //    }
-
-
 }
 

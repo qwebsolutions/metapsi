@@ -153,18 +153,27 @@ public static class GlobalAttributeExtensions
 
     public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, string href)
     {
-        var stylesheet= new HtmlTag("link");
-        stylesheet.Attributes.Add("rel", "stylesheet");
-        stylesheet.Attributes.Add("href", href);
+        var stylesheet = new HtmlTag("link");
+        stylesheet.SetAttribute("rel", "stylesheet");
+        stylesheet.SetAttribute("href", href);
 
         b.Metadata().AddRequiredTagMetadata(stylesheet);
     }
 
-    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)
+    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, ResourceMetadata href)
     {
-        b.AddRequiredStylesheetMetadata(href);
-        b.AddEmbeddedResourceMetadata(assembly, href);
+        var stylesheet = new HtmlTag("link");
+        stylesheet.SetAttribute("rel", "stylesheet");
+        stylesheet.SetAttribute("href", href);
+
+        b.Metadata().AddRequiredTagMetadata(stylesheet);
     }
+
+    //public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)
+    //{
+    //    b.AddRequiredStylesheetMetadata(href);
+    //    b.AddEmbeddedResourceMetadata(assembly, href);
+    //}
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)
     {

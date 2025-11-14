@@ -1,6 +1,4 @@
-﻿import { v4 as uuidv4, NIL as NIL_UUID } from '/uuid.js';
-
-export const TryCatchReturn = (tryFunc, catchFunc) => {
+﻿export const TryCatchReturn = (tryFunc, catchFunc) => {
     try {
         return tryFunc()
     } catch (error) {
@@ -35,8 +33,6 @@ export const IsEmptyGuid = (id) => { if (id === '00000000-0000-0000-0000-0000000
 export const HasObject = (s) => !(!s)
 export const CloneCollection = (x) => Array.from(x)
 export const CloneObject = (x) => ({ ...x })
-export const EmptyId = () => NIL_UUID
-export const NewId = uuidv4
 export const ToLowercase = (s) => !s ? "" : s.toLowerCase()
 export const Trim = (s) => !s ? "" : s.trim()
 export const EndsWith = (larger, end) => larger.endsWith(end);

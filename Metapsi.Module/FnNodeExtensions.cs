@@ -6,7 +6,6 @@ using System.Reflection;
 
 namespace Metapsi.Syntax
 {
-
     public static class FnNodeExtensions
     {
         /// <summary>
@@ -41,6 +40,8 @@ namespace Metapsi.Syntax
                 Parameters = parameters.Select(x => x.Name).ToList(),
             };
 
+            fnNode.AddDebugType(fn);
+
             if (result != null)
             {
                 fnNode.Return = (result as IVariable).Name;
@@ -62,9 +63,12 @@ namespace Metapsi.Syntax
                 var assignmentNode = new AssignmentNode()
                 {
                     Name = b.NewVarName(),
-                    Node = FromDelegate(b, fn)
+                    Node = new SyntaxNode() { Fn = FromDelegate(b, fn) }
                 };
-                b.nodes.Add(assignmentNode);
+
+                assignmentNode.AddDebugType(fn.Method.ReturnType);
+
+                b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
                 return new Var<T>(assignmentNode.Name);
             }
         }

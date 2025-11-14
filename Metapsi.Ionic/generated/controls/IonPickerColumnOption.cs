@@ -294,7 +294,15 @@ public static partial class IonPickerColumnOptionControl
     /// <summary>
     /// The text value of the option.
     /// </summary>
-    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<object> value) where T: IonPickerColumnOption
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<int> value) where T: IonPickerColumnOption
+    {
+        b.SetProperty(b.Props, b.Const("value"), value);
+    }
+
+    /// <summary>
+    /// The text value of the option.
+    /// </summary>
+    public static void SetValue<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<string> value) where T: IonPickerColumnOption
     {
         b.SetProperty(b.Props, b.Const("value"), value);
     }

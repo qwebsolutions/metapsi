@@ -24,6 +24,59 @@ public static class FetchEffects
     }
 
     /// <summary>
+    /// Throws error if response is not ok. In case response content type is 'application/problem+json', error message is detail if not empty, otherwise title.
+    /// In case response has different content type, error message is response.statusText
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="response"></param>
+    public static Var<Promise> ThrowIfErrorResponse(this SyntaxBuilder b, Var<Metapsi.Html.Response> response)
+    {
+        return b.If(
+            b.Get(response, x => !x.ok),
+            b =>
+            {
+                var contentTypeHeaders = b.HeadersGet(b.Get(response, x => x.headers), b.Const("Content-Type"));
+                return b.If(
+                    b.HasValue(contentTypeHeaders),
+                    b =>
+                    {
+                        return b.If(
+                            b.StringIncludes(contentTypeHeaders, b.Const("application/problem+json")),
+                            b =>
+                            {
+                                return b.PromiseThen(b.ResponseJson(response), (SyntaxBuilder b, Var<object> problem) =>
+                                {
+                                    var detail = b.GetProperty<string>(problem, "detail");
+                                    b.If(
+                                        b.HasValue(detail),
+                                        b =>
+                                        {
+                                            b.Throw(detail);
+                                        },
+                                        b =>
+                                        {
+                                            var title = b.GetProperty<string>(problem, "title");
+                                            b.Throw(title);
+                                        });
+                                });
+                            },
+                            b =>
+                            {
+                                return b.Throw(b.Get(response, x => x.statusText)).As<Promise>();
+                            });
+                    },
+                    b =>
+                    {
+                        return b.Throw(b.Get(response, x => x.statusText)).As<Promise>();
+                    });
+            },
+            b =>
+            {
+                return b.PromiseResolve(response);
+            });
+    }
+
+    /// <summary>
     /// Gets json object from url. Dispatches success or error action on result
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
@@ -47,13 +100,9 @@ public static class FetchEffects
                     fetchPromise,
                     (SyntaxBuilder b, Var<Html.Response> response) =>
                     {
-                        b.If(
-                            b.Get(response, x => !x.ok),
-                            b =>
-                            {
-                                b.Throw(b.Get(response, x => x.statusText));
-                            });
-                        return b.ResponseJson(response);
+                        return b.PromiseThen(
+                            b.ThrowIfErrorResponse(response),
+                            (SyntaxBuilder b, Var<Html.Response> response) => b.ResponseJson(response));
                     });
 
                 var handleActionPromise = b.PromiseThen(httpResponsePromise, (SyntaxBuilder b, Var<TOut> response) =>
@@ -62,6 +111,90 @@ public static class FetchEffects
                 });
 
                 b.PromiseCatch(handleActionPromise, (SyntaxBuilder b, Var<Error> error) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
+                });
+            });
+    }
+
+    /// <summary>
+    /// Posts to url with no request body, expects no content in response body. Dispatches success or error action on result
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="toUrl"></param>
+    /// <param name="successAction"></param>
+    /// <param name="errorAction"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Effect> PostJsonEffect<TModel>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<HyperType.Action<TModel>> successAction,
+        Var<HyperType.Action<TModel, Error>> errorAction)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                var fetchPromise = b.Fetch(
+                    toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                    });
+                var responsePromise = b.PromiseThen(
+                    fetchPromise,
+                    (SyntaxBuilder b, Var<Response> response) =>
+                    {
+                        return b.PromiseThen(
+                            b.ThrowIfErrorResponse(response),
+                            (SyntaxBuilder b, Var<object> _) => b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction)));
+                    });
+                b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
+                });
+            });
+    }
+
+    /// <summary>
+    /// Posts to url with no request body, expects TOut as json in reponse body. Dispatches success or error action on result
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TOut"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="toUrl"></param>
+    /// <param name="successAction"></param>
+    /// <param name="errorAction"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Effect> PostJsonEffect<TModel, TOut>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<HyperType.Action<TModel, TOut>> successAction,
+        Var<HyperType.Action<TModel, Error>> errorAction)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                var fetchPromise = b.Fetch(
+                    toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                    });
+
+                var jsonPromise = b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Response> response) =>
+                {
+                    return b.PromiseThen(
+                        b.ThrowIfErrorResponse(response),
+                        (SyntaxBuilder b, Var<Response> response) => b.ResponseJson(response));
+                });
+
+                var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>
+                {
+                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
+                });
+
+                b.PromiseCatch(jsonPromise, (SyntaxBuilder b, Var<Error> error) =>
                 {
                     b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
                 });
@@ -100,13 +233,12 @@ public static class FetchEffects
                     fetchPromise,
                     (SyntaxBuilder b, Var<Response> response) =>
                     {
-                        b.If(
-                            b.Get(response, x => !x.ok),
-                            b =>
+                        return b.PromiseThen(
+                            b.ThrowIfErrorResponse(response),
+                            (SyntaxBuilder b, Var<object> _) =>
                             {
-                                b.Throw(b.Get(response, x => x.statusText));
+                                b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction));
                             });
-                        b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction));
                     });
                 b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
                 {
@@ -147,13 +279,9 @@ public static class FetchEffects
 
                 var jsonPromise = b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Response> response) =>
                 {
-                    b.If(
-                        b.Get(response, x => !x.ok),
-                        b =>
-                        {
-                            b.Throw(b.Get(response, x => x.statusText));
-                        });
-                    return b.ResponseJson(response);
+                    return b.PromiseThen(
+                        b.ThrowIfErrorResponse(response),
+                        (SyntaxBuilder b, Var<Response> response) => b.ResponseJson(response));
                 });
 
                 var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>

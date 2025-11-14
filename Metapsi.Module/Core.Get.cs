@@ -17,18 +17,24 @@ namespace Metapsi.Syntax
             LambdaExpression expression,
             params IVariable[] arguments)
         {
-            b.ImportDefault("linq.js", "Enumerable");
+            var resource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.ObjBuilder<>).Assembly, "linq.js");
+            b.ImportDefault(resource, "Enumerable");
             var assignmentNode = new AssignmentNode()
             {
                 Name = b.NewVarName(),
-                Node =
-                new CallNode()
+                Node = new SyntaxNode()
                 {
-                    Fn = LinqNodeExtensions.FromLambda(expression),
-                    Arguments = arguments.Select(x => new IdentifierNode() { Name = x.Name }).Cast<ISyntaxNode>().ToList(),
+                    Call = new CallNode()
+                    {
+                        Fn = new SyntaxNode() { Linq = LinqNodeExtensions.FromLambda(expression) },
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList(),
+                    }
                 }
             };
-            b.nodes.Add(assignmentNode);
+
+            assignmentNode.AddDebugType(expression.ReturnType);
+
+            b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<object>(assignmentNode.Name);
         }
 

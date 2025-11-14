@@ -13,12 +13,12 @@ namespace Metapsi
             return clonedCollection;
         }
 
-        public static TRecord Clone<TRecord>(this TRecord record) where TRecord: IRecord
+        public static TRecord Clone<TRecord>(this TRecord record) where TRecord : IRecord
         {
             if (record == null)
                 return default(TRecord);
 
-            return Serialize.FromTypedJson<TRecord>(Serialize.ToTypedJson(record));
+            return Serialize.FromJson<TRecord>(Serialize.ToJson(record));
         }
 
         public static TOutput To<TOutput>(object source)

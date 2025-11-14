@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace Metapsi.Syntax
 {
@@ -16,7 +15,7 @@ namespace Metapsi.Syntax
         /// Key = source
         /// </summary>
         public Dictionary<string, Import> Imports { get; set; } = new Dictionary<string, Import>();
-        public List<ISyntaxNode> Nodes { get; set; } = new List<ISyntaxNode>(); // AssignmentNode or CallNode
+        public List<SyntaxNode> Nodes { get; set; } = new List<SyntaxNode>(); // AssignmentNode or CallNode
     }
 
     public enum NodeType
@@ -82,56 +81,67 @@ namespace Metapsi.Syntax
         /// Local renames. Could be multiple for same import
         /// </summary>
         public HashSet<LocalRename> Locals { get; set; } = new HashSet<LocalRename>();
+
+        public ResourceMetadata ResourceMetadata { get; set; }
     }
 
-    public interface ISyntaxNode
+    public class SyntaxNode
     {
-        NodeType Type { get; }
+        public LiteralNode Literal { get; set; }
+        public IdentifierNode Identifier { get; set; }
+        public AssignmentNode Assignment { get; set; }
+        public FnNode Fn { get; set; }
+        public LinqNode Linq { get; set; }
+        public CallNode Call { get; set; }
+        public CommentNode Comment { get; set; }
     }
 
-    public class LiteralNode : ISyntaxNode
+    public class LiteralNode
     {
-        public NodeType Type => NodeType.Literal;
+        //public NodeType Type => NodeType.Literal;
         public string Value { get; set; } // a JSON serialization
     }
 
-    public class IdentifierNode : ISyntaxNode
+    public class IdentifierNode
     {
-        public NodeType Type => NodeType.Identifier;
+        //public NodeType Type => NodeType.Identifier;
         public string Name { get; set; }
     }
 
-    public class AssignmentNode : ISyntaxNode
+    public class AssignmentNode
     {
-        public NodeType Type => NodeType.Assignment;
+        public string DebugType { get; set; }
         public string Name { get; set; }
-        public ISyntaxNode Node { get; set; }
+        public SyntaxNode Node { get; set; }
     }
 
-    public class FnNode : ISyntaxNode
+    public class FnNode
     {
-        public NodeType Type => NodeType.Fn;
+        public string DebugSource { get; set; }
+
         public List<string> Parameters { get; set; } = new List<string>();
-        public List<ISyntaxNode> Body { get; set; } = new List<ISyntaxNode>(); // Assignment nodes
+        public List<SyntaxNode> Body { get; set; } = new List<SyntaxNode>(); // Assignment nodes
         public string Return { get; set; } // Optional, return identifier name
     }
 
-    public class LinqNode : ISyntaxNode
+    public class LinqNode
     {
-        public NodeType Type => NodeType.Linq;
+        //public NodeType Type => NodeType.Linq;
         public string Expr { get; set; } // Expression is a string so it can be called in environments where the initial C# types are not defined
     }
 
-    public class CallNode : ISyntaxNode
+    public class CallNode
     {
-        public NodeType Type => NodeType.Call;
-        public ISyntaxNode Fn { get; set; } // IdentifierNode or FnNode
-        public List<ISyntaxNode> Arguments { get; set; } = new List<ISyntaxNode>(); // Literal, Identifier or Fn
+        /// <summary>
+        /// IdentifierNode or FnNode
+        /// </summary>
+        public SyntaxNode Fn { get; set; } 
+        public List<SyntaxNode> Arguments { get; set; } = new List<SyntaxNode>(); // Literal, Identifier or Fn
     }
 
-    public class CommentNode : ISyntaxNode
+    public class CommentNode
     {
-        public NodeType Type => NodeType.Comment;
+        //public NodeType Type => NodeType.Comment;
         public string Comment { get; set; }
     }
 
@@ -155,6 +165,21 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
+        public static void ImportName(this Module moduleDefinition, ResourceMetadata source, string importName)
+        {
+            moduleDefinition.Imports.TryGetValue(source.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = source
+                };
+            }
+
+            import.Imports.Add(importName);
+            moduleDefinition.Imports[source.GetIdentifierPath()] = import;
+        }
+
         /// <summary>
         /// Import default with name <paramref name="asName"/>
         /// </summary>
@@ -171,6 +196,21 @@ namespace Metapsi.Syntax
 
             import.Default = asName;
             moduleDefinition.Imports[source] = import;
+        }
+
+        public static void ImportDefault(this Module moduleDefinition, ResourceMetadata resource, string asName)
+        {
+            moduleDefinition.Imports.TryGetValue(resource.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = resource
+                };
+            }
+
+            import.Default = asName;
+            moduleDefinition.Imports[resource.GetIdentifierPath()] = import;
         }
 
         /// <summary>
@@ -190,30 +230,50 @@ namespace Metapsi.Syntax
             moduleDefinition.Imports[source] = import;
         }
 
-        public static string ToJs(this Module moduleDefinition)
+        public static void ImportSideEffect(this Module moduleDefinition, ResourceMetadata source)
         {
-            StringBuilder outJs = new StringBuilder();
+            moduleDefinition.Imports.TryGetValue(source.GetIdentifierPath(), out Import import);
+            if (import == null)
+            {
+                import = new Import()
+                {
+                    ResourceMetadata = source
+                };
+            }
 
-            //foreach (var comment in moduleDefinition.Comments)
-            //{
-            //    var lines = comment.Split('\n');
-            //    foreach (var line in lines)
-            //    {
-            //        outJs.AppendLine($"// {line}");
-            //    }
-            //}
+            import.SideEffect = true;
+            moduleDefinition.Imports[source.GetIdentifierPath()] = import;
+        }
+
+        private static string Spaces(int indentLevel)
+        {
+            return new string(' ', indentLevel * 2);
+        }
+
+        
+
+        public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options = null)
+        {
+            if (options == null) options = new ToJavaScriptOptions();
+
+            StringBuilder outJs = new StringBuilder();
 
             foreach (var import in moduleDefinition.Imports)
             {
                 var source = import.Key;
+                if (import.Value.ResourceMetadata != null)
+                {
+                    source = options.ResolveResource(moduleDefinition, import.Value.ResourceMetadata);
+                }
+
                 var importDefinition = import.Value;
 
                 if (!string.IsNullOrEmpty(importDefinition.Default))
                 {
                     outJs.AppendLine($"import {importDefinition.Default} from \"{source}\";");
                 }
-                
-                if(importDefinition.Imports.Any())
+
+                if (importDefinition.Imports.Any())
                 {
                     List<string> importNames = new List<string>();
                     foreach (var name in importDefinition.Imports)
@@ -240,94 +300,118 @@ namespace Metapsi.Syntax
             return outJs.ToString();
         }
 
-        public static string ToJs(this ISyntaxNode syntaxNode)
+        public static NodeType GetNodeType(this SyntaxNode syntaxNode)
         {
-            switch (syntaxNode.Type)
+            if (syntaxNode.Literal != null) return NodeType.Literal;
+            if (syntaxNode.Identifier != null) return NodeType.Identifier;
+            if (syntaxNode.Assignment != null) return NodeType.Assignment;
+            if (syntaxNode.Fn != null) return NodeType.Fn;
+            if (syntaxNode.Linq != null) return NodeType.Linq;
+            if (syntaxNode.Call != null) return NodeType.Call;
+            if (syntaxNode.Comment != null) return NodeType.Comment;
+
+            throw new ArgumentException("Node type not supported");
+        }
+
+        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel = 0)
+        {
+            // This renders the node itself, which could be anywhere
+            // Pass indent level, but don't use it for alignment
+            switch (syntaxNode.GetNodeType())
             {
                 case NodeType.Literal:
                     {
-                        var literal = syntaxNode as LiteralNode;
-                        return literal.Value;
+                        return syntaxNode.Literal.Value;
                     }
                 case NodeType.Identifier:
                     {
-                        var identifier = syntaxNode as IdentifierNode;
-                        return identifier.Name;
+                        return syntaxNode.Identifier.Name;
                     }
                 case NodeType.Assignment:
                     {
-                        var assignment = syntaxNode as AssignmentNode;
-                        return $"let {assignment.Name} = " + assignment.Node.ToJs();
+                        var assignment = syntaxNode.Assignment;
+                        var typeComment = string.IsNullOrEmpty(assignment.DebugType) ? "" : $"/*{assignment.DebugType}*/ ";
+                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel);
                     }
                 case NodeType.Fn:
                     {
-                        var fnDef = syntaxNode as FnNode;
-                        return ToJs(fnDef);
+                        return ToJs(syntaxNode.Fn, indentLevel);
                     }
                 case NodeType.Linq:
                     {
-                        var linqNode = syntaxNode as LinqNode;
-                        return linqNode.Expr;
+                        return syntaxNode.Linq.Expr;
                     }
                 case NodeType.Call:
                     {
-                        var callNode = syntaxNode as CallNode;
-                        return ToJs(callNode);
+                        return ToJs(syntaxNode.Call, indentLevel);
                     }
                 case NodeType.Comment:
                     {
-                        var commentNode = syntaxNode as CommentNode;
+                        var commentNode = syntaxNode.Comment;
                         return $"// {commentNode.Comment}";
                     }
                 default:
-                    throw new NotSupportedException(syntaxNode.Type.ToString());
+                    throw new NotSupportedException("Node type not supported");
             }
         }
 
-        public static string ToJs(this FnNode fnNode)
+        public static string ToJs(this FnNode fnNode, int indentLevel = 0)
         {
+            // This handles { ... } blocks, this is the place where alignment happens
+
             StringBuilder outJs = new StringBuilder();
             var parameters = string.Join(", ", fnNode.Parameters);
-            outJs.AppendLine($"({parameters}) => {{ ");
+            var fnNameComment = string.IsNullOrEmpty(fnNode.DebugSource) ? "" : $"/*{fnNode.DebugSource}*/";
+            outJs.AppendLine($"({parameters}) => {{ {fnNameComment}");
             foreach (var line in fnNode.Body)
             {
-                outJs.AppendLine(line.ToJs());
+                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1));
             }
 
             if (fnNode.Return != null)
             {
-                outJs.AppendLine($"return {fnNode.Return}");
+                outJs.AppendLine($"{Spaces(indentLevel + 1)}return {fnNode.Return}");
             }
 
-            outJs.Append("}");
+            outJs.Append(Spaces(indentLevel) + "}");
 
             return outJs.ToString();
         }
 
-        public static string ToJs(this CallNode callNode)
+        public static string ToJs(this CallNode callNode, int indentLevel = 0)
         {
             StringBuilder outJs = new StringBuilder();
-            if (callNode.Fn.Type == NodeType.Fn)
+            if (callNode.Fn.GetNodeType() == NodeType.Fn)
             {
-                outJs.Append("(" + ToJs(callNode.Fn as FnNode) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn.Fn) + ")");
             }
-            else if (callNode.Fn.Type == NodeType.Identifier)
+            else if (callNode.Fn.GetNodeType() == NodeType.Identifier)
             {
-                outJs.Append((callNode.Fn as IdentifierNode).Name);
+                outJs.Append(callNode.Fn.Identifier.Name);
             }
-            else if (callNode.Fn.Type == NodeType.Linq)
+            else if (callNode.Fn.GetNodeType() == NodeType.Linq)
             {
-                outJs.Append("(" + ToJs(callNode.Fn as LinqNode) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn) + ")");
             }
-            else throw new NotSupportedException($"Cannot call {callNode.Fn.Type}");
+            else throw new NotSupportedException($"Cannot call {callNode.Fn.GetNodeType()}");
             List<string> arguments = new List<string>();
             foreach (var argument in callNode.Arguments)
             {
-                arguments.Add(argument.ToJs());
+                arguments.Add(argument.ToJs(indentLevel));
             }
 
             outJs.Append($"({string.Join(", ", arguments)})");
             return outJs.ToString();
+        }
+
+        /// <summary>
+        /// Computes a module hash without resolving resources first
+        /// </summary>
+        /// <param name="module"></param>
+        /// <returns>Module hash</returns>
+        public static string Hash(this Module module)
+        {
+            return EmbeddedFiles.Hash(Metapsi.Serialize.ToJson(module, "to-js"));
         }
     }
 }

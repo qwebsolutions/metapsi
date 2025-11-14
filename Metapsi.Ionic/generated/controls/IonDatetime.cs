@@ -420,6 +420,22 @@ public static partial class IonDatetimeControl
     }
 
     /// <summary>
+    /// If `true`, the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+    /// </summary>
+    public static void SetShowAdjacentDays(this Metapsi.Html.AttributesBuilder<IonDatetime> b, bool showAdjacentDays) 
+    {
+        if (showAdjacentDays) b.SetAttribute("showAdjacentDays", "");
+    }
+
+    /// <summary>
+    /// If `true`, the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+    /// </summary>
+    public static void SetShowAdjacentDays(this Metapsi.Html.AttributesBuilder<IonDatetime> b) 
+    {
+        b.SetAttribute("showAdjacentDays", "");
+    }
+
+    /// <summary>
     /// If `true`, a "Clear" button will be rendered alongside the default "Cancel" and "OK" buttons at the bottom of the `ion-datetime` component. Developers can also use the `button` slot if they want to customize these buttons. If custom buttons are set in the `button` slot then the default buttons will not be rendered.
     /// </summary>
     public static void SetShowClearButton(this Metapsi.Html.AttributesBuilder<IonDatetime> b, bool showClearButton) 
@@ -1089,6 +1105,30 @@ public static partial class IonDatetimeControl
     public static void SetReadonly<T>(this Metapsi.Syntax.PropsBuilder<T> b, bool @readonly) where T: IonDatetime
     {
         b.SetReadonly(b.Const(@readonly));
+    }
+
+    /// <summary>
+    /// If `true`, the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+    /// </summary>
+    public static void SetShowAdjacentDays<T>(this Metapsi.Syntax.PropsBuilder<T> b) where T: IonDatetime
+    {
+        b.SetShowAdjacentDays(b.Const(true));
+    }
+
+    /// <summary>
+    /// If `true`, the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+    /// </summary>
+    public static void SetShowAdjacentDays<T>(this Metapsi.Syntax.PropsBuilder<T> b, Metapsi.Syntax.Var<bool> showAdjacentDays) where T: IonDatetime
+    {
+        b.SetProperty(b.Props, b.Const("showAdjacentDays"), showAdjacentDays);
+    }
+
+    /// <summary>
+    /// If `true`, the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+    /// </summary>
+    public static void SetShowAdjacentDays<T>(this Metapsi.Syntax.PropsBuilder<T> b, bool showAdjacentDays) where T: IonDatetime
+    {
+        b.SetShowAdjacentDays(b.Const(showAdjacentDays));
     }
 
     /// <summary>

@@ -24,57 +24,16 @@ public static partial class ServerAction
         public List<string> JsonParameters { get; set; }
     }
 
-    public static Var<HyperType.Action<TModel, TInput>> CallServerAction<TModel, TInput, TOutput>(
-        this SyntaxBuilder b,
-        Var<string> serverActionUrl,
-        Func<TModel, TInput, Task<TOutput>> action,
-        Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, Html.Error>> onError)
-    {
-        return b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TInput> input) =>
-        {
-            var parameters = b.NewCollection<object>();
-            b.Push(parameters, model.As<object>());
-            b.Push(parameters, input.As<object>());
-            return b.MakeStateWithEffects(
-                model,
-                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
-        });
-    }
-
-    public static Var<HyperType.Action<TModel, TInput>> CallServerAction<TModel, TInput>(
-        this SyntaxBuilder b,
-        Var<string> serverActionUrl,
-        Func<TModel, TInput, Task<TModel>> action,
-        Var<HyperType.Action<TModel, TModel>> onSuccess = null,
-        Var<HyperType.Action<TModel, Html.Error>> onError = null)
-    {
-        if (onSuccess == null)
-        {
-            onSuccess = b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> newModel) => newModel);
-        }
-
-        if (onError == null)
-        {
-            onError = b.AlertOnException<TModel>();
-        }
-
-        return b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TInput> input) =>
-        {
-            var parameters = b.NewCollection<object>();
-            b.Push(parameters, model.As<object>());
-            b.Push(parameters, input.As<object>());
-            return b.MakeStateWithEffects(
-                model,
-                b.CallDelegateServerActionEffect(
-                    serverActionUrl,
-                    action,
-                    parameters,
-                    onSuccess,
-                    onError));
-        });
-    }
-
+    /// <summary>
+    /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="serverActionUrl"></param>
+    /// <param name="action"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onError"></param>
+    /// <returns></returns>
     public static Var<HyperType.Action<TModel>> CallServerAction<TModel>(
         this SyntaxBuilder b,
         Var<string> serverActionUrl,
@@ -107,42 +66,144 @@ public static partial class ServerAction
         });
     }
 
-    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TInput, TOutput>(
+    /// <summary>
+    /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model and <paramref name="argument"/>
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TArg"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="serverActionUrl"></param>
+    /// <param name="argument"></param>
+    /// <param name="action"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onError"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TArg>(
         this SyntaxBuilder b,
         Var<string> serverActionUrl,
-        Var<TInput> input,
-        Func<TInput, Task<TOutput>> action,
-        Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, Html.Error>> onError)
+        Var<TArg> argument,
+        Func<TModel, TArg, Task<TModel>> action,
+        Var<HyperType.Action<TModel, TModel>> onSuccess = null,
+        Var<HyperType.Action<TModel, Html.Error>> onError = null)
     {
-        return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+        if (onSuccess == null)
         {
-            var parameters = b.NewCollection<object>();
-            b.Push(parameters, input.As<object>());
-            return b.MakeStateWithEffects(
-                model,
-                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
-        });
-    }
+            onSuccess = b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> newModel) => newModel);
+        }
 
-    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TInput, TOutput>(
-        this SyntaxBuilder b,
-        Var<string> serverActionUrl,
-        Var<TInput> input,
-        Func<TModel, TInput, Task<TOutput>> action,
-        Var<HyperType.Action<TModel, TOutput>> onSuccess,
-        Var<HyperType.Action<TModel, Html.Error>> onError)
-    {
+        if (onError == null)
+        {
+            onError = b.AlertOnException<TModel>();
+        }
+
         return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
         {
             var parameters = b.NewCollection<object>();
             b.Push(parameters, model.As<object>());
-            b.Push(parameters, input.As<object>());
+            b.Push(parameters, argument.As<object>());
             return b.MakeStateWithEffects(
                 model,
-                b.CallDelegateServerActionEffect(serverActionUrl, action, parameters, onSuccess, onError));
+                b.CallDelegateServerActionEffect(
+                    serverActionUrl,
+                    action,
+                    parameters,
+                    onSuccess,
+                    onError));
         });
     }
+
+    /// <summary>
+    /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model. <typeparamref name="TService"/> gets resolved server-side.
+    /// See <see cref="ServerAction.Run(Call, List{Type}, object[])"/>
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="serverActionUrl"></param>
+    /// <param name="action"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onError"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TService>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Func<TModel, TService, Task<TModel>> action,
+        Var<HyperType.Action<TModel, TModel>> onSuccess = null,
+        Var<HyperType.Action<TModel, Html.Error>> onError = null)
+    {
+        if (onSuccess == null)
+        {
+            onSuccess = b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> newModel) => newModel);
+        }
+
+        if (onError == null)
+        {
+            onError = b.AlertOnException<TModel>();
+        }
+
+        return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+        {
+            var parameters = b.NewCollection<object>();
+            b.Push(parameters, model.As<object>());
+            return b.MakeStateWithEffects(
+                model,
+                b.CallDelegateServerActionEffect(
+                    serverActionUrl,
+                    action,
+                    parameters,
+                    onSuccess,
+                    onError));
+        });
+    }
+
+    /// <summary>
+    /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model and <paramref name="argument"/>. <typeparamref name="TService"/> gets resolved server-side.
+    /// See <see cref="ServerAction.Run(Call, List{Type}, object[])"/>
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TArg"></typeparam>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="serverActionUrl"></param>
+    /// <param name="argument"></param>
+    /// <param name="action"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onError"></param>
+    /// <returns></returns>
+    public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TArg, TService>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Var<TArg> argument,
+        Func<TModel, TArg, TService, Task<TModel>> action,
+        Var<HyperType.Action<TModel, TModel>> onSuccess = null,
+        Var<HyperType.Action<TModel, Html.Error>> onError = null)
+    {
+        if (onSuccess == null)
+        {
+            onSuccess = b.MakeAction((SyntaxBuilder b, Var<TModel> model, Var<TModel> newModel) => newModel);
+        }
+
+        if (onError == null)
+        {
+            onError = b.AlertOnException<TModel>();
+        }
+
+        return b.MakeAction((SyntaxBuilder b, Var<TModel> model) =>
+        {
+            var parameters = b.NewCollection<object>();
+            b.Push(parameters, model.As<object>());
+            b.Push(parameters, argument.As<object>());
+            return b.MakeStateWithEffects(
+                model,
+                b.CallDelegateServerActionEffect(
+                    serverActionUrl,
+                    action,
+                    parameters,
+                    onSuccess,
+                    onError));
+        });
+    }
+
 
     public static Var<HyperType.Effect> CallDelegateServerActionEffect<TModel, TOutput>(
         this SyntaxBuilder b,
@@ -152,7 +213,7 @@ public static partial class ServerAction
         Var<HyperType.Action<TModel, TOutput>> onSuccess,
         Var<HyperType.Action<TModel, Html.Error>> onError)
     {
-        b.AddMetadata(new Metadata() { Key = "server-action", Value = serverAction.Method.Name });
+        b.AddMetadata(new Metadata() { Type = "server-action", Value = serverAction.Method.Name });
         return b.PostJsonEffect<TModel, ServerAction.Call, TOutput>(
             serverActionUrl,
             ToServerCall(
@@ -217,13 +278,6 @@ public static partial class ServerAction
 
         throw new Exception($"Method info {serverCall.Delegate.ClassName}.{serverCall.Delegate.MethodName} not found!");
     }
-
-    //public static System.Delegate FindDelegate(this ServerAction.Call serverAction)
-    //{
-    //    var methodInfo = FindMethodInfo(serverAction);
-    //    var d = System.Delegate.CreateDelegate(Type.GetType(serverAction.Delegate.DelegateType), methodInfo);
-    //    return d;
-    //}
 
     public static object GetParameterByName(this ServerAction.Call serverCall, string parameterName)
     {
@@ -315,7 +369,10 @@ public static partial class ServerAction
         serverCall.JsonParameters[parametersOfType.Single().Position] = Metapsi.Serialize.ToJson(parameterObject);
     }
 
-    public static async Task<dynamic> Run(this ServerAction.Call serverCall, List<Type> whitelistClasses)
+    public static async Task<dynamic> Run(
+        this ServerAction.Call serverCall, 
+        List<Type> whitelistClasses,
+        params object[] services)
     {
         if (!whitelistClasses.Any(x => x.GetSemiQualifiedTypeName() == serverCall.Delegate.ClassName))
             throw new Exception($"Class {serverCall.Delegate.ClassName} is not whitelisted");
@@ -355,7 +412,23 @@ public static partial class ServerAction
         object[] parameters = new object[methodInfoParameters.Count()];
         for (int i = 0; i < methodInfoParameters.Count(); i++)
         {
-            parameters[i] = Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
+            if (i < serverCall.JsonParameters.Count)
+            {
+                parameters[i] = Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
+            }
+            else
+            {
+                var expectedServiceType = methodInfoParameters[i].ParameterType;
+                var match = services.SingleOrDefault(x => expectedServiceType.IsAssignableFrom(x.GetType()));
+                if (match != null)
+                {
+                    parameters[i] = match;
+                }
+                else
+                {
+                    throw new Exception("Could not match parameter type " + expectedServiceType.Name);
+                }
+            }
         }
 
         var result = methodInfo.Invoke(target, parameters);
