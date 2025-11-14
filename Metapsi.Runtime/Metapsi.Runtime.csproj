@@ -16,16 +16,14 @@
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
 		<Compile Remove="netframework\**\*.cs" />
 		<None Include="netframework\**\*.cs" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net46'))">
 		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
-		<!--
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />-->
 	</ItemGroup>
 
 </Project>
