@@ -39,8 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.Luxon", "Metapsi.Lu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.FluentUi", "Metapsi.FluentUi\Metapsi.FluentUi.csproj", "{F4E430EA-4AAD-61AF-7A44-CE13081F1938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.Web.NetFramework.Scenarios", "Metapsi.Web.NetFramework.Scenarios\Metapsi.Web.NetFramework.Scenarios.csproj", "{04A28300-7AB6-9F89-0977-5DAEDEC57FC0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metapsi.Web.NetFramework.Mvc.Scenario", "Metapsi.Web.NetFramework.Mvc.Scenario\Metapsi.Web.NetFramework.Mvc.Scenario.csproj", "{FB677A9B-D59B-4D02-B977-6E9FF877EF9D}"
 EndProject
 Global
@@ -121,10 +119,6 @@ Global
 		{F4E430EA-4AAD-61AF-7A44-CE13081F1938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4E430EA-4AAD-61AF-7A44-CE13081F1938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4E430EA-4AAD-61AF-7A44-CE13081F1938}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04A28300-7AB6-9F89-0977-5DAEDEC57FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04A28300-7AB6-9F89-0977-5DAEDEC57FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04A28300-7AB6-9F89-0977-5DAEDEC57FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04A28300-7AB6-9F89-0977-5DAEDEC57FC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB677A9B-D59B-4D02-B977-6E9FF877EF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB677A9B-D59B-4D02-B977-6E9FF877EF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB677A9B-D59B-4D02-B977-6E9FF877EF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU

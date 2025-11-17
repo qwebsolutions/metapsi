@@ -1,0 +1,16 @@
+﻿
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Metapsi inside a MVC view</title>
+</head>
+<body>
+    @using Metapsi.Web.NetFramework.Mvc.Scenario.Controllers;
+    <div style="display: flex; flex-direction: column; gap: 2rem">
+        @Html.Raw(@SharedLayoutExtensions.ToHtml(SharedLayoutExtensions.BodyClass))
+        @Html.Raw(@SharedLayoutExtensions.GetSharedMenu())
+        <div>This is a MVC view containing Metapsi</div>
+    </div>
+</body>
+</html>
