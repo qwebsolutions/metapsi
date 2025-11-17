@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 
 namespace Metapsi.Syntax
 {
@@ -10,9 +9,9 @@ namespace Metapsi.Syntax
     {
         public string Name => "to-js";
 
-        public Lazy<System.Text.Json.JsonSerializerOptions> options = new Lazy<System.Text.Json.JsonSerializerOptions>(() =>
+        private static Lazy<System.Text.Json.JsonSerializerOptions> options = new Lazy<System.Text.Json.JsonSerializerOptions>(() =>
         {
-            var newOptions = new JsonSerializerOptions()
+            var newOptions = new System.Text.Json.JsonSerializerOptions()
             {
                 MaxDepth = 256,
                 WriteIndented = true,
@@ -35,7 +34,7 @@ namespace Metapsi.Syntax
 
         public string ToJson(object obj)
         {
-            string jsonContent = JsonSerializer.Serialize(obj, options.Value);
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(obj, options.Value);
             return jsonContent;
         }
     }

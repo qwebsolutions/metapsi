@@ -19,7 +19,7 @@
 		<EmbeddedResource Include="net\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net46'))">
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net47'))">
 		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
 		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />

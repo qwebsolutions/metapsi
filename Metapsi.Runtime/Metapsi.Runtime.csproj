@@ -21,7 +21,7 @@
 		<None Include="netframework\**\*.cs" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net46'))">
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net47'))">
 		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
 	</ItemGroup>

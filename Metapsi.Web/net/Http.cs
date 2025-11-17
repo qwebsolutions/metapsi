@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using Metapsi.Syntax;
+﻿using Metapsi.Syntax;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Metapsi.Web;
 
@@ -60,6 +61,20 @@ public class CfHttpContext
 
 public static class HttpExtensions
 {
+    public static string GetMimeTypeForFileExtension(string filePath)
+    {
+        const string DefaultContentType = "application/octet-stream";
+
+        var provider = new FileExtensionContentTypeProvider();
+
+        if (!provider.TryGetContentType(filePath, out string contentType))
+        {
+            contentType = DefaultContentType;
+        }
+
+        return contentType;
+    }
+
     public static Stream Body(this CfHttpRequest request)
     {
         return request.Request.Body;
@@ -79,6 +94,21 @@ public static class HttpExtensions
     public static async Task WriteAsync(this CfHttpResponse response, string content)
     {
         await response.Response.WriteAsync(content);
+    }
+
+    public static async Task WriteAsync(this CfHttpResponse response, byte[] content)
+    {
+        await response.Response.BodyWriter.WriteAsync(content);
+    }
+
+    public static void SetContentLengthHeader(this CfHttpResponse response, long contentLength)
+    {
+        response.Response.Headers.ContentLength = contentLength;
+    }
+
+    public static void SetContentTypeHeader(this CfHttpResponse response, string contentType)
+    {
+        response.Response.Headers.ContentType = contentType;
     }
 
     public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)
@@ -113,41 +143,6 @@ public static class HttpExtensions
     {
         return await System.Text.Json.JsonSerializer.DeserializeAsync(request.Request.Body, type);
     }
-
-    //public static Func<RouteDescription, string> FindRelativeUrl(
-    //    this Metapsi.Web.CfHttpContext httpContext,
-    //    string rootUrl,
-    //    Dictionary<string, string> relative)
-    //{
-    //    return (RouteDescription route) =>
-    //    {
-    //        var absolute = new Dictionary<string, string>();
-    //        absolute.Add("root-url", rootUrl);
-    //        foreach (var entry in relative)
-    //        {
-    //            absolute.Add(entry.Key, rootUrl + "/" + entry.Value);
-    //        }
-    //        return absolute[route.Name];
-    //    };
-    //}
-
-    //public static Func<RouteDescription, string> FindUrl(
-    //    this Metapsi.Web.CfHttpContext httpContext,
-    //    string baseEndpointName,
-    //    Dictionary<string, string> relative)
-    //{
-    //    return (RouteDescription route) =>
-    //    {
-    //        var rootUrl = httpContext.GetEndpointUrl(baseEndpointName);
-    //        var absolute = new Dictionary<string, string>();
-    //        absolute.Add("root-url", rootUrl);
-    //        foreach (var entry in relative)
-    //        {
-    //            absolute.Add(entry.Key, rootUrl + "/" + entry.Value);
-    //        }
-    //        return absolute[route.Name];
-    //    };
-    //}
 
 
     public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, App.Setup setup, RouteDescription routeDescription)

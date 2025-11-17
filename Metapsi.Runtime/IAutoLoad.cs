@@ -2,6 +2,7 @@
 using System.Reflection;
 using System;
 using System.Linq;
+using System.Diagnostics.Contracts;
 
 namespace Metapsi;
 
@@ -18,7 +19,23 @@ public static partial class AutoLoader
         {
             try
             {
-                autoLoaders.AddRange(assembly.GetTypes().Where(x => typeof(IAutoLoader).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+                foreach (var type in assembly.GetTypes())
+                {
+                    try
+                    {
+                        if (type.IsInterface) continue;
+                        if (type.IsAbstract) continue;
+                        if (typeof(IAutoLoader).IsAssignableFrom(type))
+                        {
+                            autoLoaders.Add(type);
+                        }
+                        //autoLoaders.AddRange(assembly.GetTypes().Where(x => typeof(IAutoLoader).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract));
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -37,7 +54,21 @@ public static partial class AutoLoader
 
     public static List<T> FindAllLoaded<T>()
     {
-        return FindAll<T>(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.GetName().Name.StartsWith("System.")).ToList());
+        var clientLibraries = AppDomain.CurrentDomain.GetAssemblies().Where(x => !IsSystemLibrary(x) && !x.IsDynamic).ToList();
+        return FindAll<T>(clientLibraries);
+    }
+
+    private static bool IsSystemLibrary(Assembly assembly)
+    {
+        var assemblyName = assembly.GetName().Name;
+        if (assemblyName.StartsWith("System")) return true;
+        if (assemblyName.StartsWith("Microsoft")) return true;
+        if(assemblyName == "mscorlib")
+        {
+            return true;
+        }
+
+        return false;
     }
 }
 

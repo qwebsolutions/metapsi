@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using Metapsi.Syntax;
+using System.IO;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
-using Metapsi.Syntax;
+using System.Web.UI.WebControls;
 
 namespace Metapsi.Web;
 
@@ -50,6 +52,12 @@ public class CfHttpContext
 
 public static class HttpExtensions
 {
+    public static string GetMimeTypeForFileExtension(string filePath)
+    {
+        var contentType = System.Web.MimeMapping.GetMimeMapping(filePath);
+        return contentType;
+    }
+
     public static Stream Body(this CfHttpRequest request)
     {
         return request.Request.InputStream;
@@ -68,6 +76,21 @@ public static class HttpExtensions
     public static async Task WriteAsync(this CfHttpResponse response, string content)
     {
         response.Response.Write(content);
+    }
+
+    public static async Task WriteAsync(this CfHttpResponse response, byte[] content)
+    {
+        response.Response.BinaryWrite(content);
+    }
+
+    public static void SetContentLengthHeader(this CfHttpResponse response, long contentLength)
+    {
+        response.Response.Headers["Content-Length"] = contentLength.ToString();
+    }
+
+    public static void SetContentTypeHeader(this CfHttpResponse response, string contentType)
+    {
+        response.Response.ContentType = contentType;
     }
 
     public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)

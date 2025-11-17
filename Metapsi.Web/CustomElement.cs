@@ -167,23 +167,6 @@ public static class CustomElementsFeature
         }
     }
 
-    //public static string GetCustomElementUrl(this List<PathResolution> appMap, string tag)
-    //{
-    //    CustomElementsFeature.Details data = appMap.Features[Metapsi.CustomElementsFeature.FeatureName] as CustomElementsFeature.Details;
-    //    return data.JsUrls[tag];
-    //}
-
-    //public static string GetCustomElementUrl<T>(this App.Map appMap)
-    //    where T : ICustomElement, new()
-    //{
-    //    var customElement = new T();
-    //    var module = customElement.GetModule(appMap);
-    //    var moduleJs = module.ToJs();
-    //    var hash = EmbeddedFiles.Hash(moduleJs);
-    //    var baseUrl = appMap.GetCustomElementUrl(customElement.Tag);
-    //    return $"{baseUrl}?hash={hash}";
-    //}
-
     public static void OnInit<TModel>(this ConfigurationBuilder<CustomElementConfiguration<TModel>> b, Func<SyntaxBuilder, Var<Html.Element>, Var<HyperType.StateWithEffects>> onInit)
     {
         b.Configuration.Init = onInit;
