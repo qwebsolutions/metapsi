@@ -339,6 +339,22 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("sl-icon-test", async () =>
+        {
+            return Page.Result(new object(), (model) =>
+            {
+                return HtmlBuilder.FromEmpty(
+                    b =>
+                    {
+                        b.BodyAppend(b.SlIcon(
+                            b =>
+                            {
+                                b.SetName("caret-right-square");
+                            }));
+                    });
+            });
+        });
+
         // return Page.Result test
         app.MapGet("/page-result", Scenario.PageResult).WithName("page-result");
 

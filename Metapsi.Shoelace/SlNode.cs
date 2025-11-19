@@ -79,17 +79,13 @@ public static partial class SlNodeExtensions
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
         b.AddShoelaceStylesheet();
+        b.HeadAppend(b.HtmlScriptModule(SetBasePath));
         string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
         var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
-
         var scriptTag = new HtmlTag("script");
         scriptTag.SetAttribute("src", resource);
         scriptTag.SetAttribute("type", "module");
-
         b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { scriptTag} });
-
-        //b.AddScript($"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}", "module");
-        b.HeadAppend(b.HtmlScriptModule(SetBasePath));
         b.Document.Metadata.TrackWebComponent(tag);
     }
 
