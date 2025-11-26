@@ -339,6 +339,34 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("/textarea-binding", async (HttpContext httpContext) =>
+        {
+            var document = HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.BodyAppend(
+                        b.Hyperapp<DataModel>(
+                            new DataModel(),
+                            (b, model) =>
+                            {
+
+                                return b.HtmlDiv(
+                                    b =>
+                                    {
+                                        b.AddClass("flex flex-row gap-8");
+                                    },
+                                    b.HtmlTextarea(
+                                        b =>
+                                        {
+                                            b.BindTo(model, x => x.Message);
+                                        }),
+                                    b.Text(b.Get(model, x => x.Message)));
+                            }));
+                });
+
+            await httpContext.WriteHtmlDocumentResponse(document);
+        });
+
         app.MapGet("sl-icon-test", async () =>
         {
             return Page.Result(new object(), (model) =>
