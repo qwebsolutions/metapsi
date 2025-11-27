@@ -92,6 +92,10 @@ public static class HttpExtensions
     {
         response.Response.ContentType = contentType;
     }
+    public static void SetCacheControlHeader(this CfHttpResponse response, string value)
+    {
+        response.Response.CacheControl = value;
+    }
 
     public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)
     {

@@ -7,6 +7,22 @@ using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
+public interface IModuleResource: IAutoLoader
+{
+    public string ModulePath { get; }
+    public Module Module { get; }
+}
+
+public class ModuleResource : IModuleResource
+{
+    public ModuleResource()
+    {
+        this.ModulePath = this.GetType() + ".js";
+    }
+
+    public string ModulePath { get; set; } 
+    public Module Module { get; set; }
+}
 
 public interface ICustomElement
 {
@@ -17,10 +33,12 @@ public interface ICustomElement
 /// <summary>
 /// Keeps on-the-spot custom element definitions 
 /// </summary>
-public class CustomElement : ICustomElement
+public class CustomElement : ICustomElement, IModuleResource
 {
     public string Tag { get; set; }
     public Module Module { get; set; }
+
+    public string ModulePath => this.Tag + ".js";
 }
 
 public interface ICustomElementProps<T>
@@ -37,9 +55,11 @@ internal class RootControl : IRootControl
     public Var<IVNode> RootVirtualNode { get; set; }
 }
 
-public abstract class CustomElement<TModel> : ICustomElement
+public abstract class CustomElement<TModel> : ICustomElement, IModuleResource
 {
     public string Tag { get; set; }
+
+    public string ModulePath => this.Tag + ".js";
 
     public CustomElement()
     {
@@ -294,6 +314,31 @@ public static partial class CustomElementExtensions
                             PackageVersion = packageVersion,
                             FileHash = fileHash
                         }
+                    }
+                }
+            }
+        };
+    }
+
+
+    public static HtmlTag SrcScriptTag(this IModuleResource moduleResource)
+    {
+        return new HtmlTag("script")
+        {
+            Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
+            {
+                {
+                    "type",
+                    new HtmlAttribute()
+                    {
+                        Value = "module"
+                    }
+                },
+                {
+                    "src",
+                    new HtmlAttribute()
+                    {
+                        Value = $"/metapsi-js-module/{moduleResource.ModulePath}"
                     }
                 }
             }

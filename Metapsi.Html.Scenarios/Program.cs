@@ -17,7 +17,6 @@ using Metapsi.Web;
 using Metapsi.FluentUi;
 using Metapsi.TomSelect;
 using Metapsi.Ionic;
-using System.IO;
 
 namespace Metapsi.Html.Scenarios;
 
@@ -198,6 +197,7 @@ public class TestCustomElement : CustomElement<DataModel>
     }
 }
 
+
 public static class Program
 {
     public class Nested
@@ -234,6 +234,16 @@ public static class Program
         }
         //DefaultMetapsiSignalRHub.HubContext = builder.ServiceProvider.GetService(typeof(IHubContext<DefaultMetapsiSignalRHub>)) as IHubContext<DefaultMetapsiSignalRHub>;
         return hubBuilder;
+    }
+
+    public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, IModuleResource module)
+    {
+        return b.HtmlScript(
+            b =>
+            {
+                b.SetTypeModule();
+                b.SetSrc($"/metapsi-js-module/{module.ModulePath}");
+            });
     }
 
     public static async Task Main()
@@ -328,6 +338,35 @@ public static class Program
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
             });
         builder.Services.AddTransient<ITestService>(b => new TestService());
+        //builder.Services.AddSingleton<JsModuleProvider>();
+        builder.Services.AddJsModules(
+            b =>
+            {
+                b.AutoRegisterFrom(typeof(Program).Assembly);
+                b.AddModule("test.js", ModuleBuilder.New(
+                    b =>
+                    {
+                        b.Call(b =>
+                        {
+                            b.Log("test service loaded!");
+                        });
+                    }));
+
+                b.AddModule("second.js", ModuleBuilder.New(
+                    b =>
+                    {
+                        b.Call(b =>
+                        {
+                            b.Log("second test service loaded!");
+                        });
+                    }));
+            });
+        //builder.Services.AddJsModules(
+        //    b =>
+        //    {
+        //        var mediaLoader = new MediaLoader();
+        //        b.AddModule(mediaLoader.Tag + ".js", mediaLoader.Module);
+        //    });
         var app = builder.Build();
         app.UseMetapsi();
         app.Urls.Add("http://localhost:5000");
@@ -368,11 +407,25 @@ public static class Program
             await httpContext.WriteHtmlDocumentResponse(document);
         });
 
-        app.MapGet("/control-bindings", async (HttpContext httpContext) =>
+        app.MapGet("/control-bindings", async (HttpContext httpContext, JsModuleProvider modules) =>
         {
             var document = HtmlBuilder.FromDefault(
                 b =>
                 {
+                    b.BodyAppend(b.HtmlScript(
+                        b =>
+                        {
+                            b.SetSrc("/metapsi-js-module/test.js");
+                            b.SetTypeModule();
+                        }));
+
+                    b.BodyAppend(b.HtmlScript(
+                        b =>
+                        {
+                            b.SetSrc("/metapsi-js-module/second.js");
+                            b.SetTypeModule();
+                        }));
+
                     b.BodyAppend(
                         b.Hyperapp<DataModel>(
                             new DataModel()
@@ -396,6 +449,11 @@ public static class Program
                                     {
                                         b.AddClass("flex flex-row gap-8");
                                     },
+                                    b.MediaLoader(
+                                        b=>
+                                        {
+
+                                        }),
                                     b.HtmlInput(
                                         b =>
                                         {
@@ -454,16 +512,19 @@ public static class Program
 
         app.MapGet("/custom-element-http-handler.js", Scenario.CustomElementHttpHandler).WithName("custom-element-http-handler");
 
-        app.MapGet("/metapsi-js-module/{module}/{version}/{customElementTag}.js", async (HttpContext httpContext, string customElementTag) =>
-        {
-            if (customElementTag == new MediaLoader().Tag)
-            {
-                await httpContext.WriteJsModule(new MediaLoader().Module);
-                return;
-            }
+        //app.MapGet(
+        //    "/metapsi-js-module/{module}/{version}/{customElementTag}.js",
+        //    async (HttpContext httpContext, string module, string version, string customElementTag, JsModuleProvider modules) =>
+        //{
+        //    if (customElementTag == new MediaLoader().Tag)
+        //    {
+        //        new CfHttpContext(httpContext).Response.SetCacheControlHeader("public,max-age=31536000");
+        //        await httpContext.WriteJsModule(new MediaLoader().Module);
+        //        return;
+        //    }
 
-            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-        });
+        //    httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+        //});
 
         int attempts = 0;
 
@@ -497,9 +558,36 @@ public static class Program
                         {
                             return b.IonApp(
                                 b.IonHeader(),
-                                b.IonContent(b.IonButton(b.Text("Test button"))));
+                                b.IonContent(
+                                    b.IonButton(b.Text("Test button")),
+                                    b.SlButton(b.Text("Shoelace as well"))));
                         }));
-                }));
+                }),
+                new ToHtmlOptions()
+                {
+                    //http://localhost:5000/embedded/Metapsi.Ionic/1.0.0.0/ionic@8.6.2/ionic.bundle.css?h=14501
+                    ResolveResource = (document, metadata) =>
+                    {
+                        if (metadata.PackageName.ToLower().Contains("ionic"))
+                        {
+                            var ionicVersion = metadata.LogicalName.Split('@', '/')[1];
+                            var filePath = metadata.LogicalName.Replace("ionic@8.6.2/", string.Empty);
+                            var ionicCorePathBase = $"https://cdn.jsdelivr.net/npm/@ionic/core@{ionicVersion}";
+                            var ionicJsBase = $"{ionicCorePathBase}/dist/ionic";
+                            var ionicCssBase = $"{ionicCorePathBase}/css";
+
+                            if (metadata.LogicalName.EndsWith(".css"))
+                            {
+                                return $"{ionicCssBase}/{filePath}";
+                            }
+                            else
+                            {
+                                return $"{ionicJsBase}/{filePath}";
+                            }
+                        }
+                        return metadata.GetDefaultHttpPath();
+                    }
+                });
         });
 
         var testApp1 = App.New(

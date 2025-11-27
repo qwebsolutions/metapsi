@@ -37,8 +37,16 @@ public static partial class MediaLoaderExtensions
         Action<PropsBuilder<MediaLoader.Props>> setProps,
         params Var<IVNode>[] children)
     {
-        b.Metadata().AddRequiredTagMetadata(b.CustomElementSrcScriptTag(new MediaLoader()));
-        return b.H(new MediaLoader().Tag, setProps, children);
+        var mediaLoader = new MediaLoader();
+        var module = mediaLoader.Module;
+
+        b.Metadata().AddRequiredTagMetadata(
+            new ModuleResource()
+            {
+                Module = module,
+                ModulePath = mediaLoader.Tag + $".js?h={module.Hash()}"
+            }.SrcScriptTag());
+        return b.H(mediaLoader.Tag, setProps, children);
     }
 }
 
@@ -66,7 +74,8 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
 
     public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
     {
-        b.Log("OnInit", element);
+        b.Log("MediaLoader.OnInit element", element);
+        //b.Log(DateTime.UtcNow.Ticks.ToString());
         var src = b.GetAttribute<string>(element, b.Const("src"));
         b.Log(src);
         return OnInitProps(b, b.NewObj<Props>(

@@ -63,6 +63,7 @@ namespace Metapsi
         public static WebApplication UseMetapsi(this WebApplication webApplication)
         {
             webApplication.UseEmbeddedFiles();
+            webApplication.UseJsModules();
             return webApplication;
         }
 
@@ -97,6 +98,33 @@ namespace Metapsi
             {
                 await new Metapsi.Web.CfHttpContext(httpContext).Response.WriteEmbeddedResource(package, logicalName);
             });
+        }
+
+        public static RouteHandlerBuilder UseJsModules(this WebApplication app)
+        {
+            return app.MapGet("/metapsi-js-module/{*modulePath}",
+                async (HttpContext httpContext, string modulePath, JsModuleProvider modules) =>
+                {
+                    modules.modules.TryGetValue(modulePath, out var moduleRetriever);
+                    if (moduleRetriever != null)
+                    {
+                        try
+                        {
+                            var module = moduleRetriever();
+                            new CfHttpContext(httpContext).Response.SetCacheControlHeader("public,max-age=31536000");
+                            await httpContext.WriteJsModule(module);
+                            return;
+                        }
+                        catch (Exception ex)
+                        {
+                            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                        }
+                    }
+                    else
+                    {
+                        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                    }
+                });
         }
 
         public static async Task WriteHtmlDocumentResponse(

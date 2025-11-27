@@ -1,6 +1,4 @@
-﻿using Metapsi.Web;
-using System.IO;
-using System.Net;
+﻿using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -31,6 +29,7 @@ public static class HttpEmbeddedFileExtensions
                     var content = ms.ToArray();
                     httpResponse.SetContentLengthHeader(content.Length);
                     httpResponse.SetContentTypeHeader(HttpExtensions.GetMimeTypeForFileExtension(logicalName));
+                    httpResponse.SetCacheControlHeader("public,max-age=31536000");
                     await httpResponse.WriteAsync(content);
                     return;
                 }
