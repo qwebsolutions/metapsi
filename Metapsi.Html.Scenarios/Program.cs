@@ -36,6 +36,7 @@ public class DataModel
     public string Length { get; set; }
 
     public NestedDataModel Nested { get; set; } = new();
+    public List<Entry> Inner { get; set; } = new();
     public DateTime SomeDate { get; set; }
 }
 
@@ -361,6 +362,71 @@ public static class Program
                                             b.BindTo(model, x => x.Message);
                                         }),
                                     b.Text(b.Get(model, x => x.Message)));
+                            }));
+                });
+
+            await httpContext.WriteHtmlDocumentResponse(document);
+        });
+
+        app.MapGet("/control-bindings", async (HttpContext httpContext) =>
+        {
+            var document = HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.BodyAppend(
+                        b.Hyperapp<DataModel>(
+                            new DataModel()
+                            {
+                                Inner = new List<Entry>()
+                                {
+                                    new Entry()
+                                    {
+                                     Name = "One"
+                                    },
+                                    new Entry()
+                                    {
+                                        Name = "Two"
+                                    }
+                                }
+                            },
+                            (b, model) =>
+                            {
+                                return b.HtmlDiv(
+                                    b =>
+                                    {
+                                        b.AddClass("flex flex-row gap-8");
+                                    },
+                                    b.HtmlInput(
+                                        b =>
+                                        {
+                                            b.BindTo(model, x => x.Message);
+                                        }),
+                                    b.HtmlDiv(
+                                        b =>
+                                        {
+                                        },
+                                        b.Map(
+                                            b.Get(model, x => x.Inner),
+                                            (LayoutBuilder b, Var<Entry> item) =>
+                                            {
+                                                return b.HtmlDiv(
+                                                    b.HtmlInput(
+                                                        b =>
+                                                        {
+                                                            b.BindTo(item, x => x.Name);
+                                                        }),
+                                                    b.HtmlLabel(
+                                                        b.Text("Going up?"),
+                                                        b.HtmlInput(
+                                                            b =>
+                                                            {
+                                                                b.SetPlaceholder("???");
+                                                                b.SetType("checkbox");
+                                                                b.BindTo(item, x => x.GoingUp);
+                                                            }),
+                                                        b.Text("Going up!")));
+                                            })),
+                                    b.Text(b.Serialize(model)));
                             }));
                 });
 

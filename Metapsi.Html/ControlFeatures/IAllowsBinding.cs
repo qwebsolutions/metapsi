@@ -106,108 +106,169 @@ public static class BindingExtensions
         b.Call(accessor.ListenForUpdates, b.Props.As<object>(), setEntityValue.As<Action<object, object>>());
     }
 
-    /// <summary>
-    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
-    /// </summary>
-    /// <typeparam name="TControl"></typeparam>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="model"></param>
-    /// <param name="onEntity"></param>
-    /// <param name="onProperty"></param>
-    public static void BindTo<TControl, TModel, TEntity, TValue>(
+    ///// <summary>
+    ///// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    ///// </summary>
+    ///// <typeparam name="TControl"></typeparam>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <typeparam name="TEntity"></typeparam>
+    ///// <typeparam name="TValue"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="model"></param>
+    ///// <param name="onEntity"></param>
+    ///// <param name="onProperty"></param>
+    //public static void BindTo<TControl, TModel, TEntity, TValue>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    Var<System.Func<TModel, TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    var getEntityValue = b.Def((SyntaxBuilder b) =>
+    //    {
+    //        Var<TEntity> entity = b.Call(onEntity, model);
+    //        Var<TValue> value = b.Get(entity, onProperty);
+    //        b.Log("getEntityValue.entity", entity);
+    //        b.Log("getEntityValue.value", value);
+    //        return value;
+    //    });
+
+    //    var setNewValue = b.Def((SyntaxBuilder b, Var<object> model, Var<TValue> newValue) =>
+    //    {
+    //        b.Log("setNewValue.model", model);
+    //        b.Log("setNewValue.newValue", newValue);
+    //        Var<TEntity> entity = b.Call(onEntity, model.As<TModel>());
+    //        b.Log("setNewValue.entity", entity);
+    //        b.Set(entity, onProperty, newValue);
+    //    });
+
+    //    BindToInternal(b, getEntityValue, setNewValue);
+    //}
+
+    private static void BindToReference<TControl, TEntity, TValue>(
         this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        Var<System.Func<TModel, TEntity>> onEntity,
+        Var<TEntity> entityRef,
         System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
         where TControl : IHasEditableValue
     {
         var getEntityValue = b.Def((SyntaxBuilder b) =>
         {
-            Var<TEntity> entity = b.Call(onEntity, model);
-            Var<TValue> value = b.Get(entity, onProperty);
+            Var<TValue> value = b.Get(entityRef, onProperty);
             return value;
         });
 
-        var setNewValue = b.Def((SyntaxBuilder b, Var<object> model, Var<TValue> newValue) =>
+        var setNewValue = b.Def((SyntaxBuilder b, Var<object> _, Var<TValue> newValue) =>
         {
-            Var<TEntity> entity = b.Call(onEntity, model.As<TModel>());
-            b.Set(entity, onProperty, newValue);
+            b.Set(entityRef, onProperty, newValue);
         });
 
         BindToInternal(b, getEntityValue, setNewValue);
     }
 
-    /// <summary>
-    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
-    /// </summary>
-    /// <typeparam name="TControl"></typeparam>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="model"></param>
-    /// <param name="onEntity"></param>
-    /// <param name="onProperty"></param>
-    public static void BindTo<TControl, TModel, TEntity, TValue>(
+    public static void BindTo<TControl, TEntity>(
         this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        System.Func<SyntaxBuilder, Var<TModel>, Var<TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
         where TControl : IHasEditableValue
     {
-        b.BindTo(model, b.Def(onEntity), onProperty);
+        b.BindToReference(entityRef, onProperty);
     }
 
-    /// <summary>
-    /// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
-    /// </summary>
-    /// <typeparam name="TControl"></typeparam>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="model"></param>
-    /// <param name="onEntity"></param>
-    /// <param name="onProperty"></param>
-    public static void BindTo<TControl, TModel, TEntity, TValue>(
+    public static void BindTo<TControl, TEntity>(
         this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        System.Linq.Expressions.Expression<System.Func<TModel, TEntity>> onEntity,
-        System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
         where TControl : IHasEditableValue
     {
-        b.BindTo(model, b.Def((SyntaxBuilder b, Var<TModel> model) => b.Get(model, onEntity)), onProperty);
+        b.BindToReference(entityRef, onProperty);
     }
 
-    public static void BindTo<TControl, TModel, TValue>(
+    public static void BindTo<TControl, TEntity>(
         this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        System.Linq.Expressions.Expression<System.Func<TModel, TValue>> onProperty)
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
         where TControl : IHasEditableValue
     {
-        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
+        b.BindToReference(entityRef, onProperty);
     }
 
-    public static void BindTo<TControl, TModel>(
-        this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        System.Linq.Expressions.Expression<System.Func<TModel, string>> onProperty)
-        where TControl : IHasEditableValue
-    {
-        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
-    }
+    ///// <summary>
+    ///// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    ///// </summary>
+    ///// <typeparam name="TControl"></typeparam>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <typeparam name="TEntity"></typeparam>
+    ///// <typeparam name="TValue"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="model"></param>
+    ///// <param name="onEntity"></param>
+    ///// <param name="onProperty"></param>
+    //public static void BindTo<TControl, TModel, TEntity, TValue>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Func<SyntaxBuilder, Var<TModel>, Var<TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, b.Def(onEntity), onProperty);
+    //}
 
-    public static void BindTo<TControl, TModel>(
-        this PropsBuilder<TControl> b,
-        Var<TModel> model,
-        System.Linq.Expressions.Expression<System.Func<TModel, int>> onProperty)
-        where TControl : IHasEditableValue
-    {
-        b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
-    }
+    ///// <summary>
+    ///// Synchronizes control value and property <paramref name="onProperty"/> of object reference <paramref name="onEntity"/> obtained from <paramref name="model"/>
+    ///// </summary>
+    ///// <typeparam name="TControl"></typeparam>
+    ///// <typeparam name="TModel"></typeparam>
+    ///// <typeparam name="TEntity"></typeparam>
+    ///// <typeparam name="TValue"></typeparam>
+    ///// <param name="b"></param>
+    ///// <param name="model"></param>
+    ///// <param name="onEntity"></param>
+    ///// <param name="onProperty"></param>
+    //public static void BindTo<TControl, TModel, TEntity, TValue>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Linq.Expressions.Expression<System.Func<TModel, TEntity>> onEntity,
+    //    System.Linq.Expressions.Expression<System.Func<TEntity, TValue>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, b.Def((SyntaxBuilder b, Var<TModel> model) => b.Get(model, onEntity)), onProperty);
+    //}
+
+    //private static void BindTo<TControl, TModel, TValue>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Linq.Expressions.Expression<System.Func<TModel, TValue>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
+    //}
+
+    //public static void BindTo<TControl, TModel>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Linq.Expressions.Expression<System.Func<TModel, string>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
+    //}
+
+    //public static void BindTo<TControl, TModel>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Linq.Expressions.Expression<System.Func<TModel, int>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
+    //}
+
+    //public static void BindTo<TControl, TModel>(
+    //    this PropsBuilder<TControl> b,
+    //    Var<TModel> model,
+    //    System.Linq.Expressions.Expression<System.Func<TModel, bool>> onProperty)
+    //    where TControl : IHasEditableValue
+    //{
+    //    b.BindTo(model, (SyntaxBuilder b, Var<TModel> model) => model, onProperty);
+    //}
 
     //public static void BindTo<TControl, TState, TEntity>(
     //    this PropsBuilder<TControl> b,
