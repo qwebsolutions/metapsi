@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 
@@ -18,14 +19,26 @@ public class JsModuleProviderOptions
 
 public static partial class JsModuleProviderExtensions
 {
-    public static void AddModule(this JsModuleProviderOptions options, string name, Module module)
-    {
-        options.modules.Add(name, () => module);
-    }
-
     public static void AddModule(this JsModuleProviderOptions options, string name, Func<Module> getModule)
     {
         options.modules.Add(name, getModule);
+    }
+
+    public static void AddModule(this JsModuleProviderOptions options, string name, Module module)
+    {
+        options.AddModule(name, () => module);
+    }
+
+    public static void AddModule(this JsModuleProviderOptions options, IModuleResource module)
+    {
+        options.AddModule(module.ModulePath, module.Module);
+    }
+
+    public static void AddModule<T>(this JsModuleProviderOptions options)
+        where T : IModuleResource, new()
+    {
+        var module = new T();
+        options.AddModule(module);
     }
 
     public static void AutoRegisterFrom(this JsModuleProviderOptions options, System.Reflection.Assembly assembly)
