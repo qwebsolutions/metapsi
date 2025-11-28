@@ -338,7 +338,7 @@ public static partial class CustomElementExtensions
                     "src",
                     new HtmlAttribute()
                     {
-                        Value = $"/metapsi-js-module/{moduleResource.ModulePath}"
+                        Value = $"/metapsi-js-module/{moduleResource.ModulePath}?h={moduleResource.Module.Hash()}"
                     }
                 }
             }

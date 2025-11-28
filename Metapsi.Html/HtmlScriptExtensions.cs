@@ -80,7 +80,7 @@ public static class HtmlScriptExtensions
             b =>
             {
                 b.SetTypeModule();
-                b.SetSrc($"/metapsi-js-module/{module.ModulePath}");
+                b.SetSrc($"/metapsi-js-module/{module.ModulePath}?h={module.Module.Hash()}");
             });
     }
 
