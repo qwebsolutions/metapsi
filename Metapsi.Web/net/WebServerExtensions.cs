@@ -102,29 +102,35 @@ namespace Metapsi
 
         public static RouteHandlerBuilder UseJsModules(this WebApplication app)
         {
-            return app.MapGet("/metapsi-js-module/{*modulePath}",
-                async (HttpContext httpContext, string modulePath, JsModuleProvider modules) =>
-                {
-                    modules.modules.TryGetValue(modulePath, out var moduleRetriever);
-                    if (moduleRetriever != null)
+            var moduleProvider = app.Services.GetService<JsModuleProvider>();
+            if (moduleProvider != null)
+            {
+                return app.MapGet("/metapsi-js-module/{*modulePath}",
+                    async (HttpContext httpContext, string modulePath, JsModuleProvider modules) =>
                     {
-                        try
+                        modules.modules.TryGetValue(modulePath, out var moduleRetriever);
+                        if (moduleRetriever != null)
                         {
-                            var module = moduleRetriever();
-                            new CfHttpContext(httpContext).Response.SetCacheControlHeader("public,max-age=31536000");
-                            await httpContext.WriteJsModule(module);
-                            return;
+                            try
+                            {
+                                var module = moduleRetriever();
+                                new CfHttpContext(httpContext).Response.SetCacheControlHeader("public,max-age=31536000");
+                                await httpContext.WriteJsModule(module);
+                                return;
+                            }
+                            catch (Exception ex)
+                            {
+                                httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
                             httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
                         }
-                    }
-                    else
-                    {
-                        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                    }
-                });
+                    });
+            }
+            else
+                return null;
         }
 
         public static async Task WriteHtmlDocumentResponse(
