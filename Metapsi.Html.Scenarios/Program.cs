@@ -236,16 +236,6 @@ public static class Program
         return hubBuilder;
     }
 
-    public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, IModuleResource module)
-    {
-        return b.HtmlScript(
-            b =>
-            {
-                b.SetTypeModule();
-                b.SetSrc($"/metapsi-js-module/{module.ModulePath}");
-            });
-    }
-
     public static async Task Main()
     {
 
