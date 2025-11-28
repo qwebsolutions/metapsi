@@ -114,7 +114,7 @@ public static partial class ServerAction
 
     /// <summary>
     /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model. <typeparamref name="TService"/> gets resolved server-side.
-    /// See <see cref="ServerAction.Run(Call, List{Type}, object[])"/>
+    /// See <see cref="ServerAction.Run(Call, IEnumerable{Type}, object[])"/>
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     /// <typeparam name="TService"></typeparam>
@@ -158,7 +158,7 @@ public static partial class ServerAction
 
     /// <summary>
     /// Creates a client-side action that calls the server-side method <paramref name="action"/> passing in the model and <paramref name="argument"/>. <typeparamref name="TService"/> gets resolved server-side.
-    /// See <see cref="ServerAction.Run(Call, List{Type}, object[])"/>
+    /// See <see cref="ServerAction.Run(Call, IEnumerable{Type}, object[])"/>
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     /// <typeparam name="TArg"></typeparam>
@@ -371,7 +371,7 @@ public static partial class ServerAction
 
     public static async Task<dynamic> Run(
         this ServerAction.Call serverCall, 
-        List<Type> whitelistClasses,
+        IEnumerable<Type> whitelistClasses,
         params object[] services)
     {
         if (!whitelistClasses.Any(x => x.GetSemiQualifiedTypeName() == serverCall.Delegate.ClassName))

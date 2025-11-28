@@ -639,7 +639,7 @@ public static class Program
 
             //return Results.Problem("Problem detail!");
 
-            return call.Run(new() { typeof(Program) }, testService);
+            return call.Run([typeof(Program)], testService);
         });
 
         app.UseRenderer<MarketData>(model =>
