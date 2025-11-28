@@ -17,7 +17,13 @@ public static partial class MediaLoaderExtensions
     {
         var mediaLoader = new MediaLoader();
         var mediaLoaderTag = mediaLoader.Tag;
-        b.HeadAppend(b.CustomElementSrcScriptTag(mediaLoader));
+        b.Document.Metadata.AddRequiredTagMetadata(
+            new ModuleResource()
+            {
+                Module = mediaLoader.Module,
+                ModulePath = mediaLoader.ModulePath
+            }.SrcScriptTag());
+        b.HeadAppend(b.HtmlScriptModuleReference(mediaLoader));
         return b.Tag(mediaLoaderTag, setAttributes);
     }
 
@@ -43,8 +49,8 @@ public static partial class MediaLoaderExtensions
         b.Metadata().AddRequiredTagMetadata(
             new ModuleResource()
             {
-                Module = module,
-                ModulePath = mediaLoader.Tag + $".js?h={module.Hash()}"
+                Module = mediaLoader.Module,
+                ModulePath = mediaLoader.ModulePath
             }.SrcScriptTag());
         return b.H(mediaLoader.Tag, setProps, children);
     }
