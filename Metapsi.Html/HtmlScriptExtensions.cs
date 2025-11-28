@@ -74,6 +74,16 @@ public static class HtmlScriptExtensions
             b.Text(code));
     }
 
+    public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, IModuleResource module)
+    {
+        return b.HtmlScript(
+            b =>
+            {
+                b.SetTypeModule();
+                b.SetSrc($"/metapsi-js-module/{module.ModulePath}");
+            });
+    }
+
     public static bool GenerateAddExternalResources(HtmlBuilder b, Module module)
     {
         var requiredTags = module.GetRequiredTagsMetadata();
