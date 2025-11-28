@@ -125,27 +125,22 @@ public static partial class IonLoadingControl
         return b.LoadingControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
-    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
+    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role, Var<string> id)
     {
         var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data, role, id);
     }
 
-    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
+    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role)
     {
         var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data, role);
     }
 
-    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<object> data)
+    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, IVariable data)
     {
         var loadingController = b.ImportController("loadingController");
         return b.CallOnObject<Promise>(loadingController, "dismiss", data);
-    }
-
-    public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b, Var<string> data)
-    {
-        return b.LoadingControllerDismiss(data.As<object>());
     }
 
     public static Var<Promise> LoadingControllerDismiss(this SyntaxBuilder b)

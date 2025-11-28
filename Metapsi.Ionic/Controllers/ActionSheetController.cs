@@ -121,27 +121,22 @@ public static partial class IonActionSheetControl
         return b.ActionSheetControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
-    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
+    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role, Var<string> id)
     {
         var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role, id);
     }
 
-    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
+    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role)
     {
         var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role);
     }
 
-    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<object> data)
+    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, IVariable data)
     {
         var controller = b.ImportController("actionSheetController");
         return b.CallOnObject<Promise>(controller, "dismiss", data);
-    }
-
-    public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b, Var<string> data)
-    {
-        return b.ActionSheetControllerDismiss(data.As<object>());
     }
 
     public static Var<Promise> ActionSheetControllerDismiss(this SyntaxBuilder b)

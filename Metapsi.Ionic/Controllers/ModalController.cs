@@ -150,28 +150,28 @@ public static partial class IonModalControl
         return b.ModalControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
-    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
+    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role, Var<string> id)
     {
         var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data, role, id);
     }
 
-    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
+    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role)
     {
         var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data, role);
     }
 
-    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<object> data)
+    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, IVariable data)
     {
         var modalController = b.ImportController("modalController");
         return b.CallOnObject<Promise>(modalController, "dismiss", data);
     }
 
-    public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<string> data)
-    {
-        return b.ModalControllerDismiss(data.As<object>());
-    }
+    //public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b, Var<string> data)
+    //{
+    //    return b.ModalControllerDismiss(data.As<object>());
+    //}
 
     public static Var<Promise> ModalControllerDismiss(this SyntaxBuilder b)
     {

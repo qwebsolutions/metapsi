@@ -128,27 +128,22 @@ public static partial class IonAlertControl
         return b.AlertControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
-    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
+    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role, Var<string> id)
     {
         var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data, role, id);
     }
 
-    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
+    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role)
     {
         var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data, role);
     }
 
-    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<object> data)
+    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, IVariable data)
     {
         var alertController = b.ImportController("alertController");
         return b.CallOnObject<Promise>(alertController, "dismiss", data);
-    }
-
-    public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b, Var<string> data)
-    {
-        return b.AlertControllerDismiss(data.As<object>());
     }
 
     public static Var<Promise> AlertControllerDismiss(this SyntaxBuilder b)

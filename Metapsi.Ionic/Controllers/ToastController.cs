@@ -157,27 +157,22 @@ public static partial class IonToastControl
         return b.ToastControllerPresent(b.SetProps(b.NewObj(), setOptions));
     }
 
-    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role, Var<string> id)
+    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role, Var<string> id)
     {
         var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role, id);
     }
 
-    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data, Var<string> role)
+    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, IVariable data, Var<string> role)
     {
         var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data, role);
     }
 
-    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<object> data)
+    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, IVariable data)
     {
         var controller = b.ImportController("toastController");
         return b.CallOnObject<Promise>(controller, "dismiss", data);
-    }
-
-    public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b, Var<string> data)
-    {
-        return b.ToastControllerDismiss(data.As<object>());
     }
 
     public static Var<Promise> ToastControllerDismiss(this SyntaxBuilder b)
