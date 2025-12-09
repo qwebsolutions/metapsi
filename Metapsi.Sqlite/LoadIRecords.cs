@@ -16,26 +16,32 @@ namespace Metapsi.Sqlite
 
     public static partial class Db
     {
-        public static string ToConnectionString(string filePath)
+        public static string ToConnectionString(
+            string filePath,
+            Action<SQLiteConnectionStringBuilder> build = null)
         {
-            if(filePath.Contains("Data Source"))
+            if (filePath.ToLower().Contains("data source"))
             {
                 return filePath;
             }
 
-            return $"Data Source = {filePath}";
+            SQLiteConnectionStringBuilder builder = new SQLiteConnectionStringBuilder();
+            builder.DataSource = filePath;
+            builder.BinaryGUID = false;
+            builder.DateTimeFormat = SQLiteDateFormats.ISO8601;
+            if (build != null)
+            {
+                build(builder);
+            }
+
+            return builder.ConnectionString;
         }
 
-        public static SQLiteConnection ToConnection(string filePath)
+        public static SQLiteConnection ToConnection(
+            string filePath,
+            Action<SQLiteConnectionStringBuilder> build = null)
         {
-            return new SQLiteConnection(ToConnectionString(filePath));
-        }
-
-        public static SQLiteConnection ToReadOnlyConnection(string filePath)
-        {
-            var connectionString = ToConnectionString(filePath);
-            connectionString += ";ReadOnly=True;";
-            return new SQLiteConnection(connectionString);
+            return new SQLiteConnection(ToConnectionString(filePath, build));
         }
 
         public static async Task<TResult> WithRollback<TResult>(string filePath, Func<OpenTransaction, Task<TResult>> dbQuery)

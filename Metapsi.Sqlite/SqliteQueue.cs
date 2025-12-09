@@ -24,12 +24,17 @@ namespace Metapsi.Sqlite
 
         public SQLiteConnection GetReadOnlyConnection()
         {
-            return Db.ToReadOnlyConnection(this.DbPath);
+            return Db.ToConnection(
+                this.DbPath,
+                b =>
+                {
+                    b.ReadOnly = true;
+                });
         }
 
         public async Task<SQLiteConnection> OpenReadOnlyConnectionAsync()
         {
-            var connection = Db.ToReadOnlyConnection(this.DbPath);
+            var connection = GetReadOnlyConnection();
             await connection.OpenAsync();
             return connection;
         }
