@@ -105,7 +105,6 @@ public static partial class IonNavControl
 
     public static Var<HyperType.Effect> IonNavPushEffect<T>(
         this SyntaxBuilder b,
-        Var<string> component,
         Action<PropsBuilder<ComponentProps>> setProps = null)
         where T : ICustomElement, new()
     {
