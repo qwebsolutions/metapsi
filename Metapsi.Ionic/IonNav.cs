@@ -60,6 +60,15 @@ public static partial class IonNavControl
             });
     }
 
+    public static Var<HyperType.Effect> IonNavSetRootEffect<T>(
+        this SyntaxBuilder b,
+        Action<PropsBuilder<ComponentProps>> setProps = null)
+        where T : ICustomElement, new()
+    {
+        var tag = new T().Tag;
+        return b.IonNavSetRootEffect(b.Const(tag), setProps);
+    }
+
 
     public static Var<HyperType.Effect> IonNavPushEffect(
         this SyntaxBuilder b,
@@ -92,5 +101,15 @@ public static partial class IonNavControl
                         });
                 });
             });
+    }
+
+    public static Var<HyperType.Effect> IonNavPushEffect<T>(
+        this SyntaxBuilder b,
+        Var<string> component,
+        Action<PropsBuilder<ComponentProps>> setProps = null)
+        where T : ICustomElement, new()
+    {
+        var tag = new T().Tag;
+        return b.IonNavPushEffect(b.Const(tag), setProps);
     }
 }
