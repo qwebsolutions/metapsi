@@ -11,6 +11,7 @@ public partial class IonPickerColumn : IHasEditableValue { }
 public partial class IonDatetime : IHasEditableValue { }
 public partial class IonSegment : IHasEditableValue { }
 public partial class IonCheckbox: IHasEditableValue { }
+public partial class IonInputOtp: IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -174,5 +175,21 @@ public class IonCheckboxBinding : IAutoRegisterBinding
             },
             (b, e) => b.Get(e.As<CustomEvent<CheckboxChangeEventDetail>>(), x => x.detail.@checked).As<object>(),
             (b, updateAction) => b.OnIonChange(updateAction));
+    }
+}
+
+public class IonInputOtpBinding: IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonInputOtp);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonInputOtp>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<InputOtpInputEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonInput(updateAction));
     }
 }
