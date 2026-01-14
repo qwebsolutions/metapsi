@@ -12,6 +12,7 @@ public partial class IonDatetime : IHasEditableValue { }
 public partial class IonSegment : IHasEditableValue { }
 public partial class IonCheckbox: IHasEditableValue { }
 public partial class IonInputOtp: IHasEditableValue { }
+public partial class IonSearchbar: IHasEditableValue { }
 
 /// <summary>
 /// 
@@ -190,6 +191,22 @@ public class IonInputOtpBinding: IAutoRegisterBinding
                 b.SetValue(value.As<string>());
             },
             (b, e) => b.Get(e.As<CustomEvent<InputOtpInputEventDetail>>(), x => x.detail.value).As<object>(),
+            (b, updateAction) => b.OnIonInput(updateAction));
+    }
+}
+
+public class IonSearchbarBinding : IAutoRegisterBinding
+{
+    public Type ControlType => typeof(IonSearchbar);
+
+    public Binding GetBinding()
+    {
+        return Html.Binding.New<IonSearchbar>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.Get(e.As<CustomEvent<InputInputEventDetail>>(), x => x.detail.value).As<object>(),
             (b, updateAction) => b.OnIonInput(updateAction));
     }
 }

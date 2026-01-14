@@ -390,6 +390,11 @@ public static class Program
                                         {
                                             b.BindTo(model, x => x.Message);
                                         }),
+                                    b.IonSearchbar(
+                                        b =>
+                                        {
+                                            b.BindTo(model, x => x.Message);
+                                        }),
                                     b.Text(b.Get(model, x => x.Message)));
                             }));
                 });
