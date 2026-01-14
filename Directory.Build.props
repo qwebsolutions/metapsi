@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
+		<!-- Runtime identity (stable) -->
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<!-- Windows + diagnostics -->
+		<FileVersion>$(PackageVersion)</FileVersion>
+		<InformationalVersion>$(PackageVersion)</InformationalVersion>
+		
 		<Company>qwebsolutions.eu</Company>
 		<Owners>qwebsolutions.eu</Owners>
 		<Authors>qwebsolutions.eu</Authors>
