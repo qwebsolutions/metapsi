@@ -59,23 +59,11 @@ namespace Metapsi.Html
 
     public static class FunctionImports
     {
-        public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
-        {
-            var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
-            var fn = b.ImportName<Delegate>(resourceMetadata, function);
-            return b.CallDynamic<TOut>(fn, arguments);
-        }
-
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
             var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
             var fn = b.ImportName<Delegate>(resourceMetadata, function);
             b.CallDynamic(fn, arguments);
-        }
-
-        public static Var<object> Self(this SyntaxBuilder b)
-        {
-            return b.CallCoreFunction<object>(nameof(Self));
         }
 
         /// <summary>
@@ -145,28 +133,13 @@ namespace Metapsi.Html
         }
 
         /// <summary>
-        /// Uses the 'new' keyword to create an object based on <paramref name="constructor"/>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="b"></param>
-        /// <param name="constructor"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static Var<T> New<T>(this SyntaxBuilder b, Var<object> constructor, params IVariable[] args)
-        {
-            List<IVariable> withFunc = new List<IVariable>();
-            withFunc.Add(constructor);
-            withFunc.AddRange(args);
-            return b.CallCoreFunction<T>("New", withFunc.ToArray());
-        }
-
-        /// <summary>
         /// Uses the 'new' keyword to create an object based on constructor of type 'T'
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="b"></param>
         /// <param name="args"></param>
         /// <returns></returns>
+        [Obsolete]
         public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
         {
             var typeName = typeof(T).CSharpTypeName();

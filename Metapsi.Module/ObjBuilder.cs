@@ -108,5 +108,20 @@ namespace Metapsi.Syntax
         {
             call(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
         }
+
+        /// <summary>
+        /// Call new operator on this class
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static ObjBuilder<T> New<T>(this ObjBuilder<ClassDef<T>> b, params IVariable[] args)
+        {
+            return new ObjBuilder<T>(b.syntaxBuilder.New<T>(b.Var, args))
+            {
+                syntaxBuilder = b.syntaxBuilder
+            };
+        }
     }
 }

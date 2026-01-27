@@ -50,11 +50,11 @@ public static class IntersectionObserverExtensions
     /// <returns>A new IntersectionObserver which can be used to watch for the visibility of a target element within the specified root crossing through any of the specified visibility thresholds.
     /// Call its observe() method to begin watching for the visibility changes on a given target.
     /// </returns>
-    public static Var<IntersectionObserver> New(
+    public static ObjBuilder<IntersectionObserver> New(
         this ObjBuilder<ClassDef<IntersectionObserver>> b,
         Var<Action<List<IntersectionObserverEntry>>> callback)
     {
-        return b.New(callback);
+        return b.New<IntersectionObserver>(callback);
     }
 
     /// <summary>
@@ -70,12 +70,12 @@ public static class IntersectionObserverExtensions
     /// <returns>A new IntersectionObserver which can be used to watch for the visibility of a target element within the specified root crossing through any of the specified visibility thresholds.
     /// Call its observe() method to begin watching for the visibility changes on a given target.
     /// </returns>
-    public static Var<IntersectionObserver> New(
+    public static ObjBuilder<IntersectionObserver> New(
         this ObjBuilder<ClassDef<IntersectionObserver>> b,
         Var<Action<List<IntersectionObserverEntry>, IntersectionObserver>> callback,
         Var<IntersectionObserverOptions> options)
     {
-        return b.New(callback);
+        return b.New<IntersectionObserver>(callback, options);
     }
 
     /// <summary>
@@ -91,12 +91,12 @@ public static class IntersectionObserverExtensions
     /// <returns>A new IntersectionObserver which can be used to watch for the visibility of a target element within the specified root crossing through any of the specified visibility thresholds.
     /// Call its observe() method to begin watching for the visibility changes on a given target.
     /// </returns>
-    public static Var<IntersectionObserver> New(
+    public static ObjBuilder<IntersectionObserver> New(
         this ObjBuilder<ClassDef<IntersectionObserver>> b,
         Var<Action<List<IntersectionObserverEntry>>> callback,
         Var<IntersectionObserverOptions> options)
     {
-        return b.New(callback);
+        return b.New<IntersectionObserver>(callback, options);
     }
 
     /// <summary>
