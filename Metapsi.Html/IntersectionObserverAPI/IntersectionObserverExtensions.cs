@@ -16,13 +16,6 @@ public static class IntersectionObserverExtensions
     /// <returns></returns>
     public static Var<ClassDef<IntersectionObserver>> IntersectionObserver(this SyntaxBuilder b)
     {
-        b.On(
-            b.IntersectionObserver(),
-            b =>
-            {
-
-            });
-
         return b.GetProperty<ClassDef<IntersectionObserver>>(b.Window(), "IntersectionObserver");
     }
 
