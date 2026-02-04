@@ -129,7 +129,10 @@ namespace Metapsi.Syntax
             };
             assignmentNode.AddDebugType(typeof(T));
             nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<T>(assignmentNode.Name);
+            return new Var<T>(assignmentNode.Name)
+            {
+                AssignmentNode = assignmentNode
+            };
         }
 
         public Var<T> CallDynamic<T>(Var<Delegate> f, params IVariable[] arguments)
@@ -156,7 +159,10 @@ namespace Metapsi.Syntax
             assignmentNode.AddDebugType(typeof(T));
 
             nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<T>(assignmentNode.Name);
+            return new Var<T>(assignmentNode.Name)
+            {
+                AssignmentNode = assignmentNode
+            };
         }
 
         public void CallDynamic(Var<Delegate> f, params IVariable[] arguments)

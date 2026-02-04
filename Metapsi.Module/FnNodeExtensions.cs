@@ -69,7 +69,10 @@ namespace Metapsi.Syntax
                 assignmentNode.AddDebugType(fn.Method.ReturnType);
 
                 b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-                return new Var<T>(assignmentNode.Name);
+                return new Var<T>(assignmentNode.Name)
+                {
+                    AssignmentNode = assignmentNode
+                };
             }
         }
 

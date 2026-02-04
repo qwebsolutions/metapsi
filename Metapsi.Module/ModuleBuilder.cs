@@ -238,7 +238,6 @@ namespace Metapsi.Syntax
         {
             if (!this.constantsCache.ContainsKey(value))
             {
-                Var<T> c = new Var<T>(name);
                 var assignmentNode = new AssignmentNode()
                 {
                     Name = name,
@@ -257,10 +256,16 @@ namespace Metapsi.Syntax
                 {
                     Assignment = assignmentNode
                 });
-                constantsCache[value] = c;
+                constantsCache[value] = new Var<T>(name)
+                {
+                    AssignmentNode = assignmentNode
+                };
             }
 
-            return new Var<T>(constantsCache[value].Name);
+            Var<T> existing = constantsCache[value] as Var<T>;
+            if (existing == null)
+                throw new Exception();
+            return existing;
         }
 
         public Var<T> Const<T>(T value)

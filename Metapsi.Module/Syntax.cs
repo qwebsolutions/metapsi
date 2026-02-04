@@ -45,6 +45,7 @@ namespace Metapsi.Syntax
         //internal string Name { get; set; }
 
         internal Type Type => typeof(T);
+        internal AssignmentNode AssignmentNode { get; set; }
     }
 }
 
