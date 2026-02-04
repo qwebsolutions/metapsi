@@ -16,7 +16,12 @@ namespace Metapsi.Syntax
         /// Use name as because static functions with different generic arguments create different delegates
         /// </summary>
         private HashSet<string> functionsCache = new HashSet<string>();
+        
+        // constant value -> associated variable
         private Dictionary<object, IVariable> constantsCache = new Dictionary<object, IVariable>();
+        
+        // constant name -> constant value
+        private Dictionary<string, SyntaxNode> constantLiteralNodes = new Dictionary<string, SyntaxNode>();
 
         public static List<Type> ScalarTypes = new List<Type>() { typeof(string), typeof(int), typeof(bool), typeof(Guid) };
 
@@ -67,70 +72,6 @@ namespace Metapsi.Syntax
             // Add parameters count because C# supports method overloading
             return $"{parentSegment}_{methodInfo.Name}_{methodInfo.GetParameters().Count() - 1}";// All start with SyntaxBuilder, skip that
         }
-
-        //// Module actions
-
-        //public Var<Action> Define(string actionName, System.Action<SyntaxBuilder> builder)
-        //{
-        //    return DefineAction(actionName, builder).As<Action>();
-        //}
-
-        //public Var<Action<P1>> Define<P1>(string actionName, System.Action<SyntaxBuilder, Var<P1>> builder)
-        //{
-        //    return DefineAction(actionName, builder).As<Action<P1>>();
-        //}
-
-        //public Var<Action<P1, P2>> Define<P1, P2>(string actionName, System.Action<SyntaxBuilder, Var<P1>, Var<P2>> builder)
-        //{
-        //    return DefineAction(actionName, builder).As<Action<P1, P2>>();
-        //}
-
-        //// Module functions
-
-        //public Var<Func<TOut>> Define<TOut>(string funcName, System.Func<SyntaxBuilder, Var<TOut>> builder)
-        //{
-        //    return DefineFunc(funcName, builder).As<Func<TOut>>();
-        //}
-
-        //public Var<Func<P1, TOut>> Define<P1, TOut>(string funcName, System.Func<SyntaxBuilder, Var<P1>, Var<TOut>> builder)
-        //{
-        //    return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
-        //}
-
-        //public Var<Func<P1, P2, TOut>> Define<P1, P2, TOut>(string funcName, System.Func<SyntaxBuilder, Var<P1>, Var<P2>, Var<TOut>> builder)
-        //{
-        //    return DefineFunc(funcName, builder).As<Func<P1, P2, TOut>>();
-        //}
-
-        //public Var<Func<P1, TOut>> Define<TSyntaxBuilder, P1, TOut>(string funcName, System.Func<TSyntaxBuilder, Var<P1>, Var<TOut>> builder)
-        //    where TSyntaxBuilder : SyntaxBuilder
-        //{
-        //    return DefineFunc(funcName, builder).As<Func<P1, TOut>>();
-        //}
-
-        //public IVariable DefineFunc<TDelegate>(string functionName, TDelegate builder)
-        //    where TDelegate : Delegate
-        //{
-        //    var func = new Function<TDelegate>() { Name = functionName };
-        //    this.AddFunction(func);
-        //    BuildBody(func, builder);
-        //    return MakeVar(func.Name, ClientFuncType(builder));
-        //}
-
-        //public IVariable DefineAction<TDelegate>(string actionName, TDelegate builder)
-        //    where TDelegate : Delegate
-        //{
-        //    var action = new Function<TDelegate>() { Name = actionName };
-        //    this.AddFunction(action);
-        //    BuildBody(action, builder);
-        //    return MakeVar(action.Name, ClientActionType(builder));
-        //}
-
-        //public IVariable MakeVar(string name, Type type)
-        //{
-        //    var varType = typeof(Var<>).MakeGenericType(type);
-        //    return Activator.CreateInstance(varType, new object[] { name }) as IVariable;
-        //}
 
         public static Type[] FuncTypes =
             new Type[]
@@ -260,6 +201,8 @@ namespace Metapsi.Syntax
                 {
                     AssignmentNode = assignmentNode
                 };
+                // Also keep reverse mapping to help in code output
+                constantLiteralNodes[name] = assignmentNode.Node;
             }
 
             Var<T> existing = constantsCache[value] as Var<T>;
@@ -271,6 +214,12 @@ namespace Metapsi.Syntax
         public Var<T> Const<T>(T value)
         {
             return Const(value, NewName());
+        }
+
+        internal SyntaxNode GetConstLiteralNode(IVariable variable)
+        {
+            constantLiteralNodes.TryGetValue(variable.Name, out var value);
+            return value;
         }
 
         public Var<Action> AddFunction(string functionName, Action<SyntaxBuilder> b)

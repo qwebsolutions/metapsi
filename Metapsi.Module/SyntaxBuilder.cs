@@ -151,7 +151,8 @@ namespace Metapsi.Syntax
                                 Name = f.Name
                             }
                         },
-                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                        //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                        Arguments = ArgumentsToSyntaxNodes(arguments)
                     }
                 }
             };
@@ -176,10 +177,30 @@ namespace Metapsi.Syntax
                         Name = f.Name
                     }
                 },
-                Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
+                Arguments = ArgumentsToSyntaxNodes(arguments)
             };
 
             nodes.Add(new SyntaxNode() { Call = callNode });
+        }
+
+        private List<SyntaxNode> ArgumentsToSyntaxNodes(IEnumerable<IVariable> arguments)
+        {
+            List<SyntaxNode> syntaxArguments = new List<SyntaxNode>();
+            foreach (var argument in arguments)
+            {
+                var constLiteralNode = this.moduleBuilder.GetConstLiteralNode(argument);
+                if (constLiteralNode != null)
+                {
+                    syntaxArguments.Add(constLiteralNode);
+                }
+                else
+                {
+                    syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = argument.Name } });
+                }
+            }
+
+            return syntaxArguments;
         }
     }
 
