@@ -201,8 +201,13 @@ namespace Metapsi.Syntax
                 {
                     AssignmentNode = assignmentNode
                 };
-                // Also keep reverse mapping to help in code output
-                constantLiteralNodes[name] = assignmentNode.Node;
+
+                // Also keep variable name to string literal mapping to generate clearer code in output
+                // Used just for strings at this point, it's safer
+                if (value is string)
+                {
+                    constantLiteralNodes[name] = assignmentNode.Node;
+                }
             }
 
             Var<T> existing = constantsCache[value] as Var<T>;
