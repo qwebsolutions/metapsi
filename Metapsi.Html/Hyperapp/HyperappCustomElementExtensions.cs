@@ -89,7 +89,6 @@ public static partial class CustomElementExtensions
                                 b =>
                                 {
                                     var takeoverNode = b.Call(hyperappAttachFn, element);
-                                    b.Log("Attached ", takeoverNode);
                                     b.SetProperty(element, "_hNode", takeoverNode);
                                 },
                                 b =>
@@ -109,7 +108,6 @@ public static partial class CustomElementExtensions
                             b.Not(b.HasObject(dispatch)),
                             b =>
                             {
-                                b.Log("Not initialized ", dispatch);
                                 var appConfig = b.NewObj().As<HyperType.App<object>>();
 
                                 var view = b.Def((LayoutBuilder b, Var<object> model) =>
@@ -122,64 +120,11 @@ public static partial class CustomElementExtensions
                                 b.Set(appConfig, x => x.init, b.Call(b.Get(definition, x => x.Init), hostElement));
                                 b.Set(appConfig, x => x.node, takeoverNode);
                                 b.Set(appConfig, x => x.subscriptions, b.Get(definition, x => x.SubscribeFn));
-                                b.Log("calling hyperapp");
                                 b.SetProperty(hostElement, "_hDispatch", b.Hyperapp(appConfig));
                             });
                     }));
                 }));
     }
-
-    ///// <summary>
-    ///// Define a Hyperapp-based custom element
-    ///// </summary>
-    ///// <typeparam name="TModel"></typeparam>
-    ///// <param name="b"></param>
-    ///// <param name="tagName"></param>
-    ///// <param name="init"></param>
-    ///// <param name="render"></param>
-    ///// <param name="subscribeFn"></param>
-    //public static void DefineCustomElement<TModel>(
-    //    this SyntaxBuilder b,
-    //    Var<string> tagName,
-    //    Var<Func<Element, HyperType.StateWithEffects>> init,
-    //    Var<Func<string, TModel, IVNode>> render,
-    //    Var<Func<TModel, System.Collections.Generic.List<HyperType.Subscription>>> subscribeFn)
-    //{
-    //    b.DefineCustomElement(
-    //        tagName,
-    //        render: b.Def((SyntaxBuilder b, Var<Element> node) =>
-    //        {
-    //            var shadowRoot = b.Get(node, x => x.shadowRoot);
-    //            var rootTag = b.GetProperty<string>(shadowRoot, "nodeName");
-    //            // Keep dispatch on control itself, because it can be rendered multiple times
-    //            var dispatch = b.GetProperty<HyperType.Dispatcher>(node, "_hDispatch");
-    //            b.If(
-    //                b.Not(b.HasObject(dispatch)),
-    //                b =>
-    //                {
-    //                    var appConfig = b.NewObj().As<HyperType.App<TModel>>();
-
-    //                    var view = b.Def((LayoutBuilder b, Var<TModel> model) =>
-    //                    {
-    //                        var outNode = b.Call(render, rootTag, model);
-    //                        return outNode;
-    //                    });
-
-    //                    b.Set(appConfig, x => x.view, view);
-    //                    b.Set(appConfig, x => x.init, b.Call(init, node.As<Element>()).As<HyperType.Init>());
-    //                    b.Set(appConfig, x => x.node, shadowRoot.As<Element>());
-    //                    b.Set(appConfig, x => x.subscriptions, subscribeFn);
-    //                    b.SetProperty(node, "_hDispatch", b.Hyperapp(appConfig));
-    //                });
-    //        }),
-    //        attach: b.Def((SyntaxBuilder b, Var<Element> node) =>
-    //        {
-    //            var shadowRoot = b.ElementAttachShadow(node, b => b.Set(x => x.mode, "open"));
-    //        }),
-    //        cleanup: b.Def((SyntaxBuilder b, Var<Element> node) =>
-    //        {
-    //        }));
-    //}
 
     /// <summary>
     /// Define a Hyperapp custom element
@@ -292,32 +237,4 @@ public static partial class CustomElementExtensions
         b.HeadAppend(customElementScript);
         return b.GetCustomElementTagName<TModel>();
     }
-
-    //public static string AddCustomElement<TModel, TInitProps>(
-    //    this HtmlBuilder b,
-    //    Func<SyntaxBuilder, Var<TInitProps>, Var<HyperType.StateWithEffects>> init,
-    //    Func<LayoutBuilder, string, Var<TModel>, Var<IVNode>> render,
-    //    params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
-    //    where TModel : new()
-    //{
-    //    var customElementScript = b.HtmlCustomElement(
-    //        (SyntaxBuilder b, Var<Element> element) =>
-    //        {
-    //            var initProps = b.GetInitProps<TInitProps>(element);
-    //            return b.If(
-    //                b.HasObject(initProps),
-    //                b =>
-    //                {
-    //                    return b.Call(init, initProps);
-    //                },
-    //                b =>
-    //                {
-    //                    return b.MakeStateWithEffects(b.NewObj<TModel>());
-    //                });
-    //        },
-    //        render,
-    //        subscriptions);
-    //    b.HeadAppend(customElementScript);
-    //    return b.GetCustomElementTagName<TModel>();
-    //}
 }

@@ -11,21 +11,6 @@ namespace Metapsi.Html;
 /// </summary>
 public static partial class HyperappExtensions
 {
-    //internal class HyperAppNode : IHtmlNode
-    //{
-    //    public IHtmlNode MountDiv { get; set; }
-    //    //public IHtmlNode ScriptTag { get; set; }
-    //    public Module Module { get; set; }
-    //    string IHtmlNode.ToHtml(System.Func<ResourceMetadata, string> resourceResolver)
-    //    {
-    //        var scriptTag = new HtmlTag("script");
-    //        scriptTag.SetAttribute("type", "module");
-    //        var moduleText = Module.ToJs(resourceResolver) + "\nvar dispatch = main()";
-    //        scriptTag.AddChild(new HtmlText(moduleText));
-    //        return $"{MountDiv.ToHtml(resourceResolver)}\n{scriptTag.ToHtml()}";
-    //    }
-    //}
-
     /// <summary>
     /// Imports 'app' from hyperapp
     /// </summary>
