@@ -187,13 +187,14 @@ public class TestCustomElement : CustomElement<DataModel>
 
     public override IRootControl OnRender(LayoutBuilder b, Var<DataModel> model)
     {
+        b.Log("On render test custom");
         return Root(
             b.HtmlDiv(b.Text(b.Get(model, x => x.Title))));
     }
 
     public override void OnSubscribe(SyntaxBuilder b, Var<DataModel> model, Var<List<HyperType.Subscription>> subscriptions)
     {
-        b.Push(subscriptions, b.NewObj<HyperType.Subscription>());
+        base.OnSubscribe(b, model, subscriptions);
     }
 }
 
@@ -369,6 +370,65 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("/sl-textarea-binding", async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(
+                HtmlBuilder.FromDefault(b =>
+                {
+                    b.BodyAppend(
+                        b.Hyperapp(
+                            new DataModel(),
+                            (b, model) =>
+                            {
+                                return b.HtmlDiv(
+                                    b.SlTextarea(
+                                        b =>
+                                        {
+                                            b.BindTo(model, x => x.Message);
+                                        }),
+                                    b.Text(b.Get(model, x => x.Message)));
+                            }));
+                }));
+        });
+
+        app.MapGet("/leaks", async (HttpContext httpContext) =>
+        {
+            var document = HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.BodyAppend(
+                        b.Hyperapp<DataModel>(
+                            new DataModel(),
+                            (b, model) =>
+                            {
+
+                                return b.HtmlDiv(
+                                    b =>
+                                    {
+                                        b.AddClass("flex flex-row gap-8");
+                                    },
+                                    //b.HtmlTextarea(
+                                    //    b =>
+                                    //    {
+                                    //        b.BindTo(model, x => x.Message);
+                                    //    }),
+                                    b.HtmlTextarea(
+                                        b=>
+                                        {
+                                            b.SetValue(b.Get(model, x => x.Message));
+                                            b.OnEventAction("input", b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<Event> e) =>
+                                            {
+                                                b.Set(model, x => x.Message, b.GetTargetValue(e));
+                                                return b.Clone(model);
+                                            }));
+                                        }),
+                                    b.Text(b.Get(model, x => x.Message)));
+                            }));
+                });
+
+            await httpContext.WriteHtmlDocumentResponse(document);
+        });
+
         app.MapGet("/textarea-binding", async (HttpContext httpContext) =>
         {
             var document = HtmlBuilder.FromDefault(
@@ -541,6 +601,34 @@ public static class Program
         {
 
         }).WithName("pattern");
+
+        app.MapGet("custom-element-this-test", async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(
+                HtmlBuilder.FromDefault(b =>
+                {
+                    b.HeadAppend(b.HtmlScriptModuleReference(new TestCustomElement()));
+                    b.BodyAppend(
+                        b.Hyperapp(
+                            new object(),
+                            (b, render) =>
+                            {
+                                return b.HtmlDiv(
+                                    b.H(
+                                        new TestCustomElement().Tag,
+                                        b =>
+                                        {
+                                            b.SetId("test-custom-1");
+                                        }),
+                                    b.H(
+                                        new TestCustomElement().Tag,
+                                        b =>
+                                        {
+                                            b.SetId("test-custom-2");
+                                        }));
+                            }));
+                }));
+        });
 
         app.MapGet("ionic", async (HttpContext httpContext) =>
         {

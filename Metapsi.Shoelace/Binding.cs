@@ -20,6 +20,11 @@ public partial class SlSelect : IHasEditableValue
     public string value { get; set; }
 }
 
+public partial class SlTextarea : IHasEditableValue
+{
+    public string value { get; set; }
+}
+
 /// <summary>
 /// 
 /// </summary>
@@ -99,5 +104,31 @@ public class SlCheckboxBinding : IAutoRegisterBinding
         {
             b.OnSlChange(updateAction);
         });
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class SlTextareaBinding : IAutoRegisterBinding
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Type ControlType => typeof(SlTextarea);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Html.Binding GetBinding()
+    {
+        return Html.Binding.New<SlTextarea>(
+            (b, value) =>
+            {
+                b.SetValue(value.As<string>());
+            },
+            (b, e) => b.GetTargetValue(e).As<object>(),
+            SlTextareaControl.OnSlInput);
     }
 }
