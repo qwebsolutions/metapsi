@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Metapsi.Html;
 
@@ -13,6 +14,7 @@ public abstract class DocumentTemplate
 
 public class AttributesBuilder<TTag>
 {
+    public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
     public Dictionary<string, string> Attributes { get; set; } = new();
 }
 
@@ -42,6 +44,12 @@ public static class AttributesBuilderExtensions
     public static void SetStyle<TTag>(this AttributesBuilder<TTag> b, string styles)
     {
         b.SetAttribute("style", styles);
+    }
+
+    public static void AddStyle<TTag>(this AttributesBuilder<TTag> b, string property, string value)
+    {
+        b.Styles[property] = value;
+        b.Attributes["style"] = string.Join(";", b.Styles.Select(x => $"{x.Key}:{x.Value}"));
     }
 
     public static void AddClass<TTag>(this AttributesBuilder<TTag> b, string className)

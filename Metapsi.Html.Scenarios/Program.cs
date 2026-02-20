@@ -370,6 +370,11 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("style-compat", async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(StyleCompatibility.CompatibilityScenario());
+        });
+
         app.MapGet("/sl-textarea-binding", async (HttpContext httpContext) =>
         {
             await httpContext.WriteHtmlDocumentResponse(
