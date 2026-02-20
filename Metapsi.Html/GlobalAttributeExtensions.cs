@@ -7,24 +7,14 @@ namespace Metapsi.Html;
 
 public static class GlobalAttributeExtensions
 {
-    public static void SetId<T>(this AttributesBuilder<T> b, string id)
+    public static void SetId(this IHtmlAttributesBuilder b, string id)
     {
         b.SetAttribute("id", id);
     }
 
-    public static void SetSlot<T>(this AttributesBuilder<T> b, string slot)
+    public static void SetSlot(this IHtmlAttributesBuilder b, string slot)
     {
         b.SetAttribute("slot", slot);
-    }
-
-    public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<string> value)
-    {
-        b.SetProperty(b.Props, b.Const(name), value);
-    }
-
-    public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, string value)
-    {
-        b.SetAttribute(name, b.Const(value));
     }
 
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, Var<int> value)
@@ -35,18 +25,6 @@ public static class GlobalAttributeExtensions
     public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name, int value)
     {
         b.SetAttribute(name, b.Const(value));
-    }
-
-    /// <summary>
-    /// Sets boolean attribute
-    /// <para>Note that boolean attributes have no 'false' value. If they exist, they are true</para>
-    /// </summary>
-    /// <typeparam name="TControl"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="name"></param>
-    public static void SetAttribute<TControl>(this PropsBuilder<TControl> b, string name)
-    {
-        b.SetProperty(b.Props, b.Const(name), b.Const(true));
     }
 
     /// <summary>
@@ -67,11 +45,6 @@ public static class GlobalAttributeExtensions
     public static void SetId<T>(this PropsBuilder<T> b, Var<string> id)
     {
         b.SetAttribute("id", id);
-    }
-
-    public static void SetId<T>(this PropsBuilder<T> b, string id)
-    {
-        b.SetId(b.Const(id));
     }
 
     public static void SetClass<T>(this PropsBuilder<T> b, Var<string> @class)
@@ -122,33 +95,9 @@ public static class GlobalAttributeExtensions
         return b.AddClass(b.Const(@class));
     }
 
-    public static void AddStyle<T>(this PropsBuilder<T> b, string property, Var<string> value)
-    {
-        var currentStyle = b.GetProperty<object>(b.Props, "style");
-        b.If(
-            b.Not(b.HasObject(currentStyle)),
-            b =>
-            {
-                b.SetProperty(b.Props, b.Const("style"), b.NewObj<object>());
-            });
-
-        currentStyle = b.GetProperty<object>(b.Props, "style");
-        b.SetProperty(currentStyle, b.Const(property), value);
-    }
-
-    public static void AddStyle<T>(this PropsBuilder<T> b, string property, string value)
-    {
-        b.AddStyle(property, b.Const(value));
-    }
-
     public static void SetSlot<TProps>(this PropsBuilder<TProps> b, Var<string> slotName)
     {
         b.SetAttribute("slot", slotName);
-    }
-
-    public static void SetSlot<TProps>(this PropsBuilder<TProps> b, string slotName)
-    {
-        b.SetSlot(b.Const(slotName));
     }
 
     public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, string href)

@@ -2,8 +2,7 @@
 
 namespace Metapsi.Syntax
 {
-
-    public class PropsBuilder<TProps> : SyntaxBuilder
+    public class PropsBuilder<TProps> : SyntaxBuilder, IHtmlAttributesBuilder
     {
         internal PropsBuilder(SyntaxBuilder parent): base(parent) 
         {
@@ -16,15 +15,44 @@ namespace Metapsi.Syntax
 
         public Var<TProps> Props { get; set; }
 
-        //public override void InitializeFrom(SyntaxBuilder parent)
-        //{
-        //    base.InitializeFrom(parent);
+        public void AddStyle(string property, string value)
+        {
+            this.AddStyle(property, this.Const(value));
+        }
 
-        //    if (parent is PropsBuilder<TProps>)
-        //    {
-        //        this.Props = ((PropsBuilder<TProps>)parent).Props;
-        //    }
-        //}
+        public void AddStyle(string property, Var<string> value)
+        {
+            var currentStyle = this.GetProperty<object>(this.Props, "style");
+            this.If(
+                this.Not(this.HasObject(currentStyle)),
+                b =>
+                {
+                    b.SetProperty(b.Props, b.Const("style"), b.NewObj<object>());
+                });
+
+            currentStyle = this.GetProperty<object>(this.Props, "style");
+            this.SetProperty(currentStyle, this.Const(property), value);
+        }
+
+        public void SetAttribute(string attribute, Var<string> value)
+        {
+            this.SetProperty(this.Props, this.Const(attribute), value);
+        }
+
+        public void SetAttribute(string attribute, string value)
+        {
+            this.SetAttribute(attribute, this.Const(value));
+        }
+
+        /// <summary>
+        /// Sets boolean attribute
+        /// <para>Note that boolean attributes have no 'false' value. If they exist, they are true</para>
+        /// </summary>
+        /// <param name="name"></param>
+        public void SetAttribute(string name)
+        {
+            this.SetProperty(this.Props, this.Const(name), this.Const(true));
+        }
     }
 
     public static class PropsBuilderExtensions

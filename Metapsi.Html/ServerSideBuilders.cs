@@ -12,17 +12,25 @@ public abstract class DocumentTemplate
 }
 
 
-public class AttributesBuilder<TTag>
+public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
 {
     public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
     public Dictionary<string, string> Attributes { get; set; } = new();
-}
 
-public static class AttributesBuilderExtensions
-{
-    public static void SetAttribute<TTag>(this AttributesBuilder<TTag> b, string attributeName, string attributeValue)
+    public void AddStyle(string property, string value)
     {
-        b.Attributes[attributeName] = attributeValue;
+        this.Styles[property] = value;
+        this.Attributes["style"] = string.Join(";", this.Styles.Select(x => $"{x.Key}:{x.Value}"));
+    }
+
+    /// <summary>
+    /// Sets attribute to value
+    /// </summary>
+    /// <param name="attributeName"></param>
+    /// <param name="attributeValue"></param>
+    public void SetAttribute(string attributeName, string attributeValue)
+    {
+        this.Attributes[attributeName] = attributeValue;
     }
 
     /// <summary>
@@ -31,10 +39,14 @@ public static class AttributesBuilderExtensions
     /// <typeparam name="TTag"></typeparam>
     /// <param name="b"></param>
     /// <param name="attributeName"></param>
-    public static void SetAttribute<TTag>(this AttributesBuilder<TTag> b, string attributeName)
+    public void SetAttribute(string attributeName)
     {
-        b.Attributes[attributeName] = "";
+        this.Attributes[attributeName] = "";
     }
+}
+
+public static class AttributesBuilderExtensions
+{
 
     public static void SetClass<TTag>(this AttributesBuilder<TTag> b, string className)
     {
@@ -44,12 +56,6 @@ public static class AttributesBuilderExtensions
     public static void SetStyle<TTag>(this AttributesBuilder<TTag> b, string styles)
     {
         b.SetAttribute("style", styles);
-    }
-
-    public static void AddStyle<TTag>(this AttributesBuilder<TTag> b, string property, string value)
-    {
-        b.Styles[property] = value;
-        b.Attributes["style"] = string.Join(";", b.Styles.Select(x => $"{x.Key}:{x.Value}"));
     }
 
     public static void AddClass<TTag>(this AttributesBuilder<TTag> b, string className)
