@@ -1,6 +1,6 @@
 ﻿namespace Metapsi
 {
-    public interface IHtmlAttributesBuilder
+    public interface IStyleBuilder
     {
         /// <summary>
         /// Adds a specific style
@@ -8,7 +8,10 @@
         /// <param name="property"></param>
         /// <param name="value"></param>
         public void AddStyle(string property, string value);
+    }
 
+    public interface IHtmlAttributesBuilder : IStyleBuilder
+    {
         /// <summary>
         /// Sets HTML attribute to specific value
         /// </summary>
