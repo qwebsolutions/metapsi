@@ -25,5 +25,7 @@
         /// </summary>
         /// <param name="attribute">The attribute to enable</param>
         public void SetAttribute(string attribute);
+
+        public void AddClass(string className);
     }
 }

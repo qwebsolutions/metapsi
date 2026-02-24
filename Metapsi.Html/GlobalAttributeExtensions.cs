@@ -47,53 +47,7 @@ public static class GlobalAttributeExtensions
         b.SetAttribute("id", id);
     }
 
-    public static void SetClass<T>(this PropsBuilder<T> b, Var<string> @class)
-    {
-        var classList = b.GetClassList();
-        b.Clear(classList);
-        b.Push(classList.As<List<string>>(), @class);
-    }
 
-    public static void SetClass<T>(this PropsBuilder<T> b, string @class)
-    {
-        b.SetClass(b.Const(@class));
-    }
-
-    private static Var<List<object>> GetClassList<T>(this PropsBuilder<T> b)
-    {
-        var classList = b.GetProperty<List<object>>(b.Props, b.Const("class"));
-        return b.If(
-            b.HasObject(classList),
-            b => classList,
-            b =>
-            {
-                var newList = b.NewCollection<object>();
-                b.SetProperty(b.Props, b.Const("class"), newList);
-                return newList;
-            });
-    }
-
-    public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class)
-    {
-        b.Push(b.GetClassList(), @class.As<object>());
-        return b;
-    }
-
-    public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, Var<string> @class, Var<bool> enabled)
-    {
-        b.Push(b.GetClassList(), b.NewObj<object>(
-            b =>
-            {
-                b.SetProperty(b.Props, @class, enabled);
-            }));
-
-        return b;
-    }
-
-    public static PropsBuilder<T> AddClass<T>(this PropsBuilder<T> b, string @class)
-    {
-        return b.AddClass(b.Const(@class));
-    }
 
     public static void SetSlot<TProps>(this PropsBuilder<TProps> b, Var<string> slotName)
     {

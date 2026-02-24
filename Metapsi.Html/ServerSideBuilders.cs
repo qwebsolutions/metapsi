@@ -17,6 +17,17 @@ public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
     public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
     public Dictionary<string, string> Attributes { get; set; } = new();
 
+    public void AddClass(string className)
+    {
+        string previousClass = "";
+        if (this.Attributes.ContainsKey("class"))
+        {
+            previousClass = this.Attributes["class"];
+        }
+
+        this.SetAttribute("class", previousClass + " " + className);
+    }
+
     public void AddStyle(string property, string value)
     {
         this.Styles[property] = value;
@@ -56,17 +67,6 @@ public static class AttributesBuilderExtensions
     public static void SetStyle<TTag>(this AttributesBuilder<TTag> b, string styles)
     {
         b.SetAttribute("style", styles);
-    }
-
-    public static void AddClass<TTag>(this AttributesBuilder<TTag> b, string className)
-    {
-        string previousClass = "";
-        if (b.Attributes.ContainsKey("class"))
-        {
-            previousClass = b.Attributes["class"];
-        }
-
-        b.SetAttribute("class", previousClass + " " + className);
     }
 }
 

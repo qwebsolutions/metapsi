@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Syntax
 {
@@ -14,6 +15,51 @@ namespace Metapsi.Syntax
         }
 
         public Var<TProps> Props { get; set; }
+
+        public void AddClass(string className)
+        {
+            this.AddClass(base.Const(className));
+        }
+
+        private Var<List<object>> GetClassList()
+        {
+            var classList = this.GetProperty<List<object>>(this.Props, this.Const("class"));
+            return this.If(
+                this.HasObject(classList),
+                b => classList,
+                b =>
+                {
+                    var newList = b.NewCollection<object>();
+                    b.SetProperty(b.Props, b.Const("class"), newList);
+                    return newList;
+                });
+        }
+
+        public void AddClass(Var<string> @class)
+        {
+            this.Push(this.GetClassList(), @class.As<object>());
+        }
+
+        public void SetClass(Var<string> @class)
+        {
+            var classList = this.GetClassList();
+            this.Clear(classList);
+            this.Push(classList.As<List<string>>(), @class);
+        }
+
+        public void SetClass(string @class)
+        {
+            this.SetClass(this.Const(@class));
+        }
+
+        public void AddClass(Var<string> @class, Var<bool> enabled)
+        {
+            this.Push(this.GetClassList(), this.NewObj<object>(
+                b =>
+                {
+                    b.SetProperty(b.Props, @class, enabled);
+                }));
+        }
 
         public void AddStyle(string property, string value)
         {
