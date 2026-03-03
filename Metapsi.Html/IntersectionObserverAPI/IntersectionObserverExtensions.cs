@@ -31,25 +31,6 @@ public static class IntersectionObserverExtensions
     /// <returns>A new IntersectionObserver which can be used to watch for the visibility of a target element within the specified root crossing through any of the specified visibility thresholds.
     /// Call its observe() method to begin watching for the visibility changes on a given target.
     /// </returns>
-    public static Var<IntersectionObserver> New(
-        this ObjBuilder<ClassDef<IntersectionObserver>> b,
-        Var<Action<List<IntersectionObserverEntry>, IntersectionObserver>> callback)
-    {
-        return b.New(callback);
-    }
-
-    /// <summary>
-    /// The IntersectionObserver() constructor creates and returns a new IntersectionObserver object.
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="callback">
-    /// A function which is called when the percentage of the target element is visible crosses a threshold.The callback receives as input two parameters:
-    /// <para> entries - An array of IntersectionObserverEntry objects, each representing one threshold which was crossed, either becoming more or less visible than the percentage specified by that threshold.You should not assume the number of entries, because multiple threshold-crossing events may be reported in a single callback invocation. The entries are dispatched using a queue, so they should be ordered by the time they were generated, but you should preferably use IntersectionObserverEntry.time to correctly order them.</para>
-    /// <para> observer - The IntersectionObserver for which the callback is being invoked.</para>
-    /// </param>
-    /// <returns>A new IntersectionObserver which can be used to watch for the visibility of a target element within the specified root crossing through any of the specified visibility thresholds.
-    /// Call its observe() method to begin watching for the visibility changes on a given target.
-    /// </returns>
     public static ObjBuilder<IntersectionObserver> New(
         this ObjBuilder<ClassDef<IntersectionObserver>> b,
         Var<Action<List<IntersectionObserverEntry>>> callback)
