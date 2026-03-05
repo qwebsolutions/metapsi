@@ -53,7 +53,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = ToConnection(filePath))
             {
                 await conn.OpenAsync();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 result = await dbQuery(new OpenTransaction()
                 {
                     Connection = conn,
@@ -74,7 +74,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = ToConnection(filePath))
             {
                 await conn.OpenAsync();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 await dbAction(new OpenTransaction()
                 {
                     Connection = conn,
@@ -92,7 +92,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = ToConnection(filePath))
             {
                 await conn.OpenAsync();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 var result = await dbAction(new OpenTransaction()
                 {
                     Connection = conn,

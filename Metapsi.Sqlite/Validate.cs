@@ -15,7 +15,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {fullDbPath}"))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 foreach (System.Type recordType in recordTypes)
                 {

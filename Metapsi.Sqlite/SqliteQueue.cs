@@ -79,7 +79,7 @@ namespace Metapsi.Sqlite
             return await sqliteQueue.Enqueue(async (conn) =>
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 var result = await dbAction(transaction);
                 transaction.Commit();
 
@@ -93,7 +93,7 @@ namespace Metapsi.Sqlite
             await sqliteQueue.Enqueue(async (conn) =>
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 await dbAction(transaction);
                 transaction.Commit();
                 System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithCommit {sw.ElapsedMilliseconds}");
@@ -105,7 +105,7 @@ namespace Metapsi.Sqlite
             return await sqliteQueue.Enqueue(async (conn) =>
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 var result = await dbQuery(transaction);
                 transaction.Rollback();
                 System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback<{typeof(TResult).CSharpTypeName()}> {sw.ElapsedMilliseconds}");
@@ -118,7 +118,7 @@ namespace Metapsi.Sqlite
             await sqliteQueue.Enqueue(async (conn) =>
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
                 await dbQuery(transaction);
                 transaction.Rollback();
                 System.Diagnostics.Debug.WriteLine($"{System.DateTime.UtcNow.Roundtrip()} WithRollback {sw.ElapsedMilliseconds}");
@@ -127,14 +127,14 @@ namespace Metapsi.Sqlite
 
         public static async Task Read(this DbConnection dbConnection, Func<DbTransaction, Task> dbQuery)
         {
-            var transaction = dbConnection.BeginTransaction();
+            using var transaction = dbConnection.BeginTransaction();
             await dbQuery(transaction);
             transaction.Rollback();
         }
 
         public static async Task<TResult> Read<TResult>(this DbConnection dbConnection, Func<DbTransaction, Task<TResult>> dbQuery)
         {
-            var transaction = dbConnection.BeginTransaction();
+            using var transaction = dbConnection.BeginTransaction();
             var result = await dbQuery(transaction);
             transaction.Rollback();
             return result;

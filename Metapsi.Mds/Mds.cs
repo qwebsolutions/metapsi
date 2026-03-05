@@ -577,7 +577,7 @@ namespace Metapsi
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {serviceDbPath}"))
             {
                 await conn.OpenAsync();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 var logEntry = new Log()
                 {
@@ -608,7 +608,7 @@ namespace Metapsi
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {serviceDbPath}"))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 var commandEntry = new Mds.Command()
                 {
@@ -642,7 +642,7 @@ namespace Metapsi
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {serviceCommandDbPath}"))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 var commands = await conn.QueryAsync<CommandEntry>("select * from Command where Processed = 0 order by id asc", transaction: transaction);
                 //Console.WriteLine($"Found {commands.Count()} commands");

@@ -25,7 +25,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {dbPath}"))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 Save(o, transaction);
                 transaction.Commit();
@@ -37,7 +37,7 @@ namespace Metapsi.Sqlite
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source = {dbPath}"))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
+                using var transaction = conn.BeginTransaction();
 
                 if (parameter != null)
                 {
