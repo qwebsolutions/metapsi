@@ -46,7 +46,7 @@ public static class EventExtensions
         SyntaxBuilder b,
         Var<HyperType.Dispatcher> dispatch,
         Var<EventSubscriptionProps<TModel, TEventTarget, TEvent>> props)
-        where TEventTarget: EventTarget
+        where TEventTarget : EventTarget
         where TEvent : Event
     {
         var listener = b.Def((SyntaxBuilder b, Var<TEvent> @event) =>
@@ -57,6 +57,7 @@ public static class EventExtensions
             }));
         });
 
+        b.Log("ListenToEvent subscribe");
         b.AddEventListener(
             b.Get(props, x => x.Target),
             b.Get(props, x => x.Type),
@@ -65,9 +66,12 @@ public static class EventExtensions
         // Return cleanup function
         return b.Def(
             (SyntaxBuilder b) =>
-            b.RemoveEventListener(
-                b.Get(props, x => x.Target),
-                b.Get(props, x => x.Type), listener));
+            {
+                b.Log("ListenToEvent unsubscribe");
+                b.RemoveEventListener(
+                    b.Get(props, x => x.Target),
+                    b.Get(props, x => x.Type), listener);
+            });
     }
 
 
@@ -86,7 +90,7 @@ public static class EventExtensions
                 b.Set(x => x.Type, eventType);
                 b.Set(x => x.Action, action);
             });
-        return b.MakeSubscription<TModel, EventSubscriptionProps<TModel, TEventTarget, TEvent>>(
+        return b.MakeSubscription(
             ListenToEvent,
             subscriptionProps);
     }
@@ -106,7 +110,7 @@ public static class EventExtensions
                 b.Set(x => x.Type, eventType);
                 b.Set(x => x.Action, action.As<HyperType.Action<TModel, Event>>());
             });
-        return b.MakeSubscription<TModel, EventSubscriptionProps<TModel, TEventTarget, Event>>(
+        return b.MakeSubscription(
             ListenToEvent,
             subscriptionProps);
     }

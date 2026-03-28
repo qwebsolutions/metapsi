@@ -69,7 +69,7 @@ public static class Time
 
     public static Var<HyperType.Subscription> Every<TState>(this SyntaxBuilder b, Var<int> delayMs, Var<HyperType.Action<TState, long>> action)
     {
-        return b.MakeSubscription<TState, IntervalProps<TState>>(
+        return b.MakeSubscription(
             b.Def<SyntaxBuilder, HyperType.Dispatcher, IntervalProps<TState>, System.Action>(Interval),
             b.NewObj<IntervalProps<TState>>(b =>
             {

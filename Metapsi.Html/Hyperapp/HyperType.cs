@@ -143,40 +143,105 @@ namespace Metapsi.Hyperapp
         }
 
         /// <summary>
-        /// Converts a subscriber function to a subscription with the specified properties
+        /// Creates a subscription based on <paramref name="subscriberFn"/> initialized with properties <paramref name="props"/>.
+        /// <para>A subscription initializes an operation out of the normal Hyperapp flow (eg. an event listener), dispatches actions back into Hyperapp when needed and runs the returned <see cref="System.Action"/> for cleanup when unsubscribed.</para>
         /// </summary>
-        /// <typeparam name="TState"></typeparam>
-        /// <typeparam name="TSubProps"></typeparam>
+        /// <remarks><paramref name="subscriberFn"/> must be static, otherwise the subscription is restarted on every state change.</remarks>
+        /// <typeparam name="TProps"></typeparam>
         /// <param name="b"></param>
         /// <param name="subscriberFn"></param>
-        /// <param name="subProps"></param>
-        /// <returns></returns>
-        public static Var<HyperType.Subscription> MakeSubscription<TState, TSubProps>(
+        /// <param name="props"></param>
+        /// <returns>The subscription</returns>
+        public static Var<HyperType.Subscription> MakeSubscription<TProps>(
             this SyntaxBuilder b,
-            Var<System.Func<HyperType.Dispatcher, TSubProps, System.Action>> subscriberFn,
-            Var<TSubProps> subProps)
+            Var<System.Func<HyperType.Dispatcher, TProps, System.Action>> subscriberFn,
+            Var<TProps> props)
         {
             Var<List<object>> subscription = b.NewCollection<object>();
             b.Push(subscription, subscriberFn.As<object>());
-            b.Push(subscription, subProps.As<object>());
+            b.Push(subscription, props.As<object>());
             return subscription.As<HyperType.Subscription>();
         }
 
         /// <summary>
-        /// Converts a subscriber function to a subscription with the specified properties
+        /// Creates a subscription based on <paramref name="subscriberFn"/> initialized with properties <paramref name="props"/>.
+        /// <para>A subscription initializes an operation out of the normal Hyperapp flow (eg. an event listener), dispatches actions back into Hyperapp when needed and runs the returned <see cref="System.Action"/> for cleanup when unsubscribed.</para>
         /// </summary>
-        /// <typeparam name="TState"></typeparam>
-        /// <typeparam name="TSubProps"></typeparam>
+        /// <remarks><paramref name="subscriberFn"/> must be static, otherwise the subscription is restarted on every state change.</remarks>/// 
+        /// <typeparam name="TProps"></typeparam>
         /// <param name="b"></param>
         /// <param name="subscriberFn"></param>
-        /// <param name="subProps"></param>
-        /// <returns></returns>
-        public static Var<HyperType.Subscription> MakeSubscription<TState, TSubProps>(
+        /// <param name="props"></param>
+        /// <returns>The subscription</returns>
+        public static Var<HyperType.Subscription> MakeSubscription<TProps>(
             this SyntaxBuilder b,
-            Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TSubProps>, Var<System.Action>> subscriberFn,
-            Var<TSubProps> subProps)
+            System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TProps>, Var<System.Action>> subscriberFn,
+            Var<TProps> props)
         {
-            return b.MakeSubscription<TState, TSubProps>(b.Def(subscriberFn), subProps);
+            if (subscriberFn.Target != null)
+            {
+                throw new Exception("Subscriber function must be static");
+            }
+            return b.MakeSubscription(b.Def(subscriberFn), props);
+        }
+
+        /// <summary>
+        /// Creates a subscription based on <paramref name="subscriberFn"/> initialized with properties <paramref name="props"/>.
+        /// <para>A subscription initializes an operation out of the normal Hyperapp flow (eg. an event listener), dispatches actions back into Hyperapp when needed and runs the returned <see cref="System.Action"/> for cleanup when unsubscribed.</para>
+        /// </summary>
+        /// <remarks><paramref name="subscriberFn"/> must be static, otherwise the subscription is restarted on every state change.</remarks>
+        /// <typeparam name="TProps"></typeparam>
+        /// <param name="b"></param>
+        /// <param name="subscriberFn"></param>
+        /// <param name="props"></param>
+        /// <returns></returns>
+        public static Var<HyperType.Subscription> MakeSubscription<TProps>(
+            this SyntaxBuilder b,
+            System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TProps>, Var<System.Action>> subscriberFn,
+            TProps props)
+        {
+            if (subscriberFn.Target != null)
+            {
+                throw new Exception("Subscriber function must be static");
+            }
+
+            return b.MakeSubscription(b.Def(subscriberFn), b.Const(props));
+        }
+
+        /// <summary>
+        /// Creates a subscription based on <paramref name="subscriberFn"/>.
+        /// <para>A subscription initializes an operation out of the normal Hyperapp flow (eg. an event listener), dispatches actions back into Hyperapp when needed and runs the returned <see cref="System.Action"/> for cleanup when unsubscribed.</para>
+        /// </summary>
+        /// <remarks><paramref name="subscriberFn"/> must be static, otherwise the subscription is restarted on every state change.</remarks>
+        /// <param name="b"></param>
+        /// <param name="subscriberFn"></param>
+        /// <returns>The subscription</returns>
+        public static Var<HyperType.Subscription> MakeSubscription(
+            this SyntaxBuilder b,
+            Var<System.Func<HyperType.Dispatcher, System.Action>> subscriberFn)
+        {
+            Var<List<object>> subscription = b.NewCollection<object>();
+            b.Push(subscription, subscriberFn.As<object>());
+            return subscription.As<HyperType.Subscription>();
+        }
+        /// <summary>
+        /// Creates a subscription based on <paramref name="subscriberFn"/>.
+        /// <para>A subscription initializes an operation out of the normal Hyperapp flow (eg. an event listener), dispatches actions back into Hyperapp when needed and runs the returned <see cref="System.Action"/> for cleanup when unsubscribed.</para>
+        /// </summary>
+        /// <remarks><paramref name="subscriberFn"/> must be static, otherwise the subscription is restarted on every state change.</remarks>
+        /// <param name="b"></param>
+        /// <param name="subscriberFn"></param>
+        /// <returns>The subscription</returns>
+        public static Var<HyperType.Subscription> MakeSubscription(
+            this SyntaxBuilder b,
+            System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<System.Action>> subscriberFn)
+        {
+            if (subscriberFn.Target != null)
+            {
+                throw new Exception("Subscriber function must be static");
+            }
+
+            return b.MakeSubscription(b.Def(subscriberFn));
         }
 
         /// <summary>
