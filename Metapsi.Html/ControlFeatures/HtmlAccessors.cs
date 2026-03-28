@@ -28,6 +28,11 @@ public partial class HtmlTextarea : IHasEditableValue
     public string value { get; set; }
 }
 
+public partial class HtmlSelect : IHasEditableValue
+{
+    public string value { get; set; }
+}
+
 /// <summary>
 /// 
 /// </summary>
