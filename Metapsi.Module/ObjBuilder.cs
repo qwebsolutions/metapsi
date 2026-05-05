@@ -13,8 +13,8 @@ namespace Metapsi.Syntax
 
     public interface IObjBuilder
     {
-        internal SyntaxBuilder GetSyntaxBuilder();
-        internal IVariable GetVariable();
+        public SyntaxBuilder GetSyntaxBuilder();
+        public IVariable GetVariable();
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace Metapsi.Syntax
         }
 
         internal SyntaxBuilder syntaxBuilder { get; set; }
-        public Var<T> Var { get; private set; }
+        private Var<T> Var { get; set; }
 
         public ObjBuilder<TOut> Call<TOut>(string methodName, params IVariable[] parameters)
         {
@@ -101,7 +101,7 @@ namespace Metapsi.Syntax
         public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, ObjBuilder<TOut>> transform)
         {
             var result = transform(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
-            return result.Var;
+            return (result as IObjBuilder).GetVariable().As<TOut>();
         }
 
         public static void On<TIn>(this SyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
@@ -118,7 +118,7 @@ namespace Metapsi.Syntax
         /// <returns></returns>
         public static ObjBuilder<T> New<T>(this ObjBuilder<ClassDef<T>> b, params IVariable[] args)
         {
-            return new ObjBuilder<T>(b.syntaxBuilder.New<T>(b.Var, args))
+            return new ObjBuilder<T>(b.syntaxBuilder.New<T>((b as IObjBuilder).GetVariable(), args))
             {
                 syntaxBuilder = b.syntaxBuilder
             };
