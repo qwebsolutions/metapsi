@@ -61,19 +61,25 @@ namespace Metapsi.Syntax
     {
         public static Var<TOut> On<TIn, TOut>(this ISyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, Var<TOut>> transform)
         {
-            var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
+            var objBuilder = new ObjBuilder<TIn>(b.ModuleBuilder, input);
+            var result = transform(objBuilder);
+            b.Nodes.AddRange((objBuilder as ISyntaxBuilder).Nodes);
             return result;
         }
 
         public static Var<TOut> On<TIn, TOut>(this ISyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, ObjBuilder<TOut>> transform)
         {
-            var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
+            var objBuilder = new ObjBuilder<TIn>(b.ModuleBuilder, input);
+            var result = transform(objBuilder);
+            b.Nodes.AddRange((objBuilder as ISyntaxBuilder).Nodes);
             return result;
         }
 
         public static void On<TIn>(this ISyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
         {
-            call(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
+            var objBuilder = new ObjBuilder<TIn>(b.ModuleBuilder, input);
+            call(objBuilder);
+            b.Nodes.AddRange((objBuilder as ISyntaxBuilder).Nodes);
         }
 
         /// <summary>
@@ -85,7 +91,9 @@ namespace Metapsi.Syntax
         /// <returns></returns>
         public static ObjBuilder<T> Construct<T>(this ObjBuilder<ClassDef<T>> b, params IVariable[] args)
         {
-            return new ObjBuilder<T>((b as ISyntaxBuilder).ModuleBuilder, b.Construct<T>(b, args));
+            var onObject = b.Construct<T>(b, args);
+            var objBuilder = new ObjBuilder<T>((b as ISyntaxBuilder).ModuleBuilder, onObject);
+            return objBuilder;
         }
     }
 }
