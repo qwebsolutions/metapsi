@@ -141,7 +141,7 @@ namespace Metapsi.Syntax
             Var<TInput> v,
             Func<TSyntaxBuilder, Var<TResult>> @default,
             params (TInput, Func<TSyntaxBuilder, Var<TResult>>)[] cases)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var caseFuncRef = b.Ref(b.Def(@default));
 
