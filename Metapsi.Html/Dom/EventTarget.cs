@@ -54,7 +54,7 @@ public static partial class EventTargetExtensions
     /// <param name="handler"></param>
     /// <param name="options"></param>
     public static void addEventListener<TEventTarget, TEvent>(
-        ObjBuilder<TEventTarget> b,
+        this ObjBuilder<TEventTarget> b,
         Var<string> eventName,
         Var<System.Action<TEvent>> handler,
         Var<AddEventListenerOptions> options)
