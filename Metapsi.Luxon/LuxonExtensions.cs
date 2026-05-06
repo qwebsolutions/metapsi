@@ -10,7 +10,7 @@ public static partial class LuxonExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static Var<ClassDef<Luxon.DateTime>> LuxonDateTime(this SyntaxBuilder b)
+    public static Var<ClassDef<Luxon.DateTime>> LuxonDateTime(this ISyntaxBuilder b)
     {
         var luxonJsResource = b.AddLuxon();
         var dateTimeClass = b.ImportName<ClassDef<Luxon.DateTime>>(luxonJsResource, "DateTime");
@@ -22,7 +22,7 @@ public static partial class LuxonExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static Var<ClassDef<Luxon.Interval>> LuxonInterval(this SyntaxBuilder b)
+    public static Var<ClassDef<Luxon.Interval>> LuxonInterval(this ISyntaxBuilder b)
     {
         var luxonJsResource = b.AddLuxon();
         var intervalClass = b.ImportName<ClassDef<Luxon.Interval>>(luxonJsResource, "Interval");
@@ -34,7 +34,7 @@ public static partial class LuxonExtensions
     /// </summary>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static Var<ClassDef<Luxon.Duration>> LuxonDuration(this SyntaxBuilder b)
+    public static Var<ClassDef<Luxon.Duration>> LuxonDuration(this ISyntaxBuilder b)
     {
         var luxonJsResource = b.AddLuxon();
         var durationClass = b.ImportName<ClassDef<Luxon.Duration>>(luxonJsResource, "Duration");
