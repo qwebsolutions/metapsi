@@ -38,10 +38,157 @@ public interface AddEventListenerOptions
     /// </summary>
     public AbortSignal signal { get; set; }
 }
+
+/// <summary>
+/// ObjBuilder style
+/// </summary>
+public static partial class EventTargetExtensions
+{
+    /// <summary>
+    /// The addEventListener() method of the EventTarget interface sets up a function that will be called whenever the specified event is delivered to the target.
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="eventName"></param>
+    /// <param name="handler"></param>
+    /// <param name="options"></param>
+    public static void addEventListener<TEventTarget, TEvent>(
+        ObjBuilder<TEventTarget> b,
+        Var<string> eventName,
+        Var<System.Action<TEvent>> handler,
+        Var<AddEventListenerOptions> options)
+        where TEventTarget : EventTarget
+        where TEvent : Event
+    {
+        b.Call("addEventListener", eventName, handler, options);
+    }
+
+    /// <summary>
+    /// The addEventListener() method of the EventTarget interface sets up a function that will be called whenever the specified event is delivered to the target.
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="eventName"></param>
+    /// <param name="handler"></param>
+    /// <param name="options"></param>
+    public static void addEventListener<TEventTarget>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> eventName,
+        Var<System.Action> handler,
+        Var<AddEventListenerOptions> options)
+        where TEventTarget : EventTarget
+    {
+        b.Call("addEventListener", eventName, handler, options);
+    }
+
+    /// <summary>
+    /// The addEventListener() method of the EventTarget interface sets up a function that will be called whenever the specified event is delivered to the target.
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="eventName"></param>
+    /// <param name="handler"></param>
+    public static void addEventListener<TEventTarget, TEvent>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> eventName,
+        Var<System.Action<TEvent>> handler)
+        where TEventTarget : EventTarget
+        where TEvent : Event
+    {
+        b.Call("addEventListener", eventName, handler);
+    }
+
+    /// <summary>
+    /// The addEventListener() method of the EventTarget interface sets up a function that will be called whenever the specified event is delivered to the target.
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="eventName"></param>
+    /// <param name="handler"></param>
+    public static void addEventListener<TEventTarget>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> eventName,
+        Var<System.Action> handler)
+        where TEventTarget : EventTarget
+    {
+        b.Call("addEventListener", eventName, handler);
+    }
+
+
+    /// <summary>
+    /// The dispatchEvent() method of the EventTarget sends an Event to the object, (synchronously) invoking the affected event listeners in the appropriate order. 
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="e"></param>
+    /// <returns>false if event is cancelable, and at least one of the event handlers which received event called Event.preventDefault(). Otherwise true.</returns>
+    public static Var<bool> dispatchEvent<TEventTarget, TEvent>(
+        this ObjBuilder<TEventTarget> b,
+        Var<TEvent> e)
+        where TEventTarget : EventTarget
+        where TEvent : Event
+    {
+        return b.Call<bool>("dispatchEvent", e);
+    }
+
+    /// <summary>
+    /// Creates and dispatches an event with type <paramref name="eventType"/>
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="eventType"></param>
+    /// <returns>false if event is cancelable, and at least one of the event handlers which received event called Event.preventDefault(). Otherwise true.</returns>
+    public static Var<bool> dispatchEvent<TEventTarget>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> eventType)
+        where TEventTarget : EventTarget
+    {
+        return b.dispatchEvent(b.Construct<Event>(b.GetClass<Event>(), eventType));
+    }
+
+    /// <summary>
+    /// The removeEventListener() method of the EventTarget interface removes an event listener previously registered with EventTarget.addEventListener() from the target. 
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="type"></param>
+    /// <param name="listener"></param>
+    public static void removeEventListener<TEventTarget, TEvent>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> type,
+        Var<Action<TEvent>> listener)
+        where TEventTarget : EventTarget
+        where TEvent : Event
+    {
+        b.Call("removeEventListener", type, listener);
+    }
+
+    /// <summary>
+    /// The removeEventListener() method of the EventTarget interface removes an event listener previously registered with EventTarget.addEventListener() from the target.
+    /// </summary>
+    /// <typeparam name="TEventTarget"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="type"></param>
+    /// <param name="listener"></param>
+    public static void removeEventListener<TEventTarget>(
+        this ObjBuilder<TEventTarget> b,
+        Var<string> type,
+        Var<Action> listener)
+        where TEventTarget : EventTarget
+    {
+        b.Call("removeEventListener", type, listener);
+    }
+}
+
+
 /// <summary>
 /// EventTarget extensions
 /// </summary>
-public static class EventTargetExtensions
+public static partial class EventTargetExtensions
 {
     /// <summary>
     /// The addEventListener() method of the EventTarget interface sets up a function that will be called whenever the specified event is delivered to the target.
