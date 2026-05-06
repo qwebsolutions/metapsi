@@ -120,7 +120,7 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
         var style = b.Concat(b.Const(":host  {"), b.JoinStrings(b.Const(";"), joinList), b.Const("}"));
         b.Log(style);
 
-        return this.Root(
+       return this.Root(
             //b =>
             //{
             //    //b.AddStyle("width", b.Concat(b.AsString(b.Get(model, x => x.Width)), b.Const("px")));
