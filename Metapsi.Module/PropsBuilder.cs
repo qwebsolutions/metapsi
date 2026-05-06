@@ -3,22 +3,42 @@ using System.Collections.Generic;
 
 namespace Metapsi.Syntax
 {
-    public class PropsBuilder<TProps> : SyntaxBuilder, IHtmlAttributesBuilder
+    public interface IPropsBuilder : IObjBuilder, IHtmlAttributesBuilder
     {
-        internal PropsBuilder(SyntaxBuilder parent): base(parent) 
+
+    }
+
+    public class PropsBuilder<TProps> : Var<TProps>, IPropsBuilder
+    {
+        private readonly ModuleBuilder moduleBuilder;
+        private readonly List<SyntaxNode> nodes;
+
+        public PropsBuilder(ModuleBuilder moduleBuilder, IVariable var)
         {
-            this.Props = this.NewObj().As<TProps>();
+            this.moduleBuilder = moduleBuilder;
+            this.nodes = new List<SyntaxNode>();
+            this.Props = var.As<TProps>();
+            this.Name = var.Name;
         }
-        internal PropsBuilder(PropsBuilder<TProps> parent) : base(parent)
-        {
-            this.Props = parent.Props;
-        }
+
+        ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
+
+        List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
+
+        //internal PropsBuilder(IVariable onVar, SyntaxBuilder parent) : base((parent as ISyntaxBuilder).ModuleBuilder)
+        //{
+        //    this.Props = this.NewObj().As<TProps>();
+        //}
+        //internal PropsBuilder(PropsBuilder<TProps> parent) : base(parent)
+        //{
+        //    this.Props = parent.Props;
+        //}
 
         public Var<TProps> Props { get; set; }
 
         public void AddClass(string className)
         {
-            this.AddClass(base.Const(className));
+            this.AddClass(this.Const(className));
         }
 
         private Var<List<object>> GetClassList()
@@ -111,14 +131,13 @@ namespace Metapsi.Syntax
         /// <param name="obj"></param>
         /// <param name="setProps"></param>
         /// <returns></returns>
-        public static Var<T> SetProps<T>(this SyntaxBuilder b, IVariable obj, Action<PropsBuilder<T>> setProps)
+        public static Var<T> SetProps<T>(this ISyntaxBuilder b, IVariable obj, Action<PropsBuilder<T>> setProps)
         {
-            var propsBuilder = new PropsBuilder<T>(b);
-            propsBuilder.Props = obj.As<T>();
+            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, obj);
             if (setProps != null)
             {
                 setProps(propsBuilder);
-                b.nodes.AddRange(propsBuilder.nodes);
+                (b as ISyntaxBuilder).Nodes.AddRange((propsBuilder as ISyntaxBuilder).Nodes);
             }
             return propsBuilder.Props;
         }
@@ -130,15 +149,15 @@ namespace Metapsi.Syntax
         /// <param name="b"></param>
         /// <param name="setProps"></param>
         /// <returns></returns>
-        public static Var<T> NewObj<T>(this SyntaxBuilder b, Action<PropsBuilder<T>> setProps)
+        public static Var<T> NewObj<T>(this ISyntaxBuilder b, Action<PropsBuilder<T>> setProps)
             where T : new()
         {
-            var propsBuilder = new PropsBuilder<T>(b);
-            propsBuilder.Props = b.NewObj<T>();
+            var obj = b.NewObj<T>();
+            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, obj);
             if (setProps != null)
             {
                 setProps(propsBuilder);
-                b.nodes.AddRange(propsBuilder.nodes);
+                (b as ISyntaxBuilder).Nodes.AddRange((propsBuilder as ISyntaxBuilder).Nodes);
             }
             return propsBuilder.Props;
         }

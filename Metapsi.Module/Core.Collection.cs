@@ -9,11 +9,11 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<List<TItem>> collection,
             Action<TSyntaxBuilder, Var<TItem>, Var<int>> onItem)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            b.nodes.Add(new SyntaxNode()
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode()
             {
                 Call = new CallNode()
                 {
@@ -31,11 +31,11 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<List<TItem>> collection,
             Action<TSyntaxBuilder, Var<TItem>> onItem)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            b.nodes.Add(new SyntaxNode()
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode()
             {
                 Call = new CallNode()
                 {
@@ -53,7 +53,7 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<List<TIn>> list,
             Var<Func<TIn, TOut>> transform)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             return b.CallOnObject<List<TOut>>(list, "map", transform);
         }
@@ -62,7 +62,7 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<List<TIn>> list,
             Func<TSyntaxBuilder, Var<TIn>, Var<TOut>> transform)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             return b.Map(list, b.Def(transform));
         }

@@ -140,6 +140,13 @@ public static partial class Intl
         public string timeStyle { get; set; }
     }
 
+    private static Var<ClassDef<DateTimeFormat>> DateTimeFormatClass(this SyntaxBuilder b)
+    {
+        var intl = b.GetProperty<object>(b.Self(), "Intl");
+        var dateTimeFormatClass = b.GetProperty<ClassDef<DateTimeFormat>>(intl, "DateTimeFormat");
+        return dateTimeFormatClass;
+    }
+
     /// <summary>
     /// The Intl.DateTimeFormat() constructor creates Intl.DateTimeFormat objects.
     /// </summary>
@@ -147,7 +154,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b)
     {
-        return b.New<Intl.DateTimeFormat>();
+        return b.Construct<DateTimeFormat>(b.DateTimeFormatClass());
     }
 
 
@@ -159,7 +166,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<string> locales)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 
     /// <summary>
@@ -170,7 +177,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<Locale> locales)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 
     /// <summary>
@@ -181,7 +188,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<List<Locale>> locales)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 
     /// <summary>
@@ -193,7 +200,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<string> locales, Var<DateTimeFormatOptions> options)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 
     /// <summary>
@@ -205,7 +212,7 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<Locale> locales, Var<DateTimeFormatOptions> options)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 
     /// <summary>
@@ -217,6 +224,6 @@ public static partial class Intl
     /// <returns></returns>
     public static Var<DateTimeFormat> NewIntlDateTimeFormat(this SyntaxBuilder b, Var<List<Locale>> locales, Var<DateTimeFormatOptions> options)
     {
-        return b.New<Intl.DateTimeFormat>(locales);
+        return b.Construct<Intl.DateTimeFormat>(b.DateTimeFormatClass(), locales);
     }
 }

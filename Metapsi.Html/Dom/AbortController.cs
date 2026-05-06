@@ -37,7 +37,7 @@ public static partial class AbortControllerExtensions
     public static ObjBuilder<AbortController> New(
         this ObjBuilder<ClassDef<AbortController>> b)
     {
-        return b.New<AbortController>();
+        return b.Construct();
     }
 
     /// <summary>

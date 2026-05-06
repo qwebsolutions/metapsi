@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Metapsi.Syntax
 {
@@ -11,55 +12,42 @@ namespace Metapsi.Syntax
 
     }
 
-    public interface IObjBuilder
+    public interface IObjBuilder : ISyntaxBuilder
     {
-        public SyntaxBuilder GetSyntaxBuilder();
-        public IVariable GetVariable();
     }
 
     /// <summary>
     /// Wraps a specific object for property and method access. Does not allow creating new blocks (branching, loops)
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObjBuilder<T> : IObjBuilder
+    public class ObjBuilder<T> : Var<T>, IObjBuilder
     {
-        SyntaxBuilder IObjBuilder.GetSyntaxBuilder()
+        private readonly ModuleBuilder moduleBuilder;
+        private readonly List<SyntaxNode> nodes;
+
+        public ObjBuilder(ModuleBuilder moduleBuilder, IVariable var)
         {
-            return this.syntaxBuilder;
+            this.moduleBuilder = moduleBuilder;
+            this.nodes = new List<SyntaxNode>();
         }
 
-        IVariable IObjBuilder.GetVariable()
-        {
-            return this.Var;
-        }
+        ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
 
-        public ObjBuilder(Var<T> var)
-        {
-            this.Var = var;
-        }
-
-        internal SyntaxBuilder syntaxBuilder { get; set; }
-        private Var<T> Var { get; set; }
+        List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
 
         public ObjBuilder<TOut> Call<TOut>(string methodName, params IVariable[] parameters)
         {
-            return new ObjBuilder<TOut>(syntaxBuilder.CallOnObject<TOut>(Var, methodName, parameters))
-            {
-                syntaxBuilder = this.syntaxBuilder
-            };
+            return new ObjBuilder<TOut>(this.moduleBuilder, this.CallOnObject<TOut>(this, methodName, parameters));
         }
 
         public void Call(string methodName, params IVariable[] parameters)
         {
-            syntaxBuilder.CallOnObject(Var, methodName, parameters);
+            this.CallOnObject(this, methodName, parameters);
         }
 
         public ObjBuilder<TOut> Get<TOut>(string property)
         {
-            return new ObjBuilder<TOut>(syntaxBuilder.GetProperty<TOut>(this.Var, property))
-            {
-                syntaxBuilder = this.syntaxBuilder
-            };
+            return new ObjBuilder<TOut>(this.moduleBuilder, this.GetProperty<TOut>(this, property));
         }
 
         public ObjBuilder<TOut> Get<TOut>(System.Linq.Expressions.Expression<Func<T, TOut>> property)
@@ -67,17 +55,17 @@ namespace Metapsi.Syntax
             return this.Get<TOut>(property.PropertyName());
         }
 
-        public Var<TConst> Const<TConst>(TConst c)
-        {
-            //if anonymous (or always?), serialize also read-only properties
+        //public Var<TConst> Const<TConst>(TConst c)
+        //{
+        //    //if anonymous (or always?), serialize also read-only properties
 
-            return syntaxBuilder.Const(c);
-        }
+        //    return syntaxBuilder.Const(c);
+        //}
 
-        public Var<TObj> NewObj<TObj>(Action<PropsBuilder<TObj>> setProps)
-        {
-            return syntaxBuilder.SetProps(syntaxBuilder.NewObj(), setProps);
-        }
+        //public Var<TObj> NewObj<TObj>(Action<PropsBuilder<TObj>> setProps)
+        //{
+        //    return syntaxBuilder.SetProps(syntaxBuilder.NewObj(), setProps);
+        //}
     }
 
     public static class ObjectBuilderExtensions
@@ -94,19 +82,19 @@ namespace Metapsi.Syntax
 
         public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, Var<TOut>> transform)
         {
-            var result = transform(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
+            var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
             return result;
         }
 
         public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, ObjBuilder<TOut>> transform)
         {
-            var result = transform(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
-            return (result as IObjBuilder).GetVariable().As<TOut>();
+            var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
+            return result;
         }
 
         public static void On<TIn>(this SyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
         {
-            call(new ObjBuilder<TIn>(input) { syntaxBuilder = b });
+            call(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
         }
 
         /// <summary>
@@ -116,12 +104,9 @@ namespace Metapsi.Syntax
         /// <param name="b"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static ObjBuilder<T> New<T>(this ObjBuilder<ClassDef<T>> b, params IVariable[] args)
+        public static ObjBuilder<T> Construct<T>(this ObjBuilder<ClassDef<T>> b, params IVariable[] args)
         {
-            return new ObjBuilder<T>(b.syntaxBuilder.New<T>((b as IObjBuilder).GetVariable(), args))
-            {
-                syntaxBuilder = b.syntaxBuilder
-            };
+            return new ObjBuilder<T>((b as ISyntaxBuilder).ModuleBuilder, b.Construct<T>(b, args));
         }
     }
 }

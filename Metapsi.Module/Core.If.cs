@@ -20,13 +20,13 @@ namespace Metapsi.Syntax
             Var<bool> check,
             Func<TSyntaxBuilder, Var<TResult>> ifTrue,
             Func<TSyntaxBuilder, Var<TResult>> ifFalse)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var ifFn = ImportFn(b, "mIf");
 
             var assignmentNode = new AssignmentNode()
             {
-                Name = b.NewVarName(),
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
                 Node = new SyntaxNode()
                 {
                     Call = new CallNode()
@@ -50,7 +50,7 @@ namespace Metapsi.Syntax
 
             assignmentNode.AddDebugType(typeof(TResult));
 
-            b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<TResult>(assignmentNode.Name) { AssignmentNode = assignmentNode };
         }
 
@@ -67,7 +67,7 @@ namespace Metapsi.Syntax
             Var<bool> check,
             Action<TSyntaxBuilder> ifTrue,
             Action<TSyntaxBuilder> ifFalse)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var ifFn = ImportFn(b, "mIf");
 
@@ -88,7 +88,7 @@ namespace Metapsi.Syntax
                 },
             };
 
-            b.nodes.Add(new SyntaxNode() { Call = ifStatmentNode });
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Call = ifStatmentNode });
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Metapsi.Syntax
             this TSyntaxBuilder b,
             Var<bool> check,
             Action<TSyntaxBuilder> ifTrue)
-            where TSyntaxBuilder : SyntaxBuilder
+            where TSyntaxBuilder : ISyntaxBuilder
         {
             var ifFn = ImportFn(b, "mIf");
 
@@ -122,7 +122,7 @@ namespace Metapsi.Syntax
                 }
             };
 
-            b.nodes.Add(new SyntaxNode() { Call = ifStatementNode });
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Call = ifStatementNode });
         }
 
         /// <summary>

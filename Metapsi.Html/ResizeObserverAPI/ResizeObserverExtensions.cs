@@ -32,7 +32,7 @@ public static class ResizeObserverExtensions
         this ObjBuilder<ClassDef<ResizeObserver>> b,
         Var<System.Action<List<ResizeObserverEntry>>> callback)
     {
-        return b.New<ResizeObserver>(callback);
+        return b.Construct(callback);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public static class ResizeObserverExtensions
         this ObjBuilder<ClassDef<ResizeObserver>> b,
         Var<System.Action<List<ResizeObserverEntry>, ResizeObserver>> callback)
     {
-        return b.New<ResizeObserver>(callback);
+        return b.Construct(callback);
     }
 
     /// <summary>

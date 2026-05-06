@@ -101,7 +101,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static Var<Init> MakeInit<TState>(this SyntaxBuilder b, Var<TState> state)
+        public static Var<Init> MakeInit<TState>(this ISyntaxBuilder b, Var<TState> state)
         {
             return state.As<Init>();
         }
@@ -112,7 +112,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="stateWithEffects"></param>
         /// <returns></returns>
-        public static Var<Init> MakeInit(this SyntaxBuilder b, Var<StateWithEffects> stateWithEffects)
+        public static Var<Init> MakeInit(this ISyntaxBuilder b, Var<StateWithEffects> stateWithEffects)
         {
             return stateWithEffects.As<Init>();
         }
@@ -124,7 +124,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static Var<Init> MakeInit<TState>(this SyntaxBuilder b, Var<HyperType.Action<TState>> action)
+        public static Var<Init> MakeInit<TState>(this ISyntaxBuilder b, Var<HyperType.Action<TState>> action)
         {
             return action.As<Init>();
         }
@@ -137,7 +137,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static Var<Init> MakeInit<TState, TPayload>(this SyntaxBuilder b, Var<HyperType.Action<TState, TPayload>> action)
+        public static Var<Init> MakeInit<TState, TPayload>(this ISyntaxBuilder b, Var<HyperType.Action<TState, TPayload>> action)
         {
             return action.As<Init>();
         }
@@ -153,7 +153,7 @@ namespace Metapsi.Hyperapp
         /// <param name="props"></param>
         /// <returns>The subscription</returns>
         public static Var<HyperType.Subscription> MakeSubscription<TProps>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<System.Func<HyperType.Dispatcher, TProps, System.Action>> subscriberFn,
             Var<TProps> props)
         {
@@ -174,7 +174,7 @@ namespace Metapsi.Hyperapp
         /// <param name="props"></param>
         /// <returns>The subscription</returns>
         public static Var<HyperType.Subscription> MakeSubscription<TProps>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TProps>, Var<System.Action>> subscriberFn,
             Var<TProps> props)
         {
@@ -196,7 +196,7 @@ namespace Metapsi.Hyperapp
         /// <param name="props"></param>
         /// <returns></returns>
         public static Var<HyperType.Subscription> MakeSubscription<TProps>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TProps>, Var<System.Action>> subscriberFn,
             TProps props)
         {
@@ -217,7 +217,7 @@ namespace Metapsi.Hyperapp
         /// <param name="subscriberFn"></param>
         /// <returns>The subscription</returns>
         public static Var<HyperType.Subscription> MakeSubscription(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<System.Func<HyperType.Dispatcher, System.Action>> subscriberFn)
         {
             Var<List<object>> subscription = b.NewCollection<object>();
@@ -233,7 +233,7 @@ namespace Metapsi.Hyperapp
         /// <param name="subscriberFn"></param>
         /// <returns>The subscription</returns>
         public static Var<HyperType.Subscription> MakeSubscription(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             System.Func<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<System.Action>> subscriberFn)
         {
             if (subscriberFn.Target != null)
@@ -249,7 +249,7 @@ namespace Metapsi.Hyperapp
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Var<HyperType.Subscription> NoSubscription(this SyntaxBuilder b)
+        public static Var<HyperType.Subscription> NoSubscription(this ISyntaxBuilder b)
         {
             return b.Const(false).As<HyperType.Subscription>();
         }
@@ -315,7 +315,7 @@ namespace Metapsi.Hyperapp
         /// <param name="state"></param>
         /// <param name="effects"></param>
         /// <returns></returns>
-        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this SyntaxBuilder b, Var<TState> state, Var<List<HyperType.Effect>> effects)
+        public static Var<HyperType.StateWithEffects> MakeStateWithEffects<TState>(this ISyntaxBuilder b, Var<TState> state, Var<List<HyperType.Effect>> effects)
         {
             var output = b.NewCollection<object>();
             b.Push(output, state.As<object>());
@@ -343,7 +343,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState>> MakeAction<TState>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TState>> func)
+        public static Var<HyperType.Action<TState>> MakeAction<TState>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TState>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState>>();
@@ -357,7 +357,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState, TPayload>> MakeAction<TState, TPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> func)
+        public static Var<HyperType.Action<TState, TPayload>> MakeAction<TState, TPayload>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState, TPayload>>();
@@ -370,7 +370,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState>> MakeAction<TState>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<StateWithEffects>> func)
+        public static Var<HyperType.Action<TState>> MakeAction<TState>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<StateWithEffects>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState>>();
@@ -384,7 +384,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState, TPayload>> MakeAction<TState, TPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<StateWithEffects>> func)
+        public static Var<HyperType.Action<TState, TPayload>> MakeAction<TState, TPayload>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<StateWithEffects>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState, TPayload>>();
@@ -397,7 +397,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState>> MakeAction<TState>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<HyperType.Action<TState>>> func)
+        public static Var<HyperType.Action<TState>> MakeAction<TState>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<HyperType.Action<TState>>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState>>();
@@ -411,7 +411,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState, TInPayload>> MakeAction<TState, TInPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TInPayload>, Var<HyperType.Action<TState>>> func)
+        public static Var<HyperType.Action<TState, TInPayload>> MakeAction<TState, TInPayload>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TInPayload>, Var<HyperType.Action<TState>>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState, TInPayload>>();
@@ -426,7 +426,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState, TInPayload>> MakeAction<TState, TInPayload, TOutPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TInPayload>, Var<HyperType.Action<TState, TOutPayload>>> func)
+        public static Var<HyperType.Action<TState, TInPayload>> MakeAction<TState, TInPayload, TOutPayload>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TInPayload>, Var<HyperType.Action<TState, TOutPayload>>> func)
         {
             var actionFunc = b.Def(func);
             return actionFunc.As<HyperType.Action<TState, TInPayload>>();
@@ -441,7 +441,7 @@ namespace Metapsi.Hyperapp
         /// <param name="action"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this SyntaxBuilder b, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
+        public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this ISyntaxBuilder b, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
         {
             var output = b.NewCollection<object>();
             b.Push(output, action.As<object>());
@@ -458,7 +458,7 @@ namespace Metapsi.Hyperapp
         /// <param name="action"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this SyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> action, Var<TPayload> payload)
+        public static Var<HyperType.Action<TState>> MakeActionDescriptor<TState, TPayload>(this ISyntaxBuilder b, Func<SyntaxBuilder, Var<TState>, Var<TPayload>, Var<TState>> action, Var<TPayload> payload)
         {
             var output = b.NewCollection<object>();
             b.Push(output, b.MakeAction(action).As<object>());
@@ -473,7 +473,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterAction"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect(
-            this SyntaxBuilder b, Var<System.Action> effecterAction)
+            this ISyntaxBuilder b, Var<System.Action> effecterAction)
         {
             return effecterAction.As<HyperType.Effect>();
         }
@@ -485,7 +485,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterAction"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect(
-            this SyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
+            this ISyntaxBuilder b, System.Action<SyntaxBuilder> effecterAction)
         {
             return b.MakeEffect(b.Def(effecterAction));
         }
@@ -497,7 +497,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterAction"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect(
-            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher>> effecterAction)
+            this ISyntaxBuilder b, Var<System.Action<HyperType.Dispatcher>> effecterAction)
         {
             return effecterAction.As<HyperType.Effect>();
         }
@@ -509,7 +509,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterAction"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect(
-            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher>> effecterAction)
+            this ISyntaxBuilder b, System.Action<SyntaxBuilder, Var<Dispatcher>> effecterAction)
         {
             return b.MakeEffect(b.Def(effecterAction));
         }
@@ -524,7 +524,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterProps"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect<TEffecterProps>(
-            this SyntaxBuilder b, Var<System.Action<HyperType.Dispatcher, TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
+            this ISyntaxBuilder b, Var<System.Action<HyperType.Dispatcher, TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
         {
             Var<List<object>> effectList = b.NewCollection<object>();
             b.Push(effectList, effecterFn.As<object>());
@@ -541,7 +541,7 @@ namespace Metapsi.Hyperapp
         /// <param name="effecterProps"></param>
         /// <returns></returns>
         public static Var<HyperType.Effect> MakeEffect<TEffecterProps>(
-            this SyntaxBuilder b, System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
+            this ISyntaxBuilder b, System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TEffecterProps>> effecterFn, Var<TEffecterProps> effecterProps)
         {
             return b.MakeEffect(b.Def(effecterFn), effecterProps);
         }
@@ -553,7 +553,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="dispatcher"></param>
         /// <param name="action"></param>
-        public static void Dispatch<TState>(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState>> action)
+        public static void Dispatch<TState>(this ISyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState>> action)
         {
             var callable = dispatcher.As<System.Action<HyperType.Action<TState>>>();
             b.Call(callable, action);
@@ -568,7 +568,7 @@ namespace Metapsi.Hyperapp
         /// <param name="dispatcher"></param>
         /// <param name="action"></param>
         /// <param name="payload"></param>
-        public static void Dispatch<TState, TPayload>(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
+        public static void Dispatch<TState, TPayload>(this ISyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.Action<TState, TPayload>> action, Var<TPayload> payload)
         {
             var callable = dispatcher.As<System.Action<HyperType.Action<TState, TPayload>, TPayload>>();
             b.Call(callable, action, payload);
@@ -580,7 +580,7 @@ namespace Metapsi.Hyperapp
         /// <param name="b"></param>
         /// <param name="dispatcher"></param>
         /// <param name="action"></param>
-        public static void Dispatch(this SyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.StateWithEffects> action)
+        public static void Dispatch(this ISyntaxBuilder b, Var<Dispatcher> dispatcher, Var<HyperType.StateWithEffects> action)
         {
             b.Dispatch(dispatcher, action.As<HyperType.Action<object>>());
         }

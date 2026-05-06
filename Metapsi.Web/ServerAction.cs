@@ -35,7 +35,7 @@ public static partial class ServerAction
     /// <param name="onError"></param>
     /// <returns></returns>
     public static Var<HyperType.Action<TModel>> CallServerAction<TModel>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<string> serverActionUrl,
         Func<TModel, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
@@ -79,7 +79,7 @@ public static partial class ServerAction
     /// <param name="onError"></param>
     /// <returns></returns>
     public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TArg>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<string> serverActionUrl,
         Var<TArg> argument,
         Func<TModel, TArg, Task<TModel>> action,
@@ -125,7 +125,7 @@ public static partial class ServerAction
     /// <param name="onError"></param>
     /// <returns></returns>
     public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TService>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<string> serverActionUrl,
         Func<TModel, TService, Task<TModel>> action,
         Var<HyperType.Action<TModel, TModel>> onSuccess = null,
@@ -171,7 +171,7 @@ public static partial class ServerAction
     /// <param name="onError"></param>
     /// <returns></returns>
     public static Var<HyperType.Action<TModel>> CallServerAction<TModel, TArg, TService>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<string> serverActionUrl,
         Var<TArg> argument,
         Func<TModel, TArg, TService, Task<TModel>> action,

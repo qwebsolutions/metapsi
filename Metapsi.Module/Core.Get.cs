@@ -13,7 +13,7 @@ namespace Metapsi.Syntax
         /// <param name="arguments"></param>
         /// <returns></returns>
         public static IVariable GetLax(
-            SyntaxBuilder b,
+            ISyntaxBuilder b,
             LambdaExpression expression,
             params IVariable[] arguments)
         {
@@ -21,7 +21,7 @@ namespace Metapsi.Syntax
             b.ImportDefault(resource, "Enumerable");
             var assignmentNode = new AssignmentNode()
             {
-                Name = b.NewVarName(),
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
                 Node = new SyntaxNode()
                 {
                     Call = new CallNode()
@@ -34,7 +34,7 @@ namespace Metapsi.Syntax
 
             assignmentNode.AddDebugType(expression.ReturnType);
 
-            b.nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
+            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<object>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
@@ -51,7 +51,7 @@ namespace Metapsi.Syntax
         /// <param name="expression"></param>
         /// <returns></returns>
         public static Var<TResult> Get<TInput, TResult>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<TInput> input,
             Expression<Func<TInput, TResult>> expression)
         {
@@ -70,7 +70,7 @@ namespace Metapsi.Syntax
         /// <param name="expression"></param>
         /// <returns></returns>
         public static Var<TResult> Get<TInput1, TInput2, TResult>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<TInput1> input1,
             Var<TInput2> input2,
             Expression<Func<TInput1, TInput2, TResult>> expression)
@@ -92,7 +92,7 @@ namespace Metapsi.Syntax
         /// <param name="expression"></param>
         /// <returns></returns>
         public static Var<TResult> Get<TInput1, TInput2, TInput3, TResult>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<TInput1> input1,
             Var<TInput2> input2,
             Var<TInput3> input3,
@@ -117,7 +117,7 @@ namespace Metapsi.Syntax
         /// <param name="expression"></param>
         /// <returns></returns>
         public static Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TResult>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<TInput1> input1,
             Var<TInput2> input2,
             Var<TInput3> input3,
@@ -145,7 +145,7 @@ namespace Metapsi.Syntax
         /// <param name="expression"></param>
         /// <returns></returns>
         public static Var<TResult> Get<TInput1, TInput2, TInput3, TInput4, TInput5, TResult>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<TInput1> input1,
             Var<TInput2> input2,
             Var<TInput3> input3,

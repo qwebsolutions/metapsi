@@ -254,7 +254,7 @@ namespace Metapsi.Syntax
         {
             SyntaxBuilder b = new SyntaxBuilder(this);
             action(b);
-            this.Module.Nodes.AddRange(b.nodes);
+            this.Module.Nodes.AddRange((b as ISyntaxBuilder).Nodes);
         }
 
         public static Module New(Action<ModuleBuilder> build)

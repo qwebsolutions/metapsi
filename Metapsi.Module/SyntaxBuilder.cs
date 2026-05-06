@@ -1,85 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 
 namespace Metapsi.Syntax
 {
-    public class SyntaxBuilder
+    public interface ISyntaxBuilder
     {
-        internal ModuleBuilder moduleBuilder;
-        internal List<SyntaxNode> nodes { get; set; } = new List<SyntaxNode>();
+        ModuleBuilder ModuleBuilder { get; }
+        List<SyntaxNode> Nodes { get; }
+    }
 
-        internal SyntaxBuilder(ModuleBuilder moduleBuilder)
+    public class SyntaxBuilder : ISyntaxBuilder
+    {
+        private ModuleBuilder moduleBuilder;
+        private List<SyntaxNode> nodes { get; set; } = new List<SyntaxNode>();
+
+        ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
+
+        List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
+
+        public SyntaxBuilder(ModuleBuilder moduleBuilder)
         {
             this.moduleBuilder = moduleBuilder;
         }
 
-        public SyntaxBuilder(SyntaxBuilder parent)
-        {
-            this.moduleBuilder = parent.moduleBuilder;
-        }
 
-        public string NewVarName()
-        {
-            return this.moduleBuilder.NewName();
-        }
+    }
 
-        public HashSet<Metadata> Metadata()
-        {
-            return this.moduleBuilder.Module.Metadata;
-        }
-
-        public Var<T> ImportName<T>(string source, string importName)
-        {
-            this.moduleBuilder.Module.ImportName(source, importName);
-            return new Var<T>(importName);
-        }
-
-        public Var<T> ImportName<T>(ResourceMetadata source, string importName)
-        {
-            this.moduleBuilder.Module.ImportName(source, importName);
-            return new Var<T>(importName);
-        }
-
-        public void ImportDefault(string source, string asName)
-        {
-            this.moduleBuilder.Module.ImportDefault(source, asName);
-        }
-
-        public void ImportDefault(ResourceMetadata source, string asName)
-        {
-            this.moduleBuilder.Module.ImportDefault(source, asName);
-        }
-
-        public Var<T> ImportDefault<T>(string source, string asName)
-        {
-            ImportDefault(source, asName);
-            return new Var<T>(asName);
-        }
-
-        public void ImportSideEffect(string source)
-        {
-            this.moduleBuilder.Module.ImportSideEffect(source);
-        }
-
-        public void ImportSideEffect(ResourceMetadata source)
-        {
-            this.moduleBuilder.Module.ImportSideEffect(source);
-        }
-
-        public void DebugComment(string comment)
-        {
-#if DEBUG
-            Comment(comment);
-#endif
-        }
-
-        public void Comment(string comment)
-        {
-            this.nodes.Add(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
-        }
-
+    public static class SyntaxBuilderExtensions
+    {
 
         /// <summary>
         /// Add or reuse a module-wide constant
@@ -88,11 +39,11 @@ namespace Metapsi.Syntax
         /// <param name="constant"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public Var<T> Const<T>(T constant)
+        public static Var<T> Const<T>(this ISyntaxBuilder b, T constant)
         {
             if (constant is IVariable)
                 throw new ArgumentException("Constant is not a server-side value");
-            return moduleBuilder.Const(constant);
+            return b.ModuleBuilder.Const(constant);
         }
 
         /// <summary>
@@ -102,11 +53,16 @@ namespace Metapsi.Syntax
         /// <param name="constant"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Var<T> Const<T>(T constant, string name)
+        public static Var<T> Const<T>(this ISyntaxBuilder b, T constant, string name)
         {
-            var outConst = Const(constant);
+            var outConst = b.Const(constant);
             outConst.Name = name;
             return outConst;
+        }
+
+        public static Var<T> As<T>(this IVariable variable)
+        {
+            return new Var<T>(variable.Name);
         }
 
         /// <summary>
@@ -114,11 +70,11 @@ namespace Metapsi.Syntax
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Var<T> NewObj<T>(T obj)
+        public static Var<T> NewObj<T>(this ISyntaxBuilder b, T obj)
         {
             var assignmentNode = new AssignmentNode()
             {
-                Name = moduleBuilder.NewName(),
+                Name = b.ModuleBuilder.NewName(),
                 Node = new SyntaxNode()
                 {
                     Literal = new LiteralNode()
@@ -128,18 +84,105 @@ namespace Metapsi.Syntax
                 }
             };
             assignmentNode.AddDebugType(typeof(T));
-            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
+            b.Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
             };
         }
 
-        public Var<T> CallDynamic<T>(Var<Delegate> f, params IVariable[] arguments)
+        /// <summary>
+        /// Creates a new empty object
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<object> NewObj(this ISyntaxBuilder b)
+        {
+            return b.NewObj<object>();
+        }
+
+        /// <summary>
+        /// Creates a new object of type T, using the server-side initializer of properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Var<T> NewObj<T>(this ISyntaxBuilder b) where T : new()
+        {
+            return b.NewObj(new T());
+        }
+
+        /// <summary>
+        /// Creates an empty collection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <remarks>To initialize a collection based on </remarks>
+        public static Var<List<T>> NewCollection<T>(this ISyntaxBuilder b)
+        {
+            return b.NewObj<List<T>>();
+        }
+
+        public static HashSet<Metadata> Metadata(this ISyntaxBuilder b)
+        {
+            return b.ModuleBuilder.Module.Metadata;
+        }
+
+        public static Var<T> ImportName<T>(this ISyntaxBuilder b, string source, string importName)
+        {
+            b.ModuleBuilder.Module.ImportName(source, importName);
+            return new Var<T>(importName);
+        }
+
+        public static Var<T> ImportName<T>(this ISyntaxBuilder b, ResourceMetadata source, string importName)
+        {
+            b.ModuleBuilder.Module.ImportName(source, importName);
+            return new Var<T>(importName);
+        }
+
+        public static void ImportDefault(this ISyntaxBuilder b, string source, string asName)
+        {
+            b.ModuleBuilder.Module.ImportDefault(source, asName);
+        }
+
+        public static void ImportDefault(this ISyntaxBuilder b, ResourceMetadata source, string asName)
+        {
+            b.ModuleBuilder.Module.ImportDefault(source, asName);
+        }
+
+        public static Var<T> ImportDefault<T>(this ISyntaxBuilder b, string source, string asName)
+        {
+            ImportDefault(b, source, asName);
+            return new Var<T>(asName);
+        }
+
+        public static void ImportSideEffect(this ISyntaxBuilder b, string source)
+        {
+            b.ModuleBuilder.Module.ImportSideEffect(source);
+        }
+
+        public static void ImportSideEffect(this ISyntaxBuilder b, ResourceMetadata source)
+        {
+            b.ModuleBuilder.Module.ImportSideEffect(source);
+        }
+
+        public static void DebugComment(this ISyntaxBuilder b, string comment)
+        {
+#if DEBUG
+            Comment(b, comment);
+#endif
+        }
+
+        public static void Comment(this ISyntaxBuilder b, string comment)
+        {
+            b.Nodes.Add(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
+        }
+
+
+        public static Var<T> CallDynamic<T>(this ISyntaxBuilder b, Var<Delegate> f, params IVariable[] arguments)
         {
             var assignmentNode = new AssignmentNode()
             {
-                Name = moduleBuilder.NewName(),
+                Name = b.ModuleBuilder.NewName(),
                 Node = new SyntaxNode()
                 {
                     Call = new CallNode()
@@ -152,21 +195,21 @@ namespace Metapsi.Syntax
                             }
                         },
                         //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
-                        Arguments = ArgumentsToSyntaxNodes(arguments)
+                        Arguments = ArgumentsToSyntaxNodes(b, arguments)
                     }
                 }
             };
 
             assignmentNode.AddDebugType(typeof(T));
 
-            nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
+            b.Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             return new Var<T>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
             };
         }
 
-        public void CallDynamic(Var<Delegate> f, params IVariable[] arguments)
+        public static void CallDynamic(this ISyntaxBuilder b, Var<Delegate> f, params IVariable[] arguments)
         {
             var callNode = new CallNode()
             {
@@ -178,18 +221,18 @@ namespace Metapsi.Syntax
                     }
                 },
                 //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
-                Arguments = ArgumentsToSyntaxNodes(arguments)
+                Arguments = ArgumentsToSyntaxNodes(b, arguments)
             };
 
-            nodes.Add(new SyntaxNode() { Call = callNode });
+            b.Nodes.Add(new SyntaxNode() { Call = callNode });
         }
 
-        private List<SyntaxNode> ArgumentsToSyntaxNodes(IEnumerable<IVariable> arguments)
+        private static List<SyntaxNode> ArgumentsToSyntaxNodes(this ISyntaxBuilder b, IEnumerable<IVariable> arguments)
         {
             List<SyntaxNode> syntaxArguments = new List<SyntaxNode>();
             foreach (var argument in arguments)
             {
-                var constLiteralNode = this.moduleBuilder.GetConstLiteralNode(argument);
+                var constLiteralNode = b.ModuleBuilder.GetConstLiteralNode(argument);
                 if (constLiteralNode != null)
                 {
                     syntaxArguments.Add(constLiteralNode);
@@ -201,45 +244,6 @@ namespace Metapsi.Syntax
             }
 
             return syntaxArguments;
-        }
-    }
-
-    public static class SyntaxBuilderExtensions
-    {
-        public static Var<T> As<T>(this IVariable variable)
-        {
-            return new Var<T>(variable.Name);
-        }
-
-        /// <summary>
-        /// Creates a new empty object
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static Var<object> NewObj(this SyntaxBuilder b)
-        {
-            return b.NewObj<object>();
-        }
-
-        /// <summary>
-        /// Creates a new object of type T, using the server-side initializer of properties
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static Var<T> NewObj<T>(this SyntaxBuilder b) where T : new()
-        {
-            return b.NewObj(new T());
-        }
-
-        /// <summary>
-        /// Creates an empty collection
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <remarks>To initialize a collection based on </remarks>
-        public static Var<List<T>> NewCollection<T>(this SyntaxBuilder b)
-        {
-            return b.NewObj<List<T>>();
         }
     }
 }

@@ -122,7 +122,7 @@ namespace Metapsi.Html
         /// <param name="b"></param>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public static IVariable Throw(this SyntaxBuilder b, Var<string> errorMessage)
+        public static IVariable Throw(this ISyntaxBuilder b, Var<string> errorMessage)
         {
             return b.CallCoreFunction<IVariable>(nameof(Throw), errorMessage);
         }
@@ -132,28 +132,28 @@ namespace Metapsi.Html
             return b.GetProperty<Window>(b.Self(), "window");
         }
 
-        /// <summary>
-        /// Uses the 'new' keyword to create an object based on constructor of type 'T'
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="b"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
-        {
-            var typeName = typeof(T).CSharpTypeName();
+        ///// <summary>
+        ///// Uses the 'new' keyword to create an object based on constructor of type 'T'
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="b"></param>
+        ///// <param name="args"></param>
+        ///// <returns></returns>
+        //[Obsolete]
+        //public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
+        //{
+        //    var typeName = typeof(T).CSharpTypeName();
 
-            // Might be nested, like Intl.DateTimeFormat
-            Var<object> current = b.Self();
-            // is nested
-            foreach (var type in typeName.Split('.'))
-            {
-                current = b.GetProperty<object>(current, type);
-            }
+        //    // Might be nested, like Intl.DateTimeFormat
+        //    Var<object> current = b.Self();
+        //    // is nested
+        //    foreach (var type in typeName.Split('.'))
+        //    {
+        //        current = b.GetProperty<object>(current, type);
+        //    }
 
-            return b.New<T>(current, args);
-        }
+        //    return b.New<T>(current, args);
+        //}
 
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)
         {

@@ -19,36 +19,14 @@ namespace Metapsi.Syntax
         /// </summary>
         /// <param name="b"></param>
         /// <param name="set"></param>
-        public static void AddMetadata(this SyntaxBuilder b, Metadata metadata)
+        public static void AddMetadata(this ISyntaxBuilder b, Metadata metadata)
         {
-            b.moduleBuilder.AddMetadata(metadata);
+            (b as ISyntaxBuilder).ModuleBuilder.AddMetadata(metadata);
         }
 
-        //public static void AddEmbeddedResourceMetadata(
-        //    HashSet<Metadata> metadata,
-        //    ResourceMetadata resourceMetadata)
-        //{
-        //    metadata.Add(new Metadata()
-        //    {
-        //        Type = "embedded-resource",
-        //        Value = Metapsi.Serialize.ToJson(resourceMetadata)
-        //    });
-
-        //    metadata.Add(new Metadata()
-        //    {
-        //        Type = "embedded-resource-name",
-        //        Value = resourceMetadata.RelativePath
-        //    });
-        //}
-
-        //public static List<ResourceMetadata> GetEmbeddedResourcesMetadata(this HashSet<Metadata> metadata)
-        //{
-        //    return metadata.Where(x => x.Type == "embedded-file").Select(x => Metapsi.Serialize.FromJson<ResourceMetadata>(x.Value)).ToList();
-        //}
-
-        public static ResourceMetadata AddEmbeddedResourceMetadata(this SyntaxBuilder b, Assembly assembly, string logicalName)
+        public static ResourceMetadata AddEmbeddedResourceMetadata(this ISyntaxBuilder b, Assembly assembly, string logicalName)
         {
-            return b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(assembly, logicalName);
+            return (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(assembly, logicalName);
         }
 
         /// <summary>

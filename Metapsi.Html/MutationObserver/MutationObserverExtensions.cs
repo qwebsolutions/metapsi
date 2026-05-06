@@ -32,7 +32,7 @@ public static class MutationObserverExtensions
         this ObjBuilder<ClassDef<MutationObserver>> b,
         Var<System.Action<List<MutationRecord>, MutationObserver>> callback)
     {
-        return b.New<MutationObserver>(callback);
+        return b.Construct<MutationObserver>(callback);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public static class MutationObserverExtensions
         this ObjBuilder<ClassDef<MutationObserver>> b,
         Var<System.Action<List<MutationRecord>>> callback)
     {
-        return b.New<MutationObserver>(callback);
+        return b.Construct<MutationObserver>(callback);
     }
 
     /// <summary>

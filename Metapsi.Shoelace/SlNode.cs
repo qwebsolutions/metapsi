@@ -173,7 +173,7 @@ public static partial class SlNodeExtensions
             });
     }
 
-    internal static Var<HyperType.Action<TState, Html.Event>> AwaitUpdateCompleteAction<TState>(SyntaxBuilder b, Var<HyperType.Action<TState, Html.Event>> action)
+    internal static Var<HyperType.Action<TState, Html.Event>> AwaitUpdateCompleteAction<TState>(ISyntaxBuilder b, Var<HyperType.Action<TState, Html.Event>> action)
     {
         return b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<Html.Event> e) =>
         {

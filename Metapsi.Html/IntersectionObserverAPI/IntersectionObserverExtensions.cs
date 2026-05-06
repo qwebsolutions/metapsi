@@ -35,7 +35,7 @@ public static class IntersectionObserverExtensions
         this ObjBuilder<ClassDef<IntersectionObserver>> b,
         Var<Action<List<IntersectionObserverEntry>>> callback)
     {
-        return b.New<IntersectionObserver>(callback);
+        return b.Construct<IntersectionObserver>(callback);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public static class IntersectionObserverExtensions
         Var<Action<List<IntersectionObserverEntry>, IntersectionObserver>> callback,
         Var<IntersectionObserverOptions> options)
     {
-        return b.New<IntersectionObserver>(callback, options);
+        return b.Construct<IntersectionObserver>(callback, options);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public static class IntersectionObserverExtensions
         Var<Action<List<IntersectionObserverEntry>>> callback,
         Var<IntersectionObserverOptions> options)
     {
-        return b.New<IntersectionObserver>(callback, options);
+        return b.Construct<IntersectionObserver>(callback, options);
     }
 
     /// <summary>

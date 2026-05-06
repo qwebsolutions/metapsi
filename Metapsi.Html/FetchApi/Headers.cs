@@ -32,7 +32,7 @@ public static class HeadersExtensions
     /// <returns></returns>
     public static Var<Headers> NewHeaders(this SyntaxBuilder b, Action<PropsBuilder<HeadersInit>> setHeaders)
     {
-        return b.New<Headers>(b.SetProps(b.NewObj<object>(), setHeaders));
+        return b.Construct<Headers>(b.GetClass<Headers>(), b.SetProps(b.NewObj<object>(), setHeaders));
     }
 
     /// <summary>

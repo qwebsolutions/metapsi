@@ -158,7 +158,7 @@ public static partial class HyperappExtensions
     }
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<List<Func<TModel, HyperType.Subscription>>> subscriptions)
     {
         return b.Def((SyntaxBuilder b, Var<TModel> model) =>
@@ -173,14 +173,14 @@ public static partial class HyperappExtensions
     }
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         List<Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>> subscriptions)
     {
         return b.MakeSubscriptions(b.List(subscriptions.Select(x => b.Def(x))));
     }
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
     {
         return b.MakeSubscriptions(subscriptions.ToList());

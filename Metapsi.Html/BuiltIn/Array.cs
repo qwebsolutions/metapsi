@@ -39,7 +39,7 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static ObjBuilder<Array> New(this ObjBuilder<ClassDef<Array>> b)
     {
-        return b.New<Array>();
+        return b.Construct<Array>();
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static partial class ArrayExtensions
         this ObjBuilder<ClassDef<Array>> b,
         params IVariable[] elements)
     {
-        return b.New<Array>(elements);
+        return b.Construct<Array>(elements);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public static partial class ArrayExtensions
         this ObjBuilder<ClassDef<Array>> b,
         Var<int> arrayLength)
     {
-        return b.New<Array>(arrayLength);
+        return b.Construct<Array>(arrayLength);
     }
 
     /// <summary>

@@ -7,23 +7,23 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
-        private static Var<T> ImportCore<T>(SyntaxBuilder b, string symbol)
+        private static Var<T> ImportCore<T>(ISyntaxBuilder b, string symbol)
         {
-            var metapsiCore = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
+            var metapsiCore = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
             return b.ImportName<T>(metapsiCore, symbol);
         }
 
-        private static Var<Delegate> ImportFn(SyntaxBuilder b, string symbol)
+        private static Var<Delegate> ImportFn(ISyntaxBuilder b, string symbol)
         {
             return ImportCore<Delegate>(b, symbol);
         }
 
-        private static Var<T> CallCore<T>(this SyntaxBuilder b, string symbol, params IVariable[] args)
+        private static Var<T> CallCore<T>(this ISyntaxBuilder b, string symbol, params IVariable[] args)
         {
             return b.CallDynamic<T>(ImportFn(b, symbol), args);
         }
 
-        private static void CallCore(this SyntaxBuilder b, string symbol, params IVariable[] args)
+        private static void CallCore(this ISyntaxBuilder b, string symbol, params IVariable[] args)
         {
             b.CallDynamic(ImportFn(b, symbol), args);
         }
@@ -40,13 +40,13 @@ namespace Metapsi.Syntax
             return b.CallDynamic<T>(ImportFn(b, symbol), args);
         }
 
-        public static Var<T> GetProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
+        public static Var<T> GetProperty<T>(this ISyntaxBuilder b, IVariable from, Var<string> propertyName)
         {
             var import = ImportCore<Delegate>(b, "GetProperty");
             return b.CallDynamic<T>(import, from, propertyName);
         }
 
-        public static Var<T> GetProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
+        public static Var<T> GetProperty<T>(this ISyntaxBuilder b, IVariable from, string propertyName)
         {
             return b.GetProperty<T>(from, b.Const(propertyName));
         }
@@ -71,7 +71,7 @@ namespace Metapsi.Syntax
         //    return b.GetOrCreateProperty<T>(from, b.Const(propertyName));
         //}
 
-        public static Var<TResult> CallOnObject<TResult>(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
+        public static Var<TResult> CallOnObject<TResult>(this ISyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             var callOnObject = ImportCore<Delegate>(b, "CallOnObject");
             List<IVariable> allParams = new List<IVariable>();
@@ -81,24 +81,24 @@ namespace Metapsi.Syntax
             return b.CallDynamic<TResult>(callOnObject, allParams.ToArray());
         }
 
-        public static void CallOnObject(this SyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
+        public static void CallOnObject(this ISyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             // would return undefined, just ignore the result
             CallOnObject<object>(b, @object, function, parameters);
         }
 
-        public static Var<string> TypeOf(this SyntaxBuilder b, IVariable @object)
+        public static Var<string> TypeOf(this ISyntaxBuilder b, IVariable @object)
         {
             return b.CallDynamic<string>(ImportCore<Delegate>(b, "TypeOf"), @object);
         }
 
-        public static Var<bool> AreEqual<T>(this SyntaxBuilder b, Var<T> v1, Var<T> v2)
+        public static Var<bool> AreEqual<T>(this ISyntaxBuilder b, Var<T> v1, Var<T> v2)
         {
             var areEqual = ImportCore<Delegate>(b, "AreEqual");
             return b.CallDynamic<bool>(areEqual, v1, v2);
         }
 
-        public static Var<string> AsString(this SyntaxBuilder b, IVariable o)
+        public static Var<string> AsString(this ISyntaxBuilder b, IVariable o)
         {
             return b.CallDynamic<string>(ImportFn(b, "AsString"), o);
         }
@@ -133,7 +133,7 @@ namespace Metapsi.Syntax
             return b.CallCore<string>(nameof(Trim), s);
         }
 
-        public static Var<List<T>> List<T>(this SyntaxBuilder b, IEnumerable<Var<T>> items)
+        public static Var<List<T>> List<T>(this ISyntaxBuilder b, IEnumerable<Var<T>> items)
         {
             var outList = b.NewCollection<T>();
 
@@ -145,17 +145,17 @@ namespace Metapsi.Syntax
             return outList;
         }
 
-        public static void Push<T>(this SyntaxBuilder b, Var<List<T>> onCollection, Var<T> item)
+        public static void Push<T>(this ISyntaxBuilder b, Var<List<T>> onCollection, Var<T> item)
         {
             b.CallCore(nameof(Push), onCollection, item);
         }
 
-        public static void PushRange<T>(this SyntaxBuilder b, Var<List<T>> onCollection, Var<List<T>> newItems)
+        public static void PushRange<T>(this ISyntaxBuilder b, Var<List<T>> onCollection, Var<List<T>> newItems)
         {
             b.Foreach(newItems, (b, item) => b.Push(onCollection, item));
         }
 
-        public static void Clear<T>(this SyntaxBuilder b, Var<List<T>> collection)
+        public static void Clear<T>(this ISyntaxBuilder b, Var<List<T>> collection)
         {
             b.CallDynamic(ImportFn(b, nameof(Clear)), collection);
         }
@@ -165,47 +165,47 @@ namespace Metapsi.Syntax
             return b.CallDynamic<int>(ImportFn(b, nameof(IndexOf)), collection, item);
         }
 
-        public static void Remove<T>(this SyntaxBuilder b, Var<List<T>> fromCollection, Var<T> item)
+        public static void Remove<T>(this ISyntaxBuilder b, Var<List<T>> fromCollection, Var<T> item)
         {
             b.CallDynamic<int>(ImportFn(b, nameof(Remove)), fromCollection, item);
         }
 
-        public static Var<bool> Not(this SyntaxBuilder b, Var<bool> v)
+        public static Var<bool> Not(this ISyntaxBuilder b, Var<bool> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(Not)), v);
         }
 
-        public static Var<bool> And(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
+        public static Var<bool> And(this ISyntaxBuilder b, Var<bool> l, Var<bool> r)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(And)), l, r);
         }
 
-        public static Var<bool> Or(this SyntaxBuilder b, Var<bool> l, Var<bool> r)
+        public static Var<bool> Or(this ISyntaxBuilder b, Var<bool> l, Var<bool> r)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(Or)), l, r);
         }
 
-        public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<string> v)
+        public static Var<bool> IsEmpty(this ISyntaxBuilder b, Var<string> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, "IsEmptyString"), v);
         }
 
-        public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<object> v)
+        public static Var<bool> IsEmpty(this ISyntaxBuilder b, Var<object> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, "IsEmptyObject"), v);
         }
 
-        public static Var<bool> IsEmpty(this SyntaxBuilder b, Var<Guid> v)
+        public static Var<bool> IsEmpty(this ISyntaxBuilder b, Var<Guid> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, "IsEmptyGuid"), v);
         }
 
-        public static Var<bool> IsNull(this SyntaxBuilder b, IVariable v)
+        public static Var<bool> IsNull(this ISyntaxBuilder b, IVariable v)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(IsNull)), v);
         }
 
-        public static Var<bool> HasValue(this SyntaxBuilder b, Var<string> v)
+        public static Var<bool> HasValue(this ISyntaxBuilder b, Var<string> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(HasValue)), v);
         }
@@ -215,7 +215,7 @@ namespace Metapsi.Syntax
             return b.CallDynamic<bool>(ImportFn(b, nameof(HasId)), v);
         }
 
-        public static Var<bool> HasObject<T>(this SyntaxBuilder b, Var<T> v)
+        public static Var<bool> HasObject<T>(this ISyntaxBuilder b, Var<T> v)
         {
             return b.CallDynamic<bool>(ImportFn(b, nameof(HasObject)), v);
         }
@@ -227,14 +227,14 @@ namespace Metapsi.Syntax
 
         public static Var<Guid> NewId(this SyntaxBuilder b)
         {
-            var resource = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
+            var resource = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
             var newId = b.ImportName<Func<Guid>>(resource, "v4");
             return b.Call(newId);
         }
 
         public static Var<Guid> EmptyId(this SyntaxBuilder b)
         {
-            var resource = b.moduleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
+            var resource = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
             var emptyId = b.ImportName<Guid>(resource, "NIL");
             return emptyId;
         }
@@ -482,14 +482,14 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static Var<TOut> CallCoreFunction<TOut>(this SyntaxBuilder b, string function, params IVariable[] arguments)
+        public static Var<TOut> CallCoreFunction<TOut>(this ISyntaxBuilder b, string function, params IVariable[] arguments)
         {
             var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
             var fn = b.ImportName<Delegate>(resourceMetadata, function);
             return b.CallDynamic<TOut>(fn, arguments);
         }
 
-        public static Var<object> Self(this SyntaxBuilder b)
+        public static Var<object> Self(this ISyntaxBuilder b)
         {
             return b.CallCoreFunction<object>(nameof(Self));
         }
@@ -502,12 +502,45 @@ namespace Metapsi.Syntax
         /// <param name="constructor"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static Var<T> New<T>(this SyntaxBuilder b, IVariable constructor, params IVariable[] args)
+        public static Var<T> Construct<T>(this ISyntaxBuilder b, Var<ClassDef<T>> constructor, params IVariable[] args)
         {
             List<IVariable> withFunc = new List<IVariable>();
             withFunc.Add(constructor);
             withFunc.AddRange(args);
             return b.CallCoreFunction<T>("New", withFunc.ToArray());
+        }
+
+        /// <summary>
+        /// Returns a reference to the definition of a built-in JS class
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<ClassDef<T>> GetClass<T>(this ISyntaxBuilder b, Var<string> className)
+        {
+            return b.GetProperty<ClassDef<T>>(b.Self(), className);
+        }
+
+        /// <summary>
+        /// Returns a reference to the definition of a built-in JS class
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<ClassDef<T>> GetClass<T>(this ISyntaxBuilder b, string className)
+        {
+            return b.GetClass<T>(b.Const(className));
+        }
+
+        /// <summary>
+        /// Returns a reference to the definition of a built-in JS class having the same name as T class
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Var<ClassDef<T>> GetClass<T>(this ISyntaxBuilder b)
+        {
+            return b.GetClass<T>(b.Const(typeof(T).Name));
         }
 
         /// <summary>
@@ -532,12 +565,12 @@ namespace Metapsi.Syntax
             return outObject;
         }
 
-        public static Var<T> Deserialize<T>(this SyntaxBuilder b, Var<string> json)
+        public static Var<T> Deserialize<T>(this ISyntaxBuilder b, Var<string> json)
         {
             return b.CallDynamic<T>(ImportFn(b, nameof(Deserialize)), json);
         }
 
-        public static Var<string> Serialize<T>(this SyntaxBuilder b, Var<T> obj)
+        public static Var<string> Serialize<T>(this ISyntaxBuilder b, Var<T> obj)
         {
             return b.CallDynamic<string>(ImportFn(b, nameof(Serialize)), obj);
         }
@@ -582,23 +615,23 @@ namespace Metapsi.Syntax
         }
 
 
-        public static void Log(this SyntaxBuilder b, IVariable v)
+        public static void Log(this ISyntaxBuilder b, IVariable v)
         {
             b.CallDynamic(ImportFn(b, nameof(Log)), v);
         }
 
-        public static void Log(this SyntaxBuilder b, Var<string> tag, IVariable v)
+        public static void Log(this ISyntaxBuilder b, Var<string> tag, IVariable v)
         {
             b.Log(tag);
             b.Log(v);
         }
 
-        public static void Log(this SyntaxBuilder b, string tag, IVariable v)
+        public static void Log(this ISyntaxBuilder b, string tag, IVariable v)
         {
             b.Log(b.Const(tag), v);
         }
 
-        public static void Log(this SyntaxBuilder b, string tag)
+        public static void Log(this ISyntaxBuilder b, string tag)
         {
             b.Log(b.Const(tag));
         }

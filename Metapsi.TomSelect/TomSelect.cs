@@ -117,7 +117,7 @@ public static class Control
     }
 
     public static Var<List<TomSelectOption>> MapOptions<TItem, TId>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<List<TItem>> items,
         Var<System.Func<TItem, TId>> valueProp,
         Var<System.Func<TItem, string>> textProp)
@@ -138,7 +138,7 @@ public static class Control
     }
 
     public static Var<List<TomSelectOption>> MapOptions<TItem, TId>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<List<TItem>> items,
         System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
         System.Linq.Expressions.Expression<System.Func<TItem, string>> textProp)
@@ -150,7 +150,7 @@ public static class Control
     }
 
     public static Var<List<TomSelectOption>> MapOptions<TItem>(
-            this SyntaxBuilder b,
+            this ISyntaxBuilder b,
             Var<List<TItem>> items,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> valueProp,
             System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp)

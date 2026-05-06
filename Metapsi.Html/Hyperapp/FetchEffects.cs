@@ -14,7 +14,7 @@ public static class FetchEffects
     /// <typeparam name="TState"></typeparam>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static Var<HyperType.Action<TState, Html.Error>> AlertOnException<TState>(this SyntaxBuilder b)
+    public static Var<HyperType.Action<TState, Html.Error>> AlertOnException<TState>(this ISyntaxBuilder b)
     {
         return b.MakeAction((SyntaxBuilder b, Var<TState> model, Var<Html.Error> ex) =>
         {
@@ -87,7 +87,7 @@ public static class FetchEffects
     /// <param name="errorAction"></param>
     /// <returns></returns>
     public static Var<HyperType.Effect> GetJsonEffect<TModel, TOut>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<string> fromUrl,
         Var<HyperType.Action<TModel, TOut>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)

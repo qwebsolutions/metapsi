@@ -5,18 +5,18 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
-        public static void SetProperty(this SyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
+        public static void SetProperty(this ISyntaxBuilder b, IVariable into, Var<string> propertyName, IVariable value)
         {
             var import = ImportCore<Delegate>(b, "SetProperty");
             b.CallDynamic(import, into, propertyName, value);
         }
 
-        public static void SetProperty(this SyntaxBuilder b, IVariable into, string propertyName, IVariable value)
+        public static void SetProperty(this ISyntaxBuilder b, IVariable into, string propertyName, IVariable value)
         {
             b.SetProperty(into, b.Const(propertyName), value);
         }
 
-        public static void SetLax<TItem>(SyntaxBuilder b, Var<TItem> var, LambdaExpression access, IVariable value)
+        public static void SetLax<TItem>(ISyntaxBuilder b, Var<TItem> var, LambdaExpression access, IVariable value)
         {
             if (!(access.Body is MemberExpression))
             {
@@ -31,12 +31,12 @@ namespace Metapsi.Syntax
             b.SetProperty(var, b.Const(access.PropertyName()), value);
         }
 
-        public static void Set<TItem, TProp>(this SyntaxBuilder b, Var<TItem> var, Expression<Func<TItem, TProp>> access, Var<TProp> value)
+        public static void Set<TItem, TProp>(this ISyntaxBuilder b, Var<TItem> var, Expression<Func<TItem, TProp>> access, Var<TProp> value)
         {
             SetLax(b, var, access, value);
         }
 
-        public static void Set<TItem, TProp>(this SyntaxBuilder b, Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
+        public static void Set<TItem, TProp>(this ISyntaxBuilder b, Var<TItem> var, Expression<Func<TItem, TProp>> access, TProp value)
         {
             // Guard against 'double clienting'
             if (value is IVariable)
@@ -49,13 +49,13 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static void DeleteProperty(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
+        public static void DeleteProperty(this ISyntaxBuilder b, IVariable from, Var<string> propertyName)
         {
             var deleteProperty = ImportCore<Delegate>(b, "DeleteProperty");
             b.CallDynamic(deleteProperty, from, propertyName);
         }
 
-        public static void DeleteProperty<T, TProp>(this SyntaxBuilder b, Var<T> from, System.Linq.Expressions.Expression<Func<T, TProp>> property)
+        public static void DeleteProperty<T, TProp>(this ISyntaxBuilder b, Var<T> from, System.Linq.Expressions.Expression<Func<T, TProp>> property)
         {
             b.DeleteProperty(from, b.Const(property.PropertyName()));
         }

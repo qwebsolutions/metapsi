@@ -290,7 +290,7 @@ public static class StringExtensions
     /// <param name="b"></param>
     /// <param name="s"></param>
     /// <returns>A new string representing the calling string converted to lower case.</returns>
-    public static Var<string> StringToLowerCase(this SyntaxBuilder b, Var<string> s)
+    public static Var<string> StringToLowerCase(this ISyntaxBuilder b, Var<string> s)
     {
         return b.CallOnObject<string>(s, "toLowerCase");
     }

@@ -69,6 +69,8 @@ public static partial class Intl
 
     public static Var<Locale> NewIntlLocale(this SyntaxBuilder b, Var<string> tag, Var<LocaleOptions> options)
     {
-        return b.New<Locale>(tag, options);
+        var intl = b.GetClass<object>("Intl");
+        var locale = b.GetProperty<ClassDef<Locale>>(intl, "Locale");
+        return b.Construct<Locale>(locale, tag, options);
     }
 }

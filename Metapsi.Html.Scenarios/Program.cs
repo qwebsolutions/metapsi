@@ -1141,18 +1141,18 @@ public static class Program
             }));
     }
 
-    public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, Task<MarketData>> action)
+    public static Var<HyperType.Action<MarketData>> CallServerAction(this ISyntaxBuilder b, Func<MarketData, Task<MarketData>> action)
     {
         return b.CallServerAction(b.Const("/serverAction"), action);
     }
 
-    public static Var<HyperType.Action<MarketData>> CallServerAction(this SyntaxBuilder b, Func<MarketData, ITestService, Task<MarketData>> action)
+    public static Var<HyperType.Action<MarketData>> CallServerAction(this ISyntaxBuilder b, Func<MarketData, ITestService, Task<MarketData>> action)
     {
         return b.CallServerAction(b.Const("/serverAction"), action);
     }
 
     public static Var<HyperType.Action<MarketData>> CallServerAction<TArg>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<TArg> argument,
         Func<MarketData, TArg, ITestService, Task<MarketData>> action)
     {
@@ -1160,7 +1160,7 @@ public static class Program
     }
 
     public static Var<HyperType.Action<MarketData>> CallServerAction<TArg>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<TArg> argument,
         Func<MarketData, TArg, Task<MarketData>> action)
     {
@@ -1321,7 +1321,7 @@ public static class Program
                                 {
                                     b.AddStyle("width", "150px");
                                     b.OnClickAction(b.CallServerAction(
-                                        b.Get(company, x=>x.Ticker),
+                                        b.Get(company, x => x.Ticker),
                                         async (model, ticker) =>
                                         {
                                             Console.WriteLine(ticker);

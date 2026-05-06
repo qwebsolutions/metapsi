@@ -49,10 +49,10 @@ public interface PromiseResolvers
 /// </summary>
 public static class PromiseExtensions
 {
-    private static Var<object> StaticPromise(this SyntaxBuilder b)
-    {
-        return b.GetProperty<object>(b.Self(), "Promise");
-    }
+    //private static Var<ClassDef<Promise>> PromiseClass(this SyntaxBuilder b)
+    //{
+    //    return b.GetClass<Promise>();
+    //}
 
     /// <summary>
     /// The Promise() constructor creates Promise objects
@@ -62,7 +62,7 @@ public static class PromiseExtensions
     /// <returns>A promise object. The promise object will become resolved when either of the functions resolveFunc or rejectFunc are invoked.</returns>
     public static Var<Promise> NewPromise<TResolve, TReject>(this SyntaxBuilder b, Var<System.Action<System.Action<TResolve>, System.Action<TReject>>> executor)
     {
-        return b.New<Promise>(executor);
+        return b.Construct<Promise>(b.GetClass<Promise>(), executor);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "all", iterable);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "all", iterable);
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         params Var<Promise>[] iterable)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "all", b.List(iterable));
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "all", b.List(iterable));
     }
 
     /// <summary>
@@ -405,7 +405,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "allSettled", iterable);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "allSettled", iterable);
     }
 
     /// <summary>
@@ -422,7 +422,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "any", iterable);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "any", iterable);
     }
 
     /// <summary>
@@ -435,7 +435,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "race", iterable);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "race", iterable);
     }
 
     /// <summary>
@@ -448,7 +448,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<TReason> reason)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "reject", reason);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "reject", reason);
     }
 
     /// <summary>
@@ -462,7 +462,7 @@ public static class PromiseExtensions
         this SyntaxBuilder b,
         Var<TValue> value)
     {
-        return b.CallOnObject<Promise>(b.StaticPromise(), "resolve", value);
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "resolve", value);
     }
 
     /// <summary>
@@ -481,7 +481,7 @@ public static class PromiseExtensions
         List<IVariable> allArgs = new List<IVariable>();
         allArgs.Add(func);
         allArgs.AddRange(args);
-        return b.CallOnObject<Promise>(b.StaticPromise(), "try", allArgs.ToArray());
+        return b.CallOnObject<Promise>(b.GetClass<Promise>(), "try", allArgs.ToArray());
     }
 
     /// <summary>
@@ -496,7 +496,7 @@ public static class PromiseExtensions
     public static Var<PromiseResolvers> PromiseWithResolvers(
         this SyntaxBuilder b)
     {
-        return b.CallOnObject<PromiseResolvers>(b.StaticPromise(), "withResolvers");
+        return b.CallOnObject<PromiseResolvers>(b.GetClass<Promise>(), "withResolvers");
     }
 
     //[Obsolete]

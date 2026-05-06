@@ -178,7 +178,7 @@ public static partial class Control
     }
 
     public static Var<List<Choice>> MapChoices<TItem, TId>(
-        this SyntaxBuilder b,
+        this ISyntaxBuilder b,
         Var<List<TItem>> items,
         System.Linq.Expressions.Expression<System.Func<TItem, TId>> valueProp,
         System.Linq.Expressions.Expression<System.Func<TItem, string>> labelProp,

@@ -53,7 +53,7 @@ public static class CustomEventExtensions
         Var<string> type,
         System.Action<PropsBuilder<CustomEventOptions>> setOptions)
     {
-        return b.New<CustomEvent>(type, b.SetProps(b.NewObj<object>(), setOptions));
+        return b.Construct<CustomEvent>(b.GetClass<CustomEvent>(), type, b.SetProps(b.NewObj<object>(), setOptions));
     }
 
     /// <summary>
@@ -69,7 +69,8 @@ public static class CustomEventExtensions
         Var<string> type,
         Var<TDetail> detail)
     {
-        return b.New<CustomEvent>(
+        return b.Construct<CustomEvent>(
+            b.GetClass<CustomEvent>(),
             type,
             b.SetProps(
                 b.NewObj<object>(),
@@ -90,7 +91,8 @@ public static class CustomEventExtensions
         this SyntaxBuilder b,
         Var<TDetail> detail)
     {
-        return b.New<CustomEvent>(
+        return b.Construct<CustomEvent>(
+            b.GetClass<CustomEvent>(),
             b.Const(typeof(TDetail).Name),
             b.SetProps(
                 b.NewObj<object>(),
