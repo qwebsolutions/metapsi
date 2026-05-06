@@ -54,45 +54,23 @@ namespace Metapsi.Syntax
         {
             return this.Get<TOut>(property.PropertyName());
         }
-
-        //public Var<TConst> Const<TConst>(TConst c)
-        //{
-        //    //if anonymous (or always?), serialize also read-only properties
-
-        //    return syntaxBuilder.Const(c);
-        //}
-
-        //public Var<TObj> NewObj<TObj>(Action<PropsBuilder<TObj>> setProps)
-        //{
-        //    return syntaxBuilder.SetProps(syntaxBuilder.NewObj(), setProps);
-        //}
     }
 
     public static class ObjectBuilderExtensions
     {
-        //public static ObjBuilder<T> GetProperty<T>(this IObjBuilder b, Var<string> name)
-        //{
-        //    return new ObjBuilder<object>().Call b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
-        //}
-
-        //public static ObjBuilder<T> GetProperty<T>(this IObjBuilder b, string name)
-        //{
-        //    return b.GetSyntaxBuilder().GetProperty<T>(b.GetVariable(), name);
-        //}
-
-        public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, Var<TOut>> transform)
+        public static Var<TOut> On<TIn, TOut>(this ISyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, Var<TOut>> transform)
         {
             var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
             return result;
         }
 
-        public static Var<TOut> On<TIn, TOut>(this SyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, ObjBuilder<TOut>> transform)
+        public static Var<TOut> On<TIn, TOut>(this ISyntaxBuilder b, Var<TIn> input, Func<ObjBuilder<TIn>, ObjBuilder<TOut>> transform)
         {
             var result = transform(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
             return result;
         }
 
-        public static void On<TIn>(this SyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
+        public static void On<TIn>(this ISyntaxBuilder b, Var<TIn> input, Action<ObjBuilder<TIn>> call)
         {
             call(new ObjBuilder<TIn>((b as ISyntaxBuilder).ModuleBuilder, input));
         }

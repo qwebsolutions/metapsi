@@ -285,13 +285,13 @@ namespace Metapsi.Syntax
             return b.GetRef(r);
         }
 
-        public static Var<string> JoinStrings(this SyntaxBuilder b, Var<string> separator, Var<List<string>> values)
+        public static Var<string> JoinStrings(this ISyntaxBuilder b, Var<string> separator, Var<List<string>> values)
         {
             var checkedValues = b.Get(values, x => x.Where(x => x != null && x != "").ToList());
             return b.CallDynamic<string>(ImportFn(b, nameof(Concat)), b.Join(separator, checkedValues));
         }
 
-        public static Var<List<T>> Join<T>(this SyntaxBuilder b, Var<T> separator, Var<List<T>> items)
+        public static Var<List<T>> Join<T>(this ISyntaxBuilder b, Var<T> separator, Var<List<T>> items)
         {
             var outList = b.NewCollection<T>();
             b.Foreach(items, (b, item) =>
@@ -367,10 +367,10 @@ namespace Metapsi.Syntax
             return b.CallDynamic<string>(ImportFn(b, nameof(Slice)), inputString, start, end);
         }
 
-        public static Var<int> StringLength(this SyntaxBuilder b, Var<string> inputString)
-        {
-            return b.GetProperty<int>(inputString,"length");
-        }
+        //public static Var<int> StringLength(this SyntaxBuilder b, Var<string> inputString)
+        //{
+        //    return b.GetProperty<int>(inputString,"length");
+        //}
 
         public static Var<int> CollectionLength<T>(this SyntaxBuilder b, Var<List<T>> collection)
         {
