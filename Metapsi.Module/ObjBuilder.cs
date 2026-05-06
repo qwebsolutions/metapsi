@@ -29,6 +29,7 @@ namespace Metapsi.Syntax
         {
             this.moduleBuilder = moduleBuilder;
             this.nodes = new List<SyntaxNode>();
+            this.Name = var.Name;
         }
 
         ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
