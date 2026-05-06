@@ -95,5 +95,15 @@ namespace Metapsi.Syntax
             var objBuilder = new ObjBuilder<T>((b as ISyntaxBuilder).ModuleBuilder, onObject);
             return objBuilder;
         }
+
+        public static void Set<T, TItem>(this ObjBuilder<T> b, System.Linq.Expressions.Expression<Func<T, TItem>> expression, Var<TItem> item)
+        {
+            b.Set(b, expression, item);
+        }
+
+        public static void Set<T, TItem>(this ObjBuilder<T> b, System.Linq.Expressions.Expression<Func<T, TItem>> expression, TItem item)
+        {
+            b.Set(b, expression, item);
+        }
     }
 }
