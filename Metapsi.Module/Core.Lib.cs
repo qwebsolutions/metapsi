@@ -115,7 +115,7 @@ namespace Metapsi.Syntax
 
 
 
-        public static Var<string> Concat(this SyntaxBuilder b, Var<string> s1, Var<string> s2, params Var<string>[] other)
+        public static Var<string> Concat(this ISyntaxBuilder b, Var<string> s1, Var<string> s2, params Var<string>[] other)
         {
             var args = b.NewCollection<string>();
             b.Push(args, s1);
@@ -128,7 +128,7 @@ namespace Metapsi.Syntax
             return b.CallCore<string>(nameof(Concat), args);
         }
 
-        public static Var<string> Trim(this SyntaxBuilder b, Var<string> s)
+        public static Var<string> Trim(this ISyntaxBuilder b, Var<string> s)
         {
             return b.CallCore<string>(nameof(Trim), s);
         }
@@ -244,17 +244,17 @@ namespace Metapsi.Syntax
             return b.CallDynamic<Guid>(ImportFn(b, nameof(ParseId)), id);
         }
 
-        public static Var<int> ParseInt(this SyntaxBuilder b, Var<string> v)
+        public static Var<int> ParseInt(this ISyntaxBuilder b, Var<string> v)
         {
             return b.CallDynamic<int>(ImportFn(b, nameof(ParseInt)), v);
         }
 
-        public static Var<bool> ParseBool(this SyntaxBuilder b, Var<string> v)
+        public static Var<bool> ParseBool(this ISyntaxBuilder b, Var<string> v)
         {
             return b.AreEqual(v, b.Const("true"));
         }
 
-        public static Var<decimal> ParseDecimal(this SyntaxBuilder b, Var<string> v)
+        public static Var<decimal> ParseDecimal(this ISyntaxBuilder b, Var<string> v)
         {
             return b.CallDynamic<decimal>(ImportFn(b, nameof(ParseDecimal)), v);
         }
