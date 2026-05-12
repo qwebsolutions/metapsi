@@ -32,13 +32,22 @@ namespace Metapsi.Syntax
             this.Name = var.Name;
         }
 
+        public ObjBuilder(ModuleBuilder moduleBuilder, IVariable var, List<SyntaxNode> nodes)
+        {
+            this.moduleBuilder = moduleBuilder;
+            this.nodes = nodes;
+            this.Name = var.Name;
+        }
+
         ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
 
         List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
 
         public ObjBuilder<TOut> Call<TOut>(string methodName, params IVariable[] parameters)
         {
-            return new ObjBuilder<TOut>(this.moduleBuilder, this.CallOnObject<TOut>(this, methodName, parameters));
+            var result = this.CallOnObject<TOut>(this, methodName, parameters);
+            // It seems this MUST receive the nodes as parameters, because it chains the calls into the syntax block
+            return new ObjBuilder<TOut>(this.moduleBuilder, result, this.nodes);
         }
 
         public void Call(string methodName, params IVariable[] parameters)
