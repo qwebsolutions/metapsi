@@ -636,6 +636,22 @@ namespace Metapsi.Syntax
             b.Log(b.Const(tag));
         }
 
+        public static void LogDebug(this SyntaxBuilder b, string text)
+        {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                b.Log(text);
+            }
+        }
+
+        public static void LogDebug(this SyntaxBuilder b, string tag, IVariable content)
+        {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                b.Log(tag, content);
+            }
+        }
+
         public static Var<string> ToBase64<T>(this SyntaxBuilder b, Var<T> input)
         {
             return b.CallDynamic<string>(ImportFn(b, nameof(ToBase64)), input);
