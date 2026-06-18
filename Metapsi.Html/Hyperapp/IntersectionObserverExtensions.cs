@@ -294,7 +294,7 @@ public static class IntersectionObserverExtensions
     {
         var intersectionObserverState = b.NewObj<IntersectionObserverSubscriberState>();
 
-        b.RequestAnimationFrame(
+        b.RequestAnimationFrame(b => b.RequestAnimationFrame(
             b =>
             {
                 var container = b.Call(b.Get(options, x => x.GetContainer));
@@ -331,7 +331,7 @@ public static class IntersectionObserverExtensions
                     {
                         b.LogDebug("No observed container");
                     });
-            });
+            }));
 
         return b.Def((SyntaxBuilder b) =>
         {
