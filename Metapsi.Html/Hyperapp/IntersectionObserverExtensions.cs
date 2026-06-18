@@ -41,30 +41,15 @@ public class IntersectionObserverSubscriptionOptions<TItem>
 /// </summary>
 public class IntersectionObserverSubscriberOptions
 {
-    public Element Container { get; set; }
+    public Func<Element> GetContainer { get; set; }
     public System.Action<HyperType.Dispatcher, Element> OnVisible { get; set; }
-    public System.Func<object, Element> MapItemToElement { get; set; }
+    public System.Func<List<Element>> GetObservedElements { get; set; }
 }
 
 public static class IntersectionObserverExtensions
 {
     /// <summary>
-    /// scroll element -> IntersectionObserver
-    /// </summary>
-    internal static Reference<WeakMap> scrollContainerObservers { get; set; } = new Reference<WeakMap>();
-    /// <summary>
-    /// scroll element -> List Element 
-    /// </summary>
-    internal static Reference<WeakMap> scrollContainerObservedElements { get; set; } = new Reference<WeakMap>();
-
-    /// <summary>
-    /// scroll container - List of data objects
-    /// </summary>
-    internal static Reference<WeakMap> scrollContainerItemsToObserve { get; set; } = new Reference<WeakMap>();
-
-    /// <summary>
     /// Creates and returns an <see cref="IntersectionObserver"/> that triggers <paramref name="onVisible"/> on intersection.
-    /// The intersection observer is added to <see cref="scrollContainerObservers"/>.
     /// </summary>
     /// <param name="b"></param>
     /// <param name="scrollContainer"></param>
@@ -75,24 +60,6 @@ public static class IntersectionObserverExtensions
         Var<Element> scrollContainer,
         Var<System.Action<Element>> onVisible)
     {
-        var observersWeakMap =
-        b.If(
-            b.Not(
-                b.HasObject(b.GetRef(b.Const(scrollContainerObservers)))),
-            b =>
-            {
-                var observersWeakMap = b.On(b.WeakMap(), b => b.Construct());
-                b.SetRef(b.Const(scrollContainerObservers), observersWeakMap);
-                b.SetProperty(b.Window(), b.Const(nameof(scrollContainerObservers)), observersWeakMap);
-                return observersWeakMap;
-            },
-            b =>
-            {
-                return b.GetRef(b.Const(scrollContainerObservers));
-            });
-
-        b.If(b.On(observersWeakMap, b => b.has(scrollContainer)), b => b.Throw(b.Const("IntersectionObserver is already registered!")));
-
         var callback = b.Def((SyntaxBuilder b, Var<List<IntersectionObserverEntry>> entries, Var<IntersectionObserver> observer) =>
         {
             var intersecting = b.Get(entries, x => x.Where(x => x.isIntersecting).ToList());
@@ -137,8 +104,6 @@ public static class IntersectionObserverExtensions
                 return b.New(callback, options);
             });
 
-        b.On(observersWeakMap, b => b.set(scrollContainer, observer));
-
         return observer;
     }
 
@@ -178,125 +143,48 @@ public static class IntersectionObserverExtensions
             });
     }
 
-    /// <summary>
-    /// Get the <seealso cref="IntersectionObserver"/> associated to the scroll element in <see cref="scrollContainerObservers"/>
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="scrollElement"></param>
-    /// <returns></returns>
-    private static Var<IntersectionObserver> GetIntersectionObserver(
-        this SyntaxBuilder b,
-        Var<Element> scrollElement)
+
+    internal class ObservedElementsDiff
     {
-        var undefined = b.GetProperty<IntersectionObserver>(b.Window(), "undefined");
-        return b.If(b.HasObject(b.GetRef(b.Const(scrollContainerObservers))),
-            b =>
-            {
-                var weakMap = b.GetRef(b.Const(scrollContainerObservers));
-                return b.On(weakMap, b => b.get<IntersectionObserver>(scrollElement));
-            },
-            b =>
-            {
-                return undefined;
-            });
+        public List<Element> ToRemove { get; set; } = new List<Element>();
+        public List<Element> ToAdd { get; set; } = new List<Element>();
     }
 
-    /// <summary>
-    /// Associates the list of data items to observe to the scroll container in <see cref="scrollContainerItemsToObserve"/>
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="scrollContainer"></param>
-    /// <param name="toObserve"></param>
-    private static void SetItemsToObserve<TItem>(
-        this ISyntaxBuilder b,
-        Var<Element> scrollContainer,
-        Var<List<TItem>> toObserve)
+    private static Var<ObservedElementsDiff> DiffElements(
+        this SyntaxBuilder b,
+        Var<List<Element>> previous,
+        Var<List<Element>> next)
     {
-        var itemsWeakMap =
-        b.If(
-            b.Not(
-                b.HasObject(b.GetRef(b.Const(scrollContainerItemsToObserve)))),
+        var alreadyHandled = b.Get(previous, next, (currentlyObserved, toObserve) => currentlyObserved.Except(toObserve).ToList());
+        var newElements = b.Get(previous, next, (currentlyObserved, toObserve) => toObserve.Except(currentlyObserved).ToList());
+        var diff = b.NewObj<ObservedElementsDiff>(
             b =>
             {
-                var itemsWeakMap = b.On(b.GetClass<WeakMap>(), b => b.Construct());
-                b.SetRef(b.Const(scrollContainerItemsToObserve), itemsWeakMap);
-                b.SetProperty(b.GetProperty<Window>(b.Self(), "window"), b.Const(nameof(scrollContainerItemsToObserve)), itemsWeakMap);
-                return itemsWeakMap;
-            },
-            b =>
-            {
-                return b.GetRef(b.Const(scrollContainerItemsToObserve));
+                b.Set(x => x.ToRemove, alreadyHandled);
+                b.Set(x => x.ToAdd, newElements);
             });
 
-        b.On(itemsWeakMap, b => b.set(scrollContainer, toObserve));
+        return diff;
     }
 
-    /// <summary>
-    /// Associates the list of observed elements to the <paramref name="scrollContainer"/> in <see cref="scrollContainerObservedElements"/>
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="scrollContainer"></param>
-    /// <param name="toObserve"></param>
-    private static void SyncObservedElements(
+    private static void ApplyObservedElementsDiff(
         this SyntaxBuilder b,
-        Var<Element> scrollContainer,
-        Var<List<Element>> toObserve)
+        Var<IntersectionObserver> intersectionObserver,
+        Var<List<Element>> observedList,
+        Var<ObservedElementsDiff> diff)
     {
-        // The whole sync only makes sense if the intersection observer is already created.
-        // Otherwise, syncing later is not possible because observers do not list observed elements,
-        // so there's no list to compare to
-        var intersectionObsever = b.GetIntersectionObserver(scrollContainer);
-        b.If(
-            b.HasObject(intersectionObsever),
-            b =>
-            {
-                //b.LogDebug("SetObservedElements.intersectionObsever", intersectionObsever);
-                //b.LogDebug("SetObservedElements.toObserve", toObserve);
-                var elementsWeakMap =
-                b.If(
-                    b.Not(
-                        b.HasObject(b.GetRef(b.Const(scrollContainerObservedElements)))),
-                    b =>
-                    {
-                        var elementsWeakMap = b.On(b.WeakMap(), b => b.Construct());
-                        b.SetRef(b.Const(scrollContainerObservedElements), elementsWeakMap);
-                        return elementsWeakMap;
-                    },
-                    b =>
-                    {
-                        return b.GetRef(b.Const(scrollContainerObservedElements));
-                    });
+        b.Foreach(b.Get(diff, x => x.ToRemove), (b, element) =>
+        {
+            b.On(intersectionObserver, b => b.unobserve(element));
+            b.Remove(observedList, element);
+        });
 
-                var currentlyObserved = b.If(
-                    b.HasObject(b.On(elementsWeakMap, x => x.get<List<Element>>(scrollContainer))),
-                    b => b.On(elementsWeakMap, x => x.get<List<Element>>(scrollContainer)),
-                    b =>
-                    {
-                        var emptyList = b.NewCollection<Element>();
-                        b.On(elementsWeakMap, b => b.set(scrollContainer, emptyList));
-                        return emptyList;
-                    });
-
-
-                var alreadyHandled = b.Get(currentlyObserved, toObserve, (currentlyObserved, toObserve) => currentlyObserved.Except(toObserve).ToList());
-                var newElements = b.Get(currentlyObserved, toObserve, (currentlyObserved, toObserve) => toObserve.Except(currentlyObserved).ToList());
-
-                b.Foreach(alreadyHandled, (b, element) =>
-                {
-                    b.On(intersectionObsever, b => b.unobserve(element));
-                    b.Remove(currentlyObserved, element);
-                });
-
-                b.Foreach(newElements, (b, element) =>
-                {
-                    b.On(intersectionObsever, b => b.observe(element));
-                    //b.LogDebug("observe", element);
-                    b.Push(currentlyObserved, element);
-                });
-
-                //b.LogDebug("currentlyObserved", currentlyObserved);
-            });
+        b.Foreach(b.Get(diff, x=>x.ToAdd) , (b, element) =>
+        {
+            b.On(intersectionObserver, b => b.observe(element));
+            //b.LogDebug("observe", element);
+            b.Push(observedList, element);
+        });
     }
 
     public static Var<HyperType.Subscription> IntersectionObserverSubscription<TItem>(
@@ -315,88 +203,88 @@ public static class IntersectionObserverExtensions
             },
             b =>
             {
-                var scrollContainer = b.Call(b.Get(options, x => x.GetContainer));
-                return b.If(
-                    b.HasObject(scrollContainer),
+                //b.LogDebug("scrollContainer", scrollContainer);
+
+                var mapItemToElement = b.Def((SyntaxBuilder b, Var<TItem> item) =>
+                {
+                    var element = b.Call(b.Get(options, x => x.MapElement), item.As<TItem>());
+                    b.If(
+                        b.Not(b.HasObject(element)),
+                        b =>
+                        {
+                            b.LogDebug("item has no element", item);
+                        });
+                    return element;
+                });
+
+                //b.SetItemsToObserve(scrollContainer, observedItems);
+                //b.SyncItemsToObserveToIntersectionObserver(scrollContainer, mapItemToElement);
+
+                // Inside the subscription, handle elements
+                var subscription = b.MakeSubscription(IntersectionObserverSubscriber, b.NewObj<IntersectionObserverSubscriberOptions>(
                     b =>
                     {
-                        //b.LogDebug("scrollContainer", scrollContainer);
-
-                        var mapItemToElement = b.Def((SyntaxBuilder b, Var<object> item) =>
+                        b.Set(x => x.GetContainer, b.Get(options, x => x.GetContainer));
+                        b.Set(x => x.OnVisible, b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Element> element) =>
                         {
-                            var element = b.Call(b.Get(options, x => x.MapElement), item.As<TItem>());
+                            var item = b.Call(b.Get(options, x => x.MapItem), element);
                             b.If(
-                                b.Not(b.HasObject(element)),
+                                b.Not(b.HasObject(item)),
                                 b =>
                                 {
-                                    b.LogDebug("item has no element", item);
-                                });
-                            return element;
-                        });
-
-                        b.SetItemsToObserve(scrollContainer, observedItems);
-                        b.SyncItemsToObserveToIntersectionObserver(scrollContainer, mapItemToElement);
-
-                        // Inside the subscription, handle elements
-                        var subscription = b.MakeSubscription(IntersectionObserverSubscriber, b.NewObj<IntersectionObserverSubscriberOptions>(
-                            b =>
-                            {
-                                b.Set(x => x.Container, scrollContainer);
-                                b.Set(x => x.OnVisible, b.Def((SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Element> element) =>
+                                    b.LogDebug("No item for element", element);
+                                },
+                                b =>
                                 {
-                                    var item = b.Call(b.Get(options, x => x.MapItem), element);
-                                    b.If(
-                                        b.Not(b.HasObject(item)),
-                                        b =>
-                                        {
-                                            b.LogDebug("No item for element", element);
-                                        },
-                                        b =>
-                                        {
-                                            b.Call(b.Get(options, x => x.OnSeen), dispatch, item);
-                                        });
-                                }));
-                                b.Set(x => x.MapItemToElement, mapItemToElement);
-                            }));
+                                    b.Call(b.Get(options, x => x.OnSeen), dispatch, item);
+                                });
+                        }));
+                        b.Set(x => x.GetObservedElements, b.Def((SyntaxBuilder b) =>
+                        {
+                            return b.Map(observedItems, mapItemToElement);
+                        }));
+                    }));
 
-                        //b.LogDebug("IntersectionObserverSubscription.IntersectionObserverSubscriber", subscription);
-                        return subscription;
-                    },
-                    b =>
-                    {
-                        //b.LogDebug("Intersection observer unsubscribe!");
-                        return b.NoSubscription();
-                    });
+                //b.LogDebug("IntersectionObserverSubscription.IntersectionObserverSubscriber", subscription);
+                return subscription;
             });
     }
 
-    private static void SyncItemsToObserveToIntersectionObserver(
-        this SyntaxBuilder b,
-        Var<Element> container,
-        Var<Func<object, Element>> mapItemToElement)
-    {
-        var toObserveItemsWeakMap = b.GetRef(b.Const(scrollContainerItemsToObserve));
-        b.If(
-            b.HasObject(toObserveItemsWeakMap),
-            b =>
-            {
-                var toObserveItems = b.On(toObserveItemsWeakMap, b => b.get<List<object>>(container));
-                b.If(
-                    b.HasObject(toObserveItems),
-                    b =>
-                    {
-                        var validElements = b.Get(
-                            b.Map(toObserveItems, mapItemToElement),
-                            b.Def((SyntaxBuilder b, Var<Element> element) =>
-                            {
-                                return b.HasObject(element);
-                            }),
-                            (elements, hasObject) => elements.Where(hasObject).ToList());
+    //private static void SyncItemsToObserveToIntersectionObserver(
+    //    this SyntaxBuilder b,
+    //    Var<Element> container,
+    //    Var<Func<object, Element>> mapItemToElement)
+    //{
+    //    var toObserveItemsWeakMap = b.GetRef(b.Const(scrollContainerItemsToObserve));
+    //    b.If(
+    //        b.HasObject(toObserveItemsWeakMap),
+    //        b =>
+    //        {
+    //            var toObserveItems = b.On(toObserveItemsWeakMap, b => b.get<List<object>>(container));
+    //            b.If(
+    //                b.HasObject(toObserveItems),
+    //                b =>
+    //                {
+    //                    var validElements = b.Get(
+    //                        b.Map(toObserveItems, mapItemToElement),
+    //                        b.Def((SyntaxBuilder b, Var<Element> element) =>
+    //                        {
+    //                            return b.HasObject(element);
+    //                        }),
+    //                        (elements, hasObject) => elements.Where(hasObject).ToList());
 
-                        //b.LogDebug("SyncItemsToObserveToIntersectionObserver.validElements", validElements);
-                        b.SyncObservedElements(container, validElements);
-                    });
-            });
+    //                    //b.LogDebug("SyncItemsToObserveToIntersectionObserver.validElements", validElements);
+    //                    b.SyncObservedElements(container, validElements);
+    //                });
+    //        });
+    //}
+
+    internal class IntersectionObserverSubscriberState
+    {
+        public Element Container { get; set; }
+        public IntersectionObserver IntersectionObserver { get; set; }
+        public List<Element> ObservedElements { get; set; } = new List<Element>();
+        public MutationObserver MutationObserver { get; set; }
     }
 
     public static Var<System.Action> IntersectionObserverSubscriber(
@@ -404,32 +292,58 @@ public static class IntersectionObserverExtensions
         Var<HyperType.Dispatcher> dispatch,
         Var<IntersectionObserverSubscriberOptions> options)
     {
-        //b.LogDebug("IntersectionObserverSubscriber");
-        var container = b.Get(options, x => x.Container);
-        var observer = b.CreateIntersectionObserver(container, b.Def((SyntaxBuilder b, Var<Element> element) =>
-        {
-            b.Call(b.Get(options, x => x.OnVisible), dispatch, element);
-        }));
+        var intersectionObserverState = b.NewObj<IntersectionObserverSubscriberState>();
 
-        b.Call<SyntaxBuilder, Element, Func<object, Element>>(SyncItemsToObserveToIntersectionObserver, container, b.Get(options, x => x.MapItemToElement));
-
-        var mutationObserver = b.CreateMutationObserver(
-            container, b.Def((SyntaxBuilder b) =>
+        b.RequestAnimationFrame(
+            b =>
             {
-                //b.LogDebug("=== MUTATION ===");
-                b.Call<SyntaxBuilder, Element, Func<object, Element>>(SyncItemsToObserveToIntersectionObserver, container, b.Get(options, x => x.MapItemToElement));
-            }));
+                var container = b.Call(b.Get(options, x => x.GetContainer));
+                b.If(b.HasObject(container),
+                    b =>
+                    {
+                        b.LogDebug("observed container", container);
+                        b.Set(intersectionObserverState, x => x.Container, container);
+
+                        var observer = b.CreateIntersectionObserver(container, b.Def((SyntaxBuilder b, Var<Element> element) =>
+                        {
+                            b.Call(b.Get(options, x => x.OnVisible), dispatch, element);
+                        }));
+
+                        b.Set(intersectionObserverState, x => x.IntersectionObserver, observer);
+
+                        var mutationObserver = b.CreateMutationObserver(
+                            container, b.Def((SyntaxBuilder b) =>
+                            {
+                                var newObservedElementsList = b.Call(b.Get(options, x => x.GetObservedElements));
+                                var diff = b.DiffElements(
+                                    b.Get(intersectionObserverState, x => x.ObservedElements),
+                                    newObservedElementsList);
+                                b.ApplyObservedElementsDiff(
+                                    b.Get(intersectionObserverState, x => x.IntersectionObserver),
+                                    b.Get(intersectionObserverState, x => x.ObservedElements),
+                                    diff);
+
+                                //b.Call<SyntaxBuilder, Element, Func<object, Element>>(SyncItemsToObserveToIntersectionObserver, container, b.Get(options, x => x.MapItemToElement));
+                            }));
+                        b.Set(intersectionObserverState, x => x.MutationObserver, mutationObserver);
+                    },
+                    b =>
+                    {
+                        b.LogDebug("No observed container");
+                    });
+            });
 
         return b.Def((SyntaxBuilder b) =>
         {
+            var container = b.Get(intersectionObserverState, x => x.Container);
+            var intersectionObserver = b.Get(intersectionObserverState, x => x.IntersectionObserver);
+            var mutationObserver = b.Get(intersectionObserverState, x => x.MutationObserver);
             b.If(
-                b.HasObject(observer),
+                b.HasObject(intersectionObserver),
                 b =>
                 {
-                    b.On(observer, b => b.disconnect());
+                    b.On(intersectionObserver, b => b.disconnect());
                 });
-            b.On(b.GetRef(b.Const(scrollContainerObservers)), b => b.delete(container));
-            b.On(b.GetRef(b.Const(scrollContainerObservedElements)), b => b.delete(container));
 
             b.If(
                 b.HasObject(mutationObserver),
@@ -437,9 +351,6 @@ public static class IntersectionObserverExtensions
                 {
                     b.On(mutationObserver, b => b.disconnect());
                 });
-
-            //b.LogDebug("Cleanup observer subscription");
         });
     }
-
 }
