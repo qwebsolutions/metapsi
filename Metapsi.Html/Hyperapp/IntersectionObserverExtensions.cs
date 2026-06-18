@@ -311,20 +311,22 @@ public static class IntersectionObserverExtensions
 
                         b.Set(intersectionObserverState, x => x.IntersectionObserver, observer);
 
-                        var mutationObserver = b.CreateMutationObserver(
-                            container, b.Def((SyntaxBuilder b) =>
-                            {
-                                var newObservedElementsList = b.Call(b.Get(options, x => x.GetObservedElements));
-                                var diff = b.DiffElements(
-                                    b.Get(intersectionObserverState, x => x.ObservedElements),
-                                    newObservedElementsList);
-                                b.ApplyObservedElementsDiff(
-                                    b.Get(intersectionObserverState, x => x.IntersectionObserver),
-                                    b.Get(intersectionObserverState, x => x.ObservedElements),
-                                    diff);
+                        var syncObservedElements = b.Def((SyntaxBuilder b) =>
+                        {
+                            var newObservedElementsList = b.Call(b.Get(options, x => x.GetObservedElements));
+                            var diff = b.DiffElements(
+                                b.Get(intersectionObserverState, x => x.ObservedElements),
+                                newObservedElementsList);
+                            b.ApplyObservedElementsDiff(
+                                b.Get(intersectionObserverState, x => x.IntersectionObserver),
+                                b.Get(intersectionObserverState, x => x.ObservedElements),
+                                diff);
+                        });
 
-                                //b.Call<SyntaxBuilder, Element, Func<object, Element>>(SyncItemsToObserveToIntersectionObserver, container, b.Get(options, x => x.MapItemToElement));
-                            }));
+                        // Call before mutation as well so that it works when first opening the page
+                        b.Call(syncObservedElements);
+
+                        var mutationObserver = b.CreateMutationObserver(container, syncObservedElements);
                         b.Set(intersectionObserverState, x => x.MutationObserver, mutationObserver);
                     },
                     b =>
