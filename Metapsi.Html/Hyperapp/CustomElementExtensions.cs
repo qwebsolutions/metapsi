@@ -61,7 +61,7 @@ public interface ICustomElement : IModuleResource
 public class CustomElement : ModuleResource, ICustomElement
 {
     public string Tag { get; set; }
-    public string ModulePath => this.Tag + ".js";
+    //public string ModulePath => this.Tag + ".js";
 }
 
 public interface ICustomElementProps<T>
@@ -82,7 +82,7 @@ public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
 {
     public string Tag { get; set; }
 
-    public string ModulePath => this.Tag + ".js";
+    //public string ModulePath => this.Tag + ".js";
 
     public CustomElement()
     {
