@@ -6,8 +6,12 @@ namespace Metapsi.Hyperapp
     {
         public static Var<bool> IsSafari(this SyntaxBuilder b)
         {
-            var resource = b.AddEmbeddedResourceMetadata(typeof(Browser).Assembly, "Browser.js");
-            var isSafari = b.ImportName<System.Func<bool>>(resource, "IsSafari");
+            var browserJsPath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Browser).Assembly,
+                LogicalName = "Browser.js"
+            });
+            var isSafari = b.ImportName<System.Func<bool>>(browserJsPath, "IsSafari");
             return b.Call(IsSafari);
         }
     }

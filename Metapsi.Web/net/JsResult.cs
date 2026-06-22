@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,10 @@ internal class JsResult : IResult
         catch (Exception ex)
         {
 #if DEBUG
-            var builder = new ModuleBuilder();
+            var builder = new ModuleBuilder(new JsOnlyResolver());
             builder.Call(builder.AddFunction("main", b =>
             {
-                b.Call(new Var<Action<string>>("alert"), b.Const(ex.Message));
+                b.Alert(b.Const(ex.Message));
             }));
 #endif
             
@@ -44,7 +45,7 @@ public static class Js
 {
     public static IResult Result(this Action<SyntaxBuilder> b)
     {
-        ModuleBuilder moduleBuilder = new ModuleBuilder();
+        ModuleBuilder moduleBuilder = new ModuleBuilder(new JsOnlyResolver());
         var main = moduleBuilder.AddFunction("main", b);
         moduleBuilder.Call(main);
         return new JsResult(moduleBuilder.Module);

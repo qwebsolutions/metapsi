@@ -38,7 +38,7 @@ public static class StyleCompatibility
     {
         var builder = new AttributesBuilder<HtmlDiv>();
         setHoverStyle(builder);
-        return builder.Attributes["style"];
+        return builder._attributes["style"];
     }
 
     //public static IHtmlNode HtmlStyleSheet(
@@ -76,7 +76,7 @@ public static class StyleCompatibility
     }
 
 
-    public static void SetStickyHeaderStyle(this IHtmlAttributesBuilder b)
+    public static void SetStickyHeaderStyle(this IHtmlPropsBuilder b)
     {
         b.AddStyle("position", "sticky");
         b.AddStyle("top", "0");

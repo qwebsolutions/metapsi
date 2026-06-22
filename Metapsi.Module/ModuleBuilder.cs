@@ -16,24 +16,23 @@ namespace Metapsi.Syntax
         /// Use name as because static functions with different generic arguments create different delegates
         /// </summary>
         private HashSet<string> functionsCache = new HashSet<string>();
-        
+
         // constant value -> associated variable
         private Dictionary<object, IVariable> constantsCache = new Dictionary<object, IVariable>();
-        
+
         // constant name -> constant value
         private Dictionary<string, SyntaxNode> constantLiteralNodes = new Dictionary<string, SyntaxNode>();
 
         public static List<Type> ScalarTypes = new List<Type>() { typeof(string), typeof(int), typeof(bool), typeof(Guid) };
 
-        public ModuleBuilder()
+        public IDependencyResolver Resolver { get; private set; }
+
+        public ModuleBuilder(IDependencyResolver dependencyResolver)
         {
             this.Module = new Module();
+            this.Resolver = dependencyResolver;
         }
 
-        public ModuleBuilder(Module module)
-        {
-            this.Module = module;
-        }
 
         public Metapsi.Syntax.Module Module { get; private set; }
 
@@ -51,7 +50,8 @@ namespace Metapsi.Syntax
                 .Replace(">", string.Empty)
                 .Replace(".", string.Empty)
                 .Replace(",", string.Empty)
-                .Replace("+", string.Empty);
+                .Replace("+", string.Empty)
+                .Replace("`", string.Empty);
         }
 
         public static string QualifiedName(System.Reflection.MethodInfo methodInfo)
@@ -59,18 +59,18 @@ namespace Metapsi.Syntax
             // Allow nested types, useful for ParentClass.Defs type of pattern
             List<string> parentTypes = new List<string>();
             Type parentType = methodInfo.DeclaringType;
-            parentTypes.Add(parentType.Name);
+            parentTypes.Add(SanitizeName(parentType.Name));
             while (true)
             {
                 parentType = parentType.DeclaringType;
                 if (parentType == null)
                     break;
-                parentTypes.Add(parentType.Name);
+                parentTypes.Add(SanitizeName(parentType.Name));
             }
             var parentSegment = string.Join("_", parentTypes.ToArray().Reverse());
 
             // Add parameters count because C# supports method overloading
-            return $"{parentSegment}_{methodInfo.Name}_{methodInfo.GetParameters().Count() - 1}";// All start with SyntaxBuilder, skip that
+            return $"{parentSegment}_{SanitizeName(methodInfo.Name)}_{methodInfo.GetParameters().Count() - 1}";// All start with SyntaxBuilder, skip that
         }
 
         public static Type[] FuncTypes =
@@ -163,7 +163,7 @@ namespace Metapsi.Syntax
                     Name = name,
                     Node = new SyntaxNode()
                     {
-                        Fn = FnNodeExtensions.FromDelegate(new SyntaxBuilder(this), function)
+                        Fn = FnNodeExtensions.FromDelegate(new SyntaxBuilder(this, this.Module.Nodes), function)
                     }
                 };
 
@@ -172,7 +172,7 @@ namespace Metapsi.Syntax
                 Module.Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
             }
 
-            return new Var<T>(name);
+            return new ClientVar<T>(name);
         }
 
         public Var<T> Const<T>(T value, string name)
@@ -197,7 +197,7 @@ namespace Metapsi.Syntax
                 {
                     Assignment = assignmentNode
                 });
-                constantsCache[value] = new Var<T>(name)
+                constantsCache[value] = new ClientVar<T>(name)
                 {
                     AssignmentNode = assignmentNode
                 };
@@ -223,7 +223,7 @@ namespace Metapsi.Syntax
 
         internal SyntaxNode GetConstLiteralNode(IVariable variable)
         {
-            constantLiteralNodes.TryGetValue(variable.Name, out var value);
+            constantLiteralNodes.TryGetValue((variable as IClientVar).Name, out var value);
             return value;
         }
 
@@ -243,7 +243,7 @@ namespace Metapsi.Syntax
         /// <param name="action"></param>
         public void Call(Var<Action> action)
         {
-            this.Module.Nodes.Add(new SyntaxNode() { Call = new CallNode() { Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = action.Name } } } });
+            this.Module.Nodes.Add(new SyntaxNode() { Call = new CallNode() { Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = (action as IClientVar).Name } } } });
         }
 
         /// <summary>
@@ -252,14 +252,21 @@ namespace Metapsi.Syntax
         /// <param name="action"></param>
         public void Call(Action<SyntaxBuilder> action)
         {
-            SyntaxBuilder b = new SyntaxBuilder(this);
+            SyntaxBuilder b = new SyntaxBuilder(this, this.Module.Nodes);
             action(b);
-            this.Module.Nodes.AddRange((b as ISyntaxBuilder).Nodes);
+            //this.Module.Nodes.AddRange((b as ISyntaxBuilder).Nodes);
         }
 
         public static Module New(Action<ModuleBuilder> build)
         {
-            var builder = new ModuleBuilder();
+            var builder = new ModuleBuilder(new JsOnlyResolver());
+            build(builder);
+            return builder.Module;
+        }
+
+        public static Module New(IDependencyResolver resolver, Action<ModuleBuilder> build)
+        {
+            var builder = new ModuleBuilder(resolver);
             build(builder);
             return builder.Module;
         }

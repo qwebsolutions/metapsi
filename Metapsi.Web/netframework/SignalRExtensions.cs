@@ -51,7 +51,11 @@ public static partial class SignalRClient
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
-        var resource = b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "metapsi-signalr.js");
+        var resource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(SignalRClient).Assembly,
+            LogicalName = "metapsi-signalr.js"
+        });
         var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>(resource, "Connect");
         b.Call(connect, b.Const(hubPath), register, onConnect);
     }

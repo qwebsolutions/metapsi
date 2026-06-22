@@ -76,20 +76,40 @@ public static partial class Control
     private static Var<IVNode> BuildChoices<T>(LayoutBuilder b, string tag, Action<PropsBuilder<T>> buildProps)
         where T : IChoices, new()
     {
-        var choicesMinJsResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.ChoicesJs.Control).Assembly, "choices.min.js");
+        var choicesMinJsResource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.ChoicesJs.Control).Assembly,
+            LogicalName = "choices.min.js"
+        });
 
-        var choicesMinJsTag = new HtmlTag("script");
-        choicesMinJsTag.SetAttribute("src", choicesMinJsResource);
-        b.Metadata().AddRequiredTagMetadata(choicesMinJsTag);
+        b.Require(new JsScriptDependency()
+        {
+            JsPath = choicesMinJsResource,
+            IsModule = false
+        });
 
-        var metapsiChoicesJsResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.ChoicesJs.Control).Assembly, "metapsi.choices.js");
-        var metapsiChoicesJsTag = new HtmlTag("script");
-        metapsiChoicesJsTag.SetAttribute("src", metapsiChoicesJsResource);
-        metapsiChoicesJsTag.SetAttribute("type", "module");
-        b.Metadata().AddRequiredTagMetadata(choicesMinJsTag);
+        var metapsiChoicesJsResource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.ChoicesJs.Control).Assembly,
+            LogicalName = "metapsi.choices.js"
+        });
 
-        var metapsiChoicesCssResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.ChoicesJs.Control).Assembly, "metapsi.choices.css");
-        b.AddRequiredStylesheetMetadata(metapsiChoicesCssResource);
+        b.Require(new JsScriptDependency()
+        {
+            JsPath = metapsiChoicesJsResource,
+            IsModule = true
+        });
+
+        var metapsiChoicesCssResource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.ChoicesJs.Control).Assembly,
+            LogicalName = "metapsi.choices.css"
+        });
+
+        b.Require(new StylesheetDependency()
+        {
+            StylesheetPath = metapsiChoicesCssResource
+        });
 
         return b.H(tag, buildProps);
     }
@@ -143,17 +163,6 @@ public static partial class Control
             return choice;
         });
 
-        //var outList = b.NewCollection<Choice>();
-        //var placeholder = b.NewObj<Choice>(b =>
-        //{
-        //    b.Set(x => x.value, b.Const(""));
-        //    b.Set(x => x.label, b.Const("Not selected"));
-        //});
-
-        //b.SetDynamic(placeholder, DynamicProperty.Bool("placeholder"), b.Const(true));
-
-        //b.Push(outList, placeholder);
-        //b.Foreach(choices, (b, item) => b.Push(outList, item));
         return choices;
     }
 
@@ -219,11 +228,4 @@ public static partial class Control
     {
         return b.MapChoices<TItem, string>(items, valueProp, labelProp, selectedId);
     }
-
-    //private static void AddStaticFiles(this LayoutBuilder b)
-    //{
-    //    b.AddRequiredStylesheetMetadata("metapsi.choices.css");
-    //    b.AddRequiredScriptMetadata("choices.min.js");
-    //    b.AddRequiredScriptMetadata("metapsi.choices.js", "module");
-    //}
 }

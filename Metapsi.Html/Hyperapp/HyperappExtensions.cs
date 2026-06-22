@@ -19,7 +19,11 @@ public static partial class HyperappExtensions
     /// <returns></returns>
     public static Var<Func<HyperType.App<TModel>, HyperType.Dispatcher>> ImportHyperapp<TModel>(this SyntaxBuilder b)
     {
-        var resource = b.AddEmbeddedResourceMetadata(typeof(HyperType).Assembly, "hyperapp.js");
+        var resource = b.ResolvePath(new HashedEmbeddedResource()
+        {
+            Assembly = typeof(HyperType).Assembly,
+            LogicalName = "hyperapp.js"
+        });
         var app = b.ImportName<Func<HyperType.App<TModel>, HyperType.Dispatcher>>(resource, "app");
         return app;
     }
@@ -41,7 +45,7 @@ public static partial class HyperappExtensions
         Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
         Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
-        ModuleBuilder moduleBuilder = new ModuleBuilder();
+        ModuleBuilder moduleBuilder = new ModuleBuilder(b.Resolver);
         var main = moduleBuilder.AddFunction<HyperType.Dispatcher>("main", b =>
         {
             var appConfig = b.NewObj().As<HyperType.App<TModel>>();
@@ -59,14 +63,8 @@ public static partial class HyperappExtensions
                 b.Set(appConfig, x => x.subscriptions, b.Call(subscriptions));
             }
 
-            return b.Hyperapp(appConfig);;
+            return b.Hyperapp(appConfig); ;
         });
-
-        HtmlScriptExtensions.GenerateAddExternalResources(b, moduleBuilder.Module);
-        foreach(var moduleMetadata in moduleBuilder.Module.Metadata)
-        {
-            b.Document.Metadata.Add(moduleMetadata);
-        }
 
         moduleBuilder.Module.Nodes.Add(
             new SyntaxNode()
@@ -83,23 +81,21 @@ public static partial class HyperappExtensions
                 }
             });
 
-        //var moduleScript = moduleBuilder.Module.ToJs();
+        b.HeadAppend(b.HtmlScript(
+            b =>
+            {
+                b.SetTypeModule();
+            },
+            new JsModuleNode()
+            {
+                Module = moduleBuilder.Module
+            }));
 
-        var outNode = new HtmlNode();
-        var divTag = new HtmlTag("div");
-        divTag.SetAttribute("id", mountNodeId);
-
-        var scriptTag = new HtmlTag("script");
-        scriptTag.SetAttribute("type", "module");
-        scriptTag.Children.Add(new HtmlNode()
-        {
-            Modules = new List<Module>() { moduleBuilder.Module },
-        });
-
-        return new HtmlNode()
-        {
-            Tags = new() { divTag, scriptTag }
-        };
+        return b.HtmlDiv(
+            b =>
+            {
+                b.SetId(mountNodeId);
+            });
     }
 
     /// <summary>

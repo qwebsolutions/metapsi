@@ -3,6 +3,17 @@ using System;
 
 namespace Metapsi.Syntax
 {
+    public interface IForeachBuilder<TSyntaxBuilder>
+    {
+        void Foreach<TItem>(
+            Var<List<TItem>> collection,
+            Action<TSyntaxBuilder, Var<TItem>, Var<int>> onItem);
+
+        void Foreach<TItem>(
+            Var<List<TItem>> collection,
+            Action<TSyntaxBuilder, Var<TItem>> onItem);
+    }
+
     public static partial class Core
     {
         public static void Foreach<TSyntaxBuilder, TItem>(
@@ -13,15 +24,41 @@ namespace Metapsi.Syntax
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode()
+            var forEachBlockAssignment = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+            };
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = forEachBlockAssignment });
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode()
             {
                 Call = new CallNode()
                 {
-                    Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = mForEach.Name } },
+                    Fn = new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = (mForEach as IClientVar).Name
+                        }
+                    },
                     Arguments = new List<SyntaxNode>()
                     {
-                        new SyntaxNode() { Identifier = new IdentifierNode(){Name = collection.Name} },
-                        new SyntaxNode(){ Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+                        new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = (collection as IClientVar) .Name
+                            }
+                        },
+                        new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = forEachBlockAssignment.Name
+                            }
+                        }
                     }
                 }
             });
@@ -35,15 +72,41 @@ namespace Metapsi.Syntax
         {
             var mForEach = ImportFn(b, "mForEach");
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode()
+            var forEachBlockAssignment = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+            };
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = forEachBlockAssignment });
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode()
             {
                 Call = new CallNode()
                 {
-                    Fn = new SyntaxNode() { Identifier = new IdentifierNode() { Name = mForEach.Name } },
+                    Fn = new SyntaxNode() 
+                    { 
+                        Identifier = new IdentifierNode() 
+                        { 
+                            Name = (mForEach as IClientVar).Name 
+                        }
+                    },
                     Arguments = new List<SyntaxNode>()
                     {
-                        new SyntaxNode(){Identifier = new IdentifierNode(){Name = collection.Name} },
-                        new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, onItem) }
+                        new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = (collection as IClientVar) .Name
+                            }
+                        },
+                        new SyntaxNode()
+                        {
+                            Identifier = new IdentifierNode()
+                            {
+                                Name = forEachBlockAssignment.Name 
+                            }
+                        }
                     }
                 }
             });
@@ -70,18 +133,7 @@ namespace Metapsi.Syntax
 
         public static Var<List<TItem>> Filter<TItem>(this SyntaxBuilder b, Var<List<TItem>> list, Var<Func<TItem, bool>> predicate)
         {
-            var outList = b.NewObj<List<TItem>>();
-            b.Foreach(list, (b, item) =>
-            {
-                b.If(
-                    b.Call(predicate, item),
-                    b =>
-                    {
-                        b.Push(outList, item);
-                    });
-            });
-
-            return outList;
+            return b.On(list, b => b.Call<List<TItem>>("filter", predicate));
         }
 
         public static Var<List<T>> Filter<T>(this SyntaxBuilder b, Var<List<T>> list, Func<SyntaxBuilder, Var<T>, Var<bool>> predicate)

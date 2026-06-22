@@ -1,4 +1,6 @@
-﻿namespace Metapsi
+﻿using Metapsi.Syntax;
+
+namespace Metapsi
 {
     public interface IStyleBuilder
     {
@@ -10,22 +12,36 @@
         public void AddStyle(string property, string value);
     }
 
-    public interface IHtmlAttributesBuilder : IStyleBuilder
+    public interface IHtmlProps
+    {
+
+    }
+
+    public interface IHtmlPropsBuilder : IStyleBuilder
     {
         /// <summary>
         /// Sets HTML attribute to specific value
         /// </summary>
         /// <param name="attribute">The attribute to set</param>
         /// <param name="value">The value</param>
-        public void SetAttribute(string attribute, string value);
-        
+        void SetAttribute(string attribute, string value);
+
         /// <summary>
         /// Sets boolean attribute
         /// <para>Note that boolean attributes have no 'false' value. If they exist, they are true</para>
         /// </summary>
         /// <param name="attribute">The attribute to enable</param>
-        public void SetAttribute(string attribute);
+        void SetAttribute(string attribute);
 
-        public void AddClass(string className);
+        void AddClass(string className);
+
+        void AddStyle(string property, Var<string> value);
+
+        Var<IHtmlProps> GetProps();
+    }
+
+    public interface IHtmlPropsBuilder<T> : IHtmlPropsBuilder
+    {
+        
     }
 }

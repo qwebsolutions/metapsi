@@ -7,27 +7,27 @@ namespace Metapsi.Syntax
     {
         public static void AddDebugType(this AssignmentNode assignmentNode, System.Type type)
         {
-//#if DEBUG
-            if (type.Name == "Var`1")
-            {
-                var varType = type.GenericTypeArguments.FirstOrDefault();
-                if (varType != null)
-                {
-                    assignmentNode.DebugType = varType.CSharpTypeName();
-                }
-            }
-            else
-            {
-                assignmentNode.DebugType = type.CSharpTypeName();
-            }
-//#endif
+////#if DEBUG
+//            if (type.Name == "Var`1")
+//            {
+//                var varType = type.GenericTypeArguments.FirstOrDefault();
+//                if (varType != null)
+//                {
+//                    assignmentNode.DebugType = varType.CSharpTypeName();
+//                }
+//            }
+//            else
+//            {
+//                assignmentNode.DebugType = type.CSharpTypeName();
+//            }
+////#endif
         }
 
         public static void AddDebugType(this FnNode fnNode, System.Delegate @delegate)
         {
-//#if DEBUG
-            fnNode.DebugSource = $"{@delegate.Method.DeclaringType.CSharpTypeName()}";
-//#endif
+////#if DEBUG
+//            fnNode.DebugSource = $"{@delegate.Method.DeclaringType.CSharpTypeName()}";
+////#endif
         }
     }
 }

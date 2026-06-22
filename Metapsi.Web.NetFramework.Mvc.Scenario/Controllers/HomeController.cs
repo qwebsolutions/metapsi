@@ -91,19 +91,6 @@ namespace Metapsi.Web.NetFramework.Mvc.Scenario.Controllers
             return b.HtmlStyle(b.Text("body { font-family: sans-serif; }"));
         }
 
-        public static string ToHtml(System.Func<HtmlBuilder, IHtmlNode> renderNode)
-        {
-            var node = HtmlBuilder.Node(renderNode);
-            return (node as HtmlNode).ToHtml();
-        }
-
-        public static string GetSharedMenu()
-        {
-            var sharedMenu = HtmlBuilder.Node(SharedMenu);
-            var tag = (sharedMenu as HtmlNode);
-            return tag.ToHtml();
-        }
-
         public static IHtmlNode SharedMenu(this HtmlBuilder b)
         {
             return b.HtmlDiv(

@@ -198,7 +198,6 @@ public class TestCustomElement : CustomElement<DataModel>
     }
 }
 
-
 public static class Program
 {
     public class Nested
@@ -370,6 +369,11 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("/common",async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(CommonLayout.CommonDocument());
+        });
+
         app.MapGet("style-compat", async (HttpContext httpContext) =>
         {
             await httpContext.WriteHtmlDocumentResponse(StyleCompatibility.CompatibilityScenario());
@@ -380,6 +384,18 @@ public static class Program
             await httpContext.WriteHtmlDocumentResponse(
                 HtmlBuilder.FromDefault(b =>
                 {
+                    b.Resolver.OverridePath = (b, resource) =>
+                    {
+                        var embeddedResource = resource as EmbeddedResource;
+                        if (embeddedResource != null)
+                        {
+                            if (embeddedResource.Assembly == typeof(Shoelace.Cdn).Assembly)
+                            {
+                                var cdnPath = "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn" + embeddedResource.LogicalName.Replace("/shoelace@2.20.1", string.Empty);
+                                b.ResolveTo(cdnPath);
+                            }
+                        }
+                    };
                     b.BodyAppend(
                         b.Hyperapp(
                             new DataModel(),
@@ -439,6 +455,27 @@ public static class Program
             var document = HtmlBuilder.FromDefault(
                 b =>
                 {
+                    b.Resolver.OverridePath = (b, resource) =>
+                    {
+                        Console.WriteLine($"RESOLVING {resource.ResourceId}");
+                        if (resource is EmbeddedResource)
+                        {
+                            var embeddedResource = resource as EmbeddedResource;
+                            if (embeddedResource.Assembly == typeof(Metapsi.Ionic.IonicNodeImport).Assembly)
+                            {
+                                if (embeddedResource.LogicalName.EndsWith("css"))
+                                {
+                                    var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/css/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
+                                }
+                                else
+                                {
+                                    var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/dist/ionic/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
+                                    b.ResolveTo(cdnPath);
+                                }
+                            }
+                        }
+                    };
+
                     b.BodyAppend(
                         b.Hyperapp<DataModel>(
                             new DataModel(),
@@ -653,28 +690,28 @@ public static class Program
                 }),
                 new ToHtmlOptions()
                 {
-                    //http://localhost:5000/embedded/Metapsi.Ionic/1.0.0.0/ionic@8.6.2/ionic.bundle.css?h=14501
-                    ResolveResource = (document, metadata) =>
-                    {
-                        if (metadata.PackageName.ToLower().Contains("ionic"))
-                        {
-                            var ionicVersion = metadata.LogicalName.Split('@', '/')[1];
-                            var filePath = metadata.LogicalName.Replace("ionic@8.6.2/", string.Empty);
-                            var ionicCorePathBase = $"https://cdn.jsdelivr.net/npm/@ionic/core@{ionicVersion}";
-                            var ionicJsBase = $"{ionicCorePathBase}/dist/ionic";
-                            var ionicCssBase = $"{ionicCorePathBase}/css";
+                    ////http://localhost:5000/embedded/Metapsi.Ionic/1.0.0.0/ionic@8.6.2/ionic.bundle.css?h=14501
+                    //ResolveResource = (document, metadata) =>
+                    //{
+                    //    if (metadata.PackageName.ToLower().Contains("ionic"))
+                    //    {
+                    //        var ionicVersion = metadata.LogicalName.Split('@', '/')[1];
+                    //        var filePath = metadata.LogicalName.Replace("ionic@8.6.2/", string.Empty);
+                    //        var ionicCorePathBase = $"https://cdn.jsdelivr.net/npm/@ionic/core@{ionicVersion}";
+                    //        var ionicJsBase = $"{ionicCorePathBase}/dist/ionic";
+                    //        var ionicCssBase = $"{ionicCorePathBase}/css";
 
-                            if (metadata.LogicalName.EndsWith(".css"))
-                            {
-                                return $"{ionicCssBase}/{filePath}";
-                            }
-                            else
-                            {
-                                return $"{ionicJsBase}/{filePath}";
-                            }
-                        }
-                        return metadata.GetDefaultHttpPath();
-                    }
+                    //        if (metadata.LogicalName.EndsWith(".css"))
+                    //        {
+                    //            return $"{ionicCssBase}/{filePath}";
+                    //        }
+                    //        else
+                    //        {
+                    //            return $"{ionicJsBase}/{filePath}";
+                    //        }
+                    //    }
+                    //    return metadata.GetDefaultHttpPath();
+                    //}
                 });
         });
 

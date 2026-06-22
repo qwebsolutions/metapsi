@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,11 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
-            var resource = b.AddEmbeddedResourceMetadata(typeof(HyperType).Assembly, "hyperapp.js");
+            var resource = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(HyperType).Assembly,
+                LogicalName = "hyperapp.js"
+            });
             var textFn = b.ImportName<Func<string, IVNode>>(resource, "text");
             return b.Call(textFn, text);
         }
@@ -46,7 +51,11 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<object> props, Var<List<IVNode>> children)
         {
-            var resource = b.AddEmbeddedResourceMetadata(typeof(HyperType).Assembly, "hyperapp.js");
+            var resource = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(HyperType).Assembly,
+                LogicalName = "hyperapp.js"
+            });
             var h = b.ImportName<Func<string, object, List<IVNode>, IVNode>>(resource, "h");
             return b.Call(h, tag, props, b.Call(ValidChildren, children));
         }

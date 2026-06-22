@@ -3,6 +3,26 @@ using System;
 
 namespace Metapsi.Syntax
 {
+    public interface IIfStatementBuilder<TSyntaxBuilder>
+        where TSyntaxBuilder : ISyntaxBuilder
+    {
+        void If(Var<bool> check, Action<TSyntaxBuilder> ifTrue, Action<TSyntaxBuilder> ifFalse);
+        void If(Var<bool> check, Action<TSyntaxBuilder> ifTrue);
+    }
+
+    public interface IIfExpressionBuilder<TSyntaxBuilder>
+    {
+        Var<TResult> If<TResult>(
+            Var<bool> check,
+            Func<TSyntaxBuilder, Var<TResult>> ifTrue,
+            Func<TSyntaxBuilder, Var<TResult>> ifFalse);
+
+        Var<TResult> Switch<TResult, TInput>(
+            Var<TInput> v,
+            Func<TSyntaxBuilder, Var<TResult>> @default,
+            params (TInput, Func<TSyntaxBuilder, Var<TResult>>)[] cases);
+    }
+
     public static partial class Core
     {
         /// <summary>
@@ -24,7 +44,22 @@ namespace Metapsi.Syntax
         {
             var ifFn = ImportFn(b, "mIf");
 
-            var assignmentNode = new AssignmentNode()
+            var ifTrueBlockAsignmentNode = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, ifTrue) }
+            };
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifTrueBlockAsignmentNode });
+
+            var ifFalseBlockAsignmentNode = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
+            };
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifFalseBlockAsignmentNode });
+
+            var ifResultAssignmentNode = new AssignmentNode()
             {
                 Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
                 Node = new SyntaxNode()
@@ -35,23 +70,40 @@ namespace Metapsi.Syntax
                         {
                             Identifier = new IdentifierNode()
                             {
-                                Name = ifFn.Name,
+                                Name = (ifFn as IClientVar).Name,
                             }
                         },
                         Arguments = new List<SyntaxNode>()
                         {
-                            new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name} },
-                            new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) },
-                            new SyntaxNode(){ Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
-                    },
+                            new SyntaxNode(){
+                                Identifier = new IdentifierNode()
+                                {
+                                    Name = (check as IClientVar).Name
+                                }
+                            },
+                            new SyntaxNode()
+                            {
+                                Identifier = new IdentifierNode()
+                                {
+                                    Name = ifTrueBlockAsignmentNode.Name
+                                }
+                            },
+                            new SyntaxNode()
+                            {
+                                Identifier = new IdentifierNode()
+                                {
+                                    Name = ifFalseBlockAsignmentNode.Name
+                                }
+                            },
+                        },
                     }
                 }
             };
 
-            assignmentNode.AddDebugType(typeof(TResult));
+            ifResultAssignmentNode.AddDebugType(typeof(TResult));
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<TResult>(assignmentNode.Name) { AssignmentNode = assignmentNode };
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifResultAssignmentNode });
+            return new ClientVar<TResult>(ifResultAssignmentNode.Name) { AssignmentNode = ifResultAssignmentNode };
         }
 
         /// <summary>
@@ -71,24 +123,57 @@ namespace Metapsi.Syntax
         {
             var ifFn = ImportFn(b, "mIf");
 
+            var ifTrueBlockAsignmentNode = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, ifTrue) }
+            };
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifTrueBlockAsignmentNode });
+
+            var ifFalseBlockAsignmentNode = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
+            };
+
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifFalseBlockAsignmentNode });
+
             var ifStatmentNode = new CallNode()
             {
                 Fn = new SyntaxNode()
                 {
                     Identifier = new IdentifierNode()
                     {
-                        Name = ifFn.Name,
+                        Name = (ifFn as IClientVar).Name,
                     }
                 },
                 Arguments = new List<SyntaxNode>()
                 {
-                    new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name}},
-                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) },
-                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifFalse) }
+                    new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = (check as IClientVar) .Name
+                        }
+                    },
+                    new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = ifTrueBlockAsignmentNode.Name
+                        } 
+                    },
+                    new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = ifFalseBlockAsignmentNode.Name
+                        }
+                    },
                 },
             };
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Call = ifStatmentNode });
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Call = ifStatmentNode });
         }
 
         /// <summary>
@@ -106,23 +191,36 @@ namespace Metapsi.Syntax
         {
             var ifFn = ImportFn(b, "mIf");
 
+            var ifTrueBlockAsignmentNode = new AssignmentNode()
+            {
+                Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
+                Node = new SyntaxNode() { Fn = FnNodeExtensions.FromDelegate(b, ifTrue) }
+            };
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = ifTrueBlockAsignmentNode });
+
             var ifStatementNode = new CallNode()
             {
                 Fn = new SyntaxNode()
                 {
                     Identifier = new IdentifierNode()
                     {
-                        Name = ifFn.Name,
+                        Name = (ifFn as IClientVar).Name,
                     }
                 },
                 Arguments = new List<SyntaxNode>()
                 {
-                    new SyntaxNode(){Identifier = new IdentifierNode(){Name = check.Name} },
-                    new SyntaxNode(){Fn = FnNodeExtensions.FromDelegate(b, ifTrue) }
+                    new SyntaxNode(){Identifier = new IdentifierNode(){Name = (check as IClientVar).Name} },
+                    new SyntaxNode()
+                    {
+                        Identifier = new IdentifierNode()
+                        {
+                            Name = ifTrueBlockAsignmentNode.Name
+                        }
+                    }
                 }
             };
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Call = ifStatementNode });
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Call = ifStatementNode });
         }
 
         /// <summary>
@@ -148,7 +246,7 @@ namespace Metapsi.Syntax
             foreach (var @case in cases)
             {
                 var eq = b.AreEqual(v, b.Const(@case.Item1));
-                b.If(eq, b => b.SetRef(caseFuncRef, b.Def(@case.Item2)));
+                If(b, eq, b => b.SetRef(caseFuncRef, b.Def(@case.Item2)));
             }
 
             return b.Call(b.GetRef(caseFuncRef));

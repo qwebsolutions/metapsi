@@ -25,17 +25,17 @@ public static partial class Scenario
         var pageResultEndpointUrl = httpContext.GetEndpointUrl("page-result");
         var customElementUrl = httpContext.GetEndpointUrl("custom-element-http-handler");
 
-        ToHtmlOptions options = new ToHtmlOptions()
-        {
-            ResolveResource = (document, resource) =>
-            {
-                if (resource.LogicalName.Contains("http"))
-                {
-                    return customElementUrl;
-                }
-                return resource.GetDefaultHttpPath();
-            }
-        };
+        //ToHtmlOptions options = new ToHtmlOptions()
+        //{
+        //    ResolveResource = (document, resource) =>
+        //    {
+        //        if (resource.LogicalName.Contains("http"))
+        //        {
+        //            return customElementUrl;
+        //        }
+        //        return resource.GetDefaultHttpPath();
+        //    }
+        //};
 
         await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromEmpty(
             b =>
@@ -170,7 +170,7 @@ public static partial class Scenario
                 //    }));
 
                 b.BodyAppend(b.WebComponentsFadeInScript());
-            }), options);
+            }));
     }
 
 }

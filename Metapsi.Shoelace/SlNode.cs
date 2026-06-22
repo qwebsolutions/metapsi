@@ -6,6 +6,16 @@ using Metapsi.Html;
 
 namespace Metapsi.Shoelace;
 
+public class ShoelaceBasePathResource : IResource, IResourceDefaultPath
+{
+    public string ResourceId => "shoelace-base-path";
+
+    public string ResolvePath()
+    {
+        return $"/embedded/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/";
+    }
+}
+
 public static partial class SlNodeExtensions
 {
     public static IHtmlNode SlTag<T>(
@@ -66,57 +76,81 @@ public static partial class SlNodeExtensions
         return b.Tag(tag, children);
     }
 
-    public static void AddShoelaceStylesheet(this HtmlBuilder b)
+    public static void AddShoelaceStylesheet(this ICanRequireDependency b)
     {
-        string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
-        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        var link = new HtmlTag("link");
-        link.SetAttribute("rel", "stylesheet");
-        link.SetAttribute("href", resource);
-        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { link } });
+        string stylesheetLogicalName = $"/shoelace@{Cdn.Version}/themes/light.css";
+
+        var resolvedPath = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly,
+            LogicalName = stylesheetLogicalName
+        });
+
+        b.Require(new StylesheetDependency()
+        {
+            StylesheetPath = resolvedPath
+        });
     }
 
     public static void ImportShoelaceTag(HtmlBuilder b, string tag)
     {
         b.AddShoelaceStylesheet();
         b.HeadAppend(b.HtmlScriptModule(SetBasePath));
-        string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
-        var resource = b.Document.Metadata.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
-        var scriptTag = new HtmlTag("script");
-        scriptTag.SetAttribute("src", resource);
-        scriptTag.SetAttribute("type", "module");
-        b.HeadAppend(new HtmlNode() { Tags = new List<HtmlTag>() { scriptTag} });
-        b.Document.Metadata.TrackWebComponent(tag);
+
+        string scriptLogicalName = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
+
+        var resolvedTagJs = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly,
+            LogicalName = scriptLogicalName
+        });
+        b.Require(new JsScriptDependency()
+        {
+            IsModule = true,
+            JsPath = resolvedTagJs
+        });
+
+        b.TrackWebComponent(tag);
     }
 
     private static Reference<bool> basePathSet = new Reference<bool>();
 
     private static void SetBasePath(SyntaxBuilder b)
     {
-        var basePathResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, $"/shoelace@{Cdn.Version}/utilities/base-path.js");
+        var basePathResource = b.ResolvePath(
+            new EmbeddedResource()
+            {
+                Assembly = typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly,
+                LogicalName = $"/shoelace@{Cdn.Version}/utilities/base-path.js"
+            });
+
         var setBasePath = b.ImportName<Action<string>>(basePathResource, "setBasePath");
 
         b.If(b.Not(b.GetRef(b.Const(basePathSet))),
             b =>
             {
-                var defaultResourceType = new ResourceMetadata().ResourceType;
-                b.Call(setBasePath, b.Const($"/{defaultResourceType}/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/"));
+                //var defaultResourceType = new ResourceMetadata().ResourceType;
+                var basePath = b.ResolvePath(new ShoelaceBasePathResource());
+                b.Call(setBasePath, b.Const(basePath));
                 b.SetRef(basePathSet, b.Const(true));
             });
     }
 
     public static void ImportShoelaceTag(SyntaxBuilder b, string tag)
     {
-        string stylesheetPath = $"/shoelace@{Cdn.Version}/themes/light.css";
-        string scriptPath = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
+        b.AddShoelaceStylesheet();
 
-        var stylesheetResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, stylesheetPath);
-        b.AddRequiredStylesheetMetadata(stylesheetResource);
+        string scriptLogicalName = $"/shoelace@{Cdn.Version}/{Cdn.ImportPaths[tag]}";
 
-        var componentResource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly, scriptPath);
+        var resolvedTagJs = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly,
+            LogicalName = scriptLogicalName
+        });
+
         SetBasePath(b);
-        b.ImportSideEffect(componentResource);
-        b.Metadata().TrackWebComponent(tag);
+        b.ImportSideEffect(resolvedTagJs);
+        b.TrackWebComponent(tag);
     }
 
     public static Var<IVNode> SlNode<TProps>(

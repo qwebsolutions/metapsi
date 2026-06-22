@@ -6,27 +6,84 @@ using System.Runtime.CompilerServices;
 
 namespace Metapsi.Syntax
 {
-    public interface ISyntaxBuilder
+    public interface ISyntaxBuilder : ICanResolveResourcePath
     {
         ModuleBuilder ModuleBuilder { get; }
-        List<SyntaxNode> Nodes { get; }
+        void AddSyntaxNode(SyntaxNode syntaxNode);
+        //List<SyntaxNode> Nodes { get; }
+        List<SyntaxNode> GetNodes();
     }
 
-    public class SyntaxBuilder : ISyntaxBuilder
+    public class SyntaxBuilder :
+        ISyntaxBuilder,
+        IIfStatementBuilder<SyntaxBuilder>,
+        IIfExpressionBuilder<SyntaxBuilder>,
+        IForeachBuilder<SyntaxBuilder>,
+        ICanResolveResourcePath,
+        ICanRequireDependency
     {
         private ModuleBuilder moduleBuilder;
         private List<SyntaxNode> nodes { get; set; } = new List<SyntaxNode>();
 
         ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
 
-        List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
+        //List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
 
-        public SyntaxBuilder(ModuleBuilder moduleBuilder)
+        public SyntaxBuilder(ModuleBuilder moduleBuilder, List<SyntaxNode> nodes)
         {
             this.moduleBuilder = moduleBuilder;
+            this.nodes = nodes;
         }
 
+        public string ResolvePath(IResource resource)
+        {
+            return moduleBuilder.Resolver.ResolvePath(resource);
+        }
 
+        public void Require(IDependency dependency)
+        {
+            moduleBuilder.Resolver.Import(dependency);
+        }
+
+        public void If(Var<bool> check, Action<SyntaxBuilder> ifTrue, Action<SyntaxBuilder> ifFalse)
+        {
+            Core.If(this, check, ifTrue, ifFalse);
+        }
+
+        public void If(Var<bool> check, Action<SyntaxBuilder> ifTrue)
+        {
+            Core.If(this, check, ifTrue);
+        }
+
+        public Var<TResult> If<TResult>(Var<bool> check, Func<SyntaxBuilder, Var<TResult>> ifTrue, Func<SyntaxBuilder, Var<TResult>> ifFalse)
+        {
+            return Core.If(this, check, ifTrue, ifFalse);
+        }
+
+        public Var<TResult> Switch<TResult, TInput>(Var<TInput> v, Func<SyntaxBuilder, Var<TResult>> @default, params (TInput, Func<SyntaxBuilder, Var<TResult>>)[] cases)
+        {
+            return Core.Switch(this, v, @default, cases);
+        }
+
+        public void Foreach<TItem>(Var<List<TItem>> collection, Action<SyntaxBuilder, Var<TItem>, Var<int>> onItem)
+        {
+            Core.Foreach(this, collection, onItem);
+        }
+
+        public void Foreach<TItem>(Var<List<TItem>> collection, Action<SyntaxBuilder, Var<TItem>> onItem)
+        {
+            Core.Foreach(this, collection, onItem);
+        }
+
+        void ISyntaxBuilder.AddSyntaxNode(SyntaxNode syntaxNode)
+        {
+            this.nodes.Add(syntaxNode);
+        }
+
+        List<SyntaxNode> ISyntaxBuilder.GetNodes()
+        {
+            return this.nodes;
+        }
     }
 
     public static class SyntaxBuilderExtensions
@@ -56,13 +113,13 @@ namespace Metapsi.Syntax
         public static Var<T> Const<T>(this ISyntaxBuilder b, T constant, string name)
         {
             var outConst = b.Const(constant);
-            outConst.Name = name;
+            (outConst as IClientVar).Name = name;
             return outConst;
         }
 
         public static Var<T> As<T>(this IVariable variable)
         {
-            return new Var<T>(variable.Name);
+            return new ClientVar<T>((variable as IClientVar).Name);
         }
 
         /// <summary>
@@ -84,8 +141,8 @@ namespace Metapsi.Syntax
                 }
             };
             assignmentNode.AddDebugType(typeof(T));
-            b.Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<T>(assignmentNode.Name)
+            b.AddSyntaxNode(new SyntaxNode() { Assignment = assignmentNode });
+            return new ClientVar<T>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
             };
@@ -122,21 +179,10 @@ namespace Metapsi.Syntax
             return b.NewObj<List<T>>();
         }
 
-        public static HashSet<Metadata> Metadata(this ISyntaxBuilder b)
-        {
-            return b.ModuleBuilder.Module.Metadata;
-        }
-
         public static Var<T> ImportName<T>(this ISyntaxBuilder b, string source, string importName)
         {
             b.ModuleBuilder.Module.ImportName(source, importName);
-            return new Var<T>(importName);
-        }
-
-        public static Var<T> ImportName<T>(this ISyntaxBuilder b, ResourceMetadata source, string importName)
-        {
-            b.ModuleBuilder.Module.ImportName(source, importName);
-            return new Var<T>(importName);
+            return new ClientVar<T>(importName);
         }
 
         public static void ImportDefault(this ISyntaxBuilder b, string source, string asName)
@@ -144,23 +190,13 @@ namespace Metapsi.Syntax
             b.ModuleBuilder.Module.ImportDefault(source, asName);
         }
 
-        public static void ImportDefault(this ISyntaxBuilder b, ResourceMetadata source, string asName)
-        {
-            b.ModuleBuilder.Module.ImportDefault(source, asName);
-        }
-
         public static Var<T> ImportDefault<T>(this ISyntaxBuilder b, string source, string asName)
         {
             ImportDefault(b, source, asName);
-            return new Var<T>(asName);
+            return new ClientVar<T>(asName);
         }
 
         public static void ImportSideEffect(this ISyntaxBuilder b, string source)
-        {
-            b.ModuleBuilder.Module.ImportSideEffect(source);
-        }
-
-        public static void ImportSideEffect(this ISyntaxBuilder b, ResourceMetadata source)
         {
             b.ModuleBuilder.Module.ImportSideEffect(source);
         }
@@ -174,7 +210,7 @@ namespace Metapsi.Syntax
 
         public static void Comment(this ISyntaxBuilder b, string comment)
         {
-            b.Nodes.Add(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
+            b.AddSyntaxNode(new SyntaxNode() { Comment = new CommentNode() { Comment = comment } });
         }
 
 
@@ -191,7 +227,7 @@ namespace Metapsi.Syntax
                         {
                             Identifier = new IdentifierNode()
                             {
-                                Name = f.Name
+                                Name = (f as IClientVar).Name
                             }
                         },
                         //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
@@ -202,8 +238,8 @@ namespace Metapsi.Syntax
 
             assignmentNode.AddDebugType(typeof(T));
 
-            b.Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<T>(assignmentNode.Name)
+            b.AddSyntaxNode(new SyntaxNode() { Assignment = assignmentNode });
+            return new ClientVar<T>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
             };
@@ -217,14 +253,14 @@ namespace Metapsi.Syntax
                 {
                     Identifier = new IdentifierNode()
                     {
-                        Name = f.Name
+                        Name = (f as IClientVar).Name
                     }
                 },
                 //Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList()
                 Arguments = ArgumentsToSyntaxNodes(b, arguments)
             };
 
-            b.Nodes.Add(new SyntaxNode() { Call = callNode });
+            b.AddSyntaxNode(new SyntaxNode() { Call = callNode });
         }
 
         private static List<SyntaxNode> ArgumentsToSyntaxNodes(this ISyntaxBuilder b, IEnumerable<IVariable> arguments)
@@ -232,19 +268,11 @@ namespace Metapsi.Syntax
             List<SyntaxNode> syntaxArguments = new List<SyntaxNode>();
             foreach (var argument in arguments)
             {
-                var constLiteralNode = b.ModuleBuilder.GetConstLiteralNode(argument);
-                if (constLiteralNode != null)
-                {
-                    syntaxArguments.Add(constLiteralNode);
-                }
-                else
-                {
-                    syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = argument.Name } });
-                }
+
+                syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = (argument as IClientVar).Name } });
             }
 
             return syntaxArguments;
         }
     }
 }
-

@@ -9,8 +9,12 @@ namespace Metapsi.Syntax
     {
         private static Var<T> ImportCore<T>(ISyntaxBuilder b, string symbol)
         {
-            var metapsiCore = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "metapsi.core.js");
-            return b.ImportName<T>(metapsiCore, symbol);
+            var metapsiCorePath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Core).Assembly,
+                LogicalName = "metapsi.core.js"
+            });
+            return b.ImportName<T>(metapsiCorePath, symbol);
         }
 
         private static Var<Delegate> ImportFn(ISyntaxBuilder b, string symbol)
@@ -51,26 +55,6 @@ namespace Metapsi.Syntax
             return b.GetProperty<T>(from, b.Const(propertyName));
         }
 
-        //public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, Var<string> propertyName)
-        //    where T : new()
-        //{
-        //    var props = b.GetProperty<T>(from, propertyName);
-        //    b.If(
-        //        b.Not(b.HasObject(props)),
-        //        (SyntaxBuilder b) =>
-        //        {
-        //            b.SetProperty(from, propertyName, b.NewObj<T>());
-        //        });
-
-        //    return b.GetProperty<T>(from, propertyName);
-        //}
-
-        //public static Var<T> GetOrCreateProperty<T>(this SyntaxBuilder b, IVariable from, string propertyName)
-        //    where T : new()
-        //{
-        //    return b.GetOrCreateProperty<T>(from, b.Const(propertyName));
-        //}
-
         public static Var<TResult> CallOnObject<TResult>(this ISyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             var callOnObject = ImportCore<Delegate>(b, "CallOnObject");
@@ -102,18 +86,6 @@ namespace Metapsi.Syntax
         {
             return b.CallDynamic<string>(ImportFn(b, "AsString"), o);
         }
-
-        //public static Var<TResult> If<TResult>(
-        //    this SyntaxBuilder b,
-        //    Var<bool> check,
-        //    Var<Func<TResult>> ifTrue,
-        //    Var<Func<TResult>> ifFalse)
-        //{
-        //    var ifFn = ImportFn(b, "mIf");
-        //    return b.CallDynamic<TResult>(ifFn, ifTrue, ifFalse);
-        //}
-
-
 
         public static Var<string> Concat(this ISyntaxBuilder b, Var<string> s1, Var<string> s2, params Var<string>[] other)
         {
@@ -227,15 +199,25 @@ namespace Metapsi.Syntax
 
         public static Var<Guid> NewId(this SyntaxBuilder b)
         {
-            var resource = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
-            var newId = b.ImportName<Func<Guid>>(resource, "v4");
+            var uuidJsResolvedPath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Core).Assembly,
+                LogicalName = "uuid.js"
+            });
+
+            var newId = b.ImportName<Func<Guid>>(uuidJsResolvedPath, "v4");
             return b.Call(newId);
         }
 
         public static Var<Guid> EmptyId(this SyntaxBuilder b)
         {
-            var resource = (b as ISyntaxBuilder).ModuleBuilder.Module.Metadata.AddEmbeddedResourceMetadata(typeof(Core).Assembly, "uuid.js");
-            var emptyId = b.ImportName<Guid>(resource, "NIL");
+            var uuidJsResolvedPath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Core).Assembly,
+                LogicalName = "uuid.js"
+            });
+
+            var emptyId = b.ImportName<Guid>(uuidJsResolvedPath, "NIL");
             return emptyId;
         }
 
@@ -367,11 +349,6 @@ namespace Metapsi.Syntax
             return b.CallDynamic<string>(ImportFn(b, nameof(Slice)), inputString, start, end);
         }
 
-        //public static Var<int> StringLength(this SyntaxBuilder b, Var<string> inputString)
-        //{
-        //    return b.GetProperty<int>(inputString,"length");
-        //}
-
         public static Var<int> CollectionLength<T>(this SyntaxBuilder b, Var<List<T>> collection)
         {
             return b.GetProperty<int>(collection, "length");
@@ -484,8 +461,12 @@ namespace Metapsi.Syntax
 
         public static Var<TOut> CallCoreFunction<TOut>(this ISyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
-            var fn = b.ImportName<Delegate>(resourceMetadata, function);
+            var coreJsPath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Metapsi.Syntax.Module).Assembly,
+                LogicalName = "metapsi.core.js"
+            });
+            var fn = b.ImportName<Delegate>(coreJsPath, function);
             return b.CallDynamic<TOut>(fn, arguments);
         }
 

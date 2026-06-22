@@ -17,12 +17,6 @@ public static partial class MediaLoaderExtensions
     {
         var mediaLoader = new MediaLoader();
         var mediaLoaderTag = mediaLoader.Tag;
-        b.Document.Metadata.AddRequiredTagMetadata(
-            new ModuleResource()
-            {
-                Module = mediaLoader.Module,
-                ModulePath = mediaLoader.ModulePath
-            }.SrcScriptTag());
         b.HeadAppend(b.HtmlScriptModuleReference(mediaLoader));
         return b.Tag(mediaLoaderTag, setAttributes);
     }
@@ -46,12 +40,6 @@ public static partial class MediaLoaderExtensions
         var mediaLoader = new MediaLoader();
         var module = mediaLoader.Module;
 
-        b.Metadata().AddRequiredTagMetadata(
-            new ModuleResource()
-            {
-                Module = mediaLoader.Module,
-                ModulePath = mediaLoader.ModulePath
-            }.SrcScriptTag());
         return b.H(mediaLoader.Tag, setProps, children);
     }
 }

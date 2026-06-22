@@ -5,8 +5,6 @@ namespace Metapsi.Syntax
 {
     public abstract class IVariable
     {
-        internal string Name { get; set; }
-
         [Obsolete]
         public void RememberToUseTheBuilder_b__VariablesAreJustEmptyPlaceholders()
         {
@@ -35,17 +33,38 @@ namespace Metapsi.Syntax
 
     public class Var<T> : IVariable
     {
-        public Var() { }
+    }
 
-        public Var(string name)
+    internal interface IClientVar
+    {
+        string Name { get; set; }
+    }
+
+    internal class ClientVar<T> : Var<T>, IClientVar
+    {
+        public ClientVar() { }
+
+        public ClientVar(string name)
         {
             Name = name;
+        }
+
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Used to support derived classes
+        /// </summary>
+        /// <param name="variable"></param>
+        public ClientVar(IVariable variable)
+        {
+            Name = (variable as IClientVar).Name;
         }
 
         //internal string Name { get; set; }
 
         internal Type Type => typeof(T);
         internal AssignmentNode AssignmentNode { get; set; }
+
     }
 }
 

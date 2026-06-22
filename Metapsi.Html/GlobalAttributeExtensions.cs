@@ -7,12 +7,12 @@ namespace Metapsi.Html;
 
 public static class GlobalAttributeExtensions
 {
-    public static void SetId(this IHtmlAttributesBuilder b, string id)
+    public static void SetId(this IHtmlPropsBuilder b, string id)
     {
         b.SetAttribute("id", id);
     }
 
-    public static void SetSlot(this IHtmlAttributesBuilder b, string slot)
+    public static void SetSlot(this IHtmlPropsBuilder b, string slot)
     {
         b.SetAttribute("slot", slot);
     }
@@ -53,30 +53,6 @@ public static class GlobalAttributeExtensions
     {
         b.SetAttribute("slot", slotName);
     }
-
-    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, string href)
-    {
-        var stylesheet = new HtmlTag("link");
-        stylesheet.SetAttribute("rel", "stylesheet");
-        stylesheet.SetAttribute("href", href);
-
-        b.Metadata().AddRequiredTagMetadata(stylesheet);
-    }
-
-    public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, ResourceMetadata href)
-    {
-        var stylesheet = new HtmlTag("link");
-        stylesheet.SetAttribute("rel", "stylesheet");
-        stylesheet.SetAttribute("href", href);
-
-        b.Metadata().AddRequiredTagMetadata(stylesheet);
-    }
-
-    //public static void AddRequiredStylesheetMetadata(this SyntaxBuilder b, Assembly assembly, string href)
-    //{
-    //    b.AddRequiredStylesheetMetadata(href);
-    //    b.AddEmbeddedResourceMetadata(assembly, href);
-    //}
 
     public static void SetInnerHtml<T>(this PropsBuilder<T> b, Var<string> innerHtml)
     {

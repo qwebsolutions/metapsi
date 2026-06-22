@@ -50,10 +50,74 @@ public static partial class SignalRClient
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
-        // TODO: metapsi-signalr should be generated, so it could reference signalr.js
-        b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "signalr.js");
-        var resource = b.AddEmbeddedResourceMetadata(typeof(SignalRClient).Assembly, "metapsi-signalr.js");
-        var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>(resource, "Connect");
-        b.Call(connect, b.Const(hubPath), register, onConnect);
+        b.Call(b.Def<SyntaxBuilder, string, Action<SignalRConnection>, Action>(SignalRConnect), b.Const(hubPath), register, onConnect);
+    }
+
+    private static void SignalRConnect(SyntaxBuilder b, Var<string> hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
+    {
+        var signalRJsPath = b.ResolvePath(new HashedEmbeddedResource()
+        {
+            Assembly = typeof(SignalRClient).Assembly,
+            LogicalName = "signalr.js"
+        });
+
+        var hubConnectionBuilder = b.ImportName<ClassDef<object>>(signalRJsPath, "HubConnectionBuilder");
+        var logLevel = b.ImportName<object>(signalRJsPath, "LogLevel");
+        var logLevelInformation = b.GetProperty<object>(logLevel, "Information");
+
+        var connection = b.On(
+            hubConnectionBuilder,
+            b =>
+            {
+                return b.Construct().Call<object>("withUrl", hubPath).Call<object>("configureLogging", logLevelInformation).Call<SignalRConnection>("build");
+            });
+
+        b.Call(register, connection);
+        b.On(connection,
+            b =>
+            {
+                b.Call("onclose", b.Def((SyntaxBuilder b) =>
+                {
+                    return b.Call(Start, connection, onConnect);
+                }));
+            });
+        b.Call(Start, connection, onConnect);
+    }
+
+    private static Var<Promise> RetryOnError(this ISyntaxBuilder b, Var<SignalRConnection> connection, Var<System.Action> onConnect)
+    {
+        return b.On(
+            b.GetClass<Promise>(),
+            b =>
+            {
+                var newPromise = b.Construct(b.Def((SyntaxBuilder b, Var<Action> resolve) =>
+                {
+                    b.SetTimeout(resolve, b.Const(5000));
+                }));
+
+                return b.On(newPromise,
+                    b =>
+                    {
+                        return b.Call<Promise>("then", b.Def((SyntaxBuilder b) =>
+                        {
+                            return b.Call(Start, connection, onConnect);
+                        }));
+                    });
+            });
+    }
+
+    private static Var<Promise> Start(this SyntaxBuilder b, Var<SignalRConnection> connection, Var<System.Action> onConnect)
+    {
+        var onConnectPromise = b.PromiseThen(b.CallOnObject<Promise>(connection, "start"), (SyntaxBuilder b, Var<object> _) =>
+        {
+            b.Call(onConnect);
+            b.Log("SignalR Connected.");
+        });
+
+        return b.PromiseCatch(onConnectPromise, (SyntaxBuilder b, Var<Error> err) =>
+        {
+            b.Log(err);
+            return b.Call(RetryOnError, connection, onConnect);
+        });
     }
 }

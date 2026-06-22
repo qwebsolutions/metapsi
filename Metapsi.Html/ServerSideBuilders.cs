@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Metapsi.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace Metapsi.Html;
@@ -11,18 +14,26 @@ public abstract class DocumentTemplate
     public abstract IHtmlNode BuildBody(AttributesBuilder<HtmlBody> b, params IHtmlNode[] children);
 }
 
+public class ServerVar<T> : Var<T>
+{
+    public ServerVar(T value)
+    {
+        this.ServerSideValue = value;
+    }
+    public T ServerSideValue { get; private set; }
+}
 
-public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
+public class AttributesBuilder : IHtmlPropsBuilder
 {
     public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public HtmlAttributes _attributes { get; set; } = new();
 
     public void AddClass(string className)
     {
         string previousClass = "";
-        if (this.Attributes.ContainsKey("class"))
+        if (this._attributes.ContainsKey("class"))
         {
-            previousClass = this.Attributes["class"];
+            previousClass = this._attributes["class"];
         }
 
         this.SetAttribute("class", previousClass + " " + className);
@@ -31,7 +42,19 @@ public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
     public void AddStyle(string property, string value)
     {
         this.Styles[property] = value;
-        this.Attributes["style"] = string.Join(";", this.Styles.Select(x => $"{x.Key}:{x.Value}"));
+        this._attributes["style"] = string.Join(";", this.Styles.Select(x => $"{x.Key}:{x.Value}"));
+    }
+
+    public void AddStyle(string property, Var<string> value)
+    {
+        this.AddStyle(property, (value as ServerVar<string>).ServerSideValue);
+    }
+
+    public IHtmlPropsBuilder<TElement> ForElement<TElement>()
+    {
+        return new AttributesBuilder<TElement>()
+        {
+        };
     }
 
     /// <summary>
@@ -41,7 +64,7 @@ public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
     /// <param name="attributeValue"></param>
     public void SetAttribute(string attributeName, string attributeValue)
     {
-        this.Attributes[attributeName] = attributeValue;
+        this._attributes[attributeName] = attributeValue;
     }
 
     /// <summary>
@@ -52,8 +75,26 @@ public class AttributesBuilder<TTag> : IHtmlAttributesBuilder
     /// <param name="attributeName"></param>
     public void SetAttribute(string attributeName)
     {
-        this.Attributes[attributeName] = "";
+        this._attributes[attributeName] = "";
     }
+
+    public void MergeAttributes(IHtmlProps htmlAttributes)
+    {
+        var newAttributes = htmlAttributes as HtmlAttributes;
+        foreach (var newAttribute in newAttributes)
+        {
+            this._attributes[newAttribute.Key] = newAttribute.Value;
+        }
+    }
+
+    Syntax.Var<IHtmlProps> IHtmlPropsBuilder.GetProps()
+    {
+        return new ServerVar<IHtmlProps>(this._attributes);
+    }
+}
+
+public class AttributesBuilder<TTag> : AttributesBuilder, IHtmlPropsBuilder<TTag>
+{
 }
 
 public static class AttributesBuilderExtensions
@@ -68,93 +109,4 @@ public static class AttributesBuilderExtensions
     {
         b.SetAttribute("style", styles);
     }
-}
-
-public static class DocumentBuilderExtensions
-{
-
-    //public static IHtmlNode FromEmptyDocument(
-    //    this HtmlBuilder b,
-    //    Action<AttributesBuilder<HtmlHtml>> setHtmlAttributes = null,
-    //    Action<AttributesBuilder<HtmlBody>> setBodyAttributes = null,
-    //    Func<HtmlBuilder, List<IHtmlNode>> createHeadChildren = null,
-    //    Func<HtmlBuilder, List<IHtmlNode>> createBodyChildren = null)
-    //{
-    //    if (setHtmlAttributes == null) setHtmlAttributes = b => { };
-    //    if (setBodyAttributes == null) setBodyAttributes = b => { };
-    //    if (createHeadChildren == null) createHeadChildren = b => new();
-    //    if (createBodyChildren == null) createBodyChildren = b => new();
-
-    //    return b.HtmlHtml(
-    //            b =>
-    //            {
-    //                setHtmlAttributes(b);
-    //            },
-    //            b.HtmlHead(createHeadChildren(b).ToArray()),
-    //            b.HtmlBody(
-    //                b =>
-    //                {
-    //                    setBodyAttributes(b);
-    //                },
-    //                createBodyChildren(b).ToArray()));
-    //}
-
-    //public static IHtmlNode FromBasicDocument(
-    //    this HtmlBuilder b,
-    //    string title = null,
-    //    Action<AttributesBuilder<HtmlHtml>> addHtmlAttributes = null,
-    //    Action<AttributesBuilder<HtmlBody>> addBodyAttributes = null,
-    //    Func<HtmlBuilder, List<IHtmlNode>> addHeadChildren = null,
-    //    Func<HtmlBuilder, List<IHtmlNode>> addBodyChildren = null)
-    //{
-    //    Action<AttributesBuilder<HtmlHtml>> setHtmlAttributes= b =>
-    //    {
-    //        b.SetAttribute("lang", "en");
-    //        b.SetAttribute("dir", "ltr");
-    //        if(addHtmlAttributes!=null)
-    //        {
-    //            addHtmlAttributes(b);
-    //        }
-    //    };
-
-    //    Action<AttributesBuilder<HtmlBody>> setBodyAttributes = b =>
-    //    {
-    //        if (addBodyAttributes != null)
-    //        {
-    //            addBodyAttributes(b);
-    //        }
-    //    };
-
-    //    Func<HtmlBuilder, List<IHtmlNode>> createHeadChildren = b =>
-    //    {
-    //        List<IHtmlNode> headNodes = new List<IHtmlNode>();
-    //        headNodes.Add(b.HtmlMeta(b =>
-    //        {
-    //            b.SetAttribute("name", "viewport");
-    //            b.SetAttribute("content", "width=device-width,initial-scale=1");
-    //        }));
-
-    //        if (!string.IsNullOrEmpty(title))
-    //        {
-    //            headNodes.Add(b.HtmlTitle(b.Text(title)));
-    //        }
-    //        if(addHeadChildren!=null)
-    //            headNodes.AddRange(addHeadChildren(b));
-    //        return headNodes;
-    //    };
-
-    //    Func<HtmlBuilder, List<IHtmlNode>> createBodyChildren = b =>
-    //    {
-    //        List<IHtmlNode> bodyNodes = new List<IHtmlNode>();
-
-    //        if (addBodyChildren != null)
-    //        {
-    //            bodyNodes.AddRange(addBodyChildren(b));
-    //        }
-
-    //        return bodyNodes;
-    //    };
-
-    //    return b.FromEmptyDocument(setHtmlAttributes, setBodyAttributes, createHeadChildren, createBodyChildren);
-    //}
 }

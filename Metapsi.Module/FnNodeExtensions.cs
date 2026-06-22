@@ -8,6 +8,19 @@ namespace Metapsi.Syntax
 {
     public static class FnNodeExtensions
     {
+        private static IVariable CreateParameterVariable(ParameterInfo parameterInfo)
+        {
+            var parameterType = parameterInfo.ParameterType;
+            if (parameterType.IsGenericType)
+            {
+                var varType = parameterType.GetGenericArguments().First();
+                return Activator.CreateInstance(
+                    typeof(ClientVar<>).MakeGenericType(varType),
+                    new object[] { parameterInfo.Name }) as IVariable;
+            }
+            throw new NotSupportedException();
+        }
+
         /// <summary>
         /// Creates a FnNode based on a ISyntaxBuilder delegate. 
         /// The node is returned as it is, not added to the parent.
@@ -20,7 +33,7 @@ namespace Metapsi.Syntax
             List<IVariable> parameters =
                     fn.Method.GetParameters().
                     Skip(1).
-                    Select(x => Activator.CreateInstance(x.ParameterType, new object[] { x.Name }) as IVariable)
+                    Select(x => CreateParameterVariable(x))
                     .ToList();
 
             var genericTypeArguments = fn.GetType().GenericTypeArguments;
@@ -31,29 +44,30 @@ namespace Metapsi.Syntax
 
             if (delegateBuilderDeclaredType.IsInterface)
             {
-                delegateBuilderInstanceType= b.GetType();
+                delegateBuilderInstanceType = b.GetType();
             }
             else
             {
                 delegateBuilderInstanceType = delegateBuilderDeclaredType;
             }
 
+            // Use new list of syntax nodes, it will end up in a new FnNode
             if (typeof(IObjBuilder).IsAssignableFrom(delegateBuilderInstanceType))
             {
                 // Delegate builder uses encapsulated Var
                 if (!(b is IObjBuilder))
                 {
                     //throw new Exception("No encapsulated variable to pass along to delegate builder");
-                    constructorArguments = new object[] { b.ModuleBuilder, b.NewObj<object>() };
+                    constructorArguments = new object[] { b.ModuleBuilder, new List<SyntaxNode>(), b.NewObj<object>() };
                 }
                 else
                 {
-                    constructorArguments = new object[] { b.ModuleBuilder, (b as IVariable) };
+                    constructorArguments = new object[] { b.ModuleBuilder, new List<SyntaxNode>(), (b as IVariable) };
                 }
             }
             else
             {
-                constructorArguments = new object[] { b.ModuleBuilder };
+                constructorArguments = new object[] { b.ModuleBuilder, new List<SyntaxNode>() };
             }
 
 
@@ -70,15 +84,17 @@ namespace Metapsi.Syntax
 
             FnNode fnNode = new FnNode()
             {
-                Body = (delegateBuilder as ISyntaxBuilder).Nodes,
-                Parameters = parameters.Select(x => x.Name).ToList(),
+                // The nodes of the function are a separate, inner list
+                // fnNode is the one that will end up added to the parent
+                Body = (delegateBuilder as ISyntaxBuilder).GetNodes(),
+                Parameters = parameters.Select(x => (x as IClientVar).Name).ToList(),
             };
 
             fnNode.AddDebugType(fn);
 
             if (result != null)
             {
-                fnNode.Return = (result as IVariable).Name;
+                fnNode.Return = (result as IClientVar).Name;
             }
 
             return fnNode;
@@ -102,8 +118,8 @@ namespace Metapsi.Syntax
 
                 assignmentNode.AddDebugType(fn.Method.ReturnType);
 
-                (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-                return new Var<T>(assignmentNode.Name)
+                (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = assignmentNode });
+                return new ClientVar<T>(assignmentNode.Name)
                 {
                     AssignmentNode = assignmentNode
                 };

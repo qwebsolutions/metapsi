@@ -16,7 +16,7 @@ public static class HtmlScriptExtensions
         Action<AttributesBuilder<HtmlScript>> setAttributes,
         Action<SyntaxBuilder> buildScript)
     {
-        ModuleBuilder moduleBuilder = new ModuleBuilder();
+        ModuleBuilder moduleBuilder = new ModuleBuilder(b.Resolver);
         moduleBuilder.AddFunction("main", buildScript);
 
         var scriptTag = b.HtmlScript(
@@ -47,12 +47,9 @@ public static class HtmlScriptExtensions
                 b.SetAttribute("type", "module");
                 setAttributes(b);
             },
-            new HtmlNode()
+            new JsModuleNode()
             {
-                Modules = new System.Collections.Generic.List<Module>()
-                {
-                    moduleBuilder.Module
-                }
+                Module = moduleBuilder.Module
             });
     }
 
@@ -82,17 +79,5 @@ public static class HtmlScriptExtensions
                 b.SetTypeModule();
                 b.SetSrc($"/metapsi-js-module/{module.ModulePath}?h={module.Module.Hash()}");
             });
-    }
-
-    public static bool GenerateAddExternalResources(HtmlBuilder b, Module module)
-    {
-        var requiredTags = module.GetRequiredTagsMetadata();
-
-        foreach (var tag in requiredTags)
-        {
-            b.HeadAppend(new HtmlNode() { Tags = requiredTags });
-        }
-
-        return true;
     }
 }

@@ -3,38 +3,28 @@ using System.Collections.Generic;
 
 namespace Metapsi.Syntax
 {
-    public interface IPropsBuilder : IObjBuilder, IHtmlAttributesBuilder
-    {
-
-    }
-
-    public class PropsBuilder<TProps> : Var<TProps>, IPropsBuilder
+    public class PropsBuilder<TProps> : Var<TProps>, IObjBuilder, IHtmlPropsBuilder, IHtmlPropsBuilder<TProps>, IClientVar
     {
         private readonly ModuleBuilder moduleBuilder;
         private readonly List<SyntaxNode> nodes;
 
-        public PropsBuilder(ModuleBuilder moduleBuilder, IVariable var)
+        public PropsBuilder(ModuleBuilder moduleBuilder, List<SyntaxNode> nodes, IVariable var)
         {
             this.moduleBuilder = moduleBuilder;
-            this.nodes = new List<SyntaxNode>();
+            this.nodes = nodes;
             this.Props = var.As<TProps>();
-            this.Name = var.Name;
+            (this as IClientVar).Name = (var as IClientVar).Name;
         }
 
         ModuleBuilder ISyntaxBuilder.ModuleBuilder => this.moduleBuilder;
 
-        List<SyntaxNode> ISyntaxBuilder.Nodes => this.nodes;
-
-        //internal PropsBuilder(IVariable onVar, SyntaxBuilder parent) : base((parent as ISyntaxBuilder).ModuleBuilder)
-        //{
-        //    this.Props = this.NewObj().As<TProps>();
-        //}
-        //internal PropsBuilder(PropsBuilder<TProps> parent) : base(parent)
-        //{
-        //    this.Props = parent.Props;
-        //}
-
         public Var<TProps> Props { get; set; }
+        string IClientVar.Name { get; set; }
+
+        public string ResolvePath(IResource resource)
+        {
+            return this.moduleBuilder.Resolver.ResolvePath(resource);
+        }
 
         public void AddClass(string className)
         {
@@ -43,21 +33,31 @@ namespace Metapsi.Syntax
 
         private Var<List<object>> GetClassList()
         {
-            var classList = this.GetProperty<List<object>>(this.Props, this.Const("class"));
-            return this.If(
-                this.HasObject(classList),
+            return GetClassList(this, this.Props.As<object>());
+        }
+
+        private static Var<List<object>> GetClassList(ISyntaxBuilder b, Var<object> props)
+        {
+            var classList = b.GetProperty<List<object>>(props, b.Const("class"));
+            return b.If(
+                b.HasObject(classList),
                 b => classList,
                 b =>
                 {
                     var newList = b.NewCollection<object>();
-                    b.SetProperty(b.Props, b.Const("class"), newList);
+                    b.SetProperty(props, b.Const("class"), newList);
                     return newList;
                 });
         }
 
         public void AddClass(Var<string> @class)
         {
-            this.Push(this.GetClassList(), @class.As<object>());
+            AddClass(this, this.Props.As<object>(), @class);
+        }
+
+        private static void AddClass(ISyntaxBuilder b, Var<object> props, Var<string> @class)
+        {
+            b.Push(GetClassList(b, props), @class.As<object>());
         }
 
         public void SetClass(Var<string> @class)
@@ -88,16 +88,26 @@ namespace Metapsi.Syntax
 
         public void AddStyle(string property, Var<string> value)
         {
-            var currentStyle = this.GetProperty<object>(this.Props, "style");
-            this.If(
-                this.Not(this.HasObject(currentStyle)),
+            this.AddStyle(this.Const(property), value);
+        }
+
+        public void AddStyle(Var<string> property, Var<string> value)
+        {
+            this.Call<ISyntaxBuilder, object, string, string>(AddStyle, this.Props.As<object>(), property, value);
+        }
+
+        private static void AddStyle(ISyntaxBuilder b, Var<object> props, Var<string> property, Var<string> value)
+        {
+            var currentStyle = b.GetProperty<object>(props, "style");
+            b.If(
+                b.Not(b.HasObject(currentStyle)),
                 b =>
                 {
-                    b.SetProperty(b.Props, b.Const("style"), b.NewObj<object>());
+                    b.SetProperty(props, b.Const("style"), b.NewObj<object>());
                 });
 
-            currentStyle = this.GetProperty<object>(this.Props, "style");
-            this.SetProperty(currentStyle, this.Const(property), value);
+            currentStyle = b.GetProperty<object>(props, "style");
+            b.SetProperty(currentStyle, property, value);
         }
 
         public void SetAttribute(string attribute, Var<string> value)
@@ -119,6 +129,21 @@ namespace Metapsi.Syntax
         {
             this.SetProperty(this.Props, this.Const(name), this.Const(true));
         }
+
+        void ISyntaxBuilder.AddSyntaxNode(SyntaxNode syntaxNode)
+        {
+            this.nodes.Add(syntaxNode);
+        }
+
+        List<SyntaxNode> ISyntaxBuilder.GetNodes()
+        {
+            return this.nodes;
+        }
+
+        public Var<IHtmlProps> GetProps()
+        {
+            return Props.As<IHtmlProps>();
+        }
     }
 
     public static class PropsBuilderExtensions
@@ -133,11 +158,10 @@ namespace Metapsi.Syntax
         /// <returns></returns>
         public static Var<T> SetProps<T>(this ISyntaxBuilder b, IVariable obj, Action<PropsBuilder<T>> setProps)
         {
-            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, obj);
+            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, b.GetNodes(), obj);
             if (setProps != null)
             {
                 setProps(propsBuilder);
-                (b as ISyntaxBuilder).Nodes.AddRange((propsBuilder as ISyntaxBuilder).Nodes);
             }
             return propsBuilder.Props;
         }
@@ -153,11 +177,10 @@ namespace Metapsi.Syntax
             where T : new()
         {
             var obj = b.NewObj<T>();
-            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, obj);
+            var propsBuilder = new PropsBuilder<T>(b.ModuleBuilder, b.GetNodes(), obj);
             if (setProps != null)
             {
                 setProps(propsBuilder);
-                (b as ISyntaxBuilder).Nodes.AddRange((propsBuilder as ISyntaxBuilder).Nodes);
             }
             return propsBuilder.Props;
         }

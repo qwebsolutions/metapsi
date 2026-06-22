@@ -1,19 +1,67 @@
 ﻿using Metapsi.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Metapsi.Html;
 
+public class WebComponentTrackerNode : IHtmlNode
+{
+    public HashSet<string> Tags { get; set; } = new HashSet<string>();
+
+    public bool IsEquivalentTo(IHtmlNode other)
+    {
+        if (other == null) return false;
+        WebComponentTracker webComponentTracker = other as WebComponentTracker;
+        if (webComponentTracker == null) return false;
+
+        // It should be just one tracker per document
+        return true;
+    }
+
+    public string ToHtml(ToHtmlOptions options)
+    {
+        return string.Empty;
+    }
+}
+
+public class WebComponentTracker: IDependency, IDependencyDefaultImport
+{
+    public WebComponentTracker(string tag)
+    {
+        this.Tag = tag;
+        this.DependencyId = $"web-component-tracker-{tag}";
+    }
+
+    public string DependencyId { get; set; }
+    public string Tag { get; set; }
+
+    public void Import(HtmlBuilder b)
+    {
+        var trackerNode = GetWebComponentTrackerNode(b);
+        trackerNode.Tags.Add(this.Tag);
+    }
+
+    public static WebComponentTrackerNode GetWebComponentTrackerNode(HtmlBuilder b)
+    {
+        var trackerNode = b.Document.Head.Children.SingleOrDefault(x => x is WebComponentTrackerNode);
+        if (trackerNode == null)
+        {
+            trackerNode = new WebComponentTrackerNode();
+            b.HeadAppend(trackerNode);
+        }
+
+        return trackerNode as WebComponentTrackerNode;
+    }
+}
+
 public static class WebComponentExtensions
 {
-    public static void TrackWebComponent(this HashSet<Metadata> b, string webComponentTag)
+    public static void TrackWebComponent(
+        this ICanRequireDependency b, string webComponentTag)
     {
-        b.Add(new Metadata()
-        {
-            Type = "web-component",
-            Value = webComponentTag,
-        });
+        b.Require(new WebComponentTracker(webComponentTag));
     }
 
     public static Var<Promise> WhenDefined(this SyntaxBuilder b, Var<string> tag)
@@ -36,24 +84,10 @@ public static class WebComponentExtensions
 
     public static IHtmlNode WebComponentsFadeInScript(this HtmlBuilder b)
     {
-        var webComponentTags = b.Document.Metadata.Where(x => x.Type == "web-component");
-        //b.Document.Metadata.AddRequiredTagMetadata(
-        //    new HtmlTag("style")
-        //    {
-        //        Children = new List<HtmlNode>()
-        //        {
-        //            new HtmlNode()
-        //            {
-        //                Text = new ()
-        //                {
-        //                    new HtmlText()
-        //                    {
-        //                        Text = "body {\r\n    opacity: 0;\r\n  }\r\n\r\n  body.ready {\r\n    opacity: 1;\r\n    transition: .25s opacity;\r\n  }\r\n"
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    });
+        var tracker = WebComponentTracker.GetWebComponentTrackerNode(b);
+        var webComponentTags = tracker.Tags;
+        if (!webComponentTags.Any())
+            return new HtmlText();
 
         b.HeadAppend(
             b.HtmlStyle(
@@ -63,7 +97,7 @@ public static class WebComponentExtensions
             b =>
             {
                 b.PromiseThen(
-                    b.WhenDefined(webComponentTags.Select(x => x.Value).ToArray()),
+                    b.WhenDefined(webComponentTags.ToArray()),
                     (SyntaxBuilder b, Var<object> _) =>
                     {
                         b.CallOnObject(
@@ -74,38 +108,3 @@ public static class WebComponentExtensions
             });
     }
 }
-
-//public class WebComponentsTracker : IHtmlNode
-//{
-//    public HashSet<string> WebComponentTags { get; set; } = new();
-
-//    public string ToHtml(System.Func<ResourceMetadata, string> resourceResolver)
-//    {
-//        return string.Empty;
-//    }
-//}
-
-//public class WebComponentsFadeInScript : IHtmlNode
-//{
-//    public WebComponentsTracker WebComponentsTracker { get; set; }
-
-//    public string ToHtml(System.Func<ResourceMetadata, string> resourceResolver)
-//    {
-//        StringBuilder builder = new StringBuilder();
-//        builder.AppendLine("<style>\r\n  body {\r\n    opacity: 0;\r\n  }\r\n\r\n  body.ready {\r\n    opacity: 1;\r\n    transition: .25s opacity;\r\n  }\r\n</style>");
-//        var allWhenDefined = string.Join(",", WebComponentsTracker.WebComponentTags.Select(x => $"customElements.whenDefined('{x}')"));
-//        builder.AppendLine($"<script type=\"module\">\r\n  await Promise.allSettled([{allWhenDefined}]); document.body.classList.add('ready');\r\n</script>");
-
-//        return builder.ToString();
-//    }
-//}
-
-//public static class WebComponentsFadeInExtensions
-//{
-//    public static void UseWebComponentsFadeIn(this HtmlBuilder b)
-//    {
-//        //b.AddWebComponentsTracker();
-//        //var tracker = b.GetWebComponentsTracker();
-//        //b.HeadAppend(new WebComponentsFadeInScript() { WebComponentsTracker = tracker });
-//    }
-//}

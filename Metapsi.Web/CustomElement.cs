@@ -83,6 +83,7 @@ public static class CustomElementsFeature
     {
         var customElement = ConfigurationBuilder.Configure(configureCustomElement);
         var module = ModuleBuilder.New(
+            new JsOnlyResolver(),
             b =>
             {
                 b.Call(b =>

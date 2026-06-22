@@ -94,7 +94,7 @@ namespace Metapsi
 
         public static RouteHandlerBuilder UseEmbeddedFiles(this WebApplication app)
         {
-            return app.MapGet("/embedded/{package}/{version}/{*logicalName}", async (HttpContext httpContext, string package, string version, string logicalName) =>
+            return app.MapGet(EmbeddedResource.DefaultHttpRoutePattern, async (HttpContext httpContext, string package, string version, string logicalName) =>
             {
                 await new Metapsi.Web.CfHttpContext(httpContext).Response.WriteEmbeddedResource(package, logicalName);
             });

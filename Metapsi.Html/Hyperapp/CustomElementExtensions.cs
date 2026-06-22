@@ -106,6 +106,8 @@ public abstract class CustomElement<TModel> : ICustomElement, IModuleResource
         get
         {
             var module = ModuleBuilder.New(
+                // TODO: Probably not quite right
+                new JsOnlyResolver(),
                 b =>
                 {
                     b.Call(b =>
@@ -193,7 +195,11 @@ public static partial class CustomElementExtensions
         Var<Action<Element>> attach,
         Var<Action<Element>> cleanup)
     {
-        var metapsiCustomElementsJsResource = b.AddEmbeddedResourceMetadata(typeof(CustomElementExtensions).Assembly, ExternalScriptName);
+        var metapsiCustomElementsJsResource = b.ResolvePath(new HashedEmbeddedResource()
+        {
+            Assembly = typeof(CustomElementExtensions).Assembly,
+            LogicalName = ExternalScriptName
+        });
         var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(metapsiCustomElementsJsResource, "defineRACCustomElement");
         b.Call(define, tagName, render, attach, cleanup);
     }
@@ -269,100 +275,6 @@ public static partial class CustomElementExtensions
         var initProps = b.GetProperty<T>(e, "props");
         return initProps;
     }
-
-
-    //public static IHtmlNode CustomElementSrcScriptTag(
-    //    this HtmlBuilder b,
-    //    ICustomElement customElement)
-    //{
-    //    var jsFile = $"{customElement.Tag}.js";
-    //    return new HtmlNode()
-    //    {
-    //        Tags = new System.Collections.Generic.List<HtmlTag>()
-    //        {
-    //            SrcScriptTag(jsFile, "metapsi-custom-element", "1.0", customElement.Module.Hash())
-    //        }
-    //    };
-    //}
-
-    //public static HtmlTag SrcScriptTag(
-    //    string jsFile,
-    //    string packageName,
-    //    string packageVersion,
-    //    string fileHash = null)
-    //{
-    //    return new HtmlTag("script")
-    //    {
-    //        Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-    //        {
-    //            {
-    //                "type",
-    //                new HtmlAttribute()
-    //                {
-    //                    Value = "module"
-    //                }
-    //            },
-    //            {
-    //                "src",
-    //                new HtmlAttribute()
-    //                {
-    //                    ResourceMetadata = new ResourceMetadata()
-    //                    {
-    //                        ResourceType = "metapsi-js-module",
-    //                        LogicalName = jsFile,
-    //                        PackageName = packageName,
-    //                        PackageVersion = packageVersion,
-    //                        FileHash = fileHash
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    };
-    //}
-
-
-    public static HtmlTag SrcScriptTag(this IModuleResource moduleResource)
-    {
-        return new HtmlTag("script")
-        {
-            Attributes = new System.Collections.Generic.Dictionary<string, HtmlAttribute>()
-            {
-                {
-                    "type",
-                    new HtmlAttribute()
-                    {
-                        Value = "module"
-                    }
-                },
-                {
-                    "src",
-                    new HtmlAttribute()
-                    {
-                        Value = $"/metapsi-js-module/{moduleResource.ModulePath}?h={moduleResource.Module.Hash()}"
-                    }
-                }
-            }
-        };
-    }
-
-    //public static HtmlTag CustomElementSrcScriptTag(
-    //    this LayoutBuilder b,
-    //    ICustomElement customElement)
-    //{
-    //    var jsFile = $"{customElement.Tag}.js";
-    //    return SrcScriptTag(jsFile, "metapsi-custom-element", "1.0", customElement.Module.Hash());
-    //}
-
-    //public static HtmlTag CustomElementSrcScriptTag(
-    //    this LayoutBuilder b,
-    //    string tag,
-    //    string packageName,
-    //    string packageVersion,
-    //    string fileHash = null)
-    //{
-    //    var jsFile = $"{tag}.js";
-    //    return SrcScriptTag(jsFile, packageVersion, packageVersion, fileHash);
-    //}
 }
 
 

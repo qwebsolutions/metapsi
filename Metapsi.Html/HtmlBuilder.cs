@@ -1,15 +1,151 @@
-﻿using System;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Xml.Linq;
 
 
 namespace Metapsi.Html;
 
+
+public class HtmlAttributes : Dictionary<string, string>, IHtmlProps
+{
+
+}
+
+public class JsScriptDependency : IDependency, IDependencyDefaultImport
+{
+    public string JsPath { get; set; }
+    public bool IsModule { get; set; }
+
+    public string DependencyId => JsPath;
+
+    public void Import(HtmlBuilder b)
+    {
+        b.HeadAppend(
+            b.HtmlScript(
+                b =>
+                {
+                    b.SetSrc(JsPath);
+                    if (IsModule)
+                    {
+                        b.SetTypeModule();
+                    }
+                }));
+    }
+}
+
+public class StylesheetDependency : IDependency, IDependencyDefaultImport
+{
+    public string StylesheetPath { get; set; }
+
+    public string DependencyId => StylesheetPath;
+
+    public void Import(HtmlBuilder b)
+    {
+        b.HeadAppend(
+            b.HtmlLink(
+                b =>
+                {
+                    b.SetRel("stylesheet");
+                    b.SetHref(StylesheetPath);
+                }));
+    }
+}
+
+
+public class ResolverOverride
+{
+    public string resolvedPath { get; private set; }
+
+    public void ResolveTo(string redirectPath)
+    {
+        resolvedPath = redirectPath;
+    }
+}
+
+public class InPageResolver : IDependencyResolver
+{
+    private readonly HtmlBuilder htmlBuilder;
+
+    public InPageResolver(HtmlBuilder b)
+    {
+        this.htmlBuilder = b;
+    }
+
+    public Action<ResolverOverride, IResource> OverridePath = (b, resource) =>
+    {
+
+    };
+
+    HashSet<string> ResolvedDependencyIds = new HashSet<string>();
+    Dictionary<string, string> ResolvedPaths = new Dictionary<string, string>();
+
+    // Resolves a path. Could be for js or css or img src or anything
+    public string ResolvePath(IResource resource)
+    {
+        var resourceId = resource.ResourceId;
+        ResolvedPaths.TryGetValue(resourceId, out var path);
+        if (!string.IsNullOrEmpty(path))
+            return path;
+
+        // Enable overrides here
+
+        if (this.OverridePath != null)
+        {
+            var resolverOverride = new ResolverOverride();
+            this.OverridePath(resolverOverride, resource);
+            if (!string.IsNullOrEmpty(resolverOverride.resolvedPath))
+            {
+                ResolvedPaths[resourceId] = resolverOverride.resolvedPath;
+                return resolverOverride.resolvedPath;
+            }
+        }
+
+        var withDefaultResolver = resource as IResourceDefaultPath;
+        if (withDefaultResolver != null)
+        {
+            path = withDefaultResolver.ResolvePath();
+            ResolvedPaths[resourceId] = path;
+            return path;
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+
+    // Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
+    public void Import(IDependency dependency)
+    {
+        var dependencyId = dependency.DependencyId;
+        if (ResolvedDependencyIds.Contains(dependencyId))
+            return;
+
+        // Enabled overrides here
+
+        var withDefaultResolver = dependency as IDependencyDefaultImport;
+        if (withDefaultResolver != null)
+        {
+            withDefaultResolver.Import(this.htmlBuilder);
+            ResolvedDependencyIds.Add(dependencyId);
+        }
+    }
+}
+
+public interface IDependencyDefaultImport : IDependency
+{
+    void Import(HtmlBuilder b);
+}
+
 /// <summary>
 /// Builder for an HTML document
 /// </summary>
-public class HtmlBuilder
+public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
 {
     /// <summary>
     /// The HTML document
@@ -19,6 +155,24 @@ public class HtmlBuilder
     private HtmlBuilder()
     {
         this.Document = new HtmlDocument();
+        this.Resolver = new InPageResolver(this);
+    }
+
+    public InPageResolver Resolver { get; private set; }
+
+    public string ResolvePath(IResource resource)
+    {
+        return Resolver.ResolvePath(resource);
+    }
+
+    /// <summary>
+    /// Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class.
+    /// This allows different resolutions per dependency, for example some stylesheet might be inlined while other imported
+    /// </summary>
+    /// <param name="dependency"></param>
+    public void Require(IDependency dependency)
+    {
+        Resolver.Import(dependency);
     }
 
     /// <summary>
@@ -87,15 +241,27 @@ public class HtmlBuilder
         var builder = new HtmlBuilder();
         return build(builder);
     }
+
+    public IHtmlNode Tag(string tagName, IHtmlProps attrs, params IHtmlNode[] children)
+    {
+        Dictionary<string, string> serverSideAttributes = attrs as Dictionary<string, string>;
+
+        return HtmlBuilderExtensions.Tag(this, tagName, serverSideAttributes, children);
+    }
+
+    public IHtmlNode Text(string text)
+    {
+        return HtmlBuilderExtensions.Text(this, text);
+    }
+
+    public IHtmlPropsBuilder<TElement> GetPropsBuilder<TElement>()
+    {
+        return new AttributesBuilder<TElement>();
+    }
 }
 
 public static class HtmlBuilderExtensions
 {
-    //public static HtmlDocument Document(this HtmlBuilder b)
-    //{
-    //    return b.Document;
-    //}
-
     /// <summary>
     /// Adds children to head tag if they don't already exist
     /// </summary>
@@ -105,9 +271,9 @@ public static class HtmlBuilderExtensions
     {
         foreach (var node in nodes)
         {
-            if (!b.Document.Head.Children.Contains(node, new HtmlNodeComparer()))
+            if (!b.Document.Head.Children.Any(x => x.IsEquivalentTo(node)))
             {
-                b.Document.Head.Children.Add(node as HtmlNode);
+                b.Document.Head.Children.Add(node);
             }
         }
     }
@@ -119,7 +285,7 @@ public static class HtmlBuilderExtensions
     /// <param name="nodes"></param>
     public static void BodyAppend(this HtmlBuilder b, params IHtmlNode[] nodes)
     {
-        b.Document.Body.Children.AddRange(nodes.Cast<HtmlNode>());
+        b.Document.Body.Children.AddRange(nodes);
     }
 
     /// <summary>
@@ -132,20 +298,11 @@ public static class HtmlBuilderExtensions
     /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
-        var attributesDictionary = new Dictionary<string, HtmlAttribute>();
-        foreach (var attribute in attributes)
+        return new HtmlTag()
         {
-            attributesDictionary[attribute.Key] = new HtmlAttribute() { Value = attribute.Value };
-        }
-        return new HtmlNode()
-        {
-            Tags = new List<HtmlTag>() {
-                new HtmlTag(tagName)
-                {
-                    Attributes = attributesDictionary,
-                    Children = children.Cast<HtmlNode>().ToList()
-                }
-            }
+            Tag = tagName,
+            Attributes = attributes,
+            Children = children
         };
     }
 
@@ -193,7 +350,7 @@ public static class HtmlBuilderExtensions
         {
             buildAttributes(builder);
         }
-        return b.Tag(tagName, builder.Attributes, children);
+        return b.Tag(tagName, builder._attributes, children);
     }
 
     public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, params IHtmlNode[] children)
@@ -203,29 +360,8 @@ public static class HtmlBuilderExtensions
 
     public static IHtmlNode Text(this HtmlBuilder b, string text)
     {
-        return new HtmlNode() { Text = new List<HtmlText>() { new HtmlText(text) } };
+        return new HtmlText() { Text = text };
     }
-
-    /// <summary>
-    /// Adds the <paramref name="href"/> stylesheet do document head if it doesn't already exist
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="href"></param>
-    //public static void AddStylesheet(this HtmlBuilder b, string href)
-    //{
-    //    if (!href.StartsWith("http"))
-    //    {
-    //        // If it is not absolute path, make it absolute
-    //        href = $"/{href}".Replace("//", "/");
-    //    }
-    //    b.HeadAppend(
-    //        b.HtmlLink(
-    //            b =>
-    //            {
-    //                b.SetHref(href);
-    //                b.SetRel("stylesheet");
-    //            }));
-    //}
 
     /// <summary>
     /// Adds <paramref name="src"/> script to document head if it doesn't already exist
@@ -257,29 +393,6 @@ public static class HtmlBuilderExtensions
         b.AddScript(src, "module");
     }
 
-    //public static void AddModuleStylesheet(this HtmlBuilder b)
-    //{
-    //    var assembly = System.Reflection.Assembly.GetCallingAssembly();
-    //    var cssName = $"{assembly.GetName().Name}.css";
-    //    b.AddStylesheet(assembly, cssName);
-    //}
-
-    //public static void AddStylesheet(this HtmlBuilder b, Assembly assembly, string cssFile)
-    //{
-    //    //var embeddedFile = EmbeddedFiles.Add(assembly, cssFile);
-    //    //if (embeddedFile != null)
-    //    //{
-    //    //    if (!string.IsNullOrWhiteSpace(embeddedFile.Hash))
-    //    //    {
-    //    //        cssFile = cssFile + "?h=" + embeddedFile.Hash;
-    //    //    }
-    //    //}
-    //    b.HeadAppend(b.HtmlLink(b =>
-    //    {
-    //        b.SetAttribute("rel", "stylesheet");
-    //        b.SetAttribute("href", "/" + cssFile);
-    //    }));
-    //}
 
     public static IHtmlNode Optional(this HtmlBuilder b, bool variable, Func<HtmlBuilder, IHtmlNode> ifTrue)
     {

@@ -1,11 +1,8 @@
-﻿using Metapsi.Syntax;
-using System;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Metapsi.Html;
@@ -15,56 +12,12 @@ namespace Metapsi.Html;
 /// </summary>
 public interface IHtmlNode
 {
-    //string ToHtml(Func<ResourceMetadata, string> resourceResolver);
+    string ToHtml(ToHtmlOptions options);
+    bool IsEquivalentTo(IHtmlNode other);
 }
 
-public class HtmlNode : IHtmlNode
-{
-    public List<HtmlText> Text { get; set; } = new List<HtmlText>();
-    public List<HtmlTag> Tags { get; set; } = new List<HtmlTag>();
-    public List<Module> Modules { get; set; } = new List<Module>();
 
-    public string ToHtml(ToHtmlOptions toHtmlOptions = null)
-    {
-        if (toHtmlOptions == null) toHtmlOptions = new ToHtmlOptions();
-
-        StringBuilder builder = new StringBuilder();
-
-        if (this.Tags != null)
-        {
-            foreach (var tag in this.Tags)
-            {
-                builder.AppendLine(tag.ToHtml(toHtmlOptions));
-            }
-        }
-
-        if (this.Text != null && this.Text.Any())
-        {
-            foreach (var text in this.Text)
-            {
-                builder.Append(text);
-            }
-        }
-
-        if (this.Modules != null)
-        {
-            foreach (var module in Modules)
-            {
-                builder.AppendLine(module.ToJs(toHtmlOptions.ToJavaScriptOptions));
-            }
-        }
-
-        return builder.ToString();
-    }
-}
-
-public class HtmlAttribute
-{
-    public string Value { get; set; }
-    public ResourceMetadata ResourceMetadata { get; set; }
-}
-
-public class HtmlText
+public class HtmlText : IHtmlNode, IVNode
 {
     public string Text { get; set; } = string.Empty;
 
@@ -80,17 +33,25 @@ public class HtmlText
         return this.Text;
     }
 
-    public string ToHtml(Func<ResourceMetadata, string> resourceResolver)
+    public string ToHtml(ToHtmlOptions options)
     {
         return this.Text;
     }
+
+    public bool IsEquivalentTo(IHtmlNode other)
+    {
+        if (other == null) return false;
+        HtmlText otherText = other as HtmlText;
+        if (otherText == null) return false;
+        return this.Text == otherText.Text;
+    }
 }
 
-public class HtmlTag
+public class HtmlTag : IHtmlNode, IVNode
 {
     public string Tag { get; set; } = string.Empty;
-    public Dictionary<string, HtmlAttribute> Attributes { get; set; } = new();
-    public List<HtmlNode> Children { get; set; } = new();
+    public Dictionary<string, string> Attributes { get; set; } = new();
+    public List<IHtmlNode> Children { get; set; } = new();
     public HtmlTag() { }
 
     public HtmlTag(string tag)
@@ -128,11 +89,7 @@ public class HtmlTag
         builder.Append($"<{this.Tag}");
         foreach (var attribute in this.Attributes)
         {
-            var attributeValue = attribute.Value.Value;
-            if (attribute.Value.ResourceMetadata != null)
-            {
-                attributeValue = toHtmlOptions.ResolveResource(null, attribute.Value.ResourceMetadata);
-            }
+            var attributeValue = attribute.Value;
 
             builder.Append($" {attribute.Key}=\"{attributeValue}\"");
         }
@@ -142,119 +99,61 @@ public class HtmlTag
         {
             foreach (var child in this.Children)
             {
-                builder.Append(child.ToHtml(toHtmlOptions));
+                if (child != null) // optional children are null
+                {
+                    builder.Append(child.ToHtml(toHtmlOptions));
+                }
             }
             builder.Append($"</{this.Tag}>");
         }
 
         return builder.ToString();
     }
-}
 
-//public class DistinctTag : HtmlTag, IEquatable<DistinctTag>
-//{
-//    public DistinctTag() { }
-
-//    public DistinctTag(string tag) : base(tag)
-//    {
-
-//    }
-
-//    public DistinctTag(HtmlTag tag)
-//    {
-//        this.Tag = tag.Tag;
-//        this.Attributes = new Dictionary<string, string>(tag.Attributes);
-//        this.Children = new List<IHtmlNode>(tag.Children);
-//    }
-
-//    public bool Equals(DistinctTag other)
-//    {
-//        return HtmlNodeComparer.HtmlTagEquals(this, other);
-//    }
-
-//    public override bool Equals(object obj)
-//    {
-//        if (obj == null) return false;
-//        return this.Equals(obj as DistinctTag);
-//    }
-
-//    public override int GetHashCode()
-//    {
-//        return HashCode.Combine(this.ToHtml());
-//    }
-
-//    public static DistinctTag New<T>(string tagName, Action<AttributesBuilder<T>> buildAttributes, params IHtmlNode[] children)
-//    {
-//        DistinctTag tag = new DistinctTag(tagName);
-//        buildAttributes(new AttributesBuilder<T>() { Attributes = tag.Attributes });
-//        tag.Children.AddRange(children);
-//        return tag;
-//    }
-
-//    public static DistinctTag New<T>(string tagName, params IHtmlNode[] children)
-//    {
-//        DistinctTag tag = new DistinctTag(tagName);
-//        tag.Children.AddRange(children);
-//        return tag;
-//    }
-//}
-
-public class HtmlNodeComparer : IEqualityComparer<IHtmlNode>
-{
-    public bool Equals(IHtmlNode x, IHtmlNode y)
+    public bool IsEquivalentTo(IHtmlNode other)
     {
-        if (ReferenceEquals(x, y)) return true;
+        if (other == null) return false;
+        var otherTag = other as HtmlTag;
+        if (otherTag == null) return false;
 
-        if (x == null && y != null) return false;
-        if (y == null && x != null) return false;
-
-        if (x.GetType() != y.GetType()) return false;
-
-        var xNode = x as HtmlNode;
-        var yNode = y as HtmlNode;
-
-        if (xNode.Text.Count != yNode.Text.Count) return false;
-        for (int i = 0; i < xNode.Text.Count; i++)
+        if (otherTag.Tag != this.Tag) return false;
+        if (otherTag.Attributes.Count != this.Attributes.Count) return false;
+        foreach (var attribute in otherTag.Attributes)
         {
-            if (xNode.Text[i] != yNode.Text[i]) return false;
+            if (this.Attributes[attribute.Key] != attribute.Value) return false;
         }
 
-        if (xNode.Tags.Count != yNode.Tags.Count) return false;
+        if (otherTag.Children.Count != this.Children.Count) return false;
 
-        for (int i = 0; i < xNode.Tags.Count; i++)
+        for (int i = 0; i < otherTag.Children.Count; i++)
         {
-            if (Metapsi.Serialize.ToJson(xNode.Tags[i]) != Metapsi.Serialize.ToJson(yNode.Tags[i])) return false;
+            var thisChild = this.Children[i];
+            if (thisChild == null) return false;
+            var otherChild = otherTag.Children[i];
+            if (otherChild == null) return false;
+            if (!thisChild.IsEquivalentTo(otherChild)) return false;
         }
 
         return true;
     }
+}
 
-    public int GetHashCode(/*[DisallowNull]*/ IHtmlNode obj)
+public class JsModuleNode : IHtmlNode
+{
+    public Module Module { get; set; }
+
+    public bool IsEquivalentTo(IHtmlNode other)
     {
-        return obj.GetHashCode();
+        if (other == null)
+            return false;
+        JsModuleNode otherModuleNode = other as JsModuleNode;
+        if (otherModuleNode == null) return false;
+        return this.Module == otherModuleNode.Module;
     }
 
-    public static bool HtmlTextEquals(HtmlText first, HtmlText second)
+    public string ToHtml(ToHtmlOptions options)
     {
-        if (first == null && second == null) return true;
-
-        if (first == null) return false;
-        if (second == null) return false;
-
-        return first.Text == second.Text;
-    }
-
-    public static bool HtmlTagEquals(HtmlTag first, HtmlTag second)
-    {
-        if (first == null && second == null) return true;
-
-        if (first == null) return false;
-        if (second == null) return false;
-        if (first.Tag != second.Tag) return false;
-
-        if (first.Attributes == second.Attributes && first.Children == second.Children) return true;
-
-        return first.ToHtml() == second.ToHtml();
+        return this.Module.ToJs(options.ToJavaScriptOptions);
     }
 }
 
@@ -281,164 +180,8 @@ public static class SelfClosing
 
 public static class HtmlNodeExtensions
 {
-    //public static void AddChild<TChild>(this HtmlTag parent, TChild child)
-    //    where TChild : IHtmlNode
-    //{
-    //    if (!parent.Children.Contains(child))
-    //    {
-    //        parent.Children.Add(child);
-    //    }
-    //}
-
-    //public static string GetAttribute(this HtmlTag element, string name)
-    //{
-    //    element.Attributes.TryGetValue(name, out var value);
-    //    return value;
-    //}
-
     public static void SetAttribute(this HtmlTag element, string name, string value)
     {
-        element.Attributes[name] = new HtmlAttribute() { Value = value };
+        element.Attributes[name] = value;
     }
-
-    public static void SetAttribute(this HtmlTag element, string name, ResourceMetadata value)
-    {
-        element.Attributes[name] = new HtmlAttribute() { ResourceMetadata = value };
-    }
-
-    //public static HtmlTag AddDiv(this IHtmlElement element)
-    //{
-    //    return element.AddChild(new DivTag());
-    //}
-
-    //public static HtmlTag AddSpan(this IHtmlElement element)
-    //{
-    //    return element.AddChild(new SpanTag());
-    //}
-
-    //public static void AddText(this IHtmlElement element, string text)
-    //{
-    //    element.AddChild(new HtmlText(text));
-    //}
-
-    //public static HtmlTag AddTextSpan(this IHtmlElement element, string text, string cssClass = "")
-    //{
-    //    var span = element.AddSpan().WithClass(cssClass);
-    //    span.AddText(text);
-    //    return span;
-    //}
-
-    //public static T WithStyle<T>(this T element, string property, string value)
-    //    where T: IHtmlElement
-    //{
-    //    value = value.Trim().TrimEnd(';');
-    //    element.AppendToAttribute("style", $" {property}: {value};");
-    //    return element;
-    //}
-
-    //public static T WithClass<T>(this T element, string className)
-    //    where T : HtmlTag
-    //{
-    //    element.AppendToAttribute("class", " " + className);
-    //    return element;
-    //}
-
-    //private static void AppendToAttribute(this IHtmlElement element, string attributeName, string value)
-    //{
-    //    var htmlTag = element.GetTag();
-
-    //    if (!htmlTag.Attributes.ContainsKey(attributeName))
-    //    {
-    //        htmlTag.Attributes.Add(attributeName, value);
-    //    }
-    //    else
-    //    {
-    //        htmlTag.Attributes[attributeName] += value;
-    //    }
-    //}
-
-    //public static IEnumerable<IHtmlNode> Descendants(this HtmlTag root)
-    //{
-    //    List<IHtmlNode> descendants = new List<IHtmlNode>();
-
-    //    Traverse(root, (parent, child) =>
-    //    {
-    //        descendants.Add(child);
-    //    });
-
-    //    return descendants;
-    //}
-
-    //public static void AttachComponents(this DocumentTag document)
-    //{
-    //    Traverse(document, (parent, child) =>
-    //    {
-    //        if (child is IHtmlComponent)
-    //        {
-    //            (child as IHtmlComponent).Attach(document, parent);
-    //        }
-    //    });
-    //}
-
-    //public static void Traverse(this HtmlTag current, Action<IHtmlNode, IHtmlNode> onNode)
-    //{
-    //    // copy list because some operations could modify it
-    //    var children = new List<IHtmlNode>(current.Children);
-    //    foreach (var child in children)
-    //    {
-    //        switch (child)
-    //        {
-    //            case HtmlTag childTag:
-    //                onNode(current, child);
-    //                Traverse(childTag, onNode);
-    //                break;
-    //            case HtmlText childText:
-    //                onNode(current, child);
-    //                break;
-    //        }
-    //    }
-    //}
-
-    //public static IHtmlNode GetDescendantById(this HtmlTag root, string id)
-    //{
-    //    var node = root.Descendants().Where(x => x is HtmlTag).Cast<HtmlTag>().Where(x => x != null).Where(x => x.Attributes.ContainsKey("id")).SingleOrDefault(x => x.Attributes["id"] == id);
-    //    return node;
-    //}
-
-    //public static void RemoveById(this HtmlTag root, string id)
-    //{
-    //    var node = root.GetDescendantById(id);
-    //    if (node != null)
-    //    {
-    //        var parent = root.Descendants().Where(x => x is HtmlTag).Cast<HtmlTag>().Where(x => x != null).SingleOrDefault(x => x.Children.Any(x => x.HasAttribute("id", id)));
-    //        parent.Children.Remove(node);
-    //    }
-    //}
-
-    //public static void ReplaceById(this HtmlTag root, string id, IHtmlNode replacementNode)
-    //{
-    //    var node = root.GetDescendantById(id);
-    //    if (node != null)
-    //    {
-    //        var parent = root.Descendants().Where(x => x is HtmlTag).Cast<HtmlTag>().Where(x => x != null).SingleOrDefault(x => x.Children.Any(x => x.HasAttribute("id", id)));
-    //        var index = parent.Children.IndexOf(node);
-    //        parent.Children[index] = replacementNode;
-    //    }
-    //}
-
-    //public static bool HasAttribute(this HtmlTag tag, string attributeName, string attributeValue)
-    //{
-    //    if (!tag.Attributes.ContainsKey(attributeName))
-    //        return false;
-
-    //    return tag.Attributes[attributeName] == attributeValue;
-    //}
-
-    //public static bool HasAttribute(this IHtmlNode node, string attributeName, string attributeValue)
-    //{
-    //    if (!(node is HtmlTag))
-    //        return false;
-
-    //    return (node as HtmlTag).HasAttribute(attributeName, attributeValue);
-    //}
 }

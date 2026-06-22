@@ -13,7 +13,11 @@ namespace Metapsi.Hyperapp
             var debounceProps = b.NewObj<object>();
             b.SetProperty(debounceProps, b.Const("wait"), delayMs);
             b.SetProperty(debounceProps, b.Const("action"), action);
-            var resource = b.AddEmbeddedResourceMetadata(typeof(HyperType.Effect).Assembly, "Debounce.js");
+            var resource = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(HyperType.Effect).Assembly,
+                LogicalName = "Debounce.js"
+            });
             var debounce = b.ImportName<Func<object, HyperType.Effect>>(resource, "Debounce");
             return b.Call(debounce, debounceProps);
         }

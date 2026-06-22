@@ -4,65 +4,16 @@ using Metapsi.Syntax;
 
 namespace Metapsi.Html
 {
-    //public interface IDomElement
-    //{
-    //}
-
-    //public class Window : IDomElement
-    //{
-
-    //}
-
-    //public class Document: IDomElement
-    //{
-
-    //}
-
-    //public class DomElement : IDomElement
-    //{
-    //    public string id { get; }
-    //    public string @class { get; }
-    //    public string innerHTML { get; }
-    //    public List<DomElement> children { get; }
-    //}
-
-    //public class ClickTarget
-    //{
-    //}
-
-    //public interface IDomEvent
-    //{
-
-    //}
-
-    //public class DomEvent<TTarget> : IDomEvent
-    //{
-    //    public TTarget target { get; set; }
-    //}
-
-    //public class DomEvent : IDomEvent
-    //{
-    //    public DomElement currentTarget { get; set; }
-    //    public DomElement target { get; set; }
-    //}
-
-
-    //public class InputTarget
-    //{
-    //    public string value { get; set; }
-    //}
-
-    //public class KeyboardEvent
-    //{
-    //    public string key { get; set; }
-    //}
-
     public static class FunctionImports
     {
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var resourceMetadata = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.Module).Assembly, "metapsi.core.js");
-            var fn = b.ImportName<Delegate>(resourceMetadata, function);
+            var coreJsPath = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Metapsi.Syntax.Module).Assembly,
+                LogicalName = "metapsi.core.js"
+            });
+            var fn = b.ImportName<Delegate>(coreJsPath, function);
             b.CallDynamic(fn, arguments);
         }
 
@@ -132,41 +83,10 @@ namespace Metapsi.Html
             return b.GetProperty<Window>(b.Self(), "window");
         }
 
-        ///// <summary>
-        ///// Uses the 'new' keyword to create an object based on constructor of type 'T'
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="b"></param>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //[Obsolete]
-        //public static Var<T> New<T>(this SyntaxBuilder b, params IVariable[] args)
-        //{
-        //    var typeName = typeof(T).CSharpTypeName();
-
-        //    // Might be nested, like Intl.DateTimeFormat
-        //    Var<object> current = b.Self();
-        //    // is nested
-        //    foreach (var type in typeName.Split('.'))
-        //    {
-        //        current = b.GetProperty<object>(current, type);
-        //    }
-
-        //    return b.New<T>(current, args);
-        //}
-
         public static Var<bool> In(this SyntaxBuilder b, IVariable value, IVariable inObject)
         {
             return b.CallCoreFunction<bool>("In", value, inObject);
         }
-
-        //public static Var<T> New<T>(this SyntaxBuilder b, Var<IFunction> function, params IVariable[] args)
-        //{
-        //    List<IVariable> withFunc = new List<IVariable>();
-        //    withFunc.Add(function);
-        //    withFunc.AddRange(args);
-        //    return b.CallDomFunction<T>("New", withFunc.ToArray());
-        //}
 
         public static Var<Document> Document(this SyntaxBuilder b)
         {
@@ -251,19 +171,6 @@ namespace Metapsi.Html
         {
             b.CallOnObject(parent, "appendChild", child);
         }
-
-
-        //public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<string> eventName, Var<TPayload> payload)
-        //{
-        //    var customEvent = b.CreateCustomEvent<TPayload>(eventName, payload);
-        //    b.DispatchEvent(customEvent);
-        //}
-
-        //public static void DispatchEvent<TPayload>(this SyntaxBuilder b, Var<TPayload> payload)
-        //{
-        //    var customEvent = b.CreateCustomEvent<TPayload>(payload);
-        //    //b.DispatchEvent(customEvent);
-        //}
 
         public static void RequestAnimationFrame(this SyntaxBuilder b, Var<Action> action)
         {

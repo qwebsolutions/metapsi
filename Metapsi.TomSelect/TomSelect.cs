@@ -83,18 +83,29 @@ public static class Control
     public static Var<IVNode> TomSelect(this LayoutBuilder b, Action<PropsBuilder<TomSelect>> buildProps)
     {
         //b.AddRequiredScriptMetadata("https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js", "module");
-        var resource = b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "tom-select.complete.min.js");
-        var tomSelectScript = new HtmlTag("script");
-        tomSelectScript.SetAttribute("src", resource);
-        tomSelectScript.SetAttribute("type", "module");
-        b.Metadata().AddRequiredTagMetadata(tomSelectScript);
+        var resource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(TomSelect).Assembly,
+            LogicalName = "tom-select.complete.min.js"
+        });
 
-        var tomSelectCustomElementResource = b.AddEmbeddedResourceMetadata(typeof(TomSelect).Assembly, "metapsi.tomselect.js");
-        var tomSelectCustomElementScript = new HtmlTag("script");
-        tomSelectCustomElementScript.SetAttribute("src", tomSelectCustomElementResource);
-        tomSelectCustomElementScript.SetAttribute("type", "module");
+        b.Require(new JsScriptDependency()
+        {
+            JsPath = resource,
+            IsModule = true
+        });
 
-        b.Metadata().AddRequiredTagMetadata(tomSelectCustomElementScript);
+        var tomSelectCustomElementResource = b.ResolvePath(new EmbeddedResource()
+        {
+            Assembly = typeof(TomSelect).Assembly,
+            LogicalName = "metapsi.tomselect.js"
+        });
+
+        b.Require(new JsScriptDependency()
+        {
+            JsPath = tomSelectCustomElementResource,
+            IsModule = true
+        });
 
         var props = b.SetProps(b.NewObj<TomSelect>(), buildProps);
 

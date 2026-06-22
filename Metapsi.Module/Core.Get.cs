@@ -17,8 +17,12 @@ namespace Metapsi.Syntax
             LambdaExpression expression,
             params IVariable[] arguments)
         {
-            var resource = b.AddEmbeddedResourceMetadata(typeof(Metapsi.Syntax.ObjBuilder<>).Assembly, "linq.js");
-            b.ImportDefault(resource, "Enumerable");
+            var resolvedLinqJs = b.ResolvePath(new HashedEmbeddedResource()
+            {
+                Assembly = typeof(Metapsi.Syntax.ObjBuilder<>).Assembly,
+                LogicalName = "linq.js"
+            });
+            b.ImportDefault(resolvedLinqJs, "Enumerable");
             var assignmentNode = new AssignmentNode()
             {
                 Name = (b as ISyntaxBuilder).ModuleBuilder.NewName(),
@@ -27,15 +31,15 @@ namespace Metapsi.Syntax
                     Call = new CallNode()
                     {
                         Fn = new SyntaxNode() { Linq = LinqNodeExtensions.FromLambda(expression) },
-                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = x.Name } }).ToList(),
+                        Arguments = arguments.Select(x => new SyntaxNode() { Identifier = new IdentifierNode() { Name = (x as IClientVar).Name } }).ToList(),
                     }
                 }
             };
 
             assignmentNode.AddDebugType(expression.ReturnType);
 
-            (b as ISyntaxBuilder).Nodes.Add(new SyntaxNode() { Assignment = assignmentNode });
-            return new Var<object>(assignmentNode.Name)
+            (b as ISyntaxBuilder).AddSyntaxNode(new SyntaxNode() { Assignment = assignmentNode });
+            return new ClientVar<object>(assignmentNode.Name)
             {
                 AssignmentNode = assignmentNode
             };
