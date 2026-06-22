@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Metapsi.Html;
 
-public interface IModuleResource: IAutoLoader
+public interface IModuleResource: IAutoLoader, IResource, IResourceDefaultPath, IDependency, IDependencyDefaultImport
 {
     public string ModulePath { get; }
     public Module Module { get; }
@@ -20,24 +20,47 @@ public class ModuleResource : IModuleResource
         this.ModulePath = this.GetType() + ".js";
     }
 
-    public string ModulePath { get; set; } 
+    public bool IsScriptTypeModule { get; set; } = true;
+
+    public string ModulePath { get; set; }
     public Module Module { get; set; }
+
+    public string ResourceId => this.ModulePath;
+
+    public string DependencyId => this.ModulePath;
+
+    public void Import(HtmlBuilder b)
+    {
+        var path = ResolvePath();
+        b.HeadAppend(
+             b.HtmlScript(
+                 b =>
+                 {
+                     if (IsScriptTypeModule)
+                     {
+                         b.SetTypeModule();
+                     }
+                     b.SetSrc(path);
+                 }));
+    }
+
+    public string ResolvePath()
+    {
+        return $"/metapsi-js-module/{this.ModulePath}?h={this.Module.Hash()}";
+    }
 }
 
-public interface ICustomElement
+public interface ICustomElement : IModuleResource
 {
     string Tag { get; }
-    public Module Module { get; }
 }
 
 /// <summary>
 /// Keeps on-the-spot custom element definitions 
 /// </summary>
-public class CustomElement : ICustomElement, IModuleResource
+public class CustomElement : ModuleResource, ICustomElement
 {
     public string Tag { get; set; }
-    public Module Module { get; set; }
-
     public string ModulePath => this.Tag + ".js";
 }
 
@@ -55,7 +78,7 @@ internal class RootControl : IRootControl
     public Var<IVNode> RootVirtualNode { get; set; }
 }
 
-public abstract class CustomElement<TModel> : ICustomElement, IModuleResource
+public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
 {
     public string Tag { get; set; }
 

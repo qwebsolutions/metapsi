@@ -73,11 +73,12 @@ public static class HtmlScriptExtensions
 
     public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, IModuleResource module)
     {
+        var modulePath = b.ResolvePath(module);
         return b.HtmlScript(
             b =>
             {
                 b.SetTypeModule();
-                b.SetSrc($"/metapsi-js-module/{module.ModulePath}?h={module.Module.Hash()}");
+                b.SetSrc(modulePath);
             });
     }
 }
