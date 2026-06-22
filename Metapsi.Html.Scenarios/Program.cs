@@ -455,26 +455,26 @@ public static class Program
             var document = HtmlBuilder.FromDefault(
                 b =>
                 {
-                    b.Resolver.OverridePath = (b, resource) =>
-                    {
-                        Console.WriteLine($"RESOLVING {resource.ResourceId}");
-                        if (resource is EmbeddedResource)
-                        {
-                            var embeddedResource = resource as EmbeddedResource;
-                            if (embeddedResource.Assembly == typeof(Metapsi.Ionic.IonicNodeImport).Assembly)
-                            {
-                                if (embeddedResource.LogicalName.EndsWith("css"))
-                                {
-                                    var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/css/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
-                                }
-                                else
-                                {
-                                    var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/dist/ionic/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
-                                    b.ResolveTo(cdnPath);
-                                }
-                            }
-                        }
-                    };
+                    //b.Resolver.OverridePath = (b, resource) =>
+                    //{
+                    //    Console.WriteLine($"RESOLVING {resource.ResourceId}");
+                    //    if (resource is EmbeddedResource)
+                    //    {
+                    //        var embeddedResource = resource as EmbeddedResource;
+                    //        if (embeddedResource.Assembly == typeof(Metapsi.Ionic.IonicNodeImport).Assembly)
+                    //        {
+                    //            if (embeddedResource.LogicalName.EndsWith("css"))
+                    //            {
+                    //                var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/css/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
+                    //            }
+                    //            else
+                    //            {
+                    //                var cdnPath = "https://cdn.jsdelivr.net/npm/@ionic/core@8.6.2/dist/ionic/" + embeddedResource.LogicalName.Replace("/ionic@8.6.2/", string.Empty);
+                    //                b.ResolveTo(cdnPath);
+                    //            }
+                    //        }
+                    //    }
+                    //};
 
                     b.BodyAppend(
                         b.Hyperapp<DataModel>(
@@ -494,6 +494,11 @@ public static class Program
                                         }),
                                     b.IonSearchbar(
                                         b =>
+                                        {
+                                            b.BindTo(model, x => x.Message);
+                                        }),
+                                    b.IonTextarea(
+                                        b=>
                                         {
                                             b.BindTo(model, x => x.Message);
                                         }),

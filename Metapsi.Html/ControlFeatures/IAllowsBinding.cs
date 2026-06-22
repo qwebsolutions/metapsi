@@ -123,7 +123,9 @@ public static class BindingExtensions
         {
             b.Set(entityRef, onProperty, newValue);
         });
-        b.Call<PropsBuilder<TControl>, Func<TValue>, Action<object, TValue>>(BindToReference<TControl, TValue>, getEntityValue, setNewValue);
+        BindToReference(b, getEntityValue, setNewValue);
+        // vvv Attempting b.Call BREAKS THE BINDING! vvv
+        //b.Call<PropsBuilder<TControl>, Func<TValue>, Action<object, TValue>>(BindToReference2<TControl, TValue>, getEntityValue, setNewValue);
     }
 
     public static void BindTo<TControl, TEntity>(
