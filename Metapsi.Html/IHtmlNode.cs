@@ -157,6 +157,30 @@ public class JsModuleNode : IHtmlNode
     }
 }
 
+public class CssNode : IHtmlNode
+{
+    public List<Metapsi.Html.CssRule> Rules { get; set; } = new List<CssRule>();
+
+    public bool IsEquivalentTo(IHtmlNode other)
+    {
+        if (other == null)
+            return false;
+
+        CssNode otherCssNode = other as CssNode;
+
+        if (otherCssNode == null) return false;
+
+        if (this.Rules.Count != otherCssNode.Rules.Count) return false;
+
+        return this.Rules == otherCssNode.Rules;
+    }
+
+    public string ToHtml(ToHtmlOptions options)
+    {
+        return string.Join("\n", Rules.Select(x => x.ToCss(2)));
+    }
+}
+
 public static class SelfClosing
 {
     public static HashSet<string> Tags = new HashSet<string>()

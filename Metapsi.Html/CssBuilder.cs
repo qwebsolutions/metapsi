@@ -87,8 +87,12 @@ public static class CssBuilderExtensions
         };
 
         addCss(builder);
-        var cssText = builder.Rule.ToCss();
+        var cssNode = new CssNode()
+        {
+            Rules = builder.Rule.NestedRules
+        };
+        //var cssText = builder.Rule.ToCss();
 
-        return b.HtmlStyle(b.Text(cssText));
+        return b.HtmlStyle(cssNode);
     }
 }
