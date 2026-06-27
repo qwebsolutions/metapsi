@@ -46,7 +46,7 @@ namespace Metapsi
 
     public interface IResourceDefaultPath : IResource
     {
-        string ResolvePath();
+        string GetDefaultPath();
     }
 
     public class EmbeddedResource : IResource, IResourceDefaultPath
@@ -58,7 +58,7 @@ namespace Metapsi
 
         public string ResourceId => Assembly.FullName + "|" + LogicalName;
 
-        public virtual string ResolvePath()
+        public virtual string GetDefaultPath()
         {
             var logicalName = LogicalName.ToLowerInvariant();
             logicalName = logicalName.Trim('/');
@@ -69,7 +69,7 @@ namespace Metapsi
 
     public class HashedEmbeddedResource : EmbeddedResource
     {
-        public override string ResolvePath()
+        public override string GetDefaultPath()
         {
             return this.ResolveHashedPath();
         }
@@ -99,6 +99,9 @@ namespace Metapsi
         }
     }
 
+    /// <summary>
+    /// When resolved in JS, required tags are ignored
+    /// </summary>
     public class JsOnlyResolver : IDependencyResolver
     {
         HashSet<string> ResolvedDependencyIds = new HashSet<string>();
@@ -117,7 +120,7 @@ namespace Metapsi
             var withDefaultResolver = resource as IResourceDefaultPath;
             if (withDefaultResolver != null)
             {
-                path = withDefaultResolver.ResolvePath();
+                path = withDefaultResolver.GetDefaultPath();
                 ResolvedPaths[resourceId] = path;
                 return path;
             }

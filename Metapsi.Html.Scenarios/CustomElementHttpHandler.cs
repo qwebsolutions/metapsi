@@ -12,8 +12,8 @@ public static partial class Scenario
     {
         var tagName = "custom-element-http-handler";
 
-        var module = ModuleBuilder.New(
-            b =>
+        var buildModule =
+            (ModuleBuilder b) =>
             {
                 b.Call(
                     b =>
@@ -25,39 +25,36 @@ public static partial class Scenario
                                 b.Set(element, x => x.innerHTML, "<i>THIS</i> IS THE <b>INNER</b> HTML of a custom element");
                             });
                     });
-            });
+            };
 
-        return new CustomElement()
+        return new CustomElement(buildModule)
         {
-            Tag = tagName,
-            Module = module
+            Tag = tagName
         };
     }
 
     public static ICustomElement InlineCustomElement()
     {
-        return new CustomElement()
+        return new CustomElement(b =>
         {
-            Tag = "inline-custom-element",
-            Module = ModuleBuilder.New(
+            b.Call(
                 b =>
                 {
-                    b.Call(
-                        b =>
+                    b.DefineCustomElement("inline-custom-element",
+                        (b, element) =>
                         {
-                            b.DefineCustomElement("inline-custom-element",
-                                (b, element) =>
-                                {
-                                    b.Set(element, x => x.innerHTML, "THIS IS AN <B> INLINE! </B> CUSTOM ELEMENT");
-                                });
+                            b.Set(element, x => x.innerHTML, "THIS IS AN <B> INLINE! </B> CUSTOM ELEMENT");
                         });
-                })
+                });
+        })
+        {
+            Tag = "inline-custom-element"
         };
     }
 
     public static async Task CustomElementHttpHandler(this HttpContext httpContext)
     {
         httpContext.Response.Headers["Cache-Control"] = "public,max-age=31536000"; // Cache for 1 year
-        await httpContext.WriteJsModule(CustomElementWithExplicitHttpHandler().Module);
+        await httpContext.WriteJsModule(CustomElementWithExplicitHttpHandler().GetModule(new JsOnlyResolver()));
     }
 }

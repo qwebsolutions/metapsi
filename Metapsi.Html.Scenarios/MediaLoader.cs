@@ -38,8 +38,6 @@ public static partial class MediaLoaderExtensions
         params Var<IVNode>[] children)
     {
         var mediaLoader = new MediaLoader();
-        var module = mediaLoader.Module;
-
         return b.H(mediaLoader.Tag, setProps, children);
     }
 }

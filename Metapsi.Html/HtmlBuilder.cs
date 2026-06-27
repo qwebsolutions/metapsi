@@ -68,6 +68,9 @@ public class ResolverOverride
     }
 }
 
+/// <summary>
+/// When resolving inside HTML, required tags are actually added to the document
+/// </summary>
 public class InPageResolver : IDependencyResolver
 {
     private readonly HtmlBuilder htmlBuilder;
@@ -109,7 +112,7 @@ public class InPageResolver : IDependencyResolver
         var withDefaultResolver = resource as IResourceDefaultPath;
         if (withDefaultResolver != null)
         {
-            path = withDefaultResolver.ResolvePath();
+            path = withDefaultResolver.GetDefaultPath();
             ResolvedPaths[resourceId] = path;
             return path;
         }

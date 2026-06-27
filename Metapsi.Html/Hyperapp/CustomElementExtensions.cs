@@ -10,28 +10,41 @@ namespace Metapsi.Html;
 public interface IModuleResource: IAutoLoader, IResource, IResourceDefaultPath, IDependency, IDependencyDefaultImport
 {
     public string ModulePath { get; }
-    public Module Module { get; }
+    public Module GetModule(IDependencyResolver resolver);
 }
 
 public class ModuleResource : IModuleResource
 {
-    public ModuleResource()
+    protected ModuleResource()
     {
+        this.ModulePath = this.GetType() + ".js";
+    }
+
+    public ModuleResource(Action<ModuleBuilder> buildModule)
+    {
+        this.BuildModule = buildModule;
         this.ModulePath = this.GetType() + ".js";
     }
 
     public bool IsScriptTypeModule { get; set; } = true;
 
     public string ModulePath { get; set; }
-    public Module Module { get; set; }
+    public Action<ModuleBuilder> BuildModule { get; set; }
 
     public string ResourceId => this.ModulePath;
 
     public string DependencyId => this.ModulePath;
 
+    public Module GetModule(IDependencyResolver resolver)
+    {
+        var moduleBuilder = new ModuleBuilder(resolver);
+        this.BuildModule(moduleBuilder);
+        return moduleBuilder.Module;
+    }
+
     public void Import(HtmlBuilder b)
     {
-        var path = ResolvePath();
+        var path = b.ResolvePath(this);
         b.HeadAppend(
              b.HtmlScript(
                  b =>
@@ -44,9 +57,10 @@ public class ModuleResource : IModuleResource
                  }));
     }
 
-    public string ResolvePath()
+    public string GetDefaultPath()
     {
-        return $"/metapsi-js-module/{this.ModulePath}?h={this.Module.Hash()}";
+        var module = this.GetModule(new JsOnlyResolver());
+        return $"/metapsi-js-module/{this.ModulePath}?h={module.Hash()}";
     }
 }
 
@@ -61,6 +75,12 @@ public interface ICustomElement : IModuleResource
 public class CustomElement : ModuleResource, ICustomElement
 {
     public string Tag { get; set; }
+
+    public CustomElement(Action<ModuleBuilder> buildModule) : base(buildModule)
+    {
+
+    }
+
     //public string ModulePath => this.Tag + ".js";
 }
 
@@ -84,8 +104,9 @@ public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
 
     //public string ModulePath => this.Tag + ".js";
 
-    public CustomElement()
+    public CustomElement() : base()
     {
+        this.BuildModule = this.BuildCustomElement;
         this.Tag = CustomElementExtensions.GetCustomElementTagName(this.GetType());
     }
 
@@ -124,60 +145,32 @@ public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
         return Root(b => { }, children);
     }
 
-    public Module Module
+    private void BuildCustomElement(ModuleBuilder b)
     {
-        get
+        b.Call(b =>
         {
-            var module = ModuleBuilder.New(
-                // TODO: Probably not quite right
-                new JsOnlyResolver(),
-                b =>
-                {
-                    b.Call(b =>
+            b.DefineCustomElement(
+                b.NewObj<HyperappCustomElementDefinition>(
+                    b =>
                     {
-                        //AppMapExtensions.SetAppMap(b, appMap);
-                        //var empty = b.NewObj<object>(b => { });
-
-                        b.DefineCustomElement(
-                            b.NewObj<HyperappCustomElementDefinition>(
-                                b=>
-                                {
-                                    b.Set(x => x.Tag, b.Const(this.Tag));
-                                    b.Set(x => x.Init, b.Def<SyntaxBuilder, Element, HyperType.StateWithEffects>(this.OnInit).As<Func<Element, HyperType.Init>>());
-                                    b.Set(x => x.View, b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
-                                    {
-                                        this.rootLayoutBuilder = b;
-                                        this.layoutRootTag = tagName;
-                                        return (this.OnRender(b, model) as RootControl).RootVirtualNode;
-                                    }).As<Func<string, object, IVNode>>());
-                                    b.Set(x => x.SubscribeFn, b.Def((SyntaxBuilder b, Var<TModel> model) =>
-                                    {
-                                        var subscriptions = b.NewCollection<HyperType.Subscription>();
-                                        this.OnSubscribe(b, model, subscriptions);
-                                        return subscriptions;
-                                    }).As<Func<object, List<HyperType.Subscription>>>());
-                                    b.Set(x => x.Attach, b.Def<SyntaxBuilder, Element, Node>(this.OnAttach));
-                                    b.Set(x => x.Cleanup, b.Def<SyntaxBuilder, Element>(this.OnCleanup));
-                                }));
-                            
-                           //,
-                           // b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
-                           // {
-                           //     this.rootLayoutBuilder = b;
-                           //     this.layoutRootTag = tagName;
-                           //     return (this.OnRender(b, model) as RootControl).RootVirtualNode;
-                           // }),
-                           // b.Def((SyntaxBuilder b, Var<TModel> model) =>
-                           // {
-                           //     var subscriptions = b.NewCollection<HyperType.Subscription>();
-                           //     this.OnSubscribe(b, model, subscriptions);
-                           //     return subscriptions;
-                           // }));
-                    });
-                });
-
-            return module;
-        }
+                        b.Set(x => x.Tag, b.Const(this.Tag));
+                        b.Set(x => x.Init, b.Def<SyntaxBuilder, Element, HyperType.StateWithEffects>(this.OnInit).As<Func<Element, HyperType.Init>>());
+                        b.Set(x => x.View, b.Def((LayoutBuilder b, Var<string> tagName, Var<TModel> model) =>
+                        {
+                            this.rootLayoutBuilder = b;
+                            this.layoutRootTag = tagName;
+                            return (this.OnRender(b, model) as RootControl).RootVirtualNode;
+                        }).As<Func<string, object, IVNode>>());
+                        b.Set(x => x.SubscribeFn, b.Def((SyntaxBuilder b, Var<TModel> model) =>
+                        {
+                            var subscriptions = b.NewCollection<HyperType.Subscription>();
+                            this.OnSubscribe(b, model, subscriptions);
+                            return subscriptions;
+                        }).As<Func<object, List<HyperType.Subscription>>>());
+                        b.Set(x => x.Attach, b.Def<SyntaxBuilder, Element, Node>(this.OnAttach));
+                        b.Set(x => x.Cleanup, b.Def<SyntaxBuilder, Element>(this.OnCleanup));
+                    }));
+        });
     }
 }
 

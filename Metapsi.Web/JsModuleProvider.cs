@@ -15,6 +15,7 @@ public class JsModuleProvider
 public class JsModuleProviderOptions
 {
     internal Dictionary<string, Func<Module>> modules { get; set; } = new();
+    public IDependencyResolver Resolver { get; set; } = new JsOnlyResolver();
 }
 
 public static partial class JsModuleProviderExtensions
@@ -24,14 +25,14 @@ public static partial class JsModuleProviderExtensions
         options.modules.Add(name, getModule);
     }
 
-    public static void AddModule(this JsModuleProviderOptions options, string name, Module module)
-    {
-        options.AddModule(name, () => module);
-    }
+    //public static void AddModule(this JsModuleProviderOptions options, string name, Module module)
+    //{
+    //    options.AddModule(name, () => module);
+    //}
 
     public static void AddModule(this JsModuleProviderOptions options, IModuleResource module)
     {
-        options.AddModule(module.ModulePath, module.Module);
+        options.AddModule(module.ModulePath, () => module.GetModule(options.Resolver));
     }
 
     public static void AddModule<T>(this JsModuleProviderOptions options)
@@ -46,7 +47,7 @@ public static partial class JsModuleProviderExtensions
         var allModuleResources = AutoLoader.FindAll<Metapsi.Html.IModuleResource>(new List<System.Reflection.Assembly>() { assembly });
         foreach (var resource in allModuleResources)
         {
-            options.AddModule(resource.ModulePath, resource.Module);
+            options.AddModule(resource);
         }
     }
 }

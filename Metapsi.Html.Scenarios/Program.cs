@@ -333,7 +333,7 @@ public static class Program
             b =>
             {
                 b.AutoRegisterFrom(typeof(Program).Assembly);
-                b.AddModule("test.js", ModuleBuilder.New(
+                b.AddModule("test.js", () => ModuleBuilder.New(
                     b =>
                     {
                         b.Call(b =>
@@ -342,7 +342,7 @@ public static class Program
                         });
                     }));
 
-                b.AddModule("second.js", ModuleBuilder.New(
+                b.AddModule("second.js", () => ModuleBuilder.New(
                     b =>
                     {
                         b.Call(b =>
@@ -487,6 +487,7 @@ public static class Program
                                     {
                                         b.AddClass("flex flex-row gap-8");
                                     },
+                                    b.HtmlDiv(b.Text("What now? Does hot-reload work? It seems it sort of does, just not instantly")),
                                     b.HtmlTextarea(
                                         b =>
                                         {
@@ -723,11 +724,11 @@ public static class Program
         var testApp1 = App.New(
             b =>
             {
-                b.ConfigureCustomElements(
-                    b =>
-                    {
-                        b.Add<TestCustomElement>();
-                    });
+                //b.ConfigureCustomElements(
+                //    b =>
+                //    {
+                //        b.Add<TestCustomElement>();
+                //    });
 
                 b.ConfigurePages(
                     b =>
