@@ -38,6 +38,22 @@ public static partial class SlInputControl
             return b.Clone(model);
         }));
     }
+
+    public static void BindTo<TEntity>(
+        this PropsBuilder<SlInput> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, int>> onProperty)
+    {
+        var value = b.Get(entityRef, onProperty);
+        b.SetValueAsNumber(value);
+        b.OnSlInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+        {
+            var target = b.Get(e, x => x.target).As<SlInput>();
+            var value = b.GetProperty<int>(target, "valueAsNumber");
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
+    }
 }
 
 public static partial class SlSelectControl
