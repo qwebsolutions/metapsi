@@ -1,118 +1,120 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 using System;
 
 namespace Metapsi.Html;
 
-/// <summary>
-/// 
-/// </summary>
-public class HtmlInputBinding : IAutoRegisterBinding
+
+public partial class HtmlInput
 {
     /// <summary>
     /// 
     /// </summary>
-    public Type ControlType => typeof(HtmlInput);
+    public string type { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="System.Exception"></exception>
-    public Binding GetBinding()
+    public string value { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool @checked { get; set; }
+}
+
+public static partial class HtmlInputControl
+{
+    public static void SetChecked(this PropsBuilder<HtmlInput> b, Var<bool> @checked)
     {
-        return Binding.New<HtmlInput>((b, value) =>
-        {
-            var controlType = b.If(b.HasValue(b.Get(b.Props, x => x.type)), b => b.StringToLowerCase(b.Get(b.Props, x => x.type)), b => b.Const(string.Empty));
+        b.Set(x => x.@checked, @checked);
+    }
 
-            b.If(
-                b.AreEqual(controlType, b.Const("file")),
-                b =>
-                {
-                    b.Throw(b.Const("Input type='file' does not support bindings"));
-                });
+    public static void BindTo<TEntity>(
+        this PropsBuilder<HtmlInput> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
+    {
+        var controlType = b.If(b.HasValue(b.Get(b.Props, x => x.type)), b => b.StringToLowerCase(b.Get(b.Props, x => x.type)), b => b.Const(string.Empty));
 
-            b.If(
-                b.AreEqual(controlType, b.Const("checkbox")),
-                b =>
-                {
-                    b.Set(x => x.@checked, value.As<bool>());
-                },
-                b =>
-                {
-                    // Radios are weird. You set the bool 'checked' if the string 'value' is equal to the radio's value
-                    b.If(
-                        b.AreEqual(controlType, b.Const("radio")),
-                        b =>
-                        {
-                            var radioValue = b.Get(b.Props, x => x.value);
-                            b.If(
-                                b.AreEqual(radioValue, value.As<string>()),
-                                b =>
-                                {
-                                    b.Set(x => x.@checked, value.As<bool>());
-                                });
-                        },
-                        b =>
-                        {
-                            b.Set(x => x.value, value.As<string>());
-                        });
-                });
-        },
-            (b, e) =>
+        b.If(
+            b.AreEqual(controlType, b.Const("file")),
+            b =>
             {
-                var target = b.Get(e, x => x.target).As<HTMLInputElement>();
-                var outRef = b.Ref(b.Get(target, x => x.value));
-                var controlType = b.StringToLowerCase(b.Get(target, x => x.type));
-                b.If(
-                    b.AreEqual(controlType, b.Const("checkbox")),
-                    b =>
-                    {
-                        b.SetRef(outRef, b.Get(target, x => x.@checked).As<string>());
-                    });
+                b.Throw(b.Const("Input type='file' does not support bindings"));
+            });
 
-                b.If(
-                    b.AreEqual(controlType, b.Const("radio")),
-                    b =>
-                    {
-                        b.If(b.Get(target, x => x.@checked),
-                            b =>
-                            {
-                                b.SetRef(outRef, b.Get(target, x => x.value));
-                            });
-                    });
+        b.If(
+            b.AreEqual(controlType, b.Const("checkbox")),
+            b =>
+            {
+                b.Throw(b.Const("Input type='checkbox' should be used with boolean binding"));
+            });
 
-                return b.GetRef(outRef).As<object>();
+        b.If(
+            b.AreEqual(controlType, b.Const("radio")),
+            b =>
+            {
+                // Radios work in a weird way. There are multiple inputs, grouped by 'name' attribute
+                // The 'checked' input is the one whose 'value' property matches the model value
+                var value = b.Get(entityRef, onProperty);
+                var radioValue = b.Get(b.Props, x => x.value);
+                b.SetChecked(b.AreEqual(radioValue, value));
+
+                b.OnEventAction("change", b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Event> e) =>
+                {
+                    var value = b.GetTargetValue(e);
+                    b.Set(entityRef, onProperty, value);
+                    return b.Clone(model);
+                }));
             },
-            (b, action) =>
+            b =>
             {
-                var controlType = b.If(b.HasValue(b.Get(b.Props, x => x.type)), b => b.StringToLowerCase(b.Get(b.Props, x => x.type)), b => b.Const(string.Empty));
-                var isSet = b.If(
-                    b.AreEqual(controlType, b.Const("checkbox")),
-                    b =>
-                    {
-                        b.OnEventAction("click", action);
-                        return b.Const(true);
-                    },
-                    b =>
-                    {
-                        return b.If(
-                            b.AreEqual(controlType, b.Const("radio")),
-                            b =>
-                            {
-                                b.OnEventAction("change", action);
-                                return b.Const(true);
-                            },
-                            b =>
-                            {
-                                return b.Const(false);
-                            });
-                    });
-                b.If(
-                    b.Not(isSet),
-                    b =>
-                    {
-                        b.OnEventAction("input", action);
-                    });
+                // 'Normal' string value input
+                var value = b.Get(entityRef, onProperty);
+                b.SetValue(value);
+                b.OnInputAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+                {
+                    var value = b.GetTargetValue(e);
+                    b.Set(entityRef, onProperty, value);
+                    return b.Clone(model);
+                });
+            });
+    }
+
+    public static void BindTo<TEntity>(
+        this PropsBuilder<HtmlInput> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
+    {
+        var controlType = b.If(b.HasValue(b.Get(b.Props, x => x.type)), b => b.StringToLowerCase(b.Get(b.Props, x => x.type)), b => b.Const(string.Empty));
+
+        b.If(
+            b.AreEqual(controlType, b.Const("file")),
+            b =>
+            {
+                b.Throw(b.Const("Input type='file' does not support bindings"));
+            });
+
+        b.If(
+            b.AreEqual(controlType, b.Const("radio")),
+            b =>
+            {
+                b.Throw(b.Const("Input type='radio' should be used with string value binding"));
+            });
+
+        b.If(
+            b.AreEqual(controlType, b.Const("checkbox")),
+            b =>
+            {
+                var value = b.Get(entityRef, onProperty);
+                b.SetChecked(value);
+                b.OnInputAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+                {
+                    var value = b.GetTargetChecked(e);
+                    b.Set(entityRef, onProperty, value);
+                    return b.Clone(model);
+                });
             });
     }
 }

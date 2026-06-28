@@ -4,131 +4,74 @@ using Metapsi.Syntax;
 
 namespace Metapsi.Shoelace;
 
-
-public partial class SlCheckbox : IHasEditableValue
+public static partial class SlCheckboxControl
 {
-    public bool @checked { get; set; }
-}
-
-public partial class SlInput : IHasEditableValue
-{
-    public string value { get; set; }
-}
-
-public partial class SlSelect : IHasEditableValue
-{
-    public string value { get; set; }
-}
-
-public partial class SlTextarea : IHasEditableValue
-{
-    public string value { get; set; }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class SlInputBinding : IAutoRegisterBinding
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public System.Type ControlType => typeof(SlInput);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<SlCheckbox> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
     {
-        return Html.Binding.New<SlInput>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
-            SlInputControl.OnSlInput);
+        var value = b.Get(entityRef, onProperty);
+        b.SetChecked(value);
+        b.OnSlChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+        {
+            var @checked = b.GetTargetChecked(e);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class SlSelectBinding : IAutoRegisterBinding
+public static partial class SlInputControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public System.Type ControlType => typeof(SlSelect);
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<SlInput> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<SlSelect>((b, value) =>
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnSlInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
         {
-            b.SetValue(value.As<string>());
-        },
-        (b, e) => b.Get(b.Get(e, x => x.target).As<SlSelect>(), x => x.value).As<object>(),
-        (b, updateAction) =>
-        {
-            b.OnSlChange(updateAction);
-        });
+            var value = b.GetTargetValue(e);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class SlCheckboxBinding : IAutoRegisterBinding
+public static partial class SlSelectControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public System.Type ControlType => typeof(SlCheckbox);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<SlSelect> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<SlCheckbox>((b, value) =>
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnSlChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
         {
-            b.SetChecked(value.As<bool>());
-        },
-        (b, e) => b.Get(b.Get(e, x => x.target).As<SlCheckbox>(), x => x.@checked).As<object>(),
-        (b, updateAction) =>
-        {
-            b.OnSlChange(updateAction);
-        });
+            var value = b.GetTargetValue(e);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class SlTextareaBinding : IAutoRegisterBinding
+public static partial class SlTextareaControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public System.Type ControlType => typeof(SlTextarea);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<SlTextarea> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<SlTextarea>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.GetTargetValue(e).As<object>(),
-            SlTextareaControl.OnSlInput);
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnSlInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
+        {
+            var value = b.GetTargetValue(e);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }

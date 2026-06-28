@@ -1,26 +1,28 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Hyperapp;
+using Metapsi.Syntax;
 using System;
 
 namespace Metapsi.Html;
 
-public class HtmlTextareaBinding : IAutoRegisterBinding
+public partial class HtmlTextarea
 {
-    public Type ControlType => typeof(HtmlTextarea);
+    public string value { get; set; }
+}
 
-    public Binding GetBinding()
+public static partial class HtmlTextareaControl
+{
+    public static void BindTo<TEntity>(
+        this PropsBuilder<HtmlTextarea> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Binding.New<HtmlTextarea>((b, value) =>
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnEventAction("input", b.MakeAction((SyntaxBuilder b, Var<object> model, Var<Html.Event> e) =>
         {
-            b.Set(x => x.value, value.As<string>());
-        },
-        (b, e) =>
-        {
-            return b.GetTargetValue(e).As<object>();
-        },
-        (b, action) =>
-        {
-
-            b.OnEventAction("input", action);
-        });
+            var value = b.GetTargetValue(e);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }

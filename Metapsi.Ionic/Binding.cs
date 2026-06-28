@@ -1,212 +1,169 @@
 ﻿using Metapsi.Html;
+using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 
 namespace Metapsi.Ionic;
 
-public partial class IonInput : IHasEditableValue { }
-public partial class IonTextarea : IHasEditableValue { }
-public partial class IonSelect : IHasEditableValue { }
-public partial class IonPickerColumn : IHasEditableValue { }
-public partial class IonDatetime : IHasEditableValue { }
-public partial class IonSegment : IHasEditableValue { }
-public partial class IonCheckbox: IHasEditableValue { }
-public partial class IonInputOtp: IHasEditableValue { }
-public partial class IonSearchbar: IHasEditableValue { }
-
-/// <summary>
-/// 
-/// </summary>
-public class IonInputBinding : IAutoRegisterBinding
+public static partial class IonInputControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Type ControlType => typeof(IonInput);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonInput> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonInput>((b, value) =>
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<InputInputEventDetail>> e) =>
         {
-            b.SetValue(value.As<string>());
-        },
-        (b, e) => b.Get(e.As<CustomEvent<InputInputEventDetail>>(), x => x.detail.value).As<object>(),
-        (b, updateAction) => b.OnIonInput(updateAction));
+            var value = b.Get(e, x => x.detail.value);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class IonTextAreaBinding : IAutoRegisterBinding
+public static partial class IonTextareaControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Type ControlType => typeof(IonTextarea);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonTextarea> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonTextarea>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<TextareaInputEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonInput(updateAction)
-            );
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<TextareaInputEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class IonSelectBinding : IAutoRegisterBinding
+public static partial class IonSelectControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Type ControlType => typeof(IonSelect);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Html.Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonSelect> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonSelect>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<object>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<SelectChangeEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonChange(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<SelectChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value).As<string>();
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class IonPickerColumnBinding : IAutoRegisterBinding
-{
-    public Type ControlType => typeof(IonPickerColumn);
 
-    public Binding GetBinding()
+public static partial class IonPickerColumnControl
+{
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonPickerColumn> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonPickerColumn>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<PickerColumnChangeEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonChange(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<PickerColumnChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value).As<string>();
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class IonDatetimeBinding : IAutoRegisterBinding
+public static partial class IonDatetimeControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Type ControlType => typeof(IonDatetime);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonDatetime> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonDatetime>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<DatetimeChangeEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonChange(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<DatetimeChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value).As<string>();
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class IonSegmentBinding : IAutoRegisterBinding
+public static partial class IonSegmentControl
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public Type ControlType => typeof(IonSegment);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonSegment> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonSegment>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<SegmentChangeEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonChange(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<SegmentChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value).As<string>();
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-public class IonCheckboxBinding : IAutoRegisterBinding
+public static partial class IonCheckboxControl
 {
-    public Type ControlType => typeof(IonCheckbox);
-
-    public Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonCheckbox> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
     {
-        return Html.Binding.New<IonCheckbox>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<CheckboxChangeEventDetail>>(), x => x.detail.@checked).As<object>(),
-            (b, updateAction) => b.OnIonChange(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetChecked(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<CheckboxChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.@checked);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-public class IonInputOtpBinding: IAutoRegisterBinding
+public static partial class IonInputOtpControl
 {
-    public Type ControlType => typeof(IonInputOtp);
-
-    public Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonInputOtp> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonInputOtp>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<InputOtpInputEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonInput(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<InputOtpInputEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
 
-public class IonSearchbarBinding : IAutoRegisterBinding
+public static partial class IonSearchbarControl
 {
-    public Type ControlType => typeof(IonSearchbar);
-
-    public Binding GetBinding()
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonSearchbar> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, string>> onProperty)
     {
-        return Html.Binding.New<IonSearchbar>(
-            (b, value) =>
-            {
-                b.SetValue(value.As<string>());
-            },
-            (b, e) => b.Get(e.As<CustomEvent<InputInputEventDetail>>(), x => x.detail.value).As<object>(),
-            (b, updateAction) => b.OnIonInput(updateAction));
+        var value = b.Get(entityRef, onProperty);
+        b.SetValue(value);
+        b.OnIonInput(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<SearchbarInputEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.value).As<string>();
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
     }
 }
