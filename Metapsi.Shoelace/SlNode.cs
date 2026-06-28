@@ -12,7 +12,7 @@ public class ShoelaceBasePathResource : IResource, IResourceDefaultPath
 
     public string GetDefaultPath()
     {
-        return $"/embedded/Metapsi.Shoelace/1.0.0.0/shoelace@{Cdn.Version}/";
+        return $"/embedded/Metapsi.Shoelace/shoelace@{Cdn.Version}/";
     }
 }
 

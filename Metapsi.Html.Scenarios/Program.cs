@@ -407,6 +407,12 @@ public static class Program
                                         {
                                             b.BindTo(model, x => x.Message);
                                         }),
+                                    b.SlButton(
+                                        b.SlIcon(
+                                            b=>
+                                            {
+                                                b.SetName("check2-circle");
+                                            })),
                                     b.Text(b.Get(model, x => x.Message)));
                             }));
                 }));
