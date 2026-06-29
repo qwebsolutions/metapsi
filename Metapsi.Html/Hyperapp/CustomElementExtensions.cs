@@ -29,7 +29,7 @@ public class ModuleResource : IModuleResource
     public bool IsScriptTypeModule { get; set; } = true;
 
     public string ModulePath { get; set; }
-    public Action<ModuleBuilder> BuildModule { get; set; }
+    protected internal Action<ModuleBuilder> BuildModule;
 
     public string ResourceId => this.ModulePath;
 
