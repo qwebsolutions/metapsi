@@ -121,6 +121,8 @@ public static partial class IonModalControl
         System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<OverlayEventDetail>> then)
         where T : ICustomElement, new()
     {
+        var customElement = new T();
+        b.Require(customElement);
         return b.MakeEffect(
             (b, dispatch) =>
             {
@@ -128,7 +130,7 @@ public static partial class IonModalControl
                     b.NewObj(),
                     b =>
                     {
-                        b.Set(x => x.component, new T().Tag);
+                        b.Set(x => x.component, customElement.Tag);
                         b.AddProps(setOptions);
                     });
                 var createPromise = b.ModalControllerCreate(modalOptions);
@@ -150,13 +152,15 @@ public static partial class IonModalControl
         System.Action<PropsBuilder<ModalOptions>> setOptions)
         where T : ICustomElement, new()
     {
+        var customElement = new T();
+        b.Require(customElement);
         return b.MakeEffect(
             b =>
             {
                 b.ModalControllerPresent(
                     b =>
                     {
-                        b.Set(x => x.component, new T().Tag);
+                        b.Set(x => x.component, customElement.Tag);
                         b.AddProps(setOptions);
                     });
             });
