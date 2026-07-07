@@ -162,6 +162,24 @@ public static partial class IonCheckboxControl
     }
 }
 
+public static partial class IonToggleControl
+{
+    public static void BindTo<TEntity>(
+        this PropsBuilder<IonToggle> b,
+        Var<TEntity> entityRef,
+        System.Linq.Expressions.Expression<System.Func<TEntity, bool>> onProperty)
+    {
+        var value = b.Get(entityRef, onProperty);
+        b.SetChecked(value);
+        b.OnIonChange(b.MakeAction((SyntaxBuilder b, Var<object> model, Var<CustomEvent<ToggleChangeEventDetail>> e) =>
+        {
+            var value = b.Get(e, x => x.detail.@checked);
+            b.Set(entityRef, onProperty, value);
+            return b.Clone(model);
+        }));
+    }
+}
+
 public static partial class IonInputOtpControl
 {
     public static void BindTo<TEntity>(
