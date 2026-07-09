@@ -79,7 +79,7 @@ public static class CrossFrameworkApiFeature
                 try
                 {
                     var response = await handle(httpContext, appMap);
-                    await httpContext.Response.WriteJsonReponse(response);
+                    await httpContext.Response.WriteJsonResponse(response);
                 }
                 catch (Exception ex)
                 {

@@ -122,13 +122,13 @@ public static class HttpExtensions
         await response.Response.WriteAsync(document.ToHtml());
     }
 
-    public static async Task WriteJsModuleReponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
+    public static async Task WriteJsModuleResponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
     {
         response.Response.ContentType = "text/javascript";
         await response.Response.WriteAsync(module.ToJs());
     }
 
-    public static async Task WriteJsonReponse<T>(this CfHttpResponse response, T value)
+    public static async Task WriteJsonResponse<T>(this CfHttpResponse response, T value)
     {
         response.Response.ContentType = "application/json";
         await response.Response.WriteAsync(Metapsi.Serialize.ToJson(value));

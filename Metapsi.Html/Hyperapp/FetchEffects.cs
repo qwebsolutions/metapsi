@@ -157,7 +157,7 @@ public static class FetchEffects
     }
 
     /// <summary>
-    /// Posts to url with no request body, expects TOut as json in reponse body. Dispatches success or error action on result
+    /// Posts to url with no request body, expects TOut as json in response body. Dispatches success or error action on result
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     /// <typeparam name="TOut"></typeparam>
