@@ -139,5 +139,58 @@ namespace Metapsi.Sqlite
             transaction.Rollback();
             return result;
         }
+
+        public static async Task BackupDatabase(
+            this Metapsi.Sqlite.SqliteQueue sqliteQueue,
+            string intoFilePath)
+        {
+            var backupFolder = System.IO.Path.GetDirectoryName(intoFilePath);
+            System.IO.Directory.CreateDirectory(backupFolder);
+
+            var sourceConnection = await sqliteQueue.OpenReadOnlyConnectionAsync();
+            var destinationConnection = Metapsi.Sqlite.Db.ToConnection(intoFilePath);
+            await destinationConnection.OpenAsync();
+
+            sourceConnection.BackupDatabase(destinationConnection, "main", "main", -1, null, 0);
+            destinationConnection.Close();
+        }
+
+        public static async Task BackupDatabases(
+            string intoFolder,
+            params Metapsi.Sqlite.SqliteQueue[] openQueues)
+        {
+            foreach (var queue in openQueues)
+            {
+                var fileName = await queue.GetDatabaseFileName();
+                var backupFilePath = System.IO.Path.Combine(intoFolder, fileName);
+                await BackupDatabase(queue, backupFilePath);
+            }
+        }
+
+        public static async Task<string> GetDatabaseFilePath(this Metapsi.Sqlite.SqliteQueue sqliteQueue)
+        {
+            using var cmd = new SQLiteCommand("PRAGMA database_list;", await sqliteQueue.OpenReadOnlyConnectionAsync());
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string logicalName = reader.GetString(1); // e.g. "main"
+                string fileName = reader.IsDBNull(2) ? null : reader.GetString(2);
+                if (logicalName == "main")
+                {
+                    if (string.IsNullOrEmpty(fileName))
+                    {
+                        throw new Exception("Could not determine the database file path.");
+                    }
+                    return fileName;
+                }
+            }
+            throw new Exception("Could not determine the database file path.");
+        }
+
+        public static async Task<string> GetDatabaseFileName(this Metapsi.Sqlite.SqliteQueue sqliteQueue)
+        {
+            var path = await sqliteQueue.GetDatabaseFilePath();
+            return System.IO.Path.GetFileName(path);
+        }
     }
 }
