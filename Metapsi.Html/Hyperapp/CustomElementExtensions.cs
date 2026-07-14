@@ -45,6 +45,7 @@ public class ModuleResource : IModuleResource
     public void Import(HtmlBuilder b)
     {
         var path = b.ResolvePath(this);
+        this.GetModule(b.Resolver);
         b.HeadAppend(
              b.HtmlScript(
                  b =>

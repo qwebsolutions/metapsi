@@ -794,6 +794,17 @@ public static class Program
             return call.Run([typeof(Program)], testService);
         });
 
+        app.MapGet("/import", async (HttpContext httpContext) =>
+        {
+            await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromDefault(
+                b =>
+                {
+                    var root = new RootCustomElement();
+                    b.Require(root);
+                    b.BodyAppend(b.Tag(root.Tag));
+                }));
+        });
+
         app.UseRenderer<MarketData>(model =>
         {
             return HtmlBuilder.FromDefault(
