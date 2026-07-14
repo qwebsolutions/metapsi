@@ -44,6 +44,7 @@ public class ModuleResource : IModuleResource
 
     public void Import(HtmlBuilder b)
     {
+        var sw = System.Diagnostics.Stopwatch.StartNew();
         var path = b.ResolvePath(this);
         this.GetModule(b.Resolver);
         b.HeadAppend(
@@ -56,6 +57,7 @@ public class ModuleResource : IModuleResource
                      }
                      b.SetSrc(path);
                  }));
+        Console.WriteLine($"Import {path} {sw.ElapsedMilliseconds} ms");
     }
 
     public string GetDefaultPath()
