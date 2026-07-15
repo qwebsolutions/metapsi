@@ -9,10 +9,6 @@ using System.Reflection;
 
 namespace Metapsi.Html.Scenarios;
 
-public static class CustomElementExtensions
-{
-}
-
 public class RootCustomElement: CustomElement<RootCustomElement.Model>
 {
     public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
@@ -22,8 +18,7 @@ public class RootCustomElement: CustomElement<RootCustomElement.Model>
 
     public override IRootControl OnRender(LayoutBuilder b, Var<Model> model)
     {
-        var imported = new ImportedCustomElement();
-        b.Require(imported);
+        var imported = b.RequireCustomElement<ImportedCustomElement>();
         return this.Root(b.H(imported.Tag));
     }
 
@@ -42,6 +37,8 @@ public class ImportedCustomElement : CustomElement<ImportedCustomElement.Model>
 
     public override IRootControl OnRender(LayoutBuilder b, Var<Model> model)
     {
+        // Not needed, tests recursive imports
+        var root = b.RequireCustomElement<RootCustomElement>();
         return this.Root(
             b.Text("Imported custom element!"));
     }

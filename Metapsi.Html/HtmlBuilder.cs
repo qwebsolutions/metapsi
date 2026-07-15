@@ -129,13 +129,17 @@ public class InPageResolver : IDependencyResolver
         if (ResolvedDependencyIds.Contains(dependencyId))
             return;
 
+        // Track as resolved before actually importing it
+        // This keeps recursive imports from going into infinite loop
+        ResolvedDependencyIds.Add(dependencyId);
+
         // Enabled overrides here
 
         var withDefaultResolver = dependency as IDependencyDefaultImport;
         if (withDefaultResolver != null)
         {
             withDefaultResolver.Import(this.htmlBuilder);
-            ResolvedDependencyIds.Add(dependencyId);
+            //ResolvedDependencyIds.Add(dependencyId);
         }
     }
 }

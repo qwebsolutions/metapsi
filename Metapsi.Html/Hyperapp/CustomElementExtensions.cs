@@ -294,6 +294,14 @@ public static partial class CustomElementExtensions
         var initProps = b.GetProperty<T>(e, "props");
         return initProps;
     }
+
+    public static T RequireCustomElement<T>(this ICanRequireDependency b)
+        where T : ICustomElement, new()
+    {
+        var customElement = new T();
+        b.Require(customElement);
+        return customElement;
+    }
 }
 
 
