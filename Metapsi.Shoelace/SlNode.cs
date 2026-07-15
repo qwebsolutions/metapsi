@@ -86,7 +86,7 @@ public static partial class SlNodeExtensions
             LogicalName = stylesheetLogicalName
         });
 
-        b.Require(new StylesheetDependency()
+        b.Require(new ExternalStylesheetDependency()
         {
             StylesheetPath = resolvedPath
         });
@@ -104,7 +104,7 @@ public static partial class SlNodeExtensions
             Assembly = typeof(Metapsi.Shoelace.SlNodeExtensions).Assembly,
             LogicalName = scriptLogicalName
         });
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             IsModule = true,
             JsPath = resolvedTagJs

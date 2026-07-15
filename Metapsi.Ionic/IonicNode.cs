@@ -84,7 +84,7 @@ public static class IonicNodeImport
             LogicalName = jsPath
         });
 
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             JsPath = resolvedJsPath,
             IsModule = true
@@ -97,7 +97,7 @@ public static class IonicNodeImport
             LogicalName = cssPath
         });
 
-        b.Require(new StylesheetDependency()
+        b.Require(new ExternalStylesheetDependency()
         {
             StylesheetPath = resolvedCssPath
         });

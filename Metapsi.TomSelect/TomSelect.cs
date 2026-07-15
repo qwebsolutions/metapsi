@@ -89,7 +89,7 @@ public static class Control
             LogicalName = "tom-select.complete.min.js"
         });
 
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             JsPath = resource,
             IsModule = true
@@ -101,7 +101,7 @@ public static class Control
             LogicalName = "metapsi.tomselect.js"
         });
 
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             JsPath = tomSelectCustomElementResource,
             IsModule = true

@@ -17,45 +17,7 @@ public class HtmlAttributes : Dictionary<string, string>, IHtmlProps
 
 }
 
-public class JsScriptDependency : IDependency, IDependencyDefaultImport
-{
-    public string JsPath { get; set; }
-    public bool IsModule { get; set; }
 
-    public string DependencyId => JsPath;
-
-    public void Import(HtmlBuilder b)
-    {
-        b.HeadAppend(
-            b.HtmlScript(
-                b =>
-                {
-                    b.SetSrc(JsPath);
-                    if (IsModule)
-                    {
-                        b.SetTypeModule();
-                    }
-                }));
-    }
-}
-
-public class StylesheetDependency : IDependency, IDependencyDefaultImport
-{
-    public string StylesheetPath { get; set; }
-
-    public string DependencyId => StylesheetPath;
-
-    public void Import(HtmlBuilder b)
-    {
-        b.HeadAppend(
-            b.HtmlLink(
-                b =>
-                {
-                    b.SetRel("stylesheet");
-                    b.SetHref(StylesheetPath);
-                }));
-    }
-}
 
 
 public class ResolverOverride

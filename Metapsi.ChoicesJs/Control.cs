@@ -82,7 +82,7 @@ public static partial class Control
             LogicalName = "choices.min.js"
         });
 
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             JsPath = choicesMinJsResource,
             IsModule = false
@@ -94,7 +94,7 @@ public static partial class Control
             LogicalName = "metapsi.choices.js"
         });
 
-        b.Require(new JsScriptDependency()
+        b.Require(new ExternalJavaScriptDependency()
         {
             JsPath = metapsiChoicesJsResource,
             IsModule = true
@@ -106,7 +106,7 @@ public static partial class Control
             LogicalName = "metapsi.choices.css"
         });
 
-        b.Require(new StylesheetDependency()
+        b.Require(new ExternalStylesheetDependency()
         {
             StylesheetPath = metapsiChoicesCssResource
         });
