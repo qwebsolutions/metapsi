@@ -83,13 +83,14 @@ public class CustomElement : ModuleResource, ICustomElement
     {
 
     }
-
-    //public string ModulePath => this.Tag + ".js";
 }
 
-public interface ICustomElementProps<T>
+public interface IHasInitProps<TProps>
 {
-
+    /// <summary>
+    /// The initial object used to initialize a Hyperapp-based custom element
+    /// </summary>
+    public TProps props { get; set; }
 }
 
 public interface IRootControl
@@ -177,8 +178,10 @@ public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
     }
 }
 
-public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, ICustomElementProps<TProps>
+public abstract class CustomElement<TModel, TProps> : CustomElement<TModel>, IHasInitProps<TProps>
 {
+    public TProps props { get; set; }
+
     public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
     {
         return OnInitProps(b, b.GetInitProps<TProps>(element));
@@ -281,6 +284,29 @@ public static partial class CustomElementExtensions
         b.HeadAppend(b.HtmlCustomElement(tagName, render, attach, cleanup));
     }
 
+    public static void SetInitProps<TCustomElement, TModel, TInitProps>(this PropsBuilder<TCustomElement> b, Action<PropsBuilder<TInitProps>> setInitProps)
+        where TCustomElement : CustomElement<TModel, TInitProps>, IHasInitProps<TInitProps>
+        where TInitProps : new()
+    {
+        b.SetProps<IHasInitProps<TInitProps>>(
+            b.NewObj(),
+            b =>
+            {
+                b.Set(x => x.props, b.NewObj<TInitProps>(setInitProps));
+            });
+    }
+
+    //public static void SetInitProps<TBuilder, TInitProps>(this TBuilder b, Action<PropsBuilder<TInitProps>> setInitProps)
+    //    where TBuilder : IHtmlPropsBuilder, ISyntaxBuilder // PropsBuilder<IHasInitProps<TInitProps>>
+    //    where TInitProps : new()
+    //{
+    //    b.SetProps<IHasInitProps<TInitProps>>(
+    //        b.NewObj(),
+    //        b =>
+    //        {
+    //            b.Set(x => x.props, b.NewObj<TInitProps>(setInitProps));
+    //        });
+    //}
 
     /// <summary>
     /// Retrieves the 'props' property of element as T

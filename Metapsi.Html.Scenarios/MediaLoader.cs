@@ -15,10 +15,8 @@ public static partial class MediaLoaderExtensions
         this HtmlBuilder b,
         Action<AttributesBuilder<MediaLoader>> setAttributes = null)
     {
-        var mediaLoader = new MediaLoader();
-        var mediaLoaderTag = mediaLoader.Tag;
-        b.HeadAppend(b.HtmlScriptModuleReference(mediaLoader));
-        return b.Tag(mediaLoaderTag, setAttributes);
+        var mediaLoader = b.RequireCustomElement<MediaLoader>();
+        return b.Tag(mediaLoader.Tag, setAttributes);
     }
 
     public static void SetSrc(this AttributesBuilder<MediaLoader> b, string src)
@@ -26,18 +24,13 @@ public static partial class MediaLoaderExtensions
         b.SetAttribute("src", src);
     }
 
-    public static void SetInitProps<T, TProps>(this AttributesBuilder<T> b)
-        where T: ICustomElementProps<TProps>
-    {
-        throw new NotImplementedException();
-    }
 
     public static Var<IVNode> MediaLoader(
         this LayoutBuilder b,
-        Action<PropsBuilder<MediaLoader.Props>> setProps,
+        Action<PropsBuilder<MediaLoader>> setProps,
         params Var<IVNode>[] children)
     {
-        var mediaLoader = new MediaLoader();
+        var mediaLoader = b.RequireCustomElement<MediaLoader>();
         return b.H(mediaLoader.Tag, setProps, children);
     }
 }

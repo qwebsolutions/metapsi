@@ -564,7 +564,7 @@ public static class Program
                                         b.AddClass("flex flex-row gap-8");
                                     },
                                     b.MediaLoader(
-                                        b=>
+                                        (PropsBuilder<MediaLoader> b)=>
                                         {
 
                                         }),
