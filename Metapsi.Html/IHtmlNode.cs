@@ -177,7 +177,7 @@ public class CssNode : IHtmlNode
 
     public string ToHtml(ToHtmlOptions options)
     {
-        return string.Join("\n", Rules.Select(x => x.ToCss(2)));
+        return string.Join("\n", Rules.Select(x => x.ToCss(options.ToCssOptions)));
     }
 }
 

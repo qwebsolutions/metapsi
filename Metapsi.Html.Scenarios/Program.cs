@@ -102,69 +102,6 @@ public class TextBox : Widget
     public String Value { get; set; }
 }
 
-public class NavigateToPage : ServerRenderedPage<NavigateToPage.Model>
-{
-    public class Model
-    {
-
-    }
-
-    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Map model)
-    {
-        return new Model();
-    }
-
-    public override void OnRender(HtmlBuilder b, Model model)
-    {
-        b.BodyAppend(b.Text("Works!"));
-    }
-}
-
-public class TestPageImplementation : ServerRenderedPage<TestPageImplementation.Model>
-{
-    public class Model
-    {
-        public int RandomValue { get; set; }
-        public string NavigateToUrl { get; set; }
-        public string CustomElement1JsPath { get; set; }
-    }
-
-    public TestPageImplementation()
-    {
-        this.Name = "test";
-    }
-
-    public override async Task<Model> OnLoadModel(Metapsi.Web.CfHttpContext context, App.Map model)
-    {
-        return new Model()
-        {
-            NavigateToUrl = model.GetPageUrl<NavigateToPage>(),
-            RandomValue = new Random().Next(),
-            //CustomElement1JsPath = model.GetCustomElementUrl<TestCustomElement>()
-        };
-    }
-
-    public override void OnRender(HtmlBuilder b, Model model)
-    {
-        //HtmlBuilder trackers : always convert to HTML, as it needs to be serializable (does it?)
-        //    b.CustomElement<T> adds header
-
-        //    Custom element - call server - endpoint name
-        //    MakeServerAction != CallServer in , for example, Custom element init
-
-
-        b.AddScriptModule(model.CustomElement1JsPath);
-        b.BodyAppend(
-            b.HtmlA(
-                b =>
-                {
-                    b.SetHref(model.NavigateToUrl);
-                },
-                b.Text("Navigate")),
-            b.Tag(new TestCustomElement().Tag));
-    }
-}
-
 public static class SubscriptionExtensions
 {
     public static void AddSubscription(this PropsBuilder<List<HyperType.Subscription>> b, Var<HyperType.Subscription> subscription)
@@ -238,87 +175,6 @@ public static class Program
 
     public static async Task Main()
     {
-
-        //var module = Metapsi.Syntax.ModuleBuilder.New(
-        //    b =>
-        //    {
-        //        b.AddFunction("main", b =>
-        //        {
-        //            b.Get(b.Const(0.1m), x => x > 0.2m);
-        //        });
-        //    });
-
-
-
-        //var module = Metapsi.Syntax.Module.Build(b =>
-        //{
-        //    var inlineFunc = b.Def((SyntaxBuilder b, Var<DataModel> model) =>
-        //    {
-        //        var title = b.Get(model, x => x.Title);
-        //        b.Log(title);
-        //        var nested = b.Get(model, x => x.Nested);
-        //        b.Log(b.Get(nested, x => x.NestedMessage));
-        //        b.If(
-        //            b.Get(model, x => x.List.Any()),
-        //            b =>
-        //            {
-
-        //            },
-        //            b=>
-        //            {
-
-        //            });
-        //        b.Foreach(
-        //            b.Get(model, x => x.List),
-        //            (b, item) =>
-        //            {
-        //                b.Log("item is ", item);
-        //                var one = b.Const(1);
-        //            });
-        //    });
-
-        //    b.Call(inlineFunc, b.Const(new DataModel()));
-        //});
-
-        //var serializable = module.GetDefinition();
-        //var options = new JsonSerializerOptions();
-        //options.Converters.Add(new SyntaxNodeConverter());
-        //options.Converters.Add(new JsonStringEnumConverter());
-        //options.WriteIndented = true;
-        //var moduleJson = System.Text.Json.JsonSerializer.Serialize(serializable, options);
-        //var back = System.Text.Json.JsonSerializer.Deserialize<ModuleDefinition>(moduleJson, options);
-        //Console.WriteLine("!!!!!!!!!!! TO JS");
-        //Console.WriteLine(back.ToJs());
-
-        //Environment.Exit(0);
-
-        //var converted = Metapsi.JavaScript.LinqConverter.ToJavaScript(() => "test");
-
-        //Environment.Exit(0);
-
-        //Console.WriteLine(typeof(List<Nested.NestedAgain>).CSharpTypeName());
-
-        //Console.WriteLine(typeof(Dictionary<string, HashSet<Guid>>).CSharpTypeName(TypeQualifier.All));
-        //Console.WriteLine(typeof(int).CSharpTypeName());
-        //Console.WriteLine(typeof(DateTime).CSharpTypeName());
-        //Console.WriteLine(typeof(List<string>).CSharpTypeName());
-        //Console.WriteLine(typeof(byte[]).CSharpTypeName());
-
-
-        //await StaticFiles.AutoAdd();
-
-        //await Task.Delay(100000);
-
-        //Form x = new();
-        //x.Controls = new Widget[] 
-        //    { 
-        //        new TextBox() { OnChange = ()=>
-        //        {
-        //        }
-        //    } 
-        //};
-
-
         // AddMetapsiSignalR preserves JSON capitalization
         //var app = WebApplication.CreateBuilder().AddMetapsi().AddMetapsiSignalR().Build();
         var builder = WebApplication.CreateBuilder().AddMetapsi();
@@ -605,25 +461,6 @@ public static class Program
             await httpContext.WriteHtmlDocumentResponse(document);
         });
 
-        app.MapGet("sl-icon-test", async () =>
-        {
-            return Page.Result(new object(), (model) =>
-            {
-                return HtmlBuilder.FromEmpty(
-                    b =>
-                    {
-                        b.BodyAppend(b.SlIcon(
-                            b =>
-                            {
-                                b.SetName("caret-right-square");
-                            }));
-                    });
-            });
-        });
-
-        // return Page.Result test
-        app.MapGet("/page-result", Scenario.PageResult).WithName("page-result");
-
         app.MapGet("/custom-element-http-handler.js", Scenario.CustomElementHttpHandler).WithName("custom-element-http-handler");
 
         //app.MapGet(
@@ -732,56 +569,41 @@ public static class Program
                 });
         });
 
-        var testApp1 = App.New(
-            b =>
-            {
-                //b.ConfigureCustomElements(
-                //    b =>
-                //    {
-                //        b.Add<TestCustomElement>();
-                //    });
-
-                b.ConfigurePages(
-                    b =>
-                    {
-                        b.Add<TestPageImplementation>();
-                        b.Add<NavigateToPage>();
-                        b.Add<MarketData>(
+        app.MapGet("/market", () =>
+        {
+            var htmlDocument = HtmlBuilder.FromDefault(
+                b =>
+                {
+                    b.HeadAppend(
+                        b.HtmlScript(
                             b =>
                             {
-                                b.Configuration.Name = "m";
-                                b.Configuration.LoadModel = async (httpContext, appModel) =>
-                                {
-                                    var models = appModel.Features;
-                                    return new MarketData();
-                                };
-                                b.Configuration.Render = (b, model) =>
-                                {
-                                    b.BodyAppend(b.Text("I don't know what to do with this MarketData"));
-                                };
-                            });
-                        b.Add<DataModel>(
+                                b.SetTypeModule();
+                                b.SetSrc("https://unpkg.com/@fluentui/web-components@beta");
+                            }));
+                    b.HeadAppend(
+                        b.HtmlScriptModule(
                             b =>
                             {
-                                b.Configuration.LoadModel = async (httpContext, appModel) =>
-                                {
-                                    return new DataModel();
-                                };
 
-                                b.Configuration.Render = (b, model) =>
-                                {
-                                    b.BodyAppend(b.Text("I don't know what to do with this DataModel"));
-                                };
-                            });
-                    });
-            });
-
-        app.MapGroup("testApp1").MapApp(testApp1);
-
-        //app.MapGet("/", () => Page.Result(new DataModel()));
-        //app.MapServerActions("someOtherPath");
-
-        app.MapGet("/market", () => Page.Result(new MarketData()));
+                            },
+                            b =>
+                            {
+                                var setTheme = b.ImportName<Action<string>>("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/+esm", "setTheme");
+                                var webLightTheme = b.ImportName<string>("https://cdn.jsdelivr.net/npm/@fluentui/tokens/+esm", "webLightTheme");
+                                b.Call(setTheme, webLightTheme);
+                            }));
+                    //b.UseWebComponentsFadeIn();
+                    b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
+                    //b.BodyAppend(b.Tag("fluent-button", b.Text("Server-side button")));
+                    b.BodyAppend(
+                        b.Hyperapp<MarketData>(
+                            InitializeClientSideApp,
+                            RenderClientSideApp,
+                            ListenForUpdates));
+                });
+            return htmlDocument.Result();
+        });
         app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call, ITestService testService) =>
         {
             //call.UpdateParameterByType<MarketData>(model =>
@@ -804,298 +626,6 @@ public static class Program
                     b.BodyAppend(b.Tag(root.Tag));
                 }));
         });
-
-        app.UseRenderer<MarketData>(model =>
-        {
-            return HtmlBuilder.FromDefault(
-                b =>
-                {
-                    b.HeadAppend(
-                        b.HtmlScript(
-                            b =>
-                            {
-                                b.SetTypeModule();
-                                b.SetSrc("https://unpkg.com/@fluentui/web-components@beta");
-                            }));
-                    b.HeadAppend(
-                        b.HtmlScriptModule(
-                            b=>
-                            {
-
-                            },
-                            b =>
-                            {
-                                var setTheme = b.ImportName<Action<string>>("https://cdn.jsdelivr.net/npm/@fluentui/web-components@beta/+esm", "setTheme");
-                                var webLightTheme = b.ImportName<string>("https://cdn.jsdelivr.net/npm/@fluentui/tokens/+esm", "webLightTheme");
-                                b.Call(setTheme, webLightTheme);
-                            }));
-                    //b.UseWebComponentsFadeIn();
-                    b.HeadAppend(b.HtmlTitle("Market data, absolutely real time for sure ..."));
-                    //b.BodyAppend(b.Tag("fluent-button", b.Text("Server-side button")));
-                    b.BodyAppend(
-                        b.Hyperapp<MarketData>(
-                            InitializeClientSideApp,
-                            RenderClientSideApp,
-                            ListenForUpdates));
-                });
-        });
-        //app.UseRenderer<DataModel>(model => $"<html><head><title>{model.Title}</title></head><body>{model.Message}</body></html>");
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //        b =>
-        //        {
-        //            b.HeadAppend(b.HtmlTitle(model.Title));
-        //            b.BodyAppend(b.Text(model.Message));
-        //        }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(b.HtmlScript($"alert('{model.Message}')"));
-        //    }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(b.HtmlScriptModule(b =>
-        //        {
-        //            b.Alert(model.Message);
-        //        }));
-        //    }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(b.HtmlButton(
-        //            b =>
-        //            {
-        //                b.SetId("click-me");
-        //                b.SetStyle("color:blue");
-        //            },
-        //            b.Text("Click me!")));
-        //        b.BodyAppend(b.HtmlScriptModule(b =>
-        //        {
-        //            b.SetProperty(
-        //                b.GetElementById("click-me"),
-        //                b.Const("onclick"),
-        //                b.Def((SyntaxBuilder b) =>
-        //                {
-        //                    b.Alert(model.Message);
-        //                }));
-        //        }));
-        //    }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(
-        //            b.Hyperapp(
-        //                model,
-        //                (b, model) =>
-        //                {
-        //                    return b.HtmlButton(
-        //                        b =>
-        //                        {
-        //                            b.AddStyle("color", "green");
-        //                            b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-        //                            {
-        //                                b.Alert(b.Get(model, x => x.Message));
-        //                                b.Set(model, x => x.Message, b.Const("Already clicked!"));
-        //                                return b.Clone(model);
-        //                            });
-        //                        },
-        //                        b.Text("Click me!"));
-        //                }));
-        //    }).ToHtml());
-
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.UseWebComponentsFadeIn();
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(
-        //            b.SlDialog(
-        //                b =>
-        //                {
-        //                    b.SetStyle("font-family:var(--sl-font-sans)");
-        //                    b.SetLabel("Shoelace dialog");
-        //                    b.SetOpen();
-        //                },
-        //                b.Text(model.Message)));
-        //    }).ToHtml());
-
-        string line = "abc";
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.UseWebComponentsFadeIn();
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(
-        //            b.Hyperapp(
-        //                model,
-        //                (b, model) =>
-        //                b.HtmlDiv(
-        //                    b.SlDialog(
-        //                        b =>
-        //                        {
-        //                            b.AddStyle("font-family", "var(--sl-font-sans)");
-        //                            b.SetId("shoelace-dialog");
-        //                            b.SetLabel("Shoelace dialog");
-        //                        },
-        //                        b.SlIcon(
-        //                            b=>
-        //                            {
-        //                                b.SetName("trash");
-        //                            }),
-        //                        b.IonButton(
-        //                            b.IonIcon("people-circle"),
-        //                            b.Text("Test")),
-        //                        b.Text(b.Get(model, x => x.Message)),
-        //                        b.SlInput(
-        //                            b=>
-        //                            {
-        //                                var notUsed = b.Get(model, x => x.Length);
-
-        //                                //b.OnInputAction(
-        //                                //    b.CallServer(
-        //                                //        async (DataModel model, string inputString) =>
-        //                                //        {
-        //                                //            model.Message = inputString;
-        //                                //            model.ShowText = inputString.Length % 2 == 0;
-        //                                //            return model;
-        //                                //        }));
-
-        //                                //b.SetValue(b.Get(model, x => x.Message));
-
-        //                                //b.BindTo(model, x => x.Message);
-        //                                b.BindTo(model, x => x.Nested, x => x.NestedMessage);
-        //                                //b.BindTo(model, x => x.SomeDate, x => x.Minute);
-
-        //                            }),
-        //                        b.SlButton(
-        //                            b =>
-        //                            {
-        //                                b.SetSlot(SlDialog.Slot.Footer);
-        //                                b.SetVariantSuccess();
-        //                                //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-        //                                //{
-        //                                //    var comment = b.Comment("Shoelace dialog here");
-
-        //                                //    b.HideDialog("shoelace-dialog");
-        //                                //    return b.Clone(model);
-        //                                //});
-        //                            },
-        //                            b.Text(b.Get(model, x=>x.Message)))),
-        //                    b.Optional(
-        //                        b.Get(model, x=>x.Nested.NestedMessage.Length%2 == 0),
-        //                        //b.Get(
-        //                        //    model, 
-        //                        //    b.Def<SyntaxBuilder, string,int>(Metapsi.Syntax.Core.StringLength),
-        //                        //    (model, sl)=> sl(model.Nested.NestedMessage) %2 == 0),
-        //                            //b.StringLength(
-        //                                //b.Get(model, x=>x.Message)),
-        //                                //x=> x%2 == 0),
-        //                        b=> b.Text("Hidden text")),
-        //                    b.SlButton(
-        //                        b =>
-        //                        {
-        //                            b.OnClickAction(b.CallServer(
-        //                                async (model) =>
-        //                                {
-        //                                    model.Message = "WORKS!";
-        //                                    return model;
-        //                                },
-        //                                b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
-        //                                {
-        //                                    b.ShowDialog("shoelace-dialog");
-        //                                    return newModel;
-        //                                })));
-
-        //                            //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-        //                            //{
-        //                            //    return b.CallServerAction(
-        //                            //        model,
-        //                            //        model,
-        //                            //        async (model) =>
-        //                            //        {
-        //                            //            model.Message = "Changed server side";
-        //                            //            return model;
-        //                            //        },
-        //                            //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<DataModel> newModel) =>
-        //                            //        {
-        //                            //            return newModel;
-        //                            //        }),
-        //                            //        b.MakeAction((SyntaxBuilder b, Var<DataModel> model, Var<ClientSideException> ex) =>
-        //                            //        {
-        //                            //            return model;
-        //                            //        }));
-        //                            //});
-
-        //                            //b.OnClickAction((SyntaxBuilder b, Var<DataModel> model) =>
-        //                            //{
-        //                            //    b.ShowDialog("shoelace-dialog");
-        //                            //    return b.Clone(model);
-        //                            //});
-        //                        },
-        //                        b.Text("Open dialog")))));
-        //    }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.UseWebComponentsFadeIn();
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(
-        //            b.IonApp(
-        //                b.IonContent(
-        //                    b.IonAlert(
-        //                        b =>
-        //                        {
-        //                            b.SetIsOpen();
-        //                            b.SetHeader(model.Title);
-        //                            b.SetMessage(model.Message);
-        //                        }))));
-        //    }).ToHtml());
-
-        //app.UseRenderer<DataModel>(
-        //    model => HtmlBuilder.FromDefault(
-        //    b =>
-        //    {
-        //        b.UseWebComponentsFadeIn();
-        //        b.HeadAppend(b.HtmlTitle(model.Title));
-        //        b.BodyAppend(
-        //            b.Hyperapp(
-        //                model,
-        //                (b, model) =>
-        //                {
-        //                    return b.IonApp(
-        //                        b.IonContent(
-        //                            b.IonAlert(
-        //                                b =>
-        //                                {
-        //                                    b.SetIsOpen();
-        //                                    b.SetHeader(b.Get(model, x => x.Title));
-        //                                    b.SetMessage(b.Get(model, x => x.Message));
-        //                                })));
-        //                }));
-        //    }).ToHtml());
-
-        //app.UseRenderer<MarketData>(
-        //    model =>);
 
         var _notAwaited = Task.Run(GenerateRandomData);
 

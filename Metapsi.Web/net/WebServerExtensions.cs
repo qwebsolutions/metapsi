@@ -25,10 +25,8 @@ namespace Metapsi
            ImplementationGroup ig)
         {
             builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<RenderersService>();
             builder.Services.AddWindowsService();
             builder.Services.AddSystemd();
-            builder.Services.AddMetapsiCommandContext(applicationSetup, ig);
 
             builder.Services.ConfigureHttpJsonOptions(options =>
             {
@@ -48,8 +46,6 @@ namespace Metapsi
            this WebApplicationBuilder builder)
         {
             builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<RenderersService>();
-
             builder.Services.ConfigureHttpJsonOptions(options =>
             {
                 options.SerializerOptions.PropertyNamingPolicy = null;
@@ -67,6 +63,7 @@ namespace Metapsi
             return webApplication;
         }
 
+        [Obsolete]
         public static WebApplication UseMetapsi(this WebApplication webApplication, ApplicationSetup applicationSetup)
         {
             webApplication.UseEmbeddedFiles();
@@ -75,6 +72,7 @@ namespace Metapsi
             return webApplication;
         }
 
+        [Obsolete]
         public static void BindStop(this WebApplication webApp, ApplicationSetup applicationSetup)
         {
             // Always close web server when shutting down application
@@ -84,6 +82,7 @@ namespace Metapsi
             });
         }
 
+        [Obsolete]
         public static void BindStart(this WebApplication webApp, ApplicationSetup applicationSetup)
         {
             applicationSetup.MapEvent<ApplicationRevived>(e =>

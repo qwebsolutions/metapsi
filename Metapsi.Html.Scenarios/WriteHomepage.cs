@@ -22,21 +22,6 @@ public static partial class Scenario
         HttpContext httpContext,
         ICustomElement customHttpHandlerElement)
     {
-        var pageResultEndpointUrl = httpContext.GetEndpointUrl("page-result");
-        var customElementUrl = httpContext.GetEndpointUrl("custom-element-http-handler");
-
-        //ToHtmlOptions options = new ToHtmlOptions()
-        //{
-        //    ResolveResource = (document, resource) =>
-        //    {
-        //        if (resource.LogicalName.Contains("http"))
-        //        {
-        //            return customElementUrl;
-        //        }
-        //        return resource.GetDefaultHttpPath();
-        //    }
-        //};
-
         await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromEmpty(
             b =>
             {
@@ -51,14 +36,6 @@ public static partial class Scenario
                         },
                         b.Text("Metapsi Playground")));
 
-                b.BodyAppend(
-                    b.HtmlA(
-                        b =>
-                        {
-                            b.SetHref(pageResultEndpointUrl);
-                        },
-                        b.Text("Go to page returned by Page.Result")));
-
                 b.BodyAppend(b.HtmlDiv(
                     b =>
                     {
@@ -67,25 +44,9 @@ public static partial class Scenario
                     b.Text("This one is explicitly added"),
                     b.Tag("custom-element-http-handler")));
 
-                //b.BodyAppend(
-                //    b.HtmlDiv(
-                //    b =>
-                //    {
-                //        b.SetStyle("border: 1px solid grey");
-                //    },
-                //    b.Text("This one is added with b.CustomElement"),
-                //    b.HtmlDiv(b.ResolvedCustomElement(customHttpHandlerElement))));
                 b.BodyAppend(
                     b.IonButton());
-                //b.BodyAppend(
-                //    b.HtmlDiv(
-                //        b.HtmlScript(
-                //            b=>
-                //            {
-                //                b.SetTypeModule();
-                //            },
-                //            b.Text(Scenario.InlineCustomElement().Module.ToJs()))),
-                //    b.Tag(Scenario.InlineCustomElement().Tag));
+
                 b.BodyAppend(
                     b.MediaLoader(
                         b=>

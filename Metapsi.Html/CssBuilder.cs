@@ -3,6 +3,17 @@ using System.Linq;
 
 namespace Metapsi.Html;
 
+/// <summary>
+/// 
+/// </summary>
+public class ToCssOptions
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public int IndentSpaces { get; set; } = 2;
+}
+
 public class CssRule
 {
     /// <summary>
@@ -20,7 +31,13 @@ public class CssRule
     /// </summary>
     public Dictionary<string, string> Declarations { get; set; } = new Dictionary<string, string>();
 
-    public string ToCss(int indent = 0)
+    public string ToCss(ToCssOptions toCssOptions)
+    {
+        if (toCssOptions == null) toCssOptions = new ToCssOptions();
+        return this.ToCss(toCssOptions, 0);
+    }
+
+    private string ToCss(ToCssOptions toCssOptions, int nestingLevel)
     {
         var isStylesheetTop = string.IsNullOrWhiteSpace(Prelude);
 
@@ -28,7 +45,7 @@ public class CssRule
         // Stylesheet itself is represented as a CssRule with just nested rules to avoid a separate builder declaration for stylesheet
         if (isStylesheetTop)
         {
-            var css = "\n" + string.Join("\n", NestedRules.Select(x => x.ToCss(indent)));
+            var css = "\n" + string.Join("\n", NestedRules.Select(x => x.ToCss(toCssOptions, nestingLevel)));
             return css;
         }
 
@@ -40,10 +57,10 @@ public class CssRule
         }
         else
         {
-            var indentSpaces = new string(' ', indent * 2);
+            var indentSpaces = new string(' ', nestingLevel * toCssOptions.IndentSpaces);
 
             var declarations = string.Join("\n", Declarations.Select(x => $"  {indentSpaces}{x.Key}: {x.Value};"));
-            var nested = string.Join("\n", NestedRules.Select(x => x.ToCss(indent + 1)));
+            var nested = string.Join("\n", NestedRules.Select(x => x.ToCss(toCssOptions, nestingLevel + 1)));
 
             var outputCss = indentSpaces + Prelude + " {\n";
             outputCss += declarations;

@@ -64,47 +64,6 @@ public class EmbeddedResourceVirtualFile : VirtualFile
     }
 }
 
-//public class EmbeddedResourceHandler : IHttpHandler
-//{
-//    public void ProcessRequest(HttpContext context)
-//    {
-//        string filename = context.Request.QueryString["file"];
-//        if (string.IsNullOrEmpty(filename))
-//        {
-//            context.Response.StatusCode = 400; // Bad Request
-//            return;
-//        }
-
-//        var assembly = Assembly.GetExecutingAssembly();
-//        string resourceName = $"YourNamespace.Resources.{filename}";
-
-//        using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-//        {
-//            if (stream == null)
-//            {
-//                context.Response.StatusCode = 404; // Not Found
-//                return;
-//            }
-
-//            string contentType = GetContentType(filename);
-//            context.Response.ContentType = contentType;
-
-//            stream.CopyTo(context.Response.OutputStream);
-//        }
-//    }
-
-//    public bool IsReusable => true;
-
-//    private string GetContentType(string filename)
-//    {
-//        if (filename.EndsWith(".txt")) return "text/plain";
-//        if (filename.EndsWith(".jpg")) return "image/jpeg";
-//        if (filename.EndsWith(".pdf")) return "application/pdf";
-//        return "application/octet-stream";
-//    }
-//}
-
-
 public static class HttpContextExtensions
 {
     public static void WriteHtmlDocument(this System.Web.HttpResponseBase httpResponse, HtmlDocument htmlDocument)

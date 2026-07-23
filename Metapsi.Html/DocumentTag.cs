@@ -10,6 +10,7 @@ namespace Metapsi.Html;
 public class ToHtmlOptions
 {
     public ToJavaScriptOptions ToJavaScriptOptions { get; set; } = new ToJavaScriptOptions();
+    public ToCssOptions ToCssOptions { get; set; } = new ToCssOptions();
     public int Indent { get; set; } = 2;
 }
 

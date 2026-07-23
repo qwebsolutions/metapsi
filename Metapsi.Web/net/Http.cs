@@ -149,54 +149,6 @@ public static class HttpExtensions
         return await System.Text.Json.JsonSerializer.DeserializeAsync(request.Request.Body, type);
     }
 
-
-    public static IEndpointConventionBuilder WithName(this IEndpointConventionBuilder endpoint, App.Setup setup, RouteDescription routeDescription)
-    {
-        return endpoint.WithName(routeDescription.ToRouteName(setup));
-    }
-
-    public static void MapApp(this IEndpointRouteBuilder endpoint, App.Setup app, Initializer initializer = null)
-    {
-        if (initializer == null)
-        {
-            initializer = new Initializer();
-        }
-
-        List<IRegisterAppFeature> autoRegisterActions = null;
-
-        foreach (var feature in app.Features)
-        {
-            if (feature.Value.Configuration != null)
-            {
-                if (!initializer.Actions.ContainsKey(feature.Key))
-                {
-                    if (autoRegisterActions == null)
-                    {
-                        autoRegisterActions = AutoLoader.FindAllLoaded<IRegisterAppFeature>();
-                    }
-
-                    initializer.Actions[feature.Key] = () =>
-                    {
-                        var featureInitializers = autoRegisterActions.Where(x => x.FeatureName == feature.Key);
-                        if (!featureInitializers.Any())
-                        {
-                            throw new Exception($"Feature {feature.Key} has no initializer");
-                        }
-                        if (featureInitializers.Count() > 1)
-                        {
-                            throw new Exception($"Feature {feature.Key} has multiple initializers");
-                        }
-
-                        var featureInitializer = autoRegisterActions.Single(x => x.FeatureName == feature.Key);
-                        featureInitializer.Register(endpoint, app, feature.Value.Configuration);
-                    };
-                }
-            }
-        }
-
-        initializer.RunAll();
-    }
-
     public static string GetEndpointUrl(this HttpContext httpContext, string name)
     {
         var linkGenerator = httpContext.RequestServices.GetRequiredService<LinkGenerator>();
@@ -234,24 +186,5 @@ public static class HttpExtensions
             path = path.TrimEnd('/', '-');
 
         return path;
-    }
-
-    public static string GetEndpointUrl(this HttpContext httpContext, App.Setup appSetup, RouteDescription routeDescription)
-    {
-        return httpContext.GetEndpointUrl(routeDescription.ToRouteName(appSetup));
-    }
-
-    public static App.Map GetAppMap(this App.Setup setup, HttpContext httpContext)
-    {
-        var findUrl = (RouteDescription routeDescription, HttpContext httpContext) =>
-        {
-            return httpContext.GetEndpointUrl(setup, routeDescription);
-        };
-
-        Lazy<App.Map> appMap = new Lazy<App.Map>(() =>
-        {
-            return setup.GetAppMap((routeDescription) => findUrl(routeDescription, httpContext));
-        });
-        return appMap.Value;
     }
 }
