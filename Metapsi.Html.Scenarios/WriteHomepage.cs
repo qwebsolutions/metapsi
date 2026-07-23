@@ -100,7 +100,13 @@ public static partial class Scenario
                             return b.MediaLoader(
                                 b =>
                                 {
-                                    b.Set(x => x.Src, "https://shoelace.style/assets/images/wordmark.svg");
+                                    b.Set(
+                                        x => x.props,
+                                        b.NewObj<MediaLoader.Props>(
+                                            b =>
+                                            {
+                                                b.Set(x => x.Src, "https://shoelace.style/assets/images/wordmark.svg");
+                                            }));
                                 },
                                 b.HtmlDiv(
                                     b=>

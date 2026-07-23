@@ -1108,7 +1108,58 @@ public static class Program
             b.MakeStateWithEffects(
                 b.Const(new MarketData()),
                 // Connect to default SignalR hub
-                b.SignalRConnect(nameof(DefaultMetapsiSignalRHub))));
+                b.SignalRConnect(
+                    nameof(DefaultMetapsiSignalRHub),
+                    b =>
+                    {
+                        b.ListenToServerEvents();
+                        b.CallOnObject(b.Props, "onclose", b.Def((SyntaxBuilder b) =>
+                        {
+                            b.Log("DISCONNECTED!");
+
+                            b.SlToast(
+                                b =>
+                                {
+                                    b.SetClosable(true);
+                                    b.SetVariantWarning();
+                                },
+                                b.CreateTextNode("Offline"));
+                            //b.ToastControllerPresent(
+                            //b =>
+                            //{
+                            //    b.Set(x => x.message, "Offline");
+                            //    b.Set(x => x.color, "warning");
+                            //    b.Set(x => x.position, "top");
+                            //});
+
+
+                        }));
+                    },
+                    (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) =>
+                    {
+                        b.Log("CONNECTED!");
+                        //var dismissPrevious = b.ToastControllerDismiss();
+                        //b.PromiseThen(dismissPrevious, (SyntaxBuilder b, Var<object> _) =>
+                        //{
+                        //    b.ToastControllerPresent(
+                        //        b =>
+                        //        {
+                        //            b.Set(x => x.message, "Conectat");
+                        //            b.Set(x => x.color, "success");
+                        //            b.Set(x => x.duration, 3000);
+                        //            b.Set(x => x.position, "top");
+                        //        });
+                        //});
+
+                        b.SlToast(
+                            b =>
+                            {
+                                b.SetClosable(true);
+                                b.SetVariantSuccess();
+                                b.SetDuration(3000);
+                            },
+                            b.CreateTextNode("Online"));
+                    })));
     }
 
     //public static void CallServer(this PropsBuilder<SlButton> propsBuilder, Action<DataModel> action)
