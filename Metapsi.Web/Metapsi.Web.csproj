@@ -5,7 +5,7 @@
 		<TargetFrameworks>net8.0;net47</TargetFrameworks>
 		<LangVersion>11.0</LangVersion>
 		<IsPackable>true</IsPackable>
-		<Description>Instantiates Metapsi.Runtime-aware web servers. Allows using CommandContext and embedded resources</Description>
+		<Description>Adds Metapsi HTTP support for serving HTML, CSS, JavaScript and embedded resources</Description>
 		<IncludeSource>true</IncludeSource>
 		<EmbedAllSources>true</EmbedAllSources>
 	</PropertyGroup>
