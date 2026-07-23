@@ -557,6 +557,7 @@ namespace Metapsi.Syntax
 
         public static Module InlineModule(Module moduleDefinition)
         {
+            // TODO: Obviously
             return moduleDefinition;
             var ssaDeps = moduleDefinition.GetSsaDependencyGraph();
 
