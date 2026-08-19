@@ -66,7 +66,7 @@ public static class CommonLayout
                                             b.SetDisabled();
                                             b.SetProperty(b.Props, "disabled", b.Const(false));
 
-                                            b.OnClickAction(b.MakeAction((SyntaxBuilder b, Var<Model> model) =>
+                                            b.OnClickAction(b.MakeAction((SyntaxBuilder b, Var<Model> model, Var<Event> e) =>
                                             {
                                                 var newItem = b.NewObj<Item>(
                                                     b =>
@@ -75,10 +75,12 @@ public static class CommonLayout
                                                         b.Set(x => x.Value, 20);
                                                     });
                                                 b.Push(b.Get(model, x => x.Items), newItem);
+                                                b.CallOnObject<Promise>(b.QuerySelector("#id-popover"), "togglePopover", null);
+
                                                 return b.Clone(model);
                                             }));
                                         },
-                                        children.ToArray());
+                                        children);
                                 });
                         }));
                         b.SetNode(appDiv);
@@ -126,9 +128,17 @@ public static class CommonLayout
             b =>
             {
                 b.SetId("app");
+                b.SetAttribute("popovertarget", "id-popover");
                 b.AddStyle("color", "#333");
                 b.AddStyle("min-width", "200px");
             },
+            b.HtmlDiv(
+                b=>
+                {
+                    b.SetAttribute("popover");
+                    b.SetId("id-popover");
+                },
+                b.Text("Popover test")),
             b.HtmlDiv(
                 b =>
                 {

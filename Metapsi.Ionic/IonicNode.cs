@@ -54,7 +54,7 @@ public static class IonicNodeImport
         return b.Tag(tag, attributes, children);
     }
 
-    public static IHtmlNode IonicTag<T>(
+    public static IHtmlNode IonicTag(
         this HtmlBuilder b,
         string tag,
         List<IHtmlNode> children)
@@ -64,7 +64,7 @@ public static class IonicNodeImport
         return b.Tag(tag, children);
     }
 
-    public static IHtmlNode IonicTag<T>(
+    public static IHtmlNode IonicTag(
         this HtmlBuilder b,
         string tag,
         params IHtmlNode[] children)

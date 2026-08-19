@@ -120,6 +120,11 @@ namespace Metapsi.Syntax
             this.SetAttribute(attribute, this.Const(value));
         }
 
+        public void SetProperty<T>(Var<string> propertyName, Var<T> value)
+        {
+            this.SetProperty(this.Props, propertyName, value);
+        }
+
         /// <summary>
         /// Sets boolean attribute
         /// <para>Note that boolean attributes have no 'false' value. If they exist, they are true</para>

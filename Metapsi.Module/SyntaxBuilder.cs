@@ -268,8 +268,14 @@ namespace Metapsi.Syntax
             List<SyntaxNode> syntaxArguments = new List<SyntaxNode>();
             foreach (var argument in arguments)
             {
-
-                syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = (argument as IClientVar).Name } });
+                if (argument == null)
+                {
+                    syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = "undefined" } });
+                }
+                else
+                {
+                    syntaxArguments.Add(new SyntaxNode() { Identifier = new IdentifierNode() { Name = (argument as IClientVar).Name } });
+                }
             }
 
             return syntaxArguments;

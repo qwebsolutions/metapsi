@@ -61,7 +61,10 @@ namespace Metapsi.Syntax
             List<IVariable> allParams = new List<IVariable>();
             allParams.Add(@object);
             allParams.Add(b.Const(function));
-            allParams.AddRange(parameters);
+            if (parameters != null)
+            {
+                allParams.AddRange(parameters);
+            }
             return b.CallDynamic<TResult>(callOnObject, allParams.ToArray());
         }
 

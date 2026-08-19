@@ -72,6 +72,11 @@ namespace Metapsi.Syntax
         {
             return this.nodes;
         }
+
+        public void SetProperty<TProp>(Var<string> propertyName, Var<TProp> value)
+        {
+            this.SetProperty(this, propertyName, value);
+        }
     }
 
     public static class ObjectBuilderExtensions
