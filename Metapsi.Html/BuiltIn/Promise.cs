@@ -12,17 +12,6 @@ public class Promise
 
 }
 
-// TODO: Actually add support for typed promise
-
-/// <summary>
-/// The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class Promise<T>
-{
-
-}
-
 /// <summary>
 /// 
 /// </summary>
@@ -47,13 +36,8 @@ public interface PromiseResolvers
 /// <summary>
 /// 
 /// </summary>
-public static class PromiseExtensions
+public static partial class PromiseExtensions
 {
-    //private static Var<ClassDef<Promise>> PromiseClass(this SyntaxBuilder b)
-    //{
-    //    return b.GetClass<Promise>();
-    //}
-
     /// <summary>
     /// The Promise() constructor creates Promise objects
     /// </summary>
@@ -499,33 +483,343 @@ public static class PromiseExtensions
         return b.CallOnObject<PromiseResolvers>(b.GetClass<Promise>(), "withResolvers");
     }
 
-    //[Obsolete]
-    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<object>> onSuccess, Var<System.Action<object>> onFailure)
-    //{
-    //    return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
-    //}
 
-    //[Obsolete]
-    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess, Var<System.Action<object>> onFailure)
-    //{
-    //    return b.CallOnObject<Promise>(promise, "then", onSuccess, onFailure);
-    //}
+}
 
-    //[Obsolete]
-    //public static Var<Promise> Then<T>(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<T>> onSuccess)
-    //{
-    //    return b.CallOnObject<Promise>(promise, "then", onSuccess);
-    //}
+///////////////////////////////////////
+//          Typed Promise<T>          
+///////////////////////////////////////
 
-    //[Obsolete]
-    //public static Var<Promise> Then(this SyntaxBuilder b, Var<Promise> promise, Var<System.Func<object, Promise>> onSuccess)
-    //{
-    //    return b.CallOnObject<Promise>(promise, "then", onSuccess);
-    //}
+/// <summary>
+/// The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class Promise<T>
+{
 
-    //[Obsolete]
-    //public static Var<Promise> Catch(this SyntaxBuilder b, Var<Promise> promise, Var<System.Action<ClientSideException>> onFailure)
-    //{
-    //    return b.CallOnObject<Promise>(promise, "catch", onFailure);
-    //}
+}
+
+/// <summary>
+/// Returned by allSettled
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class PromiseSettledResult<T>
+{
+    /// <summary>
+    /// A string, either "fulfilled" or "rejected", indicating the eventual state of the promise.
+    /// </summary>
+    public string status { get; set; }
+    /// <summary>
+    /// Only present if status is "fulfilled". The value that the promise was fulfilled with.
+    /// </summary>
+    public T value { get; set; }
+    /// <summary>
+    /// Only present if status is "rejected". The reason that the promise was rejected with.
+    /// </summary>
+    public object reason { get; set; }
+}
+
+/// <summary>
+/// Returned by Promise.withResolvers()
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class PromiseWithResolvers<T>
+{
+    /// <summary>
+    /// A Promise object.
+    /// </summary>
+    public Promise<T> promise { get; set; }
+    /// <summary>
+    /// A function that resolves the promise.
+    /// </summary>
+    public Action<T> resolve { get; set; }
+    /// <summary>
+    /// A function that rejects the promise.
+    /// </summary>
+    public Action<object> reject { get; set; }
+}
+
+public static partial class PromiseExtensions
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="executor"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> NewPromise<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<Action<Action<T>, Action<object>>> executor)
+    {
+        var promise = b.Construct(executor);
+        return new ObjBuilder<Promise<T>>(
+            (b as IObjBuilder).ModuleBuilder,
+            (b as IObjBuilder).GetNodes(),
+            promise.As<Promise<T>>());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<T, TResult>> onFulfilled)
+    {
+        return b.Call<Promise<TResult>>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<T, Promise<TResult>>> onFulfilled)
+    {
+        return b.Call<Promise<TResult>>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Action<T>> onFulfilled)
+    {
+        return b.Call<Promise>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled"></param>
+    /// <param name="onRejected"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<T, TResult>> onFulfilled,
+        Var<Func<object, TResult>> onRejected)
+    {
+        return b.Call<Promise<TResult>>("then", onFulfilled, onRejected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onRejected"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> @catch<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<object, T>> onRejected)
+    {
+        return b.Call<Promise<T>>("catch", onRejected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onRejected"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> @catch<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<object, Promise<T>>> onRejected)
+    {
+        return b.Call<Promise<T>>("catch", onRejected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onRejected"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise> @catch<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Action<object>> onRejected)
+    {
+        return b.Call<Promise>("catch", onRejected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFinally"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> @finally<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Action> onFinally)
+    {
+        return b.Call<Promise<T>>("finally", onFinally);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="onRejected"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise> @catch(
+        this ObjBuilder<Promise> b,
+        Var<Action<object>> onRejected)
+    {
+        return b.Call<Promise>("catch", onRejected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="onFinally"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise> @finally(
+        this ObjBuilder<Promise> b,
+        Var<Action> onFinally)
+    {
+        return b.Call<Promise>("finally", onFinally);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> resolve<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<T> value)
+    {
+        return b.Call<Promise<T>>("resolve", value);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise> resolve(
+        this ObjBuilder<ClassDef<Promise>> b)
+    {
+        return b.Call<Promise>("resolve");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="reason"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> reject<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<object> reason)
+    {
+        return b.Call<Promise<T>>("reject", reason);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="promises"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<List<T>>> All<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<List<Promise<T>>> promises)
+    {
+        return b.Call<Promise<List<T>>>("all", promises);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="promises"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> race<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<List<Promise<T>>> promises)
+    {
+        return b.Call<Promise<T>>("race", promises);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="promises"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> any<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<List<Promise<T>>> promises)
+    {
+        return b.Call<Promise<T>>("any", promises);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="promises"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<List<PromiseSettledResult<T>>>> allSettled<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<List<Promise<T>>> promises)
+    {
+        return b.Call<Promise<List<PromiseSettledResult<T>>>>("allSettled", promises);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    public static ObjBuilder<PromiseWithResolvers<T>> withResolvers<T>(
+        this ObjBuilder<ClassDef<Promise>> b)
+    {
+        return b.Call<PromiseWithResolvers<T>>("withResolvers");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="fn"></param>
+    /// <returns></returns>
+    public static ObjBuilder<Promise<T>> @try<T>(
+        this ObjBuilder<ClassDef<Promise>> b,
+        Var<Func<T>> fn)
+    {
+        return b.Call<Promise<T>>("try", fn);
+    }
 }
