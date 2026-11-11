@@ -4,84 +4,176 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Metapsi.Html;
 
-public interface IModuleResource: IAutoLoader, IResource, IResourceDefaultPath, IDependency, IDependencyDefaultImport
+//ModuleBuilder vs ModuleDependency? Vs ModuleResource vs Module
+
+//public interface IModuleResource: IResource, IDependency, IDependencyDefaultImport
+//{
+//    public string ModulePath { get; }
+//    public Module GetModule(IResourcePathResolver resolver);
+//}
+
+public class JsModuleFile : IResource
 {
-    public string ModulePath { get; }
-    public Module GetModule(IDependencyResolver resolver);
+    public JsModuleFile(string package, string moduleName, Action<ModuleBuilder> buildModule)
+    {
+        this.Package = package;
+        this.ModuleName = moduleName;
+        this.BuildModule = buildModule;
+        var lowercaseName = this.ModuleName.ToLowerInvariant();
+        if (!lowercaseName.EndsWith(".js"))
+        {
+            lowercaseName += ".js";
+        }
+        this.FileName = lowercaseName;
+    }
+
+    public string ModuleName { get; }
+    public Action<ModuleBuilder> BuildModule { get; }
+
+    public string FileName { get; }
+
+    public string ResourceId => FileName;
+
+    public List<string> ResolvesDependencyIds => new List<string>() { this.ModuleName };
+
+    public string Package { get; }
+
+    public string ToJs(IResourceResolver resourceResolver, ToJavaScriptOptions options)
+    {
+        var module = ModuleBuilder.New(new JsOnlyDependencyResolver(), resourceResolver, this.BuildModule);
+        var content = module.ToJs(options);
+        return content;
+    }
 }
 
-public class ModuleResource : IModuleResource
+public class ModuleDependency : IDependency, IDependencyDefaultImport
 {
-    protected ModuleResource()
+    public ModuleDependency(string moduleName, Action<ModuleBuilder> buildModule)
     {
-        this.ModulePath = this.GetType() + ".js";
+        ModuleName = moduleName;
+        BuildModule = buildModule;
     }
 
-    public ModuleResource(Action<ModuleBuilder> buildModule)
-    {
-        this.BuildModule = buildModule;
-        this.ModulePath = this.GetType() + ".js";
-    }
+    public string DependencyId => this.ModuleName;
 
-    public bool IsScriptTypeModule { get; set; } = true;
-
-    public string ModulePath { get; set; }
-    protected internal Action<ModuleBuilder> BuildModule;
-
-    public string ResourceId => this.ModulePath;
-
-    public string DependencyId => this.ModulePath;
-
-    public Module GetModule(IDependencyResolver resolver)
-    {
-        var moduleBuilder = new ModuleBuilder(resolver);
-        this.BuildModule(moduleBuilder);
-        return moduleBuilder.Module;
-    }
+    public string ModuleName { get; }
+    public Action<ModuleBuilder> BuildModule { get; }
 
     public void Import(HtmlBuilder b)
-    {
-        var sw = System.Diagnostics.Stopwatch.StartNew();
-        var path = b.ResolvePath(this);
-        this.GetModule(b.Resolver);
-        b.HeadAppend(
-             b.HtmlScript(
-                 b =>
-                 {
-                     if (IsScriptTypeModule)
-                     {
-                         b.SetTypeModule();
-                     }
-                     b.SetSrc(path);
-                 }));
-        Console.WriteLine($"Import {path} {sw.ElapsedMilliseconds} ms");
-    }
+    {        
+        if (b.ResourceResolver.TryResolveDependencyResource(DependencyId, out var resource))
+        {
+            var path = b.ResourceResolver.ResolvePath(resource);
 
-    public string GetDefaultPath()
-    {
-        var module = this.GetModule(new JsOnlyResolver());
-        return $"/metapsi-js-module/{this.ModulePath}?h={module.Hash()}";
+            b.HeadAppend(
+                b.HtmlScript(
+                    b =>
+                    {
+                        b.SetSrc(path);
+                        b.SetTypeModule();
+                    }));
+        }
+        else
+        {
+            var module = ModuleBuilder.New(b.DependencyResolver, b.ResourceResolver, this.BuildModule);
+            b.HeadAppend(
+                b.HtmlScript(
+                    b =>
+                    {
+                        b.SetTypeModule();
+                    },
+                    new JsModuleNode()
+                    {
+                        Module = module,
+                    }));
+        }
     }
 }
 
-public interface ICustomElement : IModuleResource
+//public static class CustomElementDependencyExtensions
+//{
+//    public static IDependency ModuleDependency(this ICustomElement customElement)
+//    {
+//        return new ModuleDependency(customElement.Tag, customElement.BuildModule);
+//    }
+//}
+
+//public class ModuleResource : IModuleResource
+//{
+//    protected ModuleResource()
+//    {
+//        this.ModulePath = this.GetType() + ".js";
+//    }
+
+//    public ModuleResource(Action<ModuleBuilder> buildModule)
+//    {
+//        this.BuildModule = buildModule;
+//        this.ModulePath = this.GetType() + ".js";
+//    }
+
+//    public bool IsScriptTypeModule { get; set; } = true;
+
+//    public string ModulePath { get; set; }
+//    protected internal Action<ModuleBuilder> BuildModule;
+
+//    public string ResourceId => this.ModulePath;
+
+//    public string DependencyId => this.ModulePath;
+
+//    public Module GetModule(IResourcePathResolver resolver)
+//    {
+//        var moduleBuilder = new ModuleBuilder(resolver);
+//        this.BuildModule(moduleBuilder);
+//        return moduleBuilder.Module;
+//    }
+
+//    public void Import(HtmlBuilder b)
+//    {
+//        var sw = System.Diagnostics.Stopwatch.StartNew();
+//        var path = b.ResolvePath(this);
+//        this.GetModule(b.Resolver);
+//        b.HeadAppend(
+//             b.HtmlScript(
+//                 b =>
+//                 {
+//                     if (IsScriptTypeModule)
+//                     {
+//                         b.SetTypeModule();
+//                     }
+//                     b.SetSrc(path);
+//                 }));
+//        Console.WriteLine($"Import {path} {sw.ElapsedMilliseconds} ms");
+//    }
+
+//    public string GetDefaultPath()
+//    {
+//        var module = this.GetModule(new JsOnlyResolver());
+//        return $"/metapsi-js-module/{this.ModulePath}?h={module.Hash()}";
+//    }
+//}
+
+public interface ICustomElement
 {
     string Tag { get; }
+    Action<ModuleBuilder> BuildModule { get; }
 }
 
 /// <summary>
 /// Keeps on-the-spot custom element definitions 
 /// </summary>
-public class CustomElement : ModuleResource, ICustomElement
+public class CustomElement : ICustomElement
 {
-    public string Tag { get; set; }
+    public string Tag { get; }
+    public Action<ModuleBuilder> BuildModule { get; }
 
-    public CustomElement(Action<ModuleBuilder> buildModule) : base(buildModule)
+    public CustomElement(string tag, Action<ModuleBuilder> buildModule)
     {
-
+        this.Tag = tag;
+        BuildModule = buildModule;
     }
 }
 
@@ -102,13 +194,14 @@ internal class RootControl : IRootControl
     public Var<IVNode> RootVirtualNode { get; set; }
 }
 
-public abstract class CustomElement<TModel> : ModuleResource, ICustomElement
+public abstract class CustomElement<TModel> : ICustomElement
 {
-    public string Tag { get; set; }
+    public string Tag { get; protected set; }
+    public Action<ModuleBuilder> BuildModule { get; }
 
     //public string ModulePath => this.Tag + ".js";
 
-    public CustomElement() : base()
+    public CustomElement()
     {
         this.BuildModule = this.BuildCustomElement;
         this.Tag = CustomElementExtensions.GetCustomElementTagName(this.GetType());
@@ -200,7 +293,7 @@ public class ArcCustomElementDefinition
 
 public static partial class CustomElementExtensions
 {
-    private const string ExternalScriptName = "metapsi-custom-elements.js";
+    public static readonly EmbeddedResource MetapsiCustomElementsJs = EmbeddedResource.Hashed(typeof(CustomElementExtensions).Assembly, "metapsi-custom-elements.js");
 
     /// <summary>
     /// Define a render/attach/cleanup custom element
@@ -217,11 +310,7 @@ public static partial class CustomElementExtensions
         Var<Action<Element>> attach,
         Var<Action<Element>> cleanup)
     {
-        var metapsiCustomElementsJsResource = b.ResolvePath(new HashedEmbeddedResource()
-        {
-            Assembly = typeof(CustomElementExtensions).Assembly,
-            LogicalName = ExternalScriptName
-        });
+        var metapsiCustomElementsJsResource = b.ResolvePath(MetapsiCustomElementsJs);
         var define = b.ImportName<Action<string, Action<Element>, Action<Element>, Action<Element>>>(metapsiCustomElementsJsResource, "defineRACCustomElement");
         b.Call(define, tagName, render, attach, cleanup);
     }
@@ -325,9 +414,7 @@ public static partial class CustomElementExtensions
         where T : ICustomElement, new()
     {
         var customElement = new T();
-        b.Require(customElement);
+        b.Require(new ModuleDependency(customElement.Tag, customElement.BuildModule));
         return customElement;
     }
 }
-
-

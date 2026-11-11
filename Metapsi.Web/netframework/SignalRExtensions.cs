@@ -32,6 +32,8 @@ public class DefaultMetapsiSignalRHub : Hub
 
 public static partial class SignalRClient
 {
+    private static readonly EmbeddedResource MetapsiSignalRJs = EmbeddedResource.Hashed(typeof(SignalRClient).Assembly, "metapsi-signalr.js");
+
     public static async Task RaiseEvent(this IClientProxy clientProxy, string eventName)
     {
         await clientProxy.Invoke(RaiseEventCode, new RaiseEventArgs<object>()
@@ -51,11 +53,7 @@ public static partial class SignalRClient
 
     public static void Connect(SyntaxBuilder b, string hubPath, Var<System.Action<SignalRConnection>> register, Var<System.Action> onConnect)
     {
-        var resource = b.ResolvePath(new EmbeddedResource()
-        {
-            Assembly = typeof(SignalRClient).Assembly,
-            LogicalName = "metapsi-signalr.js"
-        });
+        var resource = b.ResolvePath(MetapsiSignalRJs);
         var connect = b.ImportName<Action<string, Action<SignalRConnection>, Action>>(resource, "Connect");
         b.Call(connect, b.Const(hubPath), register, onConnect);
     }

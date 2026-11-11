@@ -7,13 +7,11 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
+        public static readonly EmbeddedResource MetapsiCoreJs = EmbeddedResource.Hashed(typeof(Core).Assembly, "metapsi.core.js");
+
         private static Var<T> ImportCore<T>(ISyntaxBuilder b, string symbol)
         {
-            var metapsiCorePath = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Core).Assembly,
-                LogicalName = "metapsi.core.js"
-            });
+            var metapsiCorePath = b.ResolvePath(MetapsiCoreJs);
             return b.ImportName<T>(metapsiCorePath, symbol);
         }
 
@@ -55,6 +53,7 @@ namespace Metapsi.Syntax
             return b.GetProperty<T>(from, b.Const(propertyName));
         }
 
+        [Obsolete("Use MethodCallArguments")]
         public static Var<TResult> CallOnObject<TResult>(this ISyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             var callOnObject = ImportCore<Delegate>(b, "CallOnObject");
@@ -68,11 +67,13 @@ namespace Metapsi.Syntax
             return b.CallDynamic<TResult>(callOnObject, allParams.ToArray());
         }
 
+        [Obsolete("Use MethodCallArguments")]
         public static void CallOnObject(this ISyntaxBuilder b, IVariable @object, string function, params IVariable[] parameters)
         {
             // would return undefined, just ignore the result
             CallOnObject<object>(b, @object, function, parameters);
         }
+
 
         public static Var<string> TypeOf(this ISyntaxBuilder b, IVariable @object)
         {
@@ -119,6 +120,18 @@ namespace Metapsi.Syntax
 
             return outList;
         }
+
+        //public static Var<List<object>> List(this ISyntaxBuilder b, IEnumerable<IVariable> items)
+        //{
+        //    var outList = b.NewCollection<object>();
+
+        //    foreach (var item in items)
+        //    {
+        //        b.Push(outList, item == null ? null : item.As<object>());
+        //    }
+
+        //    return outList;
+        //}
 
         public static void Push<T>(this ISyntaxBuilder b, Var<List<T>> onCollection, Var<T> item)
         {
@@ -200,26 +213,18 @@ namespace Metapsi.Syntax
             return b.CallDynamic<bool>(ImportFn(b, nameof(HasFunction)), v);
         }
 
+        public static readonly EmbeddedResource UuidJs = EmbeddedResource.Hashed(typeof(Core).Assembly, "uuid.js");
+
         public static Var<Guid> NewId(this SyntaxBuilder b)
         {
-            var uuidJsResolvedPath = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Core).Assembly,
-                LogicalName = "uuid.js"
-            });
-
+            var uuidJsResolvedPath = b.ResolvePath(UuidJs);
             var newId = b.ImportName<Func<Guid>>(uuidJsResolvedPath, "v4");
             return b.Call(newId);
         }
 
         public static Var<Guid> EmptyId(this SyntaxBuilder b)
         {
-            var uuidJsResolvedPath = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Core).Assembly,
-                LogicalName = "uuid.js"
-            });
-
+            var uuidJsResolvedPath = b.ResolvePath(UuidJs);
             var emptyId = b.ImportName<Guid>(uuidJsResolvedPath, "NIL");
             return emptyId;
         }
@@ -464,11 +469,7 @@ namespace Metapsi.Syntax
 
         public static Var<TOut> CallCoreFunction<TOut>(this ISyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var coreJsPath = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Metapsi.Syntax.Module).Assembly,
-                LogicalName = "metapsi.core.js"
-            });
+            var coreJsPath = b.ResolvePath(MetapsiCoreJs);
             var fn = b.ImportName<Delegate>(coreJsPath, function);
             return b.CallDynamic<TOut>(fn, arguments);
         }

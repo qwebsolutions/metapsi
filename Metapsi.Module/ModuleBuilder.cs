@@ -25,14 +25,17 @@ namespace Metapsi.Syntax
 
         public static List<Type> ScalarTypes = new List<Type>() { typeof(string), typeof(int), typeof(bool), typeof(Guid) };
 
-        public IDependencyResolver Resolver { get; private set; }
+        public IDependencyResolver DependencyResolver { get; private set; }
+        public IResourceResolver ResourcePathResolver { get; private set; }
 
-        public ModuleBuilder(IDependencyResolver dependencyResolver)
+        public ModuleBuilder(
+            IDependencyResolver dependencyResolver,
+            IResourceResolver resourcePathResolver)
         {
             this.Module = new Module();
-            this.Resolver = dependencyResolver;
+            this.DependencyResolver = dependencyResolver;
+            this.ResourcePathResolver = resourcePathResolver;
         }
-
 
         public Metapsi.Syntax.Module Module { get; private set; }
 
@@ -186,7 +189,7 @@ namespace Metapsi.Syntax
                     {
                         Literal = new LiteralNode()
                         {
-                            Value = Metapsi.Serialize.ToJson(value, "to-js")
+                            Value = value
                         }
                     }
                 };
@@ -257,16 +260,16 @@ namespace Metapsi.Syntax
             //this.Module.Nodes.AddRange((b as ISyntaxBuilder).Nodes);
         }
 
-        public static Module New(Action<ModuleBuilder> build)
-        {
-            var builder = new ModuleBuilder(new JsOnlyResolver());
-            build(builder);
-            return builder.Module;
-        }
+        //public static Module New(Action<ModuleBuilder> build)
+        //{
+        //    var builder = new ModuleBuilder(new JsOnlyResolver());
+        //    build(builder);
+        //    return builder.Module;
+        //}
 
-        public static Module New(IDependencyResolver resolver, Action<ModuleBuilder> build)
+        public static Module New(IDependencyResolver dependencyResolver, IResourceResolver resourcePathResolver, Action<ModuleBuilder> build)
         {
-            var builder = new ModuleBuilder(resolver);
+            var builder = new ModuleBuilder(dependencyResolver, resourcePathResolver);
             build(builder);
             return builder.Module;
         }

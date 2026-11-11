@@ -25,8 +25,28 @@ public class ServerVar<T> : Var<T>
 
 public class AttributesBuilder : IHtmlPropsBuilder
 {
+    private readonly IDependencyResolver dependencyResolver;
+    private readonly IResourceResolver resourceResolver;
+
+    public AttributesBuilder(IDependencyResolver dependencyResolver, IResourceResolver resolver)
+    {
+        this.dependencyResolver = dependencyResolver;
+        this.resourceResolver = resolver;
+    }
+
     public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
     public HtmlAttributes _attributes { get; set; } = new();
+
+
+    public void Require(IDependency dependency)
+    {
+        this.dependencyResolver.Import(dependency);
+    }
+
+    public string ResolvePath(IResource resource)
+    {
+        return this.resourceResolver.ResolvePath(resource);
+    }
 
     public void AddClass(string className)
     {
@@ -52,7 +72,7 @@ public class AttributesBuilder : IHtmlPropsBuilder
 
     public IHtmlPropsBuilder<TElement> ForElement<TElement>()
     {
-        return new AttributesBuilder<TElement>()
+        return new AttributesBuilder<TElement>(this.dependencyResolver, this.resourceResolver)
         {
         };
     }
@@ -95,6 +115,10 @@ public class AttributesBuilder : IHtmlPropsBuilder
 
 public class AttributesBuilder<TTag> : AttributesBuilder, IHtmlPropsBuilder<TTag>
 {
+    public AttributesBuilder(IDependencyResolver dependencyResolver, IResourceResolver resourceResolver) : base(dependencyResolver, resourceResolver)
+    {
+
+    }
 }
 
 public static class AttributesBuilderExtensions

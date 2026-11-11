@@ -1,50 +1,25 @@
 ﻿using Metapsi.Html;
 using Metapsi.Syntax;
-using Metapsi.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Metapsi
+namespace Metapsi.Web
 {
     public static class WebServerExtensions
     {
         public static WebApplicationBuilder AddMetapsi(
-           this WebApplicationBuilder builder,
-           ApplicationSetup applicationSetup,
-           ImplementationGroup ig)
-        {
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddWindowsService();
-            builder.Services.AddSystemd();
-
-            builder.Services.ConfigureHttpJsonOptions(options =>
-            {
-                options.SerializerOptions.PropertyNamingPolicy = null;
-                options.SerializerOptions.WriteIndented = true;
-                options.SerializerOptions.PropertyNameCaseInsensitive = true;
-            });
-
-            builder.Host.ConfigureHostOptions(options =>
-            {
-                options.ShutdownTimeout = TimeSpan.FromSeconds(30);
-            });
-            return builder;
-        }
-
-        public static WebApplicationBuilder AddMetapsi(
            this WebApplicationBuilder builder)
         {
+            //builder.Services.TryAddSingleton<IWebResourceCache>(InMemoryWebResourceCache.Default);
+            builder.Services.TryAddSingleton<VersionsRepository>();
+            builder.Services.TryAddSingleton<IResourceWriter>(new InMemoryResourceWriter(WebResourceProvider.Default));
             builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureHttpJsonOptions(options =>
             {
@@ -56,97 +31,86 @@ namespace Metapsi
             return builder;
         }
 
-        public static WebApplication UseMetapsi(this WebApplication webApplication)
+        public static RouteHandlerBuilder UseMetapsi(this IEndpointRouteBuilder endpoint)
         {
-            webApplication.UseEmbeddedFiles();
-            webApplication.UseJsModules();
-            return webApplication;
+            WebResourceProvider.AutoRegisterModules(WebResourceProvider.Default);
+            
+            return endpoint.UseResourceFiles();
         }
 
-        [Obsolete]
-        public static WebApplication UseMetapsi(this WebApplication webApplication, ApplicationSetup applicationSetup)
+        public static IResourceResolver GetResourceResolver(this HttpContext httpContext)
         {
-            webApplication.UseEmbeddedFiles();
-            webApplication.BindStart(applicationSetup);
-            webApplication.BindStop(applicationSetup);
-            return webApplication;
+            return new ResourceResolver(httpContext, WebResourceProvider.Default, httpContext.GetVersionsRepository());
         }
 
-        [Obsolete]
-        public static void BindStop(this WebApplication webApp, ApplicationSetup applicationSetup)
+        public static IResourceWriter GetResourceWriter(this HttpContext httpContext)
         {
-            // Always close web server when shutting down application
-            applicationSetup.MapEvent<ApplicationIsShuttingDown>(e =>
+            return httpContext.RequestServices.GetService<IResourceWriter>();
+        }
+
+        internal static VersionsRepository GetVersionsRepository(this HttpContext httpContext)
+        {
+            return httpContext.RequestServices.GetRequiredService<VersionsRepository>();
+        }
+
+        public static HtmlDocument HtmlBuilder(this HttpContext httpContext, Action<HtmlBuilder> buildHtml)
+        {
+            return Metapsi.Html.HtmlBuilder.FromDefault(httpContext.GetResourceResolver(), buildHtml);
+        }
+
+        public static RouteHandlerBuilder UseResourceFiles(this IEndpointRouteBuilder endpoint)
+        {
+            return endpoint.MapGet("/resource/{package}/{version}/{**fileName}", async (HttpContext httpContext, string package, string version, string fileName) =>
             {
-                webApp.StopAsync();
-            });
+                var resourceWriter = httpContext.GetResourceWriter();
+                var resourceResolver = httpContext.GetResourceResolver();
+                await resourceWriter.WriteAsync(
+                    package, 
+                    version, 
+                    fileName, 
+                    new CfHttpResponse(httpContext.Response),
+                    resourceResolver);
+
+            }).WithName(ResourceResolver.ResourceEndpointName);
         }
 
-        [Obsolete]
-        public static void BindStart(this WebApplication webApp, ApplicationSetup applicationSetup)
+        internal static readonly ToJavaScriptOptions DefaultToJavaScriptOptions = new ToJavaScriptOptions()
         {
-            applicationSetup.MapEvent<ApplicationRevived>(e =>
-            {
-                webApp.RunAsync();
-            });
-        }
+            JsonSerializer = new Metapsi.Serializer()
+        };
 
-        public static RouteHandlerBuilder UseEmbeddedFiles(this WebApplication app)
-        {
-            return app.MapGet(EmbeddedResource.DefaultHttpRoutePattern, async (HttpContext httpContext, string package, string version, string logicalName) =>
-            {
-                await new Metapsi.Web.CfHttpContext(httpContext).Response.WriteEmbeddedResource(package, logicalName);
-            });
-        }
+        internal static readonly ToCssOptions DefaultToCssOptions = new ToCssOptions();
 
-        public static RouteHandlerBuilder UseJsModules(this WebApplication app)
+        internal static readonly ToHtmlOptions DefaultToHtmlOptions = new ToHtmlOptions()
         {
-            var moduleProvider = app.Services.GetService<JsModuleProvider>();
-            if (moduleProvider != null)
-            {
-                return app.MapGet("/metapsi-js-module/{*modulePath}",
-                    async (HttpContext httpContext, string modulePath, JsModuleProvider modules) =>
-                    {
-                        modules.modules.TryGetValue(modulePath, out var moduleRetriever);
-                        if (moduleRetriever != null)
-                        {
-                            try
-                            {
-                                var module = moduleRetriever();
-                                new CfHttpContext(httpContext).Response.SetCacheControlHeader("public,max-age=31536000");
-                                await httpContext.WriteJsModule(module);
-                                return;
-                            }
-                            catch (Exception ex)
-                            {
-                                httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                            }
-                        }
-                        else
-                        {
-                            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                        }
-                    });
-            }
-            else
-                return null;
-        }
+            ToJavaScriptOptions = DefaultToJavaScriptOptions,
+            ToCssOptions = DefaultToCssOptions
+        };
 
         public static async Task WriteHtmlDocumentResponse(
             this HttpContext httpContext, 
             HtmlDocument document,
             ToHtmlOptions options = null)
         {
+            if (options == null)
+            {
+                options = DefaultToHtmlOptions;
+            }
             string html = document.ToHtml(options);
             httpContext.Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Html;
             httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(html);
             await httpContext.Response.WriteAsync(html);
         }
 
-        public static async Task WriteJsModule(this HttpContext httpContext, Metapsi.Syntax.Module module, ToJavaScriptOptions options = null)
+        public static Task WriteJsModuleResponse(this HttpContext httpContext, Metapsi.Syntax.Module module, ToJavaScriptOptions options = null)
         {
-            httpContext.Response.ContentType = "text/javascript";
-            await httpContext.Response.WriteAsync(module.ToJs(options));
+            return Metapsi.Web.HttpExtensions.WriteJsModuleResponse(new CfHttpResponse(httpContext.Response), module, options);
+        }
+
+        public static async Task WriteCssFile(this HttpContext httpContext, CssFile cssFile, ToCssOptions options = null)
+        {
+            httpContext.Response.ContentType = "text/css; charset=UTF-8";
+            await httpContext.Response.WriteAsync(cssFile.ToCss(options));
         }
     }
 }

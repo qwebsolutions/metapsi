@@ -1,5 +1,6 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.Xml;
@@ -33,13 +34,13 @@ public static class StyleCompatibility
 {
 
 
-    public static string GenerateCss(
-        System.Action<IStyleBuilder> setHoverStyle)
-    {
-        var builder = new AttributesBuilder<HtmlDiv>();
-        setHoverStyle(builder);
-        return builder._attributes["style"];
-    }
+    //public static string GenerateCss(
+    //    System.Action<IStyleBuilder> setHoverStyle)
+    //{
+    //    var builder = new AttributesBuilder<HtmlDiv>();
+    //    setHoverStyle(builder);
+    //    return builder._attributes["style"];
+    //}
 
     //public static IHtmlNode HtmlStyleSheet(
     //    this HtmlBuilder b,
@@ -110,9 +111,10 @@ public static class StyleCompatibility
             b.Text("Server side"));
     }
 
-    public static HtmlDocument CompatibilityScenario()
+    public static HtmlDocument CompatibilityScenario(IResourceResolver resolver)
     {
         return HtmlBuilder.FromDefault(
+            resolver,
             b =>
             {
                 b.HeadAppend(b.AddParticularStyleSheet());

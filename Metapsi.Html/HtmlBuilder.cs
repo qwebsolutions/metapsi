@@ -30,81 +30,140 @@ public class ResolverOverride
     }
 }
 
-/// <summary>
-/// When resolving inside HTML, required tags are actually added to the document
-/// </summary>
-public class InPageResolver : IDependencyResolver
+//public class ResourceResolver : IResourcePathResolver
+//{
+//    // ResourceId -> Web path
+//    public Dictionary<string, string> KnownResourcePaths { get; set; } = new Dictionary<string, string>();
+
+//    public IResource GetDependencyResolver(string dependencyId)
+//    {
+//        return null;
+//    }
+
+//    public string ResolvePath(IResource resource)
+//    {
+//        if (KnownResourcePaths.TryGetValue(resource.FileName, out var path))
+//        {
+//            return path;
+//        }
+
+//        return string.Empty;
+//    }
+//}
+
+public class JsOnlyDependencyResolver : IDependencyResolver
 {
-    private readonly HtmlBuilder htmlBuilder;
-
-    public InPageResolver(HtmlBuilder b)
-    {
-        this.htmlBuilder = b;
-    }
-
-    public Action<ResolverOverride, IResource> OverridePath = (b, resource) =>
-    {
-
-    };
-
-    HashSet<string> ResolvedDependencyIds = new HashSet<string>();
-    Dictionary<string, string> ResolvedPaths = new Dictionary<string, string>();
-
-    // Resolves a path. Could be for js or css or img src or anything
-    public string ResolvePath(IResource resource)
-    {
-        var resourceId = resource.ResourceId;
-        ResolvedPaths.TryGetValue(resourceId, out var path);
-        if (!string.IsNullOrEmpty(path))
-            return path;
-
-        // Enable overrides here
-
-        if (this.OverridePath != null)
-        {
-            var resolverOverride = new ResolverOverride();
-            this.OverridePath(resolverOverride, resource);
-            if (!string.IsNullOrEmpty(resolverOverride.resolvedPath))
-            {
-                ResolvedPaths[resourceId] = resolverOverride.resolvedPath;
-                return resolverOverride.resolvedPath;
-            }
-        }
-
-        var withDefaultResolver = resource as IResourceDefaultPath;
-        if (withDefaultResolver != null)
-        {
-            path = withDefaultResolver.GetDefaultPath();
-            ResolvedPaths[resourceId] = path;
-            return path;
-        }
-        else
-        {
-            return string.Empty;
-        }
-    }
-
-    // Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
     public void Import(IDependency dependency)
     {
-        var dependencyId = dependency.DependencyId;
-        if (ResolvedDependencyIds.Contains(dependencyId))
+        // 
+    }
+
+    public static readonly JsOnlyDependencyResolver Default = new JsOnlyDependencyResolver();
+}
+
+public class DependencyResolver : IDependencyResolver
+{
+    public DependencyResolver(HtmlBuilder htmlBuilder)
+    {
+        this.HtmlBuilder = htmlBuilder;
+    }
+
+    HtmlBuilder HtmlBuilder { get; set; }
+
+    HashSet<string> ResolvedIds = new HashSet<string>();
+
+    public void Import(IDependency dependency)
+    {
+        if (ResolvedIds.Contains(dependency.DependencyId))
             return;
 
-        // Track as resolved before actually importing it
-        // This keeps recursive imports from going into infinite loop
-        ResolvedDependencyIds.Add(dependencyId);
-
-        // Enabled overrides here
-
-        var withDefaultResolver = dependency as IDependencyDefaultImport;
-        if (withDefaultResolver != null)
+        if (dependency is IDependencyDefaultImport)
         {
-            withDefaultResolver.Import(this.htmlBuilder);
-            //ResolvedDependencyIds.Add(dependencyId);
+            IDependencyDefaultImport defaultImport = dependency as IDependencyDefaultImport;
+            defaultImport.Import(this.HtmlBuilder);
+            ResolvedIds.Add(dependency.DependencyId);
+            return;
         }
+
+        throw new System.Exception($"Dependency {dependency.DependencyId} cannot be imported");
     }
 }
+
+///// <summary>
+///// When resolving inside HTML, required tags are actually added to the document
+///// </summary>
+//public class InPageResolver : IResourceResolver
+//{
+//    private readonly HtmlBuilder htmlBuilder;
+
+//    public InPageResolver(HtmlBuilder b)
+//    {
+//        this.htmlBuilder = b;
+//    }
+
+//    public Action<ResolverOverride, IResource> OverridePath = (b, resource) =>
+//    {
+
+//    };
+
+//    HashSet<string> ResolvedDependencyIds = new HashSet<string>();
+//    Dictionary<string, string> ResolvedPaths = new Dictionary<string, string>();
+
+//    // Resolves a path. Could be for js or css or img src or anything
+//    public string ResolvePath(IResource resource)
+//    {
+//        var resourceId = resource.ResourceId;
+//        ResolvedPaths.TryGetValue(resourceId, out var path);
+//        if (!string.IsNullOrEmpty(path))
+//            return path;
+
+//        // Enable overrides here
+
+//        if (this.OverridePath != null)
+//        {
+//            var resolverOverride = new ResolverOverride();
+//            this.OverridePath(resolverOverride, resource);
+//            if (!string.IsNullOrEmpty(resolverOverride.resolvedPath))
+//            {
+//                ResolvedPaths[resourceId] = resolverOverride.resolvedPath;
+//                return resolverOverride.resolvedPath;
+//            }
+//        }
+
+//        var withDefaultResolver = resource as IResourceDefaultPath;
+//        if (withDefaultResolver != null)
+//        {
+//            path = withDefaultResolver.GetDefaultPath();
+//            ResolvedPaths[resourceId] = path;
+//            return path;
+//        }
+//        else
+//        {
+//            return string.Empty;
+//        }
+//    }
+
+//    // Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
+//    public void Import(IDependency dependency)
+//    {
+//        var dependencyId = dependency.DependencyId;
+//        if (ResolvedDependencyIds.Contains(dependencyId))
+//            return;
+
+//        // Track as resolved before actually importing it
+//        // This keeps recursive imports from going into infinite loop
+//        ResolvedDependencyIds.Add(dependencyId);
+
+//        // Enabled overrides here
+
+//        var withDefaultResolver = dependency as IDependencyDefaultImport;
+//        if (withDefaultResolver != null)
+//        {
+//            withDefaultResolver.Import(this.htmlBuilder);
+//            //ResolvedDependencyIds.Add(dependencyId);
+//        }
+//    }
+//}
 
 public interface IDependencyDefaultImport : IDependency
 {
@@ -114,24 +173,26 @@ public interface IDependencyDefaultImport : IDependency
 /// <summary>
 /// Builder for an HTML document
 /// </summary>
-public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
+public class HtmlBuilder : ICanRequestResourcePath, ICanRequireDependency
 {
     /// <summary>
     /// The HTML document
     /// </summary>
     public HtmlDocument Document { get; private set; }
 
-    private HtmlBuilder()
+    private HtmlBuilder(IResourceResolver resourceResolver)
     {
         this.Document = new HtmlDocument();
-        this.Resolver = new InPageResolver(this);
+        this.DependencyResolver = new DependencyResolver(this);
+        this.ResourceResolver = resourceResolver;
     }
 
-    public InPageResolver Resolver { get; private set; }
+    public IResourceResolver ResourceResolver { get; private set; } 
+    public IDependencyResolver DependencyResolver { get; private set; }
 
     public string ResolvePath(IResource resource)
     {
-        return Resolver.ResolvePath(resource);
+        return ResourceResolver.ResolvePath(resource);
     }
 
     /// <summary>
@@ -141,32 +202,37 @@ public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
     /// <param name="dependency"></param>
     public void Require(IDependency dependency)
     {
-        Resolver.Import(dependency);
+        this.DependencyResolver.Import(dependency);
     }
 
-    /// <summary>
-    /// Start from a completely empty document
-    /// </summary>
-    /// <param name="build"></param>
-    /// <returns></returns>
-    public static HtmlDocument FromEmpty(Action<HtmlBuilder> build)
-    {
-        var builder = new HtmlBuilder();
-        build(builder);
-        return builder.Document;
-    }
+    ///// <summary>
+    ///// Start from a completely empty document
+    ///// </summary>
+    ///// <param name="build"></param>
+    ///// <returns></returns>
+    //public static HtmlDocument FromEmpty(Action<HtmlBuilder> build)
+    //{
+    //    var builder = new HtmlBuilder(WebResourceProvider.Default.GetFixedPathsResourceResolver());
+    //    build(builder);
+    //    return builder.Document;
+    //}
 
-    /// <summary>
-    /// Sets:
-    /// <para>&lt;html lang="en-US" dir="ltr"/&gt; </para>
-    /// <para>&lt;meta name="charset" content="UTF-8" /&gt;</para>
-    /// <para>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</para>
-    /// </summary>
-    /// <param name="build"></param>
-    /// <returns></returns>
-    public static HtmlDocument FromDefault(Action<HtmlBuilder> build)
+    ///// <summary>
+    ///// Sets:
+    ///// <para>&lt;html lang="en-US" dir="ltr"/&gt; </para>
+    ///// <para>&lt;meta name="charset" content="UTF-8" /&gt;</para>
+    ///// <para>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</para>
+    ///// </summary>
+    ///// <param name="build"></param>
+    ///// <returns></returns>
+    //public static HtmlDocument FromDefault(Action<HtmlBuilder> build)
+    //{
+    //    return FromDefault(WebResourceProvider.Default.GetFixedPathsResourceResolver(), build);
+    //}
+
+    public static HtmlDocument FromDefault(IResourceResolver resourceResolver, Action<HtmlBuilder> build)
     {
-        var b = new HtmlBuilder();
+        var b = new HtmlBuilder(resourceResolver);
         b.HeadAppend(
             b.HtmlMeta(
                 b =>
@@ -192,9 +258,9 @@ public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
     /// </summary>
     /// <param name="build"></param>
     /// <returns></returns>
-    public static HtmlDocument FromDefault(Func<HtmlBuilder, IHtmlNode> build)
+    public static HtmlDocument FromDefault(IResourceResolver resourceResolver, Func<HtmlBuilder, IHtmlNode> build)
     {
-        return FromDefault(b =>
+        return FromDefault(resourceResolver, b =>
         {
             b.BodyAppend(build(b));
         });
@@ -207,7 +273,7 @@ public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
     /// <returns></returns>
     public static IHtmlNode Node(Func<HtmlBuilder, IHtmlNode> build)
     {
-        var builder = new HtmlBuilder();
+        var builder = new HtmlBuilder(WebResourceProvider.Default.GetFixedPathsResourceResolver());
         return build(builder);
     }
 
@@ -225,7 +291,7 @@ public class HtmlBuilder : ICanResolveResourcePath, ICanRequireDependency
 
     public IHtmlPropsBuilder<TElement> GetPropsBuilder<TElement>()
     {
-        return new AttributesBuilder<TElement>();
+        return new AttributesBuilder<TElement>(this.DependencyResolver, this.ResourceResolver);
     }
 }
 
@@ -314,7 +380,7 @@ public static class HtmlBuilderExtensions
 
     public static IHtmlNode Tag<TTag>(this HtmlBuilder b, string tagName, Action<AttributesBuilder<TTag>> buildAttributes, List<IHtmlNode> children)
     {
-        AttributesBuilder<TTag> builder = new();
+        AttributesBuilder<TTag> builder = new(b.DependencyResolver, b.ResourceResolver);
         if (buildAttributes != null)
         {
             buildAttributes(builder);

@@ -1,10 +1,14 @@
-﻿using Metapsi.Syntax;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Metapsi
 {
+    /// <summary>
+    /// A logical requirement that makes the HTML document render correctly. Dependency types are differentiated by their resulting import HTML tags
+    /// </summary>
     public interface IDependency
     {
         /// <summary>
@@ -13,13 +17,41 @@ namespace Metapsi
         string DependencyId { get; }
     }
 
-    public interface IResource
+    /// <summary>
+    /// Builders that can raise logical requirements as IDependency
+    /// </summary>
+    public interface ICanRequireDependency
     {
-        string ResourceId { get; }
+        /// <summary>
+        /// Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
+        /// </summary>
+        /// <param name="dependency"></param>
+        void Require(IDependency dependency);
     }
 
+    /// <summary>
+    /// Resolves a dependency by manipulating the HTML document
+    /// </summary>
+    public interface IDependencyResolver
+    {
+        public void Import(IDependency dependency);
+    }
 
-    public interface ICanResolveResourcePath
+    /// <summary>
+    /// A reference to a web asset
+    /// </summary>
+    public interface IResource
+    {
+        string Package { get; }
+        string FileName { get; }
+        //string ResourceId { get; }
+        List<string> ResolvesDependencyIds { get; }
+    }
+
+    /// <summary>
+    /// Builders that can ask for resource paths
+    /// </summary>
+    public interface ICanRequestResourcePath
     {
         /// <summary>
         /// Resolves a path. Could be for js or css or img src or anything
@@ -29,113 +61,74 @@ namespace Metapsi
         string ResolvePath(IResource resource);
     }
 
-    public interface ICanRequireDependency : ICanResolveResourcePath
-    {
-        /// <summary>
-        /// Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
-        /// </summary>
-        /// <param name="dependency"></param>
-        void Require(IDependency dependency);
-    }
-
-    public interface IDependencyResolver
+    /// <summary>
+    /// The WEB HOST provided resolver. It's not the document that resolves the path, it's the environment
+    /// </summary>
+    public interface IResourceResolver
     {
         string ResolvePath(IResource resource);
-        void Import(IDependency dependency);
+        bool TryResolveDependencyResource(string dependencyId, out IResource resource);
     }
 
-    public interface IResourceDefaultPath : IResource
+    public class EmbeddedResource : IResource
     {
-        string GetDefaultPath();
-    }
-
-    public class EmbeddedResource : IResource, IResourceDefaultPath
-    {
-        public const string DefaultHttpRoutePattern = "/embedded/{package}/{*logicalName}";
-
-        public Assembly Assembly { get; set; }
-        public string LogicalName { get; set; }
-
-        public string ResourceId => Assembly.FullName + "|" + LogicalName;
-
-        public virtual string GetDefaultPath()
+        private EmbeddedResource(EmbeddedFileReference embeddedFile, string version)
         {
-            var logicalName = LogicalName.ToLowerInvariant();
-            logicalName = logicalName.Trim('/');
-
-            return "/embedded/" + Assembly.GetName().Name + "/" + logicalName;
-        }
-    }
-
-    public class HashedEmbeddedResource : EmbeddedResource
-    {
-        public override string GetDefaultPath()
-        {
-            return this.ResolveHashedPath();
+            this.EmbeddedFile = embeddedFile;
+            this.Version = version;
+            this.Package = embeddedFile.Assembly.GetName().Name;
+            this.FileName = this.EmbeddedFile.LogicalName;
         }
 
-        private string ResolveHashedPath()
-        {
-            var logicalName = LogicalName.ToLowerInvariant();
-            logicalName = logicalName.Trim('/');
+        public EmbeddedFileReference EmbeddedFile { get; }
+        public string Version { get; }
+        public string Package { get; }
+        public string FileName { get; }
 
-            foreach (var rn in Assembly.GetManifestResourceNames())
+        public List<string> ResolvesDependencyIds => new List<string>();
+
+        public static EmbeddedResource Versioned(Assembly assembly, string version, string logicalName)
+        {
+            var embeddedFile = new EmbeddedFileReference(assembly, logicalName);
+            return new EmbeddedResource(embeddedFile, version);
+        }
+
+        public static EmbeddedResource Hashed(Assembly assembly, string logicalName)
+        {
+            var embeddedFile = new EmbeddedFileReference(assembly, logicalName);
+            using var sourceStream = assembly.GetManifestResourceStream(logicalName);
+            if (sourceStream == null)
             {
-                var resourceName = rn.ToLowerInvariant().Trim('/');
-                if (resourceName == logicalName)
-                {
-                    using var stream = Assembly.GetManifestResourceStream(rn);
-                    using (var ms = new MemoryStream())
-                    {
-                        stream.CopyTo(ms);
-                        var content = ms.ToArray();
-                        var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
-                        return "/embedded/" + Assembly.GetName().Name + "/" + logicalName + "?h=" + hash;
-                    }
-                }
+                throw new InvalidOperationException($"Embedded file not found: {logicalName}");
             }
-
-            throw new System.Exception($"{LogicalName} is not an embedded resource of {Assembly.FullName}");
+            using var ms = new MemoryStream();
+            sourceStream.CopyTo(ms);
+            var content = ms.ToArray();
+            var hash = System.IO.Hashing.XxHash32.HashToUInt32(content).ToString();
+            return EmbeddedResource.Versioned(assembly, hash, logicalName);
         }
     }
 
-    /// <summary>
-    /// When resolved in JS, required tags are ignored
-    /// </summary>
-    public class JsOnlyResolver : IDependencyResolver
+    public class EmbeddedFileReference
     {
-        HashSet<string> ResolvedDependencyIds = new HashSet<string>();
-        Dictionary<string, string> ResolvedPaths = new Dictionary<string, string>();
-
-        // Resolves a path. Could be for js or css or img src or anything
-        public string ResolvePath(IResource resource)
+        public EmbeddedFileReference(Assembly assembly, string logicalName)
         {
-            var resourceId = resource.ResourceId;
-            ResolvedPaths.TryGetValue(resourceId, out var path);
-            if (!string.IsNullOrEmpty(path))
-                return path;
-
-            // Enable overrides here
-
-            var withDefaultResolver = resource as IResourceDefaultPath;
-            if (withDefaultResolver != null)
-            {
-                path = withDefaultResolver.GetDefaultPath();
-                ResolvedPaths[resourceId] = path;
-                return path;
-            }
-            else
-            {
-                return string.Empty;
-            }
+            this.Assembly = assembly;
+            this.LogicalName = logicalName;
         }
 
-        // Ensures that some resource exists, for example CSS stylesheet, JavaScript module, CSS class
-        public void Import(IDependency dependency)
+        public Assembly Assembly { get; }
+        public string LogicalName { get; }
+
+        public async Task WriteAsync(Stream stream)
         {
-            var dependencyId = dependency.DependencyId;
-            if (ResolvedDependencyIds.Contains(dependencyId))
-                return;
+            using var sourceStream = this.Assembly.GetManifestResourceStream(this.LogicalName);
+            if (sourceStream == null)
+            {
+                throw new InvalidOperationException($"Embedded file not found: {this.LogicalName}");
+            }
+            await sourceStream.CopyToAsync(stream);
+            await sourceStream.FlushAsync();
         }
     }
 }

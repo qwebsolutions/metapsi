@@ -1,5 +1,6 @@
 ﻿using Metapsi.Html;
 using Metapsi.Syntax;
+using System;
 
 namespace Metapsi.Hyperapp;
 
@@ -29,7 +30,7 @@ public static class FetchEffects
     /// </summary>
     /// <param name="b"></param>
     /// <param name="response"></param>
-    public static Var<Promise> ThrowIfErrorResponse(this SyntaxBuilder b, Var<Metapsi.Html.Response> response)
+    public static Var<Promise> ThrowIfErrorResponse(SyntaxBuilder b, Var<Metapsi.Html.Response> response)
     {
         return b.If(
             b.Get(response, x => !x.ok),
@@ -44,21 +45,30 @@ public static class FetchEffects
                             b.StringIncludes(contentTypeHeaders, b.Const("application/problem+json")),
                             b =>
                             {
-                                return b.PromiseThen(b.ResponseJson(response), (SyntaxBuilder b, Var<object> problem) =>
-                                {
-                                    var detail = b.GetProperty<string>(problem, "detail");
-                                    b.If(
-                                        b.HasValue(detail),
-                                        b =>
+                                var fake = b.On<Response, Promise>(
+                                    response,
+                                    b =>
+                                    {
+                                        var otherFake = b.Call<Promise<object>>("json").then((SyntaxBuilder b, Var<object> problem) =>
                                         {
-                                            b.Throw(detail);
-                                        },
-                                        b =>
-                                        {
-                                            var title = b.GetProperty<string>(problem, "title");
-                                            b.Throw(title);
+                                            var detail = b.GetProperty<string>(problem, "detail");
+                                            return b.If(
+                                                b.HasValue(detail),
+                                                b =>
+                                                {
+                                                    return b.Throw(detail).As<Promise>();
+                                                },
+                                                b =>
+                                                {
+                                                    var title = b.GetProperty<string>(problem, "title");
+                                                    return b.Throw(title).As<Promise>();
+                                                });
                                         });
-                                });
+
+                                        return otherFake;
+                                    });
+
+                                return fake;
                             },
                             b =>
                             {
@@ -72,8 +82,87 @@ public static class FetchEffects
             },
             b =>
             {
-                return b.PromiseResolve(response);
+                return b.On(b.GetClass<Promise>(), b => b.resolve());
             });
+    }
+
+    public static Var<Promise<TOut>> TryGetJson<TOut>(SyntaxBuilder b, Var<Response> response)
+    {
+        return b.On(
+            ThrowIfErrorResponse(b, response),
+            b => b.then<TOut>(
+                (SyntaxBuilder b) =>
+                {
+                    var result = b.On(response, b =>
+                    {
+                        return b.Call<Promise<TOut>>("json");
+                    });
+
+                    return result;
+                }));
+    }
+
+    public static Var<HyperType.Effect> GetEffect(
+        this ISyntaxBuilder b,
+        Var<string> fromUrl,
+        Var<System.Action<HyperType.Dispatcher>> onResult,
+        Var<System.Action<HyperType.Dispatcher, Error>> onError)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                b.On(
+                    b.Fetch(fromUrl),
+                    b =>
+                    {
+                        return b
+                        .then(ThrowIfErrorResponse)
+                        .then((SyntaxBuilder b) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch));
+                        })
+                        .@catch((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        });
+                    });
+            });
+    }
+
+    public static Var<HyperType.Effect> GetJsonEffect<TOut>(
+        this ISyntaxBuilder b,
+        Var<string> fromUrl,
+        Var<System.Action<HyperType.Dispatcher, TOut>> onResult,
+        Var<System.Action<HyperType.Dispatcher, Error>> onError)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                b.On(
+                    b.Fetch(fromUrl),
+                    b =>
+                    {
+                        return b
+                        .then(TryGetJson<TOut>)
+                        .then((SyntaxBuilder b, Var<TOut> result) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch, result));
+                        })
+                        .@catch((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        });
+                    });
+            });
+    }
+
+    public static Var<HyperType.Effect> GetJsonEffect<TOut>(
+        this ISyntaxBuilder b,
+        Var<string> fromUrl,
+        System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Error>> onError)
+    {
+        return b.GetJsonEffect<TOut>(fromUrl, b.Def(onResult), b.Def(onError));
     }
 
     /// <summary>
@@ -92,28 +181,146 @@ public static class FetchEffects
         Var<HyperType.Action<TModel, TOut>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)
     {
+        return b.GetJsonEffect(
+            fromUrl,
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<TOut> result) => b.Dispatch(dispatch, successAction, result),
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Error> error) => b.Dispatch(dispatch, errorAction, error));
+    }
+
+    public static Var<HyperType.Effect> PostEffect(
+        this ISyntaxBuilder b,
+        Var<string> toUrl,
+        Var<System.Action<HyperType.Dispatcher>> onResult,
+        Var<System.Action<HyperType.Dispatcher, Error>> onError)
+    {
         return b.MakeEffect(
             (b, dispatch) =>
             {
-                var fetchPromise = b.Fetch(fromUrl);
-                var httpResponsePromise = b.PromiseThen(
-                    fetchPromise,
-                    (SyntaxBuilder b, Var<Html.Response> response) =>
+                b.On(
+                    b.Fetch(toUrl,
+                    b =>
                     {
-                        return b.PromiseThen(
-                            b.ThrowIfErrorResponse(response),
-                            (SyntaxBuilder b, Var<Html.Response> response) => b.ResponseJson(response));
+                        b.SetMethodPost();
+                    }),
+                    b =>
+                    {
+                        return b
+                        .then(ThrowIfErrorResponse)
+                        .then((SyntaxBuilder b) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch));
+                        })
+                        .@catch((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        });
                     });
+            });
+    }
 
-                var handleActionPromise = b.PromiseThen(httpResponsePromise, (SyntaxBuilder b, Var<TOut> response) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
-                });
+    public static Var<HyperType.Effect> PostEffect(
+        this ISyntaxBuilder b,
+        Var<string> toUrl,
+        System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult,
+        System.Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Error>> onError)
+    {
+        return PostEffect(b, toUrl, b.Def(onResult), b.Def(onError));
+    }
 
-                b.PromiseCatch(handleActionPromise, (SyntaxBuilder b, Var<Error> error) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
-                });
+    public static Var<HyperType.Effect> PostJsonEffect<TIn>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<TIn> input,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Error>> onError)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                b.On(
+                    b.Fetch(toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                        b.SetJsonBody(input);
+                    }),
+                    b =>
+                    {
+                        return b
+                        .then(ThrowIfErrorResponse)
+                        .then((SyntaxBuilder b) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch));
+                        })
+                        .@catch((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        });
+                    });
+            });
+    }
+
+    public static Var<HyperType.Effect> PostJsonEffect<TIn, TOut>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Var<TIn> input,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Error>> onError)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                b.On(
+                    b.Fetch(toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                        b.SetJsonBody(input);
+                    }),
+                    b =>
+                    {
+                        return b
+                        .then(TryGetJson<TOut>)
+                        .then(b.Def((SyntaxBuilder b, Var<TOut> result) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch, result));
+                        }))
+                        .@catch(b.Def((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        }));
+                    });
+            });
+    }
+
+    public static Var<HyperType.Effect> PostJsonEffect<TOut>(
+        this SyntaxBuilder b,
+        Var<string> toUrl,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Error>> onError)
+    {
+        return b.MakeEffect(
+            (b, dispatch) =>
+            {
+                b.On(
+                    b.Fetch(toUrl,
+                    b =>
+                    {
+                        b.SetMethodPost();
+                    }),
+                    b =>
+                    {
+                        return b
+                        .then(TryGetJson<TOut>)
+                        .then(b.Def((SyntaxBuilder b, Var<TOut> result) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onResult, dispatch, result));
+                        }))
+                        .@catch(b.Def((SyntaxBuilder b, Var<Error> error) =>
+                        {
+                            b.RequestAnimationFrame(b => b.Call(onError, dispatch, error));
+                        }));
+                    });
             });
     }
 
@@ -126,34 +333,16 @@ public static class FetchEffects
     /// <param name="successAction"></param>
     /// <param name="errorAction"></param>
     /// <returns></returns>
-    public static Var<HyperType.Effect> PostJsonEffect<TModel>(
+    public static Var<HyperType.Effect> PostEffect<TModel>(
         this SyntaxBuilder b,
         Var<string> toUrl,
         Var<HyperType.Action<TModel>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)
     {
-        return b.MakeEffect(
-            (b, dispatch) =>
-            {
-                var fetchPromise = b.Fetch(
-                    toUrl,
-                    b =>
-                    {
-                        b.SetMethodPost();
-                    });
-                var responsePromise = b.PromiseThen(
-                    fetchPromise,
-                    (SyntaxBuilder b, Var<Response> response) =>
-                    {
-                        return b.PromiseThen(
-                            b.ThrowIfErrorResponse(response),
-                            (SyntaxBuilder b, Var<object> _) => b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction)));
-                    });
-                b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
-                });
-            });
+        return b.PostEffect(
+            toUrl,
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) => b.Dispatch(dispatch, successAction),
+            (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Error> error) => b.Dispatch(dispatch, errorAction, error));
     }
 
     /// <summary>
@@ -172,33 +361,11 @@ public static class FetchEffects
         Var<HyperType.Action<TModel, TOut>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)
     {
-        return b.MakeEffect(
-            (b, dispatch) =>
-            {
-                var fetchPromise = b.Fetch(
-                    toUrl,
-                    b =>
-                    {
-                        b.SetMethodPost();
-                    });
-
-                var jsonPromise = b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Response> response) =>
-                {
-                    return b.PromiseThen(
-                        b.ThrowIfErrorResponse(response),
-                        (SyntaxBuilder b, Var<Response> response) => b.ResponseJson(response));
-                });
-
-                var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
-                });
-
-                b.PromiseCatch(jsonPromise, (SyntaxBuilder b, Var<Error> error) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
-                });
-            });
+        return PostJsonEffect<TOut>(
+            b,
+            toUrl,
+            (b, dispatch, result) => b.Dispatch(dispatch, successAction, result),
+            (b, dispatch, error) => b.Dispatch(dispatch, errorAction, error));
     }
 
     /// <summary>
@@ -219,32 +386,12 @@ public static class FetchEffects
         Var<HyperType.Action<TModel>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)
     {
-        return b.MakeEffect(
-            (b, dispatch) =>
-            {
-                var fetchPromise = b.Fetch(
-                    toUrl,
-                    b =>
-                    {
-                        b.SetMethodPost();
-                        b.SetJsonBody(input);
-                    });
-                var responsePromise = b.PromiseThen(
-                    fetchPromise,
-                    (SyntaxBuilder b, Var<Response> response) =>
-                    {
-                        return b.PromiseThen(
-                            b.ThrowIfErrorResponse(response),
-                            (SyntaxBuilder b, Var<object> _) =>
-                            {
-                                b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction));
-                            });
-                    });
-                b.PromiseCatch(responsePromise, (SyntaxBuilder b, Var<Error> error) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
-                });
-            });
+        return PostJsonEffect(
+            b,
+            toUrl,
+            input,
+            (b, dispatch) => b.Dispatch(dispatch, successAction),
+            (b, dispatch, error) => b.Dispatch(dispatch, errorAction, error));
     }
 
     /// <summary>
@@ -266,33 +413,11 @@ public static class FetchEffects
         Var<HyperType.Action<TModel, TOut>> successAction,
         Var<HyperType.Action<TModel, Error>> errorAction)
     {
-        return b.MakeEffect(
-            (b, dispatch) =>
-            {
-                var fetchPromise = b.Fetch(
-                    toUrl,
-                    b =>
-                    {
-                        b.SetMethodPost();
-                        b.SetJsonBody(input);
-                    });
-
-                var jsonPromise = b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Response> response) =>
-                {
-                    return b.PromiseThen(
-                        b.ThrowIfErrorResponse(response),
-                        (SyntaxBuilder b, Var<Response> response) => b.ResponseJson(response));
-                });
-
-                var handleActionPromise = b.PromiseThen(jsonPromise, (SyntaxBuilder b, Var<TOut> response) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, successAction, response));
-                });
-
-                b.PromiseCatch(jsonPromise, (SyntaxBuilder b, Var<Error> error) =>
-                {
-                    b.RequestAnimationFrame(b => b.Dispatch(dispatch, errorAction, error));
-                });
-            });
+        return PostJsonEffect<TIn, TOut>(
+            b,
+            toUrl,
+            input,
+            (b, dispatch, result) => b.Dispatch(dispatch, successAction, result),
+            (b, dispatch, error) => b.Dispatch(dispatch, errorAction, error));
     }
 }

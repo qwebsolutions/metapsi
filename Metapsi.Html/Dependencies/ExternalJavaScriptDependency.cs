@@ -1,6 +1,6 @@
 ﻿namespace Metapsi.Html;
 
-public class ExternalJavaScriptDependency : IDependency, IDependencyDefaultImport
+public class ExternalJavaScriptDependency : IDependency
 {
     public string JsPath { get; set; }
     public bool IsModule { get; set; }
@@ -21,3 +21,12 @@ public class ExternalJavaScriptDependency : IDependency, IDependencyDefaultImpor
                 }));
     }
 }
+
+//public class CustomElementDependency : IDependency
+//{
+//    public string Package { get; set; }
+//    public string Version { get; set; }
+//    public string Tag { get; set; }
+
+//    public string DependencyId => $"custom-element/{Package}/version/{Tag}";
+//}

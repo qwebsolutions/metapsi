@@ -190,10 +190,6 @@
       <Project>{a8c0a22e-4cb7-49aa-a921-2fd4fe775a2d}</Project>
       <Name>Metapsi.Module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Metapsi.Runtime\Metapsi.Runtime.csproj">
-      <Project>{9852e84c-5b85-489e-b57f-7bd2faac913d}</Project>
-      <Name>Metapsi.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Metapsi.Web\Metapsi.Web.csproj">
       <Project>{4ce9cc4a-74fa-414e-93f5-df25e7f75d79}</Project>
       <Name>Metapsi.Web</Name>

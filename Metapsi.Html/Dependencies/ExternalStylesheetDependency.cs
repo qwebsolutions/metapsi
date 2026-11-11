@@ -1,19 +1,25 @@
 ﻿namespace Metapsi.Html;
 
-public class ExternalStylesheetDependency : IDependency, IDependencyDefaultImport
+public class EmbeddedStylesheetDependency : IDependency, IDependencyDefaultImport
 {
-    public string StylesheetPath { get; set; }
+    private readonly EmbeddedResource embeddedResource;
 
-    public string DependencyId => StylesheetPath;
+    public EmbeddedStylesheetDependency(EmbeddedResource embeddedResource)
+    {
+        this.embeddedResource = embeddedResource;
+    }
+
+    public string DependencyId => embeddedResource.FileName;
 
     public void Import(HtmlBuilder b)
     {
+        var path = b.ResolvePath(this.embeddedResource);
         b.HeadAppend(
             b.HtmlLink(
                 b =>
                 {
                     b.SetRel("stylesheet");
-                    b.SetHref(StylesheetPath);
+                    b.SetHref(path);
                 }));
     }
 }

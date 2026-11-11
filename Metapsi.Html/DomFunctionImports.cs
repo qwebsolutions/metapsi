@@ -8,11 +8,7 @@ namespace Metapsi.Html
     {
         public static void CallDomFunction(this SyntaxBuilder b, string function, params IVariable[] arguments)
         {
-            var coreJsPath = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Metapsi.Syntax.Module).Assembly,
-                LogicalName = "metapsi.core.js"
-            });
+            var coreJsPath = b.ResolvePath(Core.MetapsiCoreJs);
             var fn = b.ImportName<Delegate>(coreJsPath, function);
             b.CallDynamic(fn, arguments);
         }

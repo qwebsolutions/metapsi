@@ -14,7 +14,7 @@ namespace Metapsi.Web.NetFramework.Mvc.Scenario.Controllers
         [Route("{package}/{version}/{*logicalName}")]
         public async Task Embedded(string package, string version, string logicalName)
         {
-            await new Metapsi.Web.CfHttpContext(System.Web.HttpContext.Current).Response.WriteEmbeddedResource(package, logicalName);
+            //await new Metapsi.Web.CfHttpContext(System.Web.HttpContext.Current).Response.WriteEmbeddedResource(package, logicalName);
         }
     }
 }

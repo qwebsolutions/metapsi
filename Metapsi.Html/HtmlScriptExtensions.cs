@@ -16,7 +16,7 @@ public static class HtmlScriptExtensions
         Action<AttributesBuilder<HtmlScript>> setAttributes,
         Action<SyntaxBuilder> buildScript)
     {
-        ModuleBuilder moduleBuilder = new ModuleBuilder(b.Resolver);
+        ModuleBuilder moduleBuilder = new ModuleBuilder(b.DependencyResolver, b.ResourceResolver);
         moduleBuilder.AddFunction("main", buildScript);
 
         var scriptTag = b.HtmlScript(
@@ -71,14 +71,14 @@ public static class HtmlScriptExtensions
             b.Text(code));
     }
 
-    public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, IModuleResource module)
-    {
-        var modulePath = b.ResolvePath(module);
-        return b.HtmlScript(
-            b =>
-            {
-                b.SetTypeModule();
-                b.SetSrc(modulePath);
-            });
-    }
+    //public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, Action<ModuleBuilder> buildModule)
+    //{
+    //    var modulePath = b.ResolvePath(module);
+    //    return b.HtmlScript(
+    //        b =>
+    //        {
+    //            b.SetTypeModule();
+    //            b.SetSrc(modulePath);
+    //        });
+    //}
 }

@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -59,7 +60,7 @@ public class CfHttpContext
     public Microsoft.AspNetCore.Http.HttpContext Context { get; }
 }
 
-public static class HttpExtensions
+public static partial class HttpExtensions
 {
     public static string GetMimeTypeForFileExtension(string filePath)
     {
@@ -75,12 +76,12 @@ public static class HttpExtensions
         return contentType;
     }
 
-    public static Stream Body(this CfHttpRequest request)
+    public static Stream BodyStream(this CfHttpRequest request)
     {
         return request.Request.Body;
     }
 
-    public static Stream Body(this CfHttpResponse response)
+    public static Stream BodyStream(this CfHttpResponse response)
     {
         return response.Response.Body;
     }
@@ -101,6 +102,12 @@ public static class HttpExtensions
         await response.Response.BodyWriter.WriteAsync(content);
     }
 
+    public static async Task WriteFileAsync(this CfHttpResponse response, string filePath)
+    {
+        // How do I write the file?
+        await response.Response.SendFileAsync(filePath);
+    }
+
     public static void SetContentLengthHeader(this CfHttpResponse response, long contentLength)
     {
         response.Response.Headers.ContentLength = contentLength;
@@ -116,37 +123,9 @@ public static class HttpExtensions
         response.Response.Headers.CacheControl = value;
     }
 
-    public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)
-    {
-        response.Response.ContentType = "text/html";
-        await response.Response.WriteAsync(document.ToHtml());
-    }
-
-    public static async Task WriteJsModuleResponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
-    {
-        response.Response.ContentType = "text/javascript";
-        await response.Response.WriteAsync(module.ToJs());
-    }
-
-    public static async Task WriteJsonResponse<T>(this CfHttpResponse response, T value)
-    {
-        response.Response.ContentType = "application/json";
-        await response.Response.WriteAsync(Metapsi.Serialize.ToJson(value));
-    }
-
     public static async Task SetStatusCode(this CfHttpResponse httpResponse, int statusCode)
     {
         httpResponse.Response.StatusCode = statusCode;
-    }
-
-    public static async Task<T> ReadJsonBody<T>(this CfHttpRequest request)
-    {
-        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(request.Request.Body);
-    }
-
-    public static async Task<object> ReadJsonBody(this CfHttpRequest request, System.Type type)
-    {
-        return await System.Text.Json.JsonSerializer.DeserializeAsync(request.Request.Body, type);
     }
 
     public static string GetEndpointUrl(this HttpContext httpContext, string name)

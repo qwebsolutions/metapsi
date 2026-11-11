@@ -19,11 +19,7 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> Text(this LayoutBuilder b, Var<string> text)
         {
-            var resource = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(HyperType).Assembly,
-                LogicalName = "hyperapp.js"
-            });
+            var resource = b.ResolvePath(HyperappExtensions.HyperappJs);
             var textFn = b.ImportName<Func<string, IVNode>>(resource, "text");
             return b.Call(textFn, text);
         }
@@ -51,11 +47,7 @@ namespace Metapsi.Hyperapp
         /// <returns></returns>
         public static Var<IVNode> H(this LayoutBuilder b, Var<string> tag, Var<object> props, Var<List<IVNode>> children)
         {
-            var resource = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(HyperType).Assembly,
-                LogicalName = "hyperapp.js"
-            });
+            var resource = b.ResolvePath(HyperappExtensions.HyperappJs);
             var h = b.ImportName<Func<string, object, List<IVNode>, IVNode>>(resource, "h");
             return b.Call(h, tag, props, b.Call(ValidChildren, children));
         }

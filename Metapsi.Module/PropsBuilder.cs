@@ -23,7 +23,12 @@ namespace Metapsi.Syntax
 
         public string ResolvePath(IResource resource)
         {
-            return this.moduleBuilder.Resolver.ResolvePath(resource);
+            return this.moduleBuilder.ResourcePathResolver.ResolvePath(resource);
+        }
+
+        public void Require(IDependency dependency)
+        {
+            this.moduleBuilder.DependencyResolver.Import(dependency);
         }
 
         public void AddClass(string className)

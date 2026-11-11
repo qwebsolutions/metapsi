@@ -15,9 +15,9 @@ public static partial class FetchExtensions
     /// <param name="b"></param>
     /// <param name="resource">This defines the resource that you wish to fetch.</param>
     /// <returns>A Promise that resolves to a Response object.</returns>
-    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<string> resource)
+    public static Var<Promise<Response>> Fetch(this SyntaxBuilder b, Var<string> resource)
     {
-        return b.CallOnObject<Promise>(b.Self(), "fetch", resource);
+        return b.On(b.Self(), b => b.Call<Promise<Response>>("fetch", resource));
     }
 
     /// <summary>
@@ -27,9 +27,9 @@ public static partial class FetchExtensions
     /// <param name="b"></param>
     /// <param name="resource">This defines the resource that you wish to fetch.</param>
     /// <returns>A Promise that resolves to a Response object.</returns>
-    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<Request> resource)
+    public static Var<Promise<Response>> Fetch(this SyntaxBuilder b, Var<Request> resource)
     {
-        return b.CallOnObject<Promise>(b.Self(), "fetch", resource);
+        return b.On(b.Self(), b => b.Call<Promise<Response>>("fetch", resource));
     }
 
     /// <summary>
@@ -40,9 +40,9 @@ public static partial class FetchExtensions
     /// <param name="resource">This defines the resource that you wish to fetch.</param>
     /// <param name="options">A RequestInit object containing any custom settings that you want to apply to the request.</param>
     /// <returns>A Promise that resolves to a Response object.</returns>
-    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<string> resource, Var<RequestInit> options)
+    public static Var<Promise<Response>> Fetch(this SyntaxBuilder b, Var<string> resource, Var<RequestInit> options)
     {
-        return b.CallOnObject<Promise>(b.Self(), "fetch", resource, options);
+        return b.On(b.Self(), b => b.Call<Promise<Response>>("fetch", resource, options));
     }
 
     /// <summary>
@@ -53,9 +53,9 @@ public static partial class FetchExtensions
     /// <param name="resource">This defines the resource that you wish to fetch.</param>
     /// <param name="setOptions">A RequestInit builder containing any custom settings that you want to apply to the request.</param>
     /// <returns>A Promise that resolves to a Response object.</returns>
-    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<string> resource, Action<PropsBuilder<RequestInit>> setOptions)
+    public static Var<Promise<Response>> Fetch(this SyntaxBuilder b, Var<string> resource, Action<PropsBuilder<RequestInit>> setOptions)
     {
-        return b.CallOnObject<Promise>(b.Self(), "fetch", resource, b.SetProps(b.NewObj<object>(), setOptions));
+        return b.On(b.Self(), b => b.Call<Promise<Response>>("fetch", resource, b.SetProps(b.NewObj<object>(), setOptions)));
     }
 
     /// <summary>
@@ -66,8 +66,8 @@ public static partial class FetchExtensions
     /// <param name="resource">This defines the resource that you wish to fetch.</param>
     /// <param name="setOptions">A RequestInit builder containing any custom settings that you want to apply to the request.</param>
     /// <returns>A Promise that resolves to a Response object.</returns>
-    public static Var<Promise> Fetch(this SyntaxBuilder b, Var<Request> resource, Action<PropsBuilder<RequestInit>> setOptions)
+    public static Var<Promise<Response>> Fetch(this SyntaxBuilder b, Var<Request> resource, Action<PropsBuilder<RequestInit>> setOptions)
     {
-        return b.CallOnObject<Promise>(b.Self(), "fetch", resource, b.SetProps(b.NewObj(), setOptions));
+        return b.On(b.Self(), b => b.Call<Promise<Response>>("fetch", resource, b.SetProps(b.NewObj<object>(), setOptions)));
     }
 }

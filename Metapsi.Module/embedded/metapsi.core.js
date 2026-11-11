@@ -113,3 +113,12 @@ export const mSet = (on, prop, val) => {
 }
 
 export const TypeOf = (value) => typeof value;
+
+export const CallMethod = (args) =>
+    args.OnObject[args.FunctionName](...(args.Fixed || []), ...(args.Rest || []));
+
+export const CallFunction = (args) =>
+    args.FunctionReference(...(args.Fixed || []), ...(args.Rest || []));
+
+export const ConstructClass = (args) =>
+    new args.Class(...(args.Fixed || []), ...(args.Rest || []));

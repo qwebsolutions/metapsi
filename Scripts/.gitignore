@@ -1,5 +1,0 @@
-publish/*
-nugets
-nugets/*
-local.version.txt
-*.zip

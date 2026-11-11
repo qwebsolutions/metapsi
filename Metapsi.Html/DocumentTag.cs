@@ -25,9 +25,8 @@ public class HtmlDocument : HtmlTag
     public HtmlTag Head { get; } = new HtmlTag("head");
     public HtmlTag Body { get; } = new HtmlTag("body");
 
-    public override string ToHtml(ToHtmlOptions options = null)
+    public override string ToHtml(ToHtmlOptions options)
     {
-        if (options == null) options = new ToHtmlOptions();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.AppendLine("<!DOCTYPE html>");
         stringBuilder.AppendLine(base.ToHtml(options));

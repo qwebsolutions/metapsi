@@ -75,6 +75,7 @@ public static partial class PromiseExtensions
     /// <para>reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseCatch<TReason,TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -94,6 +95,7 @@ public static partial class PromiseExtensions
     /// <para>reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseCatch<TReason, TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -112,6 +114,7 @@ public static partial class PromiseExtensions
     /// <para>reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseCatch<TReason>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -130,6 +133,7 @@ public static partial class PromiseExtensions
     /// <para>reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseCatch<TReason>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -145,6 +149,7 @@ public static partial class PromiseExtensions
     /// <param name="promise"></param>
     /// <param name="onFinally">A function to asynchronously execute when this promise becomes settled.</param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status. If onFinally throws an error or returns a rejected promise, the new promise will reject with that value. Otherwise, the new promise will settle with the same state as the current promise.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseFinally(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -160,6 +165,7 @@ public static partial class PromiseExtensions
     /// <param name="promise"></param>
     /// <param name="onFinally">A function to asynchronously execute when this promise becomes settled.</param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status. If onFinally throws an error or returns a rejected promise, the new promise will reject with that value. Otherwise, the new promise will settle with the same state as the current promise.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseFinally(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -183,6 +189,7 @@ public static partial class PromiseExtensions
     /// <para> reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue, TReason, TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -206,6 +213,7 @@ public static partial class PromiseExtensions
     /// <para> reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue, TReason>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -229,6 +237,7 @@ public static partial class PromiseExtensions
     /// <para> reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue, TReason>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -253,6 +262,7 @@ public static partial class PromiseExtensions
     /// <para> reason The value that the promise was rejected with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue, TReason, TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -273,6 +283,7 @@ public static partial class PromiseExtensions
     /// <para> value The value that the promise was fulfilled with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue,TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -292,6 +303,7 @@ public static partial class PromiseExtensions
     /// <para> value The value that the promise was fulfilled with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue, TResult>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -310,6 +322,7 @@ public static partial class PromiseExtensions
     /// <para> value The value that the promise was fulfilled with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -328,6 +341,7 @@ public static partial class PromiseExtensions
     /// <para> value The value that the promise was fulfilled with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseThen<TValue>(
         this SyntaxBuilder b,
         Var<Promise> promise,
@@ -348,6 +362,7 @@ public static partial class PromiseExtensions
     /// <para>    Asynchronously fulfilled, when all the promises in the given iterable fulfill.The fulfillment value is an array of fulfillment values, in the order of the promises passed, regardless of completion order. If the iterable passed is non-empty but contains no pending promises, the returned promise is still asynchronously (instead of synchronously) fulfilled.</para>
     /// <para>    Asynchronously rejected, when any of the promises in the given iterable rejects.The rejection reason is the rejection reason of the first promise that was rejected.</para>
     /// </returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseAll(
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
@@ -365,6 +380,7 @@ public static partial class PromiseExtensions
     /// <para>    Asynchronously fulfilled, when all the promises in the given iterable fulfill.The fulfillment value is an array of fulfillment values, in the order of the promises passed, regardless of completion order. If the iterable passed is non-empty but contains no pending promises, the returned promise is still asynchronously (instead of synchronously) fulfilled.</para>
     /// <para>    Asynchronously rejected, when any of the promises in the given iterable rejects.The rejection reason is the rejection reason of the first promise that was rejected.</para>
     /// </returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseAll(
         this SyntaxBuilder b,
         params Var<Promise>[] iterable)
@@ -385,6 +401,7 @@ public static partial class PromiseExtensions
     /// <para> - reason - Only present if status is "rejected". The reason that the promise was rejected with.</para>
     /// <para> If the iterable passed is non-empty but contains no pending promises, the returned promise is still asynchronously (instead of synchronously) fulfilled.</para>
     /// </returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseAllSettled(
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
@@ -402,6 +419,7 @@ public static partial class PromiseExtensions
     /// <para>Asynchronously fulfilled, when any of the promises in the given iterable fulfills.The fulfillment value is the fulfillment value of the first promise that was fulfilled.</para>
     /// <para>Asynchronously rejected, when all of the promises in the given iterable reject. The rejection reason is an AggregateError containing an array of rejection reasons in its errors property.The errors are in the order of the promises passed, regardless of completion order. If the iterable passed is non-empty but contains no pending promises, the returned promise is still asynchronously (instead of synchronously) rejected.</para>
     /// </returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseAny(
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
@@ -415,6 +433,7 @@ public static partial class PromiseExtensions
     /// <param name="b"></param>
     /// <param name="iterable">An iterable (such as an Array) of promises.</param>
     /// <returns>A Promise that asynchronously settles with the eventual state of the first promise in the iterable to settle. In other words, it fulfills if the first promise to settle is fulfilled, and rejects if the first promise to settle is rejected. The returned promise remains pending forever if the iterable passed is empty. If the iterable passed is non-empty but contains no pending promises, the returned promise is still asynchronously (instead of synchronously) settled.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseRace(
         this SyntaxBuilder b,
         Var<List<Promise>> iterable)
@@ -428,6 +447,7 @@ public static partial class PromiseExtensions
     /// <param name="b"></param>
     /// <param name="reason">Reason why this Promise rejected.</param>
     /// <returns>A Promise that is rejected with the given reason.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseReject<TReason>(
         this SyntaxBuilder b,
         Var<TReason> reason)
@@ -442,6 +462,7 @@ public static partial class PromiseExtensions
     /// <param name="b"></param>
     /// <param name="value">Argument to be resolved by this Promise. Can also be a Promise or a thenable to resolve.</param>
     /// <returns>A Promise that is resolved with the given value, or the promise passed as value, if the value was a promise object. A resolved promise can be in any of the states — fulfilled, rejected, or pending. For example, resolving a rejected promise will still result in a rejected promise.</returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseResolve<TValue>(
         this SyntaxBuilder b,
         Var<TValue> value)
@@ -456,6 +477,7 @@ public static partial class PromiseExtensions
     /// <param name="func">A function that is called synchronously with the arguments provided (arg1, arg2, …, argN). It can do anything—either return a value, throw an error, or return a promise.</param>
     /// <param name="args">Arguments to pass to func.</param>
     /// <returns></returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<Promise> PromiseTry<TFunc>(
         this SyntaxBuilder b,
         Var<TFunc> func,
@@ -477,6 +499,7 @@ public static partial class PromiseExtensions
     /// <para>resolve A function that resolves the promise.For its semantics, see the Promise() constructor reference.</para> 
     /// <para>reject A function that rejects the promise. For its semantics, see the Promise() constructor reference.</para>
     /// </returns>
+    [Obsolete("Use the .On() syntax")]
     public static Var<PromiseResolvers> PromiseWithResolvers(
         this SyntaxBuilder b)
     {
@@ -557,6 +580,40 @@ public static partial class PromiseExtensions
             (b as IObjBuilder).GetNodes(),
             promise.As<Promise<T>>());
     }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<System.Action> onFulfilled)
+    {
+        return b.Call<Promise>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        System.Action<SyntaxBuilder> onFulfilled)
+    {
+        return b.then(b.Def(onFulfilled));
+    }
+
+
     /// <summary>
     /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// </summary>
@@ -573,13 +630,14 @@ public static partial class PromiseExtensions
     {
         return b.Call<Promise<TResult>>("then", onFulfilled);
     }
+
     /// <summary>
     /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="b"></param>
-    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. It returns a promise; the promise returned by then() adopts its eventual state (the chain flattens, you never get a promise of a promise). The function is called with the following arguments:
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
     /// <para> value The value that the promise was fulfilled with.</para>
     /// </param>
     /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
@@ -589,6 +647,71 @@ public static partial class PromiseExtensions
     {
         return b.Call<Promise<TResult>>("then", onFulfilled);
     }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<Promise>> onFulfilled)
+    {
+        return b.Call<Promise>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        Var<Func<T, Promise>> onFulfilled)
+    {
+        return b.Call<Promise>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        System.Func<SyntaxBuilder, Var<T>, Var<Promise>> onFulfilled)
+    {
+        return then(b, b.Def(onFulfilled));
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        System.Func<SyntaxBuilder, Var<Promise>> onFulfilled)
+    {
+        return then<T>(b, b.Def(onFulfilled));
+    }
+
     /// <summary>
     /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
@@ -605,6 +728,127 @@ public static partial class PromiseExtensions
     {
         return b.Call<Promise>("then", onFulfilled);
     }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then<T>(
+        this ObjBuilder<Promise<T>> b,
+        System.Action<SyntaxBuilder, Var<T>> onFulfilled)
+    {
+        return then(b, b.Def(onFulfilled));
+    }
+
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then(
+        this ObjBuilder<Promise> b,
+        Var<Action> onFulfilled)
+    {
+        return b.Call<Promise>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise> then(
+        this ObjBuilder<Promise> b,
+        System.Action<SyntaxBuilder> onFulfilled)
+    {
+        return then(b, b.Def(onFulfilled));
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<T> then<T>(
+        this ObjBuilder<Promise> b,
+        Var<System.Func<T>> onFulfilled)
+    {
+        return b.Call<T>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<T> then<T>(
+        this ObjBuilder<Promise> b,
+        Var<System.Func<Promise<T>>> onFulfilled)
+    {
+        return b.Call<T>("then", onFulfilled);
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<T> then<T>(
+        this ObjBuilder<Promise> b,
+        System.Func<SyntaxBuilder, Var<T>> onFulfilled)
+    {
+        return b.Call<T>("then", b.Def(onFulfilled));
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Terminal form: the handler consumes the value for side effects and returns nothing, so the resulting promise fulfills with undefined and is typed as the untyped Promise - still chainable with catch/finally, not meant to be read.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise<T>> then<T>(
+        this ObjBuilder<Promise> b,
+        System.Func<SyntaxBuilder, Var<Promise<T>>> onFulfilled)
+    {
+        return b.Call<Promise<T>>("then", b.Def(onFulfilled));
+    }
+
     /// <summary>
     /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// <para>Both handlers must produce the same TResult: this is the C# collapse of TypeScript's Promise&lt;TResult1 | TResult2&gt;.</para>
@@ -626,6 +870,67 @@ public static partial class PromiseExtensions
     {
         return b.Call<Promise<TResult>>("then", onFulfilled, onRejected);
     }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Both handlers must produce the same TResult: this is the C# collapse of TypeScript's Promise&lt;TResult1 | TResult2&gt;.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <param name="onRejected">A function to asynchronously execute when this promise becomes rejected. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> reason The value that the promise was rejected with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        System.Func<ObjBuilder<T>, Var<TResult>> onFulfilled,
+        System.Func<ObjBuilder<object>, Var<TResult>> onRejected)
+    {
+        return b.Call<Promise<TResult>>("then", b.Def(onFulfilled), b.Def(onRejected));
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Both handlers must produce the same TResult: this is the C# collapse of TypeScript's Promise&lt;TResult1 | TResult2&gt;.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <para> reason The value that the promise was rejected with.</para>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        System.Func<SyntaxBuilder, Var<TResult>> onFulfilled)
+    {
+        return b.Call<Promise<TResult>>("then", b.Def(onFulfilled));
+    }
+
+    /// <summary>
+    /// The then() method of Promise instances takes up to two arguments: callback functions for the fulfilled and rejected cases of the Promise. It stores the callbacks within the promise it is called on and immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Both handlers must produce the same TResult: this is the C# collapse of TypeScript's Promise&lt;TResult1 | TResult2&gt;.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="onFulfilled">A function to asynchronously execute when this promise becomes fulfilled. Its return value becomes the fulfillment value of the promise returned by then(). The function is called with the following arguments:
+    /// <para> value The value that the promise was fulfilled with.</para>
+    /// </param>
+    /// <para> reason The value that the promise was rejected with.</para>
+    /// <returns>Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.</returns>
+    public static ObjBuilder<Promise<TResult>> then<T, TResult>(
+        this ObjBuilder<Promise<T>> b,
+        System.Func<SyntaxBuilder, Var<T>, Var<Promise<TResult>>> onFulfilled)
+    {
+        return b.Call<Promise<TResult>>("then", b.Def(onFulfilled));
+    }
+
     /// <summary>
     /// The catch() method of Promise instances schedules a function to be called when the promise is rejected. It immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// <para>Recovery form: the handler substitutes a value for the failed one, so it must produce a T and the promise type is kept.</para>
@@ -702,6 +1007,39 @@ public static partial class PromiseExtensions
     {
         return b.Call<Promise>("catch", onRejected);
     }
+
+    /// <summary>
+    /// The catch() method of Promise instances schedules a function to be called when the promise is rejected. It immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Untyped chain tail: after a terminal then/catch the chain carries no typed value, but it can still fail (a side-effect handler can throw).</para>
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="onRejected">A function to asynchronously execute when this promise becomes rejected. The function is called with the following arguments:
+    /// <para>reason The value that the promise was rejected with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    public static ObjBuilder<Promise> @catch<TError>(
+        this ObjBuilder<Promise> b,
+        Var<Action<TError>> onRejected)
+    {
+        return b.Call<Promise>("catch", onRejected);
+    }
+
+    /// <summary>
+    /// The catch() method of Promise instances schedules a function to be called when the promise is rejected. It immediately returns another Promise object, allowing you to chain calls to other promise methods.
+    /// <para>Untyped chain tail: after a terminal then/catch the chain carries no typed value, but it can still fail (a side-effect handler can throw).</para>
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="onRejected">A function to asynchronously execute when this promise becomes rejected. The function is called with the following arguments:
+    /// <para>reason The value that the promise was rejected with.</para>
+    /// </param>
+    /// <returns>Returns a new Promise. This new promise is always pending when returned, regardless of the current promise's status. If onRejected is called, the returned promise will resolve based on the return value of this call, or reject with the thrown error from this call. If the current promise fulfills, onRejected is not called and the returned promise fulfills to the same value.</returns>
+    public static ObjBuilder<Promise> @catch<TError>(
+        this ObjBuilder<Promise> b,
+        System.Action<SyntaxBuilder, Var<TError>> onRejected)
+    {
+        return @catch(b, b.Def(onRejected));
+    }
+
     /// <summary>
     /// The finally() method of Promise instances schedules a function to be called when the promise is settled (either fulfilled or rejected). It immediately returns another Promise object, allowing you to chain calls to other promise methods.
     /// <para>Untyped chain tail: after a terminal then/catch the chain carries no typed value, but it still needs cleanup.</para>

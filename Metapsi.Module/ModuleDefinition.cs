@@ -100,8 +100,10 @@ namespace Metapsi.Syntax
 
     public class LiteralNode
     {
-        //public NodeType Type => NodeType.Literal;
-        public string Value { get; set; } // a JSON serialization
+        /// <summary>
+        /// Keeps the actual reference. The value is only converted to JSON at module output, using the output settings
+        /// </summary>
+        public object Value { get; set; }
     }
 
     public class IdentifierNode
@@ -137,7 +139,7 @@ namespace Metapsi.Syntax
         /// <summary>
         /// IdentifierNode or FnNode
         /// </summary>
-        public SyntaxNode Fn { get; set; } 
+        public SyntaxNode Fn { get; set; }
         public List<SyntaxNode> Arguments { get; set; } = new List<SyntaxNode>(); // Literal, Identifier or Fn
     }
 
@@ -214,51 +216,51 @@ namespace Metapsi.Syntax
         public Action<CommentNode, NodeContext> OnComment { get; set; }
     }
 
-    internal class MetadataBuilder
-    {
-        internal class NodeMetadata
-        {
-            public string SsaVarName { get; set; }
-            public SyntaxNode AssignmentNode { get; set; }
-            //public SyntaxNode AssignedNode { get; set; }
-            public List<SyntaxNode> ReferencedBy { get; set; } = new List<SyntaxNode>();
-        }
+    //internal class MetadataBuilder
+    //{
+    //    internal class NodeMetadata
+    //    {
+    //        public string SsaVarName { get; set; }
+    //        public SyntaxNode AssignmentNode { get; set; }
+    //        //public SyntaxNode AssignedNode { get; set; }
+    //        public List<SyntaxNode> ReferencedBy { get; set; } = new List<SyntaxNode>();
+    //    }
 
-        private static string NodeDescription(SyntaxNode syntaxNode)
-        {
-            switch (syntaxNode.GetNodeType())
-            {
-                case NodeType.Assignment:
-                    return $"{syntaxNode.Assignment.Name} -> {syntaxNode.Assignment.Node.GetNodeType()}";
-                case NodeType.Call:
-                    return $"{NodeDescription(syntaxNode.Call.Fn)}({string.Join(",", syntaxNode.Call.Arguments.Select(NodeDescription))})";
-                case NodeType.Identifier:
-                    return syntaxNode.Identifier.Name;
-                case NodeType.Literal:
-                    return syntaxNode.Literal.Value;
-                case NodeType.Comment:
-                    return syntaxNode.Comment.Comment;
-                case NodeType.Fn:
-                    return $"def ({string.Join(",", syntaxNode.Fn.Parameters)})";
-                case NodeType.Linq:
-                    return syntaxNode.Linq.Expr;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
+    //    private static string NodeDescription(SyntaxNode syntaxNode)
+    //    {
+    //        switch (syntaxNode.GetNodeType())
+    //        {
+    //            case NodeType.Assignment:
+    //                return $"{syntaxNode.Assignment.Name} -> {syntaxNode.Assignment.Node.GetNodeType()}";
+    //            case NodeType.Call:
+    //                return $"{NodeDescription(syntaxNode.Call.Fn)}({string.Join(",", syntaxNode.Call.Arguments.Select(NodeDescription))})";
+    //            case NodeType.Identifier:
+    //                return syntaxNode.Identifier.Name;
+    //            case NodeType.Literal:
+    //                return syntaxNode.Literal.Value;
+    //            case NodeType.Comment:
+    //                return syntaxNode.Comment.Comment;
+    //            case NodeType.Fn:
+    //                return $"def ({string.Join(",", syntaxNode.Fn.Parameters)})";
+    //            case NodeType.Linq:
+    //                return syntaxNode.Linq.Expr;
+    //            default:
+    //                throw new NotImplementedException();
+    //        }
+    //    }
 
-        internal static string ListParents(List<SyntaxNode> parents)
-        {
-            StringBuilder b = new StringBuilder();
-            foreach(var parent in parents)
-            {
-                b.AppendLine();
-                b.Append(ModuleExtensions.Spaces(parents.IndexOf(parent) + 1));
-                b.Append(NodeDescription(parent));
-            }
-            return b.ToString();
-        }
-    }
+    //    internal static string ListParents(List<SyntaxNode> parents)
+    //    {
+    //        StringBuilder b = new StringBuilder();
+    //        foreach(var parent in parents)
+    //        {
+    //            b.AppendLine();
+    //            b.Append(ModuleExtensions.Spaces(parents.IndexOf(parent) + 1));
+    //            b.Append(NodeDescription(parent));
+    //        }
+    //        return b.ToString();
+    //    }
+    //}
 
 
     public static class ModuleExtensions
@@ -327,7 +329,7 @@ namespace Metapsi.Syntax
         }
 
         private static CallNode RewriteCall(
-            CallNode callNode, 
+            CallNode callNode,
             AssignmentNode usingAssignmentNode)
         {
             var newCall = new CallNode();
@@ -357,232 +359,232 @@ namespace Metapsi.Syntax
             return newCall;
         }
 
-        public static FnNode RewriteFunction(
-            this FnNode fnNode,
-            Dictionary<string, SsaReference> ssaDeps)
+        //public static FnNode RewriteFunction(
+        //    this FnNode fnNode,
+        //    Dictionary<string, SsaReference> ssaDeps)
+        //{
+        //    var singleUseDeps = new Dictionary<string, SsaReference>();
+        //    foreach (var ssaDep in ssaDeps.Where(x => x.Value.ReferencedBy.Count() == 1))
+        //    {
+        //        singleUseDeps.Add(ssaDep.Key, ssaDep.Value);
+        //    }
+
+        //    var fnNodeSsaIds = fnNode.Body.Where(x => x.Assignment != null).Select(x => x.Assignment.Name).ToList();
+
+        //    var rewrittenSsa = new Dictionary<string, AssignmentNode>();
+        //    foreach (var ssaDep in singleUseDeps)
+        //    {
+        //        if (fnNodeSsaIds.Contains(ssaDep.Key))
+        //        {
+        //            rewrittenSsa[ssaDep.Key] = new AssignmentNode()
+        //            {
+        //                Name = ssaDep.Key,
+        //                Node = ssaDep.Value.AssignmentNode.Node
+        //            };
+        //        }
+        //    }
+
+        //    var originalFnSyntaxNode = new SyntaxNode()
+        //    {
+        //        Fn = fnNode,
+        //    };
+
+        //    var rewrittenFnNode = new FnNode()
+        //    {
+        //        Parameters = new List<string>(fnNode.Parameters),
+        //        Return = fnNode.Return
+        //    };
+
+        //    originalFnSyntaxNode.Traverse(new List<SyntaxNode>(),
+        //        (rules) =>
+        //        {
+        //            rules.OnFnDefinition = (fnDef, context) =>
+        //            {
+        //                foreach (var line in fnDef.Body)
+        //                {
+        //                    switch (line.GetNodeType())
+        //                    {
+        //                        case NodeType.Assignment:
+        //                            {
+        //                                if (singleUseDeps.ContainsKey(line.Assignment.Name))
+        //                                {
+        //                                    var reference = singleUseDeps[line.Assignment.Name].ReferencedBy.Single();
+        //                                    switch (reference.Node.GetNodeType())
+        //                                    {
+        //                                        case NodeType.Call:
+        //                                            {
+        //                                                //var newCall = new CallNode();
+        //                                                //if (reference.Node.Call.Fn.Identifier != null)
+        //                                                //{
+        //                                                //    if (reference.Node.Call.Fn.Identifier.Name == line.Assignment.Name)
+        //                                                //    {
+        //                                                //        newCall.Fn = rewrittenSsa[line.Assignment.Name].Node;
+        //                                                //    }
+        //                                                //    else
+        //                                                //    {
+        //                                                //        newCall.Fn = reference.Node.Call.Fn;
+        //                                                //    }
+        //                                                //}
+
+        //                                                //foreach (var argument in reference.Node.Call.Arguments)
+        //                                                //{
+        //                                                //    var argReplaced = false;
+        //                                                //    if (argument.Identifier != null)
+        //                                                //    {
+        //                                                //        if (argument.Identifier.Name == line.Assignment.Name)
+        //                                                //        {
+        //                                                //            newCall.Arguments.Add(rewrittenSsa[line.Assignment.Name].Node);
+        //                                                //            argReplaced = true;
+        //                                                //        }
+        //                                                //    }
+
+        //                                                //    if (!argReplaced)
+        //                                                //    {
+        //                                                //        //newCall.Arguments.Add(
+        //                                                //        argument.Traverse(
+        //                                                //            context.ParentSyntaxNodes,
+        //                                                //            rules);
+        //                                                //    }
+        //                                                //}
+
+        //                                                var newCall = RewriteCall(reference.Node.Call, line.Assignment);
+
+        //                                                rewrittenSsa[reference.Name] = new AssignmentNode()
+        //                                                {
+        //                                                    Node = new SyntaxNode()
+        //                                                    {
+        //                                                        Call = newCall
+        //                                                    }
+        //                                                };
+        //                                            }
+        //                                            break;
+        //                                        case NodeType.Fn:
+        //                                            {
+        //                                                if (fnDef == reference.Node.Fn)
+        //                                                {
+        //                                                    // Referenced in itself
+        //                                                }
+        //                                                else
+        //                                                {
+        //                                                    throw new Exception($"{line.Assignment.Name} is referenced by {reference.Name}");
+        //                                                }
+        //                                            }
+        //                                            break;
+        //                                        default:
+        //                                            throw new NotImplementedException();
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+
+        //                                }
+
+        //                                if (!rewrittenSsa.ContainsKey(line.Assignment.Name))
+        //                                {
+        //                                    rewrittenFnNode.Body.Add(line);
+        //                                    //rewrittenFnNode.Body.Add(new SyntaxNode()
+        //                                    //{
+        //                                    //    Assignment = rewrittenSsa[line.Assignment.Name]
+        //                                    //});
+        //                                }
+        //                                else
+        //                                {
+        //                                    if (!singleUseDeps.ContainsKey(line.Assignment.Name))
+        //                                    {
+        //                                        rewrittenFnNode.Body.Add(new SyntaxNode()
+        //                                        {
+        //                                            Assignment = rewrittenSsa[line.Assignment.Name]
+        //                                        });
+        //                                    }
+        //                                }
+
+        //                                //if (!singleUseDeps.ContainsKey(line.Assignment.Name))
+        //                                //{
+        //                                //    if (rewrittenSsa.ContainsKey(line.Assignment.Name))
+        //                                //    {
+        //                                //        rewrittenFnNode.Body.Add(new SyntaxNode()
+        //                                //        {
+        //                                //            Assignment = rewrittenSsa[line.Assignment.Name]
+        //                                //        });
+        //                                //    }
+        //                                //    else
+        //                                //    {
+        //                                //        rewrittenFnNode.Body.Add(line);
+        //                                //    }
+        //                                //}
+        //                                //else
+        //                                //{
+        //                                //    rewrittenFnNode.Body.Add(line);
+        //                                //}
+        //                            }
+        //                            break;
+        //                        case NodeType.Call:
+        //                            {
+
+        //                            }
+        //                            break;
+        //                        default:
+        //                            throw new NotImplementedException();
+        //                    }
+        //                }
+        //                if (!string.IsNullOrEmpty(fnNode.Return))
+        //                {
+        //                    if (rewrittenSsa.ContainsKey(fnNode.Return))
+        //                    {
+        //                        rewrittenFnNode.Return = ModuleExtensions.ToJs(rewrittenSsa[fnNode.Return].Node);
+        //                    }
+        //                    else
+        //                    {
+        //                        rewrittenFnNode.Return = fnNode.Return;
+        //                    }
+        //                }
+        //                //context.TraverseFnBody();
+        //            };
+        //            rules.OnAssignment = (assignment, context) =>
+        //            {
+        //                context.TraverseAssignedNode();
+
+        //                if (singleUseDeps.ContainsKey(assignment.Name))
+        //                {
+
+        //                }
+        //            };
+        //        });
+
+        //    Console.WriteLine("=============== REWRITE");
+        //    Console.WriteLine(ModuleExtensions.ToJs(rewrittenFnNode));
+
+        //    return rewrittenFnNode;
+        //}
+
+        //public static Module InlineModule(Module moduleDefinition)
+        //{
+        //    // TODO: Obviously
+        //    return moduleDefinition;
+        //    var ssaDeps = moduleDefinition.GetSsaDependencyGraph();
+
+        //    Module inlined = new Module()
+        //    {
+        //        Imports = moduleDefinition.Imports
+        //    };
+
+        //    var currentFnDef = new FnNode();
+
+        //    moduleDefinition.Traverse(
+        //        rules =>
+        //        {
+        //            rules.OnFnDefinition = (fnDef, context) =>
+        //            {
+        //                var newFn = RewriteFunction(fnDef, ssaDeps);
+        //            };
+        //        });
+
+        //    return inlined;
+        //}
+
+        public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options)
         {
-            var singleUseDeps = new Dictionary<string, SsaReference>();
-            foreach (var ssaDep in ssaDeps.Where(x => x.Value.ReferencedBy.Count() == 1))
-            {
-                singleUseDeps.Add(ssaDep.Key, ssaDep.Value);
-            }
-
-            var fnNodeSsaIds = fnNode.Body.Where(x => x.Assignment != null).Select(x => x.Assignment.Name).ToList();
-
-            var rewrittenSsa = new Dictionary<string, AssignmentNode>();
-            foreach (var ssaDep in singleUseDeps)
-            {
-                if (fnNodeSsaIds.Contains(ssaDep.Key))
-                {
-                    rewrittenSsa[ssaDep.Key] = new AssignmentNode()
-                    {
-                        Name = ssaDep.Key,
-                        Node = ssaDep.Value.AssignmentNode.Node
-                    };
-                }
-            }
-
-            var originalFnSyntaxNode = new SyntaxNode()
-            {
-                Fn = fnNode,
-            };
-
-            var rewrittenFnNode = new FnNode()
-            {
-                Parameters = new List<string>(fnNode.Parameters),
-                Return = fnNode.Return
-            };
-
-            originalFnSyntaxNode.Traverse(new List<SyntaxNode>(),
-                (rules) =>
-                {
-                    rules.OnFnDefinition = (fnDef, context) =>
-                    {
-                        foreach (var line in fnDef.Body)
-                        {
-                            switch (line.GetNodeType())
-                            {
-                                case NodeType.Assignment:
-                                    {
-                                        if (singleUseDeps.ContainsKey(line.Assignment.Name))
-                                        {
-                                            var reference = singleUseDeps[line.Assignment.Name].ReferencedBy.Single();
-                                            switch (reference.Node.GetNodeType())
-                                            {
-                                                case NodeType.Call:
-                                                    {
-                                                        //var newCall = new CallNode();
-                                                        //if (reference.Node.Call.Fn.Identifier != null)
-                                                        //{
-                                                        //    if (reference.Node.Call.Fn.Identifier.Name == line.Assignment.Name)
-                                                        //    {
-                                                        //        newCall.Fn = rewrittenSsa[line.Assignment.Name].Node;
-                                                        //    }
-                                                        //    else
-                                                        //    {
-                                                        //        newCall.Fn = reference.Node.Call.Fn;
-                                                        //    }
-                                                        //}
-
-                                                        //foreach (var argument in reference.Node.Call.Arguments)
-                                                        //{
-                                                        //    var argReplaced = false;
-                                                        //    if (argument.Identifier != null)
-                                                        //    {
-                                                        //        if (argument.Identifier.Name == line.Assignment.Name)
-                                                        //        {
-                                                        //            newCall.Arguments.Add(rewrittenSsa[line.Assignment.Name].Node);
-                                                        //            argReplaced = true;
-                                                        //        }
-                                                        //    }
-
-                                                        //    if (!argReplaced)
-                                                        //    {
-                                                        //        //newCall.Arguments.Add(
-                                                        //        argument.Traverse(
-                                                        //            context.ParentSyntaxNodes,
-                                                        //            rules);
-                                                        //    }
-                                                        //}
-
-                                                        var newCall = RewriteCall(reference.Node.Call, line.Assignment);
-
-                                                        rewrittenSsa[reference.Name] = new AssignmentNode()
-                                                        {
-                                                            Node = new SyntaxNode()
-                                                            {
-                                                                Call = newCall
-                                                            }
-                                                        };
-                                                    }
-                                                    break;
-                                                case NodeType.Fn:
-                                                    {
-                                                        if (fnDef == reference.Node.Fn)
-                                                        {
-                                                            // Referenced in itself
-                                                        }
-                                                        else
-                                                        {
-                                                            throw new Exception($"{line.Assignment.Name} is referenced by {reference.Name}");
-                                                        }
-                                                    }
-                                                    break;
-                                                default:
-                                                    throw new NotImplementedException();
-                                            }
-                                        }
-                                        else
-                                        {
-
-                                        }
-
-                                        if (!rewrittenSsa.ContainsKey(line.Assignment.Name))
-                                        {
-                                            rewrittenFnNode.Body.Add(line);
-                                            //rewrittenFnNode.Body.Add(new SyntaxNode()
-                                            //{
-                                            //    Assignment = rewrittenSsa[line.Assignment.Name]
-                                            //});
-                                        }
-                                        else
-                                        {
-                                            if (!singleUseDeps.ContainsKey(line.Assignment.Name))
-                                            {
-                                                rewrittenFnNode.Body.Add(new SyntaxNode()
-                                                {
-                                                    Assignment = rewrittenSsa[line.Assignment.Name]
-                                                });
-                                            }
-                                        }
-
-                                        //if (!singleUseDeps.ContainsKey(line.Assignment.Name))
-                                        //{
-                                        //    if (rewrittenSsa.ContainsKey(line.Assignment.Name))
-                                        //    {
-                                        //        rewrittenFnNode.Body.Add(new SyntaxNode()
-                                        //        {
-                                        //            Assignment = rewrittenSsa[line.Assignment.Name]
-                                        //        });
-                                        //    }
-                                        //    else
-                                        //    {
-                                        //        rewrittenFnNode.Body.Add(line);
-                                        //    }
-                                        //}
-                                        //else
-                                        //{
-                                        //    rewrittenFnNode.Body.Add(line);
-                                        //}
-                                    }
-                                    break;
-                                case NodeType.Call:
-                                    {
-
-                                    }
-                                    break;
-                                default:
-                                    throw new NotImplementedException();
-                            }
-                        }
-                        if (!string.IsNullOrEmpty(fnNode.Return))
-                        {
-                            if (rewrittenSsa.ContainsKey(fnNode.Return))
-                            {
-                                rewrittenFnNode.Return = ModuleExtensions.ToJs(rewrittenSsa[fnNode.Return].Node);
-                            }
-                            else
-                            {
-                                rewrittenFnNode.Return = fnNode.Return;
-                            }
-                        }
-                        //context.TraverseFnBody();
-                    };
-                    rules.OnAssignment = (assignment, context) =>
-                    {
-                        context.TraverseAssignedNode();
-
-                        if (singleUseDeps.ContainsKey(assignment.Name))
-                        {
-
-                        }
-                    };
-                });
-
-            Console.WriteLine("=============== REWRITE");
-            Console.WriteLine(ModuleExtensions.ToJs(rewrittenFnNode));
-
-            return rewrittenFnNode;
-        }
-
-        public static Module InlineModule(Module moduleDefinition)
-        {
-            // TODO: Obviously
-            return moduleDefinition;
-            var ssaDeps = moduleDefinition.GetSsaDependencyGraph();
-
-            Module inlined = new Module()
-            {
-                Imports = moduleDefinition.Imports
-            };
-
-            var currentFnDef = new FnNode();
-
-            moduleDefinition.Traverse(
-                rules =>
-                {
-                    rules.OnFnDefinition = (fnDef, context) =>
-                    {
-                        var newFn = RewriteFunction(fnDef, ssaDeps);
-                    };
-                });
-
-            return inlined;
-        }
-
-        public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options = null)
-        {
-            moduleDefinition = InlineModule(moduleDefinition);
+            //moduleDefinition = InlineModule(moduleDefinition);
 
             if (options == null) options = new ToJavaScriptOptions();
 
@@ -621,7 +623,7 @@ namespace Metapsi.Syntax
             }
             foreach (var node in moduleDefinition.Nodes)
             {
-                outJs.AppendLine(node.ToJs());
+                outJs.AppendLine(node.ToJs(0, options));
             }
 
             return outJs.ToString();
@@ -640,7 +642,7 @@ namespace Metapsi.Syntax
             throw new ArgumentException("Node type not supported");
         }
 
-        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel = 0)
+        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel, ToJavaScriptOptions options)
         {
             // This renders the node itself, which could be anywhere
             // Pass indent level, but don't use it for alignment here,
@@ -649,7 +651,7 @@ namespace Metapsi.Syntax
             {
                 case NodeType.Literal:
                     {
-                        return syntaxNode.Literal.Value;
+                        return options.JsonSerializer.ToLiteral(syntaxNode.Literal.Value);
                     }
                 case NodeType.Identifier:
                     {
@@ -659,11 +661,11 @@ namespace Metapsi.Syntax
                     {
                         var assignment = syntaxNode.Assignment;
                         var typeComment = string.IsNullOrEmpty(assignment.DebugType) ? "" : $"/*{assignment.DebugType}*/ ";
-                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel);
+                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel, options);
                     }
                 case NodeType.Fn:
                     {
-                        return ToJs(syntaxNode.Fn, indentLevel);
+                        return ToJs(syntaxNode.Fn, indentLevel, options);
                     }
                 case NodeType.Linq:
                     {
@@ -671,7 +673,7 @@ namespace Metapsi.Syntax
                     }
                 case NodeType.Call:
                     {
-                        return ToJs(syntaxNode.Call, indentLevel);
+                        return ToJs(syntaxNode.Call, indentLevel, options);
                     }
                 case NodeType.Comment:
                     {
@@ -683,7 +685,7 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static string ToJs(this FnNode fnNode, int indentLevel = 0)
+        public static string ToJs(this FnNode fnNode, int indentLevel, ToJavaScriptOptions options)
         {
             // This handles { ... } blocks, this is the place where alignment happens
 
@@ -693,7 +695,7 @@ namespace Metapsi.Syntax
             outJs.AppendLine($"({parameters}) => {{ {fnNameComment}");
             foreach (var line in fnNode.Body)
             {
-                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1));
+                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1, options));
             }
 
             if (fnNode.Return != null)
@@ -706,12 +708,12 @@ namespace Metapsi.Syntax
             return outJs.ToString();
         }
 
-        public static string ToJs(this CallNode callNode, int indentLevel = 0)
+        public static string ToJs(this CallNode callNode, int indentLevel, ToJavaScriptOptions options)
         {
             StringBuilder outJs = new StringBuilder();
             if (callNode.Fn.GetNodeType() == NodeType.Fn)
             {
-                outJs.Append("(" + ToJs(callNode.Fn.Fn) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn.Fn, 0, options) + ")");
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Identifier)
             {
@@ -719,27 +721,27 @@ namespace Metapsi.Syntax
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Linq)
             {
-                outJs.Append("(" + ToJs(callNode.Fn) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn, 0, options) + ")");
             }
             else throw new NotSupportedException($"Cannot call {callNode.Fn.GetNodeType()}");
             List<string> arguments = new List<string>();
             foreach (var argument in callNode.Arguments)
             {
-                arguments.Add(argument.ToJs(indentLevel));
+                arguments.Add(argument.ToJs(indentLevel, options));
             }
 
             outJs.Append($"({string.Join(", ", arguments)})");
             return outJs.ToString();
         }
 
-        /// <summary>
-        /// Computes a module hash without resolving resources first
-        /// </summary>
-        /// <param name="module"></param>
-        /// <returns>Module hash</returns>
-        public static string Hash(this Module module)
-        {
-            return EmbeddedFiles.Hash(Metapsi.Serialize.ToJson(module, "to-js"));
-        }
+        ///// <summary>
+        ///// Computes a module hash without resolving resources first
+        ///// </summary>
+        ///// <param name="module"></param>
+        ///// <returns>Module hash</returns>
+        //public static string Hash(this Module module, Metapsi.IJsonSerializer jsonSerializer)
+        //{
+        //    return EmbeddedFiles.Hash(jsonSerializer.ToJson(module));
+        //}
     }
 }

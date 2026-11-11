@@ -53,7 +53,7 @@ public static class EventExtensions
         {
             b.RequestAnimationFrame(b.Def((SyntaxBuilder b) =>
             {
-                b.Dispatch(dispatch, b.MakeActionDescriptor(b.Get(props, x => x.Action), @event));
+                b.Dispatch(dispatch, b.Get(props, x => x.Action), @event);
             }));
         });
 

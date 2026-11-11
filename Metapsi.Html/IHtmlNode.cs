@@ -118,9 +118,13 @@ public class HtmlTag : IHtmlNode, IVNode
 
         if (otherTag.Tag != this.Tag) return false;
         if (otherTag.Attributes.Count != this.Attributes.Count) return false;
-        foreach (var attribute in otherTag.Attributes)
+        foreach (var otherTagAttribute in otherTag.Attributes)
         {
-            if (this.Attributes[attribute.Key] != attribute.Value) return false;
+            if(!this.Attributes.TryGetValue(otherTagAttribute.Key, out var thisAttributeValue))
+            {
+                return false;
+            }
+            if (thisAttributeValue != otherTagAttribute.Value) return false;
         }
 
         if (otherTag.Children.Count != this.Children.Count) return false;

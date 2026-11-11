@@ -5,6 +5,7 @@ using System.Linq;
 using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System.Reflection;
+using Metapsi.Html;
 
 
 namespace Metapsi;
@@ -22,6 +23,224 @@ public static partial class ServerAction
     {
         public ServerAction.Delegate Delegate { get; set; }
         public List<string> JsonParameters { get; set; }
+    }
+
+
+    public static Var<HyperType.Effect> CallServerEffect<TIn, TServices, TOut>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Var<TIn> requestPayload,
+        Func<TIn, TServices, Task<TOut>> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+        b.Push(parameters, requestPayload.As<object>());
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect<TIn, TOut>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Var<TIn> requestPayload,
+        Func<TIn, Task<TOut>> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+        b.Push(parameters, requestPayload.As<object>());
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect<TIn, TServices>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Var<TIn> requestPayload,
+        Func<TIn, TServices, Task> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult = null,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onResult == null)
+        {
+            onResult = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) => { };
+        }
+
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+        b.Push(parameters, requestPayload.As<object>());
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect<TIn>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Var<TIn> requestPayload,
+        Func<TIn, Task> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult = null,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onResult == null)
+        {
+            onResult = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) => { };
+        }
+
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+        b.Push(parameters, requestPayload.As<object>());
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect<TServices, TOut>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Func<TServices, Task<TOut>> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<TOut>> onResult,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect<TServices>(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Func<TServices, Task> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult = null,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onResult == null)
+        {
+            onResult = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) => { };
+        }
+
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
+    }
+
+    public static Var<HyperType.Effect> CallServerEffect(
+        this SyntaxBuilder b,
+        Var<string> serverActionUrl,
+        Func<Task> serverTask,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>> onResult = null,
+        Action<SyntaxBuilder, Var<HyperType.Dispatcher>, Var<Metapsi.Html.Error>> onError = null)
+    {
+        if (onResult == null)
+        {
+            onResult = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch) => { };
+        }
+
+        if (onError == null)
+        {
+            onError = (SyntaxBuilder b, Var<HyperType.Dispatcher> dispatch, Var<Metapsi.Html.Error> error) =>
+            {
+                b.Alert(b.Get(error, x => x.message));
+            };
+        }
+
+        var parameters = b.NewCollection<object>();
+
+        return b.PostJsonEffect(
+            serverActionUrl,
+            ServerAction.ToServerCall(
+                b,
+                ServerAction.ToServerAction(b, serverTask),
+                parameters),
+            onResult,
+            onError);
     }
 
     /// <summary>
@@ -278,99 +497,10 @@ public static partial class ServerAction
         throw new Exception($"Method info {serverCall.Delegate.ClassName}.{serverCall.Delegate.MethodName} not found!");
     }
 
-    public static object GetParameterByName(this ServerAction.Call serverCall, string parameterName)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        for (int i = 0; i < methodInfoParameters.Count(); i++)
-        {
-            if (methodInfoParameters[i].Name == parameterName)
-            {
-                return Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
-            }
-        }
-
-        throw new Exception($"Parameter {parameterName} not found!");
-    }
-
-    public static T GetParameterByName<T>(this ServerAction.Call serverCall, string parameterName)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        for (int i = 0; i < methodInfoParameters.Count(); i++)
-        {
-            if (methodInfoParameters[i].Name == parameterName)
-            {
-                return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[i]);
-            }
-        }
-
-        throw new Exception($"Parameter {parameterName} not found!");
-    }
-
-    public static object GetParameterByIndex(this ServerAction.Call serverCall, int index)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        if (methodInfoParameters.Length < index)
-        {
-            throw new Exception($"Parameter index {index} not found!");
-        }
-        var parameter = methodInfoParameters[index];
-
-        return Metapsi.Serialize.FromJson(parameter.ParameterType, serverCall.JsonParameters[index]);
-    }
-
-    public static T GetParameterByIndex<T>(this ServerAction.Call serverCall, int index)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        if (methodInfoParameters.Length < index)
-        {
-            throw new Exception($"Parameter index {index} not found!");
-        }
-        var parameter = methodInfoParameters[index];
-
-        return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[index]);
-    }
-
-    public static T GetParameterByType<T>(this ServerAction.Call serverCall)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        var parametersOfType = methodInfoParameters.Where(x => x.ParameterType == typeof(T));
-        if (!parametersOfType.Any())
-        {
-            throw new Exception($"Parameter of type {typeof(T).Name} not found");
-        }
-        if (parametersOfType.Count() > 1)
-        {
-            throw new Exception($"Multiple parameters of type {typeof(T).Name} in server call");
-        }
-        return Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[parametersOfType.Single().Position]);
-    }
-
-    public static void UpdateParameterByType<T>(this ServerAction.Call serverCall, Action<T> update)
-    {
-        var methodInfo = serverCall.FindMethodInfo();
-        var methodInfoParameters = methodInfo.GetParameters();
-        var parametersOfType = methodInfoParameters.Where(x => x.ParameterType == typeof(T));
-        if (!parametersOfType.Any())
-        {
-            throw new Exception($"Parameter of type {typeof(T).Name} not found");
-        }
-        if (parametersOfType.Count() > 1)
-        {
-            throw new Exception($"Multiple parameters of type {typeof(T).Name} in server call");
-        }
-        var parameterObject = Metapsi.Serialize.FromJson<T>(serverCall.JsonParameters[parametersOfType.Single().Position]);
-        update(parameterObject);
-        serverCall.JsonParameters[parametersOfType.Single().Position] = Metapsi.Serialize.ToJson(parameterObject);
-    }
-
     public static async Task<dynamic> Run(
-        this ServerAction.Call serverCall, 
+        this ServerAction.Call serverCall,
         IEnumerable<Type> whitelistClasses,
+        IJsonSerializer serializer,
         params object[] services)
     {
         if (!whitelistClasses.Any(x => x.GetSemiQualifiedTypeName() == serverCall.Delegate.ClassName))
@@ -413,7 +543,7 @@ public static partial class ServerAction
         {
             if (i < serverCall.JsonParameters.Count)
             {
-                parameters[i] = Metapsi.Serialize.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
+                parameters[i] = serializer.FromJson(methodInfoParameters[i].ParameterType, serverCall.JsonParameters[i]);
             }
             else
             {
@@ -434,9 +564,21 @@ public static partial class ServerAction
         if (result is Task)
         {
             await (Task)result;
-            result = ((dynamic)result).Result;
+            if (
+                methodInfo.ReturnType.IsGenericType &&
+                methodInfo.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+            {
+                // There's an actual return value to extract
+                return ((dynamic)result).Result;
+            }
+            else
+            {
+                // The task returned nothing
+                return string.Empty;
+            }
         }
 
+        // The method returned something but was not async
         return result;
     }
 }

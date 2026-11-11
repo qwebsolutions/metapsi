@@ -6,11 +6,49 @@ using System;
 
 namespace Metapsi.Html;
 
+internal class HyperappCounterNode : IHtmlNode
+{
+    public int Counter { get; set; } = 0;
+    bool IHtmlNode.IsEquivalentTo(IHtmlNode other)
+    {
+        if (other == null)
+            return false;
+        // One per HtmlBuilder
+        return other is HyperappCounterNode;
+    }
+
+    string IHtmlNode.ToHtml(ToHtmlOptions options)
+    {
+        // Does not render, is just a tracker
+        return string.Empty;
+    }
+
+    internal static string GetCounterId(HtmlBuilder b)
+    {
+        HyperappCounterNode hCounter = null;
+        var existing = b.Document.Children.SingleOrDefault(x => x is HyperappCounterNode);
+        if (existing == null)
+        {
+            hCounter = new HyperappCounterNode();
+            b.Document.Children.Add(hCounter);
+        }
+        else
+        {
+            hCounter = (HyperappCounterNode)existing;
+        }
+        var hyperappId = $"id-hyperapp-{hCounter.Counter}";
+        hCounter.Counter++;
+        return hyperappId;
+    }
+}
+
 /// <summary>
 /// 
 /// </summary>
 public static partial class HyperappExtensions
 {
+    public static readonly EmbeddedResource HyperappJs = EmbeddedResource.Hashed(typeof(HyperType).Assembly, "hyperapp.js");
+
     /// <summary>
     /// Imports 'app' from hyperapp
     /// </summary>
@@ -19,11 +57,7 @@ public static partial class HyperappExtensions
     /// <returns></returns>
     public static Var<Func<HyperType.App<TModel>, HyperType.Dispatcher>> ImportHyperapp<TModel>(this SyntaxBuilder b)
     {
-        var resource = b.ResolvePath(new HashedEmbeddedResource()
-        {
-            Assembly = typeof(HyperType).Assembly,
-            LogicalName = "hyperapp.js"
-        });
+        var resource = b.ResolvePath(HyperappJs);
         var app = b.ImportName<Func<HyperType.App<TModel>, HyperType.Dispatcher>>(resource, "app");
         return app;
     }
@@ -45,7 +79,7 @@ public static partial class HyperappExtensions
         Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
         Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
-        ModuleBuilder moduleBuilder = new ModuleBuilder(b.Resolver);
+        ModuleBuilder moduleBuilder = new ModuleBuilder(b.DependencyResolver, b.ResourceResolver);
         var main = moduleBuilder.AddFunction<HyperType.Dispatcher>("main", b =>
         {
             var appConfig = b.NewObj().As<HyperType.App<TModel>>();
@@ -113,7 +147,7 @@ public static partial class HyperappExtensions
         Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
         Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
-        string mountNodeId = "id-" + Guid.NewGuid().ToString();
+        string mountNodeId = HyperappCounterNode.GetCounterId(b);
         return Hyperapp(b, mountNodeId, init, view, subscriptions);
     }
 

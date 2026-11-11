@@ -1,22 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
-using System.Threading.Tasks;
-using Metapsi;
-using System;
+﻿using Metapsi;
 using Metapsi.Html;
-using Metapsi.Syntax;
 using Metapsi.Hyperapp;
+using Metapsi.SignalR;
+using Metapsi.Syntax;
+using Metapsi.Web;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Routing;
-using Metapsi.SignalR;
-using Microsoft.AspNetCore.Http;
-using Metapsi.Shoelace;
-using Metapsi.Web;
-using Metapsi.FluentUi;
-using Metapsi.TomSelect;
-using Metapsi.Ionic;
+using System.Threading.Tasks;
 
 namespace Metapsi.Html.Scenarios;
 
@@ -95,12 +91,12 @@ public class TestService : ITestService
     }
 }
 
-public class TextBox : Widget
-{
-    public Action OnChange { get; set; }
-    public Request<DataModel, DataModel> OnChangeApi { get; set; }
-    public String Value { get; set; }
-}
+//public class TextBox : Widget
+//{
+//    public Action OnChange { get; set; }
+//    public Request<DataModel, DataModel> OnChangeApi { get; set; }
+//    public String Value { get; set; }
+//}
 
 public static class SubscriptionExtensions
 {
@@ -114,7 +110,7 @@ public class TestCustomElement : CustomElement<DataModel>
 {
     public TestCustomElement()
     {
-        this.Tag = "test-custom";
+        this.Tag = "test-custom--what-now";
     }
 
     public override Var<HyperType.StateWithEffects> OnInit(SyntaxBuilder b, Var<Element> element)
@@ -137,6 +133,33 @@ public class TestCustomElement : CustomElement<DataModel>
 
 public static class Program
 {
+    public static string Style1(CssBuilder cssBuilder)
+    {
+        string className = "test-class";
+        cssBuilder.AddRule(
+            "." + className,
+            b =>
+            {
+                b.AddStyle("background-color", "red");
+            });
+        return className;
+    }
+
+    public static void Style2(CssBuilder cssBuilder)
+    {
+        cssBuilder.AddRule(
+            ".test-class",
+            b =>
+            {
+                b.AddStyle("color", "blue");
+            });
+    }
+
+    public static CssFile CssFile => new CssFile("playground", "test.css")
+    {
+        Fragments = [new (Style1)]
+    };
+
     public class Nested
     {
         public class NestedAgain
@@ -173,6 +196,7 @@ public static class Program
         return hubBuilder;
     }
 
+
     public static async Task Main()
     {
         // AddMetapsiSignalR preserves JSON capitalization
@@ -184,29 +208,58 @@ public static class Program
                 options.PayloadSerializerOptions.PropertyNamingPolicy = null;
             });
         builder.Services.AddTransient<ITestService>(b => new TestService());
-        //builder.Services.AddSingleton<JsModuleProvider>();
-        builder.Services.AddJsModules(
-            b =>
-            {
-                b.AutoRegisterFrom(typeof(Program).Assembly);
-                b.AddModule("test.js", () => ModuleBuilder.New(
-                    b =>
-                    {
-                        b.Call(b =>
-                        {
-                            b.Log("test service loaded!");
-                        });
-                    }));
+        builder.Services.AddSingleton<IResourceWriter>(new FileSystemResourceWriter(WebResourceProvider.Default, "resources"));
 
-                b.AddModule("second.js", () => ModuleBuilder.New(
-                    b =>
-                    {
-                        b.Call(b =>
-                        {
-                            b.Log("second test service loaded!");
-                        });
-                    }));
-            });
+        //var repo = new ResourceRepository();
+        //new Metapsi.Shoelace.ResourcesLoader().Register(WebResourceProvider.Default.Repository);
+        //WebResourceProvider.Default.FallbackResourcePathPrefix = "my-app/resource";
+
+
+        var qwebMediaLoader = new MediaLoader();
+        WebResourceProvider.Default.RegisterJsModuleFile(new JsModuleFile("playground", qwebMediaLoader.Tag, qwebMediaLoader.BuildModule), new ToJavaScriptOptions()
+        {
+            JsonSerializer = new Serializer()
+        });
+        //WebResourceProvider.Default.AutoLoadCustomElementsFrom(typeof(Program).Assembly, new ToJavaScriptOptions()
+        //{
+        //    JsonSerializer = Serialize.Serializer
+        //},
+        //true);
+
+        //WebResourceProvider.Default.AddEmbeddedFile(Core.LinqJsResource);
+        //WebResourceProvider.Default.AddEmbeddedFile(Core.MetapsiCoreJs);
+        ////WebResourceProvider.Default.AddEmbeddedFile(Core.UuidJs);
+        //WebResourceProvider.Default.AddEmbeddedFile(HyperappExtensions.HyperappJs);
+        //WebResourceProvider.Default.AddEmbeddedFile(CustomElementExtensions.MetapsiCustomElementsJs);
+        //builder.Services.AddSingleton<JsModuleProvider>();
+        //builder.Services.AddJsModules(
+        //    b =>
+        //    {
+        //        b.AutoRegisterFrom(typeof(Program).Assembly);
+        //        b.AddModule("test.js", () => ModuleBuilder.New(null,null,
+        //            b =>
+        //            {
+        //                b.Call(b =>
+        //                {
+        //                    b.Log("test service loaded!");
+        //                });
+        //            }));
+
+        //        b.AddModule("second.js", () => ModuleBuilder.New(null,null,
+        //            b =>
+        //            {
+        //                b.Call(b =>
+        //                {
+        //                    b.Log("second test service loaded!");
+        //                });
+        //            }));
+        //    });
+
+        //builder.Services.AddCssFiles(b =>
+        //{
+        //    b.Add(CssFile);
+        //});
+        
         //builder.Services.AddJsModules(
         //    b =>
         //    {
@@ -214,7 +267,7 @@ public static class Program
         //        b.AddModule(mediaLoader.Tag + ".js", mediaLoader.Module);
         //    });
         var app = builder.Build();
-        app.UseMetapsi();
+        app.MapGroup("my-app").UseMetapsi();
         app.Urls.Add("http://localhost:5000");
         app.MapDefaultSignalRHub(storeHubContext: hc => StaticHubContext = hc);
 
@@ -225,50 +278,90 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("/css-file-provider", async (HttpContext httpContext) =>
+        {
+            return MetapsiHttpResult.Result(
+                HtmlBuilder.FromDefault(
+                    httpContext.GetResourceResolver(),
+                b =>
+                {
+                    //b.HeadAppend(b.CssFileReference(CssFile));
+                    //b.Require(Style1);
+                    //b.Require(Style2);
+
+                    //var myClassName = b.Require(b =>
+                    //{
+                    //    const string myClass = "my-class";
+                    //    b.AddRule("." + myClass, b => { });
+                    //    return myClass;
+                    //});
+
+                    //b.Require(b =>
+                    //{
+                    //    //b.AddRule(".my-class", b => { b.AddStyle("other", "nonsense"); });
+
+                    //    const string myClass = "my-class";
+                    //    b.AddRule("." + myClass, b => { });
+
+                    //    return "def";
+                    //});
+                    b.BodyAppend(
+                        b.HtmlDiv(
+                            b =>
+                            {
+                                b.AddClass(Style1);
+                                //b.AddClass(myClassName);
+                            },
+                            b.Text("Test div")));
+                }));
+        });
+
         app.MapGet("/common",async (HttpContext httpContext) =>
         {
-            await httpContext.WriteHtmlDocumentResponse(CommonLayout.CommonDocument());
+            await httpContext.WriteHtmlDocumentResponse(CommonLayout.CommonDocument(httpContext.GetResourceResolver()));
         });
 
         app.MapGet("style-compat", async (HttpContext httpContext) =>
         {
-            await httpContext.WriteHtmlDocumentResponse(StyleCompatibility.CompatibilityScenario());
+            await httpContext.WriteHtmlDocumentResponse(StyleCompatibility.CompatibilityScenario(httpContext.GetResourceResolver()));
         });
 
         app.MapGet("/sl-textarea-binding", async (HttpContext httpContext) =>
         {
             await httpContext.WriteHtmlDocumentResponse(
-                HtmlBuilder.FromDefault(b =>
+                HtmlBuilder.FromDefault(
+                    httpContext.GetResourceResolver(),
+                    b =>
                 {
-                    b.Resolver.OverridePath = (b, resource) =>
-                    {
-                        var embeddedResource = resource as EmbeddedResource;
-                        if (embeddedResource != null)
-                        {
-                            if (embeddedResource.Assembly == typeof(Shoelace.Cdn).Assembly)
-                            {
-                                var cdnPath = "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn" + embeddedResource.LogicalName.Replace("/shoelace@2.20.1", string.Empty);
-                                b.ResolveTo(cdnPath);
-                            }
-                        }
-                    };
+                    //b.Resolver.OverridePath = (b, resource) =>
+                    //{
+                    //    var embeddedResource = resource as EmbeddedResource;
+                    //    if (embeddedResource != null)
+                    //    {
+                    //        if (embeddedResource.Assembly == typeof(Shoelace.Cdn).Assembly)
+                    //        {
+                    //            var cdnPath = "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn" + embeddedResource.LogicalName.Replace("/shoelace@2.20.1", string.Empty);
+                    //            b.ResolveTo(cdnPath);
+                    //        }
+                    //    }
+                    //};
                     b.BodyAppend(
                         b.Hyperapp(
                             new DataModel(),
                             (b, model) =>
                             {
                                 return b.HtmlDiv(
-                                    b.SlTextarea(
-                                        b =>
-                                        {
-                                            b.BindTo(model, x => x.Message);
-                                        }),
-                                    b.SlButton(
-                                        b.SlIcon(
-                                            b=>
-                                            {
-                                                b.SetName("check2-circle");
-                                            })),
+                                    //b.SlTextarea(
+                                    //    b =>
+                                    //    {
+                                    //        b.BindTo(model, x => x.Message);
+                                    //    }),
+                                    //b.SlButton(
+                                    //    b.SlIcon(
+                                    //        b=>
+                                    //        {
+                                    //            b.SetName("check2-circle");
+                                    //        })),
                                     b.Text(b.Get(model, x => x.Message)));
                             }));
                 }));
@@ -277,6 +370,7 @@ public static class Program
         app.MapGet("/leaks", async (HttpContext httpContext) =>
         {
             var document = HtmlBuilder.FromDefault(
+                httpContext.GetResourceResolver(),
                 b =>
                 {
                     b.BodyAppend(
@@ -315,6 +409,7 @@ public static class Program
         app.MapGet("/textarea-binding", async (HttpContext httpContext) =>
         {
             var document = HtmlBuilder.FromDefault(
+                httpContext.GetResourceResolver(),
                 b =>
                 {
                     //b.Resolver.OverridePath = (b, resource) =>
@@ -355,21 +450,21 @@ public static class Program
                                         {
                                             b.BindTo(model, x => x.Message);
                                         }),
-                                    b.IonSearchbar(
-                                        b =>
-                                        {
-                                            b.BindTo(model, x => x.Message);
-                                        }),
-                                    b.IonTextarea(
-                                        b=>
-                                        {
-                                            b.BindTo(model, x => x.Message);
-                                        }),
-                                    b.SlTextarea(
-                                        b =>
-                                        {
-                                            b.BindTo(model, x => x.Message);
-                                        }),
+                                    //b.IonSearchbar(
+                                    //    b =>
+                                    //    {
+                                    //        b.BindTo(model, x => x.Message);
+                                    //    }),
+                                    //b.IonTextarea(
+                                    //    b=>
+                                    //    {
+                                    //        b.BindTo(model, x => x.Message);
+                                    //    }),
+                                    //b.SlTextarea(
+                                    //    b =>
+                                    //    {
+                                    //        b.BindTo(model, x => x.Message);
+                                    //    }),
                                     b.Text(b.Get(model, x => x.Message)));
                             }));
                 });
@@ -377,89 +472,89 @@ public static class Program
             await httpContext.WriteHtmlDocumentResponse(document);
         });
 
-        app.MapGet("/control-bindings", async (HttpContext httpContext, JsModuleProvider modules) =>
-        {
-            var document = HtmlBuilder.FromDefault(
-                b =>
-                {
-                    b.BodyAppend(b.HtmlScript(
-                        b =>
-                        {
-                            b.SetSrc("/metapsi-js-module/test.js");
-                            b.SetTypeModule();
-                        }));
+        //app.MapGet("/control-bindings", async (HttpContext httpContext, JsModuleProvider modules) =>
+        //{
+        //    var document = HtmlBuilder.FromDefault(
+        //        b =>
+        //        {
+        //            b.BodyAppend(b.HtmlScript(
+        //                b =>
+        //                {
+        //                    b.SetSrc("/metapsi-js-module/test.js");
+        //                    b.SetTypeModule();
+        //                }));
 
-                    b.BodyAppend(b.HtmlScript(
-                        b =>
-                        {
-                            b.SetSrc("/metapsi-js-module/second.js");
-                            b.SetTypeModule();
-                        }));
+        //            b.BodyAppend(b.HtmlScript(
+        //                b =>
+        //                {
+        //                    b.SetSrc("/metapsi-js-module/second.js");
+        //                    b.SetTypeModule();
+        //                }));
 
-                    b.BodyAppend(
-                        b.Hyperapp<DataModel>(
-                            new DataModel()
-                            {
-                                Inner = new List<Entry>()
-                                {
-                                    new Entry()
-                                    {
-                                     Name = "One"
-                                    },
-                                    new Entry()
-                                    {
-                                        Name = "Two"
-                                    }
-                                }
-                            },
-                            (b, model) =>
-                            {
-                                return b.HtmlDiv(
-                                    b =>
-                                    {
-                                        b.AddClass("flex flex-row gap-8");
-                                    },
-                                    b.MediaLoader(
-                                        (PropsBuilder<MediaLoader> b)=>
-                                        {
+        //            b.BodyAppend(
+        //                b.Hyperapp<DataModel>(
+        //                    new DataModel()
+        //                    {
+        //                        Inner = new List<Entry>()
+        //                        {
+        //                            new Entry()
+        //                            {
+        //                             Name = "One"
+        //                            },
+        //                            new Entry()
+        //                            {
+        //                                Name = "Two"
+        //                            }
+        //                        }
+        //                    },
+        //                    (b, model) =>
+        //                    {
+        //                        return b.HtmlDiv(
+        //                            b =>
+        //                            {
+        //                                b.AddClass("flex flex-row gap-8");
+        //                            },
+        //                            b.MediaLoader(
+        //                                (PropsBuilder<MediaLoader> b)=>
+        //                                {
 
-                                        }),
-                                    b.HtmlInput(
-                                        b =>
-                                        {
-                                            b.BindTo(model, x => x.Message);
-                                        }),
-                                    b.HtmlDiv(
-                                        b =>
-                                        {
-                                        },
-                                        b.Map(
-                                            b.Get(model, x => x.Inner),
-                                            (LayoutBuilder b, Var<Entry> item) =>
-                                            {
-                                                return b.HtmlDiv(
-                                                    b.HtmlInput(
-                                                        b =>
-                                                        {
-                                                            b.BindTo(item, x => x.Name);
-                                                        }),
-                                                    b.HtmlLabel(
-                                                        b.Text("Going up?"),
-                                                        b.HtmlInput(
-                                                            b =>
-                                                            {
-                                                                b.SetPlaceholder("???");
-                                                                b.SetType("checkbox");
-                                                                b.BindTo(item, x => x.GoingUp);
-                                                            }),
-                                                        b.Text("Going up!")));
-                                            })),
-                                    b.Text(b.Serialize(model)));
-                            }));
-                });
+        //                                }),
+        //                            b.HtmlInput(
+        //                                b =>
+        //                                {
+        //                                    b.BindTo(model, x => x.Message);
+        //                                }),
+        //                            b.HtmlDiv(
+        //                                b =>
+        //                                {
+        //                                },
+        //                                b.Map(
+        //                                    b.Get(model, x => x.Inner),
+        //                                    (LayoutBuilder b, Var<Entry> item) =>
+        //                                    {
+        //                                        return b.HtmlDiv(
+        //                                            b.HtmlInput(
+        //                                                b =>
+        //                                                {
+        //                                                    b.BindTo(item, x => x.Name);
+        //                                                }),
+        //                                            b.HtmlLabel(
+        //                                                b.Text("Going up?"),
+        //                                                b.HtmlInput(
+        //                                                    b =>
+        //                                                    {
+        //                                                        b.SetPlaceholder("???");
+        //                                                        b.SetType("checkbox");
+        //                                                        b.BindTo(item, x => x.GoingUp);
+        //                                                    }),
+        //                                                b.Text("Going up!")));
+        //                                    })),
+        //                            b.Text(b.Serialize(model)));
+        //                    }));
+        //        });
 
-            await httpContext.WriteHtmlDocumentResponse(document);
-        });
+        //    await httpContext.WriteHtmlDocumentResponse(document);
+        //});
 
         app.MapGet("/custom-element-http-handler.js", Scenario.CustomElementHttpHandler).WithName("custom-element-http-handler");
 
@@ -498,48 +593,50 @@ public static class Program
 
         }).WithName("pattern");
 
-        app.MapGet("custom-element-this-test", async (HttpContext httpContext) =>
-        {
-            await httpContext.WriteHtmlDocumentResponse(
-                HtmlBuilder.FromDefault(b =>
-                {
-                    b.HeadAppend(b.HtmlScriptModuleReference(new TestCustomElement()));
-                    b.BodyAppend(
-                        b.Hyperapp(
-                            new object(),
-                            (b, render) =>
-                            {
-                                return b.HtmlDiv(
-                                    b.H(
-                                        new TestCustomElement().Tag,
-                                        b =>
-                                        {
-                                            b.SetId("test-custom-1");
-                                        }),
-                                    b.H(
-                                        new TestCustomElement().Tag,
-                                        b =>
-                                        {
-                                            b.SetId("test-custom-2");
-                                        }));
-                            }));
-                }));
-        });
+        //app.MapGet("custom-element-this-test", async (HttpContext httpContext) =>
+        //{
+        //    await httpContext.WriteHtmlDocumentResponse(
+        //        HtmlBuilder.FromDefault(b =>
+        //        {
+        //            b.HeadAppend(b.HtmlScriptModuleReference(new TestCustomElement()));
+        //            b.BodyAppend(
+        //                b.Hyperapp(
+        //                    new object(),
+        //                    (b, render) =>
+        //                    {
+        //                        return b.HtmlDiv(
+        //                            b.H(
+        //                                new TestCustomElement().Tag,
+        //                                b =>
+        //                                {
+        //                                    b.SetId("test-custom-1");
+        //                                }),
+        //                            b.H(
+        //                                new TestCustomElement().Tag,
+        //                                b =>
+        //                                {
+        //                                    b.SetId("test-custom-2");
+        //                                }));
+        //                    }));
+        //        }));
+        //});
 
         app.MapGet("ionic", async (HttpContext httpContext) =>
         {
             await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromDefault(
+                httpContext.GetResourceResolver(),
                 b =>
                 {
                     b.BodyAppend(
                         b.Hyperapp(new object(),
                         (b, model) =>
                         {
-                            return b.IonApp(
-                                b.IonHeader(),
-                                b.IonContent(
-                                    b.IonButton(b.Text("Test button")),
-                                    b.SlButton(b.Text("Shoelace as well"))));
+                            return b.Text("TODO");
+                            //return b.IonApp(
+                            //    b.IonHeader(),
+                            //    b.IonContent(
+                            //        b.IonButton(b.Text("Test button")),
+                            //        b.SlButton(b.Text("Shoelace as well"))));
                         }));
                 }),
                 new ToHtmlOptions()
@@ -569,9 +666,10 @@ public static class Program
                 });
         });
 
-        app.MapGet("/market", () =>
+        app.MapGet("/market", (HttpContext httpContext) =>
         {
             var htmlDocument = HtmlBuilder.FromDefault(
+                httpContext.GetResourceResolver(),
                 b =>
                 {
                     b.HeadAppend(
@@ -604,25 +702,27 @@ public static class Program
                 });
             return htmlDocument.Result();
         });
-        app.MapPost("/serverAction", static (HttpContext httpContext, ServerAction.Call call, ITestService testService) =>
+        app.MapPost("/serverAction", async (HttpContext httpContext, ServerAction.Call call, ITestService testService) =>
         {
-            //call.UpdateParameterByType<MarketData>(model =>
-            //{
-            //    model.BindingTest = httpContext.Request.Headers.UserAgent;
-            //});
-
-            //return Results.Problem("Problem detail!");
-
-            return call.Run([typeof(Program)], testService);
+            try
+            {
+                return Results.Ok(await call.Run([typeof(Program)], new Metapsi.Serializer(), testService));
+            }
+            catch(Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
         });
 
         app.MapGet("/import", async (HttpContext httpContext) =>
         {
-            await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromDefault(
+            await httpContext.WriteHtmlDocumentResponse(
+                HtmlBuilder.FromDefault(
+                    httpContext.GetResourceResolver(),
                 b =>
                 {
                     var root = new RootCustomElement();
-                    b.Require(root);
+                    b.Require(new ModuleDependency(root.Tag, root.BuildModule));
                     b.BodyAppend(b.Tag(root.Tag));
                 }));
         });
@@ -647,13 +747,13 @@ public static class Program
                         {
                             b.Log("DISCONNECTED!");
 
-                            b.SlToast(
-                                b =>
-                                {
-                                    b.SetClosable(true);
-                                    b.SetVariantWarning();
-                                },
-                                b.CreateTextNode("Offline"));
+                            //b.SlToast(
+                            //    b =>
+                            //    {
+                            //        b.SetClosable(true);
+                            //        b.SetVariantWarning();
+                            //    },
+                            //    b.CreateTextNode("Offline"));
                             //b.ToastControllerPresent(
                             //b =>
                             //{
@@ -681,14 +781,14 @@ public static class Program
                         //        });
                         //});
 
-                        b.SlToast(
-                            b =>
-                            {
-                                b.SetClosable(true);
-                                b.SetVariantSuccess();
-                                b.SetDuration(3000);
-                            },
-                            b.CreateTextNode("Online"));
+                        //b.SlToast(
+                        //    b =>
+                        //    {
+                        //        b.SetClosable(true);
+                        //        b.SetVariantSuccess();
+                        //        b.SetDuration(3000);
+                        //    },
+                        //    b.CreateTextNode("Online"));
                     })));
     }
 
@@ -842,103 +942,103 @@ public static class Program
             return b.Clone(model);
         }));
         return b.HtmlDiv(
-            b.TomSelect(
-                b=>
-                {
-                    b.SetOptions(b.Get(model, x => x.Entries), x => x.Name, x => x.Name);
-                }),
-            b.FluentMessageBar(
-                b=>
-                {
-                    b.SetIntentWarning();
-                    b.SetShapeSquare();
-                    b.SetDismissMessageBar(b.Def((SyntaxBuilder b) =>
-                    {
-                        b.Log("WHAT? Does this just work?");
-                    }));
-                },
-                b.Text("Message bar"),
-                b.FluentButton(
-                    b =>
-                    {
-                        b.SetSlot(FluentMessageBar.Slot.Dismiss);
-                        b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
-                        {
-                            var messageBar = b.QuerySelector("fluent-message-bar").As<FluentTree>();
-                            //b.On(messageBar, b =>
-                            //{
-                            //    b.UpdateSizeAndAppearance();
-                            //});
-                            return b.Clone(model);
-                        });
-                    },
-                    b.SlIcon(
-                        b =>
-                        {
-                            b.SetName("x-lg");
-                        }))),
-                b.FluentAccordion(
-                    b=>
-                    {
-                        b.SetExpandmodeSingle();
-                        b.OnFluentChangeAction(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Metapsi.Html.Event> e) =>
-                        {
-                            b.Set(model, x => x.BindingTest, "Accordion change works!");
-                            return b.Clone(model);
-                        }));
-                    },
-                    b.FluentAccordionItem(
-                        b.HtmlDiv(
-                            b=>
-                            {
-                                b.SetSlot(FluentAccordionItem.Slot.Heading);
-                            },
-                            b.Text("First heading")),
-                        b.FluentLabel(b.Text("First thing"))),
-                    b.FluentAccordionItem(
-                        b.HtmlDiv(
-                            b=>
-                            {
-                                b.SetSlot(FluentAccordionItem.Slot.Heading);
-                            },
-                            b.Text("Second heading")),
-                        b.FluentLabel(b.Text("Second thing")))),
-                b.FluentTree(
-                    b=>
-                    {
+            //b.TomSelect(
+            //    b=>
+            //    {
+            //        b.SetOptions(b.Get(model, x => x.Entries), x => x.Name, x => x.Name);
+            //    }),
+            //b.FluentMessageBar(
+            //    b=>
+            //    {
+            //        b.SetIntentWarning();
+            //        b.SetShapeSquare();
+            //        b.SetDismissMessageBar(b.Def((SyntaxBuilder b) =>
+            //        {
+            //            b.Log("WHAT? Does this just work?");
+            //        }));
+            //    },
+            //    b.Text("Message bar"),
+            //    b.FluentButton(
+            //        b =>
+            //        {
+            //            b.SetSlot(FluentMessageBar.Slot.Dismiss);
+            //            b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
+            //            {
+            //                var messageBar = b.QuerySelector("fluent-message-bar").As<FluentTree>();
+            //                //b.On(messageBar, b =>
+            //                //{
+            //                //    b.UpdateSizeAndAppearance();
+            //                //});
+            //                return b.Clone(model);
+            //            });
+            //        },
+            //        b.SlIcon(
+            //            b =>
+            //            {
+            //                b.SetName("x-lg");
+            //            }))),
+            //    b.FluentAccordion(
+            //        b=>
+            //        {
+            //            b.SetExpandmodeSingle();
+            //            b.OnFluentChangeAction(b.MakeAction((SyntaxBuilder b, Var<MarketData> model, Var<Metapsi.Html.Event> e) =>
+            //            {
+            //                b.Set(model, x => x.BindingTest, "Accordion change works!");
+            //                return b.Clone(model);
+            //            }));
+            //        },
+            //        b.FluentAccordionItem(
+            //            b.HtmlDiv(
+            //                b=>
+            //                {
+            //                    b.SetSlot(FluentAccordionItem.Slot.Heading);
+            //                },
+            //                b.Text("First heading")),
+            //            b.FluentLabel(b.Text("First thing"))),
+            //        b.FluentAccordionItem(
+            //            b.HtmlDiv(
+            //                b=>
+            //                {
+            //                    b.SetSlot(FluentAccordionItem.Slot.Heading);
+            //                },
+            //                b.Text("Second heading")),
+            //            b.FluentLabel(b.Text("Second thing")))),
+            //    b.FluentTree(
+            //        b=>
+            //        {
 
-                    },
-                    b.FluentTreeItem(
-                        b=>
-                        {
+            //        },
+            //        b.FluentTreeItem(
+            //            b=>
+            //            {
 
-                        },
-                        b.Text("First node"),
-                        b.FluentTreeItem(b => { }, b.Text("What now?"))),
-                    b.FluentTreeItem(
-                        b=>
-                        {
+            //            },
+            //            b.Text("First node"),
+            //            b.FluentTreeItem(b => { }, b.Text("What now?"))),
+            //        b.FluentTreeItem(
+            //            b=>
+            //            {
 
-                        },
-                        b.Text("Second node"))),
+            //            },
+            //            b.Text("Second node"))),
                 
-            b.FluentButton(
-                b=>
-                {
-                    b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
-                    {
-                        return b.Clone(model);
-                    });
-                },
-                b.Text("Fluent button")),
-            b.SlInput(
-                b =>
-                {
-                    b.BindTo(model, x => x.BindingTest);
-                    b.Log("model", model);
-                    //b.OnSlChange(b.CallMarketAction(StaticAction));
-                    b.OnSlChange(b.CallServerAction(StaticAction));
-                }),
+            //b.FluentButton(
+            //    b=>
+            //    {
+            //        b.OnClickAction((SyntaxBuilder b, Var<MarketData> model) =>
+            //        {
+            //            return b.Clone(model);
+            //        });
+            //    },
+            //    b.Text("Fluent button")),
+            //b.SlInput(
+            //    b =>
+            //    {
+            //        b.BindTo(model, x => x.BindingTest);
+            //        b.Log("model", model);
+            //        //b.OnSlChange(b.CallMarketAction(StaticAction));
+            //        b.OnSlChange(b.CallServerAction(StaticAction));
+            //    }),
             b.HtmlDiv(
                 b.Map(
                     b.Get(model, x => x.Entries.OrderByDescending(x => x.Value).ToList()),
@@ -956,23 +1056,38 @@ public static class Program
                                         b => b.Const("green"),
                                         b => b.Const("red")));
                             },
-                            b.SlBadge(
-                                b =>
-                                {
-                                    b.AddStyle("width", "100px");
-                                },
-                                b.Text(b.Get(company, x => x.Ticker))),
-                            b.HtmlDiv(
+                            //b.SlBadge(
+                            //    b =>
+                            //    {
+                            //        b.AddStyle("width", "100px");
+                            //    },
+                            //    b.Text(b.Get(company, x => x.Ticker))),
+                            b.HtmlButton(
                                 b =>
                                 {
                                     b.AddStyle("width", "150px");
-                                    b.OnClickAction(b.CallServerAction(
-                                        b.Get(company, x => x.Ticker),
-                                        async (model, ticker) =>
+                                    b.OnClickAction(
+                                        b.MakeAction((SyntaxBuilder b, Var<MarketData> model) =>
                                         {
-                                            Console.WriteLine(ticker);
-                                            return model;
+                                            return b.MakeStateWithEffects(
+                                                model,
+                                                b.CallServerEffect(
+                                                    b.Const("/serverAction"),
+                                                    b.Get(company, x => x.Ticker),
+                                                    async (ticker) =>
+                                                    {
+                                                        throw new Exception("BAU!");
+                                                        Console.WriteLine(ticker);
+                                                    }));
                                         }));
+                                        //b.CallServerAction(
+                                        //b.Get(company, x => x.Ticker),
+                                        //async (model, ticker) =>
+                                        //{
+                                        //    throw new Exception("FAILED!");
+                                        //    Console.WriteLine(ticker);
+                                        //    return model;
+                                        //}));
                                 },
                                 b.Text(b.Get(company, x => x.Name))),
                             b.HtmlDiv(

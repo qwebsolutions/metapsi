@@ -6,75 +6,75 @@ using System.Web.Hosting;
 
 namespace Metapsi.Web;
 
-public class EmbeddedResourceVirtualPathProvider : VirtualPathProvider
-{
-    private EmbeddedFiles.EmbeddedFile GetEmbeddedFile(string virtualPath)
-    {
-        virtualPath = virtualPath.TrimStart('~').ToLowerInvariant();
-        //var fileName = System.IO.Path.GetFileName(virtualPath).ToLowerInvariant();
-        //TODO: Fix SingleOrDefault
-        var file = EmbeddedFiles.Get(virtualPath);
-        if (file != null)
-            return file;
+//public class EmbeddedResourceVirtualPathProvider : VirtualPathProvider
+//{
+//    private EmbeddedFiles.EmbeddedFile GetEmbeddedFile(string virtualPath)
+//    {
+//        virtualPath = virtualPath.TrimStart('~').ToLowerInvariant();
+//        //var fileName = System.IO.Path.GetFileName(virtualPath).ToLowerInvariant();
+//        //TODO: Fix SingleOrDefault
+//        var file = EmbeddedFiles.Get(virtualPath);
+//        if (file != null)
+//            return file;
 
-        if (virtualPath.StartsWith("/"))
-        {
-            virtualPath = virtualPath.TrimStart('/');
-            file = EmbeddedFiles.Get(virtualPath);
-        }
+//        if (virtualPath.StartsWith("/"))
+//        {
+//            virtualPath = virtualPath.TrimStart('/');
+//            file = EmbeddedFiles.Get(virtualPath);
+//        }
 
-        return file;
-    }
+//        return file;
+//    }
 
-    // Check if file exists either in embedded resources or base provider
-    public override bool FileExists(string virtualPath)
-    {
-        var file = GetEmbeddedFile(virtualPath);
+//    // Check if file exists either in embedded resources or base provider
+//    public override bool FileExists(string virtualPath)
+//    {
+//        var file = GetEmbeddedFile(virtualPath);
 
-        if (file != null)
-            return true;
+//        if (file != null)
+//            return true;
 
-        return base.FileExists(virtualPath);
-    }
+//        return base.FileExists(virtualPath);
+//    }
 
-    // Return a VirtualFile representing the embedded resource
-    public override VirtualFile GetFile(string virtualPath)
-    {
-        var file = GetEmbeddedFile(virtualPath);
-        if (file != null) return new EmbeddedResourceVirtualFile(virtualPath, file);
+//    // Return a VirtualFile representing the embedded resource
+//    public override VirtualFile GetFile(string virtualPath)
+//    {
+//        var file = GetEmbeddedFile(virtualPath);
+//        if (file != null) return new EmbeddedResourceVirtualFile(virtualPath, file);
 
-        return base.GetFile(virtualPath);
-    }
-}
+//        return base.GetFile(virtualPath);
+//    }
+//}
 
-public class EmbeddedResourceVirtualFile : VirtualFile
-{
-    private readonly EmbeddedFiles.EmbeddedFile file;
+//public class EmbeddedResourceVirtualFile : VirtualFile
+//{
+//    private readonly EmbeddedFiles.EmbeddedFile file;
 
-    public EmbeddedResourceVirtualFile(string virtualPath, EmbeddedFiles.EmbeddedFile file)
-        : base(virtualPath)
-    {
-        this.file = file;
-    }
+//    public EmbeddedResourceVirtualFile(string virtualPath, EmbeddedFiles.EmbeddedFile file)
+//        : base(virtualPath)
+//    {
+//        this.file = file;
+//    }
 
-    // Open stream to embedded resource
-    public override Stream Open()
-    {
-        return new MemoryStream(this.file.Content);
-    }
-}
+//    // Open stream to embedded resource
+//    public override Stream Open()
+//    {
+//        return new MemoryStream(this.file.Content);
+//    }
+//}
 
 public static class HttpContextExtensions
 {
-    public static void WriteHtmlDocument(this System.Web.HttpResponseBase httpResponse, HtmlDocument htmlDocument)
+    public static void WriteHtmlDocument(this System.Web.HttpResponseBase httpResponse, HtmlDocument htmlDocument, ToHtmlOptions options)
     {
         httpResponse.ContentType = "text/html";
-        httpResponse.Write(htmlDocument.ToHtml());
+        httpResponse.Write(htmlDocument.ToHtml(options));
     }
 
-    public static void WriteJsModule(this System.Web.HttpResponseBase httpResponse, Metapsi.Syntax.Module module)
+    public static void WriteJsModule(this System.Web.HttpResponseBase httpResponse, Metapsi.Syntax.Module module, ToJavaScriptOptions options)
     {
         httpResponse.ContentType = "text/javascript";
-        httpResponse.Write(module.ToJs());
+        httpResponse.Write(module.ToJs(options));
     }
 }

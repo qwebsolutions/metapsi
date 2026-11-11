@@ -4,7 +4,6 @@ using Metapsi.Hyperapp;
 using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using Metapsi.Ionic;
 using Metapsi.Html;
 
 namespace Metapsi.Html.Scenarios;
@@ -119,25 +118,32 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
                 b.Get(model, x => x.Loading),
                 b =>
                 {
-                    return b.IonSpinner();
+                    return b.Text("Spinning ...");
+                    //return b.IonSpinner();
                 }),
             b.Optional(
                 b.Not(b.Get(model, x => x.Loading)),
                 b =>
                 {
-                    //return b.HtmlDiv(b.Text("WTF?!"));
-                    return b.IonImg(
+                    //return b.HtmlDiv(b.Text("TODO"));
+                    return b.HtmlImg(
                         b =>
                         {
-                            b.AddStyle("height", "100%");
                             b.SetSrc(b.Get(model, x => x.Src));
-                            b.OnIonError(b.MakeAction((SyntaxBuilder b, Var<Model> model, Var<Metapsi.Html.Event> e) =>
-                            {
-                                b.Log("IonImg.OnIonError", e);
-                                //b.Set(model, x => x.Loading, true);
-                                return b.Clone(model);
-                            }));
+                            b.SetProperty(b.Const("alt"), b.Const("something else!!"));
                         });
+                    //return b.IonImg(
+                    //    b =>
+                    //    {
+                    //        b.AddStyle("height", "100%");
+                    //        b.SetSrc(b.Get(model, x => x.Src));
+                    //        b.OnIonError(b.MakeAction((SyntaxBuilder b, Var<Model> model, Var<Metapsi.Html.Event> e) =>
+                    //        {
+                    //            b.Log("IonImg.OnIonError", e);
+                    //            //b.Set(model, x => x.Loading, true);
+                    //            return b.Clone(model);
+                    //        }));
+                    //    });
                 }),
             b.HtmlSlot(
                 b =>
@@ -166,19 +172,20 @@ public class MediaLoader : CustomElement<MediaLoader.Model, MediaLoader.Props>
                             (b, dispatch) =>
                             {
                                 var fetchPromise = b.Fetch(b.Get(model, x => x.Src));
-                                b.PromiseThen(fetchPromise, (SyntaxBuilder b, Var<Metapsi.Html.Response> r) =>
-                                {
-                                    b.If(
-                                        b.Get(r, x => x.ok),
-                                        (SyntaxBuilder b) =>
-                                        {
-                                            b.Set(model, x => x.Loading, false);
-                                            b.Dispatch(
-                                                dispatch,
-                                                b.MakeStateWithEffects(
-                                                    b.Clone(model)));
-                                        });
-                                });
+                                b.On(fetchPromise,
+                                    b => b.then((SyntaxBuilder b, Var<Metapsi.Html.Response> r) =>
+                                    {
+                                        b.If(
+                                            b.Get(r, x => x.ok),
+                                            (SyntaxBuilder b) =>
+                                            {
+                                                b.Set(model, x => x.Loading, false);
+                                                b.Dispatch(
+                                                    dispatch,
+                                                    b.MakeStateWithEffects(
+                                                        b.Clone(model)));
+                                            });
+                                    }));
                             });
                     })));
             });

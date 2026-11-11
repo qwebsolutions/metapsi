@@ -17,7 +17,7 @@ namespace Metapsi
 
     }
 
-    public interface IHtmlPropsBuilder : IStyleBuilder
+    public interface IHtmlPropsBuilder : IStyleBuilder, ICanRequireDependency
     {
         /// <summary>
         /// Sets HTML attribute to specific value

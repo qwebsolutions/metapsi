@@ -1,7 +1,6 @@
 ﻿using Metapsi;
 using Metapsi.Html;
 using Metapsi.Hyperapp;
-using Metapsi.Ionic;
 using Metapsi.Syntax;
 using Metapsi.Web;
 using Microsoft.AspNetCore.Http;
@@ -22,11 +21,14 @@ public static partial class Scenario
         HttpContext httpContext,
         ICustomElement customHttpHandlerElement)
     {
-        await httpContext.WriteHtmlDocumentResponse(HtmlBuilder.FromEmpty(
+        await httpContext.WriteHtmlDocumentResponse(httpContext.HtmlBuilder(
             b =>
             {
+                var ce= b.RequireCustomElement<TestCustomElement>();
                 b.HeadAppend(b.HtmlTitle("Metapsi Playground"));
                 b.HeadAppend(b.HtmlStyle(b.Text("body { font-family : arial; display: flex; flex-direction: column; gap:20px; }")));
+
+                b.BodyAppend(b.Tag(ce.Tag));
 
                 b.BodyAppend(
                     b.HtmlDiv(
@@ -44,8 +46,8 @@ public static partial class Scenario
                     b.Text("This one is explicitly added"),
                     b.Tag("custom-element-http-handler")));
 
-                b.BodyAppend(
-                    b.IonButton());
+                //b.BodyAppend(
+                //    b.IonButton());
 
                 b.BodyAppend(
                     b.MediaLoader(
@@ -101,13 +103,13 @@ public static partial class Scenario
                                         b.SetType("checkbox");
                                         b.BindTo(model, x => x.Enabled);
                                     }),
-                                b.IonCheckbox(
-                                    b =>
-                                    {
-                                        b.SetLabelPlacementEnd();
-                                        b.BindTo(model, x => x.Enabled);
-                                    },
-                                    b.Text("Ion checkbox binding")),
+                                //b.IonCheckbox(
+                                //    b =>
+                                //    {
+                                //        b.SetLabelPlacementEnd();
+                                //        b.BindTo(model, x => x.Enabled);
+                                //    },
+                                //    b.Text("Ion checkbox binding")),
                                 b.Optional(
                                     b.Get(model, x => x.Enabled),
                                     b => b.HtmlInput(

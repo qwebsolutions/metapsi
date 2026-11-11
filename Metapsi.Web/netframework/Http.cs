@@ -1,4 +1,5 @@
-﻿using Metapsi.Syntax;
+﻿using Metapsi.Html;
+using Metapsi.Syntax;
 using System.IO;
 using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
@@ -50,7 +51,7 @@ public class CfHttpContext
     public System.Web.HttpContext Context { get; }
 }
 
-public static class HttpExtensions
+public static partial class HttpExtensions
 {
     public static string GetMimeTypeForFileExtension(string filePath)
     {
@@ -58,12 +59,12 @@ public static class HttpExtensions
         return contentType;
     }
 
-    public static Stream Body(this CfHttpRequest request)
+    public static Stream BodyStream(this CfHttpRequest request)
     {
         return request.Request.InputStream;
     }
 
-    public static Stream Body(this CfHttpResponse response)
+    public static Stream BodyStream(this CfHttpResponse response)
     {
         return response.Response.OutputStream;
     }
@@ -83,6 +84,11 @@ public static class HttpExtensions
         response.Response.BinaryWrite(content);
     }
 
+    public static async Task WriteFileAsync(this CfHttpResponse response, string filePath)
+    {
+        response.Response.TransmitFile(filePath);
+    }
+
     public static void SetContentLengthHeader(this CfHttpResponse response, long contentLength)
     {
         response.Response.Headers["Content-Length"] = contentLength.ToString();
@@ -97,44 +103,8 @@ public static class HttpExtensions
         response.Response.CacheControl = value;
     }
 
-    public static async Task WriteHtmlDocument(this CfHttpResponse response, Metapsi.Html.HtmlDocument document)
-    {
-        response.Response.ContentType = "text/html";
-        response.Response.Write(document.ToHtml());
-    }
-
-    public static async Task WriteJsonResponse<T>(this CfHttpResponse response, T value)
-    {
-        response.Response.ContentType = "application/json";
-        response.Response.Write(Metapsi.Serialize.ToJson(value));
-    }
-
-    public static async Task WriteJsModuleResponse(this CfHttpResponse response, Metapsi.Syntax.Module module)
-    {
-        response.Response.ContentType = "text/javascript";
-        response.Response.Write(module.ToJs());
-    }
-
     public static async Task SetStatusCode(this CfHttpResponse httpResponse, int statusCode)
     {
         httpResponse.Response.StatusCode = statusCode;
-    }
-
-    public static async Task<T> ReadJsonBody<T>(this CfHttpRequest request)
-    {
-        using (var reader = new StreamReader(request.Request.InputStream))
-        {
-            string result = reader.ReadToEnd();
-            return Metapsi.Serialize.FromJson<T>(result);
-        }
-    }
-
-    public static async Task<object> ReadJsonBody(this CfHttpRequest request, System.Type type)
-    {
-        using (var reader = new StreamReader(request.Request.InputStream))
-        {
-            string result = reader.ReadToEnd();
-            return Metapsi.Serialize.FromJson(type, result);
-        }
     }
 }

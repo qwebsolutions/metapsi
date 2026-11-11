@@ -25,12 +25,13 @@ public static class CommonLayout
         public List<Item> Items { get; set; } = new List<Item>();
     }
 
-    public static HtmlDocument CommonDocument()
+    public static HtmlDocument CommonDocument(IResourceResolver resolver)
     {
         var model = new Model();
         model.Items = Enumerable.Range(0, 15).Select(x => new Item()).ToList();
 
         return HtmlBuilder.FromDefault(
+            resolver,
             b =>
             {
                 b.BodyAppend(b.ServerSideLayout(model));
@@ -281,7 +282,7 @@ public class ServerSideLayoutBuilder : ILayoutBuilder<ServerSideLayoutBuilder>
 
     public IHtmlPropsBuilder<TElement> GetPropsBuilder<TElement>()
     {
-        return new AttributesBuilder<TElement>();
+        return new AttributesBuilder<TElement>(htmlBuilder.DependencyResolver, htmlBuilder.ResourceResolver);
     }
 
     public Var<TResult> If<TResult>(Var<bool> check, Func<ServerSideLayoutBuilder, Var<TResult>> ifTrue, Func<ServerSideLayoutBuilder, Var<TResult>> ifFalse)

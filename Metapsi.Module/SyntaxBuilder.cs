@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Metapsi.Syntax
 {
-    public interface ISyntaxBuilder : ICanResolveResourcePath
+    public interface ISyntaxBuilder : ICanRequestResourcePath
     {
         ModuleBuilder ModuleBuilder { get; }
         void AddSyntaxNode(SyntaxNode syntaxNode);
@@ -19,7 +19,7 @@ namespace Metapsi.Syntax
         IIfStatementBuilder<SyntaxBuilder>,
         IIfExpressionBuilder<SyntaxBuilder>,
         IForeachBuilder<SyntaxBuilder>,
-        ICanResolveResourcePath,
+        ICanRequestResourcePath,
         ICanRequireDependency
     {
         private ModuleBuilder moduleBuilder;
@@ -37,12 +37,12 @@ namespace Metapsi.Syntax
 
         public string ResolvePath(IResource resource)
         {
-            return moduleBuilder.Resolver.ResolvePath(resource);
+            return moduleBuilder.ResourcePathResolver.ResolvePath(resource);
         }
 
         public void Require(IDependency dependency)
         {
-            moduleBuilder.Resolver.Import(dependency);
+            moduleBuilder.DependencyResolver.Import(dependency);
         }
 
         public void If(Var<bool> check, Action<SyntaxBuilder> ifTrue, Action<SyntaxBuilder> ifFalse)
@@ -136,7 +136,7 @@ namespace Metapsi.Syntax
                 {
                     Literal = new LiteralNode()
                     {
-                        Value = Metapsi.Serialize.ToJson(obj, "to-js")
+                        Value = obj
                     }
                 }
             };

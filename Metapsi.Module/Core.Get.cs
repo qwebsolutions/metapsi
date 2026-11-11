@@ -6,6 +6,8 @@ namespace Metapsi.Syntax
 {
     public static partial class Core
     {
+        public static readonly EmbeddedResource LinqJsResource = EmbeddedResource.Hashed(typeof(Metapsi.Syntax.ObjBuilder<>).Assembly, "linq.js");
+
         /// <summary>
         /// Dynamically runs any lambda expression. Used when the parameter and return types are not statically known
         /// </summary>
@@ -17,11 +19,8 @@ namespace Metapsi.Syntax
             LambdaExpression expression,
             params IVariable[] arguments)
         {
-            var resolvedLinqJs = b.ResolvePath(new HashedEmbeddedResource()
-            {
-                Assembly = typeof(Metapsi.Syntax.ObjBuilder<>).Assembly,
-                LogicalName = "linq.js"
-            });
+            var resolvedLinqJs = b.ResolvePath(LinqJsResource);
+
             b.ImportDefault(resolvedLinqJs, "Enumerable");
             var assignmentNode = new AssignmentNode()
             {
