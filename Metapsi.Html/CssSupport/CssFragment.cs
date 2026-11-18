@@ -5,8 +5,15 @@ using System.Reflection;
 
 namespace Metapsi.Html;
 
-public class CssFragment : IDependency
+public class CssFragment : IDependency, IDependencyDefaultImport
 {
+    internal sealed class IdentityResolver : IResourceResolver
+    {
+        public static readonly IdentityResolver Instance = new();
+        public string ResolvePath(IResource r) => $"{r.Package}/{r.FileName}";       // stable, distinct per resource, never served
+        public bool TryResolveDependencyResource(string id, out IResource r) { r = null; return false; }
+    }
+
     public string DependencyId { get; }
     public Action<CssBuilder> Builder { get; }
 
@@ -26,7 +33,7 @@ public class CssFragment : IDependency
     {
         if (builder == null)
             throw new ArgumentNullException(nameof(builder));
-        this.DependencyId = builder(new CssBuilder());
+        this.DependencyId = builder(new CssBuilder(IdentityResolver.Instance));
         this.Builder = (CssBuilder b) => builder(b);
     }
 
@@ -36,7 +43,7 @@ public class CssFragment : IDependency
             throw new ArgumentNullException(nameof(builder));
         this.Builder = builder;
 
-        CssBuilder cssBuilder = new CssBuilder();
+        CssBuilder cssBuilder = new CssBuilder(IdentityResolver.Instance);
         builder(cssBuilder);
         var outRule = cssBuilder.Rule.ToCss(new ToCssOptions());
         this.DependencyId = WebResourceBuilder.Hash(outRule);
@@ -44,10 +51,21 @@ public class CssFragment : IDependency
 
     public void Import(HtmlBuilder b)
     {
-        CssTrackerNode cssTracker = CssTrackerNode.Get(b);
-        if (cssTracker.RequiredFragments.Any(x => x.DependencyId == this.DependencyId))
+        var tracker = CssTrackerNode.Get(b);
+
+        // Already provided by a file linked earlier (or by an explicit CssFileReference): nothing to do.
+        if (tracker.ExternalFragmentIds.Contains(this.DependencyId))
             return;
-        cssTracker.RequiredFragments.Add(this);
+
+        if (b.ResourceResolver.TryResolveDependencyResource(this.DependencyId, out var resource))
+        {
+            tracker.ExternalFragmentIds.AddRange(resource.ResolvesDependencyIds);
+            var path = b.ResolvePath(resource);
+            b.HeadAppend(b.HtmlLink(l => { l.SetRel("stylesheet"); l.SetHref(path); }));
+            return;
+        }
+
+        tracker.RequiredFragments.Add(this);
     }
 }
 

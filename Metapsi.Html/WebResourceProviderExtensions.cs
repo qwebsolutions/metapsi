@@ -21,7 +21,7 @@ public static class WebResourceProviderExtensions
             cssFile,
             (resolver) =>
             {
-                var fileContent = cssFile.ToCss(options);
+                var fileContent = cssFile.ToCss(resolver, options);
                 var hash = WebResourceBuilder.Hash(fileContent);
 
                 return new WebResource(

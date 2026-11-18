@@ -71,8 +71,19 @@ public class CssRule
     }
 }
 
-public class CssBuilder : IStyleBuilder
+public class CssBuilder : IStyleBuilder, ICanRequestResourcePath
 {
+    public IResourceResolver ResourceResolver { get; }
+
+    public CssBuilder(IResourceResolver resolver)
+    {
+        if (resolver == null)
+        {
+            throw new System.ArgumentNullException("resolver");
+        }
+        this.ResourceResolver = resolver;
+    }
+
     public CssRule Rule { get; set; } = new CssRule();
 
     public void AddStyle(string property, string value)
@@ -83,9 +94,14 @@ public class CssBuilder : IStyleBuilder
     public void AddRule(string prelude, System.Action<CssBuilder> builder)
     {
         var nestedRule = new CssRule() { Prelude = prelude };
-        var nestedBuilder = new CssBuilder() { Rule = nestedRule };
+        var nestedBuilder = new CssBuilder(this.ResourceResolver) { Rule = nestedRule };
         builder(nestedBuilder);
         this.Rule.NestedRules.Add(nestedRule);
+    }
+
+    public string ResolvePath(IResource resource)
+    {
+        return this.ResourceResolver.ResolvePath(resource);
     }
 }
 
@@ -95,7 +111,7 @@ public static class CssBuilderExtensions
         this HtmlBuilder b,
         System.Action<CssBuilder> addCss)
     {
-        var builder = new CssBuilder()
+        var builder = new CssBuilder(b.ResourceResolver)
         {
             Rule = new CssRule()
             {

@@ -6,6 +6,13 @@ namespace Metapsi.Html;
 
 public class CssTrackerNode : IHtmlNode
 {
+    private readonly IResourceResolver resourceResolver;
+
+    public CssTrackerNode(IResourceResolver resourceResolver)
+    {
+        this.resourceResolver = resourceResolver;
+    }
+
     public List<string> ExternalFragmentIds { get; set; } = new();
     public HashSet<CssFragment> RequiredFragments { get; set; } = new();
 
@@ -18,7 +25,9 @@ public class CssTrackerNode : IHtmlNode
 
     public string ToHtml(ToHtmlOptions options)
     {
-        var inlineStylesheet = HtmlBuilder.Node(b =>
+        var inlineStylesheet = HtmlBuilder.Node(
+            this.resourceResolver,
+            b =>
         {
             return b.HtmlStyleSheet(b =>
             {
@@ -44,7 +53,7 @@ public class CssTrackerNode : IHtmlNode
         var existingNode = b.Document.Head.Children.SingleOrDefault(x => x is CssTrackerNode);
         if (existingNode == null)
         {
-            cssTracker = new CssTrackerNode();
+            cssTracker = new CssTrackerNode(b.ResourceResolver);
             b.HeadAppend(cssTracker);
         }
         else

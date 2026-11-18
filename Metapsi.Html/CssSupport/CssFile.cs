@@ -30,9 +30,9 @@ public class CssFile : IResource
         return this;
     }
 
-    public string ToCss(ToCssOptions toCssOptions = null)
+    public string ToCss(IResourceResolver resourceResolver, ToCssOptions toCssOptions = null)
     {
-        CssBuilder cssBuilder = new CssBuilder();
+        CssBuilder cssBuilder = new CssBuilder(resourceResolver);
         foreach (var cssFragment in Fragments)
         {
             cssFragment.Builder(cssBuilder);

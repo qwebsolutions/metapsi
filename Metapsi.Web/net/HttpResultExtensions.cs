@@ -36,11 +36,11 @@ public static class MetapsiHttpResult
         return cssRule.Result(WebServerExtensions.DefaultToCssOptions);
     }
 
-    public static IResult Css(this System.Action<CssBuilder> build, ToCssOptions toCssOptions = null)
+    public static IResult Css(this System.Action<CssBuilder> build, IResourceResolver resolver, ToCssOptions toCssOptions = null)
     {
         if (toCssOptions == null) toCssOptions = WebServerExtensions.DefaultToCssOptions;
 
-        CssBuilder cssBuilder = new CssBuilder();
+        CssBuilder cssBuilder = new CssBuilder(resolver);
         build(cssBuilder);
         return cssBuilder.Rule.Result(toCssOptions);
     }

@@ -271,9 +271,11 @@ public class HtmlBuilder : ICanRequestResourcePath, ICanRequireDependency
     /// </summary>
     /// <param name="build"></param>
     /// <returns></returns>
-    public static IHtmlNode Node(Func<HtmlBuilder, IHtmlNode> build)
+    public static IHtmlNode Node(
+        IResourceResolver resourceResolver, 
+        Func<HtmlBuilder, IHtmlNode> build)
     {
-        var builder = new HtmlBuilder(WebResourceProvider.Default.GetFixedPathsResourceResolver());
+        var builder = new HtmlBuilder(resourceResolver);
         return build(builder);
     }
 

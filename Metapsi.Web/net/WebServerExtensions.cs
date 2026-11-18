@@ -109,8 +109,9 @@ namespace Metapsi.Web
 
         public static async Task WriteCssFile(this HttpContext httpContext, CssFile cssFile, ToCssOptions options = null)
         {
+            var resourceResolver = httpContext.GetResourceResolver();
             httpContext.Response.ContentType = "text/css; charset=UTF-8";
-            await httpContext.Response.WriteAsync(cssFile.ToCss(options));
+            await httpContext.Response.WriteAsync(cssFile.ToCss(resourceResolver, options));
         }
     }
 }
