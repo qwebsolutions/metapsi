@@ -72,9 +72,9 @@ public static class HttpContextExtensions
         httpResponse.Write(htmlDocument.ToHtml(options));
     }
 
-    public static void WriteJsModule(this System.Web.HttpResponseBase httpResponse, Metapsi.Syntax.Module module, ToJavaScriptOptions options)
+    public static void WriteJsModule(this System.Web.HttpResponseBase httpResponse, Metapsi.Syntax.Module module, Metapsi.IJsonSerializer jsonSerializer,  ToJavaScriptOptions options)
     {
         httpResponse.ContentType = "text/javascript";
-        httpResponse.Write(module.ToJs(options));
+        httpResponse.Write(module.ToJs(jsonSerializer, options));
     }
 }

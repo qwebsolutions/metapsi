@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Metapsi.Syntax;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,11 +42,14 @@ internal class FixedPathsResourceResolver : IResourceResolver
     private readonly VersionsRepository versionsRepository;
 
     internal string Prefix { get; set; } = "resource";
+    public IJsonSerializer JsonSerializer { get; }
 
     internal FixedPathsResourceResolver(
+        Metapsi.IJsonSerializer jsonSerializer,
         WebResourceProvider provider,
         VersionsRepository versionsRepository)
     {
+        JsonSerializer = jsonSerializer;
         this.provider = provider;
         this.versionsRepository = versionsRepository;
     }
@@ -66,7 +70,11 @@ internal class FixedPathsResourceResolver : IResourceResolver
         if (!this.versionsRepository.TryGetVersion(resource.Package, resource.FileName, out var version))
         {
             var webResourceBuilder = this.provider.GetWebResourceBuilder(resource.Package, resource.FileName);
-            var webResource = webResourceBuilder.BuildResource(this);
+            var webResource = webResourceBuilder.BuildResource(new WebResourceProvider.ResourceOptions(
+                this,
+                this.JsonSerializer,
+                new ToJavaScriptOptions(),
+                new ToCssOptions()));
             version = webResource.Version;
             if (!webResourceBuilder.ReloadEnabled)
             {
@@ -80,6 +88,26 @@ internal class FixedPathsResourceResolver : IResourceResolver
 
 public class WebResourceProvider
 {
+    public class ResourceOptions
+    {
+        public ResourceOptions(
+            Metapsi.IResourceResolver resourceResolver,
+            Metapsi.IJsonSerializer jsonSerializer,
+            ToJavaScriptOptions toJavaScriptOptions,
+            ToCssOptions toCssOptions)
+        {
+            this.ResourceResolver = resourceResolver;
+            this.JsonSerializer = jsonSerializer;
+            this.ToJavaScriptOptions = toJavaScriptOptions;
+            this.ToCssOptions = ToCssOptions;
+        }
+
+        public IResourceResolver ResourceResolver { get; }
+        public Metapsi.IJsonSerializer JsonSerializer { get; }
+        public ToJavaScriptOptions ToJavaScriptOptions { get; }
+        public ToCssOptions ToCssOptions { get; }
+    }
+
     // resourceId => WebResourceBuilder
     private readonly Dictionary<string, WebResourceBuilder> resurceBuilders = new();
     // resourceId(package,fileName) => version
@@ -96,30 +124,16 @@ public class WebResourceProvider
 
     private readonly VersionsRepository FixedPathsVersionsRepository = new VersionsRepository();
 
-    public IResourceResolver GetFixedPathsResourceResolver()
+    public IResourceResolver GetFixedPathsResourceResolver(Metapsi.IJsonSerializer jsonSerializer)
     {
-        var resourceResolver = new FixedPathsResourceResolver(this, FixedPathsVersionsRepository)
+        var resourceResolver = new FixedPathsResourceResolver(jsonSerializer, this, FixedPathsVersionsRepository)
         {
             Prefix = this.FallbackResourcePathPrefix
         };
         return resourceResolver;
     }
 
-    //public void Register(
-    //    IResource resource,
-    //    System.Func<IResourceResolver, WebResource> build,
-    //    bool reloadEnabled)
-    //{
-    //    var resourceId = resource.GetId();
-    //    if (byWebResourceId.ContainsKey(resourceId))
-    //        return;
-    //    byWebResourceId[resourceId] = new WebResourceBuilder(
-    //        resource,
-    //        build,
-    //        reloadEnabled);
-    //}
-
-    public void Register(IResource resource, Func<IResourceResolver, WebResource> build, bool reloadEnabled)
+    public void Register(IResource resource, Func<WebResourceProvider.ResourceOptions, WebResource> build, bool reloadEnabled)
     {
         this.resurceBuilders[resource.GetId()] = new WebResourceBuilder(
             resource,
@@ -131,18 +145,6 @@ public class WebResourceProvider
             byDependencyId[dependencyId] = resource;
         }
     }
-
-    //public void Register(WebResourceBuilder webResource)
-    //{
-    //    if (byWebResourceId.ContainsKey(webResource.GetId()))
-    //        return;
-
-    //    byWebResourceId[webResource.GetId()] = webResource;
-    //    foreach (var dependencyId in webResource.Resource.ResolvesDependencyIds)
-    //    {
-    //        byDependencyId[dependencyId] = webResource.Resource;
-    //    }
-    //}
 
     public WebResourceBuilder GetWebResourceBuilder(string package, string fileName)
     {

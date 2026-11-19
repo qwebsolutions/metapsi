@@ -41,3 +41,18 @@ public class CssFile : IResource
         return cssBuilder.Rule.ToCss(toCssOptions);
     }
 }
+
+public static class CssFileExtensions
+{
+    public static CssFile Add(this CssFile cssFile, System.Action<CssBuilder> buildFragment)
+    {
+        cssFile.Add(new CssFragment(buildFragment));
+        return cssFile;
+    }
+
+    public static CssFile Add(this CssFile cssFile, System.Func<CssBuilder, string> buildFragment)
+    {
+        cssFile.Add(new CssFragment(buildFragment));
+        return cssFile;
+    }
+}

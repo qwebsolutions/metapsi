@@ -16,7 +16,7 @@ namespace Metapsi.Web.NetFramework.Mvc.Scenario.Controllers
         {
             await new Metapsi.Web.CfHttpContext(System.Web.HttpContext.Current).Response.WriteHtmlDocument(
                 HtmlBuilder.FromDefault(
-                    WebResourceProvider.Default.GetFixedPathsResourceResolver(),
+                    WebResourceProvider.Default.GetFixedPathsResourceResolver(null),
                     b =>
                     {
                         b.HeadAppend(b.HtmlTitle("Metapsi rendering server and client directly from the HTTP handler"));
@@ -49,7 +49,7 @@ namespace Metapsi.Web.NetFramework.Mvc.Scenario.Controllers
                                             b.Text("Hello from Metapsi client-side"));
                                     }))));
                     }),
-                new ToHtmlOptions());
+                new ToHtmlOptions(null,new Syntax.ToJavaScriptOptions(), new ToCssOptions()));
         }
 
         public async Task MvcViewInMetapsi(IResourceResolver resolver)
@@ -63,7 +63,7 @@ namespace Metapsi.Web.NetFramework.Mvc.Scenario.Controllers
                     b.BodyAppend(b.SharedLayout(b.Text(result)));
                 });
 
-            await new Metapsi.Web.CfHttpContext(System.Web.HttpContext.Current).Response.WriteHtmlDocument(inView, new ToHtmlOptions());
+            await new Metapsi.Web.CfHttpContext(System.Web.HttpContext.Current).Response.WriteHtmlDocument(inView, new ToHtmlOptions(null, new Syntax.ToJavaScriptOptions(), new ToCssOptions()));
         }
 
         public ActionResult MetapsiInMvcView()

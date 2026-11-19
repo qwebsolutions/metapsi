@@ -15,13 +15,13 @@ public static class WebResourceProviderExtensions
         return resource.Package + "|" + resource.FileName;
     }
 
-    public static void RegisterCssFile(this WebResourceProvider webResourceProvider, CssFile cssFile, ToCssOptions options, bool reloadEnabled = false)
+    public static void RegisterCssFile(this WebResourceProvider webResourceProvider, CssFile cssFile, bool reloadEnabled = false)
     {
         webResourceProvider.Register(
             cssFile,
-            (resolver) =>
+            (resourceOptions) =>
             {
-                var fileContent = cssFile.ToCss(resolver, options);
+                var fileContent = cssFile.ToCss(resourceOptions.ResourceResolver, resourceOptions.ToCssOptions);
                 var hash = WebResourceBuilder.Hash(fileContent);
 
                 return new WebResource(
@@ -37,13 +37,13 @@ public static class WebResourceProviderExtensions
             reloadEnabled);
     }
 
-    public static void RegisterJsModuleFile(this WebResourceProvider webResourceProvider, JsModuleFile jsModuleFile, ToJavaScriptOptions options, bool reloadEnabled = false)
+    public static void RegisterJsModuleFile(this WebResourceProvider webResourceProvider, JsModuleFile jsModuleFile, bool reloadEnabled = false)
     {
         webResourceProvider.Register(
             jsModuleFile,
-            (resolver) =>
+            (resourceOptions) =>
             {
-                var fileContent = jsModuleFile.ToJs(resolver, options);
+                var fileContent = jsModuleFile.ToJs(resourceOptions.ResourceResolver, resourceOptions.JsonSerializer, resourceOptions.ToJavaScriptOptions);
                 var hash = WebResourceBuilder.Hash(fileContent);
 
                 return new WebResource(
@@ -75,19 +75,17 @@ public static class WebResourceProviderExtensions
     public static void RegisterCustomElement(
         this WebResourceProvider webResourceProvider,
         ICustomElement customElement,
-        ToJavaScriptOptions options,
         bool reloadEnabled = false)
     {
         var package = customElement.GetType().Assembly.GetName().Name.ToLowerInvariant();
         var jsFile = new JsModuleFile(package, customElement.Tag, customElement.BuildModule);
         jsFile.ResolvesDependencyIds.Add(customElement.Tag);
-        webResourceProvider.RegisterJsModuleFile(jsFile, options, reloadEnabled);
+        webResourceProvider.RegisterJsModuleFile(jsFile, reloadEnabled);
     }
 
     public static void AutoLoadCustomElementsFrom(
         this WebResourceProvider webResourceProvider,
         System.Reflection.Assembly assembly,
-        ToJavaScriptOptions options,
         bool reloadEnabled)
     {
         var allCustomElementTypes = new List<System.Reflection.Assembly>() { assembly }.FindAllTypesImplementing<Metapsi.Html.ICustomElement>();
@@ -98,15 +96,14 @@ public static class WebResourceProviderExtensions
             {
                 throw new InvalidOperationException($"Cannot instantiate custom element type {customElementType.GetType().Name}. Custom elements must have a default constructor with no parameters");
             }
-            webResourceProvider.RegisterCustomElement(customElement, options, reloadEnabled);
+            webResourceProvider.RegisterCustomElement(customElement, reloadEnabled);
         }
     }
 
     public static void AutoLoadCustomElementsFrom(
         this WebResourceProvider webResourceProvider,
-        System.Reflection.Assembly assembly,
-        ToJavaScriptOptions options)
+        System.Reflection.Assembly assembly)
     {
-        webResourceProvider.AutoLoadCustomElementsFrom(assembly, options, System.Diagnostics.Debugger.IsAttached);
+        webResourceProvider.AutoLoadCustomElementsFrom(assembly, System.Diagnostics.Debugger.IsAttached);
     }
 }

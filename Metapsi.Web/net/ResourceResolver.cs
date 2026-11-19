@@ -1,4 +1,5 @@
 ﻿using Metapsi.Html;
+using Metapsi.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +46,8 @@ namespace Metapsi
                 {
                     throw new Exception($"{resource.FileName} cannot be resolved");
                 }
-                var webResource = webResourceBuilder.BuildResource(this);
+                var resourceOptions = httpContext.GetResourceOptions();
+                var webResource = webResourceBuilder.BuildResource(resourceOptions);
                 version = webResource.Version;
                 if (!webResourceBuilder.ReloadEnabled)
                 {

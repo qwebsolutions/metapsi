@@ -15,7 +15,7 @@ public class InMemoryResourceWriter : IResourceWriter
         this.webResourceProvider = webResourceProvider;
     }
 
-    public async Task WriteAsync(string package, string version, string fileName, CfHttpResponse response, IResourceResolver resourceResolver)
+    public async Task WriteAsync(string package, string version, string fileName, CfHttpResponse response, WebResourceProvider.ResourceOptions resourceOptions)
     {
         var key = $"{package}/{version}/{fileName}";
         if (!webResources.TryGetValue(key, out var webResource))
@@ -27,7 +27,7 @@ public class InMemoryResourceWriter : IResourceWriter
                 return;
             }
 
-            webResource = webResourceBuilder.BuildResource(resourceResolver);
+            webResource = webResourceBuilder.BuildResource(resourceOptions);
             if (webResource.Version != version)
             {
                 await response.SetStatusCode(404);

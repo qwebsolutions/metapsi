@@ -80,10 +80,8 @@ public class HtmlTag : IHtmlNode, IVNode
         return builder.ToString();
     }
 
-    public virtual string ToHtml(ToHtmlOptions toHtmlOptions = null)
+    public virtual string ToHtml(ToHtmlOptions toHtmlOptions)
     {
-        if (toHtmlOptions == null) toHtmlOptions = new ToHtmlOptions();
-
         StringBuilder builder = new StringBuilder();
 
         builder.Append($"<{this.Tag}");
@@ -157,7 +155,7 @@ public class JsModuleNode : IHtmlNode
 
     public string ToHtml(ToHtmlOptions options)
     {
-        return this.Module.ToJs(options.ToJavaScriptOptions);
+        return this.Module.ToJs(options.JsonSerializer, options.ToJavaScriptOptions);
     }
 }
 

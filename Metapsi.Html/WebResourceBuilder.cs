@@ -61,7 +61,7 @@ public class WebResourceBuilder
 {
     public WebResourceBuilder(
         IResource resource,
-        Func<IResourceResolver, WebResource> buildResource,
+        Func<WebResourceProvider.ResourceOptions, WebResource> buildResource,
         bool reloadEnabled)
     {
         this.Resource = resource;
@@ -70,7 +70,7 @@ public class WebResourceBuilder
     }
 
     public IResource Resource { get; }
-    public Func<IResourceResolver, WebResource> BuildResource { get; }
+    public Func<WebResourceProvider.ResourceOptions, WebResource> BuildResource { get; }
     public bool ReloadEnabled { get; }
 
     public static string CreateId(string package, string fileName)

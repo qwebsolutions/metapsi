@@ -19,10 +19,10 @@ public static partial class HttpExtensions
         await response.WriteAsync(serializer.ToJson(value));
     }
 
-    public static async Task WriteJsModuleResponse(this CfHttpResponse response, Metapsi.Syntax.Module module, ToJavaScriptOptions options)
+    public static async Task WriteJsModuleResponse(this CfHttpResponse response, Metapsi.Syntax.Module module, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
     {
         response.SetContentTypeHeader("text/javascript");
-        await response.WriteAsync(module.ToJs(options));
+        await response.WriteAsync(module.ToJs(jsonSerializer, options));
     }
 
     public static async Task<T> ReadJsonBody<T>(this CfHttpRequest request, IJsonSerializer serializer)

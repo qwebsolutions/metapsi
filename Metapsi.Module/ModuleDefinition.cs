@@ -582,7 +582,7 @@ namespace Metapsi.Syntax
         //    return inlined;
         //}
 
-        public static string ToJs(this Module moduleDefinition, ToJavaScriptOptions options)
+        public static string ToJs(this Module moduleDefinition, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
         {
             //moduleDefinition = InlineModule(moduleDefinition);
 
@@ -623,7 +623,7 @@ namespace Metapsi.Syntax
             }
             foreach (var node in moduleDefinition.Nodes)
             {
-                outJs.AppendLine(node.ToJs(0, options));
+                outJs.AppendLine(node.ToJs(0, jsonSerializer, options));
             }
 
             return outJs.ToString();
@@ -642,7 +642,7 @@ namespace Metapsi.Syntax
             throw new ArgumentException("Node type not supported");
         }
 
-        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel, ToJavaScriptOptions options)
+        public static string ToJs(this SyntaxNode syntaxNode, int indentLevel, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
         {
             // This renders the node itself, which could be anywhere
             // Pass indent level, but don't use it for alignment here,
@@ -651,7 +651,7 @@ namespace Metapsi.Syntax
             {
                 case NodeType.Literal:
                     {
-                        return options.JsonSerializer.ToLiteral(syntaxNode.Literal.Value);
+                        return jsonSerializer.ToLiteral(syntaxNode.Literal.Value);
                     }
                 case NodeType.Identifier:
                     {
@@ -661,11 +661,11 @@ namespace Metapsi.Syntax
                     {
                         var assignment = syntaxNode.Assignment;
                         var typeComment = string.IsNullOrEmpty(assignment.DebugType) ? "" : $"/*{assignment.DebugType}*/ ";
-                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel, options);
+                        return $"let {typeComment}{assignment.Name} = " + assignment.Node.ToJs(indentLevel, jsonSerializer, options);
                     }
                 case NodeType.Fn:
                     {
-                        return ToJs(syntaxNode.Fn, indentLevel, options);
+                        return ToJs(syntaxNode.Fn, indentLevel, jsonSerializer, options);
                     }
                 case NodeType.Linq:
                     {
@@ -673,7 +673,7 @@ namespace Metapsi.Syntax
                     }
                 case NodeType.Call:
                     {
-                        return ToJs(syntaxNode.Call, indentLevel, options);
+                        return ToJs(syntaxNode.Call, indentLevel,jsonSerializer, options);
                     }
                 case NodeType.Comment:
                     {
@@ -685,7 +685,7 @@ namespace Metapsi.Syntax
             }
         }
 
-        public static string ToJs(this FnNode fnNode, int indentLevel, ToJavaScriptOptions options)
+        public static string ToJs(this FnNode fnNode, int indentLevel, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
         {
             // This handles { ... } blocks, this is the place where alignment happens
 
@@ -695,7 +695,7 @@ namespace Metapsi.Syntax
             outJs.AppendLine($"({parameters}) => {{ {fnNameComment}");
             foreach (var line in fnNode.Body)
             {
-                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1, options));
+                outJs.AppendLine(Spaces(indentLevel + 1) + line.ToJs(indentLevel + 1, jsonSerializer, options));
             }
 
             if (fnNode.Return != null)
@@ -708,12 +708,12 @@ namespace Metapsi.Syntax
             return outJs.ToString();
         }
 
-        public static string ToJs(this CallNode callNode, int indentLevel, ToJavaScriptOptions options)
+        public static string ToJs(this CallNode callNode, int indentLevel, IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
         {
             StringBuilder outJs = new StringBuilder();
             if (callNode.Fn.GetNodeType() == NodeType.Fn)
             {
-                outJs.Append("(" + ToJs(callNode.Fn.Fn, 0, options) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn.Fn, 0, jsonSerializer, options) + ")");
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Identifier)
             {
@@ -721,13 +721,13 @@ namespace Metapsi.Syntax
             }
             else if (callNode.Fn.GetNodeType() == NodeType.Linq)
             {
-                outJs.Append("(" + ToJs(callNode.Fn, 0, options) + ")");
+                outJs.Append("(" + ToJs(callNode.Fn, 0, jsonSerializer, options) + ")");
             }
             else throw new NotSupportedException($"Cannot call {callNode.Fn.GetNodeType()}");
             List<string> arguments = new List<string>();
             foreach (var argument in callNode.Arguments)
             {
-                arguments.Add(argument.ToJs(indentLevel, options));
+                arguments.Add(argument.ToJs(indentLevel, jsonSerializer, options));
             }
 
             outJs.Append($"({string.Join(", ", arguments)})");

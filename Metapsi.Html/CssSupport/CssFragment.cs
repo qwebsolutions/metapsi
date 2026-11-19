@@ -71,6 +71,12 @@ public class CssFragment : IDependency, IDependencyDefaultImport
 
 public static class CssFragmentExtensions
 {
+    public static void Require(this ICanRequireDependency b, System.Action<CssBuilder> build)
+    {
+        var fragment = new CssFragment(build);
+        b.Require(fragment);
+    }
+
     public static string Require(this ICanRequireDependency b, System.Func<CssBuilder, string> build)
     {
         var fragment = new CssFragment(build);

@@ -9,9 +9,19 @@ namespace Metapsi.Html;
 
 public class ToHtmlOptions
 {
+    public ToHtmlOptions(
+        Metapsi.IJsonSerializer jsonSerializer,
+        ToJavaScriptOptions toJavaScriptOptions,
+        ToCssOptions toCssOptions)
+    {
+        this.JsonSerializer = jsonSerializer;
+        this.ToJavaScriptOptions = toJavaScriptOptions;
+        this.ToCssOptions = toCssOptions;
+    }
     public ToJavaScriptOptions ToJavaScriptOptions { get; set; } = new ToJavaScriptOptions();
     public ToCssOptions ToCssOptions { get; set; } = new ToCssOptions();
     public int Indent { get; set; } = 2;
+    public IJsonSerializer JsonSerializer { get; }
 }
 
 public class HtmlDocument : HtmlTag

@@ -54,7 +54,7 @@ public class FileSystemResourceWriter : IResourceWriter
         Directory.CreateDirectory(this.allowedFolder);
     }
 
-    public async Task WriteAsync(string package, string version, string fileName, CfHttpResponse response, IResourceResolver resourceResolver)
+    public async Task WriteAsync(string package, string version, string fileName, CfHttpResponse response, WebResourceProvider.ResourceOptions resourceOptions)
     {
         var key = CreateKey(package, version, fileName);
 
@@ -75,7 +75,7 @@ public class FileSystemResourceWriter : IResourceWriter
 
         var pending = pendingBuilds.GetOrAdd(
             key,
-            k => new Lazy<Task<StoreResult>>(() => BuildAndStore(k, webResourceBuilder, version, resourceResolver)));
+            k => new Lazy<Task<StoreResult>>(() => BuildAndStore(k, webResourceBuilder, version, resourceOptions)));
 
         StoreResult result;
         try
@@ -111,9 +111,9 @@ public class FileSystemResourceWriter : IResourceWriter
         string key,
         WebResourceBuilder webResourceBuilder,
         string version,
-        IResourceResolver resourceResolver)
+        WebResourceProvider.ResourceOptions resourceOptions)
     {
-        var webResource = webResourceBuilder.BuildResource(resourceResolver);
+        var webResource = webResourceBuilder.BuildResource(resourceOptions);
         if (webResource.Version != version)
         {
             return null;

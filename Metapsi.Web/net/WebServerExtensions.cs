@@ -38,6 +38,22 @@ namespace Metapsi.Web
             return endpoint.UseResourceFiles();
         }
 
+        public static WebResourceProvider.ResourceOptions GetResourceOptions(this HttpContext httpContext)
+        {
+            var resourceOptions = httpContext.RequestServices.GetService<WebResourceProvider.ResourceOptions>();
+            if (resourceOptions == null)
+            {
+                var resourceResolver = httpContext.GetResourceResolver();
+                resourceOptions = new WebResourceProvider.ResourceOptions(
+                    resourceResolver,
+                    new Serializer(),
+                    DefaultToHtmlOptions.ToJavaScriptOptions,
+                    DefaultToHtmlOptions.ToCssOptions);
+            }
+
+            return resourceOptions;
+        }
+
         public static IResourceResolver GetResourceResolver(this HttpContext httpContext)
         {
             return new ResourceResolver(httpContext, WebResourceProvider.Default, httpContext.GetVersionsRepository());
@@ -65,27 +81,19 @@ namespace Metapsi.Web
                 var resourceWriter = httpContext.GetResourceWriter();
                 var resourceResolver = httpContext.GetResourceResolver();
                 await resourceWriter.WriteAsync(
-                    package, 
-                    version, 
-                    fileName, 
+                    package,
+                    version,
+                    fileName,
                     new CfHttpResponse(httpContext.Response),
-                    resourceResolver);
+                    httpContext.GetResourceOptions());
 
             }).WithName(ResourceResolver.ResourceEndpointName);
         }
 
-        internal static readonly ToJavaScriptOptions DefaultToJavaScriptOptions = new ToJavaScriptOptions()
-        {
-            JsonSerializer = new Metapsi.Serializer()
-        };
-
-        internal static readonly ToCssOptions DefaultToCssOptions = new ToCssOptions();
-
-        internal static readonly ToHtmlOptions DefaultToHtmlOptions = new ToHtmlOptions()
-        {
-            ToJavaScriptOptions = DefaultToJavaScriptOptions,
-            ToCssOptions = DefaultToCssOptions
-        };
+        internal static readonly ToHtmlOptions DefaultToHtmlOptions = new ToHtmlOptions(
+            new Serializer(),
+            new ToJavaScriptOptions(),
+            new ToCssOptions());
 
         public static async Task WriteHtmlDocumentResponse(
             this HttpContext httpContext, 
@@ -102,9 +110,11 @@ namespace Metapsi.Web
             await httpContext.Response.WriteAsync(html);
         }
 
-        public static Task WriteJsModuleResponse(this HttpContext httpContext, Metapsi.Syntax.Module module, ToJavaScriptOptions options = null)
+        public static Task WriteJsModuleResponse(this HttpContext httpContext, Metapsi.Syntax.Module module, ToJavaScriptOptions options = null, Metapsi.IJsonSerializer jsonSerializer = null)
         {
-            return Metapsi.Web.HttpExtensions.WriteJsModuleResponse(new CfHttpResponse(httpContext.Response), module, options);
+            if (jsonSerializer == null) jsonSerializer = DefaultToHtmlOptions.JsonSerializer;
+            if (options == null) options = DefaultToHtmlOptions.ToJavaScriptOptions;
+            return Metapsi.Web.HttpExtensions.WriteJsModuleResponse(new CfHttpResponse(httpContext.Response), module, jsonSerializer, options);
         }
 
         public static async Task WriteCssFile(this HttpContext httpContext, CssFile cssFile, ToCssOptions options = null)

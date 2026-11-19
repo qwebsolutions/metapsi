@@ -216,10 +216,7 @@ public static class Program
 
 
         var qwebMediaLoader = new MediaLoader();
-        WebResourceProvider.Default.RegisterJsModuleFile(new JsModuleFile("playground", qwebMediaLoader.Tag, qwebMediaLoader.BuildModule), new ToJavaScriptOptions()
-        {
-            JsonSerializer = new Serializer()
-        });
+        WebResourceProvider.Default.RegisterJsModuleFile(new JsModuleFile("playground", qwebMediaLoader.Tag, qwebMediaLoader.BuildModule));
         //WebResourceProvider.Default.AutoLoadCustomElementsFrom(typeof(Program).Assembly, new ToJavaScriptOptions()
         //{
         //    JsonSerializer = Serialize.Serializer
@@ -286,8 +283,8 @@ public static class Program
                 b =>
                 {
                     //b.HeadAppend(b.CssFileReference(CssFile));
-                    //b.Require(Style1);
-                    //b.Require(Style2);
+                    b.Require(Style1);
+                    b.Require(Style2);
 
                     //var myClassName = b.Require(b =>
                     //{
@@ -638,32 +635,7 @@ public static class Program
                             //        b.IonButton(b.Text("Test button")),
                             //        b.SlButton(b.Text("Shoelace as well"))));
                         }));
-                }),
-                new ToHtmlOptions()
-                {
-                    ////http://localhost:5000/embedded/Metapsi.Ionic/1.0.0.0/ionic@8.6.2/ionic.bundle.css?h=14501
-                    //ResolveResource = (document, metadata) =>
-                    //{
-                    //    if (metadata.PackageName.ToLower().Contains("ionic"))
-                    //    {
-                    //        var ionicVersion = metadata.LogicalName.Split('@', '/')[1];
-                    //        var filePath = metadata.LogicalName.Replace("ionic@8.6.2/", string.Empty);
-                    //        var ionicCorePathBase = $"https://cdn.jsdelivr.net/npm/@ionic/core@{ionicVersion}";
-                    //        var ionicJsBase = $"{ionicCorePathBase}/dist/ionic";
-                    //        var ionicCssBase = $"{ionicCorePathBase}/css";
-
-                    //        if (metadata.LogicalName.EndsWith(".css"))
-                    //        {
-                    //            return $"{ionicCssBase}/{filePath}";
-                    //        }
-                    //        else
-                    //        {
-                    //            return $"{ionicJsBase}/{filePath}";
-                    //        }
-                    //    }
-                    //    return metadata.GetDefaultHttpPath();
-                    //}
-                });
+                }));
         });
 
         app.MapGet("/market", (HttpContext httpContext) =>

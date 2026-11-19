@@ -15,9 +15,9 @@ namespace Metapsi.Web;
 public interface IResourceWriter
 {
     Task WriteAsync(
-        string package, 
-        string version, 
-        string fileName, 
+        string package,
+        string version,
+        string fileName,
         CfHttpResponse response,
-        IResourceResolver resourceResolver);
+        WebResourceProvider.ResourceOptions resourceResolver);
 }

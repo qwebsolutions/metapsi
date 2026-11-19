@@ -42,10 +42,10 @@ public class JsModuleFile : IResource
 
     public string Package { get; }
 
-    public string ToJs(IResourceResolver resourceResolver, ToJavaScriptOptions options)
+    public string ToJs(IResourceResolver resourceResolver, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions options)
     {
         var module = ModuleBuilder.New(new JsOnlyDependencyResolver(), resourceResolver, this.BuildModule);
-        var content = module.ToJs(options);
+        var content = module.ToJs(jsonSerializer, options);
         return content;
     }
 }

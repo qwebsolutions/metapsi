@@ -16,14 +16,15 @@ public static class MetapsiHttpResult
         return htmlDocument.Result(WebServerExtensions.DefaultToHtmlOptions);
     }
 
-    public static IResult Result(this Metapsi.Syntax.Module module, ToJavaScriptOptions toJavaScriptOptions)
+    public static IResult Result(this Metapsi.Syntax.Module module, Metapsi.IJsonSerializer jsonSerializer, ToJavaScriptOptions toJavaScriptOptions)
     {
-        return Results.Text(module.ToJs(toJavaScriptOptions), "text/javascript");
+        return Results.Text(module.ToJs(jsonSerializer, toJavaScriptOptions), "text/javascript");
     }
 
-    public static IResult Result(this Metapsi.Syntax.Module module)
+    public static IResult Result(this Metapsi.Syntax.Module module, Metapsi.IJsonSerializer jsonSerializer = null)
     {
-        return module.Result(WebServerExtensions.DefaultToJavaScriptOptions);
+        if (jsonSerializer == null) jsonSerializer = WebServerExtensions.DefaultToHtmlOptions.JsonSerializer;
+        return module.Result(jsonSerializer, WebServerExtensions.DefaultToHtmlOptions.ToJavaScriptOptions);
     }
 
     public static IResult Result(this CssRule cssRule, ToCssOptions options)
@@ -33,12 +34,12 @@ public static class MetapsiHttpResult
 
     public static IResult Result(this CssRule cssRule)
     {
-        return cssRule.Result(WebServerExtensions.DefaultToCssOptions);
+        return cssRule.Result(WebServerExtensions.DefaultToHtmlOptions.ToCssOptions);
     }
 
     public static IResult Css(this System.Action<CssBuilder> build, IResourceResolver resolver, ToCssOptions toCssOptions = null)
     {
-        if (toCssOptions == null) toCssOptions = WebServerExtensions.DefaultToCssOptions;
+        if (toCssOptions == null) toCssOptions = WebServerExtensions.DefaultToHtmlOptions.ToCssOptions;
 
         CssBuilder cssBuilder = new CssBuilder(resolver);
         build(cssBuilder);
