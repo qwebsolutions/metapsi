@@ -29,6 +29,24 @@ public class DefaultMetapsiSignalRHub : Hub
 {
 }
 
+/// <summary>
+/// Wrapper for IClientProxy to use when the notification is cross-framework
+/// </summary>
+public class SignalRClientNotifier : IClientNotifier
+{
+    private readonly IClientProxy clientProxy;
+
+    public SignalRClientNotifier(IClientProxy clientProxy)
+    {
+        this.clientProxy = clientProxy;
+    }
+
+    public async Task RaiseCustomEvent<T>(string eventName, T eventArgs)
+    {
+        await clientProxy.RaiseCustomEvent(eventName, eventArgs);
+    }
+}
+
 public static partial class SignalRClient
 {
     public static readonly EmbeddedResource SignalRJs = EmbeddedResource.Hashed(typeof(SignalRClient).Assembly, "signalr.js");

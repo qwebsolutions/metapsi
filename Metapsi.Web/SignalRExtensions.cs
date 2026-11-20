@@ -22,6 +22,14 @@ public class RaiseEventArgs<T>
     public T EventArgs { get; set; }
 }
 
+/// <summary>
+/// Cross-framework notifier abstraction
+/// </summary>
+public interface IClientNotifier
+{
+    Task RaiseCustomEvent<T>(string eventName, T eventArgs);
+}
+
 public static partial class SignalRClient
 {
     public const string RaiseEventCode = "raiseEvent";
@@ -52,6 +60,11 @@ public static partial class SignalRClient
                             b.Call(onConnected, dispatch);
                     }));
             });
+    }
+
+    public static async Task RaiseEvent(this IClientNotifier clientNotifier, string eventName)
+    {
+        await clientNotifier.RaiseCustomEvent<object>(eventName, null);
     }
 
     public static void ListenToServerEvents(this PropsBuilder<SignalRConnection> b)

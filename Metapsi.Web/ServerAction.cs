@@ -497,7 +497,7 @@ public static partial class ServerAction
         throw new Exception($"Method info {serverCall.Delegate.ClassName}.{serverCall.Delegate.MethodName} not found!");
     }
 
-    public static async Task<dynamic> Run(
+    public static async Task<object> Run(
         this ServerAction.Call serverCall,
         IEnumerable<Type> whitelistClasses,
         IJsonSerializer serializer,
@@ -568,8 +568,7 @@ public static partial class ServerAction
                 methodInfo.ReturnType.IsGenericType &&
                 methodInfo.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
             {
-                // There's an actual return value to extract
-                return ((dynamic)result).Result;
+                return methodInfo.ReturnType.GetProperty("Result").GetValue(result);
             }
             else
             {

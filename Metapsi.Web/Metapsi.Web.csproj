@@ -22,9 +22,10 @@
 	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net47'))">
 		<Compile Remove="net\**\*.cs" />
 		<None Include="net\**\*.cs" />
-		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
 		<Reference Include="System.Web" />
-		<EmbeddedResource Include="netframework\embedded\metapsi-signalr.js" LogicalName="metapsi-signalr.js" />
+		<EmbeddedResource Include="netframework\embedded\signalr-no-jquery@0.2.1.js" LogicalName="signalr-no-jquery@0.2.1.js" />
+		<EmbeddedResource Include="netframework\embedded\jquery-deferred@0.3.1.js" LogicalName="jquery-deferred@0.3.1.js" />
+		<EmbeddedResource Include="netframework\embedded\jquery-param@0.2.0.js" LogicalName="jquery-param@0.2.0.js" />
 	</ItemGroup>
 
 	<ItemGroup>
