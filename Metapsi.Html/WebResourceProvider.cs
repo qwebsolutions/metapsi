@@ -135,14 +135,26 @@ public class WebResourceProvider
 
     public void Register(IResource resource, Func<WebResourceProvider.ResourceOptions, WebResource> build, bool reloadEnabled)
     {
-        this.resurceBuilders[resource.GetId()] = new WebResourceBuilder(
-            resource,
-            build,
-            reloadEnabled);
-
-        foreach (var dependencyId in resource.ResolvesDependencyIds)
+        if (this.resurceBuilders.TryGetValue(resource.GetId(), out var existingResource))
         {
-            byDependencyId[dependencyId] = resource;
+            if (existingResource.Resource != resource)
+            {
+                // Throw if they are actually different
+                throw new System.Exception($"Resource {resource.Package} {resource.FileName} is already registered!");
+            }
+            // If it's the exact same one, it's already registered, just move on
+        }
+        else
+        {
+            this.resurceBuilders[resource.GetId()] = new WebResourceBuilder(
+                resource,
+                build,
+                reloadEnabled);
+
+            foreach (var dependencyId in resource.ResolvesDependencyIds)
+            {
+                byDependencyId[dependencyId] = resource;
+            }
         }
     }
 
