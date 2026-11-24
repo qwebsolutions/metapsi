@@ -56,7 +56,11 @@ public static class StyleCompatibility
     public static IHtmlNode AddParticularStyleSheet(
         this HtmlBuilder b)
     {
-        return b.HtmlStyleSheet(
+        return b.HtmlStyle(
+            b=>
+            {
+
+            },
             b =>
             {
                 b.AddRule("div:hover", b =>
@@ -121,7 +125,8 @@ public static class StyleCompatibility
                 b.BodyAppend(b.Text("WORKS!"));
                 b.BodyAppend(
                     ServerSideInlineStyle(b));
-                b.HeadAppend(b.HtmlStyleSheet(
+                b.HeadAppend(b.HtmlStyle(
+                    b => { },
                     b =>
                     {
                         b.AddStyle("color", "red");

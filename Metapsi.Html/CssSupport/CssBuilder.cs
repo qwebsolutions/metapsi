@@ -107,8 +107,16 @@ public class CssBuilder : IStyleBuilder, ICanRequestResourcePath
 
 public static class CssBuilderExtensions
 {
-    public static IHtmlNode HtmlStyleSheet(
+    /// <summary>
+    /// Adds a style tag with content build by <paramref name="addCss"/>. This explicitly needs <paramref name="setAttributes"/> so the signature doesn't clash with the default one
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="setAttributes"></param>
+    /// <param name="addCss"></param>
+    /// <returns></returns>
+    public static IHtmlNode HtmlStyle(
         this HtmlBuilder b,
+        System.Action<IHtmlPropsBuilder> setAttributes,
         System.Action<CssBuilder> addCss)
     {
         var builder = new CssBuilder(b.ResourceResolver)

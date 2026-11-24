@@ -14,7 +14,7 @@ public class CssTrackerNode : IHtmlNode
     }
 
     public List<string> ExternalFragmentIds { get; set; } = new();
-    public HashSet<CssFragment> RequiredFragments { get; set; } = new();
+    public HashSet<CssFragment> RequiredFragments { get; } = new();
 
     public bool IsEquivalentTo(IHtmlNode other)
     {
@@ -25,23 +25,33 @@ public class CssTrackerNode : IHtmlNode
 
     public string ToHtml(ToHtmlOptions options)
     {
+        if (!RequiredFragments.Any())
+        {
+            return string.Empty;
+        }
+
         var inlineStylesheet = HtmlBuilder.Node(
             this.resourceResolver,
             b =>
         {
-            return b.HtmlStyleSheet(b =>
-            {
-                foreach (var inPageFragment in RequiredFragments)
+            return b.HtmlStyle(
+                b =>
                 {
-                    if (!ExternalFragmentIds.Contains(inPageFragment.DependencyId))
+
+                },
+                b =>
+                {
+                    foreach (var inPageFragment in RequiredFragments)
                     {
-                        if (inPageFragment.Builder != null)
+                        if (!ExternalFragmentIds.Contains(inPageFragment.DependencyId))
                         {
-                            inPageFragment.Builder(b);
+                            if (inPageFragment.Builder != null)
+                            {
+                                inPageFragment.Builder(b);
+                            }
                         }
                     }
-                }
-            });
+                });
         });
 
         return inlineStylesheet.ToHtml(options);

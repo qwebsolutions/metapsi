@@ -1,7 +1,6 @@
 ﻿using Metapsi.Syntax;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 
 namespace Metapsi.Html;
@@ -61,6 +60,10 @@ public class AttributesBuilder : IHtmlPropsBuilder
 
     public void AddStyle(string property, string value)
     {
+        if (!HtmlTag.IsValidCssPropertyName(property))
+        {
+            throw new ArgumentException($"Invalid CSS property name '{property}'", nameof(property));
+        }
         this.Styles[property] = value;
         this._attributes["style"] = string.Join(";", this.Styles.Select(x => $"{x.Key}:{x.Value}"));
     }
@@ -84,6 +87,10 @@ public class AttributesBuilder : IHtmlPropsBuilder
     /// <param name="attributeValue"></param>
     public void SetAttribute(string attributeName, string attributeValue)
     {
+        if (!HtmlTag.IsValidAttributeName(attributeName))
+        {
+            throw new ArgumentException($"Invalid attribute name '{attributeName}'", nameof(attributeName));
+        }
         this._attributes[attributeName] = attributeValue;
     }
 
@@ -95,17 +102,21 @@ public class AttributesBuilder : IHtmlPropsBuilder
     /// <param name="attributeName"></param>
     public void SetAttribute(string attributeName)
     {
+        if (!HtmlTag.IsValidAttributeName(attributeName))
+        {
+            throw new ArgumentException($"Invalid attribute name '{attributeName}'", nameof(attributeName));
+        }
         this._attributes[attributeName] = "";
     }
 
-    public void MergeAttributes(IHtmlProps htmlAttributes)
-    {
-        var newAttributes = htmlAttributes as HtmlAttributes;
-        foreach (var newAttribute in newAttributes)
-        {
-            this._attributes[newAttribute.Key] = newAttribute.Value;
-        }
-    }
+    //public void MergeAttributes(IHtmlProps htmlAttributes)
+    //{
+    //    var newAttributes = htmlAttributes as HtmlAttributes;
+    //    foreach (var newAttribute in newAttributes)
+    //    {
+    //        this._attributes[newAttribute.Key] = newAttribute.Value;
+    //    }
+    //}
 
     Syntax.Var<IHtmlProps> IHtmlPropsBuilder.GetProps()
     {

@@ -60,16 +60,16 @@ public static class HtmlScriptExtensions
         return b.HtmlScriptModule(b => { }, buildScript);
     }
 
-    public static IHtmlNode HtmlScript(
-        this HtmlBuilder b,
-        string code)
-    {
-        return b.HtmlScript(
-            b =>
-            {
-            },
-            b.Text(code));
-    }
+    //public static IHtmlNode HtmlScript(
+    //    this HtmlBuilder b,
+    //    string code)
+    //{
+    //    return b.HtmlScript(
+    //        b =>
+    //        {
+    //        },
+    //        b.Text(code));
+    //}
 
     //public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, Action<ModuleBuilder> buildModule)
     //{

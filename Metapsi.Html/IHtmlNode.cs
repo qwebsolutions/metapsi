@@ -1,7 +1,9 @@
 ﻿using Metapsi.Hyperapp;
 using Metapsi.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -35,7 +37,7 @@ public class HtmlText : IHtmlNode, IVNode
 
     public string ToHtml(ToHtmlOptions options)
     {
-        return this.Text;
+        return System.Net.WebUtility.HtmlEncode(this.Text);
     }
 
     public bool IsEquivalentTo(IHtmlNode other)
@@ -49,14 +51,32 @@ public class HtmlText : IHtmlNode, IVNode
 
 public class HtmlTag : IHtmlNode, IVNode
 {
-    public string Tag { get; set; } = string.Empty;
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public string Tag { get; } = string.Empty;
+    Dictionary<string, string> Attributes { get; set; } = new();
     public List<IHtmlNode> Children { get; set; } = new();
-    public HtmlTag() { }
 
     public HtmlTag(string tag)
     {
+        if (ContainsForbiddenNameChar(tag))
+        {
+            throw new ArgumentException($"Invalid tag name '{tag}'", nameof(tag));
+        }
         this.Tag = tag;
+    }
+
+    public HtmlTag(string tag, Dictionary<string, string> attributes)
+    {
+        if (ContainsForbiddenNameChar(tag))
+        {
+            throw new ArgumentException($"Invalid tag name '{tag}'", nameof(tag));
+        }
+        this.Tag = tag;
+        foreach (var entry in attributes)
+        {
+            if (ContainsForbiddenNameChar(entry.Key))
+                throw new System.Exception($"Invalid attribute name '{entry.Key}'");
+            this.Attributes[entry.Key] = entry.Value;
+        }
     }
 
     public override string ToString()
@@ -87,7 +107,7 @@ public class HtmlTag : IHtmlNode, IVNode
         builder.Append($"<{this.Tag}");
         foreach (var attribute in this.Attributes)
         {
-            var attributeValue = attribute.Value;
+            var attributeValue = System.Net.WebUtility.HtmlEncode(attribute.Value);
 
             builder.Append($" {attribute.Key}=\"{attributeValue}\"");
         }
@@ -136,6 +156,112 @@ public class HtmlTag : IHtmlNode, IVNode
             if (!thisChild.IsEquivalentTo(otherChild)) return false;
         }
 
+        return true;
+    }
+
+    private static bool IsForbiddenNameChar(char c)
+    {
+        if (c <= ' ') return true;                 // C0 controls, tab, LF, FF, CR, space, NUL
+        if (c == 0x7F) return true;                // DEL
+        switch (c)
+        {
+            case '/':
+            case '>':
+            case '<':
+            case '=':
+            case '"':
+            case '\'':
+            case '&':
+                return true;
+        }
+        // Invisible / reordering characters: never legitimate in a name
+        switch (CharUnicodeInfo.GetUnicodeCategory(c))
+        {
+            case UnicodeCategory.Control:
+            case UnicodeCategory.Format:             // ZWJ, ZWNJ, bidi overrides, BOM
+            case UnicodeCategory.LineSeparator:
+            case UnicodeCategory.ParagraphSeparator:
+            case UnicodeCategory.Surrogate:          // validated per code point below if ever needed
+            case UnicodeCategory.OtherNotAssigned:
+            case UnicodeCategory.PrivateUse:
+                return true;
+        }
+        return false;
+    }
+
+    private static bool ContainsForbiddenNameChar(string name)
+    {
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (IsForbiddenNameChar(name[i])) return true;
+        }
+        return false;
+    }
+
+    public static bool IsValidTagName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return false;
+        if (!char.IsLetter(name[0])) return false;      // parser only opens a tag on a letter
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (IsForbiddenNameChar(name[i])) return false;
+        }
+        return true;
+    }
+
+    public static bool IsValidAttributeName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return false;
+
+        // First char: anything that could read as syntax is out.
+        // '-' alone would be fine for the tokenizer, but "-x" is never a real
+        // attribute, and a leading digit isn't either; keep it to letters and
+        // the prefixes frameworks actually use.
+        char c0 = name[0];
+        if (!(char.IsLetter(c0) || c0 == '_' || c0 == ':' || c0 == '@' || c0 == '*' || c0 == '#' || c0 == '[' || c0 == '('))
+            return false;
+
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (IsForbiddenNameChar(name[i])) return false;
+        }
+        return true;
+    }
+
+    public static bool IsValidCssPropertyName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return false;
+
+        char c0 = name[0];
+        if (!(char.IsLetter(c0) || c0 == '-')) return false;
+
+        for (int i = 0; i < name.Length; i++)
+        {
+            char c = name[i];
+            if (c <= ' ' || c == 0x7F) return false;              // controls, whitespace
+            switch (c)
+            {
+                case ':':
+                case ';':
+                case '{':
+                case '}':
+                case '/':
+                case '\\':
+                case '"':
+                case '\'':
+                case '<':
+                case '>':
+                case '&':
+                case '=':
+                    return false;
+            }
+            var cat = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (cat == UnicodeCategory.Control || cat == UnicodeCategory.Format ||
+                cat == UnicodeCategory.LineSeparator || cat == UnicodeCategory.ParagraphSeparator ||
+                cat == UnicodeCategory.Surrogate || cat == UnicodeCategory.OtherNotAssigned ||
+                cat == UnicodeCategory.PrivateUse)
+                return false;
+        }
         return true;
     }
 }
@@ -204,10 +330,10 @@ public static class SelfClosing
     };
 }
 
-public static class HtmlNodeExtensions
-{
-    public static void SetAttribute(this HtmlTag element, string name, string value)
-    {
-        element.Attributes[name] = value;
-    }
-}
+//public static class HtmlNodeExtensions
+//{
+//    public static void SetAttribute(this HtmlTag element, string name, string value)
+//    {
+//        element.Attributes[name] = value;
+//    }
+//}

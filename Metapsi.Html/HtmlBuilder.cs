@@ -205,31 +205,6 @@ public class HtmlBuilder : ICanRequestResourcePath, ICanRequireDependency
         this.DependencyResolver.Import(dependency);
     }
 
-    ///// <summary>
-    ///// Start from a completely empty document
-    ///// </summary>
-    ///// <param name="build"></param>
-    ///// <returns></returns>
-    //public static HtmlDocument FromEmpty(Action<HtmlBuilder> build)
-    //{
-    //    var builder = new HtmlBuilder(WebResourceProvider.Default.GetFixedPathsResourceResolver());
-    //    build(builder);
-    //    return builder.Document;
-    //}
-
-    ///// <summary>
-    ///// Sets:
-    ///// <para>&lt;html lang="en-US" dir="ltr"/&gt; </para>
-    ///// <para>&lt;meta name="charset" content="UTF-8" /&gt;</para>
-    ///// <para>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</para>
-    ///// </summary>
-    ///// <param name="build"></param>
-    ///// <returns></returns>
-    //public static HtmlDocument FromDefault(Action<HtmlBuilder> build)
-    //{
-    //    return FromDefault(WebResourceProvider.Default.GetFixedPathsResourceResolver(), build);
-    //}
-
     public static HtmlDocument FromDefault(IResourceResolver resourceResolver, Action<HtmlBuilder> build)
     {
         var b = new HtmlBuilder(resourceResolver);
@@ -335,10 +310,8 @@ public static class HtmlBuilderExtensions
     /// <returns></returns>
     public static IHtmlNode Tag(this HtmlBuilder b, string tagName, Dictionary<string, string> attributes, List<IHtmlNode> children)
     {
-        return new HtmlTag()
+        return new HtmlTag(tagName, attributes)
         {
-            Tag = tagName,
-            Attributes = attributes,
             Children = children
         };
     }
