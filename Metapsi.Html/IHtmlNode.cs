@@ -343,10 +343,26 @@ public static class SelfClosing
     };
 }
 
-//public static class HtmlNodeExtensions
-//{
-//    public static void SetAttribute(this HtmlTag element, string name, string value)
-//    {
-//        element.Attributes[name] = value;
-//    }
-//}
+internal class RawTextNode : IHtmlNode
+{
+    private readonly string text;
+
+    public RawTextNode(string text)
+    {
+        this.text = text;
+    }
+
+    public bool IsEquivalentTo(IHtmlNode other)
+    {
+        if (other == null) return false;
+        RawTextNode otherRawTextNode = other as RawTextNode;
+        if (otherRawTextNode == null)
+            return false;
+        return this.text == otherRawTextNode.text;
+    }
+
+    public string ToHtml(ToHtmlOptions options)
+    {
+        return this.text;
+    }
+}

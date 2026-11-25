@@ -60,25 +60,12 @@ public static class HtmlScriptExtensions
         return b.HtmlScriptModule(b => { }, buildScript);
     }
 
-    //public static IHtmlNode HtmlScript(
-    //    this HtmlBuilder b,
-    //    string code)
-    //{
-    //    return b.HtmlScript(
-    //        b =>
-    //        {
-    //        },
-    //        b.Text(code));
-    //}
-
-    //public static IHtmlNode HtmlScriptModuleReference(this HtmlBuilder b, Action<ModuleBuilder> buildModule)
-    //{
-    //    var modulePath = b.ResolvePath(module);
-    //    return b.HtmlScript(
-    //        b =>
-    //        {
-    //            b.SetTypeModule();
-    //            b.SetSrc(modulePath);
-    //        });
-    //}
+    public static IHtmlNode HtmlScript(this HtmlBuilder b, Action<AttributesBuilder<HtmlScript>> buildAttributes, string unsafeContent)
+    {
+        if (HtmlTag.ContainsScriptEndTag(unsafeContent))
+        {
+            throw new ArgumentException($"Invalid script content");
+        }
+        return b.HtmlScript(buildAttributes, new RawTextNode(unsafeContent));
+    }
 }
