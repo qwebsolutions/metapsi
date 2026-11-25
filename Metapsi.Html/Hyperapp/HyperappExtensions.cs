@@ -63,6 +63,21 @@ public static partial class HyperappExtensions
     }
 
     /// <summary>
+    /// Initializes and mounts a Hyperapp application.
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
+    /// <param name="b"></param>
+    /// <param name="appConfig"></param>
+    /// <returns>The dispatch function your app uses.</returns>
+    public static Var<HyperType.Dispatcher> Hyperapp<TModel>(
+        this SyntaxBuilder b,
+        Var<HyperType.App<TModel>> appConfig)
+    {
+        var app = ImportHyperapp<TModel>(b);
+        return b.Call(app, appConfig);
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
@@ -132,6 +147,17 @@ public static partial class HyperappExtensions
             });
     }
 
+
+    public static IHtmlNode ClientSide<TModel>(
+        HtmlBuilder b,
+        string mountNodeId,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init = null,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
+        Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
+    {
+        return Hyperapp(b, mountNodeId, init, view, subscriptions);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -151,19 +177,14 @@ public static partial class HyperappExtensions
         return Hyperapp(b, mountNodeId, init, view, subscriptions);
     }
 
-    /// <summary>
-    /// Initializes and mounts a Hyperapp application.
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <param name="b"></param>
-    /// <param name="appConfig"></param>
-    /// <returns>The dispatch function your app uses.</returns>
-    public static Var<HyperType.Dispatcher> Hyperapp<TModel>(
-        this SyntaxBuilder b,
-        Var<HyperType.App<TModel>> appConfig)
+
+    public static IHtmlNode ClientSide<TModel>(
+        HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init = null,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view = null,
+        Func<SyntaxBuilder, Var<Func<TModel, List<HyperType.Subscription>>>> subscriptions = null)
     {
-        var app = ImportHyperapp<TModel>(b);
-        return b.Call(app, appConfig);
+        return Hyperapp(b, init, view, subscriptions);
     }
 
     public static IHtmlNode Hyperapp<TModel>(
@@ -173,6 +194,15 @@ public static partial class HyperappExtensions
         params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
     {
         return Hyperapp(b, init, view, b => b.MakeSubscriptions(subscriptions));
+    }
+
+    public static IHtmlNode ClientSide<TModel>(
+        this HtmlBuilder b,
+        Func<SyntaxBuilder, Var<HyperType.Init>> init,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return Hyperapp(b, init, view, subscriptions);
     }
 
     public static IHtmlNode Hyperapp<TModel>(
@@ -185,6 +215,15 @@ public static partial class HyperappExtensions
             init: b => b.MakeInit(b.Const(model)),
             view: view,
             subscriptions: subscriptions);
+    }
+
+    public static IHtmlNode ClientSide<TModel>(
+        this HtmlBuilder b,
+        TModel model,
+        Func<LayoutBuilder, Var<TModel>, Var<IVNode>> view,
+        params Func<SyntaxBuilder, Var<TModel>, Var<HyperType.Subscription>>[] subscriptions)
+    {
+        return Hyperapp(b, model, view, subscriptions);
     }
 
     public static Var<Func<TModel, List<HyperType.Subscription>>> MakeSubscriptions<TModel>(
