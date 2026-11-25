@@ -275,11 +275,33 @@ public static class Program
             await Scenario.WriteHomepage(httpContext, ce);
         });
 
+        app.MapGet("/html-result", async () =>
+        {
+            var model = new DataModel()
+            {
+                Message = "Works!"
+            };
+
+            return MetapsiResult.Html(b =>
+            {
+                b.BodyAppend(b.Text(model.Message));
+            });
+        });
+
+        app.MapGet("css-result", async () =>
+        {
+            return MetapsiResult.Css(b =>
+            {
+                b.AddRule(".my-class", b =>
+                {
+                    b.AddStyle("this", "is-broken");
+                });
+            });
+        });
+
         app.MapGet("/css-file-provider", async (HttpContext httpContext) =>
         {
-            return MetapsiHttpResult.Result(
-                HtmlBuilder.FromDefault(
-                    httpContext.GetResourceResolver(),
+            return MetapsiResult.Html(
                 b =>
                 {
                     //b.HeadAppend(b.CssFileReference(CssFile));
@@ -310,7 +332,7 @@ public static class Program
                                 //b.AddClass(myClassName);
                             },
                             b.Text("Test div")));
-                }));
+                });
         });
 
         app.MapGet("/common",async (HttpContext httpContext) =>
@@ -638,10 +660,9 @@ public static class Program
                 }));
         });
 
-        app.MapGet("/market", (HttpContext httpContext) =>
+        app.MapGet("/market", () =>
         {
-            var htmlDocument = HtmlBuilder.FromDefault(
-                httpContext.GetResourceResolver(),
+            return MetapsiResult.Html(
                 b =>
                 {
                     b.HeadAppend(
@@ -672,7 +693,6 @@ public static class Program
                             RenderClientSideApp,
                             ListenForUpdates));
                 });
-            return htmlDocument.Result();
         });
         app.MapPost("/serverAction", async (HttpContext httpContext, ServerAction.Call call, ITestService testService) =>
         {
