@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Metapsi.Html;
@@ -14,7 +16,7 @@ public class ToCssOptions
     public int IndentSpaces { get; set; } = 2;
 }
 
-public class CssRule
+internal class CssRule
 {
     /// <summary>
     /// This seems to be the spec terminology that encompasses @ rules and qualified selectors
@@ -84,15 +86,33 @@ public class CssBuilder : IStyleBuilder, ICanRequestResourcePath
         this.ResourceResolver = resolver;
     }
 
-    public CssRule Rule { get; set; } = new CssRule();
+    internal CssRule Rule { get; set; } = new CssRule();
 
     public void AddStyle(string property, string value)
     {
+        if (!HtmlTag.IsValidCssPropertyName(property))
+        {
+            throw new ArgumentException($"Invalid CSS property name '{property}'", nameof(property));
+        }
+
+        if (value == null)
+            throw new ArgumentNullException(nameof(value));
+
+        if (HtmlTag.ContainsStyleEndTag(value))
+        {
+            throw new ArgumentException($"Invalid CSS property name '{property}'", nameof(property));
+        }
+
         Rule.Declarations[property] = value;
     }
 
     public void AddRule(string prelude, System.Action<CssBuilder> builder)
     {
+        if (string.IsNullOrWhiteSpace(prelude))
+            throw new ArgumentException("A rule needs a selector or an at-rule", nameof(prelude));
+        if (HtmlTag.ContainsStyleEndTag(prelude))
+            throw new ArgumentException($"Invalid CSS rule '{prelude}'", nameof(prelude));
+
         var nestedRule = new CssRule() { Prelude = prelude };
         var nestedBuilder = new CssBuilder(this.ResourceResolver) { Rule = nestedRule };
         builder(nestedBuilder);
@@ -102,6 +122,18 @@ public class CssBuilder : IStyleBuilder, ICanRequestResourcePath
     public string ResolvePath(IResource resource)
     {
         return this.ResourceResolver.ResolvePath(resource);
+    }
+
+    public string GetCss(ToCssOptions toCssOptions)
+    {
+        return this.Rule.ToCss(toCssOptions);
+    }
+
+    public static string GetCss(System.Action<CssBuilder> build, IResourceResolver resourceResolver, ToCssOptions toCssOptions)
+    {
+        var b = new CssBuilder(resourceResolver);
+        build(b);
+        return b.GetCss(toCssOptions);
     }
 }
 

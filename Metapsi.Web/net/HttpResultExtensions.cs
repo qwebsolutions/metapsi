@@ -137,9 +137,7 @@ internal class MetapsiCssBuilderResult : IResult
     public async Task ExecuteAsync(HttpContext httpContext)
     {
         var resolver = httpContext.GetResourceResolver();
-        CssBuilder cssBuilder = new CssBuilder(resolver);
-        build(cssBuilder);
         httpContext.Response.ContentType = "text/css; charset=UTF-8";
-        await httpContext.Response.WriteAsync(cssBuilder.Rule.ToCss(this.toCssOptions));
+        await httpContext.Response.WriteAsync(CssBuilder.GetCss(this.build, resolver, this.toCssOptions));
     }
 }

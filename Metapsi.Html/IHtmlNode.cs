@@ -264,6 +264,19 @@ public class HtmlTag : IHtmlNode, IVNode
         }
         return true;
     }
+
+    public static bool ContainsStyleEndTag(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return false;
+        return text.ToLowerInvariant().Contains("</style");
+    }
+
+    public static bool ContainsScriptEndTag(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return false;
+        var lower = text.ToLowerInvariant();
+        return lower.Contains("</script") || lower.Contains("<!--");
+    }
 }
 
 public class JsModuleNode : IHtmlNode
@@ -285,7 +298,7 @@ public class JsModuleNode : IHtmlNode
     }
 }
 
-public class CssNode : IHtmlNode
+internal class CssNode : IHtmlNode
 {
     public List<Metapsi.Html.CssRule> Rules { get; set; } = new List<CssRule>();
 
